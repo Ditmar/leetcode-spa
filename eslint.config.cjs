@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 const js = require('@eslint/js');
 const astro = require('eslint-plugin-astro');
 const tsParser = require('@typescript-eslint/parser');
@@ -21,9 +24,7 @@ module.exports = [
       },
     },
     rules: {
-      // Hacer que ESLint reporte diferencias de Prettier como errores
       'prettier/prettier': 'error',
-      // import plugin (aprox. a airbnb-base)
       'import/no-unresolved': 'error',
       'import/named': 'error',
       'import/default': 'error',
