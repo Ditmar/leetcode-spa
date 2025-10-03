@@ -1,9 +1,10 @@
 ---
-import Counter from '../ui/components/Counter';
 import Layout from '../layouts/Layout.astro';
-
+import MuiSSRSafe from '../components/MuiSSRSafe.tsx';
 ---
 
 <Layout>
-	<Counter client:load />
+	<main>
+		<MuiSSRSafe client:load />
+	</main>
 </Layout>
