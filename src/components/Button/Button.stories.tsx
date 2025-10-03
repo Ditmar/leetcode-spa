@@ -38,3 +38,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
+export const Primary: Story = { args: { variant: 'primary', children: 'Primary' } };
+export const Secondary: Story = { args: { variant: 'secondary', children: 'Secondary' } };
+export const Success: Story = { args: { variant: 'success', children: 'Success' } };
+export const Error: Story = { args: { variant: 'error', children: 'Error' } };
+
+
