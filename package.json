@@ -16,6 +16,12 @@
   },
   "dependencies": {
     "@astrojs/react": "4.3.1",
+    "@emotion/cache": "11.14.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/server": "11.11.0",
+    "@emotion/styled": "11.14.1",
+    "@mui/icons-material": "7.3.4",
+    "@mui/material": "7.3.4",
     "astro": "5.13.9",
     "react": "19.1.1",
     "react-dom": "19.1.1"
@@ -27,11 +33,14 @@
     "@storybook/addon-docs": "9.1.10",
     "@storybook/addon-vitest": "9.1.10",
     "@storybook/react-vite": "9.1.10",
+    "@types/parse-json": "7.0.0",
+    "@types/prop-types": "15.7.15",
     "@types/react": "19.1.13",
+    "@types/react-dom": "^19.2.0",
     "@typescript-eslint/eslint-plugin": "8.44.0",
     "@typescript-eslint/parser": "8.44.0",
-    "@vitest/browser": "^3.2.4",
-    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/browser": "3.2.4",
+    "@vitest/coverage-v8": "3.2.4",
     "astro-eslint-parser": "1.2.2",
     "eslint": "9.36.0",
     "eslint-config-prettier": "10.1.8",
@@ -41,11 +50,11 @@
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-prettier": "5.5.4",
     "eslint-plugin-storybook": "9.1.10",
-    "playwright": "^1.55.1",
+    "playwright": "1.55.1",
     "prettier": "3.6.2",
     "storybook": "9.1.10",
     "typescript": "5.9.2",
-    "vite": "^7.1.9",
-    "vitest": "^3.2.4"
+    "vite": "7.1.9",
+    "vitest": "3.2.4"
   }
 }
