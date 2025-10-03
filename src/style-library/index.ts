@@ -1,22 +1,11 @@
-// ==========================================
-// EXPORTS PRINCIPALES
-// ==========================================
 
-// Temas
 export { default as theme, themeConfig, darkTheme, modernTheme, classicTheme } from './theme/theme';
 
-// Tipos
 export type * from './types/theme.types';
 
-// Helpers para crear temas
 export * from './types/theme.helpers';
 
-// Hooks personalizados
 export * from './hooks/useTheme';
-
-// ==========================================
-// RE-EXPORTS DE MUI
-// ==========================================
 
 export {
     ThemeProvider,

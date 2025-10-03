@@ -1,7 +1,6 @@
 import { createCustomTheme } from '../types/theme.helpers';
 import type { ThemeConfig } from '../types/theme.types';
 
-// Configuración del tema principal
 const themeConfig: ThemeConfig = {
     mode: 'light',
     primaryColor: '#1976d2',
@@ -11,20 +10,16 @@ const themeConfig: ThemeConfig = {
     spacing: 8,
 };
 
-// Crear tema con tipos completos
 const theme = createCustomTheme(themeConfig);
 
-// Exportar tema y configuración
 export default theme;
 export { themeConfig };
 
-// Tema oscuro alternativo
 export const darkTheme = createCustomTheme({
     ...themeConfig,
     mode: 'dark',
 });
 
-// Temas predefinidos adicionales
 export const modernTheme = createCustomTheme({
     mode: 'light',
     primaryColor: '#6366f1',
