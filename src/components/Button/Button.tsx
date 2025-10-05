@@ -4,7 +4,7 @@ import { StyledButton, LoadingSpinner, ButtonContent } from './Button.styles';
 import { DEFAULT_PROPS } from './Button.constants';
 
 /** Button con variantes, tamaños y formas (MUI base + estilos custom) */
-export const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<ButtonProps & { colorOverride?: string }> = ({
   variant   = DEFAULT_PROPS.variant,
   size      = DEFAULT_PROPS.size,
   shape     = DEFAULT_PROPS.shape,
@@ -17,6 +17,7 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   type = 'button',
   'data-testid': dataTestId,
+  colorOverride,
   ...rest
 }) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,6 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <StyledButton
       {...rest}
+      sx={colorOverride ? { backgroundColor: colorOverride } : {}}
       variant="contained"
       type={type}
       disabled={disabled || loading}
