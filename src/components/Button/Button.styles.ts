@@ -33,7 +33,7 @@ export const StyledButton = styled(MuiButton, {
 
     // contained
     backgroundColor: colors.main,
-    color: '#fff',
+    color: '#ffffffff',
     boxShadow: theme.shadows[2],
     cursor: $loading ? 'default' : 'pointer',
 

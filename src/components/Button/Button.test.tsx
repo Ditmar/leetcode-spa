@@ -85,6 +85,15 @@ describe('Button', () => {
         Iconos
       </Button>
     );
+    it('aplica colorOverride si se pasa como prop', () => {
+        render(<Button data-testid="btn" colorOverride="#ff00ff">Color</Button>);
+        const btn = screen.getByTestId('btn');
+        expect(btn).toHaveStyle({ backgroundColor: '#ff00ff' });
+    });
+    it('tiene role="button"', () => {
+        render(<Button data-testid="btn">Accesible</Button>);
+        expect(screen.getByTestId('btn')).toHaveAttribute('role', 'button');
+    });
     expect(screen.getByTestId('btn')).toBeInTheDocument();
     expect(screen.getByTestId('start')).toBeInTheDocument();
     expect(screen.getByTestId('end')).toBeInTheDocument();
