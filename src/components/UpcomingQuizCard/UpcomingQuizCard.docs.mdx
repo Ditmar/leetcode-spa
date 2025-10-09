@@ -1,0 +1,42 @@
+# 🧩 UpcomingQuizCard
+
+The **UpcomingQuizCard** component displays concise information about an upcoming quiz or competition.  
+It highlights the event date, provides a short description, and includes a clear call-to-action for registration.
+
+---
+
+## ✨ Features
+
+- 📅 Displays a formatted event date with an icon for quick recognition.  
+- 📝 Optionally includes a brief description of the quiz or competition.  
+- 🚀 Includes a **“Register Now”** button that triggers a callback when clicked.  
+- 🎨 Fully customizable through MUI’s theme and `sx` prop.  
+
+---
+
+## ⚙️ Props
+
+| Prop | Type | Required | Description |
+|------|------|-----------|-------------|
+| **`title`** | `string` | ✅ Yes | Title of the quiz or competition. |
+| **`date`** | `string` \| `Date` | ✅ Yes | Date of the upcoming event. Formatted using the default pattern defined in `UpcomingQuizCard.constants.ts`. |
+| **`description`** | `string` | ❌ No | Additional text describing the event (optional). |
+| **`onRegister`** | `() => void` | ✅ Yes | Callback executed when the user clicks the **Register Now** button. |
+
+---
+
+## 🧱 Usage Example
+
+```tsx
+import UpcomingQuizCard from '@/components/UpcomingQuizCard';
+
+function Example() {
+  return (
+    <UpcomingQuizCard
+      title="Upcoming Quiz Competition"
+      date="2023-08-12"
+      description="Join our next exciting quiz and test your knowledge!"
+      onRegister={() => alert('Registered!')}
+    />
+  );
+}
