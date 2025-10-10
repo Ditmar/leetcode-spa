@@ -1,0 +1,40 @@
+# TestHeader
+
+El componente **TestHeader** muestra la sección de identificación principal para un cuestionario o competencia, con un logo, título y subtítulo en un diseño limpio y responsivo. Se adapta automáticamente a vistas móviles y de escritorio, garantizando una experiencia consistente en todos los dispositivos.
+
+## Características
+
+- Muestra un logo, título y subtítulo con espaciado y jerarquía consistentes.
+- Totalmente responsivo: cambia a un diseño vertical (apilado) en pantallas pequeñas.
+- Variantes flexibles: soporta orientaciones horizontal y vertical mediante la propiedad `variant`.
+- Estado de carga: muestra placeholders (MUI Skeleton) mientras se cargan los datos.
+- Tamaños escalables: permite elegir entre `small`, `medium` o `large` para el logo y el texto.
+- Cumple con el sistema de diseño: utiliza componentes `Box`, `Card` y `Typography` de MUI con tokens del tema.
+- Accesible: incluye roles semánticos y atributos `alt` para lectores de pantalla.
+
+## Propiedades
+
+- **logoSrc** (string, opcional): Ruta o URL de la imagen del logo. Muestra un placeholder si está vacío. Valor por defecto: logo predeterminado de TCS.
+- **title** (string, opcional): Título principal del cuestionario o competencia. Valor por defecto: "TCS Quiz Competition".
+- **subtitle** (string, opcional): Texto descriptivo secundario mostrado debajo del título. Valor por defecto: "TCS Campus Drive - 2023".
+- **variant** (horizontal | vertical, opcional): Controla la orientación del diseño. Valor por defecto: `horizontal`.
+- **size** (small | medium | large, opcional): Ajusta el tamaño del logo y la tipografía. Valor por defecto: `medium`.
+- **isLoading** (boolean, opcional): Muestra placeholders de carga si es `true`. Valor por defecto: `false`.
+
+## Ejemplo de uso
+
+```tsx
+import TestHeader from '@/components/TestHeader';
+import tcsLogo from './assets/tcs-logo.svg';
+
+function Example() {
+  return (
+    <TestHeader
+      logoSrc={tcsLogo}
+      title="TCS Quiz Competition"
+      subtitle="Campus Drive - 2023"
+      variant="horizontal"
+      size="medium"
+    />
+  );
+}
