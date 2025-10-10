@@ -1,0 +1,37 @@
+import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs';
+import { PillTag } from './PillTag';
+import * as PillTagStories from './PillTag.stories';
+
+<Meta of={PillTagStories} />
+
+# PillTag
+
+Componente reutilizable para mostrar categorías, tags o etiquetas en formato de píldora (pill/chip) con bordes redondeados y gradient de texto.
+
+## Propósito del componente
+
+Implementar un componente de etiqueta/píldora reutilizable para mostrar categorías como "Courses" y "Test" en un estilo de chip redondeado, siguiendo:
+
+- Metodología **Component-Driven Development (CDD)**
+- Diseño **pixel-perfect** según Figma
+- Cumplimiento de requisitos técnicos del proyecto
+- Extensibilidad mediante props de MUI Chip
+
+## Características principales
+
+- **Dos variantes visuales:** `primary` y `secondary` (definidas en `.constants.ts`)
+- **Diseño exacto según Figma:** dimensiones, colores, sombras específicas
+- **Gradient de texto:** Linear gradient #B23DEB → #DE8FFF con WebKit
+- **Fondo blanco:** #FFFFFF con drop shadow inferior para efecto elevado
+- **Bordes redondeados asimétricos:** esquinas específicas según variante
+- **Truncado automático:** texto largo se corta con ellipsis (...)
+- **Accesibilidad WCAG AA:** keyboard navigation, focus visible, ARIA
+- **Tests unitarios:** 14 tests con Vitest + Testing Library
+- **Props extendiendo MUI:** hereda todas las props de ChipProps
+- **Validaciones robustas:** label vacío, variant inválido con fallbacks
+
+## Instalación y uso
+
+### Importación
+```tsx
+import { PillTag } from '@/components/PillTag';
