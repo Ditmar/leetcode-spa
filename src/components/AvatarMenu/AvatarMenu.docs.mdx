@@ -1,67 +1,76 @@
-import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
+import { Meta, Primary, Controls, Canvas, Story} from '@storybook/blocks';
 import * as AvatarMenuStories from './AvatarMenu.stories';
 
 <Meta of={AvatarMenuStories} />
 
 # AvatarMenu
 
-El `AvatarMenu` es un componente de navegación que permite mostrar un **menú de acciones del usuario autenticado** de forma aislada, con soporte completo para **accesibilidad y manejo de teclado**, integrado con MUI y React.
+El `AvatarMenu` es un componente de navegación esencial que proporciona un **menú de acciones para el usuario autenticado**, integrado con Material UI. Cumple con los más altos estándares de **accesibilidad** (WAI-ARIA).
 
-Se recomienda colocarlo en la **esquina superior derecha** de la barra de navegación (`AppBar` o `Header`).  
+Se recomienda su uso en la **esquina superior derecha** de barras de navegación (`AppBar` o `Header`).
 
-<Primary />
-<Controls />
-
----
-
-## Requisitos de Props
-
-| Propiedad | Tipo | Requerido | Descripción |
-| :--- | :--- | :--- | :--- |
-| `avatarUrl` | `string` | Sí | URL de la imagen de perfil del usuario. |
-| `username` | `string` | Sí | Nombre del usuario (aparece en el `alt` del avatar y en etiquetas ARIA). |
-| `menuItems` | `AvatarMenuItem[]` | No | Lista de opciones del menú. Por defecto incluye: "Mi Perfil", "Configuración", "Cerrar Sesión". |
-| `fullWidth` | `boolean` | No | Si es `true`, el botón del menú y su contenido ocupan todo el ancho disponible. |
-| `avatarProps` | `MuiAvatarProps` | No | Props adicionales para personalizar el avatar de MUI. |
-| `data-testid` | `string` | No | Identificador usado en tests y pruebas automatizadas. |
-
-> ⚠️ **Nota sobre `fullWidth`**: Esta prop controla tanto el `AvatarMenuRoot` como el `AvatarContainer` para expandir el ancho, garantizando que el avatar y la flecha actúen correctamente en layouts flexibles.
+<Primary/>
 
 ---
 
-## Accesibilidad y navegación por teclado
+## Uso Básico y Props
 
-- **Atributos ARIA implementados:**
-  - `aria-haspopup="menu"`
-  - `aria-expanded` (true/false según estado)
-  - `aria-controls` apunta al `menuId` generado por el hook
-- **Navegación por teclado:**
-  - `Enter` / `Space`: abrir/cerrar menú
-  - `Escape`: cerrar menú
-  - `ArrowUp` / `ArrowDown`: navegar entre items
-- **Foco y estilos**
-  - El item enfocado se resalta y recibe `autoFocus`.
-  - Outline visible y transición suave al usar teclado.
+A continuación, se muestra la tabla de propiedades y los controles para experimentar con el componente.
 
----
+### Requisitos de Props
 
-## Comportamiento con Zoom
+<table>
+  <thead>
+    <tr>
+      <th>Propiedad</th>
+      <th align="center">Tipo</th>
+      <th align="center">Requerido</th>
+      <th>Descripción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>avatarUrl</code></td>
+      <td align="center"><code>string</code></td>
+      <td align="center">Sí</td>
+      <td>URL de la imagen de perfil del usuario.</td>
+    </tr>
+    <tr>
+      <td><code>username</code></td>
+      <td align="center"><code>string</code></td>
+      <td align="center">Sí</td>
+      <td>Nombre del usuario (utilizado en el atributo <code>alt</code> del avatar y en etiquetas ARIA).</td>
+    </tr>
+    <tr>
+      <td><code>menuItems</code></td>
+      <td align="center"><code>AvatarMenuItem[]</code></td>
+      <td align="center">Opcional</td>
+      <td>Lista de opciones del menú. Por defecto incluye: "Mi Perfil", "Configuración" y "Cerrar Sesión".</td>
+    </tr>
+    <tr>
+      <td><code>fullWidth</code></td>
+      <td align="center"><code>boolean</code></td>
+      <td align="center">No</td>
+      <td>Si es <code>true</code>, el botón del menú y su contenido ocuparán todo el ancho disponible.</td>
+    </tr>
+    <tr>
+      <td><code>avatarProps</code></td>
+      <td align="center"><code>MuiAvatarProps</code></td>
+      <td align="center">No</td>
+      <td>Props adicionales (<code>AvatarProps</code>) para personalizar el componente <code>Avatar</code> de Material UI.</td>
+    </tr>
+    <tr>
+      <td><code>data-testid</code></td>
+      <td align="center"><code>string</code></td>
+      <td align="center">No</td>
+      <td>Identificador usado para <em>tests</em> y pruebas automatizadas.</td>
+    </tr>
+  </tbody>
+</table>
 
-El hook `useAvatarMenu` maneja cambios de **zoom del navegador** para mantener el posicionamiento y la apertura correcta del menú:
+### Ejemplo de Implementación
 
-- **Zoom del Navegador (Ctrl/Cmd + +/-)**  
-  - Cierra el menú automáticamente si detecta cambio de zoom.
-  - Reabre correctamente posicionado.
-- **Zoom de Storybook**  
-  - No activa cierre automático por limitaciones técnicas de Storybook.
-  - Comportamiento esperado solo afecta entorno de desarrollo, no producción.
-
----
-
-## Integración con la Barra de Navegación
-
-1. **Contenedor flexible**: Asegure que el `AvatarMenu` esté dentro de un `Box` o `div` con `display: flex` y alineado a la derecha.  
-2. **Gestión de estado**: No es necesario que el padre controle apertura/cierre; el hook `useAvatarMenu` lo maneja internamente.  
+Este ejemplo muestra la integración común dentro de un componente `Header`, utilizando ítems personalizados y la gestión de acciones.
 
 ```jsx
 import { AvatarMenu } from './AvatarMenu';
@@ -73,13 +82,103 @@ function Header({ user, onLogout }) {
   ];
 
   return (
-    <header style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px' }}>
+    <header style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px', borderBottom: '1px solid #eee' }}>
       <AvatarMenu
         avatarUrl={user.photo}
         username={user.name}
-        fullWidth={true}
         menuItems={customItems}
       />
     </header>
   );
 }
+```
+
+---
+
+## Comportamiento de Layout: `fullWidth`
+
+El modo `fullWidth` es crucial para layouts flexibles o de dashboard.
+
+En modo `fullWidth`, el contenedor (`AvatarMenuRoot`) y el botón del menú se expanden al **100% del ancho disponible** en su contenedor padre. La gestión del ancho está implementada con la prop transitoria `$fullWidth` a través de Emotion/MUI Styled.
+
+---
+
+## Accesibilidad y Navegación por Teclado
+
+El componente sigue las guías **WAI-ARIA** para menús desplegables (`role="menu"`, `role="menuitem"`, `aria-haspopup`, etc.) para garantizar una experiencia inclusiva.
+
+<table>
+  <thead>
+    <tr>
+      <th>Tecla</th>
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Enter</code> / <code>Space</code></td>
+      <td>Abre o cierra el menú.</td>
+    </tr>
+    <tr>
+      <td><code>Escape</code></td>
+      <td>Cierra el menú, devolviendo el foco al botón del avatar.</td>
+    </tr>
+    <tr>
+      <td><code>↑</code> / <code>↓</code></td>
+      <td>Navega entre ítems activos del menú.</td>
+    </tr>
+  </tbody>
+</table>
+
+> **Nota sobre Foco:** Los ítems enfocados reciben estilos de resaltado y la propiedad `autoFocus` se maneja internamente para el primer elemento al abrir.
+
+---
+
+## Consideraciones Técnicas y Mantenimiento
+
+### Tipos y Constantes Clave
+
+Para la extensibilidad, la lógica se apoya en los siguientes tipos y constantes:
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Tipo</th>
+      <th>Descripción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>DEFAULT_MENU_ITEMS</code></td>
+      <td align="center"><code>const</code></td>
+      <td>Lista de opciones predeterminadas (Perfil, Configuración, Cerrar sesión).</td>
+    </tr>
+    <tr>
+      <td><code>AvatarMenuItem</code></td>
+      <td align="center"><code>type</code></td>
+      <td>Define la estructura de cada ítem del menú: <code>label</code>, <code>onClick</code>, <code>disabled</code>, <code>divider</code>.</td>
+    </tr>
+    <tr>
+      <td><code>AvatarMenuProps</code></td>
+      <td align="center"><code>type</code></td>
+      <td>Props principales del componente.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Testing
+
+El componente incluye pruebas unitarias robustas con **Vitest + Testing Library** que cubren:
+
+* Renderización inicial y estados ARIA.
+* Interacción de apertura/cierre del menú.
+* Ejecución de *callbacks* en ítems.
+* Gestión de navegación por teclado.
+* Aplicación correcta de `fullWidth`.
+
+> Para contribuir con nuevos tests o verificar el comportamiento, consulta `AvatarMenu.test.tsx`.
+
+### Compatibilidad con Zoom del Navegador
+
+El `hook` interno (`useAvatarMenu`) utiliza el evento `window.resize` para detectar y gestionar cambios de *zoom* del navegador: el menú se cierra automáticamente y se **reposiciona** al reabrir, garantizando una ubicación correcta. (Esto no aplica en el zoom visual de Storybook).

@@ -121,7 +121,6 @@ export const DisabledItems: Story = {
 			{ label: 'Opción 1', onClick: () => { }, disabled: true },
 			{ label: 'Opción 2', onClick: () => { }, disabled: true, divider: true },
 		],
-
 		fullWidth: false,
 	},
 	parameters: {
