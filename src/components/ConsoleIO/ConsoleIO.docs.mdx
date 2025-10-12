@@ -1,0 +1,79 @@
+# ConsoleIO
+
+El componente **ConsoleIO** representa una **consola de entrada de datos con dos pestañas**: **Sample** y **Custom**.  
+Permite mostrar valores de ejemplo o personalizados, y capturar los cambios mediante callbacks.  
+Está diseñado con **Material UI**, sigue principios de **accesibilidad (ARIA)** y diseño responsivo, y se integra fácilmente con Storybook y pruebas automatizadas.
+
+---
+
+## Propósito
+
+El componente se utiliza para simular la entrada de datos en una consola interactiva, ideal para:
+
+- Pruebas de casos de ejemplo en algoritmos.
+- Entradas personalizadas del usuario.
+- Integración con simulaciones educativas o evaluaciones interactivas.
+
+---
+
+## Props
+
+A continuación se detallan todas las props que recibe el componente:
+
+- **`sampleValue?: string`**  
+  Valor inicial de la pestaña **Sample**.  
+
+- **`customValue?: string`**  
+  Valor inicial de la pestaña **Custom**.
+
+- **`onSampleChange?: (value: string) => void`**  
+  Callback que se ejecuta cuando cambia el valor en la pestaña **Sample**.
+
+- **`onCustomChange?: (value: string) => void`**  
+  Callback que se ejecuta cuando cambia el valor en la pestaña **Custom**.
+
+- **`defaultTab?: 'sample' | 'custom'`**  
+  Define cuál pestaña se muestra por defecto.  
+  Valor por defecto: `'sample'`.
+
+- **`height?: number | string`**  
+  Altura del contenedor de la consola.  
+  Valor por defecto: `260px`.
+
+- **`width?: number | string`**  
+  Ancho del contenedor de la consola.  
+  Valor por defecto: `100%` hasta un máximo de `260px`.
+
+- **`data-testid?: string`**  
+  Identificador para pruebas unitarias con `React Testing Library`.
+
+---
+
+## Ejemplo básico de uso
+
+Este ejemplo muestra cómo usar el componente con valores de ejemplo y personalizados:
+
+```tsx
+import ConsoleIO from './ConsoleIO';
+
+function App() {
+  const handleSampleChange = (value: string) => {
+    console.log("Sample changed:", value);
+  };
+
+  const handleCustomChange = (value: string) => {
+    console.log("Custom changed:", value);
+  };
+
+  return (
+    <ConsoleIO
+      sampleValue={`2\n6 3\n0 5 5 6 6 6\n8 2\n0 0 1 1 2 2 2 2`}
+      customValue="Custom input here"
+      defaultTab="sample"
+      height={500}
+      width={260}
+      onSampleChange={handleSampleChange}
+      onCustomChange={handleCustomChange}
+    />
+  );
+}
