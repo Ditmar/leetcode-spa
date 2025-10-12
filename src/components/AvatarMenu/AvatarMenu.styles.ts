@@ -22,7 +22,7 @@ export const AvatarContainer = styled('div')<{
 	alignItems: 'center',
 	gap: '10px',
 	position: 'relative',
-	width: $fullWidth ? '100%' : 'auto',
+	width: $fullWidth ? '100%' : 'center',
 	justifyContent: $fullWidth ? 'flex-end' : 'center',
 }));
 
