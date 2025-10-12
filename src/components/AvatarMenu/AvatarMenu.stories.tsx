@@ -125,7 +125,6 @@ export const DisabledItems: Story = {
 		fullWidth: false,
 	},
 	parameters: {
-		layout: 'padded',
 		docs: { description: { story: 'Items deshabilitados que no pueden ser seleccionados' } },
 	},
 };

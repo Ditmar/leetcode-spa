@@ -1,0 +1,85 @@
+import { Meta, Primary, Controls, Canvas } from '@storybook/blocks';
+import * as AvatarMenuStories from './AvatarMenu.stories';
+
+<Meta of={AvatarMenuStories} />
+
+# AvatarMenu
+
+El `AvatarMenu` es un componente de navegación que permite mostrar un **menú de acciones del usuario autenticado** de forma aislada, con soporte completo para **accesibilidad y manejo de teclado**, integrado con MUI y React.
+
+Se recomienda colocarlo en la **esquina superior derecha** de la barra de navegación (`AppBar` o `Header`).  
+
+<Primary />
+<Controls />
+
+---
+
+## Requisitos de Props
+
+| Propiedad | Tipo | Requerido | Descripción |
+| :--- | :--- | :--- | :--- |
+| `avatarUrl` | `string` | Sí | URL de la imagen de perfil del usuario. |
+| `username` | `string` | Sí | Nombre del usuario (aparece en el `alt` del avatar y en etiquetas ARIA). |
+| `menuItems` | `AvatarMenuItem[]` | No | Lista de opciones del menú. Por defecto incluye: "Mi Perfil", "Configuración", "Cerrar Sesión". |
+| `fullWidth` | `boolean` | No | Si es `true`, el botón del menú y su contenido ocupan todo el ancho disponible. |
+| `avatarProps` | `MuiAvatarProps` | No | Props adicionales para personalizar el avatar de MUI. |
+| `data-testid` | `string` | No | Identificador usado en tests y pruebas automatizadas. |
+
+> ⚠️ **Nota sobre `fullWidth`**: Esta prop controla tanto el `AvatarMenuRoot` como el `AvatarContainer` para expandir el ancho, garantizando que el avatar y la flecha actúen correctamente en layouts flexibles.
+
+---
+
+## Accesibilidad y navegación por teclado
+
+- **Atributos ARIA implementados:**
+  - `aria-haspopup="menu"`
+  - `aria-expanded` (true/false según estado)
+  - `aria-controls` apunta al `menuId` generado por el hook
+- **Navegación por teclado:**
+  - `Enter` / `Space`: abrir/cerrar menú
+  - `Escape`: cerrar menú
+  - `ArrowUp` / `ArrowDown`: navegar entre items
+- **Foco y estilos**
+  - El item enfocado se resalta y recibe `autoFocus`.
+  - Outline visible y transición suave al usar teclado.
+
+---
+
+## Comportamiento con Zoom
+
+El hook `useAvatarMenu` maneja cambios de **zoom del navegador** para mantener el posicionamiento y la apertura correcta del menú:
+
+- **Zoom del Navegador (Ctrl/Cmd + +/-)**  
+  - Cierra el menú automáticamente si detecta cambio de zoom.
+  - Reabre correctamente posicionado.
+- **Zoom de Storybook**  
+  - No activa cierre automático por limitaciones técnicas de Storybook.
+  - Comportamiento esperado solo afecta entorno de desarrollo, no producción.
+
+---
+
+## Integración con la Barra de Navegación
+
+1. **Contenedor flexible**: Asegure que el `AvatarMenu` esté dentro de un `Box` o `div` con `display: flex` y alineado a la derecha.  
+2. **Gestión de estado**: No es necesario que el padre controle apertura/cierre; el hook `useAvatarMenu` lo maneja internamente.  
+
+```jsx
+import { AvatarMenu } from './AvatarMenu';
+
+function Header({ user, onLogout }) {
+  const customItems = [
+    { label: "Ver Dashboard", onClick: () => console.log('Dashboard') },
+    { label: "Cerrar Sesión", onClick: onLogout, divider: true },
+  ];
+
+  return (
+    <header style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px' }}>
+      <AvatarMenu
+        avatarUrl={user.photo}
+        username={user.name}
+        fullWidth={true}
+        menuItems={customItems}
+      />
+    </header>
+  );
+}
