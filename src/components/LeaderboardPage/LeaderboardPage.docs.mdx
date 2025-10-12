@@ -1,0 +1,33 @@
+# Página de Clasificación (LeaderboardPage)
+
+La página de clasificación muestra a los usuarios con mejor rendimiento en función de sus puntos y desempeño en las pruebas.
+
+## Comportamiento
+
+- **Carga de datos**: Los datos se obtienen de una API simulada con un estado de carga
+- **Búsqueda**: Filtra usuarios por nombre completo o nombre de usuario
+- **Ordenamiento**: Permite ordenar por puntos, pruebas aprobadas o actividad reciente
+- **Filtros**: Filtros opcionales por período de tiempo y categoría
+- **Responsive**: En escritorio muestra tabla, en móvil muestra cards
+- **Usuario actual**: Resalta la entrada del usuario actual con fondo diferenciado
+
+## Propiedades
+
+El componente `LeaderboardPage` no acepta props directamente, ya que maneja su estado interno mediante el hook personalizado `useLeaderboard`.
+
+## Formato de Datos
+
+Los datos de usuario deben seguir la siguiente interfaz TypeScript:
+
+```typescript
+interface User {
+  id: string;
+  rank: number;
+  avatar: string;
+  fullName: string;
+  username: string;
+  points: number;
+  testsPassed: number;
+  recentActivity: string;
+  isCurrentUser?: boolean;
+}
