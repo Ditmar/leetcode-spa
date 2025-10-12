@@ -22,11 +22,12 @@
   "dependencies": {
     "@astrojs/react": "4.3.1",
     "@emotion/cache": "11.14.0",
-    "@emotion/react": "^11.14.0",
+    "@emotion/react": "11.14.0",
     "@emotion/server": "11.11.0",
-    "@emotion/styled": "^11.14.1",
+    "@emotion/styled": "11.14.1",
+    "@fontsource/syne": "^5.2.7",
     "@mui/icons-material": "7.3.4",
-    "@mui/material": "^7.3.4",
+    "@mui/material": "7.3.4",
     "astro": "5.13.9",
     "react": "19.1.1",
     "react-dom": "19.1.1"
@@ -41,6 +42,7 @@
     "@storybook/addon-a11y": "9.1.10",
     "@storybook/addon-docs": "9.1.10",
     "@storybook/addon-vitest": "9.1.10",
+    "@storybook/blocks": "9.0.0-alpha.17",
     "@storybook/react-vite": "9.1.10",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",

@@ -1,0 +1,101 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import { Box, Typography } from '@mui/material';
+import * as CountdownTimerStories from './CountdownTimer.stories';
+
+<Meta of={CountdownTimerStories} />
+
+# ⏱ Countdown Timer · Documentación
+
+<Typography variant="body1" sx={{ fontFamily: 'Syne, sans-serif', mb: 2 }}>
+  El componente <code>CountdownTimer</code> muestra un temporizador regresivo en formato <code>hh:mm:ss</code>.
+  Ideal para interfaces con límite de tiempo como formularios, encuestas o pruebas.
+</Typography>
+
+---
+
+## 🧩 Props
+
+<Box
+  sx={{
+    overflowX: 'auto',
+    border: '1px solid #333',
+    borderRadius: 2,
+    mt: 2,
+    mb: 3,
+    fontFamily: 'Syne, sans-serif',
+  }}
+>
+  <table
+    style={{
+      width: '100%',
+      borderCollapse: 'collapse',
+      minWidth: '600px',
+    }}
+  >
+    <thead>
+      <tr>
+        <th
+          style={{
+            textAlign: 'left',
+            padding: '8px',
+            borderBottom: '1px solid #555',
+          }}
+        >
+          Prop
+        </th>
+        <th
+          style={{
+            textAlign: 'left',
+            padding: '8px',
+            borderBottom: '1px solid #555',
+          }}
+        >
+          Tipo
+        </th>
+        <th
+          style={{
+            textAlign: 'left',
+            padding: '8px',
+            borderBottom: '1px solid #555',
+          }}
+        >
+          Descripción
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style={{ padding: '8px' }}>
+          <code>seconds</code>
+        </td>
+        <td style={{ padding: '8px' }}>
+          <code>number</code>
+        </td>
+        <td style={{ padding: '8px' }}>
+          Tiempo total en segundos desde el que comienza la cuenta regresiva.
+        </td>
+      </tr>
+      <tr>
+        <td style={{ padding: '8px' }}>
+          <code>onComplete</code>
+        </td>
+        <td style={{ padding: '8px' }}>
+          <code>function</code>
+        </td>
+        <td style={{ padding: '8px' }}>
+          Callback que se ejecuta automáticamente cuando el tiempo llega a cero.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</Box>
+
+---
+
+## 🧪 Ejemplos
+
+### Temporizador por defecto
+
+<Canvas>
+  <Story of={CountdownTimerStories.Default} />
+</Canvas>
