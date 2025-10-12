@@ -1,0 +1,61 @@
+# 🧠 MCQQuestion
+
+El componente **MCQQuestion** representa una pregunta de opción múltiple (Multiple Choice Question).  
+Permite mostrar una pregunta con varias alternativas y seleccionar una única respuesta.  
+Está diseñado con **Material UI**, sigue principios de **accesibilidad (ARIA)** y **diseño responsivo**, y puede integrarse fácilmente con librerías de formularios.
+
+---
+
+## 🎯 Propósito
+
+El componente se usa para mostrar preguntas de opción múltiple en evaluaciones, cuestionarios o encuestas.  
+Permite controlar o registrar la respuesta seleccionada y está pensado para integrarse con Storybook y pruebas automatizadas.
+
+---
+
+## ⚙️ Props
+
+A continuación se detallan todas las props que recibe el componente:
+
+- **`question: string`**  
+  Texto de la pregunta que se mostrará en la parte superior del componente.
+
+- **`options: { label: string; value: string }[]`**  
+  Lista de opciones que se mostrarán como respuestas posibles.  
+  Cada opción tiene:
+  - `label`: el texto visible de la respuesta  
+  - `value`: el valor interno asociado a esa opción  
+
+- **`selectedValue?: string | null`**  
+  Valor actualmente seleccionado.  
+  Si se proporciona, el componente se comporta como **controlado**.  
+  Si no, puede manejar su propio estado interno.
+
+- **`onChange: (value: string) => void`**  
+  Función de devolución de llamada que se ejecuta al seleccionar una opción.  
+  Devuelve el valor (`value`) de la opción elegida.
+
+- **`number?: number`** *(opcional)*  
+  Muestra el número o índice de la pregunta antes del texto.  
+  Ejemplo: “1. What is 2 + 2?”
+
+- **`disabled?: boolean`** *(opcional)*  
+  Deshabilita todas las opciones, impidiendo la interacción.
+
+---
+
+## 💡 Ejemplo básico de uso
+
+Este ejemplo muestra el uso estándar del componente para una sola pregunta:
+
+```tsx
+<MCQQuestion
+  number={1}
+  question="Which of the following is a programming language?"
+  options={[
+    { label: "HTML", value: "html" },
+    { label: "Python", value: "python" },
+    { label: "CSS", value: "css" },
+  ]}
+  onChange={(value) => console.log("Selected:", value)}
+/>
