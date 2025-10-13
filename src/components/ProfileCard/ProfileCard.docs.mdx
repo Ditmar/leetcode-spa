@@ -1,0 +1,123 @@
+# ProfileCard
+
+Un componente reutilizable para mostrar la información de perfil de un usuario, incluyendo avatar, nombre, nombre de usuario, rol y estadisticas clave como cursos inscritos, puntos y ranking.
+
+---
+
+##  Descripción general
+
+El componente `ProfileCard` proporciona una forma flexible y personalizable de mostrar la información de un perfil de usuario.  
+Admite múltiples variantes de tamaño y diseño, y maneja correctamente casos como avatares faltantes o nombres largos.
+
+---
+
+##  Características
+
+- **Avatar Display:** Muestra el avatar del usuario con un fallback automático a iniciales o ícono por defecto.  
+- **User Information:** Presenta nombre, nombre de usuario y rol opcional.  
+- **Statistics Section:** Muestra cursos, puntos y ranking con íconos.  
+- **Size Variants:** Tamaños pequeño, mediano y grande.  
+- **Layout Variants:** Diseños por defecto, compacto y expandido.  
+- **Responsive Design:** Manejo automático de texto largo con truncamiento.  
+- **Accessible:** Uso de atributos ARIA y HTML semántico.
+
+---
+
+##  Props
+
+| Prop | Tipo | Default | Descripción |
+|------|------|----------|--------------|
+| `name` | `string` | **Requerido** | Nombre completo del usuario |
+| `username` | `string` | **Requerido** | Nombre de usuario |
+| `avatarUrl` | `string` | `undefined` | URL del avatar |
+| `role` | `string` | `undefined` | Rol o título del usuario |
+| `stats` | `object` | `{ courses: 0, points: 0, ranking: 0 }` | Objeto con estadísticas |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Variante de tamaño |
+| `variant` | `'default' \| 'compact' \| 'expanded'` | `'default'` | Variante de diseño |
+| `showStats` | `boolean` | `true` | Muestra u oculta la sección de estadísticas |
+| `className` | `string` | `undefined` | Clase CSS personalizada |
+| `data-testid` | `string` | `'profile-card'` | ID de prueba |
+
+---
+
+##  Tipo `ProfileStats`
+
+```ts
+interface ProfileStats {
+  courses: number;  // Número de cursos
+  points: number;   // Total de puntos
+  ranking: number;  // Posición actual en el ranking
+}
+```
+
+---
+
+##  Ejemplos de uso
+
+### Ejemplo básico
+
+```tsx
+<ProfileCard
+  name="John Doe"
+  username="johndoe"
+  role="Senior Developer"
+  avatarUrl="https://example.com/avatar.jpg"
+  stats={{ courses: 12, points: 3450, ranking: 23 }}
+/>
+```
+
+### Sin avatar (usa iniciales)
+
+```tsx
+<ProfileCard name="Michael Chen" username="mchen" role="Data Scientist" />
+```
+
+### Sin estadísticas
+
+```tsx
+<ProfileCard name="Emily Davis" username="emilyd" showStats={false} />
+```
+
+### Nombre largo (con truncamiento)
+
+```tsx
+<ProfileCard
+  name="Alexander Christopher Montgomery III"
+  username="verylongusernamethatexceedstheavailablespace"
+  role="Chief Technology Officer"
+/>
+```
+
+---
+
+##  Personalización
+
+Puedes personalizar el estilo usando la prop `className` o la prop `sx` de MUI:
+
+```tsx
+<ProfileCard
+  className="custom-profile-card"
+  sx={{ backgroundColor: 'lightblue' }}
+  name="Jane Doe"
+  username="janedoe"
+/>
+```
+
+---
+
+##  Buenas prácticas
+
+- Proporciona nombres y nombres de usuario significativos.  
+- Usa el tamaño apropiado según el contexto.  
+- Elige la variante de diseño que mejor se adapte a tu interfaz.  
+- Incluye avatar cuando esté disponible.  
+- Oculta estadísticas si no son relevantes.
+
+---
+
+##  Componentes relacionados
+
+- **Avatar:** usado internamente para mostrar el avatar del usuario.  
+- **Card:** contenedor base desde MUI.  
+- **Typography:** tipografía consistente.  
+- **StatsPanel:** ideal para estadísticas más detalladas.
