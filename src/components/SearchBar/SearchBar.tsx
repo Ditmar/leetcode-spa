@@ -5,10 +5,6 @@ import type { SearchBarProps } from './SearchBar.types';
 import { SearchBarContainer, SearchInputBase, SearchIconWrapper } from './SearchBar.styles';
 import { DEFAULT_PROPS } from './SearchBar.constants';
 
-/**
- * Componente de barra de búsqueda con un estilo distintivo de Figma.
- * Sigue los principios CDD: aislado, tipado y estilizado con MUI styled().
- */
 export const SearchBar: React.FC<SearchBarProps> = ({
     value = DEFAULT_PROPS.value,
     onSearch,
