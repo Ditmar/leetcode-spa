@@ -1,0 +1,17 @@
+import { Meta, Canvas, Story, Controls } from '@storybook/blocks';
+import * as StatsCardStories from './StatsCard.stories';
+import StatsCard from './StatsCard';
+
+<Meta of={StatsCardStories} />
+
+# StatsCard
+
+El componente **StatsCard** muestra una estadística con su ícono, valor y etiqueta.
+
+## Uso
+
+```tsx
+import StatsCard from './StatsCard';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+
+<StatsCard icon={<TrendingUpIcon />} value="32" label="Tests Written" />;
