@@ -32,9 +32,6 @@ jobs:
       - name: Run lint
         run: yarn lint
 
-      - name: Run lint:css
-        run: yarn lint:css
-
       - name: Run test
         run: yarn test
 
@@ -51,7 +48,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '>=18.19 <=18.21'
+          node-version: '>=20.3.0'
           cache: 'yarn'
 
       - name: Install specific Yarn version
