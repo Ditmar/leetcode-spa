@@ -1,0 +1,24 @@
+import { Meta, Story, Canvas, ArgsTable } from "@storybook/addon-docs";
+import FilterPanel from "./FilterPanel";
+import { DEFAULT_FILTERS } from "./FilterPanel.constants";
+
+<Meta title="Components/FilterPanel" component={FilterPanel} />
+
+# FilterPanel
+
+El componente `FilterPanel` permite filtrar listas de tests, destacando visualmente la opción seleccionada.
+
+## Uso básico
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      filters: DEFAULT_FILTERS,
+      selectedValue: "all",
+      onSelect: (value) => console.log("Selected:", value),
+    }}
+  />
+</Canvas>
+
+<ArgsTable of={FilterPanel} />
