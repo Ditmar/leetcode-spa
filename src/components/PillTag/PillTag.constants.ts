@@ -8,6 +8,4 @@ export const VALIDATION_MESSAGES = {
     INVALID_VARIANT: (variant: string) =>
         `PillTag: invalid variant "${variant}". Using "primary" as fallback.`,
 } as const;
-
-// Re-exportar tokens para uso interno del componente
 export { pillTagTokens };

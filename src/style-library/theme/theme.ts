@@ -56,16 +56,14 @@ export const pillTagTokens = {
     typography: {
         fontFamily: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
         fontWeight: 500,
-        lineHeight: 1, // 100%
+        lineHeight: 1,
         letterSpacing: '0',
     },
     dimensions: {
         primary: {
-            // Rectangle 2 dimensions (contenedor completo)
             width: 251.51,
             height: 85.1,
             borderRadius: '42.55px',
-            // Text dimensions (para referencia, pero se auto-ajusta)
             fontSize: 28.37,
             textAlign: 'center',
             padding: {
@@ -74,11 +72,9 @@ export const pillTagTokens = {
             },
         },
         secondary: {
-            // Rectangle 1 dimensions (contenedor completo)
             width: 227.17,
             height: 76.86,
             borderRadius: '38.43px',
-            // Text dimensions (para referencia, pero se auto-ajusta)
             fontSize: 25.62,
             textAlign: 'center',
             padding: {
@@ -89,13 +85,11 @@ export const pillTagTokens = {
     },
     shadows: {
         primary: {
-            // Rectangle 2 shadow specs
             default: '0px 18.91px 66.19px 0px rgba(0, 0, 0, 0.15)',
             hover: '0px 20.91px 71.19px 0px rgba(0, 0, 0, 0.20)',
             active: '0px 16.91px 56.19px 0px rgba(0, 0, 0, 0.18)',
         },
         secondary: {
-            // Rectangle 1 shadow specs
             default: '0px 17.08px 59.78px 0px rgba(0, 0, 0, 0.15)',
             hover: '0px 19.08px 64.78px 0px rgba(0, 0, 0, 0.20)',
             active: '0px 15.08px 49.78px 0px rgba(0, 0, 0, 0.18)',
