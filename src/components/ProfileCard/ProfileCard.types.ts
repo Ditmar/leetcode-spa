@@ -1,6 +1,6 @@
 import type { CardProps } from '@mui/material/Card';
 
-export interface ProfileStats {
+export interface ProfileStatsProps {
   /** Number of courses enrolled */
   courses: number;
   /** Total points earned */
@@ -19,7 +19,7 @@ export interface ProfileCardProps extends Omit<CardProps, 'children' | 'variant'
   /** User's role or title */
   role?: string;
   /** User statistics */
-  stats?: ProfileStats;
+  stats?: ProfileStatsProps;
   /** Size variant of the card */
   size?: ProfileCardSize;
   /** Layout variant */
@@ -28,7 +28,7 @@ export interface ProfileCardProps extends Omit<CardProps, 'children' | 'variant'
   showStats?: boolean;
   /** Custom className */
   className?: string;
-  /** Test id */
+  /** Test id for testing purposes */
   'data-testid'?: string;
 }
 
@@ -46,3 +46,6 @@ export interface StatsItemProps {
   value: number | string;
   'data-testid'?: string;
 }
+
+// Alias for backward compatibility
+export type ProfileStats = ProfileStatsProps;

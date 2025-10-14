@@ -23,14 +23,13 @@ import {
   FALLBACK_INITIALS,
 } from './ProfileCard.constants';
 
-/** Stats item component for rendering individual statistics */
+/* Stats item component for rendering individual statistics */
 const StatsItem: React.FC<StatsItemProps> = ({
   icon,
   label,
   value,
   'data-testid': dataTestId,
 }) => {
-  // Format value: if it's a number, use en-US locale for comma separator
   const formattedValue = typeof value === 'number' 
     ? value.toLocaleString('en-US') 
     : value;
@@ -46,7 +45,7 @@ const StatsItem: React.FC<StatsItemProps> = ({
   );
 };
 
-/** Profile card component for displaying user information and statistics */
+/* Profile card component for displaying user information and statistics */
 export const ProfileCard: React.FC<ProfileCardProps> = ({
   avatarUrl,
   name,
@@ -60,10 +59,14 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   'data-testid': dataTestId = 'profile-card',
   ...rest
 }) => {
+  // Validate required props
+  if (!name || !username) {
+    console.warn('ProfileCard: name and username are required props');
+  }
+
   const DefaultIcon = DEFAULT_AVATAR_ICON;
   const initials = FALLBACK_INITIALS(name);
 
-  // Format ranking display with correct ordinal suffixes
   const formatRanking = (rank: number): string => {
     if (rank === 0) return '-';
     
@@ -90,6 +93,8 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       data-testid={dataTestId}
       $size={size}
       $variant={variant}
+      role="article"
+      aria-label={`Profile card for ${name}`}
     >
       <StyledProfileContainer $size={size} $variant={variant}>
         <StyledAvatar
@@ -133,7 +138,13 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       </StyledProfileContainer>
 
       {showStats && stats && (
-        <StyledStatsContainer $size={size} $variant={variant} data-testid={`${dataTestId}-stats`}>
+        <StyledStatsContainer 
+          $size={size} 
+          $variant={variant} 
+          data-testid={`${dataTestId}-stats`}
+          role="region"
+          aria-label="User statistics"
+        >
           <StatsItem
             icon={<STATS_ICONS.courses />}
             label={STATS_LABELS.courses}
@@ -157,5 +168,3 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     </StyledCard>
   );
 };
-
-export default ProfileCard;

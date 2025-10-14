@@ -3,7 +3,7 @@ import { ProfileCard } from './ProfileCard';
 import { PROFILE_CARD_SIZES, PROFILE_CARD_VARIANTS } from './ProfileCard.constants';
 import { Box } from '@mui/material';
 
-const meta: Meta<typeof ProfileCard> = {
+const meta = {
   title: 'Components/ProfileCard',
   component: ProfileCard,
   parameters: {
@@ -15,39 +15,87 @@ const meta: Meta<typeof ProfileCard> = {
     },
   },
   argTypes: {
+    name: {
+      control: 'text',
+      description: 'User full name',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: '-' },
+      },
+    },
+    username: {
+      control: 'text',
+      description: 'User username/handle',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: '-' },
+      },
+    },
+    avatarUrl: {
+      control: 'text',
+      description: 'URL for the user avatar image',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'undefined' },
+      },
+    },
+    role: {
+      control: 'text',
+      description: 'User role or title',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'undefined' },
+      },
+    },
     size: {
       control: 'select',
       options: Object.keys(PROFILE_CARD_SIZES),
       description: 'Size variant of the card',
+      table: {
+        type: { summary: 'small | medium | large' },
+        defaultValue: { summary: 'medium' },
+      },
     },
     variant: {
       control: 'select',
       options: Object.keys(PROFILE_CARD_VARIANTS),
       description: 'Layout variant of the card',
-    },
-    avatarUrl: {
-      control: 'text',
-      description: 'URL for the user avatar image',
-    },
-    name: {
-      control: 'text',
-      description: 'User full name',
-    },
-    username: {
-      control: 'text',
-      description: 'User username/handle',
-    },
-    role: {
-      control: 'text',
-      description: 'User role or title',
+      table: {
+        type: { summary: 'default | compact | expanded' },
+        defaultValue: { summary: 'default' },
+      },
     },
     showStats: {
       control: 'boolean',
       description: 'Whether to show the statistics section',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
     },
     stats: {
       control: 'object',
-      description: 'User statistics object',
+      description: 'User statistics object containing courses, points, and ranking',
+      table: {
+        type: { summary: '{ courses: number; points: number; ranking: number }' },
+        defaultValue: { summary: '{ courses: 0, points: 0, ranking: 0 }' },
+      },
+    },
+    className: {
+      control: 'text',
+      description: 'Custom CSS class name',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'undefined' },
+      },
+    },
+    'data-testid': {
+      control: 'text',
+      description: 'Test ID for testing purposes',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'profile-card' },
+      },
     },
   },
   args: {
@@ -64,15 +112,29 @@ const meta: Meta<typeof ProfileCard> = {
       ranking: 23,
     },
   },
-};
+  tags: ['autodocs'],
+} satisfies Meta<typeof ProfileCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Interactive playground for testing different ProfileCard configurations */
-export const Playground: Story = {};
+export const Playground: Story = {
+  args: {
+    name: 'John Doe',
+    username: 'johndoe',
+    role: 'Senior Developer',
+    avatarUrl: 'https://i.pravatar.cc/150?img=3',
+    size: 'medium',
+    variant: 'default',
+    showStats: true,
+    stats: {
+      courses: 12,
+      points: 3450,
+      ranking: 23,
+    },
+  },
+};
 
-/** Standard user profile card with all information */
 export const Default: Story = {
   args: {
     name: 'Sarah Johnson',
@@ -87,7 +149,6 @@ export const Default: Story = {
   },
 };
 
-/** Profile card without avatar URL - shows initials fallback */
 export const NoAvatar: Story = {
   args: {
     name: 'Michael Chen',
@@ -102,7 +163,6 @@ export const NoAvatar: Story = {
   },
 };
 
-/** Profile card with very long name to test truncation */
 export const LongName: Story = {
   args: {
     name: 'Alexander Christopher Montgomery III',
@@ -117,7 +177,6 @@ export const LongName: Story = {
   },
 };
 
-/** Profile card without role */
 export const NoRole: Story = {
   args: {
     name: 'Emily Davis',
@@ -132,7 +191,6 @@ export const NoRole: Story = {
   },
 };
 
-/** Profile card without statistics */
 export const NoStats: Story = {
   args: {
     name: 'Robert Wilson',
@@ -143,7 +201,6 @@ export const NoStats: Story = {
   },
 };
 
-/** Small size variant */
 export const SmallSize: Story = {
   args: {
     size: 'small',
@@ -159,7 +216,6 @@ export const SmallSize: Story = {
   },
 };
 
-/** Large size variant */
 export const LargeSize: Story = {
   args: {
     size: 'large',
@@ -175,7 +231,6 @@ export const LargeSize: Story = {
   },
 };
 
-/** Compact layout variant */
 export const CompactVariant: Story = {
   args: {
     variant: 'compact',
@@ -191,7 +246,6 @@ export const CompactVariant: Story = {
   },
 };
 
-/** Expanded layout variant */
 export const ExpandedVariant: Story = {
   args: {
     variant: 'expanded',
@@ -207,7 +261,6 @@ export const ExpandedVariant: Story = {
   },
 };
 
-/** New user with zero stats */
 export const NewUser: Story = {
   args: {
     name: 'New User',
@@ -222,7 +275,6 @@ export const NewUser: Story = {
   },
 };
 
-/** Gallery showcasing different size and variant combinations */
 export const Gallery: Story = {
   render: () => (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, padding: 2 }}>
@@ -314,6 +366,6 @@ export const Gallery: Story = {
     </Box>
   ),
   parameters: {
-    controls: { hideNoControlsWarning: true },
+    controls: { disable: true },
   },
 };

@@ -1,7 +1,7 @@
 import { render, screen } from '../../test/test-utils';
 import { describe, it, expect } from 'vitest';
 import { ProfileCard } from './ProfileCard';
-import type { ProfileStats } from './ProfileCard.types';
+import type { ProfileStatsProps } from './ProfileCard.types';
 
 describe('ProfileCard', () => {
   const defaultProps = {
@@ -12,7 +12,7 @@ describe('ProfileCard', () => {
       courses: 10,
       points: 2500,
       ranking: 15,
-    } as ProfileStats,
+    } as ProfileStatsProps,
   };
 
   it('renders with all props correctly', () => {
@@ -24,10 +24,12 @@ describe('ProfileCard', () => {
       />
     );
 
-    expect(screen.getByTestId('profile')).toBeInTheDocument();
-    expect(screen.getByTestId('profile-name')).toHaveTextContent('John Doe');
-    expect(screen.getByTestId('profile-username')).toHaveTextContent('@johndoe');
-    expect(screen.getByTestId('profile-role')).toHaveTextContent('Developer');
+    const article = screen.getByRole('article', { name: /profile card for john doe/i });
+    expect(article).toBeInTheDocument();
+    
+    expect(screen.getByRole('heading', { name: /john doe/i })).toBeInTheDocument();
+    expect(screen.getByText(/@johndoe/i)).toBeInTheDocument();
+    expect(screen.getByText(/developer/i)).toBeInTheDocument();
   });
 
   it('renders avatar with correct alt text', () => {
@@ -39,11 +41,9 @@ describe('ProfileCard', () => {
       />
     );
 
-    const avatar = screen.getByTestId('profile-avatar');
+    const avatar = screen.getByRole('img', { name: /john doe's avatar/i });
     expect(avatar).toBeInTheDocument();
-    const img = avatar.querySelector('img');
-    expect(img).toHaveAttribute('alt', "John Doe's avatar");
-    expect(img).toHaveAttribute('src', 'https://example.com/avatar.jpg');
+    expect(avatar).toHaveAttribute('src', 'https://example.com/avatar.jpg');
   });
 
   it('shows initials when no avatar URL provided', () => {
@@ -57,29 +57,23 @@ describe('ProfileCard', () => {
 
     const avatar = screen.getByTestId('profile-avatar');
     expect(avatar).toBeInTheDocument();
-    expect(avatar).toHaveTextContent('JD'); // John Doe initials
+    expect(avatar).toHaveTextContent('JD');
   });
 
   it('renders statistics correctly', () => {
     render(<ProfileCard {...defaultProps} data-testid="profile" />);
 
-    const stats = screen.getByTestId('profile-stats');
-    expect(stats).toBeInTheDocument();
+    const statsRegion = screen.getByRole('region', { name: /user statistics/i });
+    expect(statsRegion).toBeInTheDocument();
 
-    const courses = screen.getByTestId('profile-stat-courses');
-    expect(courses).toBeInTheDocument();
-    expect(courses).toHaveTextContent('10');
-    expect(courses).toHaveTextContent('Courses');
+    expect(screen.getByText('10')).toBeInTheDocument();
+    expect(screen.getByText(/courses/i)).toBeInTheDocument();
 
-    const points = screen.getByTestId('profile-stat-points');
-    expect(points).toBeInTheDocument();
-    expect(points).toHaveTextContent('2,500'); // formatted with locale
-    expect(points).toHaveTextContent('Points');
+    expect(screen.getByText('2,500')).toBeInTheDocument();
+    expect(screen.getByText(/points/i)).toBeInTheDocument();
 
-    const ranking = screen.getByTestId('profile-stat-ranking');
-    expect(ranking).toBeInTheDocument();
-    expect(ranking).toHaveTextContent('15th');
-    expect(ranking).toHaveTextContent('Ranking');
+    expect(screen.getByText('15th')).toBeInTheDocument();
+    expect(screen.getByText(/ranking/i)).toBeInTheDocument();
   });
 
   it('handles missing role gracefully', () => {
@@ -93,10 +87,10 @@ describe('ProfileCard', () => {
       />
     );
 
-    expect(screen.getByTestId('profile')).toBeInTheDocument();
-    expect(screen.getByTestId('profile-name')).toHaveTextContent('Jane Doe');
-    expect(screen.getByTestId('profile-username')).toHaveTextContent('@janedoe');
-    expect(screen.queryByTestId('profile-role')).not.toBeInTheDocument();
+    expect(screen.getByRole('article')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /jane doe/i })).toBeInTheDocument();
+    expect(screen.getByText(/@janedoe/i)).toBeInTheDocument();
+    expect(screen.queryByText(/developer/i)).not.toBeInTheDocument();
   });
 
   it('hides stats when showStats is false', () => {
@@ -108,8 +102,8 @@ describe('ProfileCard', () => {
       />
     );
 
-    expect(screen.getByTestId('profile')).toBeInTheDocument();
-    expect(screen.queryByTestId('profile-stats')).not.toBeInTheDocument();
+    expect(screen.getByRole('article')).toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: /user statistics/i })).not.toBeInTheDocument();
   });
 
   it('handles long names with proper truncation', () => {
@@ -122,9 +116,8 @@ describe('ProfileCard', () => {
       />
     );
 
-    const nameElement = screen.getByTestId('profile-name');
+    const nameElement = screen.getByRole('heading', { name: new RegExp(longName, 'i') });
     expect(nameElement).toBeInTheDocument();
-    expect(nameElement).toHaveTextContent(longName);
     expect(nameElement).toHaveAttribute('title', longName);
   });
 
@@ -138,9 +131,8 @@ describe('ProfileCard', () => {
       />
     );
 
-    const usernameElement = screen.getByTestId('profile-username');
+    const usernameElement = screen.getByText(`@${longUsername}`);
     expect(usernameElement).toBeInTheDocument();
-    expect(usernameElement).toHaveTextContent(`@${longUsername}`);
     expect(usernameElement).toHaveAttribute('title', longUsername);
   });
 
@@ -156,7 +148,7 @@ describe('ProfileCard', () => {
         data-testid="profile"
       />
     );
-    expect(screen.getByTestId('profile')).toBeInTheDocument();
+    expect(screen.getByRole('article')).toBeInTheDocument();
   });
 
   it.each([
@@ -171,7 +163,7 @@ describe('ProfileCard', () => {
         data-testid="profile"
       />
     );
-    expect(screen.getByTestId('profile')).toBeInTheDocument();
+    expect(screen.getByRole('article')).toBeInTheDocument();
   });
 
   it('formats ranking correctly for special positions', () => {
@@ -188,7 +180,7 @@ describe('ProfileCard', () => {
     ];
 
     testCases.forEach(({ ranking, expected }) => {
-      const { rerender } = render(
+      const { unmount } = render(
         <ProfileCard
           {...defaultProps}
           stats={{ ...defaultProps.stats, ranking }}
@@ -196,10 +188,8 @@ describe('ProfileCard', () => {
         />
       );
 
-      const rankingElement = screen.getByTestId('profile-stat-ranking');
-      expect(rankingElement).toHaveTextContent(expected);
-
-      rerender(<></>); // Clean up for next iteration
+      expect(screen.getByText(expected)).toBeInTheDocument();
+      unmount();
     });
   });
 
@@ -213,13 +203,21 @@ describe('ProfileCard', () => {
       />
     );
 
-    const stats = screen.getByTestId('profile-stats');
-    expect(stats).toBeInTheDocument();
+    const statsRegion = screen.getByRole('region', { name: /user statistics/i });
+    expect(statsRegion).toBeInTheDocument();
 
-    // Should show default values (0)
-    expect(screen.getByTestId('profile-stat-courses')).toHaveTextContent('0');
-    expect(screen.getByTestId('profile-stat-points')).toHaveTextContent('0');
-    expect(screen.getByTestId('profile-stat-ranking')).toHaveTextContent('-');
+    // Use data-testid for specific stats since there are multiple "0" values
+    const coursesElement = screen.getByTestId('profile-stat-courses');
+    expect(coursesElement).toHaveTextContent('0');
+    expect(coursesElement).toHaveTextContent('Courses');
+
+    const pointsElement = screen.getByTestId('profile-stat-points');
+    expect(pointsElement).toHaveTextContent('0');
+    expect(pointsElement).toHaveTextContent('Points');
+
+    const rankingElement = screen.getByTestId('profile-stat-ranking');
+    expect(rankingElement).toHaveTextContent('-');
+    expect(rankingElement).toHaveTextContent('Ranking');
   });
 
   it('handles single-word names for initials', () => {
@@ -270,14 +268,13 @@ describe('ProfileCard', () => {
       />
     );
 
-    // Check avatar alt text
-    const avatar = screen.getByTestId('profile-avatar');
-    const img = avatar.querySelector('img');
-    expect(img).toHaveAttribute('alt', "John Doe's avatar");
+    const article = screen.getByRole('article', { name: /profile card for john doe/i });
+    expect(article).toBeInTheDocument();
 
-    // Check that text elements are properly structured
-    expect(screen.getByTestId('profile-name')).toBeInTheDocument();
-    expect(screen.getByTestId('profile-username')).toBeInTheDocument();
-    expect(screen.getByTestId('profile-role')).toBeInTheDocument();
+    const avatar = screen.getByRole('img', { name: /john doe's avatar/i });
+    expect(avatar).toBeInTheDocument();
+
+    const statsRegion = screen.getByRole('region', { name: /user statistics/i });
+    expect(statsRegion).toBeInTheDocument();
   });
 });
