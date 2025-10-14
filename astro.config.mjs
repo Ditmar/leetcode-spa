@@ -5,7 +5,7 @@ export default defineConfig({
   integrations: [
     react({
       experimentalReactChildren: true,
-    })
+    }),
   ],
   vite: {
     optimizeDeps: {
@@ -14,7 +14,7 @@ export default defineConfig({
         '@mui/icons-material',
         '@emotion/react',
         '@emotion/styled',
-        '@emotion/cache'
+        '@emotion/cache',
       ],
     },
     ssr: {
@@ -23,7 +23,7 @@ export default defineConfig({
         '@mui/icons-material',
         '@mui/system',
         '@mui/base',
-        '@mui/utils'
+        '@mui/utils',
       ],
     },
   },

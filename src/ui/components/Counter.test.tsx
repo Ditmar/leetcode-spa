@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
+
 import Counter from './Counter';
 
 describe('Counter Component', () => {

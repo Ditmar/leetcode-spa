@@ -1,12 +1,8 @@
-import ThemeProvider from '../src/style-library/provider/MuiThemeProvider';
 import { FC } from 'react';
 
-interface PreviewDecoratorProps {
-  Story: FC;
-  context: any;
-}
+import ThemeProvider from '../src/style-library/provider/MuiThemeProvider';
 
-const previewDecorator = (Story: FC, context: any) => {
+const previewDecorator = (Story: FC) => {
   return (
     <ThemeProvider>
       <Story />

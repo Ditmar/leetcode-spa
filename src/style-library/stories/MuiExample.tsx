@@ -1,3 +1,4 @@
+import { Favorite as FavoriteIcon, Share as ShareIcon, Add as AddIcon } from '@mui/icons-material';
 import {
   Button,
   Card,
@@ -9,7 +10,6 @@ import {
   Chip,
   IconButton,
 } from '@mui/material';
-import { Favorite as FavoriteIcon, Share as ShareIcon, Add as AddIcon } from '@mui/icons-material';
 import { useState } from 'react';
 
 export default function MuiExample() {

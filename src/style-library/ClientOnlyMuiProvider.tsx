@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import type { ReactNode } from 'react';
+
 import MuiThemeProvider from './provider/MuiThemeProvider';
+
+import type { ReactNode } from 'react';
 
 interface ClientOnlyMuiProviderProps {
   children: ReactNode;

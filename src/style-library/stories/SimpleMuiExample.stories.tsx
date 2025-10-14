@@ -1,6 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import SimpleMuiExample from './SimpleMuiExample';
 import MuiThemeProvider from '../provider/MuiThemeProvider';
+
+import SimpleMuiExample from './SimpleMuiExample';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'Theme/SimpleMuiExample',

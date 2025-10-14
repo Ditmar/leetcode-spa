@@ -1,7 +1,9 @@
-import { render, screen, waitFor } from '../../test/test-utils';
-import { describe, it, expect, vi } from 'vitest';
-import userEvent from '@testing-library/user-event';
 import { createTheme } from '@mui/material/styles';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect } from 'vitest';
+
+import { render, screen } from '../../test/test-utils';
+
 import SimpleMuiExample from './SimpleMuiExample';
 
 describe('SimpleMuiExample Component - Advanced Tests', () => {
