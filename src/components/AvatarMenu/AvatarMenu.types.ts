@@ -12,7 +12,7 @@ export interface AvatarMenuItem {
 	menuItemProps?: Omit<MuiMenuItemProps, 'onClick'>;
 }
 
-export interface AvatarMenuProps {
+export interface PropsAvatarMenu {
 	avatarUrl: string;
 	username: string;
 	menuItems?: AvatarMenuItem[];
@@ -21,7 +21,7 @@ export interface AvatarMenuProps {
 	'data-testid'?: string;
 }
 
-export interface StyledAvatarMenuProps {
+export interface PropsStyledAvatarMenu {
 	$isOpen: boolean;
 	$fullWidth: boolean;
 }

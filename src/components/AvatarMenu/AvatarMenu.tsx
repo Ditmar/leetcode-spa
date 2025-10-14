@@ -1,11 +1,11 @@
 import React from 'react';
 import { Avatar, Menu, MenuItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
-import type { AvatarMenuProps } from './AvatarMenu.types';
+import type { PropsAvatarMenu } from './AvatarMenu.types';
 import { DEFAULT_AVATAR_MENU_ITEMS } from './AvatarMenu.constants';
 import { AvatarMenuRoot, AvatarContainer, TriangleIndicator } from './AvatarMenu.styles';
 import { useAvatarMenu } from './AvatarMenu.hook';
 
-export const AvatarMenu: React.FC<AvatarMenuProps> = ({
+export const AvatarMenu: React.FC<PropsAvatarMenu> = ({
 	avatarUrl,
 	username,
 	menuItems = DEFAULT_AVATAR_MENU_ITEMS,
