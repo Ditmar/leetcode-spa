@@ -1,0 +1,40 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs';
+import { FormInput } from './FormInput';
+import * as FormInputStories from './FormInput.stories';
+
+<Meta of={FormInputStories} />
+
+# 🖊️ FormInput
+
+Componente reutilizable para mostrar campos de entrada en formularios con bordes personalizados, soporte para variantes y un diseño elegante basado en Figma.
+
+---
+
+## 🎯 Propósito del componente
+
+El componente **FormInput** fue diseñado para representar campos como "Mail Id", "Username" y "Password" con un estilo visual distintivo, basado fielmente en los diseños de Figma.  
+Cumple con los principios de:
+
+- **Component-Driven Development (CDD)**
+- **Diseño pixel-perfect** según Figma
+- **Accesibilidad WCAG AA**
+- **Extensibilidad y consistencia con MUI**
+
+---
+
+## ✨ Características principales
+
+- **Dos variantes visuales:** `outlined` y `filled` (definidas en `.constants.ts`)
+- **Tres tamaños:** `small`, `medium`, `large`
+- **Tres tipos:** `text`, `email`, `password`
+- **Diseño fiel a Figma:** dimensiones y colores aproximados
+- **Texto dinámico:** placeholder con cambio de color según estado
+- **Accesibilidad integrada:** soporte para `aria-label` y `aria-invalid`
+
+---
+
+## 🚀 Instalación y uso
+
+### Importación
+```tsx
+import { FormInput } from '@/components/FormInput';
