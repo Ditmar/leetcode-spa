@@ -9,22 +9,20 @@ export const TimerWrapper = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
   backgroundColor: 'transparent',
   padding: theme.spacing(1),
-  flexWrap: 'nowrap', // ❗ Mantiene diseño horizontal
-
-  // No cambiamos a columna en móviles
+  flexWrap: 'nowrap',
 }));
 
 export const IconWrapper = styled(Box)(({ theme }) => ({
-  width: '50px',
-  height: '50px',
+  width: theme.spacing(6.25), // 50px
+  height: theme.spacing(6.25),
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
 
   [theme.breakpoints.down('sm')]: {
-    width: '40px',
-    height: '40px',
+    width: theme.spacing(5), // 40px
+    height: theme.spacing(5),
   },
 }));
 
@@ -33,12 +31,12 @@ export const TimerText = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
   fontSize: '2.5rem',
   color: '#A9A9A9',
-  textTransform: 'capitalize',       
-  letterSpacing: 'normal', 
-  lineHeight: '48px',
+  textTransform: 'capitalize',
+  letterSpacing: 'normal',
+  lineHeight: theme.spacing(6), // 48px
   textAlign: 'left',
-  width: '193px',
-  height: '48px',
+  width: theme.spacing(24.125), // 193px
+  height: theme.spacing(6),     // 48px
   whiteSpace: 'nowrap',
 
   [theme.breakpoints.down('sm')]: {

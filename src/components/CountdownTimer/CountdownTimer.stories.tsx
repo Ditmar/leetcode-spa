@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta: Meta<typeof CountdownTimer> = {
   title: 'Components/CountdownTimer',
   component: CountdownTimer,
+  //tags: ['autodocs'], // Esto permite que Storybook genere documentación automáticamente
   argTypes: {
     seconds: { control: 'number' },
     onComplete: { action: 'completed' },
@@ -11,11 +12,12 @@ const meta: Meta<typeof CountdownTimer> = {
 };
 
 export default meta;
+
 type Story = StoryObj<typeof CountdownTimer>;
 
 export const Default: Story = {
   args: {
-    seconds: 1230, // 20:30
+    seconds: 1230,
   },
 };
 

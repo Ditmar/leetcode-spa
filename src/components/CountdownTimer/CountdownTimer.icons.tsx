@@ -1,16 +1,19 @@
 import React from 'react';
 
-export const AlarmClockIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ className }) => (
+export const AlarmClockIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
   <svg
     className={className}
     width="100%"
     height="100%"
     viewBox="0 0 24 24"
     fill="none"
-    stroke='#ae8cfa'
+    stroke="#ae8cfa"
     strokeWidth="1.5"
     strokeLinecap="round"
     strokeLinejoin="round"
+    role="img"
+    aria-label="Ícono de reloj despertador"
+    {...props}
   >
     <circle cx="12" cy="13" r="10.25" />
     <path d="M12 9v4l2 2" />
