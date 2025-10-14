@@ -10,7 +10,6 @@ export enum StatsCardVariant {
   SECONDARY = 'secondary',
 }
 
-
 export enum StatsCardSize {
   SMALL = 'small',
   MEDIUM = 'medium',
