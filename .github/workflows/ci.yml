@@ -5,11 +5,11 @@ on:
     branches:
       - '**'
 
-# Permisos necesarios para el GITHUB_TOKEN
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
+  actions: read
 
 env:
   BASE_URL_STORYBOOK: https://ditmar.github.io/leetcode-storybook
@@ -75,27 +75,22 @@ jobs:
           echo "SANITIZED_BRANCH_NAME=${SANITIZED_BRANCH_NAME}" >> "$GITHUB_OUTPUT"
         id: sanitize_branch_name
 
-      - name: Deploy to GitHub Pages (Main branch)
-        if: github.ref_name == 'main'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-          force_orphan: true
-
+      # Solo para ramas que no sean main - usar el método peaceiris
       - name: Deploy Storybook to branch
         if: github.ref_name != 'main'
         uses: peaceiris/actions-gh-pages@v4
         with:
+          # Usar PAT si GITHUB_TOKEN falla
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          # github_token: ${{ secrets.GH_TOKEN }}  # Descomenta esta línea si necesitas usar PAT
           publish_dir: ./storybook-static
           destination_dir: ${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
           keep_files: true
-      - name: Upload Pages artifact
+
+      # Solo para main - usar el método nativo de GitHub Pages
+      - name: Upload Pages artifact (Main branch only)
         if: github.ref_name == 'main'
         uses: actions/upload-pages-artifact@v3
         with:
