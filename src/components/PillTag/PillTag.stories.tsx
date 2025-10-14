@@ -1,32 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { PillTag } from './PillTag';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Box, CssBaseline } from '@mui/material';
-import { colors, typography } from '../../globals';
-
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: colors.primary.main,
-            light: colors.primary.light,
-            dark: colors.primary.dark,
-            contrastText: colors.primary.contrastText,
-        },
-        secondary: {
-            main: colors.secondary.main,
-            light: colors.secondary.light,
-            dark: colors.secondary.dark,
-            contrastText: colors.secondary.contrastText,
-        },
-        background: {
-            default: colors.background.default,
-            paper: colors.background.paper,
-        },
-    },
-    typography: {
-        fontFamily: typography.fontFamily.primary,
-    },
-});
+import { Box } from '@mui/material';
 
 const meta: Meta<typeof PillTag> = {
     title: 'Components/PillTag',
@@ -36,32 +10,57 @@ const meta: Meta<typeof PillTag> = {
         docs: {
             description: {
                 component: `
-PillTag Component usando Design Tokens globales (src/globals/).
+Reusable pill/tag component to display categories like "Courses" and "Test" in a rounded chip style.
 
-**Características:**
-- Tokens centralizados en src/globals/
-- Pixel-perfect según Figma
-- WCAG AA compliant
-- 10 tests unitarios
+**Requirements fulfilled:**
+- ✅ Props: label (string) and variant (primary/secondary)
+- ✅ Uses MUI Chip with styled()
+- ✅ Design system tokens (no hardcoded values)
+- ✅ Keyboard accessible
+- ✅ Unit tests with data-testid
+- ✅ Storybook stories for each variant
+- ✅ Long label handling (wrap/truncate)
                 `,
             },
+        },
+        backgrounds: {
+            default: 'dark',
+            values: [
+                { name: 'dark', value: '#4A4A4A' },
+                { name: 'light', value: '#F5F5F5' },
+            ],
         },
     },
     argTypes: {
         label: {
             control: 'text',
-            description: 'Texto a mostrar en el tag',
+            description: 'Text to display in the tag',
+            table: {
+                type: { summary: 'string' },
+            },
         },
         variant: {
             control: 'radio',
             options: ['primary', 'secondary'],
-            description: 'Variante visual',
+            description: 'Visual variant of the tag (defined in constants)',
+            table: {
+                type: { summary: "'primary' | 'secondary'" },
+                defaultValue: { summary: "'primary'" },
+            },
         },
         clickable: {
             control: 'boolean',
+            description: 'Makes the tag clickable',
         },
         disabled: {
             control: 'boolean',
+            description: 'Disables the tag',
+        },
+        onDelete: {
+            description: 'Callback fired when delete icon is clicked',
+        },
+        onClick: {
+            description: 'Callback fired when tag is clicked',
         },
     },
 };
@@ -69,119 +68,187 @@ PillTag Component usando Design Tokens globales (src/globals/).
 export default meta;
 type Story = StoryObj<typeof PillTag>;
 
+/**
+ * Primary variant - Displays "Courses" category
+ * Border radius: Top-right corner is square (0px)
+ */
 export const Primary: Story = {
-    render: (args) => (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Box sx={{ p: 4 }}>
-                <PillTag {...args} />
-            </Box>
-        </ThemeProvider>
-    ),
     args: {
         label: 'Courses',
         variant: 'primary',
     },
 };
 
+/**
+ * Secondary variant - Displays "Test" category
+ * Border radius: Bottom-left corner is square (0px)
+ */
 export const Secondary: Story = {
-    render: (args) => (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Box sx={{ p: 4 }}>
-                <PillTag {...args} />
-            </Box>
-        </ThemeProvider>
-    ),
     args: {
         label: 'Test',
         variant: 'secondary',
     },
 };
 
+/**
+ * Long Label - Demonstrates text truncation
+ * Shows ellipsis (...) when text exceeds container width
+ */
+export const LongLabel: Story = {
+    args: {
+        label: 'This is an extremely long label that will be truncated with ellipsis',
+        variant: 'primary',
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Long labels are automatically truncated with ellipsis (...).',
+            },
+        },
+    },
+};
+
+/**
+ * Clickable - Interactive tag with onClick handler
+ * Keyboard accessible (Enter/Space keys)
+ */
 export const Clickable: Story = {
-    render: (args) => (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Box sx={{ p: 4 }}>
-                <PillTag {...args} />
-            </Box>
-        </ThemeProvider>
-    ),
     args: {
         label: 'Click me',
         variant: 'primary',
         clickable: true,
-        onClick: () => console.log('Clicked!'),
+        onClick: () => {
+            console.log('Tag clicked!');
+            alert('Tag clicked!');
+        },
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Clickable tag with hover effect. Press Enter or Space when focused.',
+            },
+        },
     },
 };
 
+/**
+ * Deleteable - Tag with delete icon
+ * Shows delete icon (X) on the right
+ */
 export const Deleteable: Story = {
-    render: (args) => (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Box sx={{ p: 4 }}>
-                <PillTag {...args} />
-            </Box>
-        </ThemeProvider>
-    ),
     args: {
         label: 'Delete me',
         variant: 'secondary',
-        onDelete: () => console.log('Deleted!'),
+        onDelete: () => {
+            console.log('Delete clicked!');
+            alert('Delete clicked!');
+        },
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Tag with delete functionality. Click the X icon to delete.',
+            },
+        },
     },
 };
 
+/**
+ * Disabled - Non-interactive disabled state
+ * Reduced opacity and no pointer events
+ */
 export const Disabled: Story = {
-    render: (args) => (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Box sx={{ p: 4 }}>
-                <PillTag {...args} />
-            </Box>
-        </ThemeProvider>
-    ),
     args: {
         label: 'Disabled',
+        variant: 'primary',
         disabled: true,
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Disabled state with reduced opacity. Not interactive.',
+            },
+        },
     },
 };
 
-export const Multiple: Story = {
+/**
+ * Multiple Tags - Example usage with multiple tags
+ * Shows how tags work together in a container
+ */
+export const MultipleTags: Story = {
     render: () => (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Box sx={{ p: 4, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                <PillTag label="React" variant="primary" />
-                <PillTag label="TypeScript" variant="secondary" />
-                <PillTag label="Astro" variant="primary" />
-                <PillTag label="MUI" variant="secondary" />
-            </Box>
-        </ThemeProvider>
+        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+            <PillTag label="React" variant="primary" />
+            <PillTag label="TypeScript" variant="secondary" />
+            <PillTag label="Astro" variant="primary" />
+            <PillTag label="MUI" variant="secondary" />
+        </Box>
     ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'Multiple tags displayed together with gap spacing.',
+            },
+        },
+    },
 };
-export const Comparison: Story = {
-    decorators: [
-        (Story) => (
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Box
-                    sx={{
-                        padding: 4,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 5,
-                    }}
-                >
-                    <Story />
-                </Box>
-            </ThemeProvider>
-        ),
-    ],
+
+/**
+ * Variant Comparison - Side-by-side comparison
+ * Shows visual differences between primary and secondary
+ */
+export const VariantComparison: Story = {
     render: () => (
-        <>
-            <PillTag label="Courses" variant="primary" />
-            <PillTag label="Test" variant="secondary" />
-        </>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 7.5 }}>
+            <Box>
+                <PillTag label="Courses" variant="primary" />
+            </Box>
+            <Box>
+                <PillTag label="Test" variant="secondary" />
+            </Box>
+        </Box>
     ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'Comparison between primary and secondary variants.',
+            },
+        },
+    },
+};
+
+/**
+ * Keyboard Accessibility Demo - Interactive example
+ * Use Tab to focus, Enter/Space to activate
+ */
+export const KeyboardAccessible: Story = {
+    render: () => (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <p style={{ color: '#666', marginBottom: '8px' }}>
+                <strong>Keyboard Navigation:</strong> Tab to focus, Enter/Space to click
+            </p>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+                <PillTag
+                    label="Press Enter"
+                    variant="primary"
+                    clickable
+                    onClick={() => alert('Activated with keyboard!')}
+                />
+                <PillTag
+                    label="Press Space"
+                    variant="secondary"
+                    clickable
+                    onClick={() => alert('Activated with keyboard!')}
+                />
+            </Box>
+        </Box>
+    ),
+    parameters: {
+        docs: {
+            description: {
+                story: 'Demonstrates full keyboard accessibility (Tab, Enter, Space keys).',
+            },
+        },
+    },
 };

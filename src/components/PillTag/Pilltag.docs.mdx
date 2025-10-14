@@ -6,31 +6,76 @@ import * as PillTagStories from './PillTag.stories';
 
 # PillTag
 
-Componente reutilizable para mostrar categorías, tags o etiquetas en formato de píldora (pill/chip) con bordes redondeados y gradient de texto.
+Componente reutilizable para mostrar categorías, tags o etiquetas en formato de píldora (pill/chip) con bordes redondeados, sombras suaves y un gradiente de texto elegante.
 
-## Propósito del componente
+---
 
-Implementar un componente de etiqueta/píldora reutilizable para mostrar categorías como "Courses" y "Test" en un estilo de chip redondeado, siguiendo:
+## 🎯 Propósito del componente
 
-- Metodología **Component-Driven Development (CDD)**
-- Diseño **pixel-perfect** según Figma
-- Cumplimiento de requisitos técnicos del proyecto
-- Extensibilidad mediante props de MUI Chip
+El componente **PillTag** fue diseñado para representar categorías como “Courses” o “Test” con un estilo visual distintivo, basado fielmente en los diseños de Figma.  
+Cumple con los principios de:
 
-## Características principales
+- **Component-Driven Development (CDD)**
+- **Diseño pixel-perfect** según Figma
+- **Accesibilidad WCAG AA**
+- **Extensibilidad y consistencia con MUI**
+
+---
+
+## 🎨 Figma Specifications
+
+### 🔹 Primary Variant (Courses)
+
+**Container (Rectangle 2):**
+- Width: **251.51px**
+- Height: **85.1px**
+- Border Radius: **Top-right 0px**, otros **42.55px**
+- Background: **#FFFFFF**
+- Shadow: **Y: 18.91px**, **Blur: 66.19px**, **Color: #000000 (15%)**
+
+**Text (Courses):**
+- Font: **Poppins**, Weight: **500 (Medium)**
+- Size: **28.37px**
+- Line Height: **100%**
+- Alignment: **Center**
+- Gradient: **#B23DEB → #DE8FFF**
+
+---
+
+### 🔸 Secondary Variant (Test)
+
+**Container (Rectangle 1):**
+- Width: **227.17px**
+- Height: **76.86px**
+- Border Radius: **Bottom-left 0px**, otros **38.43px**
+- Background: **#FFFFFF**
+- Shadow: **Y: 17.08px**, **Blur: 59.78px**, **Color: #000000 (15%)**
+
+**Text (Test):**
+- Font: **Poppins**, Weight: **500 (Medium)**
+- Size: **25.62px**
+- Line Height: **100%**
+- Alignment: **Center**
+- Gradient: **#B23DEB → #DE8FFF**
+
+---
+
+## ⚙️ Características principales
 
 - **Dos variantes visuales:** `primary` y `secondary` (definidas en `.constants.ts`)
-- **Diseño exacto según Figma:** dimensiones, colores, sombras específicas
-- **Gradient de texto:** Linear gradient #B23DEB → #DE8FFF con WebKit
-- **Fondo blanco:** #FFFFFF con drop shadow inferior para efecto elevado
-- **Bordes redondeados asimétricos:** esquinas específicas según variante
-- **Truncado automático:** texto largo se corta con ellipsis (...)
-- **Accesibilidad WCAG AA:** keyboard navigation, focus visible, ARIA
-- **Tests unitarios:** 14 tests con Vitest + Testing Library
-- **Props extendiendo MUI:** hereda todas las props de ChipProps
-- **Validaciones robustas:** label vacío, variant inválido con fallbacks
+- **Diseño fiel a Figma:** dimensiones, radios y sombras exactas
+- **Texto con gradiente lineal:** de `#B23DEB` a `#DE8FFF` usando `WebKit`
+- **Fondo blanco con sombra:** efecto de elevación limpio y moderno
+- **Bordes asimétricos:** reflejando la personalidad de cada variante
+- **Truncado automático:** textos largos se acortan con `...`
+- **Compatibilidad MUI:** extiende `ChipProps` para flexibilidad total
+- **Accesibilidad integrada:** soporte de teclado, `focus visible`, ARIA
+- **Testing sólido:** 14 pruebas con Vitest + Testing Library
+- **Fallbacks seguros:** en caso de label vacío o variante inválida
 
-## Instalación y uso
+---
+
+## 📦 Instalación y uso
 
 ### Importación
 ```tsx
