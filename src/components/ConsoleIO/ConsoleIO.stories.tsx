@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ConsoleIO from './ConsoleIO';
+import { ConsoleIO } from './ConsoleIO';
 import MuiThemeProvider from '../../style-library/provider/MuiThemeProvider'; // ajusta la ruta si es necesario
 
 const meta: Meta<typeof ConsoleIO> = {
