@@ -13,13 +13,13 @@ const meta: Meta<typeof PillTag> = {
 Reusable pill/tag component to display categories like "Courses" and "Test" in a rounded chip style.
 
 **Requirements fulfilled:**
-- ✅ Props: label (string) and variant (primary/secondary)
-- ✅ Uses MUI Chip with styled()
-- ✅ Design system tokens (no hardcoded values)
-- ✅ Keyboard accessible
-- ✅ Unit tests with data-testid
-- ✅ Storybook stories for each variant
-- ✅ Long label handling (wrap/truncate)
+- Props: label (string) and variant (primary/secondary)
+- Uses MUI Chip with styled()
+- Design system tokens (no hardcoded values)
+- Keyboard accessible
+- Unit tests with data-testid
+- Storybook stories for each variant
+- Long label handling (wrap/truncate)
                 `,
             },
         },
@@ -67,33 +67,18 @@ Reusable pill/tag component to display categories like "Courses" and "Test" in a
 
 export default meta;
 type Story = StoryObj<typeof PillTag>;
-
-/**
- * Primary variant - Displays "Courses" category
- * Border radius: Top-right corner is square (0px)
- */
 export const Primary: Story = {
     args: {
         label: 'Courses',
         variant: 'primary',
     },
 };
-
-/**
- * Secondary variant - Displays "Test" category
- * Border radius: Bottom-left corner is square (0px)
- */
 export const Secondary: Story = {
     args: {
         label: 'Test',
         variant: 'secondary',
     },
 };
-
-/**
- * Long Label - Demonstrates text truncation
- * Shows ellipsis (...) when text exceeds container width
- */
 export const LongLabel: Story = {
     args: {
         label: 'This is an extremely long label that will be truncated with ellipsis',
@@ -107,11 +92,6 @@ export const LongLabel: Story = {
         },
     },
 };
-
-/**
- * Clickable - Interactive tag with onClick handler
- * Keyboard accessible (Enter/Space keys)
- */
 export const Clickable: Story = {
     args: {
         label: 'Click me',
@@ -130,11 +110,6 @@ export const Clickable: Story = {
         },
     },
 };
-
-/**
- * Deleteable - Tag with delete icon
- * Shows delete icon (X) on the right
- */
 export const Deleteable: Story = {
     args: {
         label: 'Delete me',
@@ -152,11 +127,6 @@ export const Deleteable: Story = {
         },
     },
 };
-
-/**
- * Disabled - Non-interactive disabled state
- * Reduced opacity and no pointer events
- */
 export const Disabled: Story = {
     args: {
         label: 'Disabled',
@@ -172,10 +142,6 @@ export const Disabled: Story = {
     },
 };
 
-/**
- * Multiple Tags - Example usage with multiple tags
- * Shows how tags work together in a container
- */
 export const MultipleTags: Story = {
     render: () => (
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -193,11 +159,6 @@ export const MultipleTags: Story = {
         },
     },
 };
-
-/**
- * Variant Comparison - Side-by-side comparison
- * Shows visual differences between primary and secondary
- */
 export const VariantComparison: Story = {
     render: () => (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 7.5 }}>
@@ -217,11 +178,6 @@ export const VariantComparison: Story = {
         },
     },
 };
-
-/**
- * Keyboard Accessibility Demo - Interactive example
- * Use Tab to focus, Enter/Space to activate
- */
 export const KeyboardAccessible: Story = {
     render: () => (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
