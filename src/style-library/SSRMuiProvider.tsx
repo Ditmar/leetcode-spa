@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
 import MuiThemeProvider from './provider/MuiThemeProvider';
+
+import type { ReactNode } from 'react';
 
 interface SSRMuiProviderProps {
   children: ReactNode;

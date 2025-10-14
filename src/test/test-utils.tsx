@@ -1,8 +1,10 @@
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { render } from '@testing-library/react';
+
+import type { Theme } from '@mui/material/styles';
 import type { RenderOptions } from '@testing-library/react';
 import type { ReactElement } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
 
 // Crear un tema por defecto para los tests
 const defaultTheme = createTheme({
@@ -18,7 +20,7 @@ const defaultTheme = createTheme({
 });
 
 interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
-  theme?: any;
+  theme?: Theme;
 }
 
 // Wrapper personalizado con Material-UI providers
@@ -27,7 +29,7 @@ const AllTheProviders = ({
   theme = defaultTheme,
 }: {
   children: React.ReactNode;
-  theme?: any;
+  theme?: Theme;
 }) => {
   return (
     <ThemeProvider theme={theme}>
