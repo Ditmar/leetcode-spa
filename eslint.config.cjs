@@ -1,6 +1,4 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from "eslint-plugin-storybook";
-
 const js = require('@eslint/js');
 const astro = require('eslint-plugin-astro');
 const tsParser = require('@typescript-eslint/parser');
@@ -80,7 +78,7 @@ module.exports = [
       ],
       'import/no-duplicates': 'error',
       'import/extensions': ['error', 'ignorePackages', { ts: 'never', tsx: 'never' }],
-      "no-console": "error",
+      'no-console': 'error',
       'import/order': [
         'error',
         {

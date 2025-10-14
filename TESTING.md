@@ -40,18 +40,21 @@ src/
 ## 🛠️ Configuración
 
 ### Vitest Config (`vitest.config.ts`)
+
 - ✅ Entorno jsdom para simular el DOM
 - ✅ Plugin de React para JSX
 - ✅ Globals habilitadas (describe, it, expect)
 - ✅ Setup automático con jest-dom
 
 ### Setup de Testing (`src/test/setup.ts`)
+
 - ✅ jest-dom matchers
 - ✅ Mocks para ResizeObserver
 - ✅ Mocks para window.matchMedia
 - ✅ Mocks para getComputedStyle
 
 ### Test Utils (`src/test/test-utils.tsx`)
+
 - ✅ Render personalizado con ThemeProvider
 - ✅ CssBaseline incluido
 - ✅ Re-exporta todo de @testing-library/react
@@ -59,6 +62,7 @@ src/
 ## 📝 Escribiendo Tests
 
 ### Test Básico
+
 ```tsx
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
@@ -73,6 +77,7 @@ describe('MyComponent', () => {
 ```
 
 ### Test con Material-UI
+
 ```tsx
 import { render, screen } from '../../test/test-utils'; // Usar nuestros utils
 import { describe, it, expect } from 'vitest';
@@ -87,6 +92,7 @@ describe('MyMuiComponent', () => {
 ```
 
 ### Test con User Events
+
 ```tsx
 import { render, screen } from '../../test/test-utils';
 import { describe, it, expect } from 'vitest';
@@ -97,10 +103,10 @@ describe('MyInteractiveComponent', () => {
   it('handles user interactions', async () => {
     const user = userEvent.setup();
     render(<MyInteractiveComponent />);
-    
+
     const button = screen.getByRole('button');
     await user.click(button);
-    
+
     expect(screen.getByText('Clicked!')).toBeInTheDocument();
   });
 });

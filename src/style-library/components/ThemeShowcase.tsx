@@ -1,5 +1,6 @@
-import React from 'react';
 import { Box, Typography, Button, Card, CardContent, Chip, Stack } from '@mui/material';
+import React from 'react';
+
 import { useTheme } from '../hooks/useTheme';
 
 export default function ThemeShowcase() {
@@ -74,21 +75,21 @@ export default function ThemeShowcase() {
               <Box>
                 <Typography variant="h1">Heading 1</Typography>
                 <Typography variant="caption" color="text.secondary">
-                  h1 - {(theme.getTypography('h1') as any)?.fontSize || '2.5rem'}
+                  h1 - {theme.getTypography('h1')?.fontSize || '2.5rem'}
                 </Typography>
               </Box>
 
               <Box>
                 <Typography variant="h2">Heading 2</Typography>
                 <Typography variant="caption" color="text.secondary">
-                  h2 - {(theme.getTypography('h2') as any)?.fontSize || '2rem'}
+                  h2 - {theme.getTypography('h2')?.fontSize || '2rem'}
                 </Typography>
               </Box>
 
               <Box>
                 <Typography variant="h3">Heading 3</Typography>
                 <Typography variant="caption" color="text.secondary">
-                  h3 - {(theme.getTypography('h3') as any)?.fontSize || '1.75rem'}
+                  h3 - {theme.getTypography('h3')?.fontSize || '1.75rem'}
                 </Typography>
               </Box>
 
@@ -98,7 +99,7 @@ export default function ThemeShowcase() {
                   principal para párrafos.
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  body1 - {(theme.getTypography('body1') as any)?.fontSize || '1rem'}
+                  body1 - {theme.getTypography('body1')?.fontSize || '1rem'}
                 </Typography>
               </Box>
 
@@ -107,7 +108,7 @@ export default function ThemeShowcase() {
                   Body 2 - Texto secundario más pequeño para descripciones.
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  body2 - {(theme.getTypography('body2') as any)?.fontSize || '0.875rem'}
+                  body2 - {theme.getTypography('body2')?.fontSize || '0.875rem'}
                 </Typography>
               </Box>
             </Stack>
