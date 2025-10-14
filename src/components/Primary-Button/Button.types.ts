@@ -1,4 +1,3 @@
-// Button.types.ts
 import type { ButtonProps as MuiButtonProps } from '@mui/material/Button';
 
 export type ButtonVariant = 'primary' | 'secondary';
