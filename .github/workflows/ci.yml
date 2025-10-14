@@ -88,21 +88,17 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
-          destination_dir: ${{ github.ref_name == 'master' && '.' || steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}
+          destination_dir: ${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-          keep_files: ${{ github.ref_name != 'master' }}
+          keep_files: true
           enable_jekyll: false
           allow_empty_commit: false
-          force_orphan: ${{ github.ref_name == 'master' }}
+          force_orphan: false
 
       - name: Show Storybook URL
         run: |
-          if [ "${{ github.ref_name }}" = "master" ]; then
-            echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}"
-          else
-            echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}/"
-          fi
+          echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}/"
 
 
   # build-and-push-docker-image:
