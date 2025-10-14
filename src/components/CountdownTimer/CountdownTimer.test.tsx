@@ -20,7 +20,8 @@ describe('CountdownTimer', () => {
 
   it('formatea correctamente el tiempo como hh:mm:ss', () => {
     render(<CountdownTimer seconds={1230} />);
-    expect(screen.getByText('00:20:30')).toBeInTheDocument();
+    const timerText = screen.getByTestId('countdown-text');
+    expect(timerText).toHaveTextContent('00:20:30');
   });
 
   it('limpia el intervalo al desmontar', () => {
