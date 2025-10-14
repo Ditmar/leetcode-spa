@@ -12,7 +12,7 @@ permissions:
   actions: read
 
 env:
-  BASE_URL_STORYBOOK: https://ditmar.github.io/leetcode-storybook
+  BASE_URL_STORYBOOK: https://ditmar.github.io/leetcode-spa
 jobs:
   quality-checks:
     name: Quality Checks
@@ -75,48 +75,36 @@ jobs:
           echo "SANITIZED_BRANCH_NAME=${SANITIZED_BRANCH_NAME}" >> "$GITHUB_OUTPUT"
         id: sanitize_branch_name
 
-      # Solo para ramas que no sean main - usar el método peaceiris
-      - name: Deploy Storybook to branch
-        if: github.ref_name != 'main'
+      # Desplegar usando peaceiris para todas las ramas
+      - name: Debug - Check build output
+        run: |
+          echo "Branch name: ${{ github.ref_name }}"
+          echo "Sanitized branch name: ${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}"
+          echo "Contents of storybook-static:"
+          ls -la ./storybook-static/
+
+      - name: Deploy Storybook
         uses: peaceiris/actions-gh-pages@v4
         with:
-          # Usar PAT si GITHUB_TOKEN falla
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # github_token: ${{ secrets.GH_TOKEN }}  # Descomenta esta línea si necesitas usar PAT
           publish_dir: ./storybook-static
-          destination_dir: ${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}
+          destination_dir: ${{ github.ref_name == 'master' && '.' || steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-          keep_files: true
-
-      # Solo para main - usar el método nativo de GitHub Pages
-      - name: Upload Pages artifact (Main branch only)
-        if: github.ref_name == 'main'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./storybook-static
+          keep_files: ${{ github.ref_name != 'master' }}
+          enable_jekyll: false
+          allow_empty_commit: false
+          force_orphan: ${{ github.ref_name == 'master' }}
 
       - name: Show Storybook URL
         run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
+          if [ "${{ github.ref_name }}" = "master" ]; then
             echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}"
           else
             echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}/"
           fi
 
-  # Job separado para desplegar con GitHub Pages nativo
-  deploy-pages:
-    name: Deploy to GitHub Pages
-    if: github.ref_name == 'main'
-    runs-on: ubuntu-latest
-    needs: build-storybook
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+
   # build-and-push-docker-image:
   #   name: Build and Push Docker Image
   #   runs-on: ubuntu-latest
