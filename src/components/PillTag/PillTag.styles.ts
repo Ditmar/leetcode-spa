@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import type { ChipProps } from '@mui/material/Chip';
 import type { PillTagVariant } from './PillTag.constants';
-import { pillTagTokens } from './PillTag.constants';
+import { getPillTagTokens } from './PillTag.constants';
 
 interface PillTagStyledProps extends ChipProps {
     pillVariant?: PillTagVariant;
@@ -11,16 +11,17 @@ interface PillTagStyledProps extends ChipProps {
 export const PillTagStyled = styled(Chip, {
     shouldForwardProp: (prop) => prop !== 'pillVariant',
 })<PillTagStyledProps>(({ theme, pillVariant = 'primary' }) => {
-    const dimensions = pillTagTokens.dimensions[pillVariant];
-    const shadows = pillTagTokens.shadows[pillVariant];
+    const tokens = getPillTagTokens(theme);
+    const dimensions = tokens.dimensions[pillVariant];
+    const shadows = tokens.shadows[pillVariant];
 
     return {
-        fontFamily: pillTagTokens.typography.fontFamily,
-        fontWeight: pillTagTokens.typography.fontWeight,
+        fontFamily: tokens.typography.fontFamily,
+        fontWeight: tokens.typography.fontWeight,
         fontStyle: 'normal',
-        lineHeight: pillTagTokens.typography.lineHeight,
+        lineHeight: tokens.typography.lineHeight,
         fontSize: `${dimensions.fontSize}px`,
-        letterSpacing: pillTagTokens.typography.letterSpacing,
+        letterSpacing: tokens.typography.letterSpacing,
         textAlign: 'center',
         textTransform: 'none',
         whiteSpace: 'nowrap',
@@ -28,25 +29,32 @@ export const PillTagStyled = styled(Chip, {
         textOverflow: 'ellipsis',
         border: 'none',
         boxSizing: 'border-box',
+
         width: `${dimensions.width}px`,
         height: `${dimensions.height}px`,
-        backgroundColor: pillTagTokens.colors.background,
+
+        backgroundColor: tokens.colors.background,
+
         borderRadius:
             pillVariant === 'primary'
                 ? `${dimensions.borderRadius} 0px ${dimensions.borderRadius} ${dimensions.borderRadius}`
                 : `${dimensions.borderRadius} ${dimensions.borderRadius} ${dimensions.borderRadius} 0px`,
+
         boxShadow: shadows.default,
+
         padding: theme.spacing(
             dimensions.padding.vertical,
             dimensions.padding.horizontal
         ),
+
         transition: theme.transitions.create(
             ['box-shadow', 'transform'],
             {
-                duration: pillTagTokens.transitions.duration,
-                easing: pillTagTokens.transitions.easing,
+                duration: tokens.transitions.duration,
+                easing: tokens.transitions.easing,
             }
         ),
+
         '& .MuiChip-label': {
             display: 'block',
             width: '100%',
@@ -54,26 +62,30 @@ export const PillTagStyled = styled(Chip, {
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
             padding: 0,
-            background: `linear-gradient(180deg, ${pillTagTokens.colors.gradientStart} 0%, ${pillTagTokens.colors.gradientEnd} 100%)`,
+            background: `linear-gradient(180deg, ${tokens.colors.gradientStart} 0%, ${tokens.colors.gradientEnd} 100%)`,
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
         },
+
         '&:hover': {
             boxShadow: shadows.hover,
-            transform: `translateY(${pillTagTokens.states.hover.translateY}px)`,
+            transform: `translateY(${tokens.states.hover.translateY}px)`,
         },
+
         '&:active': {
             boxShadow: shadows.active,
-            transform: `scale(${pillTagTokens.states.active.scale})`,
+            transform: `scale(${tokens.states.active.scale})`,
         },
+
         '&.Mui-disabled': {
-            opacity: pillTagTokens.states.disabled.opacity,
+            opacity: tokens.states.disabled.opacity,
             pointerEvents: 'none',
             boxShadow: 'none',
         },
+
         '&:focus-visible': {
-            outline: `2px solid ${pillTagTokens.colors.gradientStart}`,
+            outline: `2px solid ${tokens.colors.gradientStart}`,
             outlineOffset: '2px',
         },
     };
