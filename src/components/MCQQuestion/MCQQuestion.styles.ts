@@ -60,9 +60,3 @@ export const OptionsGrid = styled(Box)(({ theme }) => ({
 export const QuestionNumber = styled("span")(({ theme }) => ({
     marginRight: theme.spacing(0.5),
 }));
-
-export const StyledFormControl = styled(FormControl)<FormControlProps>(() => ({
-    width: "100%",
-    margin: 0,
-    padding: 0,
-}));
