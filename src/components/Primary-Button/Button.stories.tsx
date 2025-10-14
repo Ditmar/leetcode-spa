@@ -1,4 +1,3 @@
-// Button.stories.tsx
 import { PrimaryButton } from './Button'; // Ensure the Button component is imported correctly
 import { BUTTON_VARIANTS, BUTTON_SIZES, BUTTON_SHAPES } from './Button.constants';
 

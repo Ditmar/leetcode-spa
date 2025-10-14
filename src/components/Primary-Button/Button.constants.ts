@@ -38,7 +38,6 @@ export const DEFAULT_PROPS = {
   disabled: false,
 } as const;
 
-// Button.constants.ts
 export const VARIANT_COLORS = {
   primary: {
     main: 'linear-gradient(60deg, #B33DEB 13.4%, #DE8FFF 86.6%)',
