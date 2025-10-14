@@ -89,3 +89,4 @@ export const MCQQuestion: React.FC<MCQQuestionProps> = ({
         </>
     );
 };
+
