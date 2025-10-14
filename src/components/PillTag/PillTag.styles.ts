@@ -7,6 +7,7 @@ import { pillTagTokens } from './PillTag.constants';
 interface PillTagStyledProps extends ChipProps {
     pillVariant?: PillTagVariant;
 }
+
 export const PillTagStyled = styled(Chip, {
     shouldForwardProp: (prop) => prop !== 'pillVariant',
 })<PillTagStyledProps>(({ theme, pillVariant = 'primary' }) => {
