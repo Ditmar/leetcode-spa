@@ -1,0 +1,42 @@
+# TestCard
+
+`TestCard` is a flexible card component that can display a **logo**, a **title**, a **description**, and handle **click events**.  
+It supports **vertical and horizontal layouts**, **hover effects**, shadows, and style customization via Material UI.
+
+---
+
+## Props
+
+| Prop       | Type                     | Description                                                                 |
+|------------|-------------------------|----------------------------------------------------------------------------|
+| `logo`     | `string \| ReactNode`   | Image URL or React node to display as a logo                                 |
+| `title`    | `string`                | Main title of the card                                                      |
+| `description` | `string`             | Descriptive text                                                           |
+| `onSelect` | `() => void` (optional) | Callback executed when the card is clicked                                  |
+| `layout`   | `'horizontal' | 'vertical'` (optional) | Card layout; horizontal by default                                          |
+| `...CardProps` | `CardProps` from MUI | Additional Material UI Card props (sx, styles, dimensions, etc.)           |
+
+---
+
+## Customization
+
+- **Dimensions:** Adjust `width`, `height`, `maxWidth`, and `minWidth` via `sx`.  
+- **Borders and shadows:** `borderRadius` and `boxShadow` are customizable through `sx`.  
+- **Padding and spacing:** Use `CARD_PADDING` and `CARD_GAP` for internal content and logo spacing.  
+- **Logo:** Maximum size `LOGO_MAX_SIZE` and `objectFit: contain`.  
+- **Overlay:** Gradient and blur for better text readability on images.  
+- **Hover effects / animations:** Can be applied via `sx` (`transform`, `boxShadow`).
+
+---
+
+## Usage Guidelines
+
+1. Keep titles and descriptions concise to avoid overflow.  
+2. If the logo is a URL, provide an `alt` (defaults to `title`).  
+3. Customize dimensions and style with `sx` according to layout needs.  
+4. For advanced visual effects (hover, shadow, gradient), use `sx` or render props.  
+5. Ensure accessibility, especially for images and clickable elements.
+
+---
+
+This `.docs.mdx` provides a **clear, conceptual reference** for the component, without exporting or rendering stories, perfect for internal documentation or Storybook Docs.
