@@ -1,5 +1,6 @@
 import { styled } from "@mui/material/styles";
-import { Box, FormControlLabel, Radio, Typography } from "@mui/material";
+import { Box, FormControlLabel, Radio, Typography, FormControl } from "@mui/material";
+import type { FormControlProps } from "@mui/material";
 
 export const QuestionContainer = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -10,7 +11,6 @@ export const QuestionContainer = styled(Box)(({ theme }) => ({
     width: "100%",
     margin: 0,
     boxSizing: "border-box",
-    borderRadius: theme.shape.borderRadius,
 }));
 
 export const QuestionText = styled(Typography)(({ theme }) => ({
@@ -26,7 +26,6 @@ export const QuestionText = styled(Typography)(({ theme }) => ({
 }));
 
 export const StyledFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
-    borderRadius: theme.shape.borderRadius,
     margin: 0,
     alignItems: "center",
     padding: theme.spacing(0.5, 1),
@@ -47,4 +46,23 @@ export const StyledRadio = styled(Radio)(({ theme }) => ({
         width: theme.spacing(3.75),
         height: theme.spacing(3.75),
     },
+}));
+
+export const OptionsGrid = styled(Box)(({ theme }) => ({
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: theme.spacing(1.5),
+    [theme.breakpoints.up("sm")]: {
+        gridTemplateColumns: "repeat(2, 1fr)",
+    },
+}));
+
+export const QuestionNumber = styled("span")(({ theme }) => ({
+    marginRight: theme.spacing(0.5),
+}));
+
+export const StyledFormControl = styled(FormControl)<FormControlProps>(() => ({
+    width: "100%",
+    margin: 0,
+    padding: 0,
 }));

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { FormControl, FormLabel, RadioGroup, Box } from "@mui/material";
+import { FormLabel, RadioGroup } from "@mui/material";
 import {
     QuestionContainer,
     QuestionText,
     StyledFormControlLabel,
     StyledRadio,
+    OptionsGrid,
+    QuestionNumber,
+    StyledFormControl,
 } from "./MCQQuestion.styles";
 import type { MCQQuestionProps } from "./MCQQuestion.types";
 
@@ -17,8 +20,8 @@ export const MCQQuestion: React.FC<MCQQuestionProps> = ({
     disabled = false,
 }) => {
     const [internalValue, setInternalValue] = useState<string>("");
-
     const currentValue = selectedValue ?? internalValue;
+    const questionId = `question-${number ?? "label"}`;
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
@@ -43,21 +46,19 @@ export const MCQQuestion: React.FC<MCQQuestionProps> = ({
                 `}
             </style>
 
-            <FormControl
+            <StyledFormControl
                 component="fieldset"
                 disabled={disabled}
                 fullWidth
-                aria-labelledby={`question-${number ?? "label"}`}
-                sx={{ width: "100%", margin: 0, padding: 0 }}
+                aria-labelledby={questionId}
+                aria-describedby={`${questionId}-desc`}
+                aria-disabled={disabled}
+                role="group"
             >
-                <QuestionContainer>
-                    <FormLabel id={`question-${number ?? "label"}`} component="legend">
+                <QuestionContainer tabIndex={0}>
+                    <FormLabel id={questionId} component="legend">
                         <QuestionText variant="subtitle1">
-                            {number && (
-                                <span style={{ marginRight: "-2px" }}>
-                                    {number}.
-                                </span>
-                            )}
+                            {number && <QuestionNumber>{number}.</QuestionNumber>}
                             <span>{question}</span>
                         </QuestionText>
                     </FormLabel>
@@ -66,29 +67,25 @@ export const MCQQuestion: React.FC<MCQQuestionProps> = ({
                         name={`mcq-${number || "question"}`}
                         value={currentValue}
                         onChange={handleChange}
+                        role="radiogroup"
+                        aria-labelledby={questionId}
                     >
-                        <Box
-                            sx={{
-                                display: "grid",
-                                gridTemplateColumns: {
-                                    xs: "1fr",
-                                    sm: options.length > 2 ? "1fr 1fr" : "1fr",
-                                },
-                                gap: 1.5,
-                            }}
-                        >
+                        <OptionsGrid>
                             {options.map((opt) => (
                                 <StyledFormControlLabel
                                     key={opt.value}
                                     value={opt.value}
                                     control={<StyledRadio />}
                                     label={opt.label}
+                                    aria-checked={currentValue === opt.value}
+                                    aria-disabled={disabled}
+                                    role="radio"
                                 />
                             ))}
-                        </Box>
+                        </OptionsGrid>
                     </RadioGroup>
                 </QuestionContainer>
-            </FormControl>
+            </StyledFormControl>
         </>
     );
 };

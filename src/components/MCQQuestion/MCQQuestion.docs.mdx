@@ -1,52 +1,108 @@
-# 🧠 MCQQuestion
+# 🧩 MCQQuestion
 
 El componente **MCQQuestion** representa una pregunta de opción múltiple (Multiple Choice Question).  
-Permite mostrar una pregunta con varias alternativas y seleccionar una única respuesta.  
-Está diseñado con **Material UI**, sigue principios de **accesibilidad (ARIA)** y **diseño responsivo**, y puede integrarse fácilmente con librerías de formularios.
+Permite al usuario seleccionar una única respuesta entre varias opciones disponibles.  
+Está diseñado para ser reutilizable, accesible y fácilmente integrable en entornos de evaluación o cuestionarios interactivos.
 
 ---
 
 ## 🎯 Propósito
 
-El componente se usa para mostrar preguntas de opción múltiple en evaluaciones, cuestionarios o encuestas.  
-Permite controlar o registrar la respuesta seleccionada y está pensado para integrarse con Storybook y pruebas automatizadas.
+El propósito principal del componente es ofrecer una forma estandarizada de mostrar preguntas con múltiples opciones dentro de un sistema de exámenes, encuestas o formularios educativos.
+
+Está desarrollado siguiendo el enfoque de **Component-Driven Development (CDD)**, lo que garantiza:
+
+- Separación clara de responsabilidades.  
+- Facilidad de prueba y mantenimiento.  
+- Reutilización en distintos contextos (Storybook, producción, test, etc.).  
+- Cumplimiento de estándares de accesibilidad (WAI-ARIA).
 
 ---
 
 ## ⚙️ Props
 
-A continuación se detallan todas las props que recibe el componente:
+El componente recibe las siguientes propiedades:
 
-- **`question: string`**  
-  Texto de la pregunta que se mostrará en la parte superior del componente.
-
-- **`options: { label: string; value: string }[]`**  
-  Lista de opciones que se mostrarán como respuestas posibles.  
-  Cada opción tiene:
-  - `label`: el texto visible de la respuesta  
-  - `value`: el valor interno asociado a esa opción  
-
-- **`selectedValue?: string | null`**  
-  Valor actualmente seleccionado.  
-  Si se proporciona, el componente se comporta como **controlado**.  
-  Si no, puede manejar su propio estado interno.
-
-- **`onChange: (value: string) => void`**  
-  Función de devolución de llamada que se ejecuta al seleccionar una opción.  
-  Devuelve el valor (`value`) de la opción elegida.
-
-- **`number?: number`** *(opcional)*  
-  Muestra el número o índice de la pregunta antes del texto.  
-  Ejemplo: “1. What is 2 + 2?”
-
-- **`disabled?: boolean`** *(opcional)*  
-  Deshabilita todas las opciones, impidiendo la interacción.
+- **question**: Texto principal de la pregunta que se mostrará.  
+- **options**: Lista de opciones disponibles para seleccionar.  
+  Cada opción tiene un `label` (texto visible) y un `value` (valor interno asociado).  
+- **selectedValue** *(opcional)*: Valor actualmente seleccionado.  
+  Si se proporciona, el componente actúa en modo **controlado**.  
+- **onChange**: Función que se ejecuta cuando el usuario selecciona una opción.  
+  Devuelve el valor de la opción seleccionada.  
+- **number** *(opcional)*: Número o índice de la pregunta. Se muestra antes del texto (por ejemplo, “1.”).  
+- **disabled** *(opcional)*: Deshabilita todas las opciones e impide la interacción del usuario.
 
 ---
 
-## 💡 Ejemplo básico de uso
+## 🧱 Estructura del componente
 
-Este ejemplo muestra el uso estándar del componente para una sola pregunta:
+El componente está dividido en varios archivos para mantener una arquitectura modular y escalable:
+
+- `MCQQuestion.tsx`: Lógica principal y renderizado del componente.  
+- `MCQQuestion.styles.tsx`: Estilos personalizados utilizando MUI Styled API.  
+- `MCQQuestion.types.ts`: Tipado estricto con TypeScript.  
+- `MCQQuestion.stories.tsx`: Historias de Storybook para visualización.  
+- `MCQQuestion.test.tsx`: Pruebas unitarias con React Testing Library y Vitest.
+
+---
+
+## 🎨 Diseño y estilos
+
+El diseño está basado en **Material UI (MUI)** y utiliza personalización mediante `styled()`.  
+También incluye el uso de las fuentes **Montserrat** (para el texto de la pregunta) y **Syne** (para las opciones).
+
+Características del diseño:
+
+- Disposición vertical con espaciado uniforme.  
+- Uso de `grid` para organizar las opciones de manera adaptable.  
+- Colores coherentes con el tema global.  
+- Una apariencia limpia.  
+- Estilo responsivo, que se adapta automáticamente a pantallas pequeñas.
+
+Estructura visual interna:
+
+```
+<QuestionContainer>
+  <QuestionText> (con número opcional)
+  <RadioGroup>
+    <OptionsGrid>
+      <StyledFormControlLabel> (una opción con su Radio)
+```
+
+---
+
+## ♿ Accesibilidad (A11y)
+
+El componente cumple con los estándares de accesibilidad **WAI-ARIA**, asegurando que sea usable por todos los usuarios, incluidos quienes utilizan tecnologías de asistencia.
+
+Características de accesibilidad:
+
+- Uso de roles semánticos (`radiogroup`, `radio`).  
+- Atributos `aria-labelledby`, `aria-checked` y `aria-disabled`.  
+- Soporte completo para navegación mediante teclado.  
+- Estructura semántica adecuada (`FormLabel`, `fieldset`, `legend`).  
+- Comportamiento predecible y consistente para lectores de pantalla.
+
+---
+
+## 🧪 Pruebas unitarias
+
+El componente está cubierto por pruebas unitarias utilizando **React Testing Library** y **Vitest**.  
+Las pruebas verifican los siguientes comportamientos:
+
+- Renderizado correcto del texto de la pregunta y las opciones.  
+- Ejecución de la función `onChange` al seleccionar una opción.  
+- Actualización del estado controlado mediante la prop `selectedValue`.  
+- Estado deshabilitado cuando `disabled` es `true`.  
+- Validación de roles y atributos ARIA para accesibilidad.  
+- Correcto manejo de texto largo o multilínea.  
+
+Estas pruebas garantizan que el componente sea confiable, accesible y se comporte de forma consistente ante cambios de estado y props.
+
+---
+
+## 📘 Ejemplo de uso
 
 ```tsx
 <MCQQuestion
@@ -59,3 +115,31 @@ Este ejemplo muestra el uso estándar del componente para una sola pregunta:
   ]}
   onChange={(value) => console.log("Selected:", value)}
 />
+```
+
+Este ejemplo muestra un uso básico del componente en un contexto de evaluación o formulario.
+
+---
+
+## 🧰 Uso en Storybook
+
+El componente cuenta con diferentes historias en Storybook para mostrar sus variantes:
+
+- **Default:** Estado normal e interactivo.  
+- **Disabled:** Versión deshabilitada, sin interacción posible.  
+- **LongQuestion:** Ejemplo con texto de pregunta largo.  
+- **MobileLayout:** Vista adaptada a pantallas pequeñas (320px).
+
+Estas historias permiten validar visualmente el diseño, comportamiento y accesibilidad del componente antes de integrarlo en producción.
+
+---
+
+## 🧩 Buenas prácticas aplicadas
+
+- Desarrollo siguiendo **CDD (Component-Driven Development)**.  
+- Tipado estricto con **TypeScript**.  
+- Estilos consistentes y responsivos con **Material UI Styled API**.  
+- Cumplimiento total de estándares de **accesibilidad (ARIA)**.  
+- Pruebas unitarias completas y automatizadas.  
+- Integración con **Storybook** para documentación visual.  
+- Estructura modular, clara y escalable.
