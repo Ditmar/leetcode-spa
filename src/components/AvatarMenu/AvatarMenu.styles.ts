@@ -1,10 +1,11 @@
 import { styled } from '@mui/material/styles';
 import { IconButton, Typography } from '@mui/material';
-import type { StyledAvatarMenuProps } from './AvatarMenu.types';
+import type { PropsStyledAvatarMenu } from './AvatarMenu.types';
+import { theme } from '../../style-library';
 
 export const AvatarMenuRoot = styled(IconButton, {
 	shouldForwardProp: (prop) => prop !== '$fullWidth',
-})<StyledAvatarMenuProps>((props) => {
+})<PropsStyledAvatarMenu>((props) => {
 	return {
 		borderRadius: props.theme.shape.borderRadius,
 		padding: props.theme.spacing(0.5),
@@ -20,9 +21,9 @@ export const AvatarContainer = styled('div')<{
 }>(({ $fullWidth }) => ({
 	display: 'flex',
 	alignItems: 'center',
-	gap: '10px',
+	gap: theme.spacing(1.25),
 	position: 'relative',
-	width: $fullWidth ? '100%' : 'center',
+	width: $fullWidth ? '100%' : 'auto',
 	justifyContent: $fullWidth ? 'flex-end' : 'center',
 }));
 

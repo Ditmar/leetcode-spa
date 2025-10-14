@@ -1,184 +1,205 @@
-import { Meta, Primary, Controls, Canvas, Story} from '@storybook/blocks';
+import { Meta, Primary, Canvas, Controls, Story } from '@storybook/blocks';
 import * as AvatarMenuStories from './AvatarMenu.stories';
+import { AvatarMenu } from './AvatarMenu'
 
 <Meta of={AvatarMenuStories} />
 
 # AvatarMenu
 
-El `AvatarMenu` es un componente de navegación esencial que proporciona un **menú de acciones para el usuario autenticado**, integrado con Material UI. Cumple con los más altos estándares de **accesibilidad** (WAI-ARIA).
+> **Componente**: Menú contextual asociado al usuario autenticado — avatar + menú
 
-Se recomienda su uso en la **esquina superior derecha** de barras de navegación (`AppBar` o `Header`).
-
-<Primary/>
+El **`AvatarMenu`** es un componente de navegación diseñado para mostrar un menú
+contextual asociado al avatar de un usuario autenticado. Está construido con
+**React**, **TypeScript** y **Material UI (MUI)**, y encapsula la lógica de
+acceso, foco y navegación mediante el hook `useAvatarMenu`.
 
 ---
 
-## Uso Básico y Props
+## Objetivos y alcance
 
-A continuación, se muestra la tabla de propiedades y los controles para experimentar con el componente.
+* Proveer un disparador visual (avatar) que abre un **menú accesible** con
+  acciones relacionadas al usuario (perfil, configuración, cierre de sesión).
+* Garantizar **navegación por teclado** y compatibilidad con lectores de pantalla.
+* Ser flexible y personalizable mediante `menuItems`, `avatarProps` y `fullWidth`.
+* Mantener separación de responsabilidades: lógica en el hook, UI en el JSX,
+  estilos en el archivo `styles`.
 
-### Requisitos de Props
+---
 
+## Demostración principal
+
+<Primary />
+
+> El ejemplo principal usa las stories registradas. Usa el panel de Controls para
+> interactuar con las props en tiempo real.
+
+---
+
+## Props y API
+
+## Props manuales
 <table>
   <thead>
     <tr>
-      <th>Propiedad</th>
-      <th align="center">Tipo</th>
-      <th align="center">Requerido</th>
+      <th>Prop</th>
+      <th>Tipo</th>
+      <th>Requerido</th>
       <th>Descripción</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><code>avatarUrl</code></td>
-      <td align="center"><code>string</code></td>
-      <td align="center">Sí</td>
-      <td>URL de la imagen de perfil del usuario.</td>
+      <td>avatarUrl</td>
+      <td><code>string</code></td>
+      <td>Sí</td>
+      <td>URL de la imagen del avatar</td>
     </tr>
     <tr>
-      <td><code>username</code></td>
-      <td align="center"><code>string</code></td>
-      <td align="center">Sí</td>
-      <td>Nombre del usuario (utilizado en el atributo <code>alt</code> del avatar y en etiquetas ARIA).</td>
+      <td>username</td>
+      <td><code>string</code></td>
+      <td>Sí</td>
+      <td>Nombre del usuario para aria-label</td>
     </tr>
     <tr>
-      <td><code>menuItems</code></td>
-      <td align="center"><code>AvatarMenuItem[]</code></td>
-      <td align="center">Opcional</td>
-      <td>Lista de opciones del menú. Por defecto incluye: "Mi Perfil", "Configuración" y "Cerrar Sesión".</td>
+      <td>menuItems</td>
+      <td><code>AvatarMenuItem[]</code></td>
+      <td>No</td>
+      <td>Lista de items del menú</td>
     </tr>
     <tr>
-      <td><code>fullWidth</code></td>
-      <td align="center"><code>boolean</code></td>
-      <td align="center">No</td>
-      <td>Si es <code>true</code>, el botón del menú y su contenido ocuparán todo el ancho disponible.</td>
+      <td>avatarProps</td>
+      <td><code>Omit&lt;MuiAvatarProps, 'src' | 'alt'&gt;</code></td>
+      <td>No</td>
+      <td>Props adicionales para Avatar de MUI</td>
     </tr>
     <tr>
-      <td><code>avatarProps</code></td>
-      <td align="center"><code>MuiAvatarProps</code></td>
-      <td align="center">No</td>
-      <td>Props adicionales (<code>AvatarProps</code>) para personalizar el componente <code>Avatar</code> de Material UI.</td>
+      <td>fullWidth</td>
+      <td><code>boolean</code></td>
+      <td>No</td>
+      <td>Si el trigger ocupa todo el ancho</td>
     </tr>
     <tr>
-      <td><code>data-testid</code></td>
-      <td align="center"><code>string</code></td>
-      <td align="center">No</td>
-      <td>Identificador usado para <em>tests</em> y pruebas automatizadas.</td>
+      <td>data-testid</td>
+      <td><code>string</code></td>
+      <td>No</td>
+      <td>Identificador para pruebas</td>
     </tr>
   </tbody>
 </table>
 
-### Ejemplo de Implementación
+### Estructura de `AvatarMenuItem`
 
-Este ejemplo muestra la integración común dentro de un componente `Header`, utilizando ítems personalizados y la gestión de acciones.
+Cada elemento del menú tiene la siguiente forma (simplificada):
 
-```jsx
-import { AvatarMenu } from './AvatarMenu';
-
-function Header({ user, onLogout }) {
-  const customItems = [
-    { label: "Ver Dashboard", onClick: () => console.log('Dashboard') },
-    { label: "Cerrar Sesión", onClick: onLogout, divider: true },
-  ];
-
-  return (
-    <header style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px', borderBottom: '1px solid #eee' }}>
-      <AvatarMenu
-        avatarUrl={user.photo}
-        username={user.name}
-        menuItems={customItems}
-      />
-    </header>
-  );
+```ts
+interface AvatarMenuItem {
+  label: string;
+  onClick: () => void;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+  divider?: boolean;
+  'data-testid'?: string;
+  menuItemProps?: Omit<MuiMenuItemProps, 'onClick'>;
 }
 ```
 
 ---
 
-## Comportamiento de Layout: `fullWidth`
+## Accesibilidad (A11y)
 
-El modo `fullWidth` es crucial para layouts flexibles o de dashboard.
+* `aria-haspopup="true"` y `aria-expanded` en el trigger.
+* `aria-controls` en el trigger apuntando al `menuId` cuando está abierto.
+* `aria-labelledby` en el `MenuList` apuntando al trigger para vincular lecturas por screen-readers.
+* Manejo de teclado:
 
-En modo `fullWidth`, el contenedor (`AvatarMenuRoot`) y el botón del menú se expanden al **100% del ancho disponible** en su contenedor padre. La gestión del ancho está implementada con la prop transitoria `$fullWidth` a través de Emotion/MUI Styled.
-
----
-
-## Accesibilidad y Navegación por Teclado
-
-El componente sigue las guías **WAI-ARIA** para menús desplegables (`role="menu"`, `role="menuitem"`, `aria-haspopup`, etc.) para garantizar una experiencia inclusiva.
-
-<table>
-  <thead>
-    <tr>
-      <th>Tecla</th>
-      <th>Acción</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>Enter</code> / <code>Space</code></td>
-      <td>Abre o cierra el menú.</td>
-    </tr>
-    <tr>
-      <td><code>Escape</code></td>
-      <td>Cierra el menú, devolviendo el foco al botón del avatar.</td>
-    </tr>
-    <tr>
-      <td><code>↑</code> / <code>↓</code></td>
-      <td>Navega entre ítems activos del menú.</td>
-    </tr>
-  </tbody>
-</table>
-
-> **Nota sobre Foco:** Los ítems enfocados reciben estilos de resaltado y la propiedad `autoFocus` se maneja internamente para el primer elemento al abrir.
+  * `Enter` o `Space`: abre el menú desde el trigger.
+  * `Escape`: cierra el menú y restaura foco.
+  * `ArrowDown` / `ArrowUp`: navega entre ítems.
+* Los `MenuItem` respetan `disabled` y exponen `aria-disabled`.
+* `focusedIndex` y `autoFocus` se usan para indicar foco visual a nivel de item.
 
 ---
 
-## Consideraciones Técnicas y Mantenimiento
+## Estilos y tokens
 
-### Tipos y Constantes Clave
+* `AvatarMenuRoot` controla `width`, `padding` y `borderRadius`.
+* `AvatarContainer` es un flex container con gap dependiente de `theme.spacing`.
+* `TriangleIndicator` es un triángulo CSS que rota según `$isOpen` — animación por `theme.transitions`.
+* `UsernameText` se oculta en pantallas pequeñas mediante breakpoints.
 
-Para la extensibilidad, la lógica se apoya en los siguientes tipos y constantes:
+Tokens referencia (ejemplos):
 
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Tipo</th>
-      <th>Descripción</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>DEFAULT_MENU_ITEMS</code></td>
-      <td align="center"><code>const</code></td>
-      <td>Lista de opciones predeterminadas (Perfil, Configuración, Cerrar sesión).</td>
-    </tr>
-    <tr>
-      <td><code>AvatarMenuItem</code></td>
-      <td align="center"><code>type</code></td>
-      <td>Define la estructura de cada ítem del menú: <code>label</code>, <code>onClick</code>, <code>disabled</code>, <code>divider</code>.</td>
-    </tr>
-    <tr>
-      <td><code>AvatarMenuProps</code></td>
-      <td align="center"><code>type</code></td>
-      <td>Props principales del componente.</td>
-    </tr>
-  </tbody>
-</table>
+* `theme.palette.text.primary`
+* `theme.shape.borderRadius`
+* `theme.spacing(0.5)` / `theme.spacing(1.25)`
 
-### Testing
+---
 
-El componente incluye pruebas unitarias robustas con **Vitest + Testing Library** que cubren:
+## Comportamiento visual y UX
 
-* Renderización inicial y estados ARIA.
-* Interacción de apertura/cierre del menú.
-* Ejecución de *callbacks* en ítems.
-* Gestión de navegación por teclado.
-* Aplicación correcta de `fullWidth`.
+* El menú se ancla con `anchorOrigin` y `transformOrigin` a `bottom/right` -> `top/right`.
+* `MenuListProps.autoFocus` para foco automático en apertura y `dense` para compactar la lista.
+* `MenuItem` aplica `sx` cuando está enfocado (sombra, border, borderRadius).
+* Se respeta `menuItemProps.sx` si se proporciona.
 
-> Para contribuir con nuevos tests o verificar el comportamiento, consulta `AvatarMenu.test.tsx`.
+---
 
-### Compatibilidad con Zoom del Navegador
+## Testing (resumen de la suite existente)
 
-El `hook` interno (`useAvatarMenu`) utiliza el evento `window.resize` para detectar y gestionar cambios de *zoom* del navegador: el menú se cierra automáticamente y se **reposiciona** al reabrir, garantizando una ubicación correcta. (Esto no aplica en el zoom visual de Storybook).
+* Renderizado inicial con `aria-expanded=false`.
+* Apertura / cierre por click y verificación del rol `menu`.
+* Ejecución de `onClick` de los ítems y cierre posterior.
+* Uso de `DEFAULT_AVATAR_MENU_ITEMS` si no se pasan `menuItems`.
+* Comportamiento con `avatarUrl` vacío (fallback).
+* Menú con items deshabilitados (`aria-disabled`).
+* Propagación `fullWidth` y estructura DOM.
+
+---
+
+## Stories incluidas
+
+# AvatarMenu - Stories
+
+> Enlaces a cada story individual del componente AvatarMenu.
+
+<a href="?/iframe.html?globals=&id=navigation-avatarmenu--standard">Standard — Menú estándar con items por defecto</a>
+<br />
+<a href="?/iframe.html?globals=&id=navigation-avatarmenu--custom-actions&viewMode=story">CustomActions — Menú con items personalizados</a>
+<br />
+<a href="?/iframe.html?globals=&args=&id=navigation-avatarmenu--avatar-fallback&viewMode=story" >AvatarFallback — Sin imagen de avatar</a>
+<br />
+<a href="?/iframe.html?globals=&args=&id=navigation-avatarmenu--empty-menu&viewMode=story">EmptyMenu — Menú vacío</a>
+<br />
+<a href="?/iframe.html?globals=&args=&id=navigation-avatarmenu--disabled-items&viewMode=story">DisabledItems — Items deshabilitados</a>
+<br />
+<a href="?/iframe.html?globals=&args=&id=navigation-avatarmenu--layout-variants&viewMode=story">LayoutVariants — fullWidth y sin username</a>
+
+---
+
+## Ejemplos de uso
+
+```tsx
+<AvatarMenu
+  avatarUrl="/images/user.jpg"
+  username="Alex Méndez"
+  menuItems={[
+    { label: 'Perfil', onClick: () => navigate('/profile') },
+    { label: 'Cerrar Sesión', onClick: logout, divider: true }
+  ]}
+/>
+```
+
+```tsx
+<AvatarMenu
+  avatarUrl=""
+  username="Usuario"
+  avatarProps={{ sx: { width: 36, height: 36 } }}
+  menuItems={[
+    { label: 'Modo Oscuro', onClick: toggleDarkMode },
+    { label: 'Soporte', onClick: openHelp }
+  ]}
+  fullWidth
+/>
+```
+
+---

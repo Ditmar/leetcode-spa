@@ -4,7 +4,7 @@ import { DEFAULT_AVATAR_MENU_ITEMS } from './AvatarMenu.constants';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import type { AvatarMenuItem, AvatarMenuProps } from './AvatarMenu.types';
+import type { AvatarMenuItem, PropsAvatarMenu } from './AvatarMenu.types';
 
 const extendedDefaultItems: AvatarMenuItem[] = DEFAULT_AVATAR_MENU_ITEMS.map((item) => ({
 	...item,
@@ -27,7 +27,7 @@ const customItems: AvatarMenuItem[] = [
 	{ label: 'Cerrar Sesión', onClick: () => console.log('Logout'), divider: true },
 ];
 
-interface AvatarMenuStoryArgs extends AvatarMenuProps {
+interface AvatarMenuStoryArgs extends PropsAvatarMenu {
 	onItemClicked: (label: string) => void;
 }
 
