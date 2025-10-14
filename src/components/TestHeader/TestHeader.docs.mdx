@@ -10,7 +10,7 @@ El componente **TestHeader** muestra la sección de identificación principal pa
 - Estado de carga: muestra placeholders (MUI Skeleton) mientras se cargan los datos.
 - Tamaños escalables: permite elegir entre `small`, `medium` o `large` para el logo y el texto.
 - Cumple con el sistema de diseño: utiliza componentes `Box`, `Card` y `Typography` de MUI con tokens del tema.
-- Accesible: incluye roles semánticos y atributos `alt` para lectores de pantalla.
+- **Accesible:** incluye roles semánticos, atributos `alt` y descripciones ARIA para lectores de pantalla.
 
 ## Propiedades
 
@@ -20,6 +20,18 @@ El componente **TestHeader** muestra la sección de identificación principal pa
 - **variant** (horizontal | vertical, opcional): Controla la orientación del diseño. Valor por defecto: `horizontal`.
 - **size** (small | medium | large, opcional): Ajusta el tamaño del logo y la tipografía. Valor por defecto: `medium`.
 - **isLoading** (boolean, opcional): Muestra placeholders de carga si es `true`. Valor por defecto: `false`.
+
+## Accesibilidad
+
+El componente **TestHeader** ha sido diseñado siguiendo buenas prácticas de accesibilidad (A11y) para garantizar una experiencia inclusiva para todos los usuarios.
+
+### Implementación en el código
+
+Dentro del archivo `TestHeader.tsx`, se aplican las siguientes medidas:
+
+- **Rol semántico de cabecera:**
+  ```tsx
+  <div role="banner" data-testid="header-wrapper" ...>
 
 ## Ejemplo de uso
 

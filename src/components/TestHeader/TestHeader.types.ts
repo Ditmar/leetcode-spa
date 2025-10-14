@@ -1,4 +1,4 @@
-export type TestHeaderProps = {
+export type PropsTestHeaderProps = {
   logoSrc?: string;
   title?: string;
   subtitle?: string;

@@ -3,7 +3,7 @@ import './fonts.local.css';
 import React from 'react';
 import { Box, Skeleton, useMediaQuery, Card } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import type { TestHeaderProps } from './TestHeader.types';
+import type { PropsTestHeaderProps } from './TestHeader.types';
 import {
   HeaderContainer,
   LogoSection,
@@ -16,7 +16,8 @@ import { DEFAULT_TITLE, DEFAULT_SUBTITLE } from './TestHeader.constants';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import tcsLogo from './assets/tcs-logo.svg';
 
-const TestHeader: React.FC<TestHeaderProps> = (props) => {
+// ✅ Export nombrado tipado explícitamente
+export const TestHeader: React.FC<PropsTestHeaderProps> = (props) => {
   const {
     title = DEFAULT_TITLE,
     subtitle = DEFAULT_SUBTITLE,
@@ -25,7 +26,6 @@ const TestHeader: React.FC<TestHeaderProps> = (props) => {
     isLoading = false,
   } = props;
 
-  // Distinguir "prop omitida" vs "prop pasada como undefined"
   const hasLogoProp = Object.prototype.hasOwnProperty.call(props, 'logoSrc');
   const logoSrcToUse: string | undefined = hasLogoProp ? (props.logoSrc as any) : tcsLogo;
 
@@ -110,5 +110,3 @@ const TestHeader: React.FC<TestHeaderProps> = (props) => {
     </div>
   );
 };
-
-export default TestHeader;

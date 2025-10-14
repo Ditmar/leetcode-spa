@@ -19,7 +19,6 @@ export const LogoSection = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(2),
-  // Que el bloque logo+texto no crezca inesperadamente
   flex: '0 0 auto',
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
@@ -33,7 +32,6 @@ export const TextSection = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   textAlign: 'left',
-  // IMPORTANTE: permitir que el contenedor de texto se encoja en flex
   minWidth: 0,
   flex: '0 1 auto',
   [theme.breakpoints.down('sm')]: {
@@ -50,8 +48,8 @@ export const TitleText = styled(Typography)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(18),
   lineHeight: '100%',
   color: '#565656',
-  width: 203,
-  height: 22,
+  width: theme.spacing(25.4), // 203 px → 25.4 * 8 = 203.2 px
+  height: theme.spacing(2.75), // 22 px → 2.75 * 8 = 22 px
   textAlign: 'left',
   opacity: 1,
   overflow: 'hidden',
@@ -71,8 +69,8 @@ export const SubtitleText = styled(Typography)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(16),
   lineHeight: '100%',
   color: '#A9A9A9',
-  width: 169,
-  height: 19,
+  width: theme.spacing(21.125), // 169 px → 21.125 * 8 = 169 px
+  height: theme.spacing(2.375), // 19 px → 2.375 * 8 = 19 px
   textAlign: 'left',
   opacity: 1,
   overflow: 'hidden',
@@ -86,13 +84,22 @@ export const SubtitleText = styled(Typography)(({ theme }) => ({
 }));
 
 export const LogoImage = styled('img')<{ size: 'small' | 'medium' | 'large' }>(({ theme, size }) => ({
-  width: size === 'small' ? 100 : size === 'large' ? 240 : 201,
-  height: size === 'small' ? 42 : size === 'large' ? 102 : 85,
-  borderRadius: 6,
+  width:
+    size === 'small'
+      ? theme.spacing(12.5) // 100 px
+      : size === 'large'
+      ? theme.spacing(30) // 240 px
+      : theme.spacing(25.125), // 201 px
+  height:
+    size === 'small'
+      ? theme.spacing(5.25) // 42 px
+      : size === 'large'
+      ? theme.spacing(12.75) // 102 px
+      : theme.spacing(10.625), // 85 px
+  borderRadius: theme.spacing(0.75), // 6 px
   opacity: 1,
   objectFit: 'contain',
   backgroundColor: 'transparent',
-  // Evita que la img crezca o encoga
   flex: '0 0 auto',
   [theme.breakpoints.down('sm')]: {
     margin: '0 auto',
@@ -101,9 +108,19 @@ export const LogoImage = styled('img')<{ size: 'small' | 'medium' | 'large' }>((
 }));
 
 export const PlaceholderLogo = styled(SvgIcon)<{ size: 'small' | 'medium' | 'large' }>(({ theme, size }) => ({
-  width: size === 'small' ? 100 : size === 'large' ? 240 : 201,
-  height: size === 'small' ? 42 : size === 'large' ? 102 : 85,
-  borderRadius: 6,
+  width:
+    size === 'small'
+      ? theme.spacing(12.5)
+      : size === 'large'
+      ? theme.spacing(30)
+      : theme.spacing(25.125),
+  height:
+    size === 'small'
+      ? theme.spacing(5.25)
+      : size === 'large'
+      ? theme.spacing(12.75)
+      : theme.spacing(10.625),
+  borderRadius: theme.spacing(0.75),
   backgroundColor: 'transparent',
   [theme.breakpoints.down('sm')]: {
     margin: '0 auto',

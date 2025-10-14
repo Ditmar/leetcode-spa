@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import TestHeader from './TestHeader';
+import { TestHeader } from './TestHeader';
 import tcsLogo from './assets/tcs-logo.svg';
 
 const meta: Meta<typeof TestHeader> = {
