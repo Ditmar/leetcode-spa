@@ -70,10 +70,22 @@ export const MCQQuestion: React.FC<MCQQuestionProps> = ({
                         role="radiogroup"
                         aria-labelledby={questionId}
                     >
+                        <OptionsGrid>
+                            {options.map((opt) => (
+                                <StyledFormControlLabel
+                                    key={opt.value}
+                                    value={opt.value}
+                                    control={<StyledRadio />}
+                                    label={opt.label}
+                                    aria-checked={currentValue === opt.value}
+                                    aria-disabled={disabled}
+                                    role="radio"
+                                />
+                            ))}
+                        </OptionsGrid>
                     </RadioGroup>
                 </QuestionContainer>
             </StyledFormControl>
         </>
     );
 };
-
