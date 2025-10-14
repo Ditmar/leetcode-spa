@@ -1,12 +1,11 @@
 import { styled } from '@mui/material/styles';
 import { Box, Tabs, Tab, TextField } from '@mui/material';
-import { CONSOLE_DEFAULTS } from './ConsoleIO.constants';
 
 export const ConsoleContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    maxWidth: `${CONSOLE_DEFAULTS.WIDTH}px`,
+    maxWidth: theme.spacing(32.5),
     [theme.breakpoints.down('sm')]: {
         maxWidth: '100%',
         padding: theme.spacing(1),
@@ -15,20 +14,20 @@ export const ConsoleContainer = styled(Box)(({ theme }) => ({
 
 export const Frame = styled(Box)(({ theme }) => ({
     width: '100%',
-    background: CONSOLE_DEFAULTS.COLORS.background,
+    background: theme.palette.common.white,
     padding: 0,
     boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
-    minHeight: `${CONSOLE_DEFAULTS.FRAME_MIN_HEIGHT}px`,
-    overflow: 'hidden', // El scroll se maneja solo en el TextField
+    minHeight: theme.spacing(62.75),
+    overflow: 'hidden',
     [theme.breakpoints.down('sm')]: {
-        minHeight: '220px',
+        minHeight: theme.spacing(27.5),
     },
 }));
 
 export const TopTabs = styled(Tabs)(({ theme }) => ({
-    minHeight: 42,
+    minHeight: theme.spacing(5.25),
     margin: 0,
     padding: 0,
     '& .MuiTabs-indicator': {
@@ -36,22 +35,27 @@ export const TopTabs = styled(Tabs)(({ theme }) => ({
     },
 }));
 
-export const StyledTab = styled(Tab)<{ ownerState?: { selected?: boolean } }>(({ theme, ownerState }) => ({
-    textTransform: 'capitalize',
-    fontFamily: '"Montserrat", "Roboto", sans-serif',
-    fontWeight: 400,
-    fontSize: 18,
-    color: CONSOLE_DEFAULTS.COLORS.text,
-    minHeight: 42,
-    padding: '10px 30px',
-    backgroundColor: ownerState?.selected ? CONSOLE_DEFAULTS.COLORS.sampleTabBg : CONSOLE_DEFAULTS.COLORS.background,
-}));
+export const StyledTab = styled(Tab)<{ ownerState?: { selected?: boolean } }>(
+    ({ theme, ownerState }) => ({
+        textTransform: 'capitalize',
+        fontFamily: '"Montserrat", "Roboto", sans-serif',
+        fontWeight: 400,
+        fontSize: theme.typography.pxToRem(18),
+        color: theme.palette.text.primary,
+        minHeight: theme.spacing(5.25),
+        padding: `${theme.spacing(1.25)} ${theme.spacing(3.75)}`,
+        backgroundColor: ownerState?.selected
+            ? theme.palette.grey[200]
+            : theme.palette.common.white,
+        borderRadius: 0,
+    })
+);
 
 export const ConsoleContent = styled(Box)(({ theme }) => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    overflow: 'hidden', // El scroll queda en el input
+    overflow: 'hidden',
 }));
 
 export const ScrollableTextField = styled(TextField)(({ theme }) => ({
@@ -62,23 +66,23 @@ export const ScrollableTextField = styled(TextField)(({ theme }) => ({
 
     '& .MuiInputBase-root': {
         fontFamily: '"Montserrat", "Roboto", sans-serif',
-        fontSize: 14,
+        fontSize: theme.typography.pxToRem(14),
         fontWeight: 300,
-        color: CONSOLE_DEFAULTS.COLORS.text,
+        color: theme.palette.text.primary,
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        padding: 10,
+        padding: theme.spacing(1.25),
     },
     '& .MuiInputBase-input': {
         padding: theme.spacing(1),
         whiteSpace: 'pre-wrap',
-        overflowY: 'auto', // scroll solo aquí
+        overflowY: 'auto',
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',
     },
     '& .MuiInputBase-input::-webkit-scrollbar': {
-        display: 'none', // scrollbar invisible
+        display: 'none',
     },
     '& .MuiOutlinedInput-notchedOutline': {
         border: 'none',

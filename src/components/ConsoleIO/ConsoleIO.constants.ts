@@ -4,11 +4,6 @@ export const CONSOLE_DEFAULTS = {
     FRAME_MIN_HEIGHT: 460,
     PADDING_PX: 20,
     GAP_PX: 10,
-    COLORS: {
-        background: '#FFFFFF',
-        sampleTabBg: '#F1F3F9',
-        text: '#4C4C4C',
-    },
     PLACEHOLDER_SAMPLE: 'Write Your Input Cases Here Like 1234',
     DEFAULT_CUSTOM_SAMPLE: `2
 6 3

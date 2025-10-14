@@ -1,4 +1,3 @@
-import React from 'react';
 import { ConsoleContainer, Frame, TopTabs, StyledTab, ConsoleContent, ScrollableTextField } from './ConsoleIO.styles';
 import { useConsoleIO } from './ConsoleIO.hook';
 import type { ConsoleIOProps } from './ConsoleIO.types';
@@ -42,16 +41,24 @@ export const ConsoleIO: React.FC<ConsoleIOProps> = ({
                     <StyledTab
                         label="Sample"
                         value="sample"
-                        sx={{
-                            bgcolor: activeTab === 'sample' ? CONSOLE_DEFAULTS.COLORS.sampleTabBg : CONSOLE_DEFAULTS.COLORS.background,
-                        }}
+                        data-testid="tab-sample"
+                        sx={(theme) => ({
+                            bgcolor:
+                                activeTab === 'sample'
+                                    ? theme.palette.grey[200]
+                                    : theme.palette.common.white,
+                        })}
                     />
                     <StyledTab
                         label="Custom"
                         value="custom"
-                        sx={{
-                            bgcolor: activeTab === 'custom' ? CONSOLE_DEFAULTS.COLORS.sampleTabBg : CONSOLE_DEFAULTS.COLORS.background,
-                        }}
+                        data-testid="tab-custom"
+                        sx={(theme) => ({
+                            bgcolor:
+                                activeTab === 'custom'
+                                    ? theme.palette.grey[200]
+                                    : theme.palette.common.white,
+                        })}
                     />
                 </TopTabs>
 
@@ -66,6 +73,7 @@ export const ConsoleIO: React.FC<ConsoleIOProps> = ({
                             variant="outlined"
                             inputProps={{
                                 'aria-label': 'sample-input',
+                                'data-testid': 'input-sample',
                                 style: { fontWeight: 300 },
                             }}
                         />
@@ -79,7 +87,10 @@ export const ConsoleIO: React.FC<ConsoleIOProps> = ({
                             onChange={(e) => handleCustomChange(e.target.value)}
                             placeholder={CONSOLE_DEFAULTS.PLACEHOLDER_SAMPLE}
                             variant="outlined"
-                            inputProps={{ 'aria-label': 'custom-input' }}
+                            inputProps={{
+                                'aria-label': 'custom-input',
+                                'data-testid': 'input-custom',
+                            }}
                         />
                     </ConsoleContent>
                 )}
@@ -87,5 +98,3 @@ export const ConsoleIO: React.FC<ConsoleIOProps> = ({
         </ConsoleContainer>
     );
 };
-
-export default ConsoleIO;

@@ -1,7 +1,7 @@
 # ConsoleIO
 
 El componente **ConsoleIO** representa una **consola de entrada de datos con dos pestañas**: **Sample** y **Custom**.  
-Permite mostrar valores de ejemplo o personalizados, y capturar los cambios mediante callbacks.  
+Permite mostrar valores de ejemplo o personalizados, capturar los cambios mediante callbacks y mantener los tabs visibles incluso si el contenido es largo.  
 Está diseñado con **Material UI**, sigue principios de **accesibilidad (ARIA)** y diseño responsivo, y se integra fácilmente con Storybook y pruebas automatizadas.
 
 ---
@@ -13,12 +13,11 @@ El componente se utiliza para simular la entrada de datos en una consola interac
 - Pruebas de casos de ejemplo en algoritmos.
 - Entradas personalizadas del usuario.
 - Integración con simulaciones educativas o evaluaciones interactivas.
+- Mantener una UI limpia con scroll invisible en áreas de texto extensas.
 
 ---
 
 ## Props
-
-A continuación se detallan todas las props que recibe el componente:
 
 - **`sampleValue?: string`**  
   Valor inicial de la pestaña **Sample**.  
@@ -38,7 +37,7 @@ A continuación se detallan todas las props que recibe el componente:
 
 - **`height?: number | string`**  
   Altura del contenedor de la consola.  
-  Valor por defecto: `260px`.
+  Valor por defecto: `502px`.
 
 - **`width?: number | string`**  
   Ancho del contenedor de la consola.  
@@ -54,7 +53,7 @@ A continuación se detallan todas las props que recibe el componente:
 Este ejemplo muestra cómo usar el componente con valores de ejemplo y personalizados:
 
 ```tsx
-import ConsoleIO from './ConsoleIO';
+import { ConsoleIO } from './ConsoleIO';
 
 function App() {
   const handleSampleChange = (value: string) => {
@@ -68,12 +67,13 @@ function App() {
   return (
     <ConsoleIO
       sampleValue={`2\n6 3\n0 5 5 6 6 6\n8 2\n0 0 1 1 2 2 2 2`}
-      customValue="Custom input here"
+      customValue="Aquí puedes ingresar tu propio texto"
       defaultTab="sample"
-      height={500}
+      height={502}
       width={260}
       onSampleChange={handleSampleChange}
       onCustomChange={handleCustomChange}
+      data-testid="consoleio-root"
     />
   );
 }
