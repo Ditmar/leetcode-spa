@@ -1,41 +1,42 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
-import { FilterPanel } from "./FilterPanel";
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 
-describe("FilterPanel", () => {
-    it("resalta el filtro seleccionado", () => {
-        render(
-            <FilterPanel
-                filters={[
-                    { label: "All Tests", value: "all" },
-                    { label: "Upcoming", value: "upcoming" },
-                ]}
-                selectedValue="all"
-                onSelect={() => { }}
-            />
-        );
+import { FilterPanel } from './FilterPanel';
 
-        const selectedButton = screen.getByTestId("filter-all");
-        expect(selectedButton).toHaveAttribute("aria-checked", "true");
-    });
+describe('FilterPanel', () => {
+  it('resalta el filtro seleccionado', () => {
+    render(
+      <FilterPanel
+        filters={[
+          { label: 'All Tests', value: 'all' },
+          { label: 'Upcoming', value: 'upcoming' },
+        ]}
+        selectedValue="all"
+        onSelect={() => {}}
+      />
+    );
 
-    it("dispara onSelect al hacer clic en un filtro", () => {
-        const mockSelect = vi.fn();
+    const selectedButton = screen.getByTestId('filter-all');
+    expect(selectedButton).toHaveAttribute('aria-checked', 'true');
+  });
 
-        render(
-            <FilterPanel
-                filters={[
-                    { label: "All Tests", value: "all" },
-                    { label: "Upcoming", value: "upcoming" },
-                ]}
-                selectedValue="all"
-                onSelect={mockSelect}
-            />
-        );
+  it('dispara onSelect al hacer clic en un filtro', () => {
+    const mockSelect = vi.fn();
 
-        const upcomingButton = screen.getByTestId("filter-upcoming");
-        fireEvent.click(upcomingButton);
+    render(
+      <FilterPanel
+        filters={[
+          { label: 'All Tests', value: 'all' },
+          { label: 'Upcoming', value: 'upcoming' },
+        ]}
+        selectedValue="all"
+        onSelect={mockSelect}
+      />
+    );
 
-        expect(mockSelect).toHaveBeenCalledWith("upcoming");
-    });
+    const upcomingButton = screen.getByTestId('filter-upcoming');
+    fireEvent.click(upcomingButton);
+
+    expect(mockSelect).toHaveBeenCalledWith('upcoming');
+  });
 });
