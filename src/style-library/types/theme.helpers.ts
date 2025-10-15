@@ -331,7 +331,6 @@ export function getSpacingFromTheme(theme: Theme, multiplier: number = 1): strin
 // FACTORY PARA TEMAS COMPLETOS
 // ==========================================
 
-
 export function createCustomTheme(config: Partial<ThemeConfig> = {}) {
   const themeOptions = config.mode === 'dark' ? createDarkTheme(config) : createLightTheme(config);
 
@@ -346,3 +345,5 @@ export function createCustomTheme(config: Partial<ThemeConfig> = {}) {
 
   return theme;
 }
+
+

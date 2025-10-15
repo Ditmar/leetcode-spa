@@ -7,7 +7,6 @@ import type {
 // ==========================================
 // TIPOS BASE PARA COLORES
 // ==========================================
-
 export interface ColorScale {
   50: string;
   100: string;
