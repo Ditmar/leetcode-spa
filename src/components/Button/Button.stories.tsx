@@ -15,12 +15,12 @@ const meta: Meta<typeof Button> = {
   },
   argTypes: {
     variant: { control: 'select', options: Object.keys(BUTTON_VARIANTS) },
-    size:    { control: 'select', options: Object.keys(BUTTON_SIZES) },
-    shape:   { control: 'select', options: Object.keys(BUTTON_SHAPES) },
+    size: { control: 'select', options: Object.keys(BUTTON_SIZES) },
+    shape: { control: 'select', options: Object.keys(BUTTON_SHAPES) },
     loading: { control: 'boolean' },
-    disabled:{ control: 'boolean' },
-    fullWidth:{ control: 'boolean' },
-    children:{ control: 'text' },
+    disabled: { control: 'boolean' },
+    fullWidth: { control: 'boolean' },
+    children: { control: 'text' },
     onClick: { action: 'clicked' },
   },
   args: {
@@ -38,7 +38,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
-export const Primary:   Story = { args: { variant: 'primary',   children: 'Primary' } };
+export const Primary: Story = { args: { variant: 'primary', children: 'Primary' } };
 export const Secondary: Story = { args: { variant: 'secondary', children: 'Secondary' } };
-export const Success:   Story = { args: { variant: 'success',   children: 'Success' } };
-export const Error:     Story = { args: { variant: 'error',     children: 'Error' } };
+export const Success: Story = { args: { variant: 'success', children: 'Success' } };
+export const Error: Story = { args: { variant: 'error', children: 'Error' } };

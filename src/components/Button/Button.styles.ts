@@ -6,18 +6,18 @@ import { blueScale, redScale, greenScale, greyScale } from '../../style-library/
 
 // Map variant → palette
 const VARIANT_COLORS = {
-  primary:  { main: blueScale[600],  light: blueScale[50],  hover: blueScale[700],  active: blueScale[800] },
-  secondary:{ main: greyScale[600],  light: greyScale[50],  hover: greyScale[700],  active: greyScale[800] },
-  success:  { main: greenScale[600], light: greenScale[50], hover: greenScale[700], active: greenScale[800] },
-  error:    { main: redScale[600],   light: redScale[50],   hover: redScale[700],   active: redScale[800] },
+  primary: { main: blueScale[600], light: blueScale[50], hover: blueScale[700], active: blueScale[800] },
+  secondary: { main: greyScale[600], light: greyScale[50], hover: greyScale[700], active: greyScale[800] },
+  success: { main: greenScale[600], light: greenScale[50], hover: greenScale[700], active: greenScale[800] },
+  error: { main: redScale[600], light: redScale[50], hover: redScale[700], active: redScale[800] },
 } as const;
 
 export const StyledButton = styled(MuiButton, {
   shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
 })<StyledButtonProps>(({ theme, $variant, $size, $shape, $loading, $fullWidth }) => {
   const colors = VARIANT_COLORS[$variant];
-  const size   = SIZE_CONFIGS[$size];
-  const shape  = SHAPE_CONFIGS[$shape];
+  const size = SIZE_CONFIGS[$size];
+  const shape = SHAPE_CONFIGS[$shape];
 
   return {
     height: size.height,

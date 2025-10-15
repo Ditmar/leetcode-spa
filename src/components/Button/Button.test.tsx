@@ -41,7 +41,7 @@ describe('Button', () => {
 
   it.each([
     ['submit' as const],
-    ['reset'  as const],
+    ['reset' as const],
     ['button' as const],
   ])('soporta type="%s"', async (type) => {
     render(<Button data-testid="btn" type={type}>X</Button>);
@@ -49,19 +49,19 @@ describe('Button', () => {
   });
 
   it.each([
-    ['primary'  as const],
+    ['primary' as const],
     ['secondary' as const],
     ['success' as const],
-    ['error'   as const],
+    ['error' as const],
   ])('renderiza variante "%s"', (variant) => {
     render(<Button data-testid="btn" variant={variant}>{variant}</Button>);
     expect(screen.getByTestId('btn')).toBeInTheDocument();
   });
 
   it.each([
-    ['small'  as const],
+    ['small' as const],
     ['medium' as const],
-    ['large'  as const],
+    ['large' as const],
   ])('renderiza size "%s"', (size) => {
     render(<Button data-testid="btn" size={size}>size</Button>);
     expect(screen.getByTestId('btn')).toBeInTheDocument();
@@ -69,8 +69,8 @@ describe('Button', () => {
 
   it.each([
     ['rounded' as const],
-    ['square'  as const],
-    ['pill'    as const],
+    ['square' as const],
+    ['pill' as const],
   ])('renderiza shape "%s"', (shape) => {
     render(<Button data-testid="btn" shape={shape}>shape</Button>);
     expect(screen.getByTestId('btn')).toBeInTheDocument();

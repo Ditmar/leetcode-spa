@@ -3,7 +3,8 @@ import { CardContainer, StatItem, StatIcon, StatText, StatValue, IconWrapper } f
 import type { StatsPanelProps } from "./StatsPanel.types";
 import { useStatsPanel } from "./StatsPanel.hook";
 
-const StatsPanel: React.FC<StatsPanelProps> = ({ totalTests, passed, failed, waiting }) => {
+/** StatsPanel component */
+export const StatsPanel: React.FC<StatsPanelProps> = ({ totalTests, passed, failed, waiting }) => {
     const stats = useStatsPanel({ totalTests, passed, failed, waiting });
 
     return (
@@ -22,5 +23,3 @@ const StatsPanel: React.FC<StatsPanelProps> = ({ totalTests, passed, failed, wai
         </CardContainer>
     );
 };
-
-export default StatsPanel;

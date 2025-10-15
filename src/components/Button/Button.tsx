@@ -5,12 +5,12 @@ import { DEFAULT_PROPS } from './Button.constants';
 
 /** Button con variantes, tamaños y formas (MUI base + estilos custom) */
 export const Button: React.FC<ButtonProps> = ({
-  variant   = DEFAULT_PROPS.variant,
-  size      = DEFAULT_PROPS.size,
-  shape     = DEFAULT_PROPS.shape,
-  loading   = DEFAULT_PROPS.loading,
+  variant = DEFAULT_PROPS.variant,
+  size = DEFAULT_PROPS.size,
+  shape = DEFAULT_PROPS.shape,
+  loading = DEFAULT_PROPS.loading,
   fullWidth = DEFAULT_PROPS.fullWidth,
-  disabled  = DEFAULT_PROPS.disabled,
+  disabled = DEFAULT_PROPS.disabled,
   startIcon,
   endIcon,
   children,

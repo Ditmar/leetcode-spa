@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface StatsPanelProps {
     totalTests: number;
     passed: number;
@@ -8,6 +10,6 @@ export interface StatsPanelProps {
 export interface StatItemData {
     label: string;
     value: number;
-    icon: JSX.Element;
+    icon: React.JSX.Element;
     color: string;
 }

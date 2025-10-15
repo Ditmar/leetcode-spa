@@ -1,6 +1,4 @@
-
 import { WorkOutline, CheckCircleOutline, ThumbDownOffAlt, HourglassEmpty } from "@mui/icons-material";
-//import { WorkOutline, CheckCircleOutline, ThumbDownOffAlt, HourglassEmpty } from "@mui/icons-material";
 import type { StatItemData } from "./StatsPanel.types";
 import React from "react";
 export const TEST_STATS: Record<string, StatItemData> = {
