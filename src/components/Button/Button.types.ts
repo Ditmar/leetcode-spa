@@ -1,8 +1,8 @@
 import type { ButtonProps as MuiButtonProps } from '@mui/material/Button';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'success' | 'error';
-export type ButtonSize    = 'small'   | 'medium'    | 'large';
-export type ButtonShape   = 'rounded' | 'square'    | 'pill';
+export type ButtonSize = 'small' | 'medium' | 'large';
+export type ButtonShape = 'rounded' | 'square' | 'pill';
 
 export interface ButtonProps extends Omit<MuiButtonProps, 'variant' | 'color'> {
   /** Color variant */
