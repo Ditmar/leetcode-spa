@@ -7,7 +7,7 @@
 </g>
 <defs>
 <pattern id="pattern0_5_1646" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_5_1646" transform="matrix(0.00371724 0 0 0.00390625 0.0241936 0)"/>
+<use href="#image0_5_1646" transform="matrix(0.00371724 0 0 0.00390625 0.0241936 0)"/>
 </pattern>
 <linearGradient id="paint0_linear_5_1646" x1="3.4229" y1="36.8717" x2="46.8041" y2="10.8395" gradientUnits="userSpaceOnUse">
 <stop stop-color="#B33DEB"/>

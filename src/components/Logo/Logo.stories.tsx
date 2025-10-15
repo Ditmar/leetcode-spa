@@ -1,47 +1,47 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { Logo } from "./Logo";
-import type { LogoProps } from "./Logo.types";
+import type { Meta, StoryObj } from '@storybook/react';
+import { Logo } from './Logo';
+import type { LogoProps } from './Logo.types';
 
 const meta: Meta<typeof Logo> = {
-  title: "Components/Logo",
+  title: 'Components/Logo',
   component: Logo,
   parameters: {
     docs: {
       description: {
         component:
-          "El componente **Logo** muestra el logotipo principal de la aplicación, en orientación vertical u horizontal según la prop `orientation`.",
+          'The **Logo** component displays the main application logo, either vertically or horizontally depending on the `orientation` prop.',
       },
     },
   },
   argTypes: {
     orientation: {
-      control: { type: "radio" },
-      options: ["vertical", "horizontal"],
-      description: "Define la orientación del logo mostrado.",
+      control: { type: 'radio' },
+      options: ['vertical', 'horizontal'],
+      description: 'Defines the orientation of the displayed logo.',
       table: {
         type: { summary: `"vertical" | "horizontal"` },
-        defaultValue: { summary: "vertical" },
+        defaultValue: { summary: 'vertical' },
       },
     },
     width: {
-      control: { type: "number" },
-      description: "Ancho del logotipo en píxeles.",
+      control: { type: 'number' },
+      description: 'Logo width in pixels.',
       table: {
-        type: { summary: "number" },
-        defaultValue: { summary: "100" },
+        type: { summary: 'number' },
+        defaultValue: { summary: '100' },
       },
     },
     height: {
-      control: { type: "number" },
-      description: "Altura del logotipo en píxeles.",
+      control: { type: 'number' },
+      description: 'Logo height in pixels.',
       table: {
-        type: { summary: "number" },
-        defaultValue: { summary: "100" },
+        type: { summary: 'number' },
+        defaultValue: { summary: '100' },
       },
     },
   },
   args: {
-    orientation: "vertical",
+    orientation: 'vertical',
     width: 100,
     height: 100,
   },
@@ -49,19 +49,21 @@ const meta: Meta<typeof Logo> = {
 
 export default meta;
 type Story = StoryObj<typeof Logo>;
+
 export const Primary: Story = {
   args: {
-    orientation: "vertical",
+    orientation: 'vertical',
     width: 100,
     height: 100,
   },
-  name: "Logo vertical",
+  name: 'Vertical logo',
 };
+
 export const Horizontal: Story = {
   args: {
-    orientation: "horizontal",
+    orientation: 'horizontal',
     width: 150,
     height: 80,
   },
-  name: "Logo horizontal",
+  name: 'Horizontal logo',
 };
