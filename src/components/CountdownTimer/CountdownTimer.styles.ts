@@ -1,6 +1,6 @@
-import "@fontsource/syne/700.css";
-import { styled } from '@mui/material/styles';
+import '@fontsource/syne/700.css';
 import { Box, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 export const TimerWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -36,7 +36,7 @@ export const TimerText = styled(Typography)(({ theme }) => ({
   lineHeight: theme.spacing(6), // 48px
   textAlign: 'left',
   width: theme.spacing(24.125), // 193px
-  height: theme.spacing(6),     // 48px
+  height: theme.spacing(6), // 48px
   whiteSpace: 'nowrap',
 
   [theme.breakpoints.down('sm')]: {

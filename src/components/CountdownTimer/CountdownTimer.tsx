@@ -1,8 +1,10 @@
 import React from 'react';
+
 import { useCountdownTimer } from './CountdownTimer.hook';
-import type { CountdownTimerProps } from './CountdownTimer.types';
-import { TimerWrapper, IconWrapper, TimerText } from './CountdownTimer.styles';
 import { AlarmClockIcon } from './CountdownTimer.icons';
+import { TimerWrapper, IconWrapper, TimerText } from './CountdownTimer.styles';
+
+import type { CountdownTimerProps } from './CountdownTimer.types';
 
 export const CountdownTimer: React.FC<CountdownTimerProps> = ({ seconds, onComplete }) => {
   const { formattedTime } = useCountdownTimer({ initialSeconds: seconds, onComplete });

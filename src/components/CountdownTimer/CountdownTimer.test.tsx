@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { CountdownTimer } from './CountdownTimer';
-import { describe, it, expect, vi } from 'vitest';
 import { act } from 'react-dom/test-utils';
+import { describe, it, expect, vi } from 'vitest';
+
+import { CountdownTimer } from './CountdownTimer';
 
 vi.useFakeTimers();
 
