@@ -3,7 +3,6 @@ import type {
   PaletteColorOptions,
   TypographyVariantsOptions,
 } from '@mui/material/styles';
-
 // ==========================================
 // TIPOS BASE PARA COLORES
 // ==========================================
@@ -312,6 +311,11 @@ declare module '@mui/material/styles' {
   interface Theme {
     customShadows: CustomShadows;
     customBreakpoints: CustomBreakpoints;
+    componentTokens: ComponentTokens; // ← AGREGAR ESTA LÍNEA
+  }
+
+  interface ThemeOptions {
+    componentTokens?: ComponentTokens; // ← AGREGAR ESTA LÍNEA
   }
 
   interface Palette {
@@ -328,3 +332,74 @@ declare module '@mui/material/styles' {
     };
   }
 }
+
+// ==========================================
+// COMPONENT TOKENS TYPES (TODO TU CÓDIGO)
+// ==========================================
+
+export interface ComponentDimensions {
+  width: number;
+  height: number;
+  borderRadius: string;
+  fontSize: number;
+  textAlign: 'left' | 'center' | 'right';
+  padding: {
+    vertical: number;
+    horizontal: number;
+  };
+}
+
+export interface ComponentShadows {
+  default: string;
+  hover: string;
+  active: string;
+}
+
+export interface ComponentStates {
+  hover: {
+    translateY: number;
+  };
+  active: {
+    scale: number;
+  };
+  disabled: {
+    opacity: number;
+  };
+}
+
+export interface ComponentTransitions {
+  duration: number;
+  easing: string;
+}
+
+export interface PillTagTokens {
+  colors: {
+    background: string;
+    gradientStart: string;
+    gradientEnd: string;
+  };
+  typography: {
+    fontFamily: string;
+    fontWeight: number;
+    lineHeight: number;
+    letterSpacing: string;
+  };
+  dimensions: {
+    primary: ComponentDimensions;
+    secondary: ComponentDimensions;
+  };
+  shadows: {
+    primary: ComponentShadows;
+    secondary: ComponentShadows;
+  };
+  states: ComponentStates;
+  transitions: ComponentTransitions;
+}
+
+export interface ComponentTokens {
+  pillTag: PillTagTokens;
+  // Aquí se pueden agregar más componentes en el futuro
+  // button?: ButtonTokens;
+  // card?: CardTokens;
+}
+
