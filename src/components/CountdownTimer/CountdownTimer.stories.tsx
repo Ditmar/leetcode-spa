@@ -1,4 +1,5 @@
 import { CountdownTimer } from './CountdownTimer';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof CountdownTimer> = {

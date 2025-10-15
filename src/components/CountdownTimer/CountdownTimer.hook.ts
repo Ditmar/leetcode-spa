@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+
 import { formatTime } from './CountdownTimer.constants';
 
 interface UseCountdownTimerParams {
