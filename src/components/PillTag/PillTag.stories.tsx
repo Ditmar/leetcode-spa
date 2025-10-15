@@ -1,5 +1,7 @@
 import { Box } from '@mui/material';
+
 import { PillTag } from './PillTag';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof PillTag> = {
@@ -15,7 +17,10 @@ const meta: Meta<typeof PillTag> = {
       control: 'radio',
       options: ['primary', 'secondary'],
       description: 'Visual variant of the tag (defined in constants)',
-      table: { type: { summary: "'primary' | 'secondary'" }, defaultValue: { summary: "'primary'" } },
+      table: {
+        type: { summary: "'primary' | 'secondary'" },
+        defaultValue: { summary: "'primary'" },
+      },
     },
     clickable: {
       control: 'boolean',
@@ -40,22 +45,36 @@ type Story = StoryObj<typeof PillTag>;
 export const Primary: Story = { args: { label: 'Courses', variant: 'primary' } };
 export const Secondary: Story = { args: { label: 'Test', variant: 'secondary' } };
 export const LongLabel: Story = {
-  args: { label: 'This is an extremely long label that will be truncated with ellipsis', variant: 'primary' },
-  parameters: { docs: { description: { story: 'Long labels are automatically truncated with ellipsis (...).' } } },
+  args: {
+    label: 'This is an extremely long label that will be truncated with ellipsis',
+    variant: 'primary',
+  },
+  parameters: {
+    docs: {
+      description: { story: 'Long labels are automatically truncated with ellipsis (...).' },
+    },
+  },
 };
 
-// Depuración: eliminamos console.log y alert para pasar lint
 export const Clickable: Story = {
   args: { label: 'Click me', variant: 'primary', clickable: true },
-  parameters: { docs: { description: { story: 'Clickable tag with hover effect. Press Enter or Space when focused.' } } },
+  parameters: {
+    docs: {
+      description: { story: 'Clickable tag with hover effect. Press Enter or Space when focused.' },
+    },
+  },
 };
 export const Deleteable: Story = {
   args: { label: 'Delete me', variant: 'secondary' },
-  parameters: { docs: { description: { story: 'Tag with delete functionality. Click the X icon to delete.' } } },
+  parameters: {
+    docs: { description: { story: 'Tag with delete functionality. Click the X icon to delete.' } },
+  },
 };
 export const Disabled: Story = {
   args: { label: 'Disabled', variant: 'primary', disabled: true },
-  parameters: { docs: { description: { story: 'Disabled state with reduced opacity. Not interactive.' } } },
+  parameters: {
+    docs: { description: { story: 'Disabled state with reduced opacity. Not interactive.' } },
+  },
 };
 export const MultipleTags: Story = {
   render: () => (
@@ -66,16 +85,24 @@ export const MultipleTags: Story = {
       <PillTag label="MUI" variant="secondary" />
     </Box>
   ),
-  parameters: { docs: { description: { story: 'Multiple tags displayed together with gap spacing.' } } },
+  parameters: {
+    docs: { description: { story: 'Multiple tags displayed together with gap spacing.' } },
+  },
 };
 export const VariantComparison: Story = {
   render: () => (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 7.5 }}>
-      <Box><PillTag label="Courses" variant="primary" /></Box>
-      <Box><PillTag label="Test" variant="secondary" /></Box>
+      <Box>
+        <PillTag label="Courses" variant="primary" />
+      </Box>
+      <Box>
+        <PillTag label="Test" variant="secondary" />
+      </Box>
     </Box>
   ),
-  parameters: { docs: { description: { story: 'Comparison between primary and secondary variants.' } } },
+  parameters: {
+    docs: { description: { story: 'Comparison between primary and secondary variants.' } },
+  },
 };
 export const KeyboardAccessible: Story = {
   render: () => (
@@ -89,5 +116,9 @@ export const KeyboardAccessible: Story = {
       </Box>
     </Box>
   ),
-  parameters: { docs: { description: { story: 'Demonstrates full keyboard accessibility (Tab, Enter, Space keys).' } } },
+  parameters: {
+    docs: {
+      description: { story: 'Demonstrates full keyboard accessibility (Tab, Enter, Space keys).' },
+    },
+  },
 };

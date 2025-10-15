@@ -7,7 +7,7 @@ import type {
   ColorToken,
   CustomShadows,
   CustomBreakpoints,
-  ComponentTokens, // ← De tu rama
+  ComponentTokens,
   PillTagTokens,
 } from './theme.types';
 import type { Theme } from '@mui/material/styles';
@@ -335,16 +335,12 @@ export function getSpacingFromTheme(theme: Theme, multiplier: number = 1): strin
 export function createCustomTheme(config: Partial<ThemeConfig> = {}) {
   const themeOptions = config.mode === 'dark' ? createDarkTheme(config) : createLightTheme(config);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const theme = createTheme(themeOptions as any);
+  const theme = createTheme(themeOptions as unknown as Theme);
 
   // Agregamos las extensiones personalizadas al tema creado
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (theme as any).customShadows = customShadows;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (theme as any).customBreakpoints = customBreakpoints;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (theme as any).componentTokens = componentTokens; // ← AGREGAR ESTA LÍNEA
+  (theme as Theme & { customShadows: CustomShadows }).customShadows = customShadows;
+  (theme as Theme & { customBreakpoints: CustomBreakpoints }).customBreakpoints = customBreakpoints;
+  (theme as Theme & { componentTokens: ComponentTokens }).componentTokens = componentTokens;
 
   return theme;
 }
@@ -422,19 +418,24 @@ export const componentTokens: ComponentTokens = {
 // HELPERS PARA TOKENS DE COMPONENTES
 // ==========================================
 
-export function getPillTagTokens(theme: any): PillTagTokens {
+export function getPillTagTokens(
+  theme: Theme & { componentTokens?: ComponentTokens }
+): PillTagTokens {
   return theme.componentTokens?.pillTag || pillTagTokens;
 }
 
-export function getPillTagDimensions(theme: any, variant: 'primary' | 'secondary' = 'primary') {
+export function getPillTagDimensions(
+  theme: Theme & { componentTokens?: ComponentTokens },
+  variant: 'primary' | 'secondary' = 'primary'
+) {
   return getPillTagTokens(theme).dimensions[variant];
 }
 
-export function getPillTagColors(theme: any) {
+export function getPillTagColors(theme: Theme & { componentTokens?: ComponentTokens }) {
   return getPillTagTokens(theme).colors;
 }
 
-export function getPillTagGradient(theme: any): string {
+export function getPillTagGradient(theme: Theme & { componentTokens?: ComponentTokens }): string {
   const { gradientStart, gradientEnd } = getPillTagTokens(theme).colors;
   return `linear-gradient(180deg, ${gradientStart} 0%, ${gradientEnd} 100%)`;
 }
