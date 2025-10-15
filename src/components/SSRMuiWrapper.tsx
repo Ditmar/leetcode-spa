@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import createEmotionCache from '../style-library/cache/createEmotionCache';
 
 const theme = createTheme({

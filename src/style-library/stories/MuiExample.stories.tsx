@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import MuiExample from './MuiExample';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'Components/MuiExample',

@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import Counter from './Counter';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'UI/Counter',
