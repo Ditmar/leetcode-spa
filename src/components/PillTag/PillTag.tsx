@@ -18,24 +18,13 @@ export const PillTag: React.FC<PillTagProps> = ({
     }
     return null;
   }
-
   const isValidVariant = PILL_TAG_VARIANTS.includes(variant);
-
   if (!isValidVariant && process.env.NODE_ENV === 'development') {
     // eslint-disable-next-line no-console
     console.warn(VALIDATION_MESSAGES.INVALID_VARIANT(variant));
   }
-
   const validVariant: PillTagVariant = isValidVariant ? variant : 'primary';
-
   return (
-    <PillTagStyled
-      label={label}
-      pillVariant={validVariant}
-      data-testid={dataTestId}
-      {...rest}
-    />
+    <PillTagStyled label={label} pillVariant={validVariant} data-testid={dataTestId} {...rest} />
   );
 };
-
-export default PillTag;

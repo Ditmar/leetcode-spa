@@ -1,10 +1,12 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+
 import { ThemeProvider } from '@mui/material/styles';
+import { render, screen, fireEvent } from '@testing-library/react';
+import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 import theme from '../../style-library/theme/theme';
+
 import { PillTag } from './PillTag';
 
 // Helper to render with theme
@@ -48,10 +50,9 @@ describe('PillTag Component', () => {
 
   it('should fallback to primary with invalid variant', () => {
     process.env.NODE_ENV = 'development';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => { });
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
-    renderWithTheme(<PillTag label="Test" variant={'invalid' as any} />);
+    renderWithTheme(<PillTag label="Test" variant={'invalid' as 'primary' | 'secondary'} />);
     expect(screen.getByTestId('pill-tag')).toBeInTheDocument();
     expect(consoleSpy).toHaveBeenCalled();
 
