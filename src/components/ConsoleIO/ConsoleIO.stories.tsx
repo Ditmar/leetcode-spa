@@ -1,4 +1,4 @@
-import MuiThemeProvider from '../../style-library/provider/MuiThemeProvider'; // ajusta la ruta si es necesario
+import MuiThemeProvider from '../../style-library/provider/MuiThemeProvider';
 
 import { ConsoleIO } from './ConsoleIO';
 

@@ -8,23 +8,19 @@ describe('ConsoleIO', () => {
   it('renders tabs and sample area initially, then custom area when tab clicked', () => {
     render(<ConsoleIO sampleValue="s" customValue="c" data-testid="consoleio-root" />);
 
-    // Verifica contenedor principal
     const root = screen.getByTestId('consoleio-root');
     expect(root).toBeInTheDocument();
 
-    // Verifica tabs
     const sampleTab = screen.getByTestId('tab-sample');
     const customTab = screen.getByTestId('tab-custom');
     expect(sampleTab).toBeInTheDocument();
     expect(customTab).toBeInTheDocument();
 
-    // Verifica que la pestaña sample se renderice por defecto
     fireEvent.click(sampleTab);
     const sampleArea = screen.getByTestId('input-sample') as HTMLTextAreaElement;
     expect(sampleArea).toBeInTheDocument();
     expect(sampleArea.value).toBe('s');
 
-    // Cambia a la pestaña custom y verifica que aparezca
     fireEvent.click(customTab);
     const customArea = screen.getByTestId('input-custom') as HTMLTextAreaElement;
     expect(customArea).toBeInTheDocument();
@@ -44,7 +40,6 @@ describe('ConsoleIO', () => {
     const onCustom = vi.fn();
     render(<ConsoleIO customValue="" onCustomChange={onCustom} data-testid="consoleio-root" />);
 
-    // Cambia a la pestaña custom antes de escribir
     const customTab = screen.getByTestId('tab-custom');
     fireEvent.click(customTab);
 
@@ -59,16 +54,13 @@ describe('ConsoleIO', () => {
     const sampleTab = screen.getByTestId('tab-sample');
     const customTab = screen.getByTestId('tab-custom');
 
-    // Por defecto, sample
     let sampleArea = screen.getByTestId('input-sample') as HTMLTextAreaElement;
     expect(sampleArea.value).toBe('s');
 
-    // Cambia a custom
     fireEvent.click(customTab);
     const customArea = screen.getByTestId('input-custom') as HTMLTextAreaElement;
     expect(customArea.value).toBe('c');
 
-    // Vuelve a sample y verifica que sigue con el valor inicial
     fireEvent.click(sampleTab);
     sampleArea = screen.getByTestId('input-sample') as HTMLTextAreaElement;
     expect(sampleArea.value).toBe('s');
