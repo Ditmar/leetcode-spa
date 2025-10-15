@@ -402,4 +402,3 @@ export interface ComponentTokens {
   // button?: ButtonTokens;
   // card?: CardTokens;
 }
-
