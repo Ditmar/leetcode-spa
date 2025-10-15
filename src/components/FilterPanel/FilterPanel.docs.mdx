@@ -1,24 +1,42 @@
-import { Meta, Story, Canvas, ArgsTable } from "@storybook/addon-docs";
-import FilterPanel from "./FilterPanel";
-import { DEFAULT_FILTERS } from "./FilterPanel.constants";
 
-<Meta title="Components/FilterPanel" component={FilterPanel} />
+import { FilterPanel } from './FilterPanel';
+import { DEFAULT_FILTERS } from './FilterPanel.constants';
 
 # FilterPanel
 
-El componente `FilterPanel` permite filtrar listas de tests, destacando visualmente la opción seleccionada.
+El componente `FilterPanel` permite seleccionar un filtro entre varias opciones, mostrando el estado seleccionado y disparando un callback al cambiar.
 
-## Uso básico
+## Ejemplo básico
 
-<Canvas>
-  <Story
-    name="Default"
-    args={{
-      filters: DEFAULT_FILTERS,
-      selectedValue: "all",
-      onSelect: (value) => console.log("Selected:", value),
-    }}
-  />
-</Canvas>
+```tsx
+<FilterPanel
+  filters={DEFAULT_FILTERS}
+  selectedValue="all"
+  onSelect={(value) => alert(`Seleccionado: ${value}`)}
+/>
+```
 
-<ArgsTable of={FilterPanel} />
+## Props
+
+| Prop           | Tipo                                      | Descripción                                 |
+|----------------|-------------------------------------------|---------------------------------------------|
+| filters        | `{ label: string; value: string }[]`       | Lista de opciones de filtro                 |
+| selectedValue  | `string`                                  | Valor actualmente seleccionado              |
+| onSelect       | `(value: string) => void`                  | Callback al seleccionar un filtro           |
+| panelVariant   | `'primary' | 'secondary'`                  | Variante de color del panel (opcional)      |
+| size           | `'medium' | 'large' | 'xlarge'`            | Tamaño de los botones (opcional)            |
+
+## Ejemplo con variante secundaria
+
+```tsx
+<FilterPanel
+  filters={DEFAULT_FILTERS}
+  selectedValue="submitted"
+  onSelect={(value) => console.log(value)}
+  panelVariant="secondary"
+/>
+```
+
+---
+
+> Puedes personalizar el panel usando las props `panelVariant` para adaptarlo a tu diseño, ademas de poder determinar el color por el global.
