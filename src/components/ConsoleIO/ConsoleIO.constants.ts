@@ -1,11 +1,11 @@
 export const CONSOLE_DEFAULTS = {
-    WIDTH: 260,
-    HEIGHT: 502,
-    FRAME_MIN_HEIGHT: 460,
-    PADDING_PX: 20,
-    GAP_PX: 10,
-    PLACEHOLDER_SAMPLE: 'Write Your Input Cases Here Like 1234',
-    DEFAULT_CUSTOM_SAMPLE: `2
+  WIDTH: 260,
+  HEIGHT: 502,
+  FRAME_MIN_HEIGHT: 460,
+  PADDING_PX: 20,
+  GAP_PX: 10,
+  PLACEHOLDER_SAMPLE: 'Write Your Input Cases Here Like 1234',
+  DEFAULT_CUSTOM_SAMPLE: `2
 6 3
 0 5 5 6 6 6
 8 2
