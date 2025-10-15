@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import StatsPanel from "./StatsPanel";
+import { StatsPanel } from "./StatsPanel";
 import { describe, it, expect } from "vitest";
 
 describe("StatsPanel", () => {

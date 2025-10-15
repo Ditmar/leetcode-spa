@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import StatsPanel from "./StatsPanel";
+import { StatsPanel } from "./StatsPanel";
 
 const meta: Meta<typeof StatsPanel> = {
     title: "Dashboard/StatsPanel",
