@@ -6,7 +6,6 @@ import {
     VALIDATION_MESSAGES,
     type PillTagVariant,
 } from './PillTag.constants';
-
 export const PillTag: React.FC<PillTagProps> = ({
     label,
     variant = 'primary',
@@ -20,13 +19,10 @@ export const PillTag: React.FC<PillTagProps> = ({
         return null;
     }
     const isValidVariant = PILL_TAG_VARIANTS.includes(variant);
-
     if (!isValidVariant && process.env.NODE_ENV === 'development') {
         console.warn(VALIDATION_MESSAGES.INVALID_VARIANT(variant));
     }
-
     const validVariant: PillTagVariant = isValidVariant ? variant : 'primary';
-
     return (
         <PillTagStyled
             label={label}
@@ -36,5 +32,4 @@ export const PillTag: React.FC<PillTagProps> = ({
         />
     );
 };
-
 export default PillTag;

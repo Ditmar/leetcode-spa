@@ -64,7 +64,6 @@ Reusable pill/tag component to display categories like "Courses" and "Test" in a
         },
     },
 };
-
 export default meta;
 type Story = StoryObj<typeof PillTag>;
 export const Primary: Story = {
@@ -141,7 +140,6 @@ export const Disabled: Story = {
         },
     },
 };
-
 export const MultipleTags: Story = {
     render: () => (
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>

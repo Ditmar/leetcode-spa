@@ -29,7 +29,6 @@ export const PillTagStyled = styled(Chip, {
         textOverflow: 'ellipsis',
         border: 'none',
         boxSizing: 'border-box',
-
         width: `${dimensions.width}px`,
         height: `${dimensions.height}px`,
 
@@ -41,7 +40,6 @@ export const PillTagStyled = styled(Chip, {
                 : `${dimensions.borderRadius} ${dimensions.borderRadius} ${dimensions.borderRadius} 0px`,
 
         boxShadow: shadows.default,
-
         padding: theme.spacing(
             dimensions.padding.vertical,
             dimensions.padding.horizontal
