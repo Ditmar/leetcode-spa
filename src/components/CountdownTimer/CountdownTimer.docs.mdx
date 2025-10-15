@@ -4,16 +4,16 @@ import * as CountdownTimerStories from './CountdownTimer.stories';
 
 <Meta of={CountdownTimerStories} title="Components/CountdownTimer/Docs" />
 
-# ⏱ Countdown Timer · Documentación
+# ⏱ Countdown Timer · Documentation
 
 <Typography variant="body1" sx={{ fontFamily: 'Syne, sans-serif', mb: 2 }}>
-  El componente <code>CountdownTimer</code> muestra un temporizador regresivo en formato <code>hh:mm:ss</code>.
-  Ideal para interfaces con límite de tiempo como formularios, encuestas o pruebas.
+  The <code>CountdownTimer</code> component displays a countdown timer in <code>hh:mm:ss</code> format.
+  Ideal for time-sensitive interfaces such as forms, surveys, or timed tests.
 </Typography>
 
 ---
 
-## 🧩 Props
+##  Props
 
 <Box
   sx={{
@@ -50,7 +50,7 @@ import * as CountdownTimerStories from './CountdownTimer.stories';
             borderBottom: '1px solid #555',
           }}
         >
-          Tipo
+          Type
         </th>
         <th
           style={{
@@ -59,7 +59,7 @@ import * as CountdownTimerStories from './CountdownTimer.stories';
             borderBottom: '1px solid #555',
           }}
         >
-          Descripción
+          Description
         </th>
       </tr>
     </thead>
@@ -72,7 +72,7 @@ import * as CountdownTimerStories from './CountdownTimer.stories';
           <code>number</code>
         </td>
         <td style={{ padding: '8px' }}>
-          Tiempo total en segundos desde el que comienza la cuenta regresiva.
+          Total time in seconds from which the countdown begins.
         </td>
       </tr>
       <tr>
@@ -83,7 +83,7 @@ import * as CountdownTimerStories from './CountdownTimer.stories';
           <code>function</code>
         </td>
         <td style={{ padding: '8px' }}>
-          Callback que se ejecuta automáticamente cuando el tiempo llega a cero.
+          Callback function triggered automatically when the timer reaches zero.
         </td>
       </tr>
     </tbody>
@@ -92,9 +92,9 @@ import * as CountdownTimerStories from './CountdownTimer.stories';
 
 ---
 
-## 🧪 Ejemplos
+##  Examples
 
-### Temporizador por defecto
+### Default Timer
 
 <Canvas>
   <Story of={CountdownTimerStories.Default} />
