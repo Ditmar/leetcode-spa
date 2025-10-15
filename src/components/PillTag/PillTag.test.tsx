@@ -1,16 +1,16 @@
-import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 import theme from '../../style-library/theme/theme';
-
 import { PillTag } from './PillTag';
 
-const renderWithTheme = (ui: React.ReactElement) => {
-  return render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>);
-};
+// Helper to render with theme
+const renderWithTheme = (ui: React.ReactElement) =>
+  render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>);
+
 describe('PillTag Component', () => {
   let originalEnv: string | undefined;
 
@@ -23,10 +23,12 @@ describe('PillTag Component', () => {
       process.env.NODE_ENV = originalEnv;
     }
   });
+
   it('should render with label correctly', () => {
     renderWithTheme(<PillTag label="Courses" />);
     expect(screen.getByText('Courses')).toBeInTheDocument();
   });
+
   it('should render primary variant by default', () => {
     renderWithTheme(<PillTag label="Test" />);
     const element = screen.getByTestId('pill-tag');
@@ -43,9 +45,11 @@ describe('PillTag Component', () => {
     const { container } = renderWithTheme(<PillTag label="" />);
     expect(container.firstChild).toBeNull();
   });
+
   it('should fallback to primary with invalid variant', () => {
     process.env.NODE_ENV = 'development';
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => { });
 
     renderWithTheme(<PillTag label="Test" variant={'invalid' as any} />);
     expect(screen.getByTestId('pill-tag')).toBeInTheDocument();
@@ -53,6 +57,7 @@ describe('PillTag Component', () => {
 
     consoleSpy.mockRestore();
   });
+
   it('should handle onClick when clickable', () => {
     const handleClick = vi.fn();
     renderWithTheme(<PillTag label="Click me" clickable onClick={handleClick} />);
@@ -61,6 +66,7 @@ describe('PillTag Component', () => {
     fireEvent.click(element);
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
+
   it('should handle onDelete when provided', () => {
     const handleDelete = vi.fn();
     renderWithTheme(<PillTag label="Delete me" onDelete={handleDelete} />);

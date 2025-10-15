@@ -1,24 +1,18 @@
-import { Meta, Canvas, Story, ArgsTable } from '@storybook/addon-docs';
-import { PillTag } from './PillTag';
-import * as PillTagStories from './PillTag.stories';
-
-<Meta of={PillTagStories} />
-
 # PillTag
 
-Componente reutilizable para mostrar categorías, tags o etiquetas en formato de píldora (pill/chip) con bordes redondeados, sombras suaves y un gradiente de texto elegante.
+Reusable pill/tag component to display categories like "Courses" or "Test" in a rounded chip style.
 
 ---
 
-## Propósito del componente
+## Purpose
 
-El componente **PillTag** fue diseñado para representar categorías como “Courses” o “Test” con un estilo visual distintivo, basado fielmente en los diseños de Figma.  
-Cumple con los principios de:
+The **PillTag** component is designed to represent categories like “Courses” or “Test” with a distinct visual style based on Figma designs.  
+It follows principles of:
 
 - **Component-Driven Development (CDD)**
-- **Diseño pixel-perfect** según Figma
-- **Accesibilidad WCAG AA**
-- **Extensibilidad y consistencia con MUI**
+- **Pixel-perfect design** according to Figma
+- **WCAG AA accessibility**
+- **Extensibility and consistency with MUI**
 
 ---
 
@@ -26,32 +20,30 @@ Cumple con los principios de:
 
 ### Primary Variant (Courses)
 
-**Container (Rectangle 2):**
+**Container:**
 - Width: **251.51px**
 - Height: **85.1px**
-- Border Radius: **Top-right 0px**, otros **42.55px**
+- Border Radius: **Top-right 0px**, others **42.55px**
 - Background: **#FFFFFF**
 - Shadow: **Y: 18.91px**, **Blur: 66.19px**, **Color: #000000 (15%)**
 
-**Text (Courses):**
+**Text:**
 - Font: **Poppins**, Weight: **500 (Medium)**
 - Size: **28.37px**
 - Line Height: **100%**
 - Alignment: **Center**
 - Gradient: **#B23DEB → #DE8FFF**
 
----
+### Secondary Variant (Test)
 
-### 🔸 Secondary Variant (Test)
-
-**Container (Rectangle 1):**
+**Container:**
 - Width: **227.17px**
 - Height: **76.86px**
-- Border Radius: **Bottom-left 0px**, otros **38.43px**
+- Border Radius: **Bottom-left 0px**, others **38.43px**
 - Background: **#FFFFFF**
 - Shadow: **Y: 17.08px**, **Blur: 59.78px**, **Color: #000000 (15%)**
 
-**Text (Test):**
+**Text:**
 - Font: **Poppins**, Weight: **500 (Medium)**
 - Size: **25.62px**
 - Line Height: **100%**
@@ -60,23 +52,24 @@ Cumple con los principios de:
 
 ---
 
-## Características principales
+## Key Features
 
-- **Dos variantes visuales:** `primary` y `secondary` (definidas en `.constants.ts`)
-- **Diseño fiel a Figma:** dimensiones, radios y sombras exactas
-- **Texto con gradiente lineal:** de `#B23DEB` a `#DE8FFF` usando `WebKit`
-- **Fondo blanco con sombra:** efecto de elevación limpio y moderno
-- **Bordes asimétricos:** reflejando la personalidad de cada variante
-- **Truncado automático:** textos largos se acortan con `...`
-- **Compatibilidad MUI:** extiende `ChipProps` para flexibilidad total
-- **Accesibilidad integrada:** soporte de teclado, `focus visible`, ARIA
-- **Testing sólido:** 14 pruebas con Vitest + Testing Library
-- **Fallbacks seguros:** en caso de label vacío o variante inválida
+- **Two visual variants:** `primary` and `secondary` (defined in constants)
+- **Pixel-perfect design**: exact dimensions, border radii, and shadows
+- **Linear gradient text:** from `#B23DEB` to `#DE8FFF` using WebKit
+- **White background with shadow:** clean and modern elevation effect
+- **Asymmetric borders:** reflecting each variant’s personality
+- **Automatic truncation:** long labels shorten with `...`
+- **MUI compatibility:** extends `ChipProps` for full flexibility
+- **Integrated accessibility:** keyboard support, `focus-visible`, ARIA
+- **Robust testing:** 14 Vitest + Testing Library tests
+- **Safe fallbacks:** empty labels or invalid variants handled gracefully
 
 ---
 
-## Instalación y uso
+## Installation and Usage
 
-### Importación
+### Import
+
 ```tsx
 import { PillTag } from '@/components/PillTag';
