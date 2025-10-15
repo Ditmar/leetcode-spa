@@ -20,15 +20,15 @@ export const BUTTON_SHAPES: Record<ButtonShape, ButtonShape> = {
 } as const;
 
 export const SIZE_CONFIGS = {
-  small:  { height: 32, padding: '6px 16px',  fontSize: '0.8125rem', minWidth: 64 },
-  medium: { height: 40, padding: '8px 22px',  fontSize: '0.875rem',  minWidth: 64 },
-  large:  { height: 48, padding: '10px 28px', fontSize: '0.9375rem', minWidth: 64 },
+  small: { height: 32, padding: '6px 16px', fontSize: '0.8125rem', minWidth: 64 },
+  medium: { height: 40, padding: '8px 22px', fontSize: '0.875rem', minWidth: 64 },
+  large: { height: 48, padding: '10px 28px', fontSize: '0.9375rem', minWidth: 64 },
 } as const;
 
 export const SHAPE_CONFIGS = {
-  rounded: { borderRadius: '8px'  },
-  square:  { borderRadius: '4px'  },
-  pill:    { borderRadius: '24px' },
+  rounded: { borderRadius: '8px' },
+  square: { borderRadius: '4px' },
+  pill: { borderRadius: '24px' },
 } as const;
 
 export const DEFAULT_PROPS = {
