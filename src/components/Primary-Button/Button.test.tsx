@@ -10,7 +10,13 @@ describe('PrimaryButton', () => {
   });
 
   render(<PrimaryButton disabled>Disabled Button</PrimaryButton>);
+<<<<<<< HEAD
     const button = screen.getByRole('button', { name: /Disabled Button/i });
     expect(button).toBeDisabled();
   
+=======
+  const element = screen.getByRole('button', { name: 'Disabled Button' });
+  expect(element).toBeDisabled();
+
+>>>>>>> 2647a95 (Save changes before rebase)
 });
