@@ -4,37 +4,36 @@ import * as FormInputStories from './FormInput.stories';
 
 <Meta of={FormInputStories} />
 
-# 🖊️ FormInput
+# FormInput
 
-Componente reutilizable para mostrar campos de entrada en formularios con bordes personalizados, soporte para variantes y un diseño elegante basado en Figma.
-
----
-
-## 🎯 Propósito del componente
-
-El componente **FormInput** fue diseñado para representar campos como "Mail Id", "Username" y "Password" con un estilo visual distintivo, basado fielmente en los diseños de Figma.  
-Cumple con los principios de:
-
-- **Component-Driven Development (CDD)**
-- **Diseño pixel-perfect** según Figma
-- **Accesibilidad WCAG AA**
-- **Extensibilidad y consistencia con MUI**
+A reusable component for displaying form input fields with customized borders, variant support, and an elegant design based on Figma.
 
 ---
 
-## ✨ Características principales
+## Component Purpose
 
-- **Dos variantes visuales:** `outlined` y `filled` (definidas en `.constants.ts`)
-- **Tres tamaños:** `small`, `medium`, `large`
-- **Tres tipos:** `text`, `email`, `password`
-- **Diseño fiel a Figma:** dimensiones y colores aproximados
-- **Texto dinámico:** placeholder con cambio de color según estado
-- **Accesibilidad integrada:** soporte para `aria-label` y `aria-invalid`
+The **FormInput** component is designed to represent form fields such as "Mail Id," "Username," and "Password" with a distinctive visual style, faithfully aligned with Figma designs.  
+It adheres to the following principles:
+
+- **Component-Driven Development (CDD)**  
+- **Pixel-perfect design** based on Figma  
+- **WCAG AA accessibility compliance**  
+- **Extensibility and consistency with Material UI (MUI)**  
 
 ---
 
-## 🚀 Instalación y uso
+## Key Features
 
-### Importación
+- **Two visual variants**: `outlined` and `filled` (defined in `.constants.ts`)  
+- **Three sizes**: `small`, `medium`, `large`  
+- **Three input types**: `text`, `email`, `password` 
+- **Dynamic text**: Placeholder color changes based on state (e.g., error)  
+- **Integrated accessibility**: Supports `aria-label` and `aria-invalid`  
+
+---
+
+## Installation and Usage
+
+### Import
 ```tsx
 import { FormInput } from '@/components/FormInput';
