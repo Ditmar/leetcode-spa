@@ -10,14 +10,15 @@ import {
 } from './ConsoleIO.styles';
 
 import type { ConsoleIOProps } from './ConsoleIO.types';
+import type { FC } from 'react';
 
-export const ConsoleIO: React.FC<ConsoleIOProps> = ({
+export const ConsoleIO: FC<ConsoleIOProps> = ({
   sampleValue = '',
   customValue = '',
   onSampleChange,
   onCustomChange,
   defaultTab = 'sample',
-  height = CONSOLE_DEFAULTS.HEIGHT,
+  height = CONSOLE_DEFAULTS.HEIGHT_SP,
   width,
   'data-testid': dataTestId,
 }) => {
@@ -36,38 +37,23 @@ export const ConsoleIO: React.FC<ConsoleIOProps> = ({
     onCustomChange,
   });
 
-  const outerStyle: React.CSSProperties = {
-    width: typeof width === 'number' ? `${width}px` : (width ?? '100%'),
-    maxWidth: `${CONSOLE_DEFAULTS.WIDTH}px`,
-    height: typeof height === 'number' ? `${height}px` : height,
-  };
-
   return (
-    <ConsoleContainer data-testid={dataTestId ?? 'consoleio-root'} style={outerStyle}>
+    <ConsoleContainer
+      data-testid={dataTestId ?? 'consoleio-root'}
+      sx={{
+        width: typeof width === 'number' ? `${width}px` : (width ?? '100%'),
+        maxWidth: `${CONSOLE_DEFAULTS.WIDTH_SP * 8}px`, // usando token de theme
+        height: typeof height === 'number' ? `${height}px` : height,
+      }}
+    >
       <Frame>
         <TopTabs
           value={activeTab}
           onChange={(_, v) => handleTabChange(v as 'sample' | 'custom')}
           variant="fullWidth"
         >
-          <StyledTab
-            label="Sample"
-            value="sample"
-            data-testid="tab-sample"
-            sx={(theme) => ({
-              bgcolor:
-                activeTab === 'sample' ? theme.palette.grey[200] : theme.palette.common.white,
-            })}
-          />
-          <StyledTab
-            label="Custom"
-            value="custom"
-            data-testid="tab-custom"
-            sx={(theme) => ({
-              bgcolor:
-                activeTab === 'custom' ? theme.palette.grey[200] : theme.palette.common.white,
-            })}
-          />
+          <StyledTab label="Sample" value="sample" data-testid="tab-sample" />
+          <StyledTab label="Custom" value="custom" data-testid="tab-custom" />
         </TopTabs>
 
         {activeTab === 'sample' ? (
@@ -82,7 +68,6 @@ export const ConsoleIO: React.FC<ConsoleIOProps> = ({
               inputProps={{
                 'aria-label': 'sample-input',
                 'data-testid': 'input-sample',
-                style: { fontWeight: 300 },
               }}
             />
           </ConsoleContent>

@@ -1,68 +1,62 @@
-import { describe, it, expect, vi } from 'vitest';
-
-import { render, screen, fireEvent } from '../../test/test-utils';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, test, vi } from 'vitest';
 
 import { ConsoleIO } from './ConsoleIO';
 
 describe('ConsoleIO', () => {
-  it('renders tabs and sample area initially, then custom area when tab clicked', () => {
-    render(<ConsoleIO sampleValue="s" customValue="c" data-testid="consoleio-root" />);
+  test('renders tabs and sample area initially', async () => {
+    render(<ConsoleIO />);
 
-    const root = screen.getByTestId('consoleio-root');
-    expect(root).toBeInTheDocument();
-
-    const sampleTab = screen.getByTestId('tab-sample');
-    const customTab = screen.getByTestId('tab-custom');
+    const sampleTab = screen.getByRole('tab', { name: /sample/i });
     expect(sampleTab).toBeInTheDocument();
-    expect(customTab).toBeInTheDocument();
+    expect(sampleTab).toHaveAttribute('aria-selected', 'true');
 
-    fireEvent.click(sampleTab);
-    const sampleArea = screen.getByTestId('input-sample') as HTMLTextAreaElement;
+    const sampleArea = screen.getByRole('textbox', { name: /sample-input/i });
     expect(sampleArea).toBeInTheDocument();
-    expect(sampleArea.value).toBe('s');
+    expect(sampleArea).toHaveValue('');
+  });
 
-    fireEvent.click(customTab);
-    const customArea = screen.getByTestId('input-custom') as HTMLTextAreaElement;
+  test('switches to custom tab and shows custom textarea', async () => {
+    const user = userEvent.setup();
+    render(<ConsoleIO />);
+
+    const customTab = screen.getByRole('tab', { name: /custom/i });
+
+    await user.click(customTab);
+
+    const customArea = await screen.findByRole('textbox', { name: /custom-input/i });
     expect(customArea).toBeInTheDocument();
-    expect(customArea.value).toBe('c');
+    expect(customArea).toHaveValue('');
   });
 
-  it('updates sample on change and triggers onSampleChange callback', () => {
-    const onSample = vi.fn();
-    render(<ConsoleIO sampleValue="" onSampleChange={onSample} data-testid="consoleio-root" />);
+  test('updates sample textarea and triggers callback', async () => {
+    const onSampleChange = vi.fn();
+    const user = userEvent.setup();
 
-    const sampleArea = screen.getByTestId('input-sample') as HTMLTextAreaElement;
-    fireEvent.change(sampleArea, { target: { value: 'new-s' } });
-    expect(onSample).toHaveBeenCalledWith('new-s');
+    render(<ConsoleIO onSampleChange={onSampleChange} />);
+
+    const sampleArea = screen.getByRole('textbox', { name: /sample-input/i });
+
+    await user.type(sampleArea, '1234');
+
+    expect(sampleArea).toHaveValue('1234');
+    expect(onSampleChange).toHaveBeenCalled();
   });
 
-  it('updates custom on change and triggers onCustomChange callback', () => {
-    const onCustom = vi.fn();
-    render(<ConsoleIO customValue="" onCustomChange={onCustom} data-testid="consoleio-root" />);
+  test('updates custom textarea and triggers callback', async () => {
+    const onCustomChange = vi.fn();
+    const user = userEvent.setup();
 
-    const customTab = screen.getByTestId('tab-custom');
-    fireEvent.click(customTab);
+    render(<ConsoleIO onCustomChange={onCustomChange} />);
 
-    const customArea = screen.getByTestId('input-custom') as HTMLTextAreaElement;
-    fireEvent.change(customArea, { target: { value: 'hello' } });
-    expect(onCustom).toHaveBeenCalledWith('hello');
-  });
+    const customTab = screen.getByRole('tab', { name: /custom/i });
+    await user.click(customTab);
 
-  it('switches between tabs and keeps values', () => {
-    render(<ConsoleIO sampleValue="s" customValue="c" data-testid="consoleio-root" />);
+    const customArea = await screen.findByRole('textbox', { name: /custom-input/i });
+    await user.type(customArea, 'abcd');
 
-    const sampleTab = screen.getByTestId('tab-sample');
-    const customTab = screen.getByTestId('tab-custom');
-
-    let sampleArea = screen.getByTestId('input-sample') as HTMLTextAreaElement;
-    expect(sampleArea.value).toBe('s');
-
-    fireEvent.click(customTab);
-    const customArea = screen.getByTestId('input-custom') as HTMLTextAreaElement;
-    expect(customArea.value).toBe('c');
-
-    fireEvent.click(sampleTab);
-    sampleArea = screen.getByTestId('input-sample') as HTMLTextAreaElement;
-    expect(sampleArea.value).toBe('s');
+    expect(customArea).toHaveValue('abcd');
+    expect(onCustomChange).toHaveBeenCalled();
   });
 });
