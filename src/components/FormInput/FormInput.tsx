@@ -1,7 +1,9 @@
 import React from 'react';
-import type { FormInputProps } from './FormInput.types';
-import { StyledFormInput } from './FormInput.styles';
+
 import { DEFAULT_PROPS } from './FormInput.constants';
+import { StyledFormInput } from './FormInput.styles';
+
+import type { FormInputProps } from './FormInput.types';
 
 export const FormInput: React.FC<FormInputProps> = ({
   variant = DEFAULT_PROPS.variant,
@@ -48,4 +50,3 @@ export const FormInput: React.FC<FormInputProps> = ({
 };
 
 export default FormInput;
-
