@@ -1,19 +1,21 @@
-import { styled } from '@mui/material/styles';
 import { Box, Typography, SvgIcon } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-export const HeaderContainer = styled(Box)<{ flexDirection: 'row' | 'column' }>(({ theme, flexDirection }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: flexDirection === 'row' ? 'space-between' : 'center',
-  flexDirection,
-  padding: theme.spacing(2),
-  [theme.breakpoints.down('sm')]: {
-    flexDirection: 'column',
+export const HeaderContainer = styled(Box)<{ flexDirection: 'row' | 'column' }>(
+  ({ theme, flexDirection }) => ({
+    display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(1.5),
-    gap: theme.spacing(1.5),
-  },
-}));
+    justifyContent: flexDirection === 'row' ? 'space-between' : 'center',
+    flexDirection,
+    padding: theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: theme.spacing(1.5),
+      gap: theme.spacing(1.5),
+    },
+  })
+);
 
 export const LogoSection = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -42,7 +44,8 @@ export const TextSection = styled(Box)(({ theme }) => ({
 }));
 
 export const TitleText = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Syne', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
+  fontFamily:
+    "'Syne', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
   fontWeight: 600,
   fontStyle: 'normal',
   fontSize: theme.typography.pxToRem(18),
@@ -63,7 +66,8 @@ export const TitleText = styled(Typography)(({ theme }) => ({
 }));
 
 export const SubtitleText = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Syne', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
+  fontFamily:
+    "'Syne', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
   fontWeight: 400,
   fontStyle: 'normal',
   fontSize: theme.typography.pxToRem(16),
@@ -83,47 +87,51 @@ export const SubtitleText = styled(Typography)(({ theme }) => ({
   },
 }));
 
-export const LogoImage = styled('img')<{ size: 'small' | 'medium' | 'large' }>(({ theme, size }) => ({
-  width:
-    size === 'small'
-      ? theme.spacing(12.5) // 100 px
-      : size === 'large'
-      ? theme.spacing(30) // 240 px
-      : theme.spacing(25.125), // 201 px
-  height:
-    size === 'small'
-      ? theme.spacing(5.25) // 42 px
-      : size === 'large'
-      ? theme.spacing(12.75) // 102 px
-      : theme.spacing(10.625), // 85 px
-  borderRadius: theme.spacing(0.75), // 6 px
-  opacity: 1,
-  objectFit: 'contain',
-  backgroundColor: 'transparent',
-  flex: '0 0 auto',
-  [theme.breakpoints.down('sm')]: {
-    margin: '0 auto',
-    maxWidth: '100%',
-  },
-}));
+export const LogoImage = styled('img')<{ size: 'small' | 'medium' | 'large' }>(
+  ({ theme, size }) => ({
+    width:
+      size === 'small'
+        ? theme.spacing(12.5) // 100 px
+        : size === 'large'
+          ? theme.spacing(30) // 240 px
+          : theme.spacing(25.125), // 201 px
+    height:
+      size === 'small'
+        ? theme.spacing(5.25) // 42 px
+        : size === 'large'
+          ? theme.spacing(12.75) // 102 px
+          : theme.spacing(10.625), // 85 px
+    borderRadius: theme.spacing(0.75), // 6 px
+    opacity: 1,
+    objectFit: 'contain',
+    backgroundColor: 'transparent',
+    flex: '0 0 auto',
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 auto',
+      maxWidth: '100%',
+    },
+  })
+);
 
-export const PlaceholderLogo = styled(SvgIcon)<{ size: 'small' | 'medium' | 'large' }>(({ theme, size }) => ({
-  width:
-    size === 'small'
-      ? theme.spacing(12.5)
-      : size === 'large'
-      ? theme.spacing(30)
-      : theme.spacing(25.125),
-  height:
-    size === 'small'
-      ? theme.spacing(5.25)
-      : size === 'large'
-      ? theme.spacing(12.75)
-      : theme.spacing(10.625),
-  borderRadius: theme.spacing(0.75),
-  backgroundColor: 'transparent',
-  [theme.breakpoints.down('sm')]: {
-    margin: '0 auto',
-    maxWidth: '100%',
-  },
-}));
+export const PlaceholderLogo = styled(SvgIcon)<{ size: 'small' | 'medium' | 'large' }>(
+  ({ theme, size }) => ({
+    width:
+      size === 'small'
+        ? theme.spacing(12.5)
+        : size === 'large'
+          ? theme.spacing(30)
+          : theme.spacing(25.125),
+    height:
+      size === 'small'
+        ? theme.spacing(5.25)
+        : size === 'large'
+          ? theme.spacing(12.75)
+          : theme.spacing(10.625),
+    borderRadius: theme.spacing(0.75),
+    backgroundColor: 'transparent',
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 auto',
+      maxWidth: '100%',
+    },
+  })
+);

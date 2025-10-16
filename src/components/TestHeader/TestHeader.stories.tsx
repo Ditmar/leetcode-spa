@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { TestHeader } from './TestHeader';
 import tcsLogo from './assets/tcs-logo.svg';
+import { TestHeader } from './TestHeader';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof TestHeader> = {
   title: 'Components/TestHeader',
@@ -42,7 +43,8 @@ export const Vertical: Story = {
 export const LongTitle: Story = {
   args: {
     logoSrc: tcsLogo,
-    title: 'This is a very long quiz name to test responsiveness and overflow handling in the header component',
+    title:
+      'This is a very long quiz name to test responsiveness and overflow handling in the header component',
     subtitle: 'This is a longer subtitle to test wrapping behavior.',
     size: 'medium',
   },
@@ -81,4 +83,3 @@ export const NoLogo: Story = {
     size: 'medium',
   },
 };
-
