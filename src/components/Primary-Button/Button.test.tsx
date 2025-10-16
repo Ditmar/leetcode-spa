@@ -9,14 +9,9 @@ describe('PrimaryButton', () => {
     expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  render(<PrimaryButton disabled>Disabled Button</PrimaryButton>);
-<<<<<<< HEAD
+  it('disables the button when the disabled prop is true', () => {
+    render(<PrimaryButton disabled>Disabled Button</PrimaryButton>);
     const button = screen.getByRole('button', { name: /Disabled Button/i });
     expect(button).toBeDisabled();
-  
-=======
-  const element = screen.getByRole('button', { name: 'Disabled Button' });
-  expect(element).toBeDisabled();
-
->>>>>>> 2647a95 (Save changes before rebase)
+  });
 });
