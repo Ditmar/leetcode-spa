@@ -5,7 +5,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta: Meta<typeof CountdownTimer> = {
   title: 'Components/CountdownTimer',
   component: CountdownTimer,
-  //tags: ['autodocs'], // Esto permite que Storybook genere documentación automáticamente
   argTypes: {
     seconds: { control: 'number' },
     onComplete: { action: 'completed' },
