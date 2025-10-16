@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
+import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+
 import createEmotionCache from '../style-library/cache/createEmotionCache';
 import SimpleMuiExample from '../style-library/stories/SimpleMuiExample';
+
+import type { EmotionCache } from '@emotion/react';
 
 // Crear un tema básico
 const theme = createTheme({
@@ -18,11 +21,11 @@ const theme = createTheme({
 });
 
 export interface MuiAppProps {
-  emotionCache?: any;
+  emotionCache?: EmotionCache;
 }
 
 export default function MuiApp({ emotionCache }: MuiAppProps) {
-  const [clientEmotionCache, setClientEmotionCache] = useState<any>(null);
+  const [clientEmotionCache, setClientEmotionCache] = useState<EmotionCache | null>(null);
 
   useEffect(() => {
     if (!emotionCache) {
