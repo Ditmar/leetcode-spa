@@ -23,7 +23,7 @@ import {
   FALLBACK_INITIALS,
 } from './ProfileCard.constants';
 
-/* Stats item component for rendering individual statistics */
+/** Stats item component for rendering individual statistics */
 const StatsItem: React.FC<StatsItemProps> = ({
   icon,
   label,
@@ -45,13 +45,13 @@ const StatsItem: React.FC<StatsItemProps> = ({
   );
 };
 
-/* Profile card component for displaying user information and statistics */
+/** Profile card component for displaying user information and statistics */
 export const ProfileCard: React.FC<ProfileCardProps> = ({
   avatarUrl,
   name,
   username,
   role,
-  stats = DEFAULT_PROPS.stats,
+  stats = { courses: 0, points: 0, ranking: 0 },
   size = DEFAULT_PROPS.size,
   variant = DEFAULT_PROPS.variant,
   showStats = DEFAULT_PROPS.showStats,
@@ -59,9 +59,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   'data-testid': dataTestId = 'profile-card',
   ...rest
 }) => {
-  // Validate required props
+  // Strict validation for required props
   if (!name || !username) {
-    console.warn('ProfileCard: name and username are required props');
+    throw new Error(
+      'ProfileCard: "name" and "username" are required props and cannot be empty.'
+    );
   }
 
   const DefaultIcon = DEFAULT_AVATAR_ICON;
@@ -85,6 +87,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     
     return `${rank}th`;
   };
+
+  // Safely handle stats prop
+  const safeStats = stats || DEFAULT_PROPS.stats;
 
   return (
     <StyledCard
@@ -137,7 +142,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         </StyledInfoContainer>
       </StyledProfileContainer>
 
-      {showStats && stats && (
+      {showStats && (
         <StyledStatsContainer 
           $size={size} 
           $variant={variant} 
@@ -148,19 +153,19 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           <StatsItem
             icon={<STATS_ICONS.courses />}
             label={STATS_LABELS.courses}
-            value={stats.courses}
+            value={safeStats.courses}
             data-testid={`${dataTestId}-stat-courses`}
           />
           <StatsItem
             icon={<STATS_ICONS.points />}
             label={STATS_LABELS.points}
-            value={stats.points}
+            value={safeStats.points}
             data-testid={`${dataTestId}-stat-points`}
           />
           <StatsItem
             icon={<STATS_ICONS.ranking />}
             label={STATS_LABELS.ranking}
-            value={formatRanking(stats.ranking)}
+            value={formatRanking(safeStats.ranking)}
             data-testid={`${dataTestId}-stat-ranking`}
           />
         </StyledStatsContainer>
