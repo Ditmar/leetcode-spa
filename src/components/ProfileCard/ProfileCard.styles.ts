@@ -186,7 +186,9 @@ export const StyledStatItem = styled(Box, {
   },
 }));
 
-export const StyledStatIcon = styled(Box)(({ theme }) => ({
+export const StyledStatIcon = styled(Box, {
+  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+})(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -208,14 +210,18 @@ export const StyledStatContent = styled(Box, {
   },
 }));
 
-export const StyledStatValue = styled(Typography)(({ theme }) => ({
+export const StyledStatValue = styled(Typography, {
+  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+})(({ theme }) => ({
   fontSize: theme.typography.body1.fontSize,
   fontWeight: theme.typography.fontWeightBold || 600,
   color: theme.palette.text.primary,
   lineHeight: 1,
 }));
 
-export const StyledStatLabel = styled(Typography)(({ theme }) => ({
+export const StyledStatLabel = styled(Typography, {
+  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+})(({ theme }) => ({
   fontSize: theme.typography.caption.fontSize,
   fontWeight: theme.typography.fontWeightRegular || 400,
   color: greyScale[500],

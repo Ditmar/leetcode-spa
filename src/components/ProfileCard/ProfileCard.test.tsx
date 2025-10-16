@@ -193,7 +193,7 @@ describe('ProfileCard', () => {
     });
   });
 
-  it('handles missing stats object gracefully', () => {
+  it('handles missing stats object gracefully with default values', () => {
     render(
       <ProfileCard
         name="Test User"
@@ -206,7 +206,6 @@ describe('ProfileCard', () => {
     const statsRegion = screen.getByRole('region', { name: /user statistics/i });
     expect(statsRegion).toBeInTheDocument();
 
-    // Use data-testid for specific stats since there are multiple "0" values
     const coursesElement = screen.getByTestId('profile-stat-courses');
     expect(coursesElement).toHaveTextContent('0');
     expect(coursesElement).toHaveTextContent('Courses');
@@ -231,19 +230,6 @@ describe('ProfileCard', () => {
 
     const avatar = screen.getByTestId('profile-avatar');
     expect(avatar).toHaveTextContent('M');
-  });
-
-  it('handles empty name for initials fallback', () => {
-    render(
-      <ProfileCard
-        name=""
-        username="emptyname"
-        data-testid="profile"
-      />
-    );
-
-    const avatar = screen.getByTestId('profile-avatar');
-    expect(avatar).toHaveTextContent('?');
   });
 
   it('applies custom className', () => {
@@ -276,5 +262,77 @@ describe('ProfileCard', () => {
 
     const statsRegion = screen.getByRole('region', { name: /user statistics/i });
     expect(statsRegion).toBeInTheDocument();
+  });
+
+  // New tests for prop validation
+
+  it('throws error when name is missing', () => {
+    expect(() => {
+      render(
+        <ProfileCard
+          name=""
+          username="testuser"
+          data-testid="profile"
+        />
+      );
+    }).toThrow('ProfileCard: "name" and "username" are required props and cannot be empty.');
+  });
+
+  it('throws error when username is missing', () => {
+    expect(() => {
+      render(
+        <ProfileCard
+          name="Test User"
+          username=""
+          data-testid="profile"
+        />
+      );
+    }).toThrow('ProfileCard: "name" and "username" are required props and cannot be empty.');
+  });
+
+  it('throws error when both name and username are missing', () => {
+    expect(() => {
+      render(
+        <ProfileCard
+          name=""
+          username=""
+          data-testid="profile"
+        />
+      );
+    }).toThrow('ProfileCard: "name" and "username" are required props and cannot be empty.');
+  });
+
+  it('handles undefined stats prop with default values', () => {
+    const { container } = render(
+      <ProfileCard
+        name="User Without Stats"
+        username="nostats"
+        stats={undefined}
+        data-testid="profile"
+      />
+    );
+
+    expect(container).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /user statistics/i })).toBeInTheDocument();
+  });
+
+  it('handles partial stats object correctly', () => {
+    const partialStats = {
+      courses: 5,
+      points: 0,
+      ranking: 0,
+    } as ProfileStatsProps;
+
+    render(
+      <ProfileCard
+        name="Partial Stats User"
+        username="partialstats"
+        stats={partialStats}
+        data-testid="profile"
+      />
+    );
+
+    expect(screen.getByText('5')).toBeInTheDocument();
+    expect(screen.getByText('-')).toBeInTheDocument();
   });
 });
