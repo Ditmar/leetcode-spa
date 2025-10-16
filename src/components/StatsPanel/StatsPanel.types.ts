@@ -8,6 +8,7 @@ export interface StatsPanelProps {
 }
 
 export interface StatItemData {
+  id: string;
   label: string;
   value: number;
   icon: React.JSX.Element;
