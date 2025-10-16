@@ -1,20 +1,20 @@
-import { MenuBadge } from "./MenuBadge";
+import { MenuBadge } from './MenuBadge';
 
 export default {
-    title: "Components/MenuBadge",
-    component: MenuBadge,
+  title: 'Components/MenuBadge',
+  component: MenuBadge,
 };
 
 export const Default = {
-    args: {
-        label: "Dashboard",
-        variant: "default",
-    },
+  args: {
+    label: 'Dashboard',
+    variant: 'default',
+  },
 };
 
 export const Color = {
-    args: {
-        label: "Dashboard",
-        variant: "color",
-    },
+  args: {
+    label: 'Dashboard',
+    variant: 'color',
+  },
 };
