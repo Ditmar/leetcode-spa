@@ -1,22 +1,24 @@
-import AnswerOption from './AnswerOption';
+import { type Meta, type StoryObj } from '@storybook/react';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import { AnswerOption } from './AnswerOption';
 
-const meta = {
+const meta: Meta<typeof AnswerOption> = {
   title: 'Forms/AnswerOption',
   component: AnswerOption,
   tags: ['autodocs'],
-} satisfies Meta<typeof AnswerOption>;
-
+};
 export default meta;
+
 type Story = StoryObj<typeof meta>;
+
+const handleChange = () => {};
 
 export const Selected: Story = {
   args: {
     label: 'Female',
     value: 'female',
     selected: true,
-    onChange: () => {},
+    onChange: handleChange,
   },
 };
 
@@ -25,7 +27,7 @@ export const Unselected: Story = {
     label: 'Female',
     value: 'female',
     selected: false,
-    onChange: () => {},
+    onChange: handleChange,
   },
 };
 
@@ -35,6 +37,6 @@ export const Disabled: Story = {
     value: 'female',
     selected: false,
     disabled: true,
-    onChange: () => {},
+    onChange: handleChange,
   },
 };

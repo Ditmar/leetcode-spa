@@ -1,99 +1,84 @@
-import React from 'react';
+import React, { useId } from 'react';
 
-import type { IProps } from './types/IProps';
+import { Container, Label, GradientText, IconWrapper, HiddenInput } from './AnswerOption.styles';
 
-const checkSvg = (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-    <circle cx="16" cy="16" r="16" fill="url(#paint0_linear)" />
-    <path
-      d="M10 17L15 22L22 13"
-      stroke="white"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <defs>
-      <linearGradient
-        id="paint0_linear"
-        x1="0"
-        y1="0"
-        x2="32"
-        y2="31"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stopColor="#CA81FF" />
-        <stop offset="1" stopColor="#995AFE" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
+import type { AnswerOptionProps } from './AnswerOption.types';
 
-const AnswerOption: React.FC<IProps> = ({
+const GRADIENT_SELECTED = ['#B23DEB', '#DE8FFF'];
+const BORDER_DISABLED = '#4F4F4F';
+const BORDER_DEFAULT = '#B23DEB';
+
+export function AnswerOption({
   label,
   value,
   selected,
   onChange,
   disabled = false,
+  size = 'medium',
   className,
-}) => (
-  <div
-    style={{
-      display: 'inline-block',
-      border: '2px dashed #A881FE',
-      borderRadius: '16px',
-      padding: '24px 36px',
-      background: '#272436',
-      boxSizing: 'border-box',
-    }}
-    className={className}
-  >
-    <label
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
-        fontWeight: selected ? 700 : 500,
-        fontSize: selected ? 28 : 24,
-        color: selected ? '#CA81FF' : '#7A6BA3',
-        borderRadius: '12px',
-        background: selected ? 'rgba(202,129,255,0.06)' : 'transparent',
-        gap: 16,
-        transition: 'background 0.2s, color 0.2s',
-        minWidth: 220,
-        minHeight: 64,
-      }}
-      aria-disabled={disabled}
-    >
-      <input
-        type="radio"
-        checked={selected}
-        onChange={() => onChange(value)}
-        value={value}
-        disabled={disabled}
-        style={{ display: 'none' }}
-        aria-label={label}
-      />
-      <span
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 50,
-          height: 50,
-          borderRadius: '50%',
-          background: selected
-            ? 'linear-gradient(135deg, #CA81FF 0%, #995AFE 100%)'
-            : 'transparent',
-          border: selected ? 'none' : '2px solid #7A6BA3',
-          marginRight: 16,
-        }}
-      >
-        {selected ? checkSvg : null}
-      </span>
-      <span>{label}</span>
-    </label>
-  </div>
-);
+}: AnswerOptionProps) {
+  const gradientId = useId();
 
-export default AnswerOption;
+  const renderCircle = () => {
+    if (selected) {
+      return (
+        <svg width={64} height={64} viewBox="0 0 64 64" fill="none" aria-hidden>
+          <defs>
+            <linearGradient
+              id={`paint0linear-${gradientId}`}
+              x1="0"
+              y1="0"
+              x2="64"
+              y2="64"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%" stopColor={GRADIENT_SELECTED[0]} />
+              <stop offset="100%" stopColor={GRADIENT_SELECTED[1]} />
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="32" r="28" fill={`url(#paint0linear-${gradientId})`} />
+          <path
+            d="M22 34L30 42L42 26"
+            stroke="white"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    }
+    if (disabled) {
+      return (
+        <svg width={64} height={64} viewBox="0 0 64 64" fill="none" aria-hidden>
+          <circle cx="32" cy="32" r="28" fill="none" stroke={BORDER_DISABLED} strokeWidth="4" />
+        </svg>
+      );
+    }
+    return (
+      <svg width={64} height={64} viewBox="0 0 64 64" fill="none" aria-hidden>
+        <circle cx="32" cy="32" r="28" fill="none" stroke={BORDER_DEFAULT} strokeWidth="4" />
+      </svg>
+    );
+  };
+
+  return (
+    <Container className={className}>
+      <Label selected={selected} disabled={disabled} size={size}>
+        <HiddenInput
+          type="radio"
+          checked={selected}
+          onChange={() => {
+            onChange(value);
+          }}
+          value={value}
+          disabled={disabled}
+          aria-label={label}
+        />
+        <IconWrapper>{renderCircle()}</IconWrapper>
+        <GradientText selected={selected} disabled={disabled}>
+          {label}
+        </GradientText>
+      </Label>
+    </Container>
+  );
+}
