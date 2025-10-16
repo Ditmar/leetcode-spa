@@ -14,7 +14,7 @@ describe('Logo component', () => {
   it('should render the vertical logo by default', () => {
     render(<Logo orientation="vertical" width={100} height={50} />);
 
-    const img = screen.getByAltText('logo_app') as HTMLImageElement;
+    const img = screen.getByAltText('App logo') as HTMLImageElement;
     expect(img).toBeInTheDocument();
     expect(img.src).toContain('mocked_logo.svg');
     expect(img.getAttribute('width')).toBe('100');
