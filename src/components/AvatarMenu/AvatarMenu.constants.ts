@@ -2,19 +2,25 @@ import type { AvatarMenuItem } from './AvatarMenu.types';
 
 export const DEFAULT_AVATAR_MENU_ITEMS: AvatarMenuItem[] = [
   {
-    label: 'Mi Perfil',
-    onClick: () => console.log('Acción: Navegar a Perfil'),
+    label: 'Profile',
+    // eslint-disable-next-line no-console
+    onClick: () => console.log('Action: Navigate to Profile'),
+    key: 'profile',
     'data-testid': 'menu-item-profile',
   },
   {
-    label: 'Configuración de Cuenta',
-    onClick: () => console.log('Acción: Abrir Configuración'),
+    label: 'Account Settings',
+    // eslint-disable-next-line no-console
+    onClick: () => console.log('Action: Open Settings'),
     'data-testid': 'menu-item-settings',
+    key: 'settings',
   },
   {
-    label: 'Cerrar Sesión',
-    onClick: () => console.log('Acción: Ejecutar Logout'),
+    label: 'Sign Out',
+    // eslint-disable-next-line no-console
+    onClick: () => console.log('Action: Execute Logout'),
+    key: 'logout',
     divider: true,
     'data-testid': 'menu-item-logout',
   },
-] as const;
+];
