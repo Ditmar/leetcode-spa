@@ -1,5 +1,12 @@
 import React from 'react';
-import type { ProfileCardProps, StatsItemProps } from './ProfileCard.types';
+
+import {
+  DEFAULT_PROPS,
+  STATS_ICONS,
+  STATS_LABELS,
+  DEFAULT_AVATAR_ICON,
+  FALLBACK_INITIALS,
+} from './ProfileCard.constants';
 import {
   StyledCard,
   StyledProfileContainer,
@@ -15,24 +22,12 @@ import {
   StyledStatValue,
   StyledStatLabel,
 } from './ProfileCard.styles';
-import {
-  DEFAULT_PROPS,
-  STATS_ICONS,
-  STATS_LABELS,
-  DEFAULT_AVATAR_ICON,
-  FALLBACK_INITIALS,
-} from './ProfileCard.constants';
+
+import type { ProfileCardProps, StatsItemProps } from './ProfileCard.types';
 
 /** Stats item component for rendering individual statistics */
-const StatsItem: React.FC<StatsItemProps> = ({
-  icon,
-  label,
-  value,
-  'data-testid': dataTestId,
-}) => {
-  const formattedValue = typeof value === 'number' 
-    ? value.toLocaleString('en-US') 
-    : value;
+const StatsItem: React.FC<StatsItemProps> = ({ icon, label, value, 'data-testid': dataTestId }) => {
+  const formattedValue = typeof value === 'number' ? value.toLocaleString('en-US') : value;
 
   return (
     <StyledStatItem $variant={DEFAULT_PROPS.variant} data-testid={dataTestId}>
@@ -61,9 +56,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 }) => {
   // Strict validation for required props
   if (!name || !username) {
-    throw new Error(
-      'ProfileCard: "name" and "username" are required props and cannot be empty.'
-    );
+    throw new Error('ProfileCard: "name" and "username" are required props and cannot be empty.');
   }
 
   const DefaultIcon = DEFAULT_AVATAR_ICON;
@@ -71,20 +64,20 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
   const formatRanking = (rank: number): string => {
     if (rank === 0) return '-';
-    
+
     const lastDigit = rank % 10;
     const lastTwoDigits = rank % 100;
-    
+
     // Special cases for 11, 12, 13 (always 'th')
     if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
       return `${rank}th`;
     }
-    
+
     // Regular cases based on last digit
     if (lastDigit === 1) return `${rank}st`;
     if (lastDigit === 2) return `${rank}nd`;
     if (lastDigit === 3) return `${rank}rd`;
-    
+
     return `${rank}th`;
   };
 
@@ -113,12 +106,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         </StyledAvatar>
 
         <StyledInfoContainer $size={size} $variant={variant}>
-          <StyledName
-            variant="h6"
-            $size={size}
-            title={name}
-            data-testid={`${dataTestId}-name`}
-          >
+          <StyledName variant="h6" $size={size} title={name} data-testid={`${dataTestId}-name`}>
             {name}
           </StyledName>
           <StyledUsername
@@ -143,9 +131,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       </StyledProfileContainer>
 
       {showStats && (
-        <StyledStatsContainer 
-          $size={size} 
-          $variant={variant} 
+        <StyledStatsContainer
+          $size={size}
+          $variant={variant}
           data-testid={`${dataTestId}-stats`}
           role="region"
           aria-label="User statistics"

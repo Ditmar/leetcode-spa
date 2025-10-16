@@ -1,7 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import { Box } from '@mui/material';
+
 import { ProfileCard } from './ProfileCard';
 import { PROFILE_CARD_SIZES, PROFILE_CARD_VARIANTS } from './ProfileCard.constants';
-import { Box } from '@mui/material';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'Components/ProfileCard',
@@ -10,7 +12,8 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A reusable profile card component for displaying user information and statistics.',
+        component:
+          'A reusable profile card component for displaying user information and statistics.',
       },
     },
   },

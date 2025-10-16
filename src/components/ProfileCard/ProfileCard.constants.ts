@@ -1,7 +1,8 @@
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import PersonIcon from '@mui/icons-material/Person';
 import SchoolIcon from '@mui/icons-material/School';
 import StarIcon from '@mui/icons-material/Star';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+
 import type { ProfileCardSize, ProfileCardVariant, ProfileStats } from './ProfileCard.types';
 
 export const PROFILE_CARD_SIZES: Record<ProfileCardSize, ProfileCardSize> = {
