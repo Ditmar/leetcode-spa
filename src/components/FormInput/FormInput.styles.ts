@@ -1,51 +1,55 @@
-import { styled } from '@mui/material/styles';
 import { TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+import { SIZE_CONFIGS } from './FormInput.constants';
+
 import type { StyledFormInputProps } from './FormInput.types';
-import { SIZE_CONFIGS, COLOR_CONFIGS } from './FormInput.constants';
 
 export const StyledFormInput = styled(TextField, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => (typeof prop === 'string' ? !prop.startsWith('$') : true),
 })<StyledFormInputProps>(({ theme, $variant, $size, $error }) => {
-  const sizeConfig = $size ? SIZE_CONFIGS[$size] : SIZE_CONFIGS['small'];
-  const colors = COLOR_CONFIGS;
+  const sizeConfig = $size ? SIZE_CONFIGS[$size] : SIZE_CONFIGS['medium'];
 
   return {
-    width: '287px',
+    width: '100%',
     '& .MuiInputBase-root': {
-      height: sizeConfig.height,
+      height: theme.spacing(Number(sizeConfig.height.replace('rem', '')) * 2),
       padding: theme.spacing(0),
       '& .MuiInputBase-input': {
-        padding: sizeConfig.padding,
+        padding: theme.spacing(
+          Number(sizeConfig.padding.split(' ')[0].replace('rem', '')) * 2,
+          Number(sizeConfig.padding.split(' ')[1].replace('rem', '')) * 2
+        ),
         fontSize: sizeConfig.fontSize,
         '&::placeholder': {
-          color: $error ? colors.borderError : colors.borderNormal,
+          color: $error ? theme.palette.error.main : theme.palette.divider,
           opacity: 1,
         },
       },
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: $error ? colors.borderError : colors.borderNormal,
-        borderRadius: '9px',
+        borderColor: $error ? theme.palette.error.main : theme.palette.divider,
+        borderRadius: theme.shape.borderRadius,
         borderWidth: '1px',
       },
       '&:hover fieldset': {
-        borderColor: $error ? colors.borderError : colors.borderFocus,
+        borderColor: $error ? theme.palette.error.main : theme.palette.custom?.focus,
         borderWidth: '1px',
       },
       '&.Mui-focused fieldset': {
-        borderColor: colors.borderFocus,
+        borderColor: theme.palette.custom?.focus,
         borderWidth: '1px',
       },
-      ...(($variant === 'filled') && {
+      ...($variant === 'filled' && {
         '& fieldset': {
           border: 'none',
-          backgroundColor: colors.backgroundFilled,
+          backgroundColor: theme.palette.action.selected,
         },
       }),
     },
     '& .MuiFormHelperText-root': {
-      color: $error ? colors.borderError : theme.palette.text.secondary,
+      color: $error ? theme.palette.error.main : theme.palette.text.secondary,
     },
     '& .Mui-disabled': {
       backgroundColor: theme.palette.action.disabledBackground,
