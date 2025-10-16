@@ -1,8 +1,15 @@
-import { styled } from '@mui/material/styles';
 import { Card, Avatar, Typography, Box } from '@mui/material';
-import type { StyledProfileCardProps, ProfileCardSize, ProfileCardVariant } from './ProfileCard.types';
-import { SIZE_CONFIGS, VARIANT_CONFIGS } from './ProfileCard.constants';
+import { styled } from '@mui/material/styles';
+
 import { greyScale } from '../../style-library/types/theme.helpers';
+
+import { SIZE_CONFIGS, VARIANT_CONFIGS } from './ProfileCard.constants';
+
+import type {
+  StyledProfileCardProps,
+  ProfileCardSize,
+  ProfileCardVariant,
+} from './ProfileCard.types';
 
 export const StyledCard = styled(Card, {
   shouldForwardProp: (prop) => !prop.toString().startsWith('$'),

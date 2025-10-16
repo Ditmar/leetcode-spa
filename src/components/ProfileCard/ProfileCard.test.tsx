@@ -1,6 +1,9 @@
-import { render, screen } from '../../test/test-utils';
 import { describe, it, expect } from 'vitest';
+
+import { render, screen } from '../../test/test-utils';
+
 import { ProfileCard } from './ProfileCard';
+
 import type { ProfileStatsProps } from './ProfileCard.types';
 
 describe('ProfileCard', () => {
@@ -26,7 +29,7 @@ describe('ProfileCard', () => {
 
     const article = screen.getByRole('article', { name: /profile card for john doe/i });
     expect(article).toBeInTheDocument();
-    
+
     expect(screen.getByRole('heading', { name: /john doe/i })).toBeInTheDocument();
     expect(screen.getByText(/@johndoe/i)).toBeInTheDocument();
     expect(screen.getByText(/developer/i)).toBeInTheDocument();
@@ -47,13 +50,7 @@ describe('ProfileCard', () => {
   });
 
   it('shows initials when no avatar URL provided', () => {
-    render(
-      <ProfileCard
-        {...defaultProps}
-        avatarUrl={undefined}
-        data-testid="profile"
-      />
-    );
+    render(<ProfileCard {...defaultProps} avatarUrl={undefined} data-testid="profile" />);
 
     const avatar = screen.getByTestId('profile-avatar');
     expect(avatar).toBeInTheDocument();
@@ -94,13 +91,7 @@ describe('ProfileCard', () => {
   });
 
   it('hides stats when showStats is false', () => {
-    render(
-      <ProfileCard
-        {...defaultProps}
-        showStats={false}
-        data-testid="profile"
-      />
-    );
+    render(<ProfileCard {...defaultProps} showStats={false} data-testid="profile" />);
 
     expect(screen.getByRole('article')).toBeInTheDocument();
     expect(screen.queryByRole('region', { name: /user statistics/i })).not.toBeInTheDocument();
@@ -108,13 +99,7 @@ describe('ProfileCard', () => {
 
   it('handles long names with proper truncation', () => {
     const longName = 'Alexander Christopher Montgomery III';
-    render(
-      <ProfileCard
-        {...defaultProps}
-        name={longName}
-        data-testid="profile"
-      />
-    );
+    render(<ProfileCard {...defaultProps} name={longName} data-testid="profile" />);
 
     const nameElement = screen.getByRole('heading', { name: new RegExp(longName, 'i') });
     expect(nameElement).toBeInTheDocument();
@@ -123,48 +108,28 @@ describe('ProfileCard', () => {
 
   it('handles long username with proper truncation', () => {
     const longUsername = 'verylongusernamethatshouldbeproperlydisplayed';
-    render(
-      <ProfileCard
-        {...defaultProps}
-        username={longUsername}
-        data-testid="profile"
-      />
-    );
+    render(<ProfileCard {...defaultProps} username={longUsername} data-testid="profile" />);
 
     const usernameElement = screen.getByText(`@${longUsername}`);
     expect(usernameElement).toBeInTheDocument();
     expect(usernameElement).toHaveAttribute('title', longUsername);
   });
 
-  it.each([
-    ['small' as const],
-    ['medium' as const],
-    ['large' as const],
-  ])('renders with size="%s"', (size) => {
-    render(
-      <ProfileCard
-        {...defaultProps}
-        size={size}
-        data-testid="profile"
-      />
-    );
-    expect(screen.getByRole('article')).toBeInTheDocument();
-  });
+  it.each([['small' as const], ['medium' as const], ['large' as const]])(
+    'renders with size="%s"',
+    (size) => {
+      render(<ProfileCard {...defaultProps} size={size} data-testid="profile" />);
+      expect(screen.getByRole('article')).toBeInTheDocument();
+    }
+  );
 
-  it.each([
-    ['default' as const],
-    ['compact' as const],
-    ['expanded' as const],
-  ])('renders with variant="%s"', (variant) => {
-    render(
-      <ProfileCard
-        {...defaultProps}
-        variant={variant}
-        data-testid="profile"
-      />
-    );
-    expect(screen.getByRole('article')).toBeInTheDocument();
-  });
+  it.each([['default' as const], ['compact' as const], ['expanded' as const]])(
+    'renders with variant="%s"',
+    (variant) => {
+      render(<ProfileCard {...defaultProps} variant={variant} data-testid="profile" />);
+      expect(screen.getByRole('article')).toBeInTheDocument();
+    }
+  );
 
   it('formats ranking correctly for special positions', () => {
     const testCases = [
@@ -195,12 +160,7 @@ describe('ProfileCard', () => {
 
   it('handles missing stats object gracefully with default values', () => {
     render(
-      <ProfileCard
-        name="Test User"
-        username="testuser"
-        stats={undefined}
-        data-testid="profile"
-      />
+      <ProfileCard name="Test User" username="testuser" stats={undefined} data-testid="profile" />
     );
 
     const statsRegion = screen.getByRole('region', { name: /user statistics/i });
@@ -220,26 +180,14 @@ describe('ProfileCard', () => {
   });
 
   it('handles single-word names for initials', () => {
-    render(
-      <ProfileCard
-        name="Madonna"
-        username="madonna"
-        data-testid="profile"
-      />
-    );
+    render(<ProfileCard name="Madonna" username="madonna" data-testid="profile" />);
 
     const avatar = screen.getByTestId('profile-avatar');
     expect(avatar).toHaveTextContent('M');
   });
 
   it('applies custom className', () => {
-    render(
-      <ProfileCard
-        {...defaultProps}
-        className="custom-class"
-        data-testid="profile"
-      />
-    );
+    render(<ProfileCard {...defaultProps} className="custom-class" data-testid="profile" />);
 
     const card = screen.getByTestId('profile');
     expect(card).toHaveClass('custom-class');
@@ -268,37 +216,19 @@ describe('ProfileCard', () => {
 
   it('throws error when name is missing', () => {
     expect(() => {
-      render(
-        <ProfileCard
-          name=""
-          username="testuser"
-          data-testid="profile"
-        />
-      );
+      render(<ProfileCard name="" username="testuser" data-testid="profile" />);
     }).toThrow('ProfileCard: "name" and "username" are required props and cannot be empty.');
   });
 
   it('throws error when username is missing', () => {
     expect(() => {
-      render(
-        <ProfileCard
-          name="Test User"
-          username=""
-          data-testid="profile"
-        />
-      );
+      render(<ProfileCard name="Test User" username="" data-testid="profile" />);
     }).toThrow('ProfileCard: "name" and "username" are required props and cannot be empty.');
   });
 
   it('throws error when both name and username are missing', () => {
     expect(() => {
-      render(
-        <ProfileCard
-          name=""
-          username=""
-          data-testid="profile"
-        />
-      );
+      render(<ProfileCard name="" username="" data-testid="profile" />);
     }).toThrow('ProfileCard: "name" and "username" are required props and cannot be empty.');
   });
 
