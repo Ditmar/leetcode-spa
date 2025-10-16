@@ -1,8 +1,10 @@
-import { render, screen } from '../../test/test-utils';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
-import { FormInput } from './FormInput';
 import { useState } from 'react';
+import { describe, it, expect, vi } from 'vitest';
+
+import { render, screen } from '../../test/test-utils';
+
+import { FormInput } from './FormInput';
 
 describe('FormInput', () => {
   const defaultProps = {
@@ -25,12 +27,14 @@ describe('FormInput', () => {
     render(<FormInputWrapper {...defaultProps} />);
     const inputContainer = screen.getByTestId('form-input');
     expect(inputContainer).toBeInTheDocument();
-    expect(screen.getByLabelText('Mail Id')).toBeInTheDocument(); 
+    expect(screen.getByLabelText('Mail Id')).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
   it('renderiza con placeholder y value correctos', () => {
-    render(<FormInputWrapper {...defaultProps} placeholder="Enter email" value="test@example.com" />);
+    render(
+      <FormInputWrapper {...defaultProps} placeholder="Enter email" value="test@example.com" />
+    );
     const input = screen.getByRole('textbox');
     expect(input).toHaveAttribute('placeholder', 'Enter email');
     expect(input).toHaveValue('test@example.com');
@@ -41,9 +45,11 @@ describe('FormInput', () => {
     const input = screen.getByRole('textbox');
     await userEvent.type(input, 'test@example.com');
     expect(input).toHaveValue('test@example.com');
-    expect(defaultProps.onChange).toHaveBeenCalledWith(expect.objectContaining({
-      target: expect.objectContaining({ value: 'test@example.com' }),
-    }));
+    expect(defaultProps.onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({ value: 'test@example.com' }),
+      })
+    );
   });
 
   it('no dispara onChange si está disabled', async () => {

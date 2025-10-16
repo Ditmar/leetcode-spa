@@ -8,13 +8,13 @@ export interface FormInputProps extends Omit<TextFieldProps, 'variant' | 'size'>
   variant?: FormInputVariant;
   type?: FormInputType;
   size?: FormInputSize;
-  placeholder?: string; 
+  placeholder?: string;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   errorMessage?: string;
-  disabled?: boolean; 
+  disabled?: boolean;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void; 
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   'data-testid'?: string;
 }
 

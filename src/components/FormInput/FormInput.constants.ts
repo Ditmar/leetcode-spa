@@ -25,14 +25,7 @@ export const DEFAULT_PROPS = {
 } as const;
 
 export const SIZE_CONFIGS = {
-  small: { height: '56px', padding: '4px 16px', fontSize: '0.75rem' },
-  medium: { height: '81px', padding: '8px 20px', fontSize: '0.875rem' },
-  large: { height: '96px', padding: '10px 24px', fontSize: '1rem' },
-} as const;
-
-export const COLOR_CONFIGS = {
-  borderNormal: '#c5c3c3ff',
-  borderFocus: '#B23DEA',
-  borderError: '#F44336',
-  backgroundFilled: '#F5F5F5',
+  small: { height: '3rem', padding: '0.25rem 1rem', fontSize: '0.75rem' },
+  medium: { height: '4rem', padding: '0.5rem 1.25rem', fontSize: '0.875rem' },
+  large: { height: '6rem', padding: '0.75rem 1.5rem', fontSize: '1rem' },
 } as const;

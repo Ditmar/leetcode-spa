@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { FormInput } from './FormInput';
 import { FORM_INPUT_VARIANTS, FORM_INPUT_SIZES, FORM_INPUT_TYPES } from './FormInput.constants';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof FormInput> = {
   title: 'Components/FormInput',
@@ -9,7 +10,7 @@ const meta: Meta<typeof FormInput> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Input estilizado para formularios, basado en MUI TextField con variantes y tamaños.',
+        component: 'Styled input for forms based on MUI TextField with variants and sizes.',
       },
       page: './FormInput.docs.mdx',
     },
@@ -17,15 +18,15 @@ const meta: Meta<typeof FormInput> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: Object.keys(FORM_INPUT_VARIANTS),
+      options: Object.values(FORM_INPUT_VARIANTS),
     },
     size: {
       control: 'select',
-      options: Object.keys(FORM_INPUT_SIZES),
+      options: Object.values(FORM_INPUT_SIZES),
     },
     type: {
       control: 'select',
-      options: Object.keys(FORM_INPUT_TYPES),
+      options: Object.values(FORM_INPUT_TYPES),
     },
     placeholder: { control: 'text' },
     disabled: { control: 'boolean' },
