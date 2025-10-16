@@ -26,7 +26,6 @@ import {
 
 import type { ProfileCardProps, StatsItemProps } from './ProfileCard.types';
 
-/** Stats item component for rendering individual statistics */
 const StatsItem: React.FC<StatsItemProps> = ({ icon, label, value, 'data-testid': dataTestId }) => {
   const formattedValue = typeof value === 'number' ? value.toLocaleString('en-US') : value;
 
@@ -82,7 +81,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     return `${rank}th`;
   };
 
-  // Safely handle stats prop
   const safeStats = stats || DEFAULT_PROPS.stats;
 
   return (
