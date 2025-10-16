@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+<<<<<<< HEAD
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -11,6 +12,14 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
+=======
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --report-unused-disable-directives",
+    "lint:fix": "eslint . --fix",
+    "lint:ts": "eslint . --report-unused-disable-directories",
+    "preview": "vite preview",
+>>>>>>> fac6001 (before of other rebase)
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest",
@@ -37,6 +46,7 @@
     "yarn": ">=1.22.21 <=1.22.22"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@chromatic-com/storybook": "4.1.1",
     "@eslint/js": "9.36.0",
     "@storybook/addon-a11y": "9.1.10",
@@ -71,6 +81,38 @@
     "storybook": "9.1.10",
     "typescript": "5.9.2",
     "vite": "7.1.9",
+=======
+    "@chromatic-com/storybook": "3.2.2",
+    "@storybook/addon-essentials": "8.5.0",
+    "@storybook/addon-interactions": "8.5.0",
+    "@storybook/addon-links": "8.5.0",
+    "@storybook/addon-onboarding": "8.5.0",
+    "@storybook/blocks": "8.5.0",
+    "@storybook/react": "8.5.0",
+    "@storybook/react-vite": "8.5.0",
+    "@storybook/test": "8.5.0",
+    "@testing-library/jest-dom": "6.6.3",
+    "@testing-library/react": "16.1.0",
+    "@testing-library/user-event": "14.5.2",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "@typescript-eslint/eslint-plugin": "8.20.0",
+    "@typescript-eslint/parser": "8.20.0",
+    "@vitejs/plugin-react-swc": "3.5.0",
+    "@vitest/ui": "3.2.4",
+    "eslint": "9.18.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react-hooks": "5.1.0",
+    "eslint-plugin-react-refresh": "0.4.16",
+    "eslint-plugin-storybook": "0.11.1",
+    "jsdom": "25.0.1",
+    "prettier": "^3.6.2",
+    "storybook": "8.5.0",
+    "typescript": "5.7.2",
+    "vite": "6.0.7",
+>>>>>>> fac6001 (before of other rebase)
     "vitest": "3.2.4"
   }
 }
