@@ -27,7 +27,6 @@ describe('TestCard Component', () => {
     const button = screen.getByRole('button');
     button.focus();
     expect(button).toHaveFocus();
-    // MUI maneja Enter/Space automáticamente, solo hacemos keyboard
     await userEvent.keyboard('{Enter}');
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
