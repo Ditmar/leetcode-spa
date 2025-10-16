@@ -1,5 +1,7 @@
 import ThemeProvider from '../src/style-library/provider/MuiThemeProvider';
 import { FC } from 'react';
+import "../src/assets/fonts.css";
+
 
 interface PreviewDecoratorProps {
   Story: FC;
