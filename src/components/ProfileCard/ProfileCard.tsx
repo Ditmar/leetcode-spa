@@ -7,7 +7,6 @@ import {
   DEFAULT_AVATAR_ICON,
   FALLBACK_INITIALS,
 } from './ProfileCard.constants';
-
 import {
   StyledCard,
   StyledProfileContainer,
