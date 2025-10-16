@@ -16,7 +16,7 @@ export const useCountdownTimer = ({
   initialSeconds,
   onComplete,
 }: UseCountdownTimerParams): UseCountdownTimerResult => {
-  //  Validación de entrada
+
   if (typeof initialSeconds !== 'number' || isNaN(initialSeconds) || initialSeconds < 0) {
     throw new Error('initialSeconds debe ser un número positivo');
   }
