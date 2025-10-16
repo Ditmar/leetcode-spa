@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MCQQuestion } from "./MCQQuestion";
 import { describe, expect, it, vi } from "vitest";
 
@@ -19,16 +20,19 @@ describe("MCQQuestion Component", () => {
         expect(screen.getByText("Sample Question")).toBeInTheDocument();
     });
 
-    it("calls onChange when selecting an option", () => {
+    it("calls onChange and updates checked state when selecting an option", async () => {
         const handleChange = vi.fn();
-        render(
-            <MCQQuestion question="Q" options={options} onChange={handleChange} />
-        );
-        fireEvent.click(screen.getByLabelText("Option 1"));
+        render(<MCQQuestion question="Q" options={options} onChange={handleChange} />);
+
+        const option1 = screen.getByLabelText("Option 1");
+
+        await userEvent.click(option1);
+
+        expect(option1).toBeChecked();
         expect(handleChange).toHaveBeenCalledWith("1");
     });
 
-    it("marks the selected option as checked", () => {
+    it("marks the selected option as checked in controlled mode", () => {
         render(
             <MCQQuestion
                 question="Q"
@@ -44,8 +48,16 @@ describe("MCQQuestion Component", () => {
     it("renders correctly with long question text", () => {
         const longText =
             "This is a very long question text that should wrap gracefully across multiple lines and remain fully visible without breaking layout or overflowing.";
-        render(<MCQQuestion question={longText} options={options} onChange={() => { }} />);
-        expect(screen.getByText(/This is a very long question text/i)).toBeInTheDocument();
+        render(
+            <MCQQuestion
+                question={longText}
+                options={options}
+                onChange={() => { }}
+            />
+        );
+        expect(
+            screen.getByText(/This is a very long question text/i)
+        ).toBeInTheDocument();
     });
 
     it("has appropriate ARIA roles and attributes for accessibility", () => {
@@ -61,9 +73,7 @@ describe("MCQQuestion Component", () => {
         const radioGroup = screen.getByRole("radiogroup");
         expect(radioGroup).toBeInTheDocument();
 
-        const radios = screen.getAllByRole("radio").filter(
-            (el) => el.tagName.toLowerCase() === "input"
-        );
+        const radios = screen.getAllByRole("radio") as HTMLInputElement[];
         expect(radios.length).toBe(2);
 
         radios[0].focus();
@@ -72,7 +82,12 @@ describe("MCQQuestion Component", () => {
 
     it("updates the checked state when selectedValue prop changes", () => {
         const { rerender } = render(
-            <MCQQuestion question="Q" options={options} selectedValue="1" onChange={() => { }} />
+            <MCQQuestion
+                question="Q"
+                options={options}
+                selectedValue="1"
+                onChange={() => { }}
+            />
         );
 
         let radio1 = screen.getByLabelText("Option 1") as HTMLInputElement;
@@ -81,8 +96,14 @@ describe("MCQQuestion Component", () => {
         expect(radio2.checked).toBe(false);
 
         rerender(
-            <MCQQuestion question="Q" options={options} selectedValue="2" onChange={() => { }} />
+            <MCQQuestion
+                question="Q"
+                options={options}
+                selectedValue="2"
+                onChange={() => { }}
+            />
         );
+
         radio1 = screen.getByLabelText("Option 1") as HTMLInputElement;
         radio2 = screen.getByLabelText("Option 2") as HTMLInputElement;
         expect(radio1.checked).toBe(false);
@@ -99,10 +120,7 @@ describe("MCQQuestion Component", () => {
             />
         );
 
-        const inputs = screen.getAllByRole("radio").filter(
-            (el) => el.tagName.toLowerCase() === "input"
-        );
-
+        const inputs = screen.getAllByRole("radio") as HTMLInputElement[];
         inputs.forEach((input) => {
             expect(input).toBeDisabled();
         });

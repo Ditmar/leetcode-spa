@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useId } from "react";
 import { FormLabel, RadioGroup } from "@mui/material";
 import {
     QuestionContainer,
@@ -19,43 +19,35 @@ export const MCQQuestion: React.FC<MCQQuestionProps> = ({
     number,
     disabled = false,
 }) => {
+    const id = useId();
+    const questionId = `mcq-${id}`;
+
     const [internalValue, setInternalValue] = useState<string>("");
-    const currentValue = selectedValue ?? internalValue;
-    const questionId = `question-${number ?? "label"}`;
+
+    const isControlled = selectedValue !== undefined;
+    const currentValue = isControlled ? selectedValue : internalValue;
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
-        if (selectedValue === undefined) setInternalValue(newValue);
-        onChange?.(newValue);
+        if (!isControlled) {
+            setInternalValue(newValue);
+        }
+        onChange(newValue);
     };
 
-    const globalReset = `
-        body, #root, #storybook-root {
-            margin: 0 !important;
-            padding: 0 !important;
-            background: none !important;
-        }
-    `;
-
     return (
-        <>
-            <style>
-                {`
-                    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600&family=Montserrat:wght@600&display=swap');
-                    ${globalReset}
-                `}
-            </style>
-
-            <StyledFormControl
-                component="fieldset"
-                disabled={disabled}
-                fullWidth
-                aria-labelledby={questionId}
-                aria-describedby={`${questionId}-desc`}
-                aria-disabled={disabled}
-                role="group"
-            >
-                <QuestionContainer tabIndex={0}>
+        <fieldset
+            disabled={disabled}
+            aria-labelledby={questionId}
+            style={{
+                border: "none",
+                margin: 0,
+                padding: 0,
+                width: "100%",
+            }}
+        >
+            <StyledFormControl fullWidth>
+                <QuestionContainer>
                     <FormLabel id={questionId} component="legend">
                         <QuestionText variant="subtitle1">
                             {number && <QuestionNumber>{number}.</QuestionNumber>}
@@ -64,10 +56,9 @@ export const MCQQuestion: React.FC<MCQQuestionProps> = ({
                     </FormLabel>
 
                     <RadioGroup
-                        name={`mcq-${number || "question"}`}
-                        value={currentValue}
+                        name={`mcq-${number ?? "question"}`}
+                        value={currentValue || ""}
                         onChange={handleChange}
-                        role="radiogroup"
                         aria-labelledby={questionId}
                     >
                         <OptionsGrid>
@@ -77,15 +68,12 @@ export const MCQQuestion: React.FC<MCQQuestionProps> = ({
                                     value={opt.value}
                                     control={<StyledRadio />}
                                     label={opt.label}
-                                    aria-checked={currentValue === opt.value}
-                                    aria-disabled={disabled}
-                                    role="radio"
                                 />
                             ))}
                         </OptionsGrid>
                     </RadioGroup>
                 </QuestionContainer>
             </StyledFormControl>
-        </>
+        </fieldset>
     );
 };
