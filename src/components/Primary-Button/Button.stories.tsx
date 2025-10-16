@@ -1,4 +1,4 @@
-import { PrimaryButton } from './Button'; 
+import { PrimaryButton } from './Button';
 import { BUTTON_VARIANTS, BUTTON_SIZES, BUTTON_SHAPES } from './Button.constants';
 
 import type { ButtonVariant, ButtonSize, ButtonShape } from './Button.types'; // Import types correctly
