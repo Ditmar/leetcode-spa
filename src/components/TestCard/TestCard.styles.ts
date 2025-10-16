@@ -1,38 +1,63 @@
 import type { SxProps, Theme } from '@mui/material';
-import { CARD_PADDING, CARD_BORDER_RADIUS, CARD_GAP } from './TestCard.constants';
+import {
+  CARD_DEFAULT_WIDTH,
+  CARD_DEFAULT_HEIGHT,
+  CARD_BORDER_RADIUS,
+  CARD_GAP,
+  TEXT_HEIGHT,
+  LOGO_MAX_SIZE,
+  CARD_PADDING,
+} from './TestCard.constants';
 
-export const cardSx = (
-  layout: 'horizontal' | 'vertical' = 'horizontal'
-): SxProps<Theme> => ({
-  alignItems: 'center',
-  borderRadius: CARD_BORDER_RADIUS,
-  boxSizing: 'border-box',
-  cursor: 'pointer',
+export const cardSx = (layout: 'horizontal' | 'vertical'): SxProps<Theme> => ({
   display: 'flex',
   flexDirection: layout === 'horizontal' ? 'row' : 'column',
-  gap: CARD_GAP,
+  alignItems: layout === 'horizontal' ? 'center' : 'stretch',
   justifyContent: 'flex-start',
-  maxWidth: 400,
-  minHeight: 150,
-  minWidth: 280,
-  padding: CARD_PADDING,
-  width: '100%',
+  gap: CARD_GAP,
+  borderRadius: CARD_BORDER_RADIUS,
+  width: layout === 'horizontal' ? 'auto' : CARD_DEFAULT_WIDTH,
+  height: layout === 'horizontal' ? 'auto' : CARD_DEFAULT_HEIGHT,
+  overflow: 'hidden',
+  position: 'relative',
 });
 
-export const logoSx: SxProps<Theme> = {
-  flexShrink: 0,
-  height: 'auto',
-  maxHeight: 80,
-  maxWidth: 80,
-  objectFit: 'contain',
-  width: 'auto',
-};
+export const logoSx = (layout: 'horizontal' | 'vertical'): SxProps<Theme> =>
+  layout === 'horizontal'
+    ? {
+        flexShrink: 0,
+        width: LOGO_MAX_SIZE,
+        height: '100%',
+        maxHeight: LOGO_MAX_SIZE,
+        objectFit: 'cover',
+      }
+    : {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+      };
 
-export const contentSx: SxProps<Theme> = {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  padding: 0,
-  textAlign: 'left',
-};
-
+export const contentSx = (layout: 'horizontal' | 'vertical'): SxProps<Theme> =>
+  layout === 'horizontal'
+    ? {
+        flex: 1,
+        padding: CARD_PADDING,
+        boxSizing: 'border-box',
+      }
+    : {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        height: TEXT_HEIGHT,
+        background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+        backdropFilter: 'blur(5px)',
+        color: '#fff',
+        padding: CARD_PADDING,
+        boxSizing: 'border-box',
+        borderBottomLeftRadius: CARD_BORDER_RADIUS,
+        borderBottomRightRadius: CARD_BORDER_RADIUS,
+      };

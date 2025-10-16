@@ -1,69 +1,71 @@
 import React from 'react';
-import type { CardProps } from '@mui/material';
-import { Card, CardMedia, Typography, Box } from '@mui/material';
 import type { TestCardProps } from './TestCard.types';
+import { Card, CardActionArea, CardMedia, Box, Typography } from '@mui/material';
+import { cardSx, logoSx, contentSx } from './TestCard.styles';
+import type { SxProps, Theme } from '@mui/material';
 
-export const TestCard: React.FC<TestCardProps> = ({
+export const TestCard: React.FC<TestCardProps & { sx?: SxProps<Theme> }> = ({
   logo,
   title,
   description,
+  layout = 'horizontal',
   onSelect,
+  sx,
   ...cardProps
 }) => {
-  const cardStyles = {
-    position: 'relative',
-    width: 300,
-    height: 420,
-    borderRadius: 2,
-    overflow: 'hidden',
-    cursor: 'pointer',
-    mx: 'auto',
+  const combinedSx = { ...cardSx(layout), ...sx } as SxProps<Theme>;
+
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    if (onSelect) onSelect(event);
   };
 
-  const overlayStyles = {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    color: '#fff',
-    background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
-    backdropFilter: 'blur(6px)',
-    p: 3,
-  };
-
-  const imageStyles = {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover' as const,
-  };
-
-  const logoWrapperStyles = {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
+  const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+    }
   };
 
   return (
-    <Card sx={cardStyles} onClick={onSelect} {...cardProps} data-testid="test-card">
-      {typeof logo === 'string' ? (
-        <CardMedia component="img" image={logo} alt={title} sx={imageStyles} />
-      ) : (
-        <Box sx={logoWrapperStyles}>{logo}</Box>
-      )}
+    <Card sx={combinedSx} {...cardProps} data-testid="test-card">
+      <CardActionArea
+        component="div"
+        role="button"
+        tabIndex={0}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        data-testid="test-card-layout"
+        sx={{
+          display: 'flex',
+          flexDirection: layout === 'horizontal' ? 'row' : 'column',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        {typeof logo === 'string' ? (
+          <CardMedia component="img" image={logo} alt={title} sx={logoSx(layout)} />
+        ) : (
+          <Box sx={logoSx(layout)}>{logo}</Box>
+        )}
 
-      <Box sx={overlayStyles}>
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis' }}
-          data-testid="test-card-title"
-        >
-          {title}
-        </Typography>
-        <Typography variant="body2" data-testid="test-card-description">
-          {description}
-        </Typography>
-      </Box>
+        <Box sx={contentSx(layout)}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              fontWeight: 'bold',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+            data-testid="test-card-title"
+          >
+            {title}
+          </Typography>
+          <Typography variant="body2" data-testid="test-card-description">
+            {description}
+          </Typography>
+        </Box>
+      </CardActionArea>
     </Card>
   );
 };
-
