@@ -44,15 +44,13 @@ export const TextSection = styled(Box)(({ theme }) => ({
 }));
 
 export const TitleText = styled(Typography)(({ theme }) => ({
-  fontFamily:
-    "'Syne', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
   fontWeight: 600,
   fontStyle: 'normal',
   fontSize: theme.typography.pxToRem(18),
   lineHeight: '100%',
   color: '#565656',
-  width: theme.spacing(25.4), // 203 px → 25.4 * 8 = 203.2 px
-  height: theme.spacing(2.75), // 22 px → 2.75 * 8 = 22 px
+  width: theme.spacing(25.4),
+  height: theme.spacing(2.75),
   textAlign: 'left',
   opacity: 1,
   overflow: 'hidden',
@@ -65,16 +63,15 @@ export const TitleText = styled(Typography)(({ theme }) => ({
   },
 }));
 
+
 export const SubtitleText = styled(Typography)(({ theme }) => ({
-  fontFamily:
-    "'Syne', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
   fontWeight: 400,
   fontStyle: 'normal',
   fontSize: theme.typography.pxToRem(16),
   lineHeight: '100%',
   color: '#A9A9A9',
-  width: theme.spacing(21.125), // 169 px → 21.125 * 8 = 169 px
-  height: theme.spacing(2.375), // 19 px → 2.375 * 8 = 19 px
+  width: theme.spacing(21.125),
+  height: theme.spacing(2.375),
   textAlign: 'left',
   opacity: 1,
   overflow: 'hidden',
@@ -86,6 +83,7 @@ export const SubtitleText = styled(Typography)(({ theme }) => ({
     textAlign: 'center',
   },
 }));
+
 
 export const LogoImage = styled('img')<{ size: 'small' | 'medium' | 'large' }>(
   ({ theme, size }) => ({

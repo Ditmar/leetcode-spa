@@ -1,39 +1,41 @@
 # TestHeader
 
-El componente **TestHeader** muestra la sección de identificación principal para un cuestionario o competencia, con un logo, título y subtítulo en un diseño limpio y responsivo. Se adapta automáticamente a vistas móviles y de escritorio, garantizando una experiencia consistente en todos los dispositivos.
+The **TestHeader** component displays the main identification section for a quiz or competition, featuring a logo, title, and subtitle in a clean, responsive layout. It automatically adapts to mobile and desktop views, ensuring a consistent experience across all devices.
 
-## Características
+## Features
 
-- Muestra un logo, título y subtítulo con espaciado y jerarquía consistentes.
-- Totalmente responsivo: cambia a un diseño vertical (apilado) en pantallas pequeñas.
-- Variantes flexibles: soporta orientaciones horizontal y vertical mediante la propiedad `variant`.
-- Estado de carga: muestra placeholders (MUI Skeleton) mientras se cargan los datos.
-- Tamaños escalables: permite elegir entre `small`, `medium` o `large` para el logo y el texto.
-- Cumple con el sistema de diseño: utiliza componentes `Box`, `Card` y `Typography` de MUI con tokens del tema.
-- **Accesible:** incluye roles semánticos, atributos `alt` y descripciones ARIA para lectores de pantalla.
+* Displays a logo, title, and subtitle with consistent spacing and hierarchy.
+* Fully responsive: switches to a vertical (stacked) layout on smaller screens.
+* Flexible variants: supports horizontal and vertical orientations via the `variant` prop.
+* Loading state: shows placeholders (MUI Skeleton) while data is loading.
+* Scalable sizes: allows choosing between `small`, `medium`, or `large` for logo and text.
+* Design system compliant: uses MUI `Box`, `Card`, and `Typography` components with theme tokens.
+* **Accessible:** includes semantic roles, `alt` attributes, and ARIA descriptions for screen readers.
 
-## Propiedades
+## Props
 
-- **logoSrc** (string, opcional): Ruta o URL de la imagen del logo. Muestra un placeholder si está vacío. Valor por defecto: logo predeterminado de TCS.
-- **title** (string, opcional): Título principal del cuestionario o competencia. Valor por defecto: "TCS Quiz Competition".
-- **subtitle** (string, opcional): Texto descriptivo secundario mostrado debajo del título. Valor por defecto: "TCS Campus Drive - 2023".
-- **variant** (horizontal | vertical, opcional): Controla la orientación del diseño. Valor por defecto: `horizontal`.
-- **size** (small | medium | large, opcional): Ajusta el tamaño del logo y la tipografía. Valor por defecto: `medium`.
-- **isLoading** (boolean, opcional): Muestra placeholders de carga si es `true`. Valor por defecto: `false`.
+* **logoSrc** (string, optional): Path or URL of the logo image. Displays a placeholder if empty. Default: TCS default logo.
+* **title** (string, optional): Main title of the quiz or competition. Default: `"TCS Quiz Competition"`.
+* **subtitle** (string, optional): Secondary descriptive text shown below the title. Default: `"TCS Campus Drive - 2023"`.
+* **variant** (`horizontal` | `vertical`, optional): Controls layout orientation. Default: `horizontal`.
+* **size** (`small` | `medium` | `large`, optional): Adjusts logo and typography sizes. Default: `medium`.
+* **isLoading** (boolean, optional): Displays loading placeholders when `true`. Default: `false`.
 
-## Accesibilidad
+## Accessibility
 
-El componente **TestHeader** ha sido diseñado siguiendo buenas prácticas de accesibilidad (A11y) para garantizar una experiencia inclusiva para todos los usuarios.
+The **TestHeader** component is designed following accessibility (A11y) best practices to ensure an inclusive experience for all users.
 
-### Implementación en el código
+### Implementation in code
 
-Dentro del archivo `TestHeader.tsx`, se aplican las siguientes medidas:
+Inside the `TestHeader.tsx` file, the following accessibility features are applied:
 
-- **Rol semántico de cabecera:**
+* **Semantic banner role:**
+
   ```tsx
   <div role="banner" data-testid="header-wrapper" ...>
+  ```
 
-## Ejemplo de uso
+## Example Usage
 
 ```tsx
 import TestHeader from '@/components/TestHeader';
@@ -50,3 +52,4 @@ function Example() {
     />
   );
 }
+```

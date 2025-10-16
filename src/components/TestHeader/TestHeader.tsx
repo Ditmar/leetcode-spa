@@ -1,4 +1,3 @@
-import './fonts.local.css';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { Box, Skeleton, useMediaQuery, Card } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
