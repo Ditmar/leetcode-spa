@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { Logo } from './Logo';
-import type { LogoProps } from './Logo.types';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Logo> = {
   title: 'Components/Logo',

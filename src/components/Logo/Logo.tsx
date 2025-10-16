@@ -1,6 +1,7 @@
-import type { LogoProps } from './Logo.types';
-import logoUrl from '../../assets/logo.svg';
 import fullLogoUrl from '../../assets/full_logo.svg';
+import logoUrl from '../../assets/logo.svg';
+
+import type { LogoProps } from './Logo.types';
 
 export const Logo = ({
   orientation = 'vertical',
@@ -8,7 +9,6 @@ export const Logo = ({
   height,
   className = '',
   alt = 'App logo',
-  ...rest
 }: LogoProps) => {
   const imageImport = orientation === 'horizontal' ? fullLogoUrl : logoUrl;
   const src = typeof imageImport === 'string' ? imageImport : (imageImport as { src?: string }).src;
