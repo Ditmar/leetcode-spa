@@ -1,16 +1,20 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { AvatarMenu } from './AvatarMenu';
-import type { AvatarMenuItem } from './AvatarMenu.types';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+
+import { AvatarMenu } from './AvatarMenu';
+
+import type { AvatarMenuItem } from './AvatarMenu.types';
 
 const mockLogout = vi.fn();
 const mockSettings = vi.fn();
 
+const USER_MENU_ARIA_LABEL = 'User menu';
+
 const mockMenuItems: AvatarMenuItem[] = [
-  { label: 'Configuración', onClick: mockSettings, 'data-testid': 'settings-option' },
-  { label: 'Cerrar Sesión', onClick: mockLogout, 'data-testid': 'logout-option', divider: true },
+  { label: 'Settings', onClick: mockSettings, 'data-testid': 'settings-option' },
+  { label: 'Sign Out', onClick: mockLogout, 'data-testid': 'logout-option', divider: true },
 ];
 
 const mockProps = {
@@ -24,13 +28,13 @@ describe('AvatarMenu', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
-  const getAvatarButton = (username: string = mockProps.username) => {
-    return screen.getByRole('button', {
-      name: `Menú de usuario${username ? `: ${username}` : ''}`
-    });
-  }
 
-  test('debe renderizar el botón con avatar y nombre, menú cerrado inicialmente', () => {
+  const getAvatarButton = (username: string = mockProps.username) => {
+    const nameRegex = new RegExp(`^${USER_MENU_ARIA_LABEL}${username ? ': ' : ''}.*`, 'i');
+    return screen.getByRole('button', { name: nameRegex });
+  };
+
+  test('should render the button with avatar and name, menu closed initially', () => {
     render(<AvatarMenu {...mockProps} />);
     const avatarButton = getAvatarButton();
     expect(avatarButton).toBeInTheDocument();
@@ -38,7 +42,7 @@ describe('AvatarMenu', () => {
     expect(avatarButton).toHaveAttribute('aria-expanded', 'false');
   });
 
-  test('debe abrir y cerrar el menú correctamente al hacer clic en el avatar', async () => {
+  test('should open and close the menu correctly on avatar click', async () => {
     render(<AvatarMenu {...mockProps} />);
     const avatarButton = getAvatarButton();
     await userEvent.click(avatarButton);
@@ -50,43 +54,51 @@ describe('AvatarMenu', () => {
     expect(avatarButton).toHaveAttribute('aria-expanded', 'false');
   });
 
-  test('debe ejecutar callback del ítem y cerrar menu despues del clic', async () => {
+  test('should execute item callback and close menu after click', async () => {
     render(<AvatarMenu {...mockProps} />);
     const avatarButton = getAvatarButton();
     await userEvent.click(avatarButton);
-    const logoutItem = await screen.findByRole('menuitem', { name: 'Cerrar Sesión' });
+    const logoutItem = await screen.findByTestId('logout-option');
     await userEvent.click(logoutItem);
     expect(mockLogout).toHaveBeenCalledTimes(1);
     expect(mockSettings).not.toHaveBeenCalled();
     await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument());
   });
 
-  test('debe usar los ítems por defecto si no se pasan menuItems', async () => {
+  test('should use default items if menuItems are not passed', async () => {
     render(<AvatarMenu avatarUrl={mockProps.avatarUrl} username={mockProps.username} />);
     const avatarButton = getAvatarButton(mockProps.username);
     await userEvent.click(avatarButton);
-    const profileItem = await screen.findByRole('menuitem', { name: 'Mi Perfil' });
+    const profileItem = await screen.findByRole('menuitem', { name: 'Profile' });
     expect(profileItem).toBeInTheDocument();
   });
 
-  test('debe renderizar correctamente cuando no se pasa avatarUrl', () => {
-    render(<AvatarMenu avatarUrl="" username="Usuario Fallback" />);
-    const avatarButton = getAvatarButton('Usuario Fallback');
+  test('should render correctly when avatarUrl is not passed', () => {
+    render(<AvatarMenu avatarUrl="" username="Fallback User" />);
+    const avatarButton = getAvatarButton('Fallback User');
     expect(avatarButton).toBeInTheDocument();
   });
 
-  test('debe manejar menú vacío y items deshabilitados', async () => {
+  test('should handle empty menu and disabled items', async () => {
     const disabledItems: AvatarMenuItem[] = [
-      { label: 'Opción Deshabilitada', onClick: () => { }, disabled: true, 'data-testid': 'disabled-item' },
+      {
+        label: 'Disabled Option',
+        onClick: () => {},
+        disabled: true,
+        'data-testid': 'disabled-item',
+      },
     ];
-    render(<AvatarMenu avatarUrl={mockProps.avatarUrl} username="Usuario" menuItems={disabledItems} />);
-    const avatarButton = screen.getByRole('button');
+    const username = 'User';
+    render(
+      <AvatarMenu avatarUrl={mockProps.avatarUrl} username={username} menuItems={disabledItems} />
+    );
+    const avatarButton = getAvatarButton(username);
     await userEvent.click(avatarButton);
-    const menuItem = await screen.findByRole('menuitem', { name: 'Opción Deshabilitada' });
+    const menuItem = await screen.findByTestId('disabled-item');
     expect(menuItem).toHaveAttribute('aria-disabled', 'true');
   });
 
-  test('debe pasar fullWidth a AvatarMenuRoot y AvatarContainer', () => {
+  test('should pass fullWidth to AvatarMenuRoot and AvatarContainer', () => {
     render(<AvatarMenu {...mockProps} fullWidth={true} />);
     const avatarButton = getAvatarButton();
     expect(avatarButton).toHaveAttribute('class');

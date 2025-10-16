@@ -1,95 +1,80 @@
-import { Meta, Primary, Canvas, Controls, Story } from '@storybook/blocks';
-import * as AvatarMenuStories from './AvatarMenu.stories';
-import { AvatarMenu } from './AvatarMenu'
-
-<Meta of={AvatarMenuStories} />
-
 # AvatarMenu
 
-> **Componente**: Menú contextual asociado al usuario autenticado — avatar + menú
+> **Component**: Contextual menu associated with the authenticated user — avatar + menu
 
-El **`AvatarMenu`** es un componente de navegación diseñado para mostrar un menú
-contextual asociado al avatar de un usuario autenticado. Está construido con
-**React**, **TypeScript** y **Material UI (MUI)**, y encapsula la lógica de
-acceso, foco y navegación mediante el hook `useAvatarMenu`.
-
----
-
-## Objetivos y alcance
-
-* Proveer un disparador visual (avatar) que abre un **menú accesible** con
-  acciones relacionadas al usuario (perfil, configuración, cierre de sesión).
-* Garantizar **navegación por teclado** y compatibilidad con lectores de pantalla.
-* Ser flexible y personalizable mediante `menuItems`, `avatarProps` y `fullWidth`.
-* Mantener separación de responsabilidades: lógica en el hook, UI en el JSX,
-  estilos en el archivo `styles`.
+The **`AvatarMenu`** is a components component designed to display a **contextual menu**
+associated with the authenticated user's avatar. It's built with **React**,
+**TypeScript**, and **Material UI (MUI)**, and encapsulates the access, focus,
+and components logic using the `useAvatarMenu` hook.
 
 ---
 
-## Demostración principal
+## Goals and Scope
 
-<Primary />
-
-> El ejemplo principal usa las stories registradas. Usa el panel de Controls para
-> interactuar con las props en tiempo real.
+* Provide a visual trigger (avatar) that opens an **accessible menu** with
+  user-related actions (profile, settings, logout).
+* Ensure **keyboard components** and compatibility with screen readers.
+* Be flexible and customizable via `menuItems`, `avatarProps`, and `fullWidth`.
+* Maintain separation of concerns: logic in the hook, UI in the JSX,
+  styles in the `styles` file.
 
 ---
 
-## Props y API
+## Props and API
 
-## Props manuales
+## Manual Props
 <table>
   <thead>
     <tr>
       <th>Prop</th>
-      <th>Tipo</th>
-      <th>Requerido</th>
-      <th>Descripción</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>avatarUrl</td>
       <td><code>string</code></td>
-      <td>Sí</td>
-      <td>URL de la imagen del avatar</td>
+      <td>Yes</td>
+      <td>URL of the avatar image</td>
     </tr>
     <tr>
       <td>username</td>
       <td><code>string</code></td>
-      <td>Sí</td>
-      <td>Nombre del usuario para aria-label</td>
+      <td>Yes</td>
+      <td>Username for aria-label</td>
     </tr>
     <tr>
       <td>menuItems</td>
       <td><code>AvatarMenuItem[]</code></td>
       <td>No</td>
-      <td>Lista de items del menú</td>
+      <td>List of menu items</td>
     </tr>
     <tr>
       <td>avatarProps</td>
       <td><code>Omit&lt;MuiAvatarProps, 'src' | 'alt'&gt;</code></td>
       <td>No</td>
-      <td>Props adicionales para Avatar de MUI</td>
+      <td>Additional props for MUI Avatar</td>
     </tr>
     <tr>
       <td>fullWidth</td>
       <td><code>boolean</code></td>
       <td>No</td>
-      <td>Si el trigger ocupa todo el ancho</td>
+      <td>Whether the trigger takes up the full width</td>
     </tr>
     <tr>
       <td>data-testid</td>
       <td><code>string</code></td>
       <td>No</td>
-      <td>Identificador para pruebas</td>
+      <td>Identifier for testing</td>
     </tr>
   </tbody>
 </table>
 
-### Estructura de `AvatarMenuItem`
+### `AvatarMenuItem` Structure
 
-Cada elemento del menú tiene la siguiente forma (simplificada):
+Each menu item has the following (simplified) shape:
 
 ```ts
 interface AvatarMenuItem {
@@ -100,34 +85,34 @@ interface AvatarMenuItem {
   divider?: boolean;
   'data-testid'?: string;
   menuItemProps?: Omit<MuiMenuItemProps, 'onClick'>;
+  key?: 'profile' | 'settings' | 'logout' | string;
 }
 ```
 
 ---
 
-## Accesibilidad (A11y)
+## Accessibility (A11y)
 
-* `aria-haspopup="true"` y `aria-expanded` en el trigger.
-* `aria-controls` en el trigger apuntando al `menuId` cuando está abierto.
-* `aria-labelledby` en el `MenuList` apuntando al trigger para vincular lecturas por screen-readers.
-* Manejo de teclado:
-
-  * `Enter` o `Space`: abre el menú desde el trigger.
-  * `Escape`: cierra el menú y restaura foco.
-  * `ArrowDown` / `ArrowUp`: navega entre ítems.
-* Los `MenuItem` respetan `disabled` y exponen `aria-disabled`.
-* `focusedIndex` y `autoFocus` se usan para indicar foco visual a nivel de item.
+* `aria-haspopup="true"` and `aria-expanded` on the trigger.
+* `aria-controls` on the trigger pointing to the `menuId` when open.
+* `aria-labelledby` on the `MenuList` pointing to the trigger to link readings by screen-readers.
+* Keyboard handling:
+  * **`Enter`** or **`Space`**: opens the menu from the trigger.
+  * **`Escape`**: closes the menu and restores focus.
+  * **`ArrowDown`** / **`ArrowUp`**: navigates between items.
+* **`MenuItem`**s respect **`disabled`** and expose **`aria-disabled`**.
+* **`focusedIndex`** and **`autoFocus`** are used to indicate visual focus at the item level.
 
 ---
 
-## Estilos y tokens
+## Styles and Tokens
 
-* `AvatarMenuRoot` controla `width`, `padding` y `borderRadius`.
-* `AvatarContainer` es un flex container con gap dependiente de `theme.spacing`.
-* `TriangleIndicator` es un triángulo CSS que rota según `$isOpen` — animación por `theme.transitions`.
-* `UsernameText` se oculta en pantallas pequeñas mediante breakpoints.
+* **`AvatarMenuRoot`** controls `width`, `padding`, and `borderRadius`.
+* **`AvatarContainer`** is a flex container with gap dependent on `theme.spacing`.
+* **`TriangleIndicator`** is a CSS triangle that rotates based on `$isOpen` — animation via `theme.transitions`.
+* **`UsernameText`** is hidden on small screens using breakpoints.
 
-Tokens referencia (ejemplos):
+Reference Tokens (examples):
 
 * `theme.palette.text.primary`
 * `theme.shape.borderRadius`
@@ -135,56 +120,56 @@ Tokens referencia (ejemplos):
 
 ---
 
-## Comportamiento visual y UX
+## Visual Behavior and UX
 
-* El menú se ancla con `anchorOrigin` y `transformOrigin` a `bottom/right` -> `top/right`.
-* `MenuListProps.autoFocus` para foco automático en apertura y `dense` para compactar la lista.
-* `MenuItem` aplica `sx` cuando está enfocado (sombra, border, borderRadius).
-* Se respeta `menuItemProps.sx` si se proporciona.
-
----
-
-## Testing (resumen de la suite existente)
-
-* Renderizado inicial con `aria-expanded=false`.
-* Apertura / cierre por click y verificación del rol `menu`.
-* Ejecución de `onClick` de los ítems y cierre posterior.
-* Uso de `DEFAULT_AVATAR_MENU_ITEMS` si no se pasan `menuItems`.
-* Comportamiento con `avatarUrl` vacío (fallback).
-* Menú con items deshabilitados (`aria-disabled`).
-* Propagación `fullWidth` y estructura DOM.
+* The menu is anchored with `anchorOrigin` and `transformOrigin` to `bottom/right` -> `top/right`.
+* **`MenuListProps.autoFocus`** for automatic focus on opening and **`dense`** to compact the list.
+* **`MenuItem`** applies `sx` when focused (shadow, border, borderRadius).
+* **`menuItemProps.sx`** is respected if provided.
 
 ---
 
-## Stories incluidas
+## Testing (Summary of Existing Suite)
+
+* Initial rendering with `aria-expanded=false`.
+* Opening / closing by click and verification of the `menu` role.
+* Execution of item's `onClick` and subsequent closing.
+* Use of **`DEFAULT_AVATAR_MENU_ITEMS`** if no `menuItems` are passed.
+* Behavior with empty **`avatarUrl`** (fallback).
+* Menu with disabled items (`aria-disabled`).
+* **`fullWidth`** propagation and DOM structure.
+
+---
+
+## Included Stories
 
 # AvatarMenu - Stories
 
-> Enlaces a cada story individual del componente AvatarMenu.
+> Links to each individual story for the AvatarMenu component.
 
-<a href="?/iframe.html?globals=&id=navigation-avatarmenu--standard">Standard — Menú estándar con items por defecto</a>
+<a href="?/iframe.html?globals=&id=components-avatarmenu--standard">Standard — Standard menu with default items</a>
 <br />
-<a href="?/iframe.html?globals=&id=navigation-avatarmenu--custom-actions&viewMode=story">CustomActions — Menú con items personalizados</a>
+<a href="?/iframe.html?globals=&id=components-avatarmenu--custom-actions&viewMode=story">CustomActions — Menu with custom items</a>
 <br />
-<a href="?/iframe.html?globals=&args=&id=navigation-avatarmenu--avatar-fallback&viewMode=story" >AvatarFallback — Sin imagen de avatar</a>
+<a href="?/iframe.html?globals=&args=&id=components-avatarmenu--avatar-fallback&viewMode=story" >AvatarFallback — No avatar image</a>
 <br />
-<a href="?/iframe.html?globals=&args=&id=navigation-avatarmenu--empty-menu&viewMode=story">EmptyMenu — Menú vacío</a>
+<a href="?/iframe.html?globals=&args=&id=components-avatarmenu--empty-menu&viewMode=story">EmptyMenu — Empty menu</a>
 <br />
-<a href="?/iframe.html?globals=&args=&id=navigation-avatarmenu--disabled-items&viewMode=story">DisabledItems — Items deshabilitados</a>
+<a href="?/iframe.html?globals=&args=&id=components-avatarmenu--disabled-items&viewMode=story">DisabledItems — Disabled items</a>
 <br />
-<a href="?/iframe.html?globals=&args=&id=navigation-avatarmenu--layout-variants&viewMode=story">LayoutVariants — fullWidth y sin username</a>
+<a href="?/iframe.html?globals=&args=&id=components-avatarmenu--layout-variants&viewMode=story">LayoutVariants — fullWidth and without username</a>
 
 ---
 
-## Ejemplos de uso
+## Usage Examples
 
 ```tsx
 <AvatarMenu
   avatarUrl="/images/user.jpg"
   username="Alex Méndez"
   menuItems={[
-    { label: 'Perfil', onClick: () => navigate('/profile') },
-    { label: 'Cerrar Sesión', onClick: logout, divider: true }
+    { label: 'Profile', onClick: () => navigate('/profile') },
+    { label: 'Log Out', onClick: logout, divider: true }
   ]}
 />
 ```
@@ -192,11 +177,11 @@ Tokens referencia (ejemplos):
 ```tsx
 <AvatarMenu
   avatarUrl=""
-  username="Usuario"
+  username="User"
   avatarProps={{ sx: { width: 36, height: 36 } }}
   menuItems={[
-    { label: 'Modo Oscuro', onClick: toggleDarkMode },
-    { label: 'Soporte', onClick: openHelp }
+    { label: 'Dark Mode', onClick: toggleDarkMode },
+    { label: 'Support', onClick: openHelp }
   ]}
   fullWidth
 />
