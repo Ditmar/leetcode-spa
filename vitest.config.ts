@@ -33,3 +33,13 @@ export const storybookConfig = defineConfig({
     setupFiles: ['.storybook/vitest.setup.ts'],
   },
 });
+export const VARIANTS = {
+  default: {
+    color: "#000000",
+    background: "transparent",
+  },
+  color: {
+    color: "linear-gradient(60deg, #B33DEB 13.4%, #DE8FFF 86.6%)",
+    background: "transparent",
+  },
+} as const;

@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import "../src/assets/fonts.css";
+
 
 import ThemeProvider from '../src/style-library/provider/MuiThemeProvider';
 
