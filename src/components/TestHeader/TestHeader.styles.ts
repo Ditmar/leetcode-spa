@@ -63,7 +63,6 @@ export const TitleText = styled(Typography)(({ theme }) => ({
   },
 }));
 
-
 export const SubtitleText = styled(Typography)(({ theme }) => ({
   fontWeight: 400,
   fontStyle: 'normal',
@@ -83,7 +82,6 @@ export const SubtitleText = styled(Typography)(({ theme }) => ({
     textAlign: 'center',
   },
 }));
-
 
 export const LogoImage = styled('img')<{ size: 'small' | 'medium' | 'large' }>(
   ({ theme, size }) => ({

@@ -1,4 +1,5 @@
 import { createCustomTheme } from '../types/theme.helpers';
+
 import type { ThemeConfig } from '../types/theme.types';
 
 const themeConfig: ThemeConfig = {
