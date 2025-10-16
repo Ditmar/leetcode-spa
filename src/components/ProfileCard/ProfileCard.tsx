@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import {
   DEFAULT_PROPS,
@@ -7,6 +7,7 @@ import {
   DEFAULT_AVATAR_ICON,
   FALLBACK_INITIALS,
 } from './ProfileCard.constants';
+
 import {
   StyledCard,
   StyledProfileContainer,
