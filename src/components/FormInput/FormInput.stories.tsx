@@ -8,12 +8,6 @@ const meta: Meta<typeof FormInput> = {
   component: FormInput,
   parameters: {
     layout: 'centered',
-    docs: {
-      description: {
-        component: 'Styled input for forms based on MUI TextField with variants and sizes.',
-      },
-      page: './FormInput.docs.mdx',
-    },
   },
   argTypes: {
     variant: {
