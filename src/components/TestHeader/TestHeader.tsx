@@ -16,7 +16,7 @@ import { DEFAULT_TITLE, DEFAULT_SUBTITLE } from './TestHeader.constants';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import tcsLogo from './assets/tcs-logo.svg';
 
-// ✅ Export nombrado tipado explícitamente
+//Export nombrado tipado explícitamente
 export const TestHeader: React.FC<PropsTestHeaderProps> = (props) => {
   const {
     title = DEFAULT_TITLE,
