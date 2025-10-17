@@ -1,8 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Box } from '@mui/material';
 import { Edit, Star, TrendingUp, People } from '@mui/icons-material';
+import { Box } from '@mui/material';
+
 import { StatsCard } from './StatsCard';
 import { StatsCardVariant } from './StatsCard.types';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof StatsCard> = {
   title: 'Components/StatsCard',

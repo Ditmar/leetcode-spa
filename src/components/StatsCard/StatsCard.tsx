@@ -1,11 +1,11 @@
-// src/components/StatsCard/StatsCard.tsx
-import React from 'react';
 import { Box } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import React from 'react';
 
 import { StyledCard, IconWrapper, ContentWrapper, ValueText, LabelText } from './StatsCard.styles';
-import type { StatsCardProps, StatsCardVariant, StatsCardSize } from './StatsCard.types';
 import { StatsCardVariant as VariantEnum, StatsCardSize as SizeEnum } from './StatsCard.types';
-import { useTheme } from '@mui/material/styles';
+
+import type { StatsCardProps, StatsCardVariant } from './StatsCard.types';
 
 export const StatsCard: React.FC<StatsCardProps> = ({
   icon,
@@ -45,7 +45,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({
         aria-label={`${label} icon`}
         data-testid="icon-wrapper"
       >
-        {/* The icon passed in is typically an MUI SvgIcon — don't mutate it */}
+        {}
         <Box component="span" aria-hidden="true">
           {icon}
         </Box>

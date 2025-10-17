@@ -1,5 +1,6 @@
+// src/components/StatsCard/StatsCard.types.ts
+import type { CardProps, SxProps, Theme } from '@mui/material';
 import type { ReactNode } from 'react';
-import type { CardProps } from '@mui/material';
 
 export enum StatsCardVariant {
   PRIMARY = 'primary',
@@ -21,5 +22,7 @@ export interface StatsCardProps extends Omit<CardProps, 'variant'> {
   label: string;
   variant?: StatsCardVariant;
   size?: StatsCardSize;
+  iconColor?: string; 
   animated?: boolean;
+  sx?: SxProps<Theme>;
 }

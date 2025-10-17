@@ -21,15 +21,15 @@ export const StyledCard = styled(Card, {
     transition: $animated ? 'transform 0.18s ease, box-shadow 0.18s ease' : undefined,
     '&:hover': $animated
       ? {
-        transform: 'translateY(-6px)',
-        boxShadow: theme.shadows[6],
-      }
+          transform: 'translateY(-6px)',
+          boxShadow: theme.shadows[6],
+        }
       : undefined,
   };
 });
 
 export const IconWrapper = styled(Box, {
-  shouldForwardProp: (prop) => prop !== '$iconColor' && prop !== 'aria-label',
+  shouldForwardProp: (prop) => prop !== '$iconColor',
 })<{ $iconColor?: string }>(({ theme, $iconColor }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -43,7 +43,7 @@ export const IconWrapper = styled(Box, {
   flexShrink: 0,
 }));
 
-export const ContentWrapper = styled(Box)(({ theme }) => ({
+export const ContentWrapper = styled(Box)(() => ({
   display: 'flex',
   flexDirection: 'column',
 }));
