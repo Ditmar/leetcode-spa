@@ -1,4 +1,3 @@
-// src/components/StatsCard/StatsCard.types.ts
 import type { CardProps, SxProps, Theme } from '@mui/material';
 import type { ReactNode } from 'react';
 export enum StatsCardVariant {
