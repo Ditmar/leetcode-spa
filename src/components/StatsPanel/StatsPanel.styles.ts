@@ -50,4 +50,3 @@ export const StatText = styled('div')(({ theme }) => ({
     ...theme.typography.body2,
     color: theme.palette.text.secondary,
 }));
-
