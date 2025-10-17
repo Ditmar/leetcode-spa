@@ -2,7 +2,6 @@ import { Card, Avatar, Typography, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import { greyScale } from '../../style-library/types/theme.helpers';
-
 import { SIZE_CONFIGS, VARIANT_CONFIGS } from './ProfileCard.constants';
 
 import type {
@@ -12,8 +11,8 @@ import type {
 } from './ProfileCard.types';
 
 export const StyledCard = styled(Card, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
-})<StyledProfileCardProps>(({ theme, $size, $variant }) => {
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
+})<StyledProfileCardProps>(({ theme, $size }) => {
   const sizeConfig = SIZE_CONFIGS[$size];
 
   return {
@@ -37,8 +36,8 @@ export const StyledCard = styled(Card, {
 });
 
 export const StyledProfileContainer = styled(Box, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
-})<StyledProfileCardProps>(({ theme, $size, $variant }) => {
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
+})<StyledProfileCardProps>(({ theme, $variant }) => {
   const variantConfig = VARIANT_CONFIGS[$variant];
 
   return {
@@ -58,7 +57,7 @@ export const StyledProfileContainer = styled(Box, {
 });
 
 export const StyledAvatar = styled(Avatar, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ theme, $size }) => {
   const sizeConfig = SIZE_CONFIGS[$size];
 
@@ -79,7 +78,7 @@ export const StyledAvatar = styled(Avatar, {
 });
 
 export const StyledInfoContainer = styled(Box, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<StyledProfileCardProps>(({ theme, $variant }) => {
   const variantConfig = VARIANT_CONFIGS[$variant];
 
@@ -97,7 +96,7 @@ export const StyledInfoContainer = styled(Box, {
 });
 
 export const StyledName = styled(Typography, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ theme, $size }) => {
   const sizeConfig = SIZE_CONFIGS[$size];
 
@@ -116,7 +115,7 @@ export const StyledName = styled(Typography, {
 });
 
 export const StyledUsername = styled(Typography, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ theme, $size }) => {
   const sizeConfig = SIZE_CONFIGS[$size];
 
@@ -135,7 +134,7 @@ export const StyledUsername = styled(Typography, {
 });
 
 export const StyledRole = styled(Typography, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ theme, $size }) => {
   const sizeConfig = SIZE_CONFIGS[$size];
 
@@ -155,7 +154,7 @@ export const StyledRole = styled(Typography, {
 });
 
 export const StyledStatsContainer = styled(Box, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<StyledProfileCardProps>(({ theme, $size, $variant }) => {
   const sizeConfig = SIZE_CONFIGS[$size];
   const variantConfig = VARIANT_CONFIGS[$variant];
@@ -177,7 +176,7 @@ export const StyledStatsContainer = styled(Box, {
 });
 
 export const StyledStatItem = styled(Box, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $variant: ProfileCardVariant }>(({ theme, $variant }) => ({
   display: 'flex',
   flexDirection: $variant === 'expanded' ? 'row' : 'column',
@@ -194,7 +193,7 @@ export const StyledStatItem = styled(Box, {
 }));
 
 export const StyledStatIcon = styled(Box, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -206,7 +205,7 @@ export const StyledStatIcon = styled(Box, {
 }));
 
 export const StyledStatContent = styled(Box, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $variant: ProfileCardVariant }>(({ theme, $variant }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -218,7 +217,7 @@ export const StyledStatContent = styled(Box, {
 }));
 
 export const StyledStatValue = styled(Typography, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })(({ theme }) => ({
   fontSize: theme.typography.body1.fontSize,
   fontWeight: theme.typography.fontWeightBold || 600,
@@ -227,7 +226,7 @@ export const StyledStatValue = styled(Typography, {
 }));
 
 export const StyledStatLabel = styled(Typography, {
-  shouldForwardProp: (prop) => !prop.toString().startsWith('$'),
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })(({ theme }) => ({
   fontSize: theme.typography.caption.fontSize,
   fontWeight: theme.typography.fontWeightRegular || 400,

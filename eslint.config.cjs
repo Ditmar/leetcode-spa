@@ -1,111 +1,125 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+// ESLint configuration for React + TypeScript + Vite project (simplified)
 const js = require('@eslint/js');
-const astro = require('eslint-plugin-astro');
 const tsParser = require('@typescript-eslint/parser');
 const ts = require('@typescript-eslint/eslint-plugin');
-const importPlugin = require('eslint-plugin-import');
 const prettierPlugin = require('eslint-plugin-prettier');
 const prettier = require('eslint-config-prettier');
+const reactHooks = require('eslint-plugin-react-hooks');
+const reactRefresh = require('eslint-plugin-react-refresh');
 
 module.exports = [
-  { ignores: ['dist/', '.astro/', 'node_modules/', 'eslint.config.cjs', 'astro.config.mjs'] },
+  { 
+    ignores: [
+      'dist/',
+      'node_modules/',
+      'eslint.config.cjs',
+      'storybook-static/',
+      '.storybook/',
+      'coverage/',
+      '*.config.js',
+      '*.config.ts',
+      '*.config.mjs',
+      'astro.config.mjs',
+    ] 
+  },
   js.configs.recommended,
 
-  // Reglas "Airbnb-like" para JS (sin formato; Prettier se encarga del estilo)
+  // JavaScript files
   {
     files: ['**/*.{js,mjs,cjs,jsx}'],
-    plugins: { import: importPlugin, prettier: prettierPlugin },
-    settings: {
-      'import/resolver': {
-        node: true,
-        typescript: { alwaysTryTypes: true, project: ['./tsconfig.json'] },
-      },
+    plugins: { 
+      prettier: prettierPlugin 
     },
     rules: {
       'prettier/prettier': 'error',
-      'import/no-unresolved': 'error',
-      'import/named': 'error',
-      'import/default': 'error',
-      'import/no-duplicates': 'error',
-      'import/extensions': ['error', 'ignorePackages', { js: 'never', mjs: 'never', jsx: 'never' }],
-      'import/order': [
-        'error',
-        {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
-            'object',
-            'type',
-          ],
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
-        },
-      ],
-      'import/prefer-default-export': 'off',
-
-      // Calidad general (no de formato)
       eqeqeq: ['error', 'always', { null: 'ignore' }],
       'no-var': 'error',
       'prefer-const': ['error', { destructuring: 'all' }],
-      'no-unused-vars': 'off', // lo maneja TS en archivos TS
+      'no-unused-vars': 'warn',
     },
   },
-  ...ts.configs['flat/recommended'],
+
+  // TypeScript files
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
-      parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-    },
-    plugins: { '@typescript-eslint': ts, import: importPlugin, prettier: prettierPlugin },
-    settings: {
-      'import/resolver': {
-        typescript: { alwaysTryTypes: true, project: ['./tsconfig.json'] },
-        node: true,
+      parserOptions: { 
+        ecmaVersion: 'latest', 
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true
+        }
       },
+      globals: {
+        React: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        global: 'readonly',
+        HTMLElement: 'readonly',
+      }
+    },
+    plugins: { 
+      '@typescript-eslint': ts, 
+      prettier: prettierPlugin,
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
     },
     rules: {
       'prettier/prettier': 'error',
-      'import/no-unresolved': 'error',
       '@typescript-eslint/quotes': [
         'error',
         'single',
-        { avoidEscape: true, allowTemplateLiterals: false },
-      ],
-      'import/no-duplicates': 'error',
-      'import/extensions': ['error', 'ignorePackages', { ts: 'never', tsx: 'never' }],
-      'no-console': 'error',
-      'import/order': [
-        'error',
-        {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
-            'object',
-            'type',
-          ],
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
+        { 
+          avoidEscape: true, 
+          allowTemplateLiterals: false 
         },
       ],
-
-      // Preferir reglas de TS sobre las base
+      'no-console': 'warn',
       'no-unused-vars': 'off',
-      // '@typescript-eslint/no-shadow': 'error', // activar si lo necesitás
-      // Ajustes comunes de Airbnb (opcionales)
-      // 'no-plusplus': 'off',
-      // 'no-underscore-dangle': 'off',
-      // 'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['acc', 'e', 'ctx', 'req', 'res', 'state'] }],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { 
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        }
+      ],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+      'no-undef': 'off', // TypeScript handles this
+      
+      // React Hooks rules
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      
+      // React Refresh
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
     },
   },
-  ...astro.configs['flat/recommended'],
+
+  // Storybook files - more lenient rules
+  {
+    files: ['**/*.stories.{ts,tsx}'],
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+
+  // Test files - more lenient rules
+  {
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '**/test-utils.{ts,tsx}', '**/setup.{ts,tsx}'],
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+
   prettier,
 ];
