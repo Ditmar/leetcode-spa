@@ -21,7 +21,6 @@ export const useLeaderboard = () => {
       try {
         setState((prev) => ({ ...prev, loading: true, error: null }));
 
-        // Simula un retardo en la carga (1 segundo)
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         const data = mockLeaderboardData;
