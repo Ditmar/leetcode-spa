@@ -1,10 +1,13 @@
-import type { CardProps } from '@mui/material';
 import React from 'react';
 
+import type { CardProps } from '@mui/material';
+
 export interface TestCardProps extends CardProps {
+  description: string;
   layout?: 'horizontal' | 'vertical';
   logo?: string | React.ReactNode;
-  description: string;
-  onSelect?: React.MouseEventHandler<HTMLDivElement>;
+  onSelect?: (
+    event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
+  ) => void;
   title: string;
 }

@@ -1,51 +1,75 @@
+import { Box, Card, CardActionArea, CardMedia, Typography } from '@mui/material';
 import React from 'react';
+
+import { cardSx, contentSx, logoSx } from './TestCard.styles';
+
 import type { TestCardProps } from './TestCard.types';
-import { Card, CardActionArea, CardMedia, Box, Typography } from '@mui/material';
-import { cardSx, logoSx, contentSx } from './TestCard.styles';
 import type { SxProps, Theme } from '@mui/material';
 
 export const TestCard: React.FC<TestCardProps & { sx?: SxProps<Theme> }> = ({
-  logo,
-  title,
   description,
   layout = 'horizontal',
+  logo,
   onSelect,
   sx,
+  title,
   ...cardProps
 }) => {
   const combinedSx = { ...cardSx(layout), ...sx } as SxProps<Theme>;
 
-  const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
-    if (onSelect) onSelect(event);
-  };
-
-  const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-    }
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    onSelect?.(event);
   };
 
   return (
-    <Card sx={combinedSx} {...cardProps} data-testid="test-card">
+    <Card
+      sx={{
+        ...combinedSx,
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+        '&:hover': {
+          transform: 'translateY(-6px)',
+          boxShadow: 6,
+        },
+      }}
+      {...cardProps}
+      data-testid="test-card"
+    >
       <CardActionArea
         component="div"
         role="button"
         tabIndex={0}
         onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        data-testid="test-card-layout"
         sx={{
+          height: '100%',
+          width: '100%',
           display: 'flex',
           flexDirection: layout === 'horizontal' ? 'row' : 'column',
-          width: '100%',
-          height: '100%',
         }}
       >
-        {typeof logo === 'string' ? (
-          <CardMedia component="img" image={logo} alt={title} sx={logoSx(layout)} />
-        ) : (
-          <Box sx={logoSx(layout)}>{logo}</Box>
-        )}
+        <Box sx={logoSx(layout)}>
+          {typeof logo === 'string' ? (
+            <CardMedia
+              component="img"
+              image={logo}
+              alt={title}
+              sx={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+          ) : (
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            >
+              {logo}
+            </Box>
+          )}
+        </Box>
 
         <Box sx={contentSx(layout)}>
           <Typography
@@ -61,7 +85,8 @@ export const TestCard: React.FC<TestCardProps & { sx?: SxProps<Theme> }> = ({
           >
             {title}
           </Typography>
-          <Typography variant="body2" data-testid="test-card-description">
+
+          <Typography variant="body2" sx={{ opacity: 0.9 }} data-testid="test-card-description">
             {description}
           </Typography>
         </Box>
