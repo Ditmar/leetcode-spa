@@ -50,7 +50,7 @@ export const TitleText = styled(Typography)(({ theme }) => ({
   fontSize: theme.typography.pxToRem(18),
   lineHeight: '100%',
   color: '#565656',
-  width: theme.spacing(25.4),
+  width: theme.spacing(25.375),
   height: theme.spacing(2.75),
   textAlign: 'left',
   opacity: 1,
