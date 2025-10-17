@@ -1,6 +1,9 @@
+import SyneRegular from '../../components/TestHeader/assets/fonts/Syne-Regular.woff2';
+import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
 import { createCustomTheme } from '../types/theme.helpers';
 
 import type { ThemeConfig } from '../types/theme.types';
+// 🔹 Importa las fuentes directamente desde TestHeader
 
 const themeConfig: ThemeConfig = {
   mode: 'light',
@@ -19,14 +22,14 @@ theme.components = {
     styleOverrides: `
       @font-face {
         font-family: 'Syne';
-        src: url('src/components/TestHeader/assets/fonts/Syne-Regular.woff2') format('woff2');
+        src: url(${SyneRegular}) format('woff2');
         font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
       @font-face {
         font-family: 'Syne';
-        src: url('src/components/TestHeader/assets/fonts/Syne-SemiBold.woff2') format('woff2');
+        src: url(${SyneSemiBold}) format('woff2');
         font-weight: 600;
         font-style: normal;
         font-display: swap;
@@ -37,7 +40,6 @@ theme.components = {
 
 export default theme;
 export { themeConfig };
-
 export const darkTheme = createCustomTheme({
   ...themeConfig,
   mode: 'dark',
