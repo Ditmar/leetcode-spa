@@ -1,5 +1,4 @@
-
-import React from 'react';
+import type { ElementType } from 'react';
 
 export interface StatsPanelProps {
     totalTests: number;
@@ -12,8 +11,6 @@ export interface StatItemData {
     id: string;
     label: string;
     value: number;
-    icon: React.JSX.Element;
+    icon: ElementType;
     color: string;
 }
-
-
