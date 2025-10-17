@@ -1,6 +1,39 @@
+import { useEffect, useState } from 'react';
+import { SearchBar } from './SearchBar';
+import { DEFAULT_PROPS } from './SearchBar.constants';
+import type { SearchBarProps } from './SearchBar.types';
 
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+export default {
+    title: 'src/Components/SearchBar',
+    component: SearchBar,
+};
+export const Default = () => <SearchBar />;
+
+const ControlledSearchBar = (args: SearchBarProps) => {
+    const [value, setValue] = useState(args.value ?? DEFAULT_PROPS.value);
+
+    // Sincroniza el estado local cuando args.value cambia
+    useEffect(() => {
+        setValue(args.value ?? DEFAULT_PROPS.value);
+    }, [args.value]);
+
+    return (
+        <SearchBar
+            {...args}
+            value={value}
+            onSearch={(newValue) => {
+                setValue(newValue); // Actualiza el estado local
+                args.onSearch?.(newValue); // Llama a la acción de Storybook
+            }}
+        />
+    );
+};
+
+
+
+
+
+/*import type { Meta, StoryObj } from '@storybook/react';
 import { SearchBar } from './SearchBar';
 import { DEFAULT_PROPS } from './SearchBar.constants';
 import type { SearchBarProps } from './SearchBar.types';
@@ -60,4 +93,4 @@ export const Disabled: Story = {
         disabled: true,
         value: 'No se puede editar',
     },
-};
+};*/
