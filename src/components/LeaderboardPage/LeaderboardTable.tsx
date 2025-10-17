@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import {
   TableBody,
   TableHead,
@@ -11,13 +10,16 @@ import {
   TableCell,
   TablePagination,
 } from '@mui/material';
-import type { User } from './LeaderboardPage/LeaderboardPage.types';
+import React, { useEffect, useState } from 'react';
+
 import {
   StyledTableContainer,
   StyledTable,
   StyledTableCell,
   RankBadge,
-} from './LeaderboardPage/LeaderboardPage.styles';
+} from './LeaderboardPage.styles';
+
+import type { User } from './LeaderboardPage.types';
 
 interface LeaderboardTableProps {
   users: User[];
@@ -36,7 +38,9 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ users }) => 
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -47,13 +51,24 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ users }) => 
 
   return (
     <StyledTableContainer component={Paper}>
-      <StyledTable>
+      <StyledTable aria-label="Tabla de clasificación">
         <TableHead>
           <TableRow>
-            <StyledTableCell sx={{ width: 80 }}>Rango</StyledTableCell>
-            <StyledTableCell>Usuario</StyledTableCell>
-            <StyledTableCell align="right" sx={{ width: 120 }}>Puntos</StyledTableCell>
-            <StyledTableCell align="right" sx={{ width: 150 }}>
+            <StyledTableCell component="th" scope="col" sx={{ width: 80 }}>
+              Rango
+            </StyledTableCell>
+
+            <StyledTableCell component="th" scope="col">
+              Nombre
+            </StyledTableCell>
+            <StyledTableCell component="th" scope="col">
+              Usuario
+            </StyledTableCell>
+
+            <StyledTableCell component="th" scope="col" align="right" sx={{ width: 120 }}>
+              Puntos
+            </StyledTableCell>
+            <StyledTableCell component="th" scope="col" align="right" sx={{ width: 150 }}>
               Pruebas Aprobadas
             </StyledTableCell>
           </TableRow>
@@ -63,42 +78,35 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ users }) => 
           {paginatedUsers.map((user) => (
             <TableRow
               key={user.id}
+              {...(user.isCurrentUser ? { 'aria-current': 'true' } : {})}
               sx={{
                 backgroundColor: user.isCurrentUser ? 'action.selected' : 'transparent',
                 '&:hover': {
-                  backgroundColor: user.isCurrentUser
-                    ? 'action.hover'
-                    : 'action.hover',
+                  backgroundColor: 'action.hover',
                 },
               }}
             >
               <StyledTableCell>
-                <RankBadge rank={user.rank}>
-                  {user.rank}
-                </RankBadge>
+                <RankBadge rank={user.rank}>{user.rank}</RankBadge>
               </StyledTableCell>
 
               <StyledTableCell>
-                <Box display="flex" alignItems="center" gap={2}>
-                  <Avatar src={user.avatar} alt={user.fullName} />
-                  <Box>
-                    <Typography variant="subtitle1" fontWeight="medium">
-                      {user.fullName}
-                      {user.isCurrentUser && (
-                        <Typography
-                          component="span"
-                          variant="caption"
-                          color="primary"
-                          sx={{ ml: 1 }}
-                        >
-                          (Tú)
-                        </Typography>
-                      )}
+                <Typography variant="subtitle1" fontWeight="medium">
+                  {user.fullName}
+                  {user.isCurrentUser && (
+                    <Typography component="span" variant="caption" color="primary" sx={{ ml: 1 }}>
+                      (Tú)
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      @{user.username}
-                    </Typography>
-                  </Box>
+                  )}
+                </Typography>
+              </StyledTableCell>
+
+              <StyledTableCell>
+                <Box display="flex" alignItems="center" gap={1}>
+                  <Avatar src={user.avatar} alt={user.fullName} sx={{ width: 32, height: 32 }} />
+                  <Typography variant="body2" color="text.secondary">
+                    @{user.username}
+                  </Typography>
                 </Box>
               </StyledTableCell>
 
@@ -118,7 +126,7 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ users }) => 
 
           {paginatedUsers.length === 0 && (
             <TableRow>
-              <TableCell colSpan={4}>
+              <TableCell colSpan={5}>
                 <Box py={3} textAlign="center">
                   <Typography variant="body2" color="text.secondary">
                     No hay usuarios para mostrar.
@@ -133,7 +141,7 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ users }) => 
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, 50]}
-              colSpan={4}
+              colSpan={5}
               count={users.length}
               rowsPerPage={rowsPerPage}
               page={page}
@@ -150,3 +158,5 @@ export const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ users }) => 
     </StyledTableContainer>
   );
 };
+
+export default LeaderboardTable;

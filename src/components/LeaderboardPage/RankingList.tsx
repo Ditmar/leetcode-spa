@@ -1,15 +1,9 @@
+import { Avatar, Box, Typography, Chip } from '@mui/material';
 import React from 'react';
-import {
-  Avatar,
-  Box,
-  Typography,
-  Chip,
-} from '@mui/material';
-import type { User } from './LeaderboardPage/LeaderboardPage.types';
-import {
-  UserCard,
-  RankBadge,
-} from './LeaderboardPage/LeaderboardPage.styles';
+
+import { UserCard, RankBadge } from './LeaderboardPage.styles';
+
+import type { User } from './LeaderboardPage.types';
 
 interface RankingListProps {
   users: User[];
@@ -19,14 +13,9 @@ export const RankingList: React.FC<RankingListProps> = ({ users }) => {
   return (
     <Box>
       {users.map((user) => (
-        <UserCard
-          key={user.id}
-          className={user.isCurrentUser ? 'current-user' : ''}
-        >
+        <UserCard key={user.id} className={user.isCurrentUser ? 'current-user' : ''}>
           <Box display="flex" alignItems="center" gap={2}>
-            <RankBadge rank={user.rank}>
-              {user.rank}
-            </RankBadge>
+            <RankBadge rank={user.rank}>{user.rank}</RankBadge>
 
             <Avatar src={user.avatar} alt={user.fullName} />
 
@@ -35,13 +24,7 @@ export const RankingList: React.FC<RankingListProps> = ({ users }) => {
                 <Typography variant="subtitle1" fontWeight="medium">
                   {user.fullName}
                 </Typography>
-                {user.isCurrentUser && (
-                  <Chip
-                    label="Tú"
-                    color="primary"
-                    size="small"
-                  />
-                )}
+                {user.isCurrentUser && <Chip label="Tú" color="primary" size="small" />}
               </Box>
 
               <Typography variant="body2" color="text.secondary">
@@ -55,11 +38,7 @@ export const RankingList: React.FC<RankingListProps> = ({ users }) => {
                   color="primary"
                   size="small"
                 />
-                <Chip
-                  label={`${user.testsPassed} pruebas`}
-                  variant="outlined"
-                  size="small"
-                />
+                <Chip label={`${user.testsPassed} pruebas`} variant="outlined" size="small" />
               </Box>
             </Box>
           </Box>
