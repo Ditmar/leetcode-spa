@@ -1,10 +1,8 @@
 import { CacheProvider } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-
 import createEmotionCache from '../cache/createEmotionCache';
 import theme from '../theme/theme';
-
 import type { EmotionCache } from '@emotion/cache';
 import type { ReactNode } from 'react';
 

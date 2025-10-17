@@ -1,0 +1,179 @@
+import React from 'react';
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import MuiThemeProvider from '../../style-library/provider/MuiThemeProvider';
+import ThankYouMessage from './ThankYouMessage';
+
+<Meta title="Components/ThankYouMessage" component={ThankYouMessage} />
+
+# ThankYouMessage — Documentación detallada
+
+Este documento está pensado para explicar de forma ordenada qué hicimos, qué archivos tocamos y qué variables/componentes se usan en cada archivo. Está escrito para que puedas copiarlo directamente en el repositorio sin líneas sueltas ni imports redundantes.
+
+---
+
+## 1) Resumen rápido
+
+- Propósito: Mostrar una pantalla de agradecimiento con título, mensaje, ilustración y una notificación opcional.
+- Destacado: una capa decorativa (GIF) aplicada vía `::before` en el contenedor que siempre se muestra delante de la ilustración y respeta `prefers-reduced-motion`.
+
+---
+
+## 2) Archivos modificados y variables/elementos usados
+
+Abajo se listan los archivos en `src/components/ThankYouMessage/` con las variables/elementos clave que modificamos o añadimos. Esto ayuda a revisar cambios durante code review.
+
+- `ThankYouMessage.tsx` (componente)
+  - Props utilizados: `title`, `message`, `illustration`, `showNotification`, `notificationText`.
+  - Test ids: `thank-you-title`, `thank-you-message`, `thank-you-illustration`, `thank-you-notification`.
+  - Export por defecto: `ThankYouMessage`.
+
+- `ThankYouMessage.styles.ts` (estilos)
+  - Exportaciones principales: `Container`, `Title`, `Message`, `MessageReducedMotion`, `Illustration`, `Notification`.
+  - Variables/claves modificadas:
+    - `Container::before`:
+      - `backgroundImage`: URL del GIF decorativo
+      - `zIndex`: alto (ej. `999`) para overlay
+      - `pointerEvents: 'none'`
+      - `top` y `width/height` adaptados por breakpoints (`sm`, `md`, `lg`)
+    - `Illustration`: `position: 'relative'`, `zIndex: 1` para permitir overlay
+    - `Message`: `transform: 'scaleX(1.06)'` en `md+` y reglas de `prefers-reduced-motion`
+
+- `ThankYouMessage.types.ts` (tipos)
+  - Tipos exportados: `IThankYouMessageProps` (shape/optionals de las props)
+
+- `ThankYouMessage.constants.ts` (constantes)
+  - Constantes: URLs por defecto o textos por defecto (si existen)
+
+> Si alguno de estos archivos no existe en la rama local, los nombres arriba indican dónde buscar y qué revisar.
+
+---
+
+## 3) Cómo lo construimos (pasos aplicados)
+
+1. Restauramos la carga de fuentes en el provider para garantizar `Syne` en Storybook y SSR: añadimos `import './fonts.css'` en `src/style-library/provider/MuiThemeProvider.tsx`.
+
+2. Implementamos el GIF decorativo en `ThankYouMessage.styles.ts` usando `Container::before`:
+
+```ts
+// excerpt from ThankYouMessage.styles.ts
+&::before: {
+	content: "''",
+	position: 'absolute',
+	left: '50%',
+	transform: 'translate(-50%, -50%)',
+	backgroundImage: "url('https://.../decorative.gif')",
+	backgroundSize: 'contain',
+	pointerEvents: 'none',
+	zIndex: 999,
+}
+```
+
+3. Aseguramos stacking correcto poniendo `Illustration` con `position: 'relative'` y `zIndex: 1`.
+
+4. Ajustamos `top` y `width/height` del `::before` por breakpoint (`sm`, `md`, `lg`) para mover el GIF más arriba en mobile/tablet.
+
+5. Añadimos `prefers-reduced-motion` para ocultar el `::before` y remover animaciones cuando el usuario lo solicita.
+
+6. Mantuvimos la `Paper`/card sin halo: `boxShadow: 'none'` en la regla `.MuiPaper-root` dentro del `Container`.
+
+---
+
+## 4) Fragmentos y ejemplo de cambios por archivo (detalle)
+
+- `ThankYouMessage.tsx` (puntos clave)
+
+```tsx
+export default function ThankYouMessage({
+  title = 'Thanks For Participating',
+  message = 'Your Test Has Completed!',
+  illustration,
+  showNotification = true,
+  notificationText = 'You will be notified when your test results are released',
+}) {
+  return (
+    <Container>
+      <Title data-testid="thank-you-title">{title}</Title>
+      <Message data-testid="thank-you-message">{message}</Message>
+      {illustration && (
+        <Illustration
+          src={typeof illustration === 'string' ? illustration : undefined}
+          data-testid="thank-you-illustration"
+        >
+          {typeof illustration !== 'string' ? illustration : null}
+        </Illustration>
+      )}
+      {showNotification && (
+        <Notification data-testid="thank-you-notification">{notificationText}</Notification>
+      )}
+    </Container>
+  );
+}
+```
+
+- `ThankYouMessage.styles.ts` (puntos clave)
+
+```ts
+export const Container = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  '&::before': {
+    content: "''",
+    position: 'absolute',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundImage: "url('https://.../decorative.gif')",
+    zIndex: 999,
+    pointerEvents: 'none',
+  },
+  '& .MuiPaper-root': { boxShadow: 'none' },
+}));
+```
+
+> Estos fragmentos son extractos representativos; consulta los archivos reales para ver los valores exactos.
+
+---
+
+## 5) Props y ejemplos de uso (copiar/pegar)
+
+```tsx
+import ThankYouMessage from '@/components/ThankYouMessage/ThankYouMessage';
+
+<ThankYouMessage
+  title="Thanks — you're all set!"
+  message="We sent a confirmation email. Check your inbox to continue."
+  illustration="https://example.com/assets/illustration.png"
+  notificationText="If you don't see the email, check Spam or try again."
+/>;
+```
+
+---
+
+## 6) Cómo insertar tu imagen (copy/paste)
+
+- Opción A — URL remota:
+
+```tsx
+<ThankYouMessage illustration="https://cdn.example.com/my-illustration.png" />
+```
+
+- Opción B — Import local:
+
+```tsx
+import myIllustration from './assets/my-illustration.png';
+<ThankYouMessage illustration={myIllustration} />;
+```
+
+---
+
+## 7) Verificación y checklist antes de merge
+
+- [ ] Abrir Storybook y revisar `Components / ThankYouMessage`.
+- [ ] Probar viewports: small mobile, large mobile, tablet, desktop.
+- [ ] Activar `prefers-reduced-motion` y confirmar que GIF/animaciones se desactivan.
+- [ ] Confirmar que no hay imports sueltos ni texto fuera de bloques en el MDX (esto ya fue corregido).
+
+---
+
+## 8) Notas de mantenimiento
+
+- se expuso la URL del GIF como prop, añade `decorativeGif?: string` al tipo y usa `ThankYouMessage.constants.ts` para el valor por defecto.
+- Para optimize: se considero convertir el GIF a WebP animado o usar Lottie para menos peso.
