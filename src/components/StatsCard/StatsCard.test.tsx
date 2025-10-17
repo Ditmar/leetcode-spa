@@ -1,17 +1,21 @@
 import { render, screen } from '@testing-library/react';
-import StatsCard from './StatsCard';
+import { StatsCard } from './StatsCard';
 import EditIcon from '@mui/icons-material/Edit';
-import { describe, expect, it } from 'vitest';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { describe, it, expect } from 'vitest';
+
+const renderWithTheme = (ui: React.ReactNode) =>
+  render(<ThemeProvider theme={createTheme()}>{ui}</ThemeProvider>);
 
 describe('StatsCard', () => {
   it('renders value and label correctly', () => {
-    render(<StatsCard icon={<EditIcon />} value="42" label="Tests Written" />);
+    renderWithTheme(<StatsCard icon={<EditIcon />} value="42" label="Tests Written" />);
     expect(screen.getByText('42')).toBeInTheDocument();
     expect(screen.getByText('Tests Written')).toBeInTheDocument();
   });
 
   it('renders icon correctly', () => {
-    render(<StatsCard icon={<EditIcon data-testid="test-icon" />} value="10" label="Rank" />);
+    renderWithTheme(<StatsCard icon={<EditIcon data-testid="test-icon" />} value="10" label="Rank" />);
     expect(screen.getByTestId('test-icon')).toBeInTheDocument();
   });
 });

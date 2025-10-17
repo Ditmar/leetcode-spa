@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import StatsCard from './StatsCard';
-import { StatsCardVariant } from './StatsCard.types';
-import { Edit, Star, TrendingUp, People } from '@mui/icons-material';
 import { Box } from '@mui/material';
+import { Edit, Star, TrendingUp, People } from '@mui/icons-material';
+import { StatsCard } from './StatsCard';
+import { StatsCardVariant } from './StatsCard.types';
 
 const meta: Meta<typeof StatsCard> = {
   title: 'Components/StatsCard',
@@ -11,10 +11,16 @@ const meta: Meta<typeof StatsCard> = {
     layout: 'padded',
     docs: {
       description: {
-        component:
-          'A card component to display a statistic (e.g., "32 Tests Written") with an icon.',
+        component: 'A card that displays a statistic (icon, value and label) used in dashboards.',
       },
     },
+  },
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: Object.values(StatsCardVariant),
+    },
+    animated: { control: 'boolean' },
   },
 };
 
@@ -25,15 +31,21 @@ export const Default: Story = {
   args: {
     icon: <Edit />,
     value: 32,
+
     label: 'Tests Written',
     variant: StatsCardVariant.PRIMARY,
+    animated: true,
   },
 };
 
 export const Examples: Story = {
   render: () => (
     <Box
-      sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2 }}
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' },
+        gap: 2,
+      }}
     >
       <StatsCard icon={<Edit />} value={32} label="Tests" variant={StatsCardVariant.PRIMARY} />
       <StatsCard icon={<Star />} value="1,580" label="Points" variant={StatsCardVariant.SUCCESS} />

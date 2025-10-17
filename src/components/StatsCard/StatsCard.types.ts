@@ -1,13 +1,12 @@
 import type { ReactNode } from 'react';
-import type { CardProps } from '@mui/material/Card';
+import type { CardProps } from '@mui/material';
 
 export enum StatsCardVariant {
-  DEFAULT = 'default',
   PRIMARY = 'primary',
+  SECONDARY = 'secondary',
   SUCCESS = 'success',
   WARNING = 'warning',
   ERROR = 'error',
-  SECONDARY = 'secondary',
 }
 
 export enum StatsCardSize {
@@ -20,12 +19,7 @@ export interface StatsCardProps extends Omit<CardProps, 'variant'> {
   icon: ReactNode;
   value: string | number;
   label: string;
- 
   variant?: StatsCardVariant;
-
   size?: StatsCardSize;
- 
-  iconColor?: string;
- 
   animated?: boolean;
 }
