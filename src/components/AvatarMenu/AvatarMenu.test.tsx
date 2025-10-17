@@ -5,14 +5,14 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 import { AvatarMenu } from './AvatarMenu';
 
-import type { AvatarMenuItem } from './AvatarMenu.types';
+import type { AvatarMenuItemProps } from './AvatarMenu.types';
 
 const mockLogout = vi.fn();
 const mockSettings = vi.fn();
 
 const USER_MENU_ARIA_LABEL = 'User menu';
 
-const mockMenuItems: AvatarMenuItem[] = [
+const mockMenuItems: AvatarMenuItemProps[] = [
   { label: 'Settings', onClick: mockSettings, 'data-testid': 'settings-option' },
   { label: 'Sign Out', onClick: mockLogout, 'data-testid': 'logout-option', divider: true },
 ];
@@ -80,7 +80,7 @@ describe('AvatarMenu', () => {
   });
 
   test('should handle empty menu and disabled items', async () => {
-    const disabledItems: AvatarMenuItem[] = [
+    const disabledItems: AvatarMenuItemProps[] = [
       {
         label: 'Disabled Option',
         onClick: () => {},

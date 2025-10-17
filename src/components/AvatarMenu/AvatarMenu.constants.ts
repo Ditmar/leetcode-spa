@@ -1,6 +1,6 @@
-import type { AvatarMenuItem } from './AvatarMenu.types';
+import type { AvatarMenuItemProps } from './AvatarMenu.types';
 
-export const DEFAULT_AVATAR_MENU_ITEMS: AvatarMenuItem[] = [
+export const DEFAULT_AVATAR_MENU_ITEMS: AvatarMenuItemProps[] = [
   {
     label: 'Profile',
     // eslint-disable-next-line no-console

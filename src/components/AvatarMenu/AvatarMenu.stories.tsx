@@ -7,7 +7,7 @@ import { createTheme } from '@mui/material/styles';
 import { AvatarMenu } from './AvatarMenu';
 import { DEFAULT_AVATAR_MENU_ITEMS } from './AvatarMenu.constants';
 
-import type { AvatarMenuItem, PropsAvatarMenu } from './AvatarMenu.types';
+import type { AvatarMenuProps, AvatarMenuItemProps } from './AvatarMenu.types';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 
@@ -19,7 +19,7 @@ const defaultIconMap: Record<string, ReactNode> = {
   logout: <LogoutIcon fontSize="small" />,
 };
 
-const extendedDefaultItems: AvatarMenuItem[] = DEFAULT_AVATAR_MENU_ITEMS.map((item) => {
+const extendedDefaultItems: AvatarMenuItemProps[] = DEFAULT_AVATAR_MENU_ITEMS.map((item) => {
   const itemKey = item.key as string;
   if (itemKey && defaultIconMap[itemKey]) {
     return {
@@ -30,16 +30,16 @@ const extendedDefaultItems: AvatarMenuItem[] = DEFAULT_AVATAR_MENU_ITEMS.map((it
   return item;
 });
 
-const customItems: AvatarMenuItem[] = [
+const customItems: AvatarMenuItemProps[] = [
   // eslint-disable-next-line prettier/prettier, no-console
-  { label: 'Cambiar a Modo Oscuro', onClick: () => console.log('Dark Mode'), 'data-testid': 'dark-mode-option'},
+  { label: 'Dark Mode', onClick: () => console.log('Dark Mode'), 'data-testid': 'dark-mode-option'},
   // eslint-disable-next-line no-console, prettier/prettier
-  { label: 'Ayuda y Soporte', onClick: () => console.log('Help'), 'data-testid': 'help-option'},
+  { label: 'Help', onClick: () => console.log('Help'), 'data-testid': 'help-option'},
   // eslint-disable-next-line no-console
-  { label: 'Cerrar Sesión', onClick: () => console.log('Logout'), divider: true },
+  { label: 'Logout', onClick: () => console.log('Logout'), divider: true },
 ];
 
-interface AvatarMenuStoryArgs extends PropsAvatarMenu {
+interface AvatarMenuStoryArgs extends AvatarMenuProps {
   onItemClicked: (label: string) => void;
   dataTestId?: string;
 }
@@ -59,7 +59,7 @@ const meta: Meta<AvatarMenuStoryArgs> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Componente de menú desplegable para usuario autenticado',
+        component: 'Dropdown menu component for authenticated user',
       },
     },
   },
@@ -74,7 +74,7 @@ const meta: Meta<AvatarMenuStoryArgs> = {
   args: {
     avatarUrl:
       'https://images.unsplash.com/photo-1749989402507-1d8a8e98bb14?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHBlcmZpbCUyMGRlJTIwaG9tYnJlfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000',
-    username: 'Usuario Ejemplo',
+    username: 'User Example',
     fullWidth: false,
     onItemClicked: () => {},
     menuItems: extendedDefaultItems,
@@ -82,7 +82,7 @@ const meta: Meta<AvatarMenuStoryArgs> = {
   },
   render: (args) => {
     const { dataTestId, ...restArgs } = args;
-    const itemsWithAction: AvatarMenuItem[] =
+    const itemsWithAction: AvatarMenuItemProps[] =
       restArgs.menuItems?.map((item) => ({
         ...item,
         onClick: () => {
@@ -99,20 +99,20 @@ type Story = StoryObj<typeof AvatarMenu>;
 
 export const Standard: Story = {
   args: {
-    username: 'Usuario Estándar',
+    username: 'Standard User',
   },
   parameters: {
-    docs: { description: { story: 'Menú estándar con items por defecto y avatar con imagen' } },
+    docs: { description: { story: 'Standard menu with default items and avatar with image' } },
   },
 };
 
 export const CustomActions: Story = {
   args: {
-    username: 'Administrador',
+    username: 'Administrator',
     menuItems: customItems,
   },
   parameters: {
-    docs: { description: { story: 'Menú con items personalizados y acciones específicas' } },
+    docs: { description: { story: 'Menu with custom items and specific actions' } },
   },
 };
 
@@ -122,32 +122,32 @@ export const AvatarFallback: Story = {
     username: 'Fallback User',
   },
   parameters: {
-    docs: { description: { story: 'Avatar sin imagen' } },
+    docs: { description: { story: 'Avatar without image' } },
   },
 };
 
 export const EmptyMenu: Story = {
   args: {
-    username: 'Usuario Sin Menú',
+    username: 'User Without Menu',
     menuItems: [],
   },
   parameters: {
-    docs: { description: { story: 'Menú vacío sin opciones disponibles' } },
+    docs: { description: { story: 'Empty menu with no options available' } },
   },
 };
 
 export const DisabledItems: Story = {
   args: {
-    username: 'Usuario Deshabilitado',
+    username: 'Disabled User',
 
     menuItems: [
-      { label: 'Opción 1', onClick: () => {}, disabled: true },
-      { label: 'Opción 2', onClick: () => {}, disabled: true, divider: true },
+      { label: 'Option 1', onClick: () => {}, disabled: true },
+      { label: 'Option 2', onClick: () => {}, disabled: true, divider: true },
     ],
     fullWidth: false,
   },
   parameters: {
-    docs: { description: { story: 'Items deshabilitados que no pueden ser seleccionados' } },
+    docs: { description: { story: 'Disabled items that cannot be selected' } },
   },
 };
 
@@ -158,6 +158,6 @@ export const LayoutVariants: Story = {
   },
   parameters: {
     layout: 'padded',
-    docs: { description: { story: 'Variantes de layout: sin username y fullWidth' } },
+    docs: { description: { story: 'Layout variants: without username and fullWidth' } },
   },
 };
