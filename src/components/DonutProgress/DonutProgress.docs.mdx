@@ -1,0 +1,50 @@
+# DonutProgress
+
+The **DonutProgress** component provides a clean and modern circular progress indicator that visually represents percentage-based data.  
+It’s ideal for dashboards, analytics panels, and performance metrics, with customizable colors, sizes, and smooth animations.
+
+---
+
+## Features
+
+- **Circular progress visualization** — from `0%` to `100%`.
+- **Automatic color detection** when using `"auto"`, adapting color based on progress.
+- **Customizable size and stroke thickness**, allowing full design flexibility.
+- **Smooth animations** for dynamic progress transitions.
+- **Centered percentage text** that updates automatically.
+- **Lightweight and easily integrated** into any layout or design system.
+
+---
+
+## Props
+
+| **Name** | **Type** | **Default** | **Description** |
+|-----------|-----------|-------------|-----------------|
+| `percentage` | `number` | — | The progress value to display (range `0–100`). |
+| `color` | `"auto"` \| `"primary"` \| `"success"` \| `"error"` \| `"warning"` \| `string` | `"auto"` | The color of the progress ring. `"auto"` changes color dynamically according to the percentage. |
+| `size` | `number` | `38` | The total diameter of the donut in pixels. |
+| `strokeWidth` | `number` | `6` | The thickness of the donut’s circular stroke. |
+| `animated` | `boolean` | `true` | Enables or disables transition animations when progress updates. |
+
+---
+
+## Automatic Color Behavior
+
+When the `color` prop is set to `"auto"`, the component automatically adjusts the color based on the progress percentage:
+
+| **Range** | **Color** | **Meaning** |
+|------------|------------|-------------|
+| `< 50%` | `#D21515` | 🔴 Low |
+| `50% – 74%` | `#fb8c00` | 🟠 Medium |
+| `≥ 75%` | `#0DD715` | 🟢 High |
+
+This allows for quick, intuitive understanding of the progress level without requiring manual color configuration.
+
+---
+
+## Usage Examples
+
+### Basic Example
+
+```tsx
+<DonutProgress percentage={45} />
