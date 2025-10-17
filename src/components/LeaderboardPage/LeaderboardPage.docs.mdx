@@ -1,33 +1,71 @@
 # Página de Clasificación (LeaderboardPage)
 
-La página de clasificación muestra a los usuarios con mejor rendimiento en función de sus puntos y desempeño en las pruebas.
+La página de clasificación muestra a los usuarios con mejor rendimiento en función de sus puntos, actividad reciente y desempeño en las pruebas.
 
-## Comportamiento
+## Descripción General
 
-- **Carga de datos**: Los datos se obtienen de una API simulada con un estado de carga
-- **Búsqueda**: Filtra usuarios por nombre completo o nombre de usuario
-- **Ordenamiento**: Permite ordenar por puntos, pruebas aprobadas o actividad reciente
-- **Filtros**: Filtros opcionales por período de tiempo y categoría
-- **Responsive**: En escritorio muestra tabla, en móvil muestra cards
-- **Usuario actual**: Resalta la entrada del usuario actual con fondo diferenciado
+`LeaderboardPage` es un componente de nivel superior que renderiza una vista de clasificación con soporte para búsqueda, ordenamiento, filtrado y diseño adaptable a diferentes tamaños de pantalla.
 
-## Propiedades
+## Comportamiento del Componente
 
-El componente `LeaderboardPage` no acepta props directamente, ya que maneja su estado interno mediante el hook personalizado `useLeaderboard`.
+- **Carga de datos**: Obtiene la información de los usuarios desde un hook personalizado `useLeaderboard`, que simula una llamada a API.
+- **Búsqueda**: Permite filtrar usuarios por nombre completo o nombre de usuario mediante el componente `SearchBar`.
+- **Ordenamiento**: Soporta orden por puntos (`points`), pruebas aprobadas (`testsPassed`) o actividad reciente (`recentActivity`).
+- **Filtros**: Ofrece opciones de filtrado por período de tiempo y categoría.
+- **Responsive Design**: 
+  - En escritorio (`md` o superior) muestra los datos en una tabla (`LeaderboardTable`).
+  - En dispositivos móviles muestra tarjetas (`RankingList`).
+- **Usuario actual**: Destaca visualmente al usuario autenticado con un fondo diferenciado.
+- **Manejo de errores y carga**: Muestra mensajes amigables y botones de reintento si la carga falla.
 
-## Formato de Datos
+## Propiedades y Tipos
 
-Los datos de usuario deben seguir la siguiente interfaz TypeScript:
+El componente no recibe props directamente, sino que administra su propio estado mediante el hook `useLeaderboard`.
+
+### Interfaz `User`
 
 ```typescript
 interface User {
   id: string;
   rank: number;
-  avatar: string;
+  avatar?: string;
   fullName: string;
   username: string;
   points: number;
   testsPassed: number;
-  recentActivity: string;
+  recentActivity?: string;
   isCurrentUser?: boolean;
 }
+```
+
+### Interfaz `LeaderboardFilters`
+
+```typescript
+interface LeaderboardFilters {
+  search: string;
+  sortBy: 'points' | 'testsPassed' | 'recentActivity';
+  timePeriod?: 'all' | 'week' | 'month' | 'year';
+  category?: string;
+}
+```
+
+## Ejemplo de Uso
+
+```tsx
+import { LeaderboardPage } from './components/LeaderboardPage';
+
+export default function App() {
+  return <LeaderboardPage />;
+}
+```
+
+## Accesibilidad
+
+- Se recomienda que los componentes internos (`LeaderboardTable`, `RankingList`) utilicen atributos `aria-label` y roles semánticos (`table`, `row`, `cell`).
+- Los elementos interactivos deben incluir `aria-current="true"` para el usuario actual y `aria-label` para botones de paginación.
+
+## Buenas Prácticas
+
+- Mantener el hook `useLeaderboard` desacoplado de la UI para permitir pruebas unitarias.
+- Asegurar que los estilos sean consistentes con el tema de MUI (`theme.spacing`, `theme.palette`).
+- Incluir pruebas automatizadas de accesibilidad y renderizado para cada subcomponente.
