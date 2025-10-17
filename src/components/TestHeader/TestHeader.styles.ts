@@ -44,6 +44,7 @@ export const TextSection = styled(Box)(({ theme }) => ({
 }));
 
 export const TitleText = styled(Typography)(({ theme }) => ({
+  ...theme.typography.title,
   fontWeight: 600,
   fontStyle: 'normal',
   fontSize: theme.typography.pxToRem(18),
@@ -64,6 +65,7 @@ export const TitleText = styled(Typography)(({ theme }) => ({
 }));
 
 export const SubtitleText = styled(Typography)(({ theme }) => ({
+  ...theme.typography.subtitle,
   fontWeight: 400,
   fontStyle: 'normal',
   fontSize: theme.typography.pxToRem(16),

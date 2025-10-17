@@ -3,7 +3,27 @@ import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold
 import { createCustomTheme } from '../types/theme.helpers';
 
 import type { ThemeConfig } from '../types/theme.types';
-// 🔹 Importa las fuentes directamente desde TestHeader
+import type { CSSProperties } from 'react';
+
+// Extend MUI typings to accept custom typography variants "question" and "option"
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    title: CSSProperties;
+    subtitle: CSSProperties;
+  }
+
+  interface TypographyVariantsOptions {
+    title?: CSSProperties;
+    subtitle?: CSSProperties;
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    title: true;
+    subtitle: true;
+  }
+}
 
 const themeConfig: ThemeConfig = {
   mode: 'light',
@@ -15,6 +35,29 @@ const themeConfig: ThemeConfig = {
 };
 
 const theme = createCustomTheme(themeConfig);
+
+theme.typography = {
+  ...theme.typography,
+  fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
+  title: {
+    fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
+    fontWeight: 600,
+    fontStyle: 'normal',
+    fontSize: '1.125rem',
+    lineHeight: '100%',
+    letterSpacing: '0%',
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
+    fontWeight: 400,
+    fontStyle: 'normal',
+    fontSize: '1rem',
+    lineHeight: '100%',
+    letterSpacing: '0%',
+    textAlign: 'center',
+  },
+};
 
 theme.components = {
   ...theme.components,
@@ -40,6 +83,7 @@ theme.components = {
 
 export default theme;
 export { themeConfig };
+
 export const darkTheme = createCustomTheme({
   ...themeConfig,
   mode: 'dark',
