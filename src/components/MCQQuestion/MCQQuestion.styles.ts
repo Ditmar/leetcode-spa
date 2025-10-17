@@ -6,14 +6,14 @@ export const QuestionContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   gap: theme.spacing(2),
   padding: theme.spacing(5),
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.palette.backgroundQuestion,
   width: '100%',
   margin: 0,
   boxSizing: 'border-box',
 }));
 
 export const QuestionText = styled(Typography)(({ theme }) => ({
-  ...theme.typography.subtitle1,
+  ...theme.typography.question,
   fontWeight: 600,
   color: theme.palette.text.primary,
   lineHeight: 1.3,
@@ -22,6 +22,7 @@ export const QuestionText = styled(Typography)(({ theme }) => ({
   gap: theme.spacing(1),
   textAlign: 'left',
   whiteSpace: 'pre-wrap',
+  fontSize: theme.typography.pxToRem(18),
 }));
 
 export const StyledFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
@@ -33,9 +34,10 @@ export const StyledFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
     duration: theme.transitions.duration.shortest,
   }),
   '& .MuiFormControlLabel-label': {
-    ...theme.typography.body1,
-    fontWeight: 600,
+    ...theme.typography.option,
+    fontWeight: 500,
     color: theme.palette.text.secondary,
+    fontSize: theme.typography.pxToRem(19.09),
   },
 }));
 
