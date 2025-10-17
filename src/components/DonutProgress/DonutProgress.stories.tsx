@@ -1,12 +1,14 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Box } from "@mui/material";
-import { DonutProgress } from "./DonutProgress";
+import { Box } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+import { DonutProgress } from './DonutProgress';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const theme = createTheme();
 
 const meta: Meta<typeof DonutProgress> = {
-  title: "Components/DonutProgress",
+  title: 'Components/DonutProgress',
   component: DonutProgress,
   decorators: [
     (Story) => (
@@ -19,16 +21,16 @@ const meta: Meta<typeof DonutProgress> = {
   ],
   argTypes: {
     percentage: {
-      control: { type: "range", min: 0, max: 100, step: 1 },
+      control: { type: 'range', min: 0, max: 100, step: 1 },
     },
     color: {
-      control: { type: "select" },
-      options: ["auto", "primary", "success", "error", "warning", "#ff00ff"],
+      control: { type: 'select' },
+      options: ['auto', 'primary', 'success', 'error', 'warning', '#ff00ff'],
     },
     strokeWidth: {
-      control: { type: "range", min: 4, max: 20, step: 2 },
+      control: { type: 'range', min: 4, max: 20, step: 2 },
     },
-    animated: { control: "boolean" },
+    animated: { control: 'boolean' },
   },
 };
 

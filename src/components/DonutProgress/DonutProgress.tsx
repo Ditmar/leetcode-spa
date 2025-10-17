@@ -1,12 +1,14 @@
-import React from "react";
-import type { DonutProgressProps } from "./DonutProgress.types";
-import { DEFAULT_SIZE, DEFAULT_STROKE_WIDTH } from "./DonutProgress.constants";
-import { DonutContainer, DonutText } from "./DonutProgress.styles";
-import { useDonutColor } from "./DonutProgress.hooks";
+import React from 'react';
+
+import { DEFAULT_SIZE, DEFAULT_STROKE_WIDTH } from './DonutProgress.constants';
+import { useDonutColor } from './DonutProgress.hooks';
+import { DonutContainer, DonutText } from './DonutProgress.styles';
+
+import type { DonutProgressProps } from './DonutProgress.types';
 
 export const DonutProgress: React.FC<DonutProgressProps> = ({
   percentage,
-  color = "auto",
+  color = 'auto',
   size = DEFAULT_SIZE,
   strokeWidth = DEFAULT_STROKE_WIDTH,
   animated = true,
@@ -18,7 +20,7 @@ export const DonutProgress: React.FC<DonutProgressProps> = ({
   const computedColor = useDonutColor(color, percentage);
 
   return (
-   <DonutContainer size={size}>
+    <DonutContainer size={size}>
       <svg width={size} height={size}>
         <circle
           stroke="#6b6868ff"
@@ -39,11 +41,9 @@ export const DonutProgress: React.FC<DonutProgressProps> = ({
           cy={size / 2}
           strokeLinecap="round"
           style={{
-            transition: animated
-              ? "stroke-dashoffset 0.8s ease, stroke 0.8s ease"
-              : "none",
-            transform: "rotate(-90deg)",
-            transformOrigin: "50% 50%",
+            transition: animated ? 'stroke-dashoffset 0.8s ease, stroke 0.8s ease' : 'none',
+            transform: 'rotate(-90deg)',
+            transformOrigin: '50% 50%',
           }}
         />
       </svg>
