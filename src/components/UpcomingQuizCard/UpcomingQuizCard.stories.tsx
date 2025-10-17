@@ -1,4 +1,4 @@
-import UpcomingQuizCard from './UpcomingQuizCard';
+import { UpcomingQuizCard } from './UpcomingQuizCard';
 
 import type { Meta, StoryObj } from '@storybook/react';
 

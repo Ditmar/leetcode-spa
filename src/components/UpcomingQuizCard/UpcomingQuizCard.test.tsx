@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 
-import UpcomingQuizCard from './UpcomingQuizCard';
+import { UpcomingQuizCard } from './UpcomingQuizCard';
 
 describe('UpcomingQuizCard', () => {
   it('calls onRegister when button is clicked', () => {
