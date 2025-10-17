@@ -1,4 +1,35 @@
-import React from 'react';
+// LeaderboardPage.types.ts
+export interface User {
+  id: string;
+  rank: number;
+  avatar?: string;
+  fullName: string;
+  username: string;
+  points: number;
+  testsPassed: number;
+  isCurrentUser?: boolean;
+}
+
+export type SortBy = 'points' | 'testsPassed' | 'recentActivity';
+export type TimePeriod = 'all' | 'week' | 'month' | 'year';
+
+export interface LeaderboardFilters {
+  search: string;
+  sortBy: SortBy;
+  timePeriod?: TimePeriod;
+  category?: string;
+}
+
+export interface LeaderboardState {
+  users: User[];
+  filteredUsers: User[];
+  loading: boolean;
+  error: string | null;
+  filters: LeaderboardFilters;
+}
+
+// -------------------------------------------------------------
+// LeaderboardPage.tsx
 import {
   Box,
   Container,
@@ -9,23 +40,24 @@ import {
   Button,
   Grid,
 } from '@mui/material';
-import { NavigationSidebar } from '../NavigationSidebar';
-import { SearchBar } from '../SearchBar';
+import React from 'react';
+
 import { useLeaderboard } from './LeaderboardPage.hook';
-import { LeaderboardTable } from '../LeaderboardTable';
-import { RankingList } from '../RankingList';
-import {
-  LoadingContainer,
-  ErrorContainer,
-} from './LeaderboardPage.styles';
+import { LoadingContainer, ErrorContainer } from './LeaderboardPage.styles';
+import { LeaderboardTable } from './LeaderboardTable';
+import { RankingList } from './RankingList';
+import { SearchBar } from './SearchBar';
+
+import type { User, LeaderboardFilters } from './LeaderboardPage.types';
 
 export const LeaderboardPage: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   const { users, loading, error, filters, updateFilters } = useLeaderboard();
 
   const handleSearch = (searchTerm: string) => {
-    updateFilters({ search: searchTerm });
+    updateFilters({ ...(filters as LeaderboardFilters), search: searchTerm });
   };
 
   const handleRetry = () => {
@@ -35,7 +67,6 @@ export const LeaderboardPage: React.FC = () => {
   if (loading) {
     return (
       <Box display="flex">
-        <NavigationSidebar />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <LoadingContainer>
             <CircularProgress size={60} />
@@ -51,13 +82,12 @@ export const LeaderboardPage: React.FC = () => {
   if (error) {
     return (
       <Box display="flex">
-        <NavigationSidebar />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <ErrorContainer>
             <Typography variant="h6" color="error" gutterBottom>
               {error}
             </Typography>
-            <Button variant="contained" onClick={handleRetry}>
+            <Button variant="contained" onClick={handleRetry} aria-label="Reintentar carga">
               Reintentar
             </Button>
           </ErrorContainer>
@@ -68,7 +98,6 @@ export const LeaderboardPage: React.FC = () => {
 
   return (
     <Box display="flex">
-      <NavigationSidebar />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Container maxWidth="xl">
           <Box sx={{ mb: 4 }}>
@@ -86,18 +115,16 @@ export const LeaderboardPage: React.FC = () => {
                 <SearchBar
                   placeholder="Buscar por nombre o usuario..."
                   onSearch={handleSearch}
-                  value={filters.search}
+                  value={(filters && (filters as LeaderboardFilters).search) ?? ''}
                 />
               </Grid>
             </Grid>
-
-
           </Box>
 
           {isMobile ? (
-            <RankingList users={users} />
+            <RankingList users={users as User[]} />
           ) : (
-            <LeaderboardTable users={users} />
+            <LeaderboardTable users={users as User[]} />
           )}
         </Container>
       </Box>

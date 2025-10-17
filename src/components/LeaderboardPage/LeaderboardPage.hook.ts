@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
+
+import { mockLeaderboardData } from './data/mockData';
+
 import type { LeaderboardState, LeaderboardFilters } from './LeaderboardPage.types';
-import { mockLeaderboardData } from './data/mockData.ts';
 
 export const useLeaderboard = () => {
   const [state, setState] = useState<LeaderboardState>({
@@ -17,22 +19,28 @@ export const useLeaderboard = () => {
   useEffect(() => {
     const fetchLeaderboardData = async () => {
       try {
-        setState(prev => ({ ...prev, loading: true, error: null }));
+        setState((prev) => ({ ...prev, loading: true, error: null }));
 
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Simula un retardo en la carga (1 segundo)
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         const data = mockLeaderboardData;
 
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
           users: data,
           filteredUsers: data,
           loading: false,
         }));
-      } catch (error) {
-        setState(prev => ({
+      } catch (_error) {
+        const errorMessage =
+          _error instanceof Error
+            ? _error.message
+            : 'Error desconocido al cargar los datos de clasificación';
+
+        setState((prev) => ({
           ...prev,
-          error: 'Error al cargar los datos de clasificación',
+          error: `Error al cargar los datos de clasificación: ${errorMessage}`,
           loading: false,
         }));
       }
@@ -46,10 +54,8 @@ export const useLeaderboard = () => {
 
     if (state.filters.search) {
       const searchLower = state.filters.search.toLowerCase();
-      result = result.filter(user =>
-        Object.values(user).some(value =>
-          String(value).toLowerCase().includes(searchLower)
-        )
+      result = result.filter((user) =>
+        Object.values(user).some((value) => String(value).toLowerCase().includes(searchLower))
       );
     }
 
@@ -60,7 +66,7 @@ export const useLeaderboard = () => {
   }, [state.users, state.filters]);
 
   const updateFilters = (newFilters: Partial<LeaderboardFilters>) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       filters: { ...prev.filters, ...newFilters },
     }));

@@ -1,8 +1,8 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider, createTheme } from '@mui/material';
+
 import { LeaderboardPage } from './LeaderboardPage';
-import { mockLeaderboardData } from './data/mockData';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const theme = createTheme();
 
@@ -47,4 +47,3 @@ export const WithSearch: Story = {
     },
   },
 };
-

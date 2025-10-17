@@ -1,15 +1,6 @@
+import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material';
+import { TextField, InputAdornment, IconButton, Box, debounce } from '@mui/material';
 import React, { useState, useCallback, useRef } from 'react';
-import {
-  TextField,
-  InputAdornment,
-  IconButton,
-  Box,
-  debounce,
-} from '@mui/material';
-import {
-  Search as SearchIcon,
-  Clear as ClearIcon,
-} from '@mui/icons-material';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -71,11 +62,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           ),
           endAdornment: searchValue && (
             <InputAdornment position="end">
-              <IconButton
-                size="small"
-                onClick={handleClear}
-                edge="end"
-              >
+              <IconButton size="small" onClick={handleClear} edge="end">
                 <ClearIcon fontSize="small" />
               </IconButton>
             </InputAdornment>

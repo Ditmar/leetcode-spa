@@ -1,13 +1,5 @@
+import { Table, TableCell, TableContainer, Card, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import {
-  Table,
-  TableCell,
-  TableContainer,
-  Paper,
-  Card,
-  Box,
-  Typography
-} from '@mui/material';
 
 export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   borderRadius: theme.spacing(1),
@@ -45,13 +37,13 @@ export const RankBadge = styled(Box)<{ rank: number }>(({ theme, rank }) => {
   let color = theme.palette.text.primary;
 
   if (rank === 1) {
-    backgroundColor = '#FFD700'; // Oro
+    backgroundColor = '#FFD700';
     color = theme.palette.getContrastText('#FFD700');
   } else if (rank === 2) {
-    backgroundColor = '#C0C0C0'; // Plata
+    backgroundColor = '#C0C0C0';
     color = theme.palette.getContrastText('#C0C0C0');
   } else if (rank === 3) {
-    backgroundColor = '#CD7F32'; // Bronce
+    backgroundColor = '#CD7F32';
     color = theme.palette.getContrastText('#CD7F32');
   }
 
@@ -59,13 +51,14 @@ export const RankBadge = styled(Box)<{ rank: number }>(({ theme, rank }) => {
     backgroundColor,
     color,
     borderRadius: '50%',
-    width: 32,
-    height: 32,
+    width: theme.spacing(4),
+    height: theme.spacing(4),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: 'bold',
-    fontSize: '0.875rem',
+    fontSize: theme.typography.body2.fontSize,
+    lineHeight: 1,
   };
 });
 
@@ -73,7 +66,7 @@ export const LoadingContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  minHeight: 400,
+  minHeight: theme.spacing(50),
   padding: theme.spacing(4),
 }));
 
@@ -82,7 +75,7 @@ export const ErrorContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  minHeight: 400,
+  minHeight: theme.spacing(50),
   padding: theme.spacing(4),
   textAlign: 'center',
   color: theme.palette.error.main,

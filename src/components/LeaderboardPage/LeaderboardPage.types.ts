@@ -1,7 +1,7 @@
 export interface User {
   id: string;
   rank: number;
-  avatar: string;
+  avatar?: string;
   fullName: string;
   username: string;
   points: number;
@@ -9,10 +9,13 @@ export interface User {
   isCurrentUser?: boolean;
 }
 
+export type SortBy = 'points' | 'testsPassed' | 'recentActivity';
+export type TimePeriod = 'all' | 'week' | 'month' | 'year';
+
 export interface LeaderboardFilters {
   search: string;
-  sortBy: 'points' | 'testsPassed' | 'recentActivity';
-  timePeriod?: 'all' | 'week' | 'month' | 'year';
+  sortBy: SortBy;
+  timePeriod?: TimePeriod;
   category?: string;
 }
 
