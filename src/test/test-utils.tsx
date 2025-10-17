@@ -1,8 +1,9 @@
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { render } from '@testing-library/react';
+
 import type { RenderOptions } from '@testing-library/react';
 import type { ReactElement } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
 
 // Crear un tema por defecto para los tests
 const defaultTheme = createTheme({

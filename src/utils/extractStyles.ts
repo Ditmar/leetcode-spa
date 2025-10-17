@@ -1,6 +1,8 @@
-import { renderToString } from 'react-dom/server';
 import createEmotionServer from '@emotion/server/create-instance';
+import { renderToString } from 'react-dom/server';
+
 import createEmotionCache from '../style-library/cache/createEmotionCache';
+
 import type { ReactElement } from 'react';
 
 interface ExtractedStyles {

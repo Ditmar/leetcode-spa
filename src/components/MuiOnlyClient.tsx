@@ -1,5 +1,6 @@
-import React from 'react';
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
+import React from 'react';
+
 import SimpleMuiExample from '../style-library/stories/SimpleMuiExample';
 
 const theme = createTheme({

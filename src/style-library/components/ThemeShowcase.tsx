@@ -1,5 +1,5 @@
-import React from 'react';
 import { Box, Typography, Button, Card, CardContent, Chip, Stack } from '@mui/material';
+
 import { useTheme } from '../hooks/useTheme';
 
 export default function ThemeShowcase() {
