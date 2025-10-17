@@ -2,7 +2,7 @@ import type { AvatarProps as MuiAvatarProps } from '@mui/material/Avatar';
 import type { MenuItemProps as MuiMenuItemProps } from '@mui/material/MenuItem';
 import type { ReactNode } from 'react';
 
-export interface AvatarMenuItem {
+export type AvatarMenuItemProps = {
   label: string;
   onClick: () => void;
   icon?: ReactNode;
@@ -11,18 +11,18 @@ export interface AvatarMenuItem {
   'data-testid'?: string;
   menuItemProps?: Omit<MuiMenuItemProps, 'onClick'>;
   key?: 'profile' | 'settings' | 'logout' | string;
-}
+};
 
-export interface PropsAvatarMenu {
+export type AvatarMenuProps = {
   avatarUrl: string;
   username: string;
-  menuItems?: AvatarMenuItem[];
+  menuItems?: AvatarMenuItemProps[];
   avatarProps?: Omit<MuiAvatarProps, 'src' | 'alt'>;
   fullWidth?: boolean;
   'data-testid'?: string;
-}
+};
 
-export interface PropsStyledAvatarMenu {
+export type StyledAvatarMenuProps = {
   $isOpen?: boolean;
   $fullWidth?: boolean;
-}
+};

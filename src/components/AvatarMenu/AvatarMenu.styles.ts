@@ -1,11 +1,11 @@
 import { IconButton, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import type { PropsStyledAvatarMenu } from './AvatarMenu.types';
+import type { StyledAvatarMenuProps } from './AvatarMenu.types';
 
 export const AvatarMenuRoot = styled(IconButton, {
   shouldForwardProp: (prop) => prop !== '$fullWidth' && prop !== '$isOpen',
-})<PropsStyledAvatarMenu>((props) => {
+})<StyledAvatarMenuProps>((props) => {
   return {
     borderRadius: props.theme.shape.borderRadius,
     padding: props.theme.spacing(0.5),

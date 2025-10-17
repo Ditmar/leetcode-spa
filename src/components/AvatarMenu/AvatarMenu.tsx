@@ -1,14 +1,14 @@
 import { Avatar, Menu, MenuItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { DEFAULT_AVATAR_MENU_ITEMS } from './AvatarMenu.constants';
 import { useAvatarMenu } from './AvatarMenu.hook';
 import { AvatarMenuRoot, AvatarContainer, TriangleIndicator } from './AvatarMenu.styles';
 
-import type { PropsAvatarMenu } from './AvatarMenu.types';
+import type { AvatarMenuProps } from './AvatarMenu.types';
 
-export const AvatarMenu: React.FC<PropsAvatarMenu> = ({
+export const AvatarMenu: React.FC<AvatarMenuProps> = ({
   avatarUrl,
   username,
   menuItems = DEFAULT_AVATAR_MENU_ITEMS,
@@ -91,39 +91,39 @@ export const AvatarMenu: React.FC<PropsAvatarMenu> = ({
           const isFocused = focusedIndex === index && isEnabled;
 
           return [
-            <Fragment key={`${item.label}-${index}`}>
-              <MenuItem
-                onClick={() => {
-                  if (isEnabled) {
-                    item.onClick();
-                    handleClose();
-                  }
-                }}
-                onMouseEnter={() => {
-                  if (isEnabled) setFocusedIndex(index);
-                }}
-                disabled={item.disabled}
-                data-testid={item['data-testid']}
-                autoFocus={isFocused}
-                {...item.menuItemProps}
-                sx={{
-                  ...(isFocused && {
-                    backgroundColor: theme.palette.action.hover,
-                    boxShadow: theme.shadows[1],
-                    borderRadius: theme.shape.borderRadius,
-                  }),
-                  transition: theme.transitions.create(['all'], {
-                    duration: theme.transitions.duration.shortest,
-                    easing: theme.transitions.easing.easeInOut,
-                  }),
-                  ...item.menuItemProps?.sx,
-                }}
-              >
-                {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
-                <ListItemText>{item.label}</ListItemText>
-              </MenuItem>
-              {item.divider && <Divider />}
-            </Fragment>,
+            <MenuItem
+              key={`${item.label}-${index}`}
+              onClick={() => {
+                if (isEnabled) {
+                  item.onClick();
+                  handleClose();
+                }
+              }}
+              onMouseEnter={() => {
+                if (isEnabled) setFocusedIndex(index);
+              }}
+              disabled={item.disabled}
+              data-testid={item['data-testid']}
+              autoFocus={isFocused}
+              {...item.menuItemProps}
+              sx={{
+                ...(isFocused && {
+                  backgroundColor: theme.palette.action.hover,
+                  boxShadow: theme.shadows[1],
+                  borderRadius: theme.shape.borderRadius,
+                }),
+                transition: theme.transitions.create(['all'], {
+                  duration: theme.transitions.duration.shortest,
+                  easing: theme.transitions.easing.easeInOut,
+                }),
+                ...item.menuItemProps?.sx,
+              }}
+            >
+              {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+              <ListItemText>{item.label}</ListItemText>
+            </MenuItem>,
+
+            item.divider && <Divider key={`divider-${item.label}-${index}`} />,
           ];
         })}
       </Menu>
