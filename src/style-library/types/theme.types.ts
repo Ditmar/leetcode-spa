@@ -316,6 +316,7 @@ export interface ComponentDimensions {
   width: number;
   height: number;
   borderRadius: string;
+  lineHeight: number;
   fontSize: number;
   textAlign: 'left' | 'center' | 'right';
   padding: {
@@ -362,7 +363,6 @@ export interface PillTagTokens {
   typography: {
     fontFamily: string;
     fontWeight: number;
-    lineHeight: number;
     letterSpacing: string;
   };
   dimensions: {

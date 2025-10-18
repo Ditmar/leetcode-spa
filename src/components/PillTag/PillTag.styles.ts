@@ -1,11 +1,10 @@
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
 
-import { getPillTagTokens } from '../../style-library/types/theme.helpers';
+import { getPillTagTokens } from './PillTag.constants';
 
+import type { PillTagVariant } from './PillTag.constants';
 import type { ChipProps } from '@mui/material/Chip';
-
-export type PillTagVariant = 'primary' | 'secondary';
 
 interface PillTagStyledProps extends ChipProps {
   pillVariant?: PillTagVariant;
@@ -13,7 +12,7 @@ interface PillTagStyledProps extends ChipProps {
 
 export const PillTagStyled = styled(Chip, {
   shouldForwardProp: (prop) => prop !== 'pillVariant',
-})<PillTagStyledProps>(({ theme, pillVariant = 'primary' }) => {
+})<PillTagStyledProps>(({ theme, pillVariant = 'primary' as PillTagVariant }) => {
   const tokens = getPillTagTokens(theme);
   const mobileDimensions = tokens.dimensions[pillVariant].mobile;
   const tabletDimensions = tokens.dimensions[pillVariant].tablet;
@@ -22,100 +21,95 @@ export const PillTagStyled = styled(Chip, {
   const getBorderRadius = (dims: typeof mobileDimensions) => {
     const radius = dims.borderRadius;
     if (pillVariant === 'primary') {
-      return `${radius} ${radius} ${radius} 0px`;
+      return `${radius} 0px ${radius} ${radius}`;
     }
-    return `${radius} ${radius} 0px ${radius}`;
+    return `${radius} ${radius} ${radius} 0px`;
+  };
+  const getPadding = (dims: typeof mobileDimensions) => {
+    const paddingV = dims.padding.vertical;
+    const paddingH = dims.padding.horizontal;
+    return theme.spacing(paddingV, paddingH);
   };
 
   return {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     fontFamily: tokens.typography.fontFamily,
     fontWeight: tokens.typography.fontWeight,
     fontStyle: 'normal',
-    lineHeight: tokens.typography.lineHeight,
     letterSpacing: tokens.typography.letterSpacing,
-    textAlign: 'center',
-    textTransform: 'none',
-    whiteSpace: 'nowrap',
+    textAlign: 'center' as const,
+    textTransform: 'none' as const,
+    whiteSpace: 'nowrap' as const,
     border: 'none',
-    boxSizing: 'border-box',
+    boxSizing: 'border-box' as const,
     backgroundColor: tokens.colors.background,
     color: 'transparent',
-    padding: 0,
+    overflow: 'hidden' as const,
     transition: theme.transitions.create(
-      ['box-shadow', 'transform', 'width', 'height', 'font-size', 'border-radius'],
+      ['box-shadow', 'transform', 'width', 'height', 'font-size', 'border-radius', 'padding'],
       {
         duration: tokens.transitions.duration,
         easing: tokens.transitions.easing,
       }
     ),
-
-    [theme.breakpoints.down('sm')]: {
-      width: `${mobileDimensions.width}px`,
-      height: `${mobileDimensions.height}px`,
-      fontSize: `${mobileDimensions.fontSize}px`,
-      borderRadius: getBorderRadius(mobileDimensions),
-      padding: `${mobileDimensions.padding.vertical}px ${mobileDimensions.padding.horizontal}px`,
-      boxSizing: 'border-box',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      boxShadow: shadows.default.replace(/\d+(\.\d+)?px/g, (match: string) => {
-        const value = parseFloat(match);
-        return `${(value * 0.376).toFixed(2)}px`;
-      }),
-    },
-
-    [theme.breakpoints.between('sm', 'lg')]: {
-      width: `${tabletDimensions.width}px`,
+    width: `${mobileDimensions.width}px`,
+    height: `${mobileDimensions.height}px`,
+    minHeight: `${mobileDimensions.height}px`,
+    fontSize: `${mobileDimensions.fontSize}px`,
+    lineHeight: `${mobileDimensions.fontSize * mobileDimensions.lineHeight}px`,
+    padding: getPadding(mobileDimensions),
+    borderRadius: getBorderRadius(mobileDimensions),
+    boxShadow: shadows.default.replace(/(\d+(\.\d+)?)px/g, (match) => {
+      const value = parseFloat(match);
+      const scaleFactor = pillVariant === 'primary' ? 0.3767 : 0.4358;
+      return `${(value * scaleFactor).toFixed(2)}px`;
+    }),
+    [theme.breakpoints.up('md')]: {
+      minWidth: `${tabletDimensions.width}px`,
       height: `${tabletDimensions.height}px`,
+      minHeight: `${tabletDimensions.height}px`,
       fontSize: `${tabletDimensions.fontSize}px`,
+      lineHeight: `${tabletDimensions.fontSize * tabletDimensions.lineHeight}px`,
+      padding: getPadding(tabletDimensions),
       borderRadius: getBorderRadius(tabletDimensions),
-      padding: `${tabletDimensions.padding.vertical}px ${tabletDimensions.padding.horizontal}px`,
-      boxSizing: 'border-box',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      boxShadow: shadows.default.replace(/\d+(\.\d+)?px/g, (match: string) => {
+      boxShadow: shadows.default.replace(/\d+(\.\d+)?px/g, (match) => {
         const value = parseFloat(match);
         return `${(value * 0.75).toFixed(2)}px`;
       }),
     },
-
     [theme.breakpoints.up('lg')]: {
-      width: `${desktopDimensions.width}px`,
+      minWidth: `${desktopDimensions.width}px`,
       height: `${desktopDimensions.height}px`,
+      minHeight: `${desktopDimensions.height}px`,
       fontSize: `${desktopDimensions.fontSize}px`,
+      lineHeight: `${desktopDimensions.fontSize * desktopDimensions.lineHeight}px`,
+      padding: getPadding(desktopDimensions),
       borderRadius: getBorderRadius(desktopDimensions),
-      padding: `${desktopDimensions.padding.vertical}px ${desktopDimensions.padding.horizontal}px`,
-      boxSizing: 'border-box',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
       boxShadow: shadows.default,
     },
-
     '& .MuiChip-label': {
       display: 'block',
       width: '100%',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
-      textAlign: 'center',
-      lineHeight: tokens.typography.lineHeight,
       padding: 0,
+      lineHeight: 'inherit',
       background: `linear-gradient(180deg, ${tokens.colors.gradientStart} 0%, ${tokens.colors.gradientEnd} 100%)`,
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       backgroundClip: 'text',
+      textAlign: 'center',
     },
-
     '&.MuiChip-root': {
       color: 'transparent',
     },
 
     '&.MuiChip-clickable': {
-      cursor: 'pointer',
-      userSelect: 'none',
+      cursor: 'pointer' as const,
+      userSelect: 'none' as const,
     },
 
     '&:hover': {
@@ -135,7 +129,7 @@ export const PillTagStyled = styled(Chip, {
 
     '&.Mui-disabled': {
       opacity: tokens.states.disabled.opacity,
-      pointerEvents: 'none',
+      pointerEvents: 'none' as const,
       boxShadow: 'none',
     },
 
