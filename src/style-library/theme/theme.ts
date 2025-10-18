@@ -1,4 +1,5 @@
-import SyneRegular from '../../components/TestHeader/assets/fonts/Syne-Regular.woff2';
+import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
+import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
 import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
 import { createCustomTheme } from '../types/theme.helpers';
 
@@ -10,11 +11,23 @@ declare module '@mui/material/styles' {
   interface TypographyVariants {
     title: CSSProperties;
     subtitle: CSSProperties;
+    question: CSSProperties;
+    option: CSSProperties;
   }
 
   interface TypographyVariantsOptions {
     title?: CSSProperties;
     subtitle?: CSSProperties;
+    question?: CSSProperties;
+    option?: CSSProperties;
+  }
+
+  interface Palette {
+    backgroundQuestion: string;
+  }
+
+  interface PaletteOptions {
+    backgroundQuestion?: string;
   }
 }
 
@@ -22,6 +35,8 @@ declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     title: true;
     subtitle: true;
+    question: true;
+    option: true;
   }
 }
 
@@ -29,7 +44,7 @@ const themeConfig: ThemeConfig = {
   mode: 'light',
   primaryColor: '#1976d2',
   secondaryColor: '#dc004e',
-  fontFamily: `'Syne', "Inter", "Roboto", "Helvetica", "Arial", sans-serif`,
+  fontFamily: `"Montserrat", "Syne", "Inter", "Roboto", "Helvetica", "Arial", sans-serif`,
   borderRadius: 12,
   spacing: 8,
 };
@@ -38,7 +53,7 @@ const theme = createCustomTheme(themeConfig);
 
 theme.typography = {
   ...theme.typography,
-  fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
+  fontFamily: '"Montserrat", "Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
   title: {
     fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
     fontWeight: 600,
@@ -57,6 +72,31 @@ theme.typography = {
     letterSpacing: '0%',
     textAlign: 'center',
   },
+  question: {
+    fontFamily: '"Montserrat","Inter","Roboto","Helvetica","Arial",sans-serif',
+    fontWeight: 600,
+    fontSize: '1.125rem',
+    lineHeight: 1.3,
+    textTransform: 'capitalize',
+  },
+
+  option: {
+    fontFamily: '"Syne","Montserrat","Inter","Roboto","Helvetica","Arial",sans-serif',
+    fontWeight: 500,
+    fontSize: '1.19rem',
+    lineHeight: 1.2,
+  },
+};
+
+theme.palette = {
+  ...theme.palette,
+  text: {
+    primary: '#000000',
+    secondary: '#4F4F4F',
+    disabled: ''
+  },
+  backgroundQuestion: '#F1F3F9',
+
 };
 
 theme.components = {
@@ -73,6 +113,13 @@ theme.components = {
       @font-face {
         font-family: 'Syne';
         src: url(${SyneSemiBold}) format('woff2');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Montserrat';
+        src: url(${MontserratSemiBold}) format('woff2');
         font-weight: 600;
         font-style: normal;
         font-display: swap;

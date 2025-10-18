@@ -4,8 +4,11 @@ import { styled } from '@mui/material/styles';
 export const QuestionContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(2),
-  padding: theme.spacing(5),
+  gap: theme.spacing(3),
+  paddingTop: theme.spacing(5.625),
+  paddingRight: theme.spacing(4.625),
+  paddingBottom: theme.spacing(5.625),
+  paddingLeft: theme.spacing(4.625),
   backgroundColor: theme.palette.backgroundQuestion,
   width: '100%',
   margin: 0,
@@ -16,8 +19,10 @@ export const QuestionText = styled(Typography)(({ theme }) => ({
   ...theme.typography.question,
   fontWeight: 600,
   color: theme.palette.text.primary,
-  lineHeight: 1.3,
+  lineHeight: 1,
+  letterSpacing: 0,
   display: 'flex',
+  textTransform: 'capitalize',
   alignItems: 'flex-start',
   gap: theme.spacing(1),
   textAlign: 'left',
@@ -28,7 +33,6 @@ export const QuestionText = styled(Typography)(({ theme }) => ({
 export const StyledFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
   margin: 0,
   alignItems: 'center',
-  padding: theme.spacing(1, 1.5),
   cursor: 'pointer',
   transition: theme.transitions.create('background-color', {
     duration: theme.transitions.duration.shortest,
@@ -36,34 +40,37 @@ export const StyledFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
   '& .MuiFormControlLabel-label': {
     ...theme.typography.option,
     fontWeight: 500,
+    padding: theme.spacing(0, 1),
     color: theme.palette.text.secondary,
     fontSize: theme.typography.pxToRem(19.09),
+    lineHeight: 1.2,
+    letterSpacing: 0,
   },
 }));
 
 export const StyledRadio = styled(Radio)(({ theme }) => ({
   color: theme.palette.text.secondary,
+  padding: 0,
   '&.Mui-checked': {
     color: theme.palette.primary.main,
   },
   '& .MuiSvgIcon-root': {
-    width: theme.spacing(4),
-    height: theme.spacing(4),
+    width: theme.spacing(3.75),
+    height: theme.spacing(3.75),
   },
 }));
 
 export const OptionsGrid = styled(Box)(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: '1fr',
-  gap: theme.spacing(2),
+  gap: theme.spacing(2.5),
   [theme.breakpoints.up('sm')]: {
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
 }));
 
 export const QuestionNumber = styled('span')(({ theme }) => ({
-  marginRight: theme.spacing(1),
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.primary,
 }));
 
 export const StyledFormControl = styled(FormControl)(() => ({
