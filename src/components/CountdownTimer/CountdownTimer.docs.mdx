@@ -1,0 +1,101 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import { Box, Typography } from '@mui/material';
+import * as CountdownTimerStories from './CountdownTimer.stories';
+
+<Meta of={CountdownTimerStories} title="Components/CountdownTimer/Docs" />
+
+# ⏱ Countdown Timer · Documentation
+
+<Typography variant="body1" sx={{ fontFamily: 'Syne, sans-serif', mb: 2 }}>
+  The <code>CountdownTimer</code> component displays a countdown timer in <code>hh:mm:ss</code> format.
+  Ideal for time-sensitive interfaces such as forms, surveys, or timed tests.
+</Typography>
+
+---
+
+##  Props
+
+<Box
+  sx={{
+    overflowX: 'auto',
+    border: '1px solid #333',
+    borderRadius: 2,
+    mt: 2,
+    mb: 3,
+    fontFamily: 'Syne, sans-serif',
+  }}
+>
+  <table
+    style={{
+      width: '100%',
+      borderCollapse: 'collapse',
+      minWidth: '600px',
+    }}
+  >
+    <thead>
+      <tr>
+        <th
+          style={{
+            textAlign: 'left',
+            padding: '8px',
+            borderBottom: '1px solid #555',
+          }}
+        >
+          Prop
+        </th>
+        <th
+          style={{
+            textAlign: 'left',
+            padding: '8px',
+            borderBottom: '1px solid #555',
+          }}
+        >
+          Type
+        </th>
+        <th
+          style={{
+            textAlign: 'left',
+            padding: '8px',
+            borderBottom: '1px solid #555',
+          }}
+        >
+          Description
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style={{ padding: '8px' }}>
+          <code>seconds</code>
+        </td>
+        <td style={{ padding: '8px' }}>
+          <code>number</code>
+        </td>
+        <td style={{ padding: '8px' }}>
+          Total time in seconds from which the countdown begins.
+        </td>
+      </tr>
+      <tr>
+        <td style={{ padding: '8px' }}>
+          <code>onComplete</code>
+        </td>
+        <td style={{ padding: '8px' }}>
+          <code>function</code>
+        </td>
+        <td style={{ padding: '8px' }}>
+          Callback function triggered automatically when the timer reaches zero.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</Box>
+
+---
+
+##  Examples
+
+### Default Timer
+
+<Canvas>
+  <Story of={CountdownTimerStories.Default} />
+</Canvas>
