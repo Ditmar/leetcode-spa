@@ -93,10 +93,9 @@ theme.palette = {
   text: {
     primary: '#000000',
     secondary: '#4F4F4F',
-    disabled: ''
+    disabled: '',
   },
   backgroundQuestion: '#F1F3F9',
-
 };
 
 theme.components = {
