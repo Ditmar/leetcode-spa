@@ -40,48 +40,44 @@ export const TextSection = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     textAlign: 'center',
     width: '100%',
+    maxWidth: '90vw',
+    overflow: 'hidden',
   },
 }));
 
 export const TitleText = styled(Typography)(({ theme }) => ({
   ...theme.typography.title,
   fontWeight: 600,
-  fontStyle: 'normal',
   fontSize: theme.typography.pxToRem(18),
-  lineHeight: '100%',
   color: '#565656',
   width: theme.spacing(25.375),
-  height: theme.spacing(2.75),
-  textAlign: 'left',
-  opacity: 1,
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
-
   [theme.breakpoints.down('sm')]: {
-    width: '100%',
+    maxWidth: '90vw',
     textAlign: 'center',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
 }));
 
 export const SubtitleText = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle,
   fontWeight: 400,
-  fontStyle: 'normal',
   fontSize: theme.typography.pxToRem(16),
-  lineHeight: '100%',
   color: '#A9A9A9',
   width: theme.spacing(21.125),
-  height: theme.spacing(2.375),
-  textAlign: 'left',
-  opacity: 1,
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
-
   [theme.breakpoints.down('sm')]: {
-    width: '100%',
+    maxWidth: '90vw',
     textAlign: 'center',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
 }));
 
