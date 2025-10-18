@@ -1,0 +1,55 @@
+# TestHeader
+
+The **TestHeader** component displays the main identification section for a quiz or competition, featuring a logo, title, and subtitle in a clean, responsive layout. It automatically adapts to mobile and desktop views, ensuring a consistent experience across all devices.
+
+## Features
+
+* Displays a logo, title, and subtitle with consistent spacing and hierarchy.
+* Fully responsive: switches to a vertical (stacked) layout on smaller screens.
+* Flexible variants: supports horizontal and vertical orientations via the `variant` prop.
+* Loading state: shows placeholders (MUI Skeleton) while data is loading.
+* Scalable sizes: allows choosing between `small`, `medium`, or `large` for logo and text.
+* Design system compliant: uses MUI `Box`, `Card`, and `Typography` components with theme tokens.
+* **Accessible:** includes semantic roles, `alt` attributes, and ARIA descriptions for screen readers.
+
+## Props
+
+* **logoSrc** (string, optional): Path or URL of the logo image. Displays a placeholder if empty. Default: TCS default logo.
+* **title** (string, optional): Main title of the quiz or competition. Default: `"TCS Quiz Competition"`.
+* **subtitle** (string, optional): Secondary descriptive text shown below the title. Default: `"TCS Campus Drive - 2023"`.
+* **variant** (`horizontal` | `vertical`, optional): Controls layout orientation. Default: `horizontal`.
+* **size** (`small` | `medium` | `large`, optional): Adjusts logo and typography sizes. Default: `medium`.
+* **isLoading** (boolean, optional): Displays loading placeholders when `true`. Default: `false`.
+
+## Accessibility
+
+The **TestHeader** component is designed following accessibility (A11y) best practices to ensure an inclusive experience for all users.
+
+### Implementation in code
+
+Inside the `TestHeader.tsx` file, the following accessibility features are applied:
+
+* **Semantic banner role:**
+
+  ```tsx
+  <div role="banner" data-testid="header-wrapper" ...>
+  ```
+
+## Example Usage
+
+```tsx
+import TestHeader from '@/components/TestHeader';
+import tcsLogo from './assets/tcs-logo.svg';
+
+function Example() {
+  return (
+    <TestHeader
+      logoSrc={tcsLogo}
+      title="TCS Quiz Competition"
+      subtitle="Campus Drive - 2023"
+      variant="horizontal"
+      size="medium"
+    />
+  );
+}
+```
