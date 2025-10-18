@@ -1,0 +1,379 @@
+# ProfileCard
+
+Un componente reutilizable para mostrar la información de perfil de un usuario, incluyendo avatar, nombre, nombre de usuario, rol y estadísticas clave como cursos inscritos, puntos y ranking.
+
+---
+
+## 📋 Descripción general
+
+El componente `ProfileCard` proporciona una forma flexible y personalizable de mostrar la información de un perfil de usuario. Admite múltiples variantes de tamaño y diseño, y maneja correctamente casos como avatares faltantes o nombres largos.
+
+---
+
+## ✨ Características
+
+- **Avatar Display:** Muestra el avatar del usuario con un fallback automático a iniciales o ícono por defecto
+- **User Information:** Presenta nombre, nombre de usuario y rol opcional
+- **Statistics Section:** Muestra cursos, puntos y ranking con íconos descriptivos
+- **Size Variants:** Tres tamaños disponibles (pequeño, mediano y grande)
+- **Layout Variants:** Tres diseños disponibles (por defecto, compacto y expandido)
+- **Responsive Design:** Manejo automático de texto largo con truncamiento y tooltips
+- **Accessible:** Uso correcto de atributos ARIA y HTML semántico
+- **Customizable:** Soporte para clases CSS personalizadas y todas las props de MUI Card
+
+---
+
+## 📦 Instalación y uso
+
+```typescript
+import { ProfileCard } from '@/components/ProfileCard';
+```
+
+---
+
+## 🎯 Props
+
+### Props Requeridas
+
+| Prop | Tipo | Descripción |
+|------|------|-------------|
+| `name` | `string` | Nombre completo del usuario |
+| `username` | `string` | Nombre de usuario o handle |
+
+### Props Opcionales
+
+| Prop | Tipo | Default | Descripción |
+|------|------|---------|-------------|
+| `avatarUrl` | `string` | `undefined` | URL del avatar del usuario |
+| `role` | `string` | `undefined` | Rol o título del usuario |
+| `stats` | `ProfileStatsProps` | `{ courses: 0, points: 0, ranking: 0 }` | Objeto con estadísticas del usuario |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | Tamaño del card |
+| `variant` | `'default' \| 'compact' \| 'expanded'` | `'default'` | Variante de layout |
+| `showStats` | `boolean` | `true` | Muestra u oculta la sección de estadísticas |
+| `className` | `string` | `undefined` | Clase CSS personalizada |
+| `data-testid` | `string` | `'profile-card'` | ID para testing |
+
+### Tipo `ProfileStatsProps`
+
+```typescript
+interface ProfileStatsProps {
+  courses: number;  // Número de cursos completados o inscritos
+  points: number;   // Total de puntos acumulados
+  ranking: number;  // Posición actual en el ranking (0 = sin ranking)
+}
+```
+
+---
+
+## 🚀 Ejemplos de uso
+
+### Ejemplo básico
+
+```tsx
+import { ProfileCard } from '@/components/ProfileCard';
+
+const MyComponent = () => {
+  return (
+    <ProfileCard
+      name="John Doe"
+      username="johndoe"
+      role="Senior Developer"
+      avatarUrl="https://example.com/avatar.jpg"
+      stats={{ courses: 12, points: 3450, ranking: 23 }}
+    />
+  );
+};
+```
+
+### Sin avatar (muestra iniciales)
+
+```tsx
+<ProfileCard
+  name="Michael Chen"
+  username="mchen"
+  role="Data Scientist"
+  stats={{ courses: 15, points: 4200, ranking: 7 }}
+/>
+```
+
+### Sin estadísticas
+
+```tsx
+<ProfileCard
+  name="Emily Davis"
+  username="emilyd"
+  role="Product Manager"
+  showStats={false}
+/>
+```
+
+### Tamaño pequeño con variante compacta
+
+```tsx
+<ProfileCard
+  name="Lisa Anderson"
+  username="lisaa"
+  role="UX Designer"
+  size="small"
+  variant="compact"
+  stats={{ courses: 6, points: 1800, ranking: 89 }}
+/>
+```
+
+### Con nombres largos (truncamiento automático)
+
+```tsx
+<ProfileCard
+  name="Alexander Christopher Montgomery III"
+  username="verylongusernamethatexceedstheavailablespace"
+  role="Chief Technology Officer"
+  avatarUrl="https://example.com/avatar.jpg"
+  stats={{ courses: 25, points: 8950, ranking: 1 }}
+/>
+```
+
+---
+
+## 🎨 Variantes de tamaño
+
+### Small
+- Avatar: 48px
+- Padding: 16px
+- **Ideal para:** Listas densas, sidebars, comentarios
+
+### Medium (default)
+- Avatar: 64px
+- Padding: 20px
+- **Ideal para:** Uso general, dashboards, grids
+
+### Large
+- Avatar: 80px
+- Padding: 24px
+- **Ideal para:** Páginas de perfil, headers destacados
+
+---
+
+## 🔧 Variantes de layout
+
+### Default
+- Layout vertical centrado
+- Avatar arriba, información abajo
+- Estadísticas en fila horizontal
+- **Ideal para:** Cards independientes, grids
+
+### Compact
+- Layout horizontal
+- Avatar a la izquierda
+- Información a la derecha
+- Estadísticas en fila
+- **Ideal para:** Listas de usuarios, comentarios, sidebars
+
+### Expanded
+- Layout vertical centrado
+- Estadísticas en columna vertical
+- Mayor espacio entre elementos
+- **Ideal para:** Páginas de perfil detalladas, modales
+
+---
+
+## ♿ Accesibilidad
+
+El componente incluye soporte completo de accesibilidad según WCAG 2.1:
+
+- ✅ **ARIA roles:** `role="article"` para el card, `role="region"` para estadísticas
+- ✅ **ARIA labels:** `aria-label` descriptivos para lectores de pantalla
+- ✅ **Alt text:** Texto alternativo apropiado para avatares
+- ✅ **Semantic HTML:** Estructura semántica correcta con heading para nombre
+- ✅ **Keyboard navigation:** Totalmente navegable por teclado
+- ✅ **Screen readers:** Optimizado para experiencia con lectores de pantalla
+- ✅ **Title attributes:** Tooltips para texto truncado
+
+---
+
+## 🎭 Personalización
+
+### Usando className
+
+```tsx
+<ProfileCard
+  className="custom-profile-card"
+  name="Jane Doe"
+  username="janedoe"
+/>
+```
+
+```css
+.custom-profile-card {
+  border: 2px solid #007bff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+```
+
+### Usando MUI sx prop
+
+```tsx
+<ProfileCard
+  sx={{
+    backgroundColor: 'background.paper',
+    boxShadow: 3,
+    '&:hover': {
+      boxShadow: 6,
+    },
+  }}
+  name="Jane Doe"
+  username="janedoe"
+/>
+```
+
+**Nota:** Todos los estilos usan el sistema de diseño de MUI (`theme.spacing`, `theme.palette`). No se usan valores hardcodeados ni clases CSS externas.
+
+---
+
+## 📱 Responsive Design
+
+El componente incluye breakpoints responsive automáticos:
+
+- **Mobile (< 600px):** Layout vertical forzado, tamaños reducidos
+- **Tablet (600px - 960px):** Ajusta según variante seleccionada
+- **Desktop (> 960px):** Layout completo según configuración
+
+Los breakpoints usan el sistema de MUI (`theme.breakpoints`).
+
+---
+
+## ✅ Mejores prácticas
+
+1. **Siempre proporciona name y username:** Son props requeridas
+2. **Usa avatares cuando estén disponibles:** Mejora significativamente la UX
+3. **Elige el tamaño apropiado:** Según el contexto y espacio disponible
+4. **Considera la variante de layout:** Según el diseño de tu interfaz
+5. **Oculta estadísticas si no son relevantes:** Usa `showStats={false}`
+6. **Proporciona stats completas:** Incluye courses, points y ranking
+7. **Usa data-testid en tests:** Para facilitar las pruebas automatizadas
+8. **Valida datos antes de pasar:** Asegúrate de que los números sean válidos
+
+---
+
+## 🧪 Testing
+
+El componente está completamente testeado usando selectores semánticos. Ejemplos:
+
+```typescript
+import { render, screen } from '@testing-library/react';
+import { ProfileCard } from './ProfileCard';
+
+describe('ProfileCard', () => {
+  it('renders correctly', () => {
+    render(
+      <ProfileCard
+        name="John Doe"
+        username="johndoe"
+        role="Developer"
+        stats={{ courses: 10, points: 2500, ranking: 15 }}
+      />
+    );
+
+    // Usa selectores semánticos, no data-testid
+    expect(screen.getByRole('article')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /john doe/i })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /user statistics/i })).toBeInTheDocument();
+  });
+
+  it('shows initials when no avatar', () => {
+    render(
+      <ProfileCard
+        name="Jane Doe"
+        username="janedoe"
+      />
+    );
+
+    const avatar = screen.getByTestId('profile-avatar');
+    expect(avatar).toHaveTextContent('JD');
+  });
+});
+```
+
+**Nota:** Se priorizan selectores semánticos (`getByRole`, `getByText`) sobre `getByTestId` para mejorar accesibilidad y robustez de las pruebas.
+
+---
+
+## 🔍 Troubleshooting
+
+### El avatar no se muestra
+- Verifica que la URL sea válida y accesible
+- Comprueba los CORS si la imagen es externa
+- Asegúrate de que el formato sea compatible (jpg, png, webp, gif)
+
+### Las estadísticas se muestran incorrectamente
+- Verifica que los valores sean números válidos (no strings)
+- Asegúrate de pasar el objeto `stats` completo con todos los campos
+- Comprueba que `showStats` no sea `false`
+
+### El texto se trunca demasiado pronto
+- Verifica el ancho del contenedor padre
+- Considera usar un tamaño más grande (`size="large"`)
+- Los tooltips están incluidos automáticamente (usa hover para ver texto completo)
+
+### Los estilos no se aplican
+- Asegúrate de tener `ThemeProvider` de MUI a nivel superior
+- Verifica que los estilos no sean sobrescritos por CSS global
+- Comprueba la especificidad de CSS si usas `className`
+
+### Rankings no se formatean correctamente
+- El componente maneja automáticamente 1st, 2nd, 3rd, 4th, 11th, 21st, 22nd, 23rd, etc.
+- Ranking 0 se muestra como "-" (sin ranking)
+
+---
+
+## 📝 Detalles de implementación
+
+### Formato de números
+- Los puntos usan separador de miles en formato US (ej: 2,500)
+- Se usa `toLocaleString('en-US')` para consistencia
+
+### Formato de ranking
+- Usa sufijos ordinales correctos en inglés
+- Casos especiales: 11th, 12th, 13th (no 11st, 12nd, 13rd)
+- Números regulares: 1st, 2nd, 3rd, 4th, 21st, 22nd, 23rd, etc.
+
+### Iniciales
+- Se generan automáticamente del nombre
+- Usa primera letra de primer y último nombre
+- Nombres de una palabra: solo primera letra
+- Fallback: "?" si no hay nombre válido
+
+---
+
+## 🔗 Componentes relacionados
+
+Componentes de MUI usados internamente:
+
+- **Avatar:** Para mostrar imagen o iniciales
+- **Card:** Contenedor base del componente
+- **Typography:** Para texto consistente
+- **Box:** Para layouts flexibles
+- **Icons (@mui/icons-material):** SchoolIcon, StarIcon, EmojiEventsIcon
+
+---
+
+## 📚 Recursos adicionales
+
+- [Documentación de MUI Card](https://mui.com/material-ui/react-card/)
+- [Documentación de MUI Avatar](https://mui.com/material-ui/react-avatar/)
+- [Guía de accesibilidad ARIA](https://www.w3.org/WAI/ARIA/apg/)
+- [Component-Driven Development](https://www.componentdriven.org/)
+- [Testing Library Best Practices](https://testing-library.com/docs/queries/about/#priority)
+
+---
+
+## 🤝 Contribuciones
+
+Para contribuir al componente:
+
+1. Sigue las convenciones CDD establecidas
+2. Usa exportaciones nombradas (no default exports)
+3. Añade tests con selectores semánticos
+4. Actualiza la documentación MDX
+5. Usa `theme.spacing` y `theme.palette` (no valores hardcodeados)
+6. Mantén la accesibilidad (ARIA, roles, labels)
+7. Asegúrate de que los tests pasen: `yarn test`
