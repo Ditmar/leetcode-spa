@@ -104,21 +104,3 @@ export const VariantComparison: Story = {
     docs: { description: { story: 'Comparison between primary and secondary variants.' } },
   },
 };
-export const KeyboardAccessible: Story = {
-  render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <p style={{ color: '#666', marginBottom: '8px' }}>
-        <strong>Keyboard Navigation:</strong> Tab to focus, Enter/Space to click
-      </p>
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <PillTag label="Press Enter" variant="primary" clickable />
-        <PillTag label="Press Space" variant="secondary" clickable />
-      </Box>
-    </Box>
-  ),
-  parameters: {
-    docs: {
-      description: { story: 'Demonstrates full keyboard accessibility (Tab, Enter, Space keys).' },
-    },
-  },
-};
