@@ -1,10 +1,11 @@
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
 
-import { getPillTagTokens } from './PillTag.constants';
+import { getPillTagTokens } from '../../style-library/types/theme.helpers';
 
-import type { PillTagVariant } from './PillTag.constants';
 import type { ChipProps } from '@mui/material/Chip';
+
+export type PillTagVariant = 'primary' | 'secondary';
 
 interface PillTagStyledProps extends ChipProps {
   pillVariant?: PillTagVariant;
@@ -14,40 +15,84 @@ export const PillTagStyled = styled(Chip, {
   shouldForwardProp: (prop) => prop !== 'pillVariant',
 })<PillTagStyledProps>(({ theme, pillVariant = 'primary' }) => {
   const tokens = getPillTagTokens(theme);
-  const dimensions = tokens.dimensions[pillVariant];
+  const mobileDimensions = tokens.dimensions[pillVariant].mobile;
+  const tabletDimensions = tokens.dimensions[pillVariant].tablet;
+  const desktopDimensions = tokens.dimensions[pillVariant].desktop;
   const shadows = tokens.shadows[pillVariant];
+  const getBorderRadius = (dims: typeof mobileDimensions) => {
+    const radius = dims.borderRadius;
+    if (pillVariant === 'primary') {
+      return `${radius} ${radius} ${radius} 0px`;
+    }
+    return `${radius} ${radius} 0px ${radius}`;
+  };
 
   return {
     fontFamily: tokens.typography.fontFamily,
     fontWeight: tokens.typography.fontWeight,
     fontStyle: 'normal',
     lineHeight: tokens.typography.lineHeight,
-    fontSize: `${dimensions.fontSize}px`,
     letterSpacing: tokens.typography.letterSpacing,
     textAlign: 'center',
     textTransform: 'none',
     whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
     border: 'none',
     boxSizing: 'border-box',
-    width: `${dimensions.width}px`,
-    height: `${dimensions.height}px`,
-
     backgroundColor: tokens.colors.background,
+    color: 'transparent',
+    padding: 0,
+    transition: theme.transitions.create(
+      ['box-shadow', 'transform', 'width', 'height', 'font-size', 'border-radius'],
+      {
+        duration: tokens.transitions.duration,
+        easing: tokens.transitions.easing,
+      }
+    ),
 
-    borderRadius:
-      pillVariant === 'primary'
-        ? `${dimensions.borderRadius} 0px ${dimensions.borderRadius} ${dimensions.borderRadius}`
-        : `${dimensions.borderRadius} ${dimensions.borderRadius} ${dimensions.borderRadius} 0px`,
+    [theme.breakpoints.down('sm')]: {
+      width: `${mobileDimensions.width}px`,
+      height: `${mobileDimensions.height}px`,
+      fontSize: `${mobileDimensions.fontSize}px`,
+      borderRadius: getBorderRadius(mobileDimensions),
+      padding: `${mobileDimensions.padding.vertical}px ${mobileDimensions.padding.horizontal}px`,
+      boxSizing: 'border-box',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxShadow: shadows.default.replace(/\d+(\.\d+)?px/g, (match: string) => {
+        const value = parseFloat(match);
+        return `${(value * 0.376).toFixed(2)}px`;
+      }),
+    },
 
-    boxShadow: shadows.default,
-    padding: theme.spacing(dimensions.padding.vertical, dimensions.padding.horizontal),
+    [theme.breakpoints.between('sm', 'lg')]: {
+      width: `${tabletDimensions.width}px`,
+      height: `${tabletDimensions.height}px`,
+      fontSize: `${tabletDimensions.fontSize}px`,
+      borderRadius: getBorderRadius(tabletDimensions),
+      padding: `${tabletDimensions.padding.vertical}px ${tabletDimensions.padding.horizontal}px`,
+      boxSizing: 'border-box',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxShadow: shadows.default.replace(/\d+(\.\d+)?px/g, (match: string) => {
+        const value = parseFloat(match);
+        return `${(value * 0.75).toFixed(2)}px`;
+      }),
+    },
 
-    transition: theme.transitions.create(['box-shadow', 'transform'], {
-      duration: tokens.transitions.duration,
-      easing: tokens.transitions.easing,
-    }),
+    [theme.breakpoints.up('lg')]: {
+      width: `${desktopDimensions.width}px`,
+      height: `${desktopDimensions.height}px`,
+      fontSize: `${desktopDimensions.fontSize}px`,
+      borderRadius: getBorderRadius(desktopDimensions),
+      padding: `${desktopDimensions.padding.vertical}px ${desktopDimensions.padding.horizontal}px`,
+      boxSizing: 'border-box',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxShadow: shadows.default,
+    },
 
     '& .MuiChip-label': {
       display: 'block',
@@ -55,6 +100,8 @@ export const PillTagStyled = styled(Chip, {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
+      textAlign: 'center',
+      lineHeight: tokens.typography.lineHeight,
       padding: 0,
       background: `linear-gradient(180deg, ${tokens.colors.gradientStart} 0%, ${tokens.colors.gradientEnd} 100%)`,
       WebkitBackgroundClip: 'text',
@@ -62,14 +109,28 @@ export const PillTagStyled = styled(Chip, {
       backgroundClip: 'text',
     },
 
+    '&.MuiChip-root': {
+      color: 'transparent',
+    },
+
+    '&.MuiChip-clickable': {
+      cursor: 'pointer',
+      userSelect: 'none',
+    },
+
     '&:hover': {
-      boxShadow: shadows.hover,
       transform: `translateY(${tokens.states.hover.translateY}px)`,
+      backgroundColor: tokens.colors.background,
+      [theme.breakpoints.up('lg')]: {
+        boxShadow: shadows.hover,
+      },
     },
 
     '&:active': {
-      boxShadow: shadows.active,
       transform: `scale(${tokens.states.active.scale})`,
+      [theme.breakpoints.up('lg')]: {
+        boxShadow: shadows.active,
+      },
     },
 
     '&.Mui-disabled': {

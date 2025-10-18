@@ -3,9 +3,11 @@ import type {
   PaletteColorOptions,
   TypographyVariantsOptions,
 } from '@mui/material/styles';
+
 // ==========================================
 // TIPOS BASE PARA COLORES
 // ==========================================
+
 export interface ColorScale {
   50: string;
   100: string;
@@ -122,7 +124,6 @@ export interface BreakpointValues {
 }
 
 export interface BreakpointOverrides {
-  // Permite extensión de breakpoints personalizados
   [key: string]: unknown;
 }
 
@@ -307,34 +308,8 @@ export interface CustomBreakpoints {
   wide: string;
 }
 
-declare module '@mui/material/styles' {
-  interface Theme {
-    customShadows: CustomShadows;
-    customBreakpoints: CustomBreakpoints;
-    componentTokens: ComponentTokens; // ← AGREGAR ESTA LÍNEA
-  }
-
-  interface ThemeOptions {
-    componentTokens?: ComponentTokens; // ← AGREGAR ESTA LÍNEA
-  }
-
-  interface Palette {
-    gradient: {
-      primary: string;
-      secondary: string;
-    };
-  }
-
-  interface PaletteOptions {
-    gradient?: {
-      primary?: string;
-      secondary?: string;
-    };
-  }
-}
-
 // ==========================================
-// COMPONENT TOKENS TYPES (TODO TU CÓDIGO)
+// COMPONENT TOKENS TYPES
 // ==========================================
 
 export interface ComponentDimensions {
@@ -347,6 +322,12 @@ export interface ComponentDimensions {
     vertical: number;
     horizontal: number;
   };
+}
+
+export interface ResponsiveComponentDimensions {
+  mobile: ComponentDimensions;
+  tablet: ComponentDimensions;
+  desktop: ComponentDimensions;
 }
 
 export interface ComponentShadows {
@@ -385,8 +366,8 @@ export interface PillTagTokens {
     letterSpacing: string;
   };
   dimensions: {
-    primary: ComponentDimensions;
-    secondary: ComponentDimensions;
+    primary: ResponsiveComponentDimensions;
+    secondary: ResponsiveComponentDimensions;
   };
   shadows: {
     primary: ComponentShadows;
@@ -398,7 +379,30 @@ export interface PillTagTokens {
 
 export interface ComponentTokens {
   pillTag: PillTagTokens;
-  // Aquí se pueden agregar más componentes en el futuro
-  // button?: ButtonTokens;
-  // card?: CardTokens;
+}
+
+declare module '@mui/material/styles' {
+  interface Theme {
+    customShadows: CustomShadows;
+    customBreakpoints: CustomBreakpoints;
+    componentTokens: ComponentTokens;
+  }
+
+  interface ThemeOptions {
+    componentTokens?: ComponentTokens;
+  }
+
+  interface Palette {
+    gradient: {
+      primary: string;
+      secondary: string;
+    };
+  }
+
+  interface PaletteOptions {
+    gradient?: {
+      primary?: string;
+      secondary?: string;
+    };
+  }
 }
