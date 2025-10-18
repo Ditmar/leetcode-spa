@@ -1,13 +1,16 @@
-import { styled } from '@mui/material/styles';
 import { Button as MuiButton, CircularProgress } from '@mui/material';
-import type { StyledButtonProps } from './Button.types';
-import { SIZE_CONFIGS, SHAPE_CONFIGS } from './Button.constants';
+import { styled } from '@mui/material/styles';
+
 import {
   blueScale,
   redScale,
   greenScale,
   greyScale,
 } from '../../style-library/types/theme.helpers';
+
+import { SIZE_CONFIGS, SHAPE_CONFIGS } from './Button.constants';
+
+import type { StyledButtonProps } from './Button.types';
 
 // Map variant → palette
 const VARIANT_COLORS = {

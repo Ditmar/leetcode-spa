@@ -1,6 +1,8 @@
-import { render, screen } from '../../test/test-utils';
-import { describe, it, expect, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
+
+import { render, screen } from '../../test/test-utils';
+
 import { Button } from './Button';
 
 describe('Button', () => {
