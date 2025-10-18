@@ -47,3 +47,5 @@ export const SearchInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
+//Edit

@@ -8,3 +8,4 @@ export const DEFAULT_PROPS = {
 export const SEARCH_BAR_SHAPE = {
   rounded: { borderRadius: '24px' },
 } as const;
+//Edit

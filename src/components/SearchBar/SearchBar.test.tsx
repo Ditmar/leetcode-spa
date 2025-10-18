@@ -63,3 +63,5 @@ describe('SearchBar', () => {
     expect(input).toBeInTheDocument();
   });
 });
+
+//Edit

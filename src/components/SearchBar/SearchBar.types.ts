@@ -16,3 +16,5 @@ export interface StyledSearchInputProps {
   $fullWidth?: boolean;
   $isFocused?: boolean;
 }
+
+//Edit
