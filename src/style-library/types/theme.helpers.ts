@@ -7,12 +7,13 @@ import type {
   ColorToken,
   CustomShadows,
   CustomBreakpoints,
+  ComponentTokens,
+  PillTagTokens,
 } from './theme.types';
-import type { Theme } from '@mui/material/styles';
-import type React from 'react';
+import type { Theme, ThemeOptions } from '@mui/material/styles';
 
 // ==========================================
-// PALETAS DE COLORES PREDEFINIDAS
+// PREDEFINED COLOR PALETTES
 // ==========================================
 
 export const blueScale: ColorScale = {
@@ -101,7 +102,7 @@ export const greyScale: ColorScale = {
 };
 
 // ==========================================
-// GENERADORES DE TOKENS DE COLOR
+// COLOR TOKEN GENERATORS
 // ==========================================
 
 export function createColorToken(
@@ -123,15 +124,15 @@ export function generateColorFromScale(
   mainShade: keyof ColorScale = 500
 ): ColorToken {
   return {
-    main: scale[mainShade] || scale['500'],
-    light: scale['300'] || scale['400'],
-    dark: scale['700'] || scale['600'],
+    main: scale[mainShade] || scale[500],
+    light: scale[300] || scale[400],
+    dark: scale[700] || scale[600],
     contrastText: '#fff',
   };
 }
 
 // ==========================================
-// SOMBRAS PERSONALIZADAS
+// CUSTOM SHADOWS
 // ==========================================
 
 export const customShadows: CustomShadows = {
@@ -145,7 +146,7 @@ export const customShadows: CustomShadows = {
 };
 
 // ==========================================
-// BREAKPOINTS PERSONALIZADOS
+// CUSTOM BREAKPOINTS
 // ==========================================
 
 export const customBreakpoints: CustomBreakpoints = {
@@ -156,14 +157,155 @@ export const customBreakpoints: CustomBreakpoints = {
 };
 
 // ==========================================
-// CREADORES DE TEMA
+// EXTENDED THEME TYPE
+// ==========================================
+
+export type ExtendedTheme = Theme & {
+  customShadows: CustomShadows;
+  customBreakpoints: CustomBreakpoints;
+  componentTokens: ComponentTokens;
+};
+
+// ==========================================
+// COMPONENT TOKENS - PILLTAG
+// ==========================================
+
+export const pillTagTokens: PillTagTokens = {
+  colors: {
+    background: '#FFFFFF',
+    gradientStart: '#B23DEB',
+    gradientEnd: '#DE8FFF',
+  },
+  typography: {
+    fontFamily: '"Poppins",sans-serif',
+    fontWeight: 500,
+    letterSpacing: '0',
+  },
+  dimensions: {
+    primary: {
+      desktop: {
+        width: 251.51,
+        height: 85.1,
+        borderRadius: '42.55px',
+        fontSize: 28.37,
+        lineHeight: 1.516,
+        textAlign: 'center',
+        padding: {
+          vertical: 2.6375,
+          horizontal: 8.34375,
+        },
+      },
+
+      tablet: {
+        width: 188.63,
+        height: 63.83,
+        borderRadius: '31.91px',
+        fontSize: 21.28,
+        lineHeight: 1.516,
+        textAlign: 'center',
+        padding: {
+          vertical: 1.98,
+          horizontal: 6.26,
+        },
+      },
+
+      mobile: {
+        width: 94.75,
+        height: 32.06,
+        borderRadius: '16.03px',
+        fontSize: 11.17,
+        lineHeight: 1.522,
+        textAlign: 'center',
+        padding: {
+          vertical: 0.94125,
+          horizontal: 2.984375,
+        },
+      },
+    },
+    secondary: {
+      desktop: {
+        width: 227.17,
+        height: 76.86,
+        borderRadius: '38.43px',
+        fontSize: 25.62,
+        lineHeight: 1.483,
+        textAlign: 'center',
+        padding: {
+          vertical: 2.42875,
+          horizontal: 10.823125,
+        },
+      },
+
+      tablet: {
+        width: 170.38,
+        height: 57.65,
+        borderRadius: '28.82px',
+        fontSize: 19.22,
+        lineHeight: 1.483,
+        textAlign: 'center',
+        padding: {
+          vertical: 1.82,
+          horizontal: 8.12,
+        },
+      },
+
+      mobile: {
+        width: 99.02,
+        height: 33.5,
+        borderRadius: '16.75px',
+        fontSize: 11.17,
+        lineHeight: 1.522,
+        textAlign: 'center',
+        padding: {
+          vertical: 1.03125,
+          horizontal: 4.68875,
+        },
+      },
+    },
+  },
+
+  shadows: {
+    primary: {
+      default: '0px 18.91px 66.19px 0px rgba(0, 0, 0, 0.15)',
+      hover: '0px 20.91px 71.19px 0px rgba(0, 0, 0, 0.20)',
+      active: '0px 16.91px 56.19px 0px rgba(0, 0, 0, 0.18)',
+    },
+    secondary: {
+      default: '0px 17.08px 59.78px 0px rgba(0, 0, 0, 0.15)',
+      hover: '0px 19.08px 64.78px 0px rgba(0, 0, 0, 0.20)',
+      active: '0px 15.08px 49.78px 0px rgba(0, 0, 0, 0.18)',
+    },
+  },
+
+  states: {
+    hover: {
+      translateY: -2,
+    },
+    active: {
+      scale: 0.98,
+    },
+    disabled: {
+      opacity: 0.5,
+    },
+  },
+
+  transitions: {
+    duration: 200,
+    easing: 'ease-in-out',
+  },
+};
+
+export const componentTokens: ComponentTokens = { pillTag: pillTagTokens };
+
+// ==========================================
+// THEME CREATORS
 // ==========================================
 
 export function createLightTheme(config: Partial<ThemeConfig> = {}): CustomThemeOptions {
   const {
-    primaryColor = blueScale['600'],
-    secondaryColor = redScale['500'],
-    fontFamily = '"Roboto", "Helvetica", "Arial", sans-serif',
+    primaryColor = blueScale[600],
+    secondaryColor = redScale[500],
+    fontFamily = '"Poppins", sans-serif',
     borderRadius = 8,
     spacing = 8,
   } = config;
@@ -173,14 +315,14 @@ export function createLightTheme(config: Partial<ThemeConfig> = {}): CustomTheme
       mode: 'light',
       primary: {
         main: primaryColor,
-        light: blueScale['400'],
-        dark: blueScale['800'],
+        light: blueScale[400],
+        dark: blueScale[800],
         contrastText: '#fff',
       },
       secondary: {
         main: secondaryColor,
-        light: redScale['300'],
-        dark: redScale['700'],
+        light: redScale[300],
+        dark: redScale[700],
         contrastText: '#fff',
       },
       error: generateColorFromScale(redScale),
@@ -188,70 +330,20 @@ export function createLightTheme(config: Partial<ThemeConfig> = {}): CustomTheme
       info: generateColorFromScale(blueScale),
       success: generateColorFromScale(greenScale),
       grey: greyScale,
-      background: {
-        default: '#fafafa',
-        paper: '#ffffff',
-      },
+      background: { default: '#fafafa', paper: '#ffffff' },
       text: {
-        primary: 'rgba(0, 0, 0, 0.87)',
-        secondary: 'rgba(0, 0, 0, 0.6)',
-        disabled: 'rgba(0, 0, 0, 0.38)',
+        primary: 'rgba(0,0,0,0.87)',
+        secondary: 'rgba(0,0,0,0.6)',
+        disabled: 'rgba(0,0,0,0.38)',
       },
       gradient: {
-        primary: `linear-gradient(135deg, ${primaryColor} 0%, ${blueScale['800']} 100%)`,
-        secondary: `linear-gradient(135deg, ${secondaryColor} 0%, ${redScale['700']} 100%)`,
+        primary: `linear-gradient(135deg, ${primaryColor} 0%, ${blueScale[800]} 100%)`,
+        secondary: `linear-gradient(135deg, ${secondaryColor} 0%, ${redScale[700]} 100%)`,
       },
     },
-    typography: {
-      fontFamily,
-      h1: {
-        fontSize: '2.5rem',
-        fontWeight: 600,
-        lineHeight: 1.2,
-      },
-      h2: {
-        fontSize: '2rem',
-        fontWeight: 600,
-        lineHeight: 1.3,
-      },
-      h3: {
-        fontSize: '1.75rem',
-        fontWeight: 600,
-        lineHeight: 1.3,
-      },
-      h4: {
-        fontSize: '1.5rem',
-        fontWeight: 600,
-        lineHeight: 1.4,
-      },
-      h5: {
-        fontSize: '1.25rem',
-        fontWeight: 600,
-        lineHeight: 1.4,
-      },
-      h6: {
-        fontSize: '1rem',
-        fontWeight: 600,
-        lineHeight: 1.4,
-      },
-      body1: {
-        fontSize: '1rem',
-        lineHeight: 1.5,
-      },
-      body2: {
-        fontSize: '0.875rem',
-        lineHeight: 1.43,
-      },
-      button: {
-        fontSize: '0.875rem',
-        fontWeight: 500,
-        textTransform: 'uppercase' as const,
-      },
-    },
+    typography: { fontFamily },
     spacing,
-    shape: {
-      borderRadius,
-    },
+    shape: { borderRadius },
     shadows: [
       'none',
       customShadows.z1,
@@ -284,63 +376,51 @@ export function createLightTheme(config: Partial<ThemeConfig> = {}): CustomTheme
 
 export function createDarkTheme(config: Partial<ThemeConfig> = {}): CustomThemeOptions {
   const lightTheme = createLightTheme(config);
-
   return {
     ...lightTheme,
     palette: {
       ...lightTheme.palette,
       mode: 'dark',
-      background: {
-        default: '#121212',
-        paper: '#1e1e1e',
-      },
+      background: { default: '#121212', paper: '#1e1e1e' },
       text: {
-        primary: 'rgba(255, 255, 255, 0.87)',
-        secondary: 'rgba(255, 255, 255, 0.6)',
-        disabled: 'rgba(255, 255, 255, 0.38)',
+        primary: 'rgba(255,255,255,0.87)',
+        secondary: 'rgba(255,255,255,0.6)',
+        disabled: 'rgba(255,255,255,0.38)',
       },
     },
   };
 }
 
 // ==========================================
-// HELPERS PARA USAR EN COMPONENTES
+// FACTORY FOR COMPLETE THEMES
 // ==========================================
 
-export function getColorFromTheme(
-  theme: Theme,
-  colorKey: keyof ColorToken,
-  colorName: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' = 'primary'
-): string {
-  return theme.palette[colorName][colorKey];
-}
-
-export function getTypographyFromTheme(
-  theme: Theme,
-  variant: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body1' | 'body2'
-): React.CSSProperties {
-  return theme.typography[variant];
-}
-
-export function getSpacingFromTheme(theme: Theme, multiplier: number = 1): string {
-  return theme.spacing(multiplier);
-}
-
-// ==========================================
-// FACTORY PARA TEMAS COMPLETOS
-// ==========================================
-
-export function createCustomTheme(config: Partial<ThemeConfig> = {}) {
+export function createCustomTheme(config: Partial<ThemeConfig> = {}): ExtendedTheme {
   const themeOptions = config.mode === 'dark' ? createDarkTheme(config) : createLightTheme(config);
+  const baseTheme = createTheme(themeOptions as ThemeOptions);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const theme = createTheme(themeOptions as any);
-
-  // Agregamos las extensiones personalizadas al tema creado
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (theme as any).customShadows = customShadows;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (theme as any).customBreakpoints = customBreakpoints;
+  const theme: ExtendedTheme = {
+    ...baseTheme,
+    customShadows,
+    customBreakpoints,
+    componentTokens,
+  };
 
   return theme;
+}
+
+// ==========================================
+// HELPERS FOR COMPONENT TOKENS
+// ==========================================
+
+export function getPillTagTokens(theme: ExtendedTheme): PillTagTokens {
+  return theme.componentTokens?.pillTag || pillTagTokens;
+}
+
+export function getPillTagDimensions(
+  theme: ExtendedTheme,
+  variant: 'primary' | 'secondary' = 'primary',
+  breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop'
+) {
+  return getPillTagTokens(theme).dimensions[variant][breakpoint];
 }
