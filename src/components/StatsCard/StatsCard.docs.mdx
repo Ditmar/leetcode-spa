@@ -1,0 +1,38 @@
+import { Meta, Canvas, Story } from '@storybook/blocks';
+import * as Stories from './StatsCard.stories';
+
+<Meta of={Stories} />
+
+# StatsCard Component
+
+The **StatsCard** component displays key statistics and metrics in a visually appealing card format, designed specifically for dashboard interfaces. It presents important numerical data with associated icons and labels in a consistent, accessible manner.
+
+## Overview
+
+StatsCard provides a clean, standardized way to display statistical information across your application. Each card contains three core elements:
+
+- **Icon**: A representative Material-UI icon or custom image
+- **Value**: The main numerical or textual statistic
+- **Label**: Descriptive text explaining the metric's context
+
+## Basic Usage
+
+```jsx
+import { StatsCard } from './StatsCard';
+import { Edit, Star } from '@mui/icons-material';
+
+// Basic implementation
+<StatsCard 
+  icon={<Edit />}
+  value={32}
+  label="Tests Written"
+/>
+
+// With success variant
+<StatsCard 
+  icon={<Star />}
+  value="1,580"
+  label="Points Earned"
+  variant="success"
+  animated={true}
+/>
