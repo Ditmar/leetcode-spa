@@ -179,7 +179,6 @@ export const pillTagTokens: PillTagTokens = {
   typography: {
     fontFamily: '"Poppins",sans-serif',
     fontWeight: 500,
-    lineHeight: 1,
     letterSpacing: '0',
   },
   dimensions: {
@@ -189,24 +188,38 @@ export const pillTagTokens: PillTagTokens = {
         height: 85.1,
         borderRadius: '42.55px',
         fontSize: 28.37,
+        lineHeight: 1.516,
         textAlign: 'center',
-        padding: { vertical: 21.05, horizontal: 66.75 },
+        padding: {
+          vertical: 2.6375,
+          horizontal: 8.34375,
+        },
       },
+
       tablet: {
         width: 188.63,
         height: 63.83,
         borderRadius: '31.91px',
         fontSize: 21.28,
+        lineHeight: 1.516,
         textAlign: 'center',
-        padding: { vertical: 16.42, horizontal: 52.31 },
+        padding: {
+          vertical: 1.98,
+          horizontal: 6.26,
+        },
       },
+
       mobile: {
         width: 94.75,
         height: 32.06,
         borderRadius: '16.03px',
         fontSize: 11.17,
+        lineHeight: 1.522,
         textAlign: 'center',
-        padding: { vertical: 7.53, horizontal: 23.88 },
+        padding: {
+          vertical: 0.94125,
+          horizontal: 2.984375,
+        },
       },
     },
     secondary: {
@@ -215,27 +228,42 @@ export const pillTagTokens: PillTagTokens = {
         height: 76.86,
         borderRadius: '38.43px',
         fontSize: 25.62,
+        lineHeight: 1.483,
         textAlign: 'center',
-        padding: { vertical: 19.43, horizontal: 86.585 },
+        padding: {
+          vertical: 2.42875,
+          horizontal: 10.823125,
+        },
       },
+
       tablet: {
         width: 170.38,
         height: 57.65,
         borderRadius: '28.82px',
         fontSize: 19.22,
+        lineHeight: 1.483,
         textAlign: 'center',
-        padding: { vertical: 14.825, horizontal: 65.19 },
+        padding: {
+          vertical: 1.82,
+          horizontal: 8.12,
+        },
       },
+
       mobile: {
         width: 99.02,
         height: 33.5,
         borderRadius: '16.75px',
         fontSize: 11.17,
+        lineHeight: 1.522,
         textAlign: 'center',
-        padding: { vertical: 8.25, horizontal: 37.51 },
+        padding: {
+          vertical: 1.03125,
+          horizontal: 4.68875,
+        },
       },
     },
   },
+
   shadows: {
     primary: {
       default: '0px 18.91px 66.19px 0px rgba(0, 0, 0, 0.15)',
@@ -248,12 +276,23 @@ export const pillTagTokens: PillTagTokens = {
       active: '0px 15.08px 49.78px 0px rgba(0, 0, 0, 0.18)',
     },
   },
+
   states: {
-    hover: { translateY: -2 },
-    active: { scale: 0.98 },
-    disabled: { opacity: 0.5 },
+    hover: {
+      translateY: -2,
+    },
+    active: {
+      scale: 0.98,
+    },
+    disabled: {
+      opacity: 0.5,
+    },
   },
-  transitions: { duration: 200, easing: 'ease-in-out' },
+
+  transitions: {
+    duration: 200,
+    easing: 'ease-in-out',
+  },
 };
 
 export const componentTokens: ComponentTokens = { pillTag: pillTagTokens };
