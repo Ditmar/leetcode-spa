@@ -1,0 +1,80 @@
+# ConsoleIO
+
+The **ConsoleIO** component represents a **data entry console with two tabs**: **Sample** and **Custom**.
+It displays sample or custom values, captures changes using callbacks, and keeps tabs visible even if the content is large.
+It is designed with **Material UI**, follows **Accessibility (ARIA)** and responsive design principles, and integrates easily with Storybook and automated testing.
+
+---
+
+## Purpose
+
+The component is used to simulate data entry in an interactive console, ideal for:
+
+- Testing example cases in algorithms.
+- Custom user input.
+- Integrating with educational simulations or interactive assessments.
+- Maintaining a clean UI with invisible scrolling in large text areas.
+
+---
+
+## Props
+
+- **`sampleValue?: string`**  
+  Initial value of the tab **Sample**.
+
+- **`customValue?: string`**  
+  Initial value of the tab **Custom**.
+
+- **`onSampleChange?: (value: string) => void`**  
+  Callback that executes when the value in the tab changes **Sample**.
+
+- **`onCustomChange?: (value: string) => void`**  
+  Callback that executes when the value in the tab changes **Custom**.
+
+- **`defaultTab?: 'sample' | 'custom'`**  
+  Defines which tab is displayed by default.
+  Default value: `'sample'`.
+
+- **`height?: number | string`**  
+  Console container height.
+  Default value: `502px`.
+
+- **`width?: number | string`**  
+  Width of the console container.
+  Default value: `100%` up to a maximum of `260px`.
+
+- **`data-testid?: string`**  
+  Identifier for unit tests with `React Testing Library`.
+
+---
+
+## Basic usage example
+
+This example shows how to use the component with sample and custom values:
+
+```tsx
+import { ConsoleIO } from './ConsoleIO';
+
+function App() {
+  const handleSampleChange = (value: string) => {
+    console.log('Sample changed:', value);
+  };
+
+  const handleCustomChange = (value: string) => {
+    console.log('Custom changed:', value);
+  };
+
+  return (
+    <ConsoleIO
+      sampleValue={`2\n6 3\n0 5 5 6 6 6\n8 2\n0 0 1 1 2 2 2 2`}
+      customValue="Here you can enter your own text"
+      defaultTab="sample"
+      height={502}
+      width={260}
+      onSampleChange={handleSampleChange}
+      onCustomChange={handleCustomChange}
+      data-testid="consoleio-root"
+    />
+  );
+}
+```
