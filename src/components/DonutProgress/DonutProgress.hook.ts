@@ -1,13 +1,10 @@
-import { useMemo } from 'react';
 import { useTheme } from '@mui/material/styles';
+import { useMemo } from 'react';
 
 import { AUTO_COLORS } from './DonutProgress.constants';
 
 import type { DonutProgressProps } from './DonutProgress.types';
-export const useDonutColor = (
-  color: DonutProgressProps['color'],
-  percentage: number
-): string => {
+export const useDonutColor = (color: DonutProgressProps['color'], percentage: number): string => {
   const theme = useTheme();
 
   return useMemo(() => {
@@ -19,11 +16,11 @@ export const useDonutColor = (
       return String(color);
     }
     if (percentage < 50) {
-      return AUTO_COLORS.low;    
+      return AUTO_COLORS.low;
     }
     if (percentage < 75) {
-      return AUTO_COLORS.medium; 
+      return AUTO_COLORS.medium;
     }
-    return AUTO_COLORS.high;    
+    return AUTO_COLORS.high;
   }, [color, percentage, theme.palette]);
 };

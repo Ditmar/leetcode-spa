@@ -1,7 +1,9 @@
 import { useTheme } from '@mui/material/styles';
+
 import { DEFAULT_SIZE, DEFAULT_STROKE_WIDTH, TRACK_COLOR } from './DonutProgress.constants';
 import { useDonutColor } from './DonutProgress.hook';
 import { DonutContainer, DonutText } from './DonutProgress.styles';
+
 import type { DonutProgressProps } from './DonutProgress.types';
 import type { JSX } from 'react';
 
@@ -18,9 +20,7 @@ export const DonutProgress = ({
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (safePercentage / 100) * circumference;
   const computedColor = useDonutColor(color, safePercentage);
-  const trackColor = theme.palette.mode === 'dark' 
-    ? TRACK_COLOR.dark   
-    : TRACK_COLOR.light; 
+  const trackColor = theme.palette.mode === 'dark' ? TRACK_COLOR.dark : TRACK_COLOR.light;
   return (
     <DonutContainer
       size={size}
@@ -30,12 +30,7 @@ export const DonutProgress = ({
       aria-valuemax={100}
       aria-label={`Progress: ${Math.round(safePercentage)}%`}
     >
-      <svg 
-        width={size} 
-        height={size} 
-        viewBox={`0 0 ${size} ${size}`}
-        aria-hidden="true"
-      >
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
         <circle
           stroke={trackColor}
           fill="transparent"
@@ -61,9 +56,7 @@ export const DonutProgress = ({
           }}
         />
       </svg>
-      <DonutText aria-hidden="true">
-        {Math.round(safePercentage)}%
-      </DonutText>
+      <DonutText aria-hidden="true">{Math.round(safePercentage)}%</DonutText>
     </DonutContainer>
   );
 };
