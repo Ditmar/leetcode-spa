@@ -52,7 +52,7 @@ export const MCQQuestion: React.FC<MCQQuestionProps> = ({
         <QuestionContainer>
           <FormLabel id={questionId} component="legend">
             <QuestionText variant="subtitle1">
-              {number && <QuestionNumber>{number}.</QuestionNumber>}
+              {number && <QuestionNumber>{`${number}.`}</QuestionNumber>}
               <span>{question}</span>
             </QuestionText>
           </FormLabel>

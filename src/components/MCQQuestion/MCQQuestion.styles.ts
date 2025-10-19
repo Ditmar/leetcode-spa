@@ -71,6 +71,8 @@ export const OptionsGrid = styled(Box)(({ theme }) => ({
 
 export const QuestionNumber = styled('span')(({ theme }) => ({
   color: theme.palette.text.primary,
+  display: 'inline',
+  whiteSpace: 'nowrap',
 }));
 
 export const StyledFormControl = styled(FormControl)(() => ({
