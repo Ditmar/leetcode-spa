@@ -1,4 +1,5 @@
 import { styled } from '@mui/material/styles';
+
 import { TYPOGRAPHY } from './DonutProgress.constants';
 export const DonutContainer = styled('div')<{ size: number }>(({ size }) => ({
   position: 'relative',

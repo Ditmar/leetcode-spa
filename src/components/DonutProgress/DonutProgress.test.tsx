@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+
 import { DonutProgress } from './DonutProgress';
 import '@testing-library/jest-dom';
 

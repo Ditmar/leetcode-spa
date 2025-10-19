@@ -1,6 +1,8 @@
 import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+
 import { DonutProgress } from './DonutProgress';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 const theme = createTheme();
