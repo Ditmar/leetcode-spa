@@ -1,7 +1,9 @@
 import React from 'react';
+
+import AlarmClockIcon from './assets/alarm-clock.svg';
 import { useCountdownTimer } from './CountdownTimer.hook';
 import { TimerWrapper, IconWrapper, TimerText } from './CountdownTimer.styles';
-import AlarmClockIcon from './assets/alarm-clock.svg';
+
 import type { CountdownTimerProps } from './CountdownTimer.types';
 
 export const CountdownTimer: React.FC<CountdownTimerProps> = ({ seconds, onComplete }) => {

@@ -32,7 +32,6 @@ export const IconWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
-
 export const TimerText = styled(Typography)(({ theme }) => ({
   fontFamily: 'Syne, sans-serif',
   fontWeight: 700,
