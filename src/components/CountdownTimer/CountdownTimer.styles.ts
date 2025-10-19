@@ -1,4 +1,3 @@
-import '@fontsource/syne/700.css';
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -13,18 +12,26 @@ export const TimerWrapper = styled(Box)(({ theme }) => ({
 }));
 
 export const IconWrapper = styled(Box)(({ theme }) => ({
-  width: theme.spacing(6.25), // 50px
+  width: theme.spacing(6.25),
   height: theme.spacing(6.25),
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
+  color: '#AE8CFA',
+
+  '& img': {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    objectFit: 'contain',
+  },
 
   [theme.breakpoints.down('sm')]: {
-    width: theme.spacing(5), // 40px
+    width: theme.spacing(5),
     height: theme.spacing(5),
   },
 }));
+
 
 export const TimerText = styled(Typography)(({ theme }) => ({
   fontFamily: 'Syne, sans-serif',

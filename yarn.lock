@@ -664,11 +664,6 @@
     "@eslint/core" "^0.15.2"
     levn "^0.4.1"
 
-"@fontsource/syne@5.2.7":
-  version "5.2.7"
-  resolved "https://registry.yarnpkg.com/@fontsource/syne/-/syne-5.2.7.tgz#8c9d1a7fbdde4cfa2fd843fdf7d36ab35dc396a5"
-  integrity sha512-OgWgLPSbieiSfdFXgMs0l/rspIFzVoDZxw8wKj15n39epRqO5+Uv36c0MXNDcw2GuK/TIBgpC9G8VAgs+bVm7A==
-
 "@humanfs/core@^0.19.1":
   version "0.19.1"
   resolved "https://registry.npmjs.org/@humanfs/core/-/core-0.19.1.tgz"

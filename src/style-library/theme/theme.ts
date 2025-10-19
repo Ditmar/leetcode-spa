@@ -1,8 +1,8 @@
+import Syne700 from '../../components/countdownTimer/assets/fonts/Syne-700.woff2';
 import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
 import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
 import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
 import { createCustomTheme } from '../types/theme.helpers';
-
 import type { ThemeConfig } from '../types/theme.types';
 import type { CSSProperties } from 'react';
 
@@ -50,6 +50,21 @@ const themeConfig: ThemeConfig = {
 };
 
 const theme = createCustomTheme(themeConfig);
+
+theme.components = {
+  ...theme.components,
+  MuiCssBaseline: {
+    styleOverrides: `
+      @font-face {
+        font-family: 'Syne';
+        src: url(${Syne700}) format('woff2');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+    `,
+  },
+};
 
 theme.typography = {
   ...theme.typography,
