@@ -1431,9 +1431,9 @@
     picocolors "1.1.1"
     pretty-format "^27.0.2"
 
-"@testing-library/jest-dom@^6.6.3", "@testing-library/jest-dom@^6.9.1":
+"@testing-library/jest-dom@6.9.1", "@testing-library/jest-dom@^6.6.3":
   version "6.9.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-6.9.1.tgz#7613a04e146dd2976d24ddf019730d57a89d56c2"
+  resolved "https://registry.npmjs.org/@testing-library/jest-dom/-/jest-dom-6.9.1.tgz#7613a04e146dd2976d24ddf019730d57a89d56c2"
   integrity sha512-zIcONa+hVtVSSep9UT3jZ5rizo2BsxgyDYU7WFD5eICBE7no3881HGeb/QkGfsJs6JTkY1aQhT7rIPC7e+0nnA==
   dependencies:
     "@adobe/css-tools" "^4.4.0"
@@ -1443,16 +1443,16 @@
     picocolors "^1.1.1"
     redent "^3.0.0"
 
-"@testing-library/react@^16.3.0":
+"@testing-library/react@16.3.0":
   version "16.3.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/react/-/react-16.3.0.tgz#3a85bb9bdebf180cd76dba16454e242564d598a6"
+  resolved "https://registry.npmjs.org/@testing-library/react/-/react-16.3.0.tgz#3a85bb9bdebf180cd76dba16454e242564d598a6"
   integrity sha512-kFSyxiEDwv1WLl2fgsq6pPBbw5aWKrsY2/noi1Id0TK0UParSF62oFQFGHXIyaG4pp2tEub/Zlel+fjjZILDsw==
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@testing-library/user-event@^14.6.1":
+"@testing-library/user-event@14.6.1", "@testing-library/user-event@^14.6.1":
   version "14.6.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.6.1.tgz#13e09a32d7a8b7060fe38304788ebf4197cd2149"
+  resolved "https://registry.npmjs.org/@testing-library/user-event/-/user-event-14.6.1.tgz#13e09a32d7a8b7060fe38304788ebf4197cd2149"
   integrity sha512-vq7fv0rnt+QTXgPxr5Hjc210p6YKq2kmdziLgnsZGgLJ9e6VAShx1pACLuRjd/AS/sr7phAR58OIIpf0LlmQNw==
 
 "@tybys/wasm-util@^0.10.0":
@@ -1889,6 +1889,18 @@
   resolved "https://registry.yarnpkg.com/@unrs/resolver-binding-win32-x64-msvc/-/resolver-binding-win32-x64-msvc-1.11.1.tgz#538b1e103bf8d9864e7b85cc96fa8d6fb6c40777"
   integrity sha512-lrW200hZdbfRtztbygyaq/6jP6AKE8qQN2KvPcJ+x7wiD038YtnYtZ82IMNJ69GJibV7bwL3y9FgK+5w/pYt6g==
 
+"@vitejs/plugin-react@5.0.4":
+  version "5.0.4"
+  resolved "https://registry.npmjs.org/@vitejs/plugin-react/-/plugin-react-5.0.4.tgz#d642058e89c5b712655c8cbd13482f5813519602"
+  integrity sha512-La0KD0vGkVkSk6K+piWDKRUyg8Rl5iAIKRMH0vMJI0Eg47bq1eOxmoObAaQG37WMW9MSyk7Cs8EIWwJC1PtzKA==
+  dependencies:
+    "@babel/core" "^7.28.4"
+    "@babel/plugin-transform-react-jsx-self" "^7.27.1"
+    "@babel/plugin-transform-react-jsx-source" "^7.27.1"
+    "@rolldown/pluginutils" "1.0.0-beta.38"
+    "@types/babel__core" "^7.20.5"
+    react-refresh "^0.17.0"
+
 "@vitejs/plugin-react@^4.7.0":
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-react/-/plugin-react-4.7.0.tgz#647af4e7bb75ad3add578e762ad984b90f4a24b9"
@@ -1898,18 +1910,6 @@
     "@babel/plugin-transform-react-jsx-self" "^7.27.1"
     "@babel/plugin-transform-react-jsx-source" "^7.27.1"
     "@rolldown/pluginutils" "1.0.0-beta.27"
-    "@types/babel__core" "^7.20.5"
-    react-refresh "^0.17.0"
-
-"@vitejs/plugin-react@^5.0.4":
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/@vitejs/plugin-react/-/plugin-react-5.0.4.tgz#d642058e89c5b712655c8cbd13482f5813519602"
-  integrity sha512-La0KD0vGkVkSk6K+piWDKRUyg8Rl5iAIKRMH0vMJI0Eg47bq1eOxmoObAaQG37WMW9MSyk7Cs8EIWwJC1PtzKA==
-  dependencies:
-    "@babel/core" "^7.28.4"
-    "@babel/plugin-transform-react-jsx-self" "^7.27.1"
-    "@babel/plugin-transform-react-jsx-source" "^7.27.1"
-    "@rolldown/pluginutils" "1.0.0-beta.38"
     "@types/babel__core" "^7.20.5"
     react-refresh "^0.17.0"
 
@@ -4189,9 +4189,9 @@ js-yaml@^4.1.0:
   dependencies:
     argparse "^2.0.1"
 
-jsdom@^27.0.0:
+jsdom@27.0.0:
   version "27.0.0"
-  resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-27.0.0.tgz#831fb76bcfde14b0d92aec1c2bfd8ea462f17eb9"
+  resolved "https://registry.npmjs.org/jsdom/-/jsdom-27.0.0.tgz#831fb76bcfde14b0d92aec1c2bfd8ea462f17eb9"
   integrity sha512-lIHeR1qlIRrIN5VMccd8tI2Sgw6ieYXSVktcSHaNe3Z5nE/tcPQYQWOq00wxMvYOsz+73eAkNenVvmPC6bba9A==
   dependencies:
     "@asamuzakjp/dom-selector" "^6.5.4"
