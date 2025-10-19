@@ -1,0 +1,1 @@
+import{j as r}from"./jsx-runtime-CBFqWUVk.js";import{M as t}from"./MuiThemeProvider-B9LtS9oV.js";import"./index-CgCoV-L-.js";import"./_commonjsHelpers-CqkleIqs.js";import"./DefaultPropsProvider-CYF72fVf.js";import"./theme-ozEUXcDv.js";import"./useEnhancedEffect-N7OWO1xF.js";const i=o=>r.jsx(t,{children:r.jsx(o,{})}),a=[i];export{a as decorators};
