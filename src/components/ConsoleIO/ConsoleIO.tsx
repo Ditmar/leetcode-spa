@@ -18,7 +18,7 @@ export const ConsoleIO: FC<ConsoleIOProps> = ({
   onSampleChange,
   onCustomChange,
   defaultTab = 'sample',
-  height = CONSOLE_DEFAULTS.HEIGHT_SP,
+  height,
   width,
   'data-testid': dataTestId,
 }) => {
@@ -42,8 +42,9 @@ export const ConsoleIO: FC<ConsoleIOProps> = ({
       data-testid={dataTestId ?? 'consoleio-root'}
       sx={{
         width: typeof width === 'number' ? `${width}px` : (width ?? '100%'),
-        maxWidth: `${CONSOLE_DEFAULTS.WIDTH_SP * 8}px`, // usando token de theme
-        height: typeof height === 'number' ? `${height}px` : height,
+        maxWidth: `${CONSOLE_DEFAULTS.CONTAINER_WIDTH_PX}px`,
+        height:
+          typeof height === 'number' ? `${height}px` : `${CONSOLE_DEFAULTS.CONTAINER_HEIGHT_PX}px`,
       }}
     >
       <Frame>
@@ -56,37 +57,24 @@ export const ConsoleIO: FC<ConsoleIOProps> = ({
           <StyledTab label="Custom" value="custom" data-testid="tab-custom" />
         </TopTabs>
 
-        {activeTab === 'sample' ? (
-          <ConsoleContent role="region" aria-label="sample-area">
-            <ScrollableTextField
-              multiline
-              minRows={8}
-              value={sampleInput}
-              onChange={(e) => handleSampleChange(e.target.value)}
-              placeholder={CONSOLE_DEFAULTS.PLACEHOLDER_SAMPLE}
-              variant="outlined"
-              inputProps={{
-                'aria-label': 'sample-input',
-                'data-testid': 'input-sample',
-              }}
-            />
-          </ConsoleContent>
-        ) : (
-          <ConsoleContent role="region" aria-label="custom-area">
-            <ScrollableTextField
-              multiline
-              minRows={8}
-              value={customInput}
-              onChange={(e) => handleCustomChange(e.target.value)}
-              placeholder={CONSOLE_DEFAULTS.PLACEHOLDER_SAMPLE}
-              variant="outlined"
-              inputProps={{
-                'aria-label': 'custom-input',
-                'data-testid': 'input-custom',
-              }}
-            />
-          </ConsoleContent>
-        )}
+        <ConsoleContent role="region" aria-label={`${activeTab}-area`}>
+          <ScrollableTextField
+            multiline
+            minRows={8}
+            value={activeTab === 'sample' ? sampleInput : customInput}
+            onChange={(e) =>
+              activeTab === 'sample'
+                ? handleSampleChange(e.target.value)
+                : handleCustomChange(e.target.value)
+            }
+            placeholder={CONSOLE_DEFAULTS.PLACEHOLDER_SAMPLE}
+            variant="outlined"
+            inputProps={{
+              'aria-label': `${activeTab}-input`,
+              'data-testid': `input-${activeTab}`,
+            }}
+          />
+        </ConsoleContent>
       </Frame>
     </ConsoleContainer>
   );

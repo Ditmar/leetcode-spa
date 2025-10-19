@@ -7,89 +7,107 @@ export const ConsoleContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   width: '100%',
-  maxWidth: theme.spacing(CONSOLE_DEFAULTS.WIDTH_SP), // usa token entero
+
+  maxWidth: `${CONSOLE_DEFAULTS.CONTAINER_WIDTH_PX}px`,
+  height: `${CONSOLE_DEFAULTS.CONTAINER_HEIGHT_PX}px`,
   [theme.breakpoints.down('sm')]: {
     maxWidth: '100%',
-    padding: theme.spacing(CONSOLE_DEFAULTS.PADDING_SP),
+    height: 'auto',
+    padding: theme.spacing(1),
   },
 }));
 
 export const Frame = styled(Box)(({ theme }) => ({
-  width: '100%',
+  width: `${CONSOLE_DEFAULTS.CONTAINER_WIDTH_PX}px`,
+
   background: theme.palette.common.white,
   boxSizing: 'border-box',
   display: 'flex',
   flexDirection: 'column',
-  minHeight: theme.spacing(CONSOLE_DEFAULTS.FRAME_MIN_HEIGHT_SP),
+
+  height: `${CONSOLE_DEFAULTS.FRAME_HEIGHT_PX}px`,
+  padding: theme.spacing(CONSOLE_DEFAULTS.PADDING_SP),
+  gap: theme.spacing(CONSOLE_DEFAULTS.GAP_SP),
   overflow: 'hidden',
   [theme.breakpoints.down('sm')]: {
-    minHeight: theme.spacing(27),
+    height: `calc(${CONSOLE_DEFAULTS.FRAME_HEIGHT_PX}px - ${theme.spacing(8)})`,
+    padding: theme.spacing(1),
   },
 }));
-
-export const TopTabs = styled(Tabs)(({ theme }) => ({
-  minHeight: theme.spacing(5),
-  margin: 0,
-  padding: 0,
+export const TopTabs = styled(Tabs)({
+  display: 'flex',
   '& .MuiTabs-indicator': {
     display: 'none',
   },
+  minHeight: 20,
+});
+
+export const StyledTab = styled(Tab)(({ theme }) => ({
+  flex: 1,
+  minWidth: 0,
+  textTransform: 'capitalize',
+  fontFamily: 'Montserrat, Roboto, sans-serif',
+  fontWeight: 400,
+  fontSize: theme.typography.pxToRem(18),
+  minHeight: 42,
+  paddingTop: theme.spacing(1.25),
+  paddingBottom: theme.spacing(1.25),
+  color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.common.white,
+  '&.Mui-selected': {
+    backgroundColor: theme.palette.grey[200],
+    color: theme.palette.text.secondary,
+  },
+  '&:hover': {
+    backgroundColor: theme.palette.grey[50],
+  },
 }));
 
-export const StyledTab = styled(Tab)<{ ownerState?: { selected?: boolean } }>(
-  ({ theme, ownerState }) => ({
-    textTransform: 'capitalize',
-    fontFamily: '"Montserrat", "Roboto", sans-serif',
-    fontWeight: 400,
-    fontSize: theme.typography.pxToRem(18),
-    color: theme.palette.text.primary,
-    minHeight: theme.spacing(5),
-    padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
-    backgroundColor: ownerState?.selected ? theme.palette.grey[200] : theme.palette.common.white,
-    borderRadius: 0,
-  })
-);
-
-export const ConsoleContent = styled(Box)(() => ({
+export const ConsoleContent = styled(Box)({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-  overflow: 'hidden', // contenido interno manejará scroll
-}));
+  overflow: 'hidden',
+});
 
 export const ScrollableTextField = styled(TextField)(({ theme }) => ({
   width: '100%',
   flex: 1,
-  backgroundColor: 'transparent',
-  overflow: 'auto', // scroll interno visible
+  backgroundColor: theme.palette.common.white,
   '& .MuiInputBase-root': {
-    fontFamily: '"Montserrat", "Roboto", sans-serif',
+    fontFamily: 'Montserrat, Roboto, sans-serif',
     fontSize: theme.typography.pxToRem(14),
     fontWeight: 300,
+    color: theme.palette.text.disabled,
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(CONSOLE_DEFAULTS.PADDING_SP),
-    height: '100%',
   },
   '& .MuiInputBase-input': {
+    padding: theme.spacing(1),
     whiteSpace: 'pre-wrap',
     overflowY: 'auto',
+    maxHeight: '100%',
+    boxSizing: 'border-box',
   },
-  // Scrollbar fino y visible
   '& .MuiInputBase-input::-webkit-scrollbar': {
     width: '6px',
   },
   '& .MuiInputBase-input::-webkit-scrollbar-track': {
-    background: theme.palette.grey[100],
-    borderRadius: '4px',
+    background: theme.palette.grey[400],
+    borderRadius: 4,
   },
   '& .MuiInputBase-input::-webkit-scrollbar-thumb': {
     backgroundColor: theme.palette.grey[400],
-    borderRadius: '4px',
+    borderRadius: 4,
   },
-  scrollbarWidth: 'thin', // Firefox
-  scrollbarColor: `${theme.palette.grey[400]} ${theme.palette.grey[100]}`,
+  scrollbarWidth: 'thin',
+  scrollbarColor: `${theme.palette.grey[400]} ${theme.palette.grey[400]}`,
   '& .MuiOutlinedInput-notchedOutline': {
     border: 'none',
+  },
+  '& .MuiInputBase-input::placeholder': {
+    color: theme.palette.grey[500],
+    opacity: 1,
   },
 }));
