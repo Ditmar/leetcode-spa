@@ -48,68 +48,68 @@ declare module '@mui/material/Typography' {
  * - Text (label): auto-ajustable dentro del contenedor
  */
 export const pillTagTokens = {
-    colors: {
-        background: '#FFFFFF',
-        gradientStart: '#B23DEB',
-        gradientEnd: '#DE8FFF',
+  colors: {
+    background: '#FFFFFF',
+    gradientStart: '#B23DEB',
+    gradientEnd: '#DE8FFF',
+  },
+  typography: {
+    fontFamily: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: 500,
+    lineHeight: 1,
+    letterSpacing: '0',
+  },
+  dimensions: {
+    primary: {
+      width: 251.51,
+      height: 85.1,
+      borderRadius: '42.55px',
+      fontSize: 28.37,
+      textAlign: 'center',
+      padding: {
+        vertical: 2.5,
+        horizontal: 4,
+      },
     },
-    typography: {
-        fontFamily: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
-        fontWeight: 500,
-        lineHeight: 1,
-        letterSpacing: '0',
+    secondary: {
+      width: 227.17,
+      height: 76.86,
+      borderRadius: '38.43px',
+      fontSize: 25.62,
+      textAlign: 'center',
+      padding: {
+        vertical: 2.2,
+        horizontal: 3.5,
+      },
     },
-    dimensions: {
-        primary: {
-            width: 251.51,
-            height: 85.1,
-            borderRadius: '42.55px',
-            fontSize: 28.37,
-            textAlign: 'center',
-            padding: {
-                vertical: 2.5,
-                horizontal: 4,
-            },
-        },
-        secondary: {
-            width: 227.17,
-            height: 76.86,
-            borderRadius: '38.43px',
-            fontSize: 25.62,
-            textAlign: 'center',
-            padding: {
-                vertical: 2.2,
-                horizontal: 3.5,
-            },
-        },
+  },
+  shadows: {
+    primary: {
+      default: '0px 18.91px 66.19px 0px rgba(0, 0, 0, 0.15)',
+      hover: '0px 20.91px 71.19px 0px rgba(0, 0, 0, 0.20)',
+      active: '0px 16.91px 56.19px 0px rgba(0, 0, 0, 0.18)',
     },
-    shadows: {
-        primary: {
-            default: '0px 18.91px 66.19px 0px rgba(0, 0, 0, 0.15)',
-            hover: '0px 20.91px 71.19px 0px rgba(0, 0, 0, 0.20)',
-            active: '0px 16.91px 56.19px 0px rgba(0, 0, 0, 0.18)',
-        },
-        secondary: {
-            default: '0px 17.08px 59.78px 0px rgba(0, 0, 0, 0.15)',
-            hover: '0px 19.08px 64.78px 0px rgba(0, 0, 0, 0.20)',
-            active: '0px 15.08px 49.78px 0px rgba(0, 0, 0, 0.18)',
-        },
+    secondary: {
+      default: '0px 17.08px 59.78px 0px rgba(0, 0, 0, 0.15)',
+      hover: '0px 19.08px 64.78px 0px rgba(0, 0, 0, 0.20)',
+      active: '0px 15.08px 49.78px 0px rgba(0, 0, 0, 0.18)',
     },
-    states: {
-        hover: {
-            translateY: -2,
-        },
-        active: {
-            scale: 0.98,
-        },
-        disabled: {
-            opacity: 0.5,
-        },
+  },
+  states: {
+    hover: {
+      translateY: -2,
     },
-    transitions: {
-        duration: 200,
-        easing: 'ease-in-out',
+    active: {
+      scale: 0.98,
     },
+    disabled: {
+      opacity: 0.5,
+    },
+  },
+  transitions: {
+    duration: 200,
+    easing: 'ease-in-out',
+  },
 } as const;
 
 const themeConfig: ThemeConfig = {
