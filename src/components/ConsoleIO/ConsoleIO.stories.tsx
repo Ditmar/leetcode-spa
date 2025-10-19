@@ -10,7 +10,7 @@ const meta: Meta<typeof ConsoleIO> = {
   decorators: [
     (Story) => (
       <MuiThemeProvider>
-        <div style={{ padding: 16, display: 'flex', justifyContent: 'center' }}>
+        <div style={{ padding: 20, display: 'flex', justifyContent: 'center' }}>
           <Story />
         </div>
       </MuiThemeProvider>
