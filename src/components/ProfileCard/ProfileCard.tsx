@@ -25,13 +25,19 @@ import {
 
 import type { ProfileCardProps, StatsItemProps } from './ProfileCard.types';
 
-const StatsItem: React.FC<StatsItemProps> = ({ icon, label, value, 'data-testid': dataTestId }) => {
+const StatsItem: React.FC<StatsItemProps> = ({
+  icon,
+  label,
+  value,
+  $variant,
+  'data-testid': dataTestId,
+}) => {
   const formattedValue = typeof value === 'number' ? value.toLocaleString('en-US') : value;
 
   return (
-    <StyledStatItem $variant={DEFAULT_PROPS.variant} data-testid={dataTestId}>
+    <StyledStatItem $variant={$variant} data-testid={dataTestId}>
       <StyledStatIcon>{icon}</StyledStatIcon>
-      <StyledStatContent $variant={DEFAULT_PROPS.variant}>
+      <StyledStatContent $variant={$variant}>
         <StyledStatValue>{formattedValue}</StyledStatValue>
         <StyledStatLabel>{label}</StyledStatLabel>
       </StyledStatContent>
@@ -45,13 +51,13 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   name,
   username,
   role,
-  stats = { courses: 0, points: 0, ranking: 0 },
+  stats = DEFAULT_PROPS.stats,
   size = DEFAULT_PROPS.size,
   variant = DEFAULT_PROPS.variant,
   showStats = DEFAULT_PROPS.showStats,
   className,
   'data-testid': dataTestId = 'profile-card',
-  ...rest
+  ...cardProps
 }) => {
   // Strict validation for required props
   if (!name || !username) {
@@ -80,17 +86,15 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     return `${rank}th`;
   };
 
-  const safeStats = stats || DEFAULT_PROPS.stats;
-
   return (
     <StyledCard
-      {...rest}
       className={className}
       data-testid={dataTestId}
       $size={size}
       $variant={variant}
       role="article"
       aria-label={`Profile card for ${name}`}
+      {...cardProps}
     >
       <StyledProfileContainer $size={size} $variant={variant}>
         <StyledAvatar
@@ -99,7 +103,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           $size={size}
           data-testid={`${dataTestId}-avatar`}
         >
-          {!avatarUrl && initials}
+          {!avatarUrl && initials && initials}
           {!avatarUrl && !initials && <DefaultIcon />}
         </StyledAvatar>
 
@@ -139,19 +143,22 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           <StatsItem
             icon={<STATS_ICONS.courses />}
             label={STATS_LABELS.courses}
-            value={safeStats.courses}
+            value={stats.courses}
+            $variant={variant}
             data-testid={`${dataTestId}-stat-courses`}
           />
           <StatsItem
             icon={<STATS_ICONS.points />}
             label={STATS_LABELS.points}
-            value={safeStats.points}
+            value={stats.points}
+            $variant={variant}
             data-testid={`${dataTestId}-stat-points`}
           />
           <StatsItem
             icon={<STATS_ICONS.ranking />}
             label={STATS_LABELS.ranking}
-            value={formatRanking(safeStats.ranking)}
+            value={formatRanking(stats.ranking)}
+            $variant={variant}
             data-testid={`${dataTestId}-stat-ranking`}
           />
         </StyledStatsContainer>
@@ -159,3 +166,5 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     </StyledCard>
   );
 };
+
+export default ProfileCard;

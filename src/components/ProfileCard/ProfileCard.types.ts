@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { CardProps } from '@mui/material/Card';
 
 export interface ProfileStatsProps {
@@ -41,9 +42,10 @@ export interface StyledProfileCardProps {
 }
 
 export interface StatsItemProps {
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
   value: number | string;
+  $variant: ProfileCardVariant;
   'data-testid'?: string;
 }
 

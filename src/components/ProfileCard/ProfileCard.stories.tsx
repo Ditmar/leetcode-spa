@@ -52,7 +52,7 @@ const meta = {
     },
     size: {
       control: 'select',
-      options: Object.keys(PROFILE_CARD_SIZES),
+      options: Object.values(PROFILE_CARD_SIZES),
       description: 'Size variant of the card',
       table: {
         type: { summary: 'small | medium | large' },
@@ -61,7 +61,7 @@ const meta = {
     },
     variant: {
       control: 'select',
-      options: Object.keys(PROFILE_CARD_VARIANTS),
+      options: Object.values(PROFILE_CARD_VARIANTS),
       description: 'Layout variant of the card',
       table: {
         type: { summary: 'default | compact | expanded' },

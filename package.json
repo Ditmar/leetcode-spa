@@ -54,6 +54,7 @@
     "@emotion/styled": "11.14.0",
     "@mui/icons-material": "6.3.0",
     "@mui/material": "6.3.0",
+    "@vitejs/plugin-react-swc": "^4.1.0",
     "react": "18.3.1",
     "react-dom": "18.3.1"
 >>>>>>> 17ed1f8 (FIX esLint of pipelines)
@@ -96,6 +97,7 @@
     "vite": "7.1.9",
 =======
     "@chromatic-com/storybook": "3.2.2",
+    "@storybook/addon-a11y": "8.5.0",
     "@storybook/addon-essentials": "8.5.0",
     "@storybook/addon-interactions": "8.5.0",
     "@storybook/addon-links": "8.5.0",
@@ -104,14 +106,15 @@
     "@storybook/react": "8.5.0",
     "@storybook/react-vite": "8.5.0",
     "@storybook/test": "8.5.0",
+    "@storybook/test-runner": "^0.23.0",
     "@testing-library/jest-dom": "6.6.3",
-    "@testing-library/react": "16.1.0",
+    "@testing-library/react": "14.3.1",
     "@testing-library/user-event": "14.5.2",
     "@types/react": "18.3.18",
     "@types/react-dom": "18.3.5",
     "@typescript-eslint/eslint-plugin": "8.20.0",
     "@typescript-eslint/parser": "8.20.0",
-    "@vitejs/plugin-react-swc": "3.5.0",
+    "@vitejs/plugin-react": "4.3.4",
     "@vitest/ui": "3.2.4",
     "eslint": "9.18.0",
     "eslint-config-prettier": "10.1.8",
@@ -125,7 +128,11 @@
     "storybook": "8.5.0",
     "typescript": "5.7.2",
     "vite": "6.0.7",
+<<<<<<< HEAD
 >>>>>>> fac6001 (before of other rebase)
     "vitest": "3.2.4"
+=======
+    "vitest": "^3.2.4"
+>>>>>>> 74e9a2e (fix: resolve TypeScript errors and rebase with main)
   }
 }

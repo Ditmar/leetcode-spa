@@ -1,4 +1,4 @@
-// ESLint configuration for React + TypeScript + Vite project (simplified)
+// ESLint configuration for React + TypeScript + Vite project
 const js = require('@eslint/js');
 const tsParser = require('@typescript-eslint/parser');
 const ts = require('@typescript-eslint/eslint-plugin');
@@ -35,7 +35,7 @@ module.exports = [
       eqeqeq: ['error', 'always', { null: 'ignore' }],
       'no-var': 'error',
       'prefer-const': ['error', { destructuring: 'all' }],
-      'no-unused-vars': 'warn',
+      'no-unused-vars': 'off',
     },
   },
 
@@ -51,13 +51,6 @@ module.exports = [
           jsx: true
         }
       },
-      globals: {
-        React: 'readonly',
-        window: 'readonly',
-        document: 'readonly',
-        global: 'readonly',
-        HTMLElement: 'readonly',
-      }
     },
     plugins: { 
       '@typescript-eslint': ts, 
@@ -84,10 +77,10 @@ module.exports = [
           varsIgnorePattern: '^_',
         }
       ],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-non-null-assertion': 'warn',
-      'no-undef': 'off', // TypeScript handles this
+      'no-undef': 'off',
       
       // React Hooks rules
       'react-hooks/rules-of-hooks': 'error',
@@ -101,22 +94,20 @@ module.exports = [
     },
   },
 
-  // Storybook files - more lenient rules
+  // Storybook files - slightly more lenient
   {
     files: ['**/*.stories.{ts,tsx}'],
     rules: {
       'no-console': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
       'react-refresh/only-export-components': 'off',
     },
   },
 
-  // Test files - more lenient rules
+  // Test files - slightly more lenient
   {
     files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '**/test-utils.{ts,tsx}', '**/setup.{ts,tsx}'],
     rules: {
       'no-console': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
       'react-refresh/only-export-components': 'off',
     },
   },

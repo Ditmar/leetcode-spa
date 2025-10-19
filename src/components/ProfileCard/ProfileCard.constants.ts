@@ -17,33 +17,6 @@ export const PROFILE_CARD_VARIANTS: Record<ProfileCardVariant, ProfileCardVarian
   expanded: 'expanded',
 } as const;
 
-export const SIZE_CONFIGS = {
-  small: {
-    avatarSize: 48,
-    padding: 16,
-    nameFontSize: '1rem',
-    usernameFontSize: '0.875rem',
-    roleFontSize: '0.75rem',
-    statsGap: 12,
-  },
-  medium: {
-    avatarSize: 64,
-    padding: 20,
-    nameFontSize: '1.125rem',
-    usernameFontSize: '0.875rem',
-    roleFontSize: '0.8125rem',
-    statsGap: 16,
-  },
-  large: {
-    avatarSize: 80,
-    padding: 24,
-    nameFontSize: '1.25rem',
-    usernameFontSize: '1rem',
-    roleFontSize: '0.875rem',
-    statsGap: 20,
-  },
-} as const;
-
 export const VARIANT_CONFIGS = {
   default: {
     direction: 'column' as const,
@@ -87,8 +60,13 @@ export const STATS_LABELS = {
 
 export const DEFAULT_AVATAR_ICON = PersonIcon;
 
+/**
+ * Generates user initials from full name
+ * @param name - User full name
+ * @returns Uppercase initials or empty string if name is invalid
+ */
 export const FALLBACK_INITIALS = (name: string): string => {
-  if (!name) return '?';
+  if (!name || !name.trim()) return '';
   const words = name.trim().split(/\s+/);
   if (words.length === 1) {
     return words[0].charAt(0).toUpperCase();
