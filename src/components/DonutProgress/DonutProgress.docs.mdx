@@ -1,50 +1,171 @@
 # DonutProgress
 
-The **DonutProgress** component provides a clean and modern circular progress indicator that visually represents percentage-based data.  
-It’s ideal for dashboards, analytics panels, and performance metrics, with customizable colors, sizes, and smooth animations.
-
----
+A circular progress indicator component that displays progress as a percentage in a donut chart format.
 
 ## Features
 
-- **Circular progress visualization** — from `0%` to `100%`.
-- **Automatic color detection** when using `"auto"`, adapting color based on progress.
-- **Customizable size and stroke thickness**, allowing full design flexibility.
-- **Smooth animations** for dynamic progress transitions.
-- **Centered percentage text** that updates automatically.
-- **Lightweight and easily integrated** into any layout or design system.
+- **Automatic color schemes**: Changes color based on progress thresholds in 'auto' mode
+- **Theme integration**: Uses MUI theme palette colors (primary, success, error, warning)
+- **Accessible**: Full ARIA support with progressbar role and appropriate attributes
+- **Customizable**: Adjustable size, stroke width, and colors
+- **Animated**: Smooth transitions for progress changes (optional)
+- **Compact**: Default size of 38x38px, perfect for dashboards and compact UIs
 
----
+## Usage
+
+```tsx
+import React from 'react';
+import { DonutProgress } from './DonutProgress';
+
+// Basic usage with auto color mode (default 38x38px)
+<DonutProgress percentage={28} />
+
+// High progress with auto color (turns green)
+<DonutProgress percentage={75} />
+
+// With theme palette color
+<DonutProgress percentage={75} color="success" />
+
+// Custom size and styling
+<DonutProgress 
+  percentage={60} 
+  size={100} 
+  strokeWidth={15}
+  animated={false}
+/>
+
+// With custom CSS color
+<DonutProgress percentage={85} color="#9c27b0" />
+```
+
+## Color Modes
+
+### Auto Mode (default)
+In `color="auto"` mode, the component automatically adjusts color based on percentage:
+- **Red** (< 50%): Indicates low progress - `#D32F2F`
+- **Orange** (50-74%): Indicates medium progress - `#FB8C00`
+- **Green** (≥ 75%): Indicates high progress - `#2E7D32`
+
+### Theme Palette Colors
+Use MUI theme palette tokens: `primary`, `success`, `error`, `warning`
+
+These colors are automatically mapped to your theme's palette:
+```tsx
+<DonutProgress percentage={75} color="primary" />  // Uses theme.palette.primary.main
+<DonutProgress percentage={90} color="success" />  // Uses theme.palette.success.main
+<DonutProgress percentage={25} color="error" />    // Uses theme.palette.error.main
+<DonutProgress percentage={60} color="warning" />  // Uses theme.palette.warning.main
+```
+
+### Custom Colors
+Pass any valid CSS color string (hex, rgb, hsl, etc.):
+```tsx
+<DonutProgress percentage={50} color="#9c27b0" />
+<DonutProgress percentage={50} color="rgb(156, 39, 176)" />
+```
 
 ## Props
 
-| **Name** | **Type** | **Default** | **Description** |
-|-----------|-----------|-------------|-----------------|
-| `percentage` | `number` | — | The progress value to display (range `0–100`). |
-| `color` | `"auto"` \| `"primary"` \| `"success"` \| `"error"` \| `"warning"` \| `string` | `"auto"` | The color of the progress ring. `"auto"` changes color dynamically according to the percentage. |
-| `size` | `number` | `38` | The total diameter of the donut in pixels. |
-| `strokeWidth` | `number` | `6` | The thickness of the donut’s circular stroke. |
-| `animated` | `boolean` | `true` | Enables or disables transition animations when progress updates. |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `percentage` | `number` | required | Progress value (0-100, values are clamped) |
+| `color` | `'auto' \| ColorName \| string` | `'auto'` | Color scheme |
+| `size` | `number` | `38` | Diameter in pixels (Figma spec) |
+| `strokeWidth` | `number` | `6` | Progress stroke width in pixels |
+| `animated` | `boolean` | `true` | Enable smooth transitions |
 
----
+## Accessibility
 
-## Automatic Color Behavior
+The component implements proper accessibility:
+- Uses `role="progressbar"` for screen reader support
+- Includes `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` attributes
+- Provides descriptive `aria-label` (e.g., "Progress: 75%")
+- Visual text is marked `aria-hidden` to avoid duplication
+- Keyboard navigable and fully accessible
 
-When the `color` prop is set to `"auto"`, the component automatically adjusts the color based on the progress percentage:
+## Design Specifications
 
-| **Range** | **Color** | **Meaning** |
-|------------|------------|-------------|
-| `< 50%` | `#D21515` | 🔴 Low |
-| `50% – 74%` | `#fb8c00` | 🟠 Medium |
-| `≥ 75%` | `#0DD715` | 🟢 High |
+Based on Figma design system:
+- **Default size**: 38x38px
+- **Default stroke width**: 6px
+- **Font**: Inherits from theme (Poppins recommended)
+- **Font weight**: 500 (Medium)
+- **Colors**: Theme-aware with fallbacks
 
-This allows for quick, intuitive understanding of the progress level without requiring manual color configuration.
+## Theme Integration
 
----
+The component integrates with your MUI theme and can use custom theme tokens:
 
-## Usage Examples
+```typescript
+// In your theme configuration
+const theme = createTheme({
+  palette: {
+    donutProgress: {
+      track: 'rgba(200, 200, 200, 0.3)',
+      trackDark: 'rgba(107, 104, 104, 0.3)',
+      low: '#D32F2F',
+      medium: '#FB8C00',
+      high: '#2E7D32',
+      text: 'rgba(0, 0, 0, 0.87)',
+      textDark: '#FFFFFF',
+    },
+  },
+  typography: {
+    donutProgress: {
+      fontFamily: '"Poppins", sans-serif',
+      fontSize: '8px',  // Scales with component size
+      fontWeight: 500,
+      lineHeight: 1,
+    },
+  },
+});
+```
 
-### Basic Example
+## Examples
 
+### Dashboard Usage
 ```tsx
-<DonutProgress percentage={45} />
+<Box display="flex" gap={2}>
+  <DonutProgress percentage={28} color="auto" />
+  <DonutProgress percentage={75} color="auto" />
+</Box>
+```
+
+### Large Display
+```tsx
+<DonutProgress 
+  percentage={85} 
+  color="success"
+  size={200}
+  strokeWidth={30}
+/>
+```
+
+### Disabled Animation
+```tsx
+<DonutProgress 
+  percentage={60} 
+  animated={false}
+/>
+```
+
+## Best Practices
+
+1. Use `color="auto"` for data-driven visualizations
+2. Use theme colors (`primary`, `success`, etc.) for branded components
+3. Keep default size (38px) for compact layouts
+4. Use larger sizes (100px+) for prominent displays
+5. Disable animation when rendering many instances for performance
+
+## Browser Support
+
+- Chrome/Edge: ✅ Full support
+- Firefox: ✅ Full support
+- Safari: ✅ Full support
+- Mobile browsers: ✅ Full support
+
+## See Also
+
+- [Storybook Examples](#) - Interactive demos
+- [MUI Theme Documentation](https://mui.com/material-ui/customization/theming/)
+- [ARIA Progressbar Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/meter/)

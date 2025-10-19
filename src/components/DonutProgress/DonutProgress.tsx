@@ -1,29 +1,43 @@
-import React from 'react';
-
-import { DEFAULT_SIZE, DEFAULT_STROKE_WIDTH } from './DonutProgress.constants';
-import { useDonutColor } from './DonutProgress.hooks';
+import { useTheme } from '@mui/material/styles';
+import { DEFAULT_SIZE, DEFAULT_STROKE_WIDTH, TRACK_COLOR } from './DonutProgress.constants';
+import { useDonutColor } from './DonutProgress.hook';
 import { DonutContainer, DonutText } from './DonutProgress.styles';
-
 import type { DonutProgressProps } from './DonutProgress.types';
+import type { JSX } from 'react';
 
-export const DonutProgress: React.FC<DonutProgressProps> = ({
+export const DonutProgress = ({
   percentage,
   color = 'auto',
   size = DEFAULT_SIZE,
   strokeWidth = DEFAULT_STROKE_WIDTH,
   animated = true,
-}) => {
+}: DonutProgressProps): JSX.Element => {
+  const theme = useTheme();
+  const safePercentage = Math.max(0, Math.min(100, Number(percentage) || 0));
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (percentage / 100) * circumference;
-
-  const computedColor = useDonutColor(color, percentage);
-
+  const offset = circumference - (safePercentage / 100) * circumference;
+  const computedColor = useDonutColor(color, safePercentage);
+  const trackColor = theme.palette.mode === 'dark' 
+    ? TRACK_COLOR.dark   
+    : TRACK_COLOR.light; 
   return (
-    <DonutContainer size={size}>
-      <svg width={size} height={size}>
+    <DonutContainer
+      size={size}
+      role="progressbar"
+      aria-valuenow={Math.round(safePercentage)}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={`Progress: ${Math.round(safePercentage)}%`}
+    >
+      <svg 
+        width={size} 
+        height={size} 
+        viewBox={`0 0 ${size} ${size}`}
+        aria-hidden="true"
+      >
         <circle
-          stroke="#6b6868ff"
+          stroke={trackColor}
           fill="transparent"
           strokeWidth={strokeWidth}
           r={radius}
@@ -41,13 +55,15 @@ export const DonutProgress: React.FC<DonutProgressProps> = ({
           cy={size / 2}
           strokeLinecap="round"
           style={{
-            transition: animated ? 'stroke-dashoffset 0.8s ease, stroke 0.8s ease' : 'none',
+            transition: animated ? 'stroke-dashoffset 0.8s ease' : 'none',
             transform: 'rotate(-90deg)',
-            transformOrigin: '50% 50%',
+            transformOrigin: 'center',
           }}
         />
       </svg>
-      <DonutText>{Math.round(percentage)}%</DonutText>
+      <DonutText aria-hidden="true">
+        {Math.round(safePercentage)}%
+      </DonutText>
     </DonutContainer>
   );
 };

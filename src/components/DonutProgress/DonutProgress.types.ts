@@ -1,6 +1,8 @@
+export type ColorName = 'primary' | 'success' | 'error' | 'warning';
+
 export interface DonutProgressProps {
   percentage: number;
-  color?: 'auto' | 'primary' | 'success' | 'error' | 'warning' | string;
+  color?: 'auto' | ColorName | string;
   size?: number;
   strokeWidth?: number;
   animated?: boolean;
