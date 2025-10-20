@@ -1,35 +1,35 @@
 import React from 'react';
 import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
 import MuiThemeProvider from '../../style-library/provider/MuiThemeProvider';
-import ThankYouMessage from './ThankYouMessage';
+import { ThankYouMessage } from './ThankYouMessage';
 
 <Meta title="Components/ThankYouMessage" component={ThankYouMessage} />
 
-# ThankYouMessage — Documentación detallada
+# ThankYouMessage — Detailed documentation
 
-Este documento está pensado para explicar de forma ordenada qué hicimos, qué archivos tocamos y qué variables/componentes se usan en cada archivo. Está escrito para que puedas copiarlo directamente en el repositorio sin líneas sueltas ni imports redundantes.
-
----
-
-## 1) Resumen rápido
-
-- Propósito: Mostrar una pantalla de agradecimiento con título, mensaje, ilustración y una notificación opcional.
-- Destacado: una capa decorativa (GIF) aplicada vía `::before` en el contenedor que siempre se muestra delante de la ilustración y respeta `prefers-reduced-motion`.
+This document is designed to explain in an organized way what we did, which files we touched, and which variables/components are used in each file. It's written so you can copy it directly into the repository without any extra lines or redundant imports.
 
 ---
 
-## 2) Archivos modificados y variables/elementos usados
+## 1) Quick Summary
 
-Abajo se listan los archivos en `src/components/ThankYouMessage/` con las variables/elementos clave que modificamos o añadimos. Esto ayuda a revisar cambios durante code review.
+- Purpose: Display a thank you screen with a title, message, artwork, and an optional notification.
+- Highlight: A decorative layer (GIF) applied via `::before` to the container that always appears in front of the artwork and respects `prefers-reduced-motion`.
+
+---
+
+## 2) Modified files and variables/assets used
+
+Listed below are the files in `src/components/ThankYouMessage/` with the key variables/elements we modified or added. This helps review changes during code review.
 
 - `ThankYouMessage.tsx` (componente)
-  - Props utilizados: `title`, `message`, `illustration`, `showNotification`, `notificationText`.
+  - Props uses: `title`, `message`, `illustration`, `showNotification`, `notificationText`.
   - Test ids: `thank-you-title`, `thank-you-message`, `thank-you-illustration`, `thank-you-notification`.
-  - Export por defecto: `ThankYouMessage`.
+  - Export default: `ThankYouMessage`.
 
 - `ThankYouMessage.styles.ts` (estilos)
-  - Exportaciones principales: `Container`, `Title`, `Message`, `MessageReducedMotion`, `Illustration`, `Notification`.
-  - Variables/claves modificadas:
+  - Main Export: `Container`, `Title`, `Message`, `MessageReducedMotion`, `Illustration`, `Notification`.
+  - Modified variables/keys:
     - `Container::before`:
       - `backgroundImage`: URL del GIF decorativo
       - `zIndex`: alto (ej. `999`) para overlay
@@ -38,21 +38,21 @@ Abajo se listan los archivos en `src/components/ThankYouMessage/` con las variab
     - `Illustration`: `position: 'relative'`, `zIndex: 1` para permitir overlay
     - `Message`: `transform: 'scaleX(1.06)'` en `md+` y reglas de `prefers-reduced-motion`
 
-- `ThankYouMessage.types.ts` (tipos)
-  - Tipos exportados: `IThankYouMessageProps` (shape/optionals de las props)
+- `ThankYouMessage.types.ts` (types)
+  - Types in export: `IThankYouMessageProps` (shape/optionals props)
 
 - `ThankYouMessage.constants.ts` (constantes)
-  - Constantes: URLs por defecto o textos por defecto (si existen)
+  - Constans: Default URLs or default texts (if any)
 
-> Si alguno de estos archivos no existe en la rama local, los nombres arriba indican dónde buscar y qué revisar.
+>
 
----
+## If any of these files don't exist in the local branch, the names above indicate where to look and what to check.
 
-## 3) Cómo lo construimos (pasos aplicados)
+## 3) How we built it (steps applied)
 
-1. Restauramos la carga de fuentes en el provider para garantizar `Syne` en Storybook y SSR: añadimos `import './fonts.css'` en `src/style-library/provider/MuiThemeProvider.tsx`.
+1. We restored font loading in the provider to guarantee `Syne` in Storybook and SSR: we added `import './fonts.css'` in `src/style-library/provider/MuiThemeProvider.tsx`.
 
-2. Implementamos el GIF decorativo en `ThankYouMessage.styles.ts` usando `Container::before`:
+2. We implemented the decorative GIF in `ThankYouMessage.styles.ts` using `Container::before`:
 
 ```ts
 // excerpt from ThankYouMessage.styles.ts
@@ -68,19 +68,19 @@ Abajo se listan los archivos en `src/components/ThankYouMessage/` con las variab
 }
 ```
 
-3. Aseguramos stacking correcto poniendo `Illustration` con `position: 'relative'` y `zIndex: 1`.
+3. We ensured proper stacking by setting `Illustration` with `position: 'relative'` and `zIndex: 1`.
 
-4. Ajustamos `top` y `width/height` del `::before` por breakpoint (`sm`, `md`, `lg`) para mover el GIF más arriba en mobile/tablet.
+4. We adjusted the `top` and `width/height` of the `::before` pseudo-element per breakpoint (`sm`, `md`, `lg`) to move the GIF higher on mobile/tablet.
 
-5. Añadimos `prefers-reduced-motion` para ocultar el `::before` y remover animaciones cuando el usuario lo solicita.
+5. We added `prefers-reduced-motion` to hide the `::before` and remove animations when the user requests reduced motion.
 
-6. Mantuvimos la `Paper`/card sin halo: `boxShadow: 'none'` en la regla `.MuiPaper-root` dentro del `Container`.
+6. We kept the `Paper`/card without a halo: `boxShadow: 'none'` in the `.MuiPaper-root` rule inside the `Container`.
 
 ---
 
-## 4) Fragmentos y ejemplo de cambios por archivo (detalle)
+## 4) Code snippets and example of per-file changes (detailed)
 
-- `ThankYouMessage.tsx` (puntos clave)
+- `ThankYouMessage.tsx` (key points)
 
 ```tsx
 export default function ThankYouMessage({
@@ -110,7 +110,7 @@ export default function ThankYouMessage({
 }
 ```
 
-- `ThankYouMessage.styles.ts` (puntos clave)
+- `ThankYouMessage.styles.ts` (key points)
 
 ```ts
 export const Container = styled(Box)(({ theme }) => ({
@@ -128,11 +128,11 @@ export const Container = styled(Box)(({ theme }) => ({
 }));
 ```
 
-> Estos fragmentos son extractos representativos; consulta los archivos reales para ver los valores exactos.
+> These snippets are representative extracts; refer to the actual files to see the exact values.
 
 ---
 
-## 5) Props y ejemplos de uso (copiar/pegar)
+## 5) Props and usage examples (copy/paste)
 
 ```tsx
 import ThankYouMessage from '@/components/ThankYouMessage/ThankYouMessage';
@@ -147,15 +147,15 @@ import ThankYouMessage from '@/components/ThankYouMessage/ThankYouMessage';
 
 ---
 
-## 6) Cómo insertar tu imagen (copy/paste)
+## 6) How to insert your image (copy/paste)
 
-- Opción A — URL remota:
+- Option A — Remote URL:
 
 ```tsx
 <ThankYouMessage illustration="https://cdn.example.com/my-illustration.png" />
 ```
 
-- Opción B — Import local:
+- Option B — Local import:
 
 ```tsx
 import myIllustration from './assets/my-illustration.png';
@@ -164,16 +164,16 @@ import myIllustration from './assets/my-illustration.png';
 
 ---
 
-## 7) Verificación y checklist antes de merge
+## 7) Verification and checklist before merging
 
-- [ ] Abrir Storybook y revisar `Components / ThankYouMessage`.
-- [ ] Probar viewports: small mobile, large mobile, tablet, desktop.
-- [ ] Activar `prefers-reduced-motion` y confirmar que GIF/animaciones se desactivan.
-- [ ] Confirmar que no hay imports sueltos ni texto fuera de bloques en el MDX (esto ya fue corregido).
+- [ ] Open Storybook and review `Components / ThankYouMessage`.
+- [ ] Test viewports: small mobile, large mobile, tablet, desktop.
+- [ ] Enable `prefers-reduced-motion` and confirm that GIF/animations are disabled.
+- [ ] Confirm there are no stray imports or text outside of blocks in the MDX (this was already fixed).
 
 ---
 
-## 8) Notas de mantenimiento
+## 8) Maintenance notes
 
-- se expuso la URL del GIF como prop, añade `decorativeGif?: string` al tipo y usa `ThankYouMessage.constants.ts` para el valor por defecto.
-- Para optimize: se considero convertir el GIF a WebP animado o usar Lottie para menos peso.
+- The GIF URL was exposed as a prop — add `decorativeGif?: string` to the type and use `ThankYouMessage.constants.ts` for the default value.
+- For optimization: consider converting the GIF to an animated WebP or using Lottie for lighter performance.

@@ -5,7 +5,6 @@ import { StyledButton, LoadingSpinner, ButtonContent } from './Button.styles';
 
 import type { ButtonProps } from './Button.types';
 
-/** Button con variantes, tamaños y formas (MUI base + estilos custom) */
 export const Button: React.FC<ButtonProps> = ({
   variant = DEFAULT_PROPS.variant,
   size = DEFAULT_PROPS.size,
@@ -52,5 +51,3 @@ export const Button: React.FC<ButtonProps> = ({
     </StyledButton>
   );
 };
-
-export default Button;

@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import { styled, keyframes } from '@mui/material/styles';
-import '../../style-library/fonts.css';
 
 const popIn = keyframes({
   '0%': { opacity: 0, transform: 'translateY(8px) scale(0.995)' },

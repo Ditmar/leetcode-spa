@@ -1,7 +1,9 @@
-export interface IProps {
+import type { ReactNode } from 'react';
+
+export interface ThankYouMessageProps {
   title?: string;
   message?: string;
-  illustration?: string | React.ReactNode;
+  illustration?: string | ReactNode;
   showNotification?: boolean;
   notificationText?: string;
   className?: string;

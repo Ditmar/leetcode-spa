@@ -12,7 +12,7 @@ describe('Button', () => {
     expect(btn).toBeInTheDocument();
     expect(btn).toHaveTextContent('Hola');
     expect(btn).not.toBeDisabled();
-    expect(btn).toHaveAttribute('type', 'button'); // default
+    expect(btn).toHaveAttribute('type', 'button');
   });
 
   it('dispara onClick cuando está habilitado', async () => {

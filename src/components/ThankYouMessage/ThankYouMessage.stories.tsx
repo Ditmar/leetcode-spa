@@ -1,13 +1,14 @@
-import ThankYouMessage from './ThankYouMessage';
+import { ThankYouMessage } from './ThankYouMessage';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
+
 const meta: Meta<typeof ThankYouMessage> = {
   title: 'Components/ThankYouMessage',
   component: ThankYouMessage,
   argTypes: {
     illustration: {
       control: 'text',
-      description: 'URL de la imagen o ReactNode',
+      description: 'Image URL or ReactNode',
     },
     title: { control: 'text' },
     message: { control: 'text' },

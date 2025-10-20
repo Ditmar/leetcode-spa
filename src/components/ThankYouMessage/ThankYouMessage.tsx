@@ -2,12 +2,17 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import React from 'react';
 
-import { DEFAULT_TITLE, DEFAULT_MESSAGE, DEFAULT_ILLUSTRATION } from './ThankYouMessage.constants';
+import {
+  DEFAULT_TITLE,
+  DEFAULT_MESSAGE,
+  DEFAULT_ILLUSTRATION,
+  DEFAULT_NOTIFICATION,
+} from './ThankYouMessage.constants';
 import { Container, Title, Message, Illustration, Notification } from './ThankYouMessage.styles';
 
-import type { IProps } from './ThankYouMessage.types';
+import type { ThankYouMessageProps } from './ThankYouMessage.types';
 
-const ThankYouMessage: React.FC<IProps> = ({
+export const ThankYouMessage: React.FC<ThankYouMessageProps> = ({
   title = DEFAULT_TITLE,
   message = DEFAULT_MESSAGE,
   illustration = DEFAULT_ILLUSTRATION,
@@ -16,7 +21,7 @@ const ThankYouMessage: React.FC<IProps> = ({
   className,
   'data-testid': dataTestId,
 }) => {
-  const notif = notificationText ?? 'You will be notified when your test results are released';
+  const notif = notificationText ?? DEFAULT_NOTIFICATION;
 
   return (
     <Container className={className} data-testid={dataTestId ?? 'thank-you-container'}>
@@ -46,5 +51,3 @@ const ThankYouMessage: React.FC<IProps> = ({
     </Container>
   );
 };
-
-export default ThankYouMessage;

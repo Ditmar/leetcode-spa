@@ -10,14 +10,14 @@ const meta: Meta<typeof Button> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Button con múltiples variantes, tamaños y formas sobre MUI.',
+        component: 'Button with multiple variants, sizes and shapes based on MUI.',
       },
     },
   },
   argTypes: {
-    variant: { control: 'select', options: Object.keys(BUTTON_VARIANTS) },
-    size: { control: 'select', options: Object.keys(BUTTON_SIZES) },
-    shape: { control: 'select', options: Object.keys(BUTTON_SHAPES) },
+    variant: { control: 'select', options: Object.values(BUTTON_VARIANTS) },
+    size: { control: 'select', options: Object.values(BUTTON_SIZES) },
+    shape: { control: 'select', options: Object.values(BUTTON_SHAPES) },
     loading: { control: 'boolean' },
     disabled: { control: 'boolean' },
     fullWidth: { control: 'boolean' },

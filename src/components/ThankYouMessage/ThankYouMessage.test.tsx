@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 
 import '@testing-library/jest-dom';
 
-import ThankYouMessage from './ThankYouMessage';
+import { ThankYouMessage } from './ThankYouMessage';
 
 describe('ThankYouMessage', () => {
   it('renders default title, message and illustration', () => {

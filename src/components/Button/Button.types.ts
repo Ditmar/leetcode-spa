@@ -5,21 +5,20 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonShape = 'rounded' | 'square' | 'pill';
 
 export interface ButtonProps extends Omit<MuiButtonProps, 'variant' | 'color'> {
-  /** Color variant */
   variant?: ButtonVariant;
-  /** Size */
+
   size?: ButtonSize;
-  /** Shape (border radius presets) */
+
   shape?: ButtonShape;
-  /** Loading state */
+
   loading?: boolean;
-  /** Left icon */
+
   startIcon?: React.ReactNode;
-  /** Right icon */
+
   endIcon?: React.ReactNode;
-  /** Take full width */
+
   fullWidth?: boolean;
-  /** Test id */
+
   'data-testid'?: string;
 }
 

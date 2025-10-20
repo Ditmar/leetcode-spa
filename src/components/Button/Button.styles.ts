@@ -56,7 +56,7 @@ export const StyledButton = styled(MuiButton, {
 
     // contained
     backgroundColor: colors.main,
-    color: '#fff',
+    color: theme.palette.getContrastText(colors.main),
     boxShadow: theme.shadows[2],
     cursor: $loading ? 'default' : 'pointer',
 
