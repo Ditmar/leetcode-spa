@@ -10,4 +10,5 @@ export interface FilterPanelProps {
   selectedValue: string;
   onSelect: (value: string) => void;
   panelVariant?: FilterVariant;
+  size?: 'medium' | 'large' | 'xlarge';
 }
