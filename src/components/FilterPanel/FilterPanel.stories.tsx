@@ -31,5 +31,6 @@ export const Secondary: Story = {
     filters: DEFAULT_FILTERS,
     selectedValue: 'all',
     panelVariant: 'secondary',
+    size: 'medium',
   },
 };
