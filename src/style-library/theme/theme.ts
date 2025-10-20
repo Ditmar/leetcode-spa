@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import Syne700 from '../../assets/fonts/Syne-700.woff2';
+=======
+import MontserratLight from '../../components/ConsoleIO/assets/fonts/Montserrat-Light.woff2';
+import MontserratRegular from '../../components/ConsoleIO/assets/fonts/Montserrat-Regular.woff2';
+>>>>>>> b25a42e (Fix: Added theme sizes and created Montserrat fonts.)
 import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
 import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
 import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
@@ -29,6 +34,18 @@ declare module '@mui/material/styles' {
 
   interface PaletteOptions {
     backgroundQuestion?: string;
+  }
+  interface Theme {
+    consoleIO?: {
+      dimensions: {
+        containerWidth: number;
+        containerHeight: number;
+        frameHeight: number;
+        tabSampleWidth: number;
+        tabCustomWidth: number;
+        tabHeight: number;
+      };
+    };
   }
 }
 
@@ -210,7 +227,31 @@ theme.components = {
         font-style: normal;
         font-display: swap;
       }
+      @font-face {
+        font-family: 'Montserrat';
+        src: url(${MontserratLight}) format('woff2');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Montserrat';
+        src: url(${MontserratRegular}) format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
     `,
+  },
+};
+theme.consoleIO = {
+  dimensions: {
+    containerWidth: 260,
+    containerHeight: 502,
+    frameHeight: 460,
+    tabSampleWidth: 129,
+    tabCustomWidth: 131,
+    tabHeight: 42,
   },
 };
 

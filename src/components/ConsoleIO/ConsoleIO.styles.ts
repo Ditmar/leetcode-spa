@@ -1,15 +1,14 @@
+// src/components/ConsoleIO/ConsoleIO.styles.ts
 import { Box, Tabs, Tab, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-import { CONSOLE_DEFAULTS } from './ConsoleIO.constants';
 
 export const ConsoleContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   width: '100%',
-  maxWidth: `${CONSOLE_DEFAULTS.CONTAINER_WIDTH_PX}px`,
-  height: `${CONSOLE_DEFAULTS.CONTAINER_HEIGHT_PX}px`,
+  maxWidth: `${theme.consoleIO?.dimensions.containerWidth ?? 260}px`,
+  height: `${theme.consoleIO?.dimensions.containerHeight ?? 502}px`,
   padding: 0,
   margin: 0,
   boxSizing: 'border-box',
@@ -19,6 +18,7 @@ export const ConsoleContainer = styled(Box)(({ theme }) => ({
     maxWidth: '100vw',
     height: '100vh',
     padding: 0,
+    overflow: 'hidden',
 
     '& > *': {
       transform: 'scale(0.5)',
@@ -28,8 +28,8 @@ export const ConsoleContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const Frame = styled(Box)(({ theme }) => ({
-  width: `${CONSOLE_DEFAULTS.CONTAINER_WIDTH_PX}px`,
-  height: `${CONSOLE_DEFAULTS.CONTAINER_HEIGHT_PX}px`,
+  width: `${theme.consoleIO?.dimensions.containerWidth ?? 260}px`,
+  height: `${theme.consoleIO?.dimensions.containerHeight ?? 502}px`,
   background: theme.palette.common.white,
   boxSizing: 'border-box',
   display: 'flex',
@@ -40,21 +40,23 @@ export const Frame = styled(Box)(({ theme }) => ({
   overflow: 'hidden',
 
   [theme.breakpoints.down('sm')]: {
-    width: `${CONSOLE_DEFAULTS.CONTAINER_WIDTH_PX}px`,
-    height: `${CONSOLE_DEFAULTS.CONTAINER_HEIGHT_PX}px`,
+    width: `${theme.consoleIO?.dimensions.containerWidth ?? 260}px`,
+    height: `${theme.consoleIO?.dimensions.containerHeight ?? 502}px`,
     padding: 0,
+    overflow: 'hidden',
   },
 }));
 
-export const TopTabs = styled(Tabs)({
+export const TopTabs = styled(Tabs)(({ theme }) => ({
   display: 'flex',
   width: '100%',
-  minHeight: `${CONSOLE_DEFAULTS.FRAME_SAMPLE_AND_CUSTOM_HEIGHT_PX}px`,
-  height: `${CONSOLE_DEFAULTS.FRAME_SAMPLE_AND_CUSTOM_HEIGHT_PX}px`,
+  minHeight: `${theme.consoleIO?.dimensions.tabHeight ?? 42}px`,
+  height: `${theme.consoleIO?.dimensions.tabHeight ?? 42}px`,
   margin: 0,
   padding: 0,
   boxSizing: 'border-box',
   overflow: 'hidden',
+  flexShrink: 0,
 
   '& .MuiTabs-indicator': {
     display: 'none',
@@ -65,30 +67,30 @@ export const TopTabs = styled(Tabs)({
     padding: 0,
     margin: 0,
   },
-});
+}));
 
 export const StyledTab = styled(Tab)(({ theme }) => ({
   textTransform: 'capitalize',
   fontFamily: 'Montserrat, Roboto, sans-serif',
   fontWeight: 400,
   fontSize: theme.typography.pxToRem(18),
-  minHeight: `${CONSOLE_DEFAULTS.FRAME_SAMPLE_AND_CUSTOM_HEIGHT_PX}px`,
-  height: `${CONSOLE_DEFAULTS.FRAME_SAMPLE_AND_CUSTOM_HEIGHT_PX}px`,
-  maxHeight: `${CONSOLE_DEFAULTS.FRAME_SAMPLE_AND_CUSTOM_HEIGHT_PX}px`,
+  minHeight: `${theme.consoleIO?.dimensions.tabHeight ?? 42}px`,
+  height: `${theme.consoleIO?.dimensions.tabHeight ?? 42}px`,
+  maxHeight: `${theme.consoleIO?.dimensions.tabHeight ?? 42}px`,
   padding: 0,
   margin: 0,
   flex: 'none',
   boxSizing: 'border-box',
 
   '&[data-testid="tab-sample"]': {
-    width: `${CONSOLE_DEFAULTS.FRAME_SAMPLE_WIDTH_PX}px`,
-    minWidth: `${CONSOLE_DEFAULTS.FRAME_SAMPLE_WIDTH_PX}px`,
-    maxWidth: `${CONSOLE_DEFAULTS.FRAME_SAMPLE_WIDTH_PX}px`,
+    width: `${theme.consoleIO?.dimensions.tabSampleWidth ?? 129}px`,
+    minWidth: `${theme.consoleIO?.dimensions.tabSampleWidth ?? 129}px`,
+    maxWidth: `${theme.consoleIO?.dimensions.tabSampleWidth ?? 129}px`,
   },
   '&[data-testid="tab-custom"]': {
-    width: `${CONSOLE_DEFAULTS.FRAME_CUSTOM_WIDTH_PX}px`,
-    minWidth: `${CONSOLE_DEFAULTS.FRAME_CUSTOM_WIDTH_PX}px`,
-    maxWidth: `${CONSOLE_DEFAULTS.FRAME_CUSTOM_WIDTH_PX}px`,
+    width: `${theme.consoleIO?.dimensions.tabCustomWidth ?? 131}px`,
+    minWidth: `${theme.consoleIO?.dimensions.tabCustomWidth ?? 131}px`,
+    maxWidth: `${theme.consoleIO?.dimensions.tabCustomWidth ?? 131}px`,
   },
 
   color: theme.palette.text.secondary,
@@ -104,7 +106,7 @@ export const StyledTab = styled(Tab)(({ theme }) => ({
   },
 }));
 
-export const ConsoleContent = styled(Box)({
+export const ConsoleContent = styled(Box)(({ theme }) => ({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
@@ -112,8 +114,8 @@ export const ConsoleContent = styled(Box)({
   padding: 0,
   margin: 0,
   boxSizing: 'border-box',
-  height: `calc(${CONSOLE_DEFAULTS.CONTAINER_HEIGHT_PX}px - ${CONSOLE_DEFAULTS.FRAME_SAMPLE_AND_CUSTOM_HEIGHT_PX}px)`,
-});
+  Height: `calc (${theme.consoleIO?.dimensions.containerHeight ?? 502}px - ${theme.consoleIO?.dimensions.tabHeight ?? 42}px)`,
+}));
 
 export const ScrollableTextField = styled(TextField)(({ theme }) => ({
   width: '100%',
@@ -128,42 +130,45 @@ export const ScrollableTextField = styled(TextField)(({ theme }) => ({
     fontFamily: 'Montserrat, Roboto, sans-serif',
     fontSize: theme.typography.pxToRem(14),
     fontWeight: 300,
-    color: theme.palette.text.disabled,
+    color: theme.palette.text.secondary,
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    padding: 0,
-    margin: 10,
+    padding: 10,
+    margin: 0,
   },
 
   '& .MuiInputBase-input': {
-    padding: theme.spacing(1),
+    padding: theme.spacing(0.8),
     whiteSpace: 'pre-wrap',
     overflowY: 'auto',
+    overflowX: 'hidden',
     height: '100%',
+    maxHeight: '100%',
     boxSizing: 'border-box',
-  },
 
-  '& .MuiInputBase-input::-webkit-scrollbar': {
-    width: '6px',
+    '& .MuiInputBase-input::-webkit-scrollbar': {
+      width: '6px',
+    },
+    '& .MuiInputBase-input::-webkit-scrollbar-track': {
+      background: theme.palette.grey[400],
+      borderRadius: 4,
+    },
+    '& .MuiInputBase-input::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.palette.grey[400],
+      borderRadius: 4,
+    },
+
+    scrollbarWidth: 'thin',
+    scrollbarColor: `${theme.palette.grey[400]} ${theme.palette.grey[400]}`,
   },
-  '& .MuiInputBase-input::-webkit-scrollbar-track': {
-    background: theme.palette.grey[400],
-    borderRadius: 4,
-  },
-  '& .MuiInputBase-input::-webkit-scrollbar-thumb': {
-    backgroundColor: theme.palette.grey[400],
-    borderRadius: 4,
-  },
-  scrollbarWidth: 'thin',
-  scrollbarColor: `${theme.palette.grey[400]} ${theme.palette.grey[400]}`,
 
   '& .MuiOutlinedInput-notchedOutline': {
     border: 'none',
   },
 
   '& .MuiInputBase-input::placeholder': {
-    color: theme.palette.grey[500],
+    color: theme.palette.grey[600],
     opacity: 1,
   },
 }));

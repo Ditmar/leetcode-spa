@@ -1,3 +1,5 @@
+import { useTheme } from '@mui/material/styles';
+
 import { CONSOLE_DEFAULTS } from './ConsoleIO.constants';
 import { useConsoleIO } from './ConsoleIO.hook';
 import {
@@ -22,6 +24,8 @@ export const ConsoleIO: FC<ConsoleIOProps> = ({
   width,
   'data-testid': dataTestId,
 }) => {
+  const theme = useTheme(); // 🔹 Obtener el theme
+
   const {
     activeTab,
     sampleInput,
@@ -37,14 +41,17 @@ export const ConsoleIO: FC<ConsoleIOProps> = ({
     onCustomChange,
   });
 
+  // 🔹 Obtener dimensiones desde el theme con fallbacks
+  const containerWidth = theme.consoleIO?.dimensions.containerWidth ?? 260;
+  const containerHeight = theme.consoleIO?.dimensions.containerHeight ?? 502;
+
   return (
     <ConsoleContainer
       data-testid={dataTestId ?? 'consoleio-root'}
       sx={{
         width: typeof width === 'number' ? `${width}px` : (width ?? '100%'),
-        maxWidth: `${CONSOLE_DEFAULTS.CONTAINER_WIDTH_PX}px`,
-        height:
-          typeof height === 'number' ? `${height}px` : `${CONSOLE_DEFAULTS.CONTAINER_HEIGHT_PX}px`,
+        maxWidth: `${containerWidth}px`, // 🔹 Desde theme
+        height: typeof height === 'number' ? `${height}px` : `${containerHeight}px`, // 🔹 Desde theme
       }}
     >
       <Frame>
