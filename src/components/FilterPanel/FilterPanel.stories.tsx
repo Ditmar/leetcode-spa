@@ -1,4 +1,4 @@
-import FilterPanel from './FilterPanel';
+import { FilterPanel } from './FilterPanel';
 import { DEFAULT_FILTERS } from './FilterPanel.constants';
 
 import type { Meta, StoryObj } from '@storybook/react';

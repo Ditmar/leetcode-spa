@@ -9,6 +9,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
   selectedValue,
   onSelect,
   panelVariant = 'primary',
+  size = 'medium',
 }) => {
   return (
     <FilterPanelContainer
@@ -16,6 +17,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
       aria-label="Test filters"
       data-testid="filter-panel"
       panelVariant={panelVariant}
+      size={size}
     >
       {filters.map((filter) => {
         const isSelected = selectedValue === filter.value;
@@ -24,7 +26,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
             key={filter.value}
             selected={isSelected}
             panelVariant={panelVariant}
-            size="medium"
+            size="large"
             role="radio"
             aria-checked={isSelected}
             data-testid={`filter-${filter.value}`}
@@ -37,5 +39,3 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
     </FilterPanelContainer>
   );
 };
-
-export default FilterPanel;
