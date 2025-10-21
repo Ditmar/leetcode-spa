@@ -1,6 +1,7 @@
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material';
-import { TextField, InputAdornment, IconButton, Box, debounce } from '@mui/material';
-import React, { useState, useCallback, useRef } from 'react';
+import { TextField, InputAdornment, IconButton, Box } from '@mui/material';
+import debounce from 'lodash/debounce';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -20,27 +21,44 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const [searchValue, setSearchValue] = useState(value);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const debouncedSearch = useCallback(
+  useEffect(() => {
+    setSearchValue(value);
+  }, [value]);
+
+  const debouncedSearchRef = useRef(
     debounce((searchTerm: string) => {
       onSearch(searchTerm);
-    }, delay),
-    [onSearch, delay]
+    }, delay)
   );
+
+  useEffect(() => {
+    debouncedSearchRef.current = debounce((searchTerm: string) => {
+      onSearch(searchTerm);
+    }, delay);
+  }, [onSearch, delay]);
+
+  useEffect(() => {
+    return () => {
+      debouncedSearchRef.current.cancel();
+    };
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setSearchValue(newValue);
-    debouncedSearch(newValue);
+    debouncedSearchRef.current(newValue);
   };
 
   const handleClear = () => {
     setSearchValue('');
     onSearch('');
+    debouncedSearchRef.current.cancel();
     inputRef.current?.focus();
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    debouncedSearchRef.current.cancel();
     onSearch(searchValue);
   };
 
@@ -81,5 +99,3 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     </Box>
   );
 };
-
-export default SearchBar;

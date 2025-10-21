@@ -11,9 +11,13 @@ interface RankingListProps {
 
 export const RankingList: React.FC<RankingListProps> = ({ users }) => {
   return (
-    <Box>
+    <Box role="list">
       {users.map((user) => (
-        <UserCard key={user.id} className={user.isCurrentUser ? 'current-user' : ''}>
+        <UserCard
+          role="listitem"
+          key={user.id}
+          className={user.isCurrentUser ? 'current-user' : ''}
+        >
           <Box display="flex" alignItems="center" gap={2}>
             <RankBadge rank={user.rank}>{user.rank}</RankBadge>
 
