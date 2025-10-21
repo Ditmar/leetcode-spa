@@ -1,14 +1,16 @@
 export type FilterVariant = 'primary' | 'secondary';
 
-export interface FilterOption {
+export type PanelSize = 'medium' | 'large' | 'xlarge';
+
+export interface FilterOption<T extends string = string> {
   label: string;
-  value: string;
+  value: T;
 }
 
-export interface FilterPanelProps {
-  filters: FilterOption[];
-  selectedValue: string;
-  onSelect: (value: string) => void;
+export interface FilterPanelProps<T extends string = string> {
+  filters: FilterOption<T>[];
+  selectedValue: T;
+  onSelect: (value: T) => void;
   panelVariant?: FilterVariant;
-  size?: 'medium' | 'large' | 'xlarge';
+  size?: PanelSize;
 }

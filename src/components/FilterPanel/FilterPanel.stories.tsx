@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta: Meta<typeof FilterPanel> = {
   title: 'Components/FilterPanel',
   component: FilterPanel,
+  tags: ['autodocs'],
   argTypes: {
     panelVariant: {
       control: { type: 'select' },
@@ -23,6 +24,7 @@ export const Primary: Story = {
     filters: DEFAULT_FILTERS,
     selectedValue: 'all',
     panelVariant: 'primary',
+    size: 'medium',
   },
 };
 
