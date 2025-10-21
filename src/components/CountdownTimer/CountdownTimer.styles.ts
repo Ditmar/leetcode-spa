@@ -21,9 +21,13 @@ export const IconWrapper = styled(Box)(({ theme }) => ({
   color: '#AE8CFA',
 
   '& img': {
+    width: theme.spacing(5.598875), // 5.59875 × 8 = 44.79px
+    height: theme.spacing(5.793125), // 5.793125 × 8 = 46.35px
     maxWidth: '100%',
     maxHeight: '100%',
-    objectFit: 'contain',
+    '@media (max-width:600px)': {
+      objectFit: 'contain',
+    },
   },
 
   [theme.breakpoints.down('sm')]: {
