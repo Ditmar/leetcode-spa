@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { DEFAULT_FILTER_VARIANT } from './FilterPanel.constants';
 import { FilterPanelContainer, FilterButton } from './FilterPanel.styles';
 
 import type { FilterPanelProps } from './FilterPanel.types';
@@ -8,7 +9,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
   filters,
   selectedValue,
   onSelect,
-  panelVariant = 'primary',
+  panelVariant = DEFAULT_FILTER_VARIANT,
   size = 'medium',
 }) => {
   return (

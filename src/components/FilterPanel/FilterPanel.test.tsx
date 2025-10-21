@@ -1,10 +1,11 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 
 import { FilterPanel } from './FilterPanel';
 
 describe('FilterPanel', () => {
-  it('resalta el filtro seleccionado', () => {
+  it('highlights the selected filter', () => {
     render(
       <FilterPanel
         filters={[
@@ -16,11 +17,11 @@ describe('FilterPanel', () => {
       />
     );
 
-    const selectedButton = screen.getByTestId('filter-all');
+    const selectedButton = screen.getByRole('radio', { name: /All Tests/i });
     expect(selectedButton).toHaveAttribute('aria-checked', 'true');
   });
 
-  it('dispara onSelect al hacer clic en un filtro', () => {
+  it('calls onSelect when a filter is clicked', async () => {
     const mockSelect = vi.fn();
 
     render(
@@ -34,8 +35,8 @@ describe('FilterPanel', () => {
       />
     );
 
-    const upcomingButton = screen.getByTestId('filter-upcoming');
-    fireEvent.click(upcomingButton);
+    const upcomingButton = screen.getByRole('radio', { name: /Upcoming/i });
+    await userEvent.click(upcomingButton);
 
     expect(mockSelect).toHaveBeenCalledWith('upcoming');
   });
