@@ -9,7 +9,7 @@ export interface User {
   isCurrentUser?: boolean;
 }
 
-export type SortBy = 'points' | 'testsPassed' | 'recentActivity';
+export type SortBy = 'points' | 'testsPassed';
 export type TimePeriod = 'all' | 'week' | 'month' | 'year';
 
 export interface LeaderboardFilters {
@@ -21,7 +21,6 @@ export interface LeaderboardFilters {
 
 export interface LeaderboardState {
   users: User[];
-  filteredUsers: User[];
   loading: boolean;
   error: string | null;
   filters: LeaderboardFilters;
