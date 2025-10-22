@@ -3,7 +3,7 @@ import React from 'react';
 
 import { theme } from '../../style-library';
 
-import CalendarIcon from './icon/CalendarIcon';
+import { CalendarIcon } from './icon/CalendarIcon';
 import { useUpcomingQuizCard } from './UpcomingQuizCard.hook';
 import { StyledCard, DateContainer, RegisterButton } from './UpcomingQuizCard.styles';
 
