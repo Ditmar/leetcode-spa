@@ -10,13 +10,21 @@ const meta: Meta<typeof ConsoleIO> = {
   decorators: [
     (Story) => (
       <MuiThemeProvider>
-        <div style={{ padding: 20, display: 'flex', justifyContent: 'center' }}>
+        <div
+          style={{
+            padding: 0,
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           <Story />
         </div>
       </MuiThemeProvider>
     ),
   ],
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+  },
 };
 
 export default meta;

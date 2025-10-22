@@ -24,7 +24,7 @@ export const ConsoleIO: FC<ConsoleIOProps> = ({
   width,
   'data-testid': dataTestId,
 }) => {
-  const theme = useTheme(); // 🔹 Obtener el theme
+  const theme = useTheme();
 
   const {
     activeTab,
@@ -41,7 +41,6 @@ export const ConsoleIO: FC<ConsoleIOProps> = ({
     onCustomChange,
   });
 
-  // 🔹 Obtener dimensiones desde el theme con fallbacks
   const containerWidth = theme.consoleIO?.dimensions.containerWidth ?? 260;
   const containerHeight = theme.consoleIO?.dimensions.containerHeight ?? 502;
 

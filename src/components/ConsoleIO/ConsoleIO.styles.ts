@@ -1,4 +1,3 @@
-// src/components/ConsoleIO/ConsoleIO.styles.ts
 import { Box, Tabs, Tab, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -16,12 +15,12 @@ export const ConsoleContainer = styled(Box)(({ theme }) => ({
 
   [theme.breakpoints.down('sm')]: {
     maxWidth: '100vw',
-    height: '100vh',
+    height: 'auto',
     padding: 0,
     overflow: 'hidden',
 
     '& > *': {
-      transform: 'scale(0.5)',
+      transform: 'scale(1)',
       transformOrigin: 'center center',
     },
   },
@@ -71,7 +70,7 @@ export const TopTabs = styled(Tabs)(({ theme }) => ({
 
 export const StyledTab = styled(Tab)(({ theme }) => ({
   textTransform: 'capitalize',
-  fontFamily: 'Montserrat, Roboto, sans-serif',
+  fontFamily: 'Montserrat',
   fontWeight: 400,
   fontSize: theme.typography.pxToRem(18),
   minHeight: `${theme.consoleIO?.dimensions.tabHeight ?? 42}px`,
@@ -97,12 +96,12 @@ export const StyledTab = styled(Tab)(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
 
   '&.Mui-selected': {
-    backgroundColor: theme.palette.grey[50],
+    backgroundColor: theme.palette.backgroundQuestion,
     color: theme.palette.text.secondary,
   },
 
   '&:hover': {
-    backgroundColor: theme.palette.grey[50],
+    backgroundColor: theme.palette.backgroundQuestion,
   },
 }));
 
@@ -127,7 +126,7 @@ export const ScrollableTextField = styled(TextField)(({ theme }) => ({
   boxSizing: 'border-box',
 
   '& .MuiInputBase-root': {
-    fontFamily: 'Montserrat, Roboto, sans-serif',
+    fontFamily: 'Montserrat',
     fontSize: theme.typography.pxToRem(14),
     fontWeight: 300,
     color: theme.palette.text.secondary,
@@ -146,21 +145,6 @@ export const ScrollableTextField = styled(TextField)(({ theme }) => ({
     height: '100%',
     maxHeight: '100%',
     boxSizing: 'border-box',
-
-    '& .MuiInputBase-input::-webkit-scrollbar': {
-      width: '6px',
-    },
-    '& .MuiInputBase-input::-webkit-scrollbar-track': {
-      background: theme.palette.grey[400],
-      borderRadius: 4,
-    },
-    '& .MuiInputBase-input::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.palette.grey[400],
-      borderRadius: 4,
-    },
-
-    scrollbarWidth: 'thin',
-    scrollbarColor: `${theme.palette.grey[400]} ${theme.palette.grey[400]}`,
   },
 
   '& .MuiOutlinedInput-notchedOutline': {
@@ -168,7 +152,7 @@ export const ScrollableTextField = styled(TextField)(({ theme }) => ({
   },
 
   '& .MuiInputBase-input::placeholder': {
-    color: theme.palette.grey[600],
+    color: theme.palette.text.secondary,
     opacity: 1,
   },
 }));
