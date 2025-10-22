@@ -18,11 +18,12 @@ export const DateContainer = styled(Box)(({ theme }) => ({
 
 export const RegisterButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
-  background: 'linear-gradient(90deg, #A44CE0, #6C63FF)',
-  color: '#fff',
-  padding: theme.spacing(1.2, 4),
+  background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+  color: theme.palette.primary.contrastText,
+  padding: theme.spacing(1, 4),
   borderRadius: (theme.shape.borderRadius as number) * 2,
   '&:hover': {
     opacity: 0.9,
+    background: `linear-gradient(90deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
   },
 }));
