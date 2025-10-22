@@ -16,11 +16,19 @@ const meta: Meta<typeof TestCard> = {
 export default meta;
 type Story = StoryObj<typeof TestCard>;
 
-export const Clickable: Story = {
+export const Default: Story = {
   args: {
-    logo: 'https://i.postimg.cc/FRZFpXcM/X-tipos-de-lenguaje-de-programaci-n-m-s-buscados-por-las-empresas.jpg',
-    title: 'With onSelect event',
-    description: 'Click the card to trigger an action in the Actions panel.',
+    logo: 'https://i.postimg.cc/KckvLBVj/codigo.jpg',
+    title: '',
+    description: '',
+  },
+};
+
+export const LongTitle: Story = {
+  args: {
+    logo: 'https://i.postimg.cc/xTFCBQZ6/istockphoto-1164357236-612x612.jpg',
+    title: 'A long title example',
+    description: 'This story demonstrates how long titles behave visually.',
   },
 };
 
@@ -41,18 +49,10 @@ export const CustomShowcase: Story = {
   ),
 };
 
-export const Default: Story = {
+export const Clickable: Story = {
   args: {
-    logo: 'https://i.postimg.cc/KckvLBVj/codigo.jpg',
-    title: '',
-    description: '',
-  },
-};
-
-export const LongTitle: Story = {
-  args: {
-    logo: 'https://i.postimg.cc/xTFCBQZ6/istockphoto-1164357236-612x612.jpg',
-    title: 'A long title example',
-    description: 'This story demonstrates how long titles behave visually.',
+    logo: 'https://i.postimg.cc/FRZFpXcM/X-tipos-de-lenguaje-de-programaci-n-m-s-buscados-por-las-empresas.jpg',
+    title: 'With onSelect event',
+    description: 'Click the card to trigger an action in the Actions panel.',
   },
 };
