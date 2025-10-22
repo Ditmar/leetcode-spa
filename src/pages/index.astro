@@ -1,10 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import MuiSSRSafe from '../components/MuiSSRSafe.tsx';
+import Layout from '@layouts/Layout.astro';
+import MuiSSRSafe from '@components/MuiApp';
 ---
 
 <Layout>
-	<main>
+	<main slot="main">
 		<MuiSSRSafe client:load />
 	</main>
 </Layout>

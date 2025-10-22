@@ -71,7 +71,7 @@ export const TestHeader: React.FC<PropsTestHeaderProps> = (props) => {
         <HeaderContainer flexDirection={direction}>
           <LogoSection>
             {logoSrcToUse ? (
-              <LogoImage src={logoSrcToUse} alt="TCS Logo" size={size} />
+              <LogoImage src={'./tsc-log.svg'} alt="TCS Logo" size={size} />
             ) : (
               <Box
                 data-testid="placeholder-logo"

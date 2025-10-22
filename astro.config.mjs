@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
+import node from '@astrojs/node';
 
 export default defineConfig({
   integrations: [
@@ -7,6 +8,9 @@ export default defineConfig({
       experimentalReactChildren: true,
     }),
   ],
+  adapter: node({
+    mode: 'http'
+  }),
   vite: {
     optimizeDeps: {
       include: [

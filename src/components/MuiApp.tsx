@@ -1,10 +1,8 @@
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
-import React, { useState, useEffect } from 'react';
-
+import { useState, useEffect } from 'react';
 import createEmotionCache from '../style-library/cache/createEmotionCache';
-import SimpleMuiExample from '../style-library/stories/SimpleMuiExample';
-
+import { MCQQuestion } from '@components/MCQQuestion/MCQQuestion';
 import type { EmotionCache } from '@emotion/react';
 
 // Crear un tema básico
@@ -39,7 +37,16 @@ export default function MuiApp({ emotionCache }: MuiAppProps) {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SimpleMuiExample />
+        <MCQQuestion
+          number={1}
+          question="What is the capital of France?"
+          options={[
+            { label: 'HTML', value: 'html' },
+            { label: 'Python', value: 'python' },
+            { label: 'CSS', value: 'css' },
+          ]}
+          onChange={() => {}}
+        />
       </ThemeProvider>
     );
   }
@@ -48,7 +55,16 @@ export default function MuiApp({ emotionCache }: MuiAppProps) {
     <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SimpleMuiExample />
+        <MCQQuestion
+          number={1}
+          question="What is the capital of France?"
+          options={[
+            { label: 'HTML', value: 'html' },
+            { label: 'Python', value: 'python' },
+            { label: 'CSS', value: 'css' },
+          ]}
+          onChange={() => {}}
+        />
       </ThemeProvider>
     </CacheProvider>
   );
