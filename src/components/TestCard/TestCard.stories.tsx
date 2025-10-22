@@ -5,64 +5,54 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta: Meta<typeof TestCard> = {
   title: 'Components/TestCard',
   component: TestCard,
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+  },
   argTypes: {
-    description: { control: 'text', description: 'Descripción de la tarjeta' },
-    logo: { control: 'text', description: 'URL o nodo de imagen' },
-    onSelect: { action: 'selected', description: 'Función al hacer click' },
-    title: { control: 'text', description: 'Título de la tarjeta' },
+    onSelect: { action: 'selected' },
   },
 };
 
 export default meta;
-
 type Story = StoryObj<typeof TestCard>;
 
-export const Basic: Story = {
+export const Clickable: Story = {
   args: {
-    description: 'Tarjeta con imagen de fondo y texto.',
-    layout: 'vertical',
-    logo: 'https://images.unsplash.com/photo-1538330496851-c475c75a7631?auto=format&fit=crop&w=800&q=80',
-    sx: {},
-    title: 'Proyecto Básico',
+    logo: 'https://i.postimg.cc/FRZFpXcM/X-tipos-de-lenguaje-de-programaci-n-m-s-buscados-por-las-empresas.jpg',
+    title: 'With onSelect event',
+    description: 'Click the card to trigger an action in the Actions panel.',
   },
 };
 
-export const HoverEffect: Story = {
+export const CustomShowcase: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '16px' }}>
+      <TestCard
+        logo="https://i.postimg.cc/KckvLBVj/codigo.jpg"
+        title="Card A"
+        description="First custom logo card"
+      />
+      <TestCard
+        logo="https://i.postimg.cc/FRZFpXcM/X-tipos-de-lenguaje-de-programaci-n-m-s-buscados-por-las-empresas.jpg"
+        title="Card B"
+        description="Second custom logo card"
+      />
+    </div>
+  ),
+};
+
+export const Default: Story = {
   args: {
-    description: 'Pasa el mouse para ver el efecto.',
-    layout: 'vertical',
-    logo: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=800&q=80',
-    sx: {
-      boxShadow: 1,
-      transition: 'box-shadow 0.3s',
-      '&:hover': {
-        boxShadow: 12,
-      },
-      '& img': {
-        transition: 'transform 0.3s',
-      },
-      '&:hover img': {
-        transform: 'scale(1.1)',
-      },
-    },
-    title: 'Hover Effect',
+    logo: 'https://i.postimg.cc/KckvLBVj/codigo.jpg',
+    title: '',
+    description: '',
   },
 };
 
-export const NoImage: Story = {
+export const LongTitle: Story = {
   args: {
-    description: 'Esta tarjeta no tiene imagen de fondo.',
-    layout: 'vertical',
-    title: 'Sin Imagen',
-  },
-};
-
-export const ShadowedCard: Story = {
-  args: {
-    description: 'Esta tarjeta tiene sombra aplicada.',
-    layout: 'vertical',
-    logo: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=800&q=80',
-    title: 'Con Sombra',
+    logo: 'https://i.postimg.cc/xTFCBQZ6/istockphoto-1164357236-612x612.jpg',
+    title: 'A long title example',
+    description: 'This story demonstrates how long titles behave visually.',
   },
 };
