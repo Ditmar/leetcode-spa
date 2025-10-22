@@ -31,6 +31,11 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({
   const theme = useTheme();
   const enabledItems = menuItems.filter((item) => !item.disabled);
   const enabledItemsCount = enabledItems.length;
+  const { sx: customSx, ...restAvatarProps } = avatarProps || {};
+  const avatarBaseSx = {
+    width: theme.spacing(5.75),
+    height: theme.spacing(5.75),
+  };
 
   return (
     <>
@@ -46,7 +51,12 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({
         $isOpen={isOpen}
       >
         <AvatarContainer $fullWidth={fullWidth}>
-          <Avatar src={avatarUrl} alt={username || 'User avatar'} {...avatarProps} />
+          <Avatar
+            src={avatarUrl}
+            alt={username || 'User avatar'}
+            sx={{ ...avatarBaseSx, ...customSx }}
+            {...restAvatarProps}
+          />
           <TriangleIndicator $isOpen={isOpen} />
         </AvatarContainer>
       </AvatarMenuRoot>
@@ -71,10 +81,13 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({
           paper: {
             sx: (theme) => ({
               marginTop: theme.spacing(1),
+              padding: theme.spacing(0.5),
               zIndex: theme.zIndex.modal,
               border: '1px solid',
               borderColor: theme.palette.divider,
-              borderRadius: theme.shape.borderRadius,
+              backgroundColor: theme.palette.background.paper,
+              borderRadius: theme.spacing(0.5),
+              boxShadow: theme.shadows[3],
             }),
           },
         }}
@@ -84,6 +97,10 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({
             handleMenuKeyDown(e, enabledItemsCount),
           autoFocus: true,
           dense: true,
+          sx: {
+            paddingTop: 0,
+            paddingBottom: 0,
+          },
         }}
       >
         {menuItems.map((item, index) => {
@@ -107,10 +124,17 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({
               autoFocus={isFocused}
               {...item.menuItemProps}
               sx={{
-                ...(isFocused && {
+                padding: theme.spacing(2),
+                color: theme.palette.text.primary,
+                borderRadius: theme.spacing(0.5),
+                '&:hover': {
                   backgroundColor: theme.palette.action.hover,
+                },
+                '&.Mui-focusVisible': {
+                  outline: `1px solid ${theme.palette.primary.main}`,
+                },
+                ...(isFocused && {
                   boxShadow: theme.shadows[1],
-                  borderRadius: theme.shape.borderRadius,
                 }),
                 transition: theme.transitions.create(['all'], {
                   duration: theme.transitions.duration.shortest,

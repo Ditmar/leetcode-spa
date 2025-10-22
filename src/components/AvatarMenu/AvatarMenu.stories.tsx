@@ -72,8 +72,7 @@ const meta: Meta<AvatarMenuStoryArgs> = {
     onItemClicked: { action: 'menuItemClicked' },
   },
   args: {
-    avatarUrl:
-      'https://images.unsplash.com/photo-1749989402507-1d8a8e98bb14?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHBlcmZpbCUyMGRlJTIwaG9tYnJlfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000',
+    avatarUrl: 'https://i.ibb.co/mV26g4B7/b2cc1d5a59644f92c2391dcdd5cde3c11e4770fe.jpg',
     username: 'User Example',
     fullWidth: false,
     onItemClicked: () => {},

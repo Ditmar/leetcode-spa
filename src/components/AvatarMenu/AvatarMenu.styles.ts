@@ -8,7 +8,7 @@ export const AvatarMenuRoot = styled(IconButton, {
 })<StyledAvatarMenuProps>((props) => {
   return {
     borderRadius: props.theme.shape.borderRadius,
-    padding: props.theme.spacing(0.5),
+    padding: props.theme.spacing(1),
     width: props.$fullWidth ? '100%' : 'auto',
     justifyContent: props.$fullWidth ? 'flex-end' : 'center',
     display: 'flex',
@@ -20,7 +20,7 @@ export const AvatarContainer = styled('div')<{
 }>(({ theme, $fullWidth }) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: theme.spacing(1.25),
+  gap: theme.spacing(1.025),
   position: 'relative',
   width: $fullWidth ? '100%' : 'auto',
   justifyContent: $fullWidth ? 'flex-end' : 'center',
@@ -37,9 +37,9 @@ export const UsernameText = styled(Typography)(({ theme }) => ({
 export const TriangleIndicator = styled('div')<{ $isOpen: boolean }>(({ theme, $isOpen }) => ({
   width: 0,
   height: 0,
-  borderLeft: `${theme.spacing(0.75)} solid transparent`,
-  borderRight: `${theme.spacing(0.75)} solid transparent`,
-  borderTop: `${theme.spacing(1)} solid ${theme.palette.text.primary}`,
+  borderTop: `${theme.spacing(1.25)} solid ${theme.palette.text.primary}`,
+  borderLeft: `${theme.spacing(0.833)} solid transparent`,
+  borderRight: `${theme.spacing(0.833)} solid transparent`,
   marginLeft: theme.spacing(0.5),
   transition: theme.transitions.create(['transform'], {
     duration: theme.transitions.duration.short,
