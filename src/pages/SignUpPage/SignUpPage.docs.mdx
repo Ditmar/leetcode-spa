@@ -1,0 +1,27 @@
+import SignUpPage from "./SignUpPage";
+
+# SignUpPage (skeleton / deb)
+
+**Issue**: #25 — Build SignUpPage
+
+Este documento describe el **esqueleto** del SignUpPage. La integración real con
+`registerUser` y los componentes compartidos (`FormInput`, `PrimaryButton`)
+se hará cuando esas dependencias estén disponibles en `master`.
+
+## Diseño
+
+Se replica el layout del Figma: hero a la izquierda y formulario en una card a la derecha,
+con gradientes radiales de fondo y tipografías `Syne`/`Poppins` (ver assets del diseño).
+
+## Props
+
+- `className?`
+- `onSubmitSuccessRedirect?` — reservado para la integración real.
+
+## Notas
+
+- Mantener imports con alias `@/…`.
+- No modificar configuraciones globales del proyecto.
+- Este archivo sirve para Storybook/Docs cuando el pipeline lo publique por rama.
+
+<SignUpPage />
