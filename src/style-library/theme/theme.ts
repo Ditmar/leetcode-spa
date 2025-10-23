@@ -1,4 +1,4 @@
-import Syne700 from '../../components/CountdownTimer/assets/fonts/Syne-700.woff2';
+import Syne700 from "../../assets/fonts/Syne-700.woff2";
 import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
 import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
 import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
