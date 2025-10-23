@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { DEFAULT_FILTER_VARIANT } from './FilterPanel.constants';
 import { FilterPanelContainer, FilterButton } from './FilterPanel.styles';
@@ -12,6 +12,16 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
   panelVariant = DEFAULT_FILTER_VARIANT,
   size = 'medium',
 }) => {
+  const [activeFilter, setActiveFilter] = useState(selectedValue);
+
+  useEffect(() => {
+    setActiveFilter(selectedValue);
+  }, [selectedValue]);
+
+  const handleSelect = (value: string) => {
+    setActiveFilter(value);
+    onSelect(value);
+  };
   return (
     <FilterPanelContainer
       role="radiogroup"
@@ -20,8 +30,9 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
       panelVariant={panelVariant}
       size={size}
     >
-      {filters.map((filter) => {
-        const isSelected = selectedValue === filter.value;
+      {filters.map((filter, index) => {
+        const isSelected = activeFilter === filter.value;
+
         return (
           <FilterButton
             key={filter.value}
@@ -29,9 +40,10 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
             panelVariant={panelVariant}
             size="large"
             role="radio"
+            position={index === 0 ? 'first' : index === filters.length - 1 ? 'last' : 'middle'}
             aria-checked={isSelected}
             data-testid={`filter-${filter.value}`}
-            onClick={() => onSelect(filter.value)}
+            onClick={() => handleSelect(filter.value)}
           >
             {filter.label}
           </FilterButton>
