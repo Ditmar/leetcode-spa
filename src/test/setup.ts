@@ -1,6 +1,19 @@
 import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 
 // Configuración global para los tests
+vi.mock('jsdom', () => {
+  return {
+    JSDOM: class MockJSDOM {
+      constructor() {
+        return {
+          window: global.window,
+          document: global.document,
+        };
+      }
+    },
+  };
+});
 global.ResizeObserver = class ResizeObserver {
   observe() {}
   unobserve() {}
