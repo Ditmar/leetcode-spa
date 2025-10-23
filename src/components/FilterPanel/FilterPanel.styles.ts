@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 
-import { FILTER_BUTTON_SIZES, pressedStyles } from './FilterPanel.constants';
+import { FILTER_BUTTON_SIZES } from './FilterPanel.constants';
 
 import type { FilterVariant } from './FilterPanel.types';
 
@@ -74,9 +74,6 @@ export const FilterButton = styled(Button, {
       backgroundColor: selected ? hoverFill : theme.palette.action.hover,
       color: selected ? activeText : inactiveText,
       borderColor: selected ? hoverFill : 'transparent',
-    },
-    '&.pressed': {
-      ...pressedStyles,
     },
     transition: theme.transitions.create(
       ['background-color', 'border-color', 'color', 'box-shadow'],

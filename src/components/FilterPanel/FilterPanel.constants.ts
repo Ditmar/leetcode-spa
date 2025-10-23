@@ -12,8 +12,3 @@ export const FILTER_BUTTON_SIZES = {
   large: { height: 12.67, paddingX: 2, paddingY: 1, fontSize: 24.93 },
   xlarge: { height: 14.67, paddingX: 2.5, paddingY: 1.25, fontSize: 26.93 },
 } as const;
-
-export const pressedStyles = {
-  transform: 'translateY(1px)',
-  boxShadow: 'inset 0 0 6px rgba(0,0,0,0.12)',
-};
