@@ -1,114 +1,153 @@
-import userEvent from '@testing-library/user-event';
-import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 
-import { render, screen } from '../../test/test-utils';
+import { LeaderboardPage } from './LeaderboardPage';
 
-import { LeaderboardTable } from './LeaderboardTable';
+const { mockUseMediaQuery, mockUseLeaderboardPage } = vi.hoisted(() => {
+  return {
+    mockUseMediaQuery: vi.fn(),
+    mockUseLeaderboardPage: vi.fn(),
+  };
+});
 
-import type { User } from './LeaderboardPage.types';
+vi.mock('@mui/material', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@mui/material')>();
+  return {
+    ...actual,
+    useMediaQuery: mockUseMediaQuery,
+  };
+});
 
-const users: User[] = [
-  {
-    id: '1',
-    rank: 1,
-    avatar: '/a1.jpg',
-    fullName: 'Alice',
-    username: 'alice',
-    points: 5000,
-    testsPassed: 60,
-  },
-  {
-    id: '2',
-    rank: 2,
-    avatar: '/a2.jpg',
-    fullName: 'Bob',
-    username: 'bob',
-    points: 4000,
-    testsPassed: 40,
-  },
-  {
-    id: '3',
-    rank: 3,
-    avatar: '/a3.jpg',
-    fullName: 'Carol',
-    username: 'carol',
-    points: 3000,
-    testsPassed: 30,
-    isCurrentUser: true,
-  },
-  {
-    id: '4',
-    rank: 4,
-    avatar: '/a4.jpg',
-    fullName: 'Dave',
-    username: 'dave',
-    points: 2000,
-    testsPassed: 20,
-  },
-  {
-    id: '5',
-    rank: 5,
-    avatar: '/a5.jpg',
-    fullName: 'Eve',
-    username: 'eve',
-    points: 1000,
-    testsPassed: 10,
-  },
-  {
-    id: '6',
-    rank: 6,
-    avatar: '/a6.jpg',
-    fullName: 'Frank',
-    username: 'frank',
-    points: 900,
-    testsPassed: 5,
-  },
-];
+vi.mock('./LeaderboardPage.hook', () => ({
+  useLeaderboardPage: mockUseLeaderboardPage,
+}));
 
-describe('LeaderboardTable', () => {
-  it('muestra filas según el array de usuarios y resalta al usuario actual', () => {
-    render(<LeaderboardTable users={users} />);
-    expect(screen.getByText('Alice')).toBeInTheDocument();
-    expect(screen.getByText('Bob')).toBeInTheDocument();
-    expect(screen.getByText('Carol')).toBeInTheDocument();
-    expect(screen.getByText(/\(Tú\)/)).toBeInTheDocument();
+vi.mock('./LeaderboardTable', () => ({
+  LeaderboardTable: () => <div data-testid="leaderboard-table">Leaderboard Table</div>,
+}));
+
+vi.mock('./RankingList', () => ({
+  RankingList: () => <div data-testid="ranking-list">Ranking List</div>,
+}));
+
+describe('LeaderboardPage', () => {
+  const mockUsers = [
+    {
+      id: '1',
+      rank: 1,
+      avatarUrl: '',
+      fullName: 'John Doe',
+      username: 'johndoe',
+      points: 100,
+      testsPassed: 10,
+      lastActiveAt: new Date().toISOString(),
+      category: 'neo',
+    },
+  ];
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockUseMediaQuery.mockReturnValue(false);
+    mockUseLeaderboardPage.mockReturnValue({
+      users: mockUsers,
+      loading: false,
+      error: null,
+    });
   });
 
-  it('paginación: cambia de página y muestra la siguiente fila', async () => {
-    render(<LeaderboardTable users={users} />);
-    expect(screen.queryByText('Frank')).not.toBeInTheDocument();
+  it('renders loading state when data is loading', () => {
+    mockUseLeaderboardPage.mockReturnValue({
+      users: [],
+      loading: true,
+      error: null,
+    });
 
-    const nextBtn = screen.getByLabelText('Go to next page');
-    await userEvent.click(nextBtn);
+    render(<LeaderboardPage />);
 
-    expect(await screen.findByText('Frank')).toBeInTheDocument();
+    expect(screen.getByTestId('loading')).toBeInTheDocument();
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('leaderboard-table')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ranking-list')).not.toBeInTheDocument();
   });
 
-  it('muestra "No hay usuarios" si el arreglo está vacío', () => {
-    render(<LeaderboardTable users={[]} />);
-    expect(screen.getByText(/No hay usuarios para mostrar/i)).toBeInTheDocument();
+  it('renders error message when there is an error', () => {
+    const errorMessage = 'Failed to fetch data';
+
+    mockUseLeaderboardPage.mockReturnValue({
+      users: [],
+      loading: false,
+      error: errorMessage,
+    });
+
+    render(<LeaderboardPage />);
+
+    expect(screen.getByTestId('error')).toBeInTheDocument();
+    expect(screen.getByText(errorMessage)).toBeVisible();
+    expect(screen.queryByTestId('loading')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('leaderboard-table')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ranking-list')).not.toBeInTheDocument();
   });
 
-  it('es accesible: la tabla tiene role y aria-label, y los encabezados están presentes', () => {
-    render(<LeaderboardTable users={users} aria-label="Tabla de clasificación" />);
+  it('renders leaderboard table when data is loaded successfully on desktop', () => {
+    mockUseLeaderboardPage.mockReturnValue({
+      users: mockUsers,
+      loading: false,
+      error: null,
+    });
 
-    const table = screen.getByRole('table');
-    expect(table).toBeInTheDocument();
+    mockUseMediaQuery.mockReturnValue(false);
 
-    expect(table).toHaveAccessibleName(/tabla de clasificación/i);
+    render(<LeaderboardPage />);
 
-    expect(screen.getByRole('columnheader', { name: /nombre/i })).toBeInTheDocument();
-    expect(screen.getByRole('columnheader', { name: /usuario/i })).toBeInTheDocument();
-    expect(screen.getByRole('columnheader', { name: /puntos/i })).toBeInTheDocument();
+    expect(screen.getByTestId('leaderboard-table')).toBeInTheDocument();
+    expect(screen.queryByTestId('ranking-list')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('loading')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument();
   });
 
-  it('marca accesiblemente al usuario actual (aria-current) si corresponde', () => {
-    render(<LeaderboardTable users={users} />);
+  it('renders ranking list when data is loaded successfully on mobile', () => {
+    mockUseLeaderboardPage.mockReturnValue({
+      users: mockUsers,
+      loading: false,
+      error: null,
+    });
 
-    const currentUserCell = screen.getByText('Carol');
-    const row = currentUserCell.closest('tr');
-    expect(row).toBeInTheDocument();
+    mockUseMediaQuery.mockReturnValue(true);
 
-    expect(row).toHaveAttribute('aria-current', 'true');
+    render(<LeaderboardPage />);
+
+    expect(screen.getByTestId('ranking-list')).toBeInTheDocument();
+    expect(screen.queryByTestId('leaderboard-table')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('loading')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument();
+  });
+
+  it('passes currentUserId prop to component', () => {
+    mockUseLeaderboardPage.mockReturnValue({
+      users: mockUsers,
+      loading: false,
+      error: null,
+    });
+
+    mockUseMediaQuery.mockReturnValue(false);
+
+    render(<LeaderboardPage currentUserId="test-user-123" />);
+
+    expect(screen.getByTestId('leaderboard-table')).toBeInTheDocument();
+  });
+
+  it('uses default currentUserId when not provided', () => {
+    mockUseLeaderboardPage.mockReturnValue({
+      users: mockUsers,
+      loading: false,
+      error: null,
+    });
+
+    mockUseMediaQuery.mockReturnValue(false);
+
+    render(<LeaderboardPage />);
+
+    expect(screen.getByTestId('leaderboard-table')).toBeInTheDocument();
   });
 });

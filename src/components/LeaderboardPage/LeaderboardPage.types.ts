@@ -1,27 +1,23 @@
-export interface User {
+export type LeaderboardUser = {
   id: string;
   rank: number;
-  avatar?: string;
+  avatarUrl?: string;
   fullName: string;
   username: string;
   points: number;
   testsPassed: number;
-  isCurrentUser?: boolean;
-}
-
-export type SortBy = 'points' | 'testsPassed';
-export type TimePeriod = 'all' | 'week' | 'month' | 'year';
-
-export interface LeaderboardFilters {
-  search: string;
-  sortBy: SortBy;
-  timePeriod?: TimePeriod;
+  lastActiveAt?: string;
   category?: string;
-}
+};
 
-export interface LeaderboardState {
-  users: User[];
+export type LeaderboardState = {
+  users: LeaderboardUser[];
   loading: boolean;
   error: string | null;
-  filters: LeaderboardFilters;
-}
+  filters: {
+    search: string;
+    sortBy: 'points' | 'tests' | 'recent';
+    timeRange: 'all' | '7d' | '30d';
+    category?: string | 'all';
+  };
+};

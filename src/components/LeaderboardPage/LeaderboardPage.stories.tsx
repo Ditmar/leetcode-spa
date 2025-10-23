@@ -1,49 +1,36 @@
-import { ThemeProvider, createTheme } from '@mui/material';
-
 import { LeaderboardPage } from './LeaderboardPage';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-const theme = createTheme();
-
 const meta: Meta<typeof LeaderboardPage> = {
   title: 'Components/LeaderboardPage',
   component: LeaderboardPage,
-  decorators: [
-    (Story) => (
-      <ThemeProvider theme={theme}>
-        <Story />
-      </ThemeProvider>
-    ),
-  ],
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <div style={{ padding: 16, backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
-
 export default meta;
+
 type Story = StoryObj<typeof LeaderboardPage>;
 
 export const Default: Story = {
-  args: {},
-};
-
-export const MobileView: Story = {
-  args: {},
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1',
-    },
+  args: {
+    currentUserId: 'user-3',
   },
 };
 
-export const WithSearch: Story = {
-  args: {},
+export const MobileView: Story = {
+  args: {
+    currentUserId: 'user-3',
+  },
   parameters: {
-    docs: {
-      description: {
-        story: 'Vista con filtro de búsqueda activo',
-      },
-    },
+    viewport: { defaultViewport: 'mobile2' },
   },
 };
