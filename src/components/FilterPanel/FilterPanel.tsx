@@ -12,12 +12,20 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
   panelVariant = DEFAULT_FILTER_VARIANT,
   size = 'medium',
 }) => {
-  const [activeFilter, setActiveFilter] = useState(selectedValue);
+  const [activeFilter, setActiveFilter] = useState<string | undefined>(selectedValue);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const pressedTimeouts = useRef<NodeJS.Timeout[]>([]);
 
   useEffect(() => {
     setActiveFilter(selectedValue);
   }, [selectedValue]);
+
+  useEffect(() => {
+    return () => {
+      pressedTimeouts.current.forEach((t) => clearTimeout(t));
+      pressedTimeouts.current = [];
+    };
+  }, []);
 
   const handleSelect = useCallback(
     (value: string) => {
@@ -27,10 +35,21 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
     [onSelect]
   );
 
+  const addPressedVisual = useCallback((index: number) => {
+    const btn = buttonRefs.current[index];
+    if (!btn) return;
+    btn.classList.add('pressed');
+    const t = setTimeout(() => {
+      btn.classList.remove('pressed');
+    }, 120);
+    pressedTimeouts.current.push(t);
+  }, []);
+
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       const currentIndex = filters.findIndex((f) => f.value === activeFilter);
       let nextIndex = currentIndex;
+
       if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
         nextIndex = (currentIndex + 1) % filters.length;
         event.preventDefault();
@@ -39,15 +58,12 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         event.preventDefault();
       } else if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        const currentButton = buttonRefs.current[currentIndex];
-        if (currentButton) {
-          const spaceEvent = new KeyboardEvent('keydown', {
-            key: ' ',
-            code: 'Space',
-            bubbles: true,
-          });
-          currentButton.dispatchEvent(spaceEvent);
-          currentButton.click();
+        const ci = currentIndex >= 0 ? currentIndex : 0;
+        const currentValue = filters[ci]?.value;
+        if (currentValue) {
+          handleSelect(currentValue);
+          buttonRefs.current[ci]?.focus();
+          addPressedVisual(ci);
         }
         return;
       }
@@ -57,7 +73,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         buttonRefs.current[nextIndex]?.focus();
       }
     },
-    [activeFilter, filters, handleSelect]
+    [activeFilter, filters, handleSelect, addPressedVisual]
   );
 
   const setButtonRef = useCallback(
@@ -66,7 +82,6 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
     },
     []
   );
-
   return (
     <FilterPanelContainer
       role="radiogroup"
@@ -79,7 +94,6 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
     >
       {filters.map((filter, index) => {
         const isSelected = activeFilter === filter.value;
-
         return (
           <FilterButton
             key={filter.value}
