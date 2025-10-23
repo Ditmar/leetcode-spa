@@ -17,7 +17,12 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "git:fetch": "git fetch --all",
+    "compare:pr:master": "git fetch origin && git diff --name-status origin/master...HEAD",
+    "compare:pr:remote": "git fetch origin pull/80/head:pr-80 && git diff --name-status pr-80 origin/master",
+    "verify:local": "npm run lint && npm run test:run",
+    "prepush": "npm run verify:local"
   },
   "dependencies": {
     "@astrojs/react": "4.3.1",

@@ -12,7 +12,6 @@ import { SIZE_CONFIGS, SHAPE_CONFIGS } from './Button.constants';
 
 import type { StyledButtonProps } from './Button.types';
 
-// Map variant → palette
 const VARIANT_COLORS = {
   primary: {
     main: blueScale[600],
@@ -54,7 +53,6 @@ export const StyledButton = styled(MuiButton, {
     position: 'relative',
     overflow: 'hidden',
 
-    // contained
     backgroundColor: colors.main,
     color: theme.palette.getContrastText(colors.main),
     boxShadow: theme.shadows[2],
@@ -95,7 +93,6 @@ export const StyledButton = styled(MuiButton, {
       { duration: theme.transitions.duration.short }
     ),
 
-    // ripple decorativo
     '&::before': {
       content: '""',
       position: 'absolute',
