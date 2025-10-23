@@ -1,6 +1,7 @@
 import React from 'react';
 
-import AlarmClockIcon from "../../assets/alarm-clock.svg";
+import AlarmClockIcon from '../../assets/alarm-clock.svg';
+
 import { useCountdownTimer } from './CountdownTimer.hook';
 import { TimerWrapper, IconWrapper, TimerText } from './CountdownTimer.styles';
 
