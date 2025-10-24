@@ -7,7 +7,7 @@ function createEmotionCache() {
   if (!isBrowser) {
     return createCache({
       key: 'mui-style-ssr', // caché especial para SSR
-      prepend: true,        // inserta al inicio
+      prepend: true, // inserta al inicio
     });
   }
 
