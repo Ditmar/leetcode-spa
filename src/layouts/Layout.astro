@@ -1,23 +1,65 @@
+---
+// Props opcionales para customizar layout
+export interface Props {
+  title?: string;
+  showNavigation?: boolean;
+}
+
+const { title = 'Astro + React Lab', showNavigation = true } = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="emotion-insertion-point" content="" />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="emotion-insertion-point" content="" /> 
+    <title>{title}</title>
+  </head>
+  <body>
+    {showNavigation && (
+      <header>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/mui-example">MUI Example</a>
+          <a href="/hydration-demo">Hydration Demo</a>
+          <a href="/smart-hydration">Smart Hydration</a>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/performance-test">Perf Test</a>
+        </nav>
+      </header>
+    )}
+    <slot />
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: system-ui, sans-serif;
+  }
+
+  nav {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  nav a:hover {
+    background: #ddd;
+  }
 </style>

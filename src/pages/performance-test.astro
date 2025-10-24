@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Counter from '../ui/components/Counter.tsx';
+---
+
+<Layout title="Test de Rendimiento de Hidratación">
+  <main>
+    <h1>Comparación de Estrategias de Hidratación</h1>
+    <p>Utiliza las DevTools del navegador (pestaña Network) para ver el momento exacto en que se descarga el bundle de React para cada componente.</p>
+
+    <section style="margin-bottom: 2rem;">
+      <h2>client:load (hidratación inmediata)</h2>
+      <Counter client:load />
+      <p><em>Se hidrata inmediatamente al cargar la página (Máxima prioridad)</em></p>
+    </section>
+
+    <section style="margin-bottom: 2rem;">
+      <h2>client:idle (hidratación en idle)</h2>
+      <Counter client:idle />
+      <p><em>Se hidrata cuando el navegador está inactivo (Prioridad media)</em></p>
+    </section>
+
+    <section>
+      <h2>client:visible (hidratación por visibilidad)</h2>
+      <div style="margin-top: 150vh; border: 1px solid red; padding: 1rem;">
+        <Counter client:visible />
+        <p><em>Se hidrata cuando entra en el viewport. ¡Necesitas hacer scroll para activarlo! (Baja prioridad)</em></p>
+      </div>
+    </section>
+  </main>
+</Layout>

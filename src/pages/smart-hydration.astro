@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MyCustomProvider from '../components/MyCustomProvider.tsx';
+import SmartHydration from '../components/SmartHydration.tsx';
+---
+
+<Layout title="Hidratación Inteligente">
+  <main>
+    <h1>Hidratación Inteligente y Modos de Provider</h1>
+    <p>Esta página combina tu **MyCustomProvider** con el componente de **Hidratación Inteligente**.</p>
+    <p>Comprueba los tiempos de hidratación y si el componente existe en el HTML inicial.</p>
+
+    <section style="margin-bottom: 2rem; border: 1px solid #000; padding: 1rem;">
+        <h2>Modo SSR con `client:load`</h2>
+        <p>El HTML se renderiza en el servidor. El componente React se activa (hidrata) inmediatamente.</p>
+        <MyCustomProvider mode="ssr" client:load>
+            <SmartHydration threshold={500} />
+        </MyCustomProvider>
+    </section>
+
+    <section style="border: 1px solid #000; padding: 1rem;">
+        <h2>Modo Solo-Cliente con `client:idle`</h2>
+        <p>No hay HTML inicial. El Provider se renderiza y activa solo en el cliente cuando el navegador está inactivo.</p>
+        <MyCustomProvider mode="client-only" client:idle>
+            <SmartHydration threshold={2000} />
+        </MyCustomProvider>
+    </section>
+  </main>
+</Layout>

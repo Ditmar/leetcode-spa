@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+// Asegúrate de que SSRMuiProvider y los componentes estén en la ruta correcta
+import SSRMuiProvider from '../style-library/SSRMuiProvider.tsx';
+import { CountdownTimer } from '../components/CountdownTimer/CountdownTimer.tsx';
+import Counter from '../ui/components/Counter.tsx';
+---
+
+<Layout title="Dashboard - Astro Lab">
+  <main>
+    <h1>Dashboard - Arquitectura de Islands</h1>
+    <p>Esta página combina múltiples estrategias de hidratación para un rendimiento óptimo.</p>
+
+    <SSRMuiProvider client:load>
+      <div style="padding: 1rem; background: #e3f2fd; border: 1px solid #90caf9; margin-bottom: 1rem;">
+        <h2>Estado del Sistema (client:load)</h2>
+        <CountdownTimer seconds={300} /> 
+      </div>
+    </SSRMuiProvider>
+
+    <div style="display: flex; border: 1px solid #ccc;">
+      
+      <aside style="width: 200px; padding: 1rem; background: #fafafa; border-right: 1px solid #eee;">
+        <h3>Contador Sidebar (client:visible)</h3>
+        <Counter client:visible /> 
+        <p style="margin-top: 10rem;">Desplázate hacia arriba si no lo ves.</p>
+      </aside>
+
+      <section style="flex: 1; padding: 1rem;">
+        <h2>Contenido Principal (client:idle)</h2>
+        <p>Este contenido interactivo solo se hidrata cuando el navegador está inactivo, priorizando otras tareas.</p>
+        <SSRMuiProvider client:idle>
+          <Counter /> 
+          <div>Contenido principal cargado en idle...</div>
+        </SSRMuiProvider>
+      </section>
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Counter from '../ui/components/Counter.tsx';
+import { CountdownTimer } from '../components/CountdownTimer/CountdownTimer.tsx';
+---
+
+<Layout title="Demo de Hidratación">
+  <main>
+    <h1>Demo de Hidratación</h1>
+    <p>Observa la consola y el comportamiento de la red para ver cuándo se inician los componentes de React.</p>
+
+    <section style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 2rem;">
+      <h2>Hidratación Inmediata (client:load)</h2>
+      <p>Componente crítico que necesita ser interactivo tan pronto como sea posible.</p>
+      <Counter client:load />
+    </section>
+
+    <section style="margin-top: 100vh; border: 1px solid #ccc; padding: 1rem;">
+      <h2>Hidratación por Visibilidad (client:visible)</h2>
+      <p>Componente "below-the-fold" que solo necesita cargar si el usuario se desplaza.</p>
+      <CountdownTimer client:visible seconds={30} />
+    </section>
+
+    <section style="border: 1px solid #ccc; padding: 1rem; margin-top: 2rem;">
+      <h2>Hidratación en Idle (client:idle)</h2>
+      <p>Componente importante, pero puede esperar a que el navegador termine las tareas críticas.</p>
+      <Counter client:idle />
+    </section>
+  </main>
+</Layout>
