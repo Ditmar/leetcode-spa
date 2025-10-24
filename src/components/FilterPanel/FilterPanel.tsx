@@ -53,7 +53,6 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
     [activeFilter, filters, handleSelect]
   );
 
-  // ✅ useCallback para ref handler estable
   const setButtonRef = useCallback(
     (index: number) => (el: HTMLButtonElement | null) => {
       buttonRefs.current[index] = el;
