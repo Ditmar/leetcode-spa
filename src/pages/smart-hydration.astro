@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MyCustomProvider from '../components/MyCustomProvider.tsx';
+import SmartHydrationFromComp from '../components/SmartHydration';
+---
+
+<Layout>
+  <main>
+    <h1>Hidratación Inteligente</h1>
+
+    <MyCustomProvider mode="ssr" client:load>
+      <SmartHydrationFromComp threshold={500} />
+    </MyCustomProvider>
+
+    <MyCustomProvider mode="client-only" client:idle>
+      <SmartHydrationFromComp threshold={2000} />
+    </MyCustomProvider>
+  </main>
+</Layout>
