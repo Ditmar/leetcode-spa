@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MyCustomProvider from '../components/MyCustomProvider.tsx';
+import { Button } from '@mui/material';
+---
+
+<Layout>
+  <main>
+    <h1>SSR con MUI y Emotion</h1>
+    <MyCustomProvider client:load>
+      <Button variant="contained" color="primary">Botón MUI SSR</Button>
+    </MyCustomProvider>
+  </main>
+</Layout>

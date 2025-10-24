@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Counter from '../ui/components/Counter.tsx';
+import MyCustomProvider from '../components/MyCustomProvider.tsx';
+import SmartHydration from '../components/SmartHydration.tsx';
+import { Button } from '@mui/material';
+---
+
+<Layout>
+  <main>
+    <h1>Dashboard de Hidratación</h1>
+
+    <MyCustomProvider client:load>
+      <section>
+        <h2>Sección SSR + MUI</h2>
+        <Button variant="contained" color="secondary">Botón SSR</Button>
+      </section>
+    </MyCustomProvider>
+
+    <section style="margin-top: 80vh;">
+      <h2>Hidratación Visible</h2>
+      <Counter client:visible />
+    </section>
+
+    <SmartHydration client:load threshold={3000}>
+      <section>
+        <h2>Smart Hydration</h2>
+        <Counter />
+      </section>
+    </SmartHydration>
+  </main>
+</Layout>

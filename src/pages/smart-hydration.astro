@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SmartHydration from '../components/SmartHydration.tsx';
+import Counter from '../ui/components/Counter.tsx';
+---
+
+<Layout>
+  <main>
+    <h1>Smart Hydration Demo</h1>
+
+    <p>El contador se hidrata después de 2 segundos.</p>
+    <SmartHydration client:load threshold={2000}>
+      <Counter />
+    </SmartHydration>
+  </main>
+</Layout>

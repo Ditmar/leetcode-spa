@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Counter from '../ui/components/Counter.tsx';
+import { CountdownTimer } from '../components/CountdownTimer/CountdownTimer.tsx';
+---
+
+<Layout>
+  <main>
+    <h1>Demo de Hidratación</h1>
+
+    <section>
+      <h2>Hydratación inmediata (client:load)</h2>
+      <Counter client:load />
+    </section>
+
+    <section style="margin-top: 80vh;">
+      <h2>Hydratación al ser visible (client:visible)</h2>
+      <CountdownTimer client:visible seconds={15} />
+    </section>
+
+    <section>
+      <h2>Hydratación diferida (client:idle)</h2>
+      <Counter client:idle />
+    </section>
+  </main>
+</Layout>
