@@ -2,7 +2,7 @@ import createCache from '@emotion/cache';
 
 const isBrowser = typeof document !== 'undefined';
 
-function createEmotionCache() {
+export default function createEmotionCache() {
   // Solo en el browser
   if (!isBrowser) {
     return createCache({
@@ -12,16 +12,15 @@ function createEmotionCache() {
     });
   }
 
-  const emotionInsertionPoint = document.querySelector(
+  const emotionInsertionPoint = document.querySelector<HTMLMetaElement>(
     'meta[name="emotion-insertion-point"]'
-  ) as HTMLElement;
-  const insertionPoint = emotionInsertionPoint ?? undefined;
+  ) ?? undefined;
 
   return createCache({
     key: 'mui-style',
-    insertionPoint,
+    insertionPoint: emotionInsertionPoint,
     prepend: true,
   });
 }
 
-export default createEmotionCache;
+
