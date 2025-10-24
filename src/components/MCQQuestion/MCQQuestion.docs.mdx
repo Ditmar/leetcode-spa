@@ -27,14 +27,17 @@ The component receives the following properties:
 - **options**: The list of available options to select.
 
 Each option has a `label` (visible text) and a `value` (an associated internal value).
-- **selectedValue** *(optional)*: The currently selected value.
+
+- **selectedValue** _(optional)_: The currently selected value.
 
 If provided, the component operates in **controlled** mode.
+
 - **onChange**: The function executed when the user selects an option.
 
 Returns the value of the selected option.
-- **number** *(optional)*: The number or index of the question. Displayed before the text (for example, “1.”).
-- **disabled** *(optional)*: Disables all options and prevents user interaction.
+
+- **number** _(optional)_: The number or index of the question. Displayed before the text (for example, “1.”).
+- **disabled** _(optional)_: Disables all options and prevents user interaction.
 
 ---
 
@@ -109,14 +112,14 @@ These tests ensure that the component is reliable, accessible, and behaves consi
 
 ```tsx
 <MCQQuestion
-number={1}
-question="Which of the following is a programming language?"
-options={[
-{ label: "HTML", value: "html" },
-{ label: "Python", value: "python" },
-{ label: "CSS", value: "css" },
-]}
-onChange={(value) => console.log("Selected:", value)}
+  number={1}
+  question="Which of the following is a programming language?"
+  options={[
+    { label: 'HTML', value: 'html' },
+    { label: 'Python', value: 'python' },
+    { label: 'CSS', value: 'css' },
+  ]}
+  onChange={(value) => console.log('Selected:', value)}
 />
 ```
 
