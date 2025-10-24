@@ -10,7 +10,7 @@ export default function SmartHydration({ threshold = 1000 }: SmartHydrationProps
   const [shouldHydrate, setShouldHydrate] = useState(false);
 
   useEffect(() => {
-// Simula lógica de hidratación inteligente
+    // Simula lógica de hidratación inteligente
     const timer = setTimeout(() => {
       setShouldHydrate(true);
     }, threshold);
