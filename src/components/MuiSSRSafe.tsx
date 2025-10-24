@@ -1,5 +1,5 @@
 import { ThemeProvider, CssBaseline, createTheme, StyledEngineProvider } from '@mui/material';
-import React from 'react';
+import * as React from 'react';
 
 import SimpleMuiExample from '../style-library/stories/SimpleMuiExample';
 
