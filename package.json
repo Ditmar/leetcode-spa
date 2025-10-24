@@ -20,13 +20,18 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
-    "@astrojs/react": "4.3.1",
+    "@astrojs/react": "^4.4.0",
     "@emotion/cache": "11.14.0",
-    "@emotion/react": "11.14.0",
+    "@emotion/react": "^11.14.0",
     "@emotion/server": "11.11.0",
+<<<<<<< HEAD
     "@emotion/styled": "11.14.1",
     "@hookform/resolvers": "5.2.2",
     "@mui/icons-material": "7.3.4",
+=======
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.9",
+>>>>>>> b2fdc03b (LAB3)
     "@mui/material": "7.3.4",
     "@mui/x-date-pickers": "8.27.2",
     "@mui/x-charts": "8.28.2",
