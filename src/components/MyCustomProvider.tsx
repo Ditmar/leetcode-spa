@@ -1,5 +1,6 @@
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
+
 import { useEffect, useState } from 'react';
 import createEmotionCache from '../style-library/cache/createEmotionCache';
 
@@ -18,10 +19,7 @@ interface MyCustomProviderProps {
   mode?: 'ssr' | 'client-only';
 }
 
-export default function MyCustomProvider({
-  children,
-  mode = 'ssr'
-}: MyCustomProviderProps) {
+export default function MyCustomProvider({ children, mode = 'ssr' }: MyCustomProviderProps) {
   const [mounted, setMounted] = useState(mode === 'ssr');
 
   useEffect(() => {

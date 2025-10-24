@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { Button, Typography, Box } from '@mui/material';
+import { useState, useEffect } from 'react';
 
 interface SmartHydrationProps {
   threshold?: number;
@@ -12,7 +12,7 @@ export default function SmartHydration({ threshold = 1000 }: SmartHydrationProps
   useEffect(() => {
 // Simula lógica de hidratación inteligente
     const timer = setTimeout(() => {
-        setShouldHydrate(true);
+      setShouldHydrate(true);
     }, threshold);
 
     return () => clearTimeout(timer);
@@ -35,11 +35,7 @@ export default function SmartHydration({ threshold = 1000 }: SmartHydrationProps
   return (
     <Box sx={{ p: 2, bgcolor: 'primary.light' }}>
       <Typography variant="h6">✅ Componente Hidratado</Typography>
-      <Button
-        variant="contained"
-        onClick={() => alert('¡Funcional!')}
-        sx={{ mt: 1 }}
-      >
+      <Button variant="contained" onClick={() => alert('¡Funcional!')} sx={{ mt: 1 }}>
         Interactuar
       </Button>
     </Box>
