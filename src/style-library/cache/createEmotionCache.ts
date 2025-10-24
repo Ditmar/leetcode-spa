@@ -3,23 +3,22 @@ import createCache from '@emotion/cache';
 const isBrowser = typeof document !== 'undefined';
 
 function createEmotionCache() {
-  // Solo en el browser
+  // Si estamos en servidor (SSR)
   if (!isBrowser) {
     return createCache({
-      key: 'mui-style-ssr',
-      // Sin insertionPoint en servidor
-      prepend: true,
+      key: 'mui-style-ssr', // caché especial para SSR
+      prepend: true,        // inserta al inicio
     });
   }
 
+  // Solo en cliente: buscamos el insertion point definido en <meta>
   const emotionInsertionPoint = document.querySelector(
     'meta[name="emotion-insertion-point"]'
-  ) as HTMLElement;
-  const insertionPoint = emotionInsertionPoint ?? undefined;
+  ) as HTMLElement | null;
 
   return createCache({
     key: 'mui-style',
-    insertionPoint,
+    insertionPoint: emotionInsertionPoint ?? undefined,
     prepend: true,
   });
 }

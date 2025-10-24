@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Counter from '../ui/components/Counter.tsx';
+---
+
+<Layout title="Test de Rendimiento">
+  <main>
+    <h1>Comparación de Estrategias de Hidratación</h1>
+
+    <section>
+      <h2>client:load (hidratación inmediata)</h2>
+      <Counter client:load />
+      <p><em>Se hidrata inmediatamente al cargar la página</em></p>
+    </section>
+
+    <section>
+      <h2>client:idle (hidratación en idle)</h2>
+      <Counter client:idle />
+      <p><em>Se hidrata cuando el navegador está inactivo</em></p>
+    </section>
+
+    <section>
+      <h2>client:visible (hidratación por visibilidad)</h2>
+      <!-- 🔧 Corregido aquí -->
+      <div style={{ marginTop: '150vh' }}>
+        <Counter client:visible />
+        <p><em>Se hidrata cuando entra en el viewport</em></p>
+      </div>
+    </section>
+  </main>
+</Layout>

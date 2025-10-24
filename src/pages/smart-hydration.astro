@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MyCustomProvider from '../components/MyCustomProvider.tsx';
+import SmartHydration from '../components/SmartHydration.tsx';
+---
+
+<Layout>
+  <main>
+    <h1>Hidratación Inteligente</h1>
+
+    <!-- Hidrata inmediatamente al cargar la página -->
+    <MyCustomProvider mode="ssr" client:load>
+      <SmartHydration threshold={500} />
+    </MyCustomProvider>
+
+    <!-- Hidrata cuando el navegador está inactivo -->
+    <MyCustomProvider mode="client-only" client:idle>
+      <SmartHydration threshold={2000} />
+    </MyCustomProvider>
+  </main>
+</Layout>
