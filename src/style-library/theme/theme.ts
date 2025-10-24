@@ -1,7 +1,4 @@
 import Syne700 from '../../assets/fonts/Syne-700.woff2';
-import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
-import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
-import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
 import { createCustomTheme } from '../types/theme.helpers';
 
 import type { ThemeConfig } from '../types/theme.types';
@@ -120,22 +117,8 @@ theme.components = {
     styleOverrides: `
       @font-face {
         font-family: 'Syne';
-        src: url(${SyneRegular}) format('woff2');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Syne';
-        src: url(${SyneSemiBold}) format('woff2');
-        font-weight: 600;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Montserrat';
-        src: url(${MontserratSemiBold}) format('woff2');
-        font-weight: 600;
+        src: url(${Syne700}) format('woff2');
+        font-weight: 700;
         font-style: normal;
         font-display: swap;
       }

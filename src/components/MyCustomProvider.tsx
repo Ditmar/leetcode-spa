@@ -1,7 +1,8 @@
-import * as React from 'react';
-import createEmotionCache from '../utils/createEmotionCache';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import * as React from 'react';
+
+import createEmotionCache from '../utils/createEmotionCache';
 
 const theme = createTheme({
   palette: {
