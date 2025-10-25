@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import Syne700 from '../../assets/fonts/Syne-700.woff2';
-=======
 import MontserratLight from '../../components/ConsoleIO/assets/fonts/Montserrat-Light.woff2';
 import MontserratRegular from '../../components/ConsoleIO/assets/fonts/Montserrat-Regular.woff2';
->>>>>>> b25a42e (Fix: Added theme sizes and created Montserrat fonts.)
 import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
 import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
 import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
