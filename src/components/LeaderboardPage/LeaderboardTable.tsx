@@ -4,7 +4,6 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Avatar,
   Typography,
   Box,
 } from '@mui/material';
@@ -14,17 +13,23 @@ import ranking_1 from '../../assets/ranking_one.svg';
 import ranking_3 from '../../assets/ranking_three.svg';
 import ranking_2 from '../../assets/ranking_two.svg';
 
-import { HighlightRow } from './LeaderboardPage.styles';
+import { CustomAvatar, SyneTypography } from './LeaderboardPage.styles';
 
 import type { LeaderboardUser } from './LeaderboardPage.types';
 
 export const LeaderboardTable: React.FC<{
   users: LeaderboardUser[];
   currentUserId?: string;
-}> = ({ users, currentUserId }) => {
+}> = ({ users }) => {
   return (
     <TableContainer>
-      <Table>
+      <Table
+        sx={{
+          '& .MuiTableCell-root': {
+            borderBottom: 'none',
+          },
+        }}
+      >
         <TableBody>
           {users.map((u, idx) => {
             const rankingImg =
@@ -34,14 +39,14 @@ export const LeaderboardTable: React.FC<{
               <TableRow key={u.id} data-testid={`row-${u.username}`}>
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Avatar src={u.avatarUrl} alt={u.fullName} />
+                    <CustomAvatar src={u.avatarUrl} alt={u.fullName} />
                   </Box>
                 </TableCell>
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Box>
                       <Typography fontWeight={600}>{u.fullName}</Typography>
-                      <Typography variant="caption">@{u.username}</Typography>
+                      <SyneTypography variant="caption">{u.username}</SyneTypography>
                     </Box>
                   </Box>
                 </TableCell>
@@ -59,22 +64,6 @@ export const LeaderboardTable: React.FC<{
                 </TableCell>
               </TableRow>
             );
-
-            if (u.id === currentUserId) {
-              return (
-                <TableRow key={`${u.id}-highlight`}>
-                  <TableCell colSpan={3} sx={{ padding: 0 }}>
-                    <HighlightRow>
-                      <Table sx={{ width: '100%' }}>
-                        <TableBody>
-                          <TableRow>{row.props.children}</TableRow>
-                        </TableBody>
-                      </Table>
-                    </HighlightRow>
-                  </TableCell>
-                </TableRow>
-              );
-            }
 
             return row;
           })}
