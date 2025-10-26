@@ -41,6 +41,7 @@
     "@storybook/addon-a11y": "9.1.10",
     "@storybook/addon-docs": "9.1.10",
     "@storybook/addon-vitest": "9.1.10",
+    "@storybook/blocks": "9.0.0-alpha.17",
     "@storybook/react-vite": "9.1.10",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
