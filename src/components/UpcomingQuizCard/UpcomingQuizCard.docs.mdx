@@ -12,16 +12,49 @@ It highlights the event date, provides a short description, and includes a clear
 - 🚀 Includes a **“Register Now”** button that triggers a callback when clicked.  
 - 🎨 Fully customizable through MUI’s theme and `sx` prop.  
 
+
 ---
 
 ## ⚙️ Props
 
-| Prop | Type | Required | Description |
-|------|------|-----------|-------------|
-| **`title`** | `string` | ✅ Yes | Title of the quiz or competition. |
-| **`date`** | `string` \| `Date` | ✅ Yes | Date of the upcoming event. Formatted using the default pattern defined in `UpcomingQuizCard.constants.ts`. |
-| **`description`** | `string` | ❌ No | Additional text describing the event (optional). |
-| **`onRegister`** | `() => void` | ✅ Yes | Callback executed when the user clicks the **Register Now** button. |
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong><code>title</code></strong></td>
+      <td><code>string</code></td>
+      <td>✅</td>
+      <td>Title of the quiz or competition.</td>
+    </tr>
+    <tr>
+      <td><strong><code>date</code></strong></td>
+      <td><code>string</code> | <code>Date</code></td>
+      <td>✅</td>
+      <td>Date of the upcoming event. Formatted using the default pattern defined in <code>UpcomingQuizCard.constants.ts</code>.</td>
+    </tr>
+    <tr>
+      <td><strong><code>description</code></strong></td>
+      <td><code>string</code></td>
+      <td>❌</td>
+      <td>Additional text describing the event (optional).</td>
+    </tr>
+    <tr>
+      <td><strong><code>onRegister</code></strong></td>
+      <td><code>() =&gt; void</code></td>
+      <td>✅</td>
+      <td>Callback executed when the user clicks the <strong>Register Now</strong> button.</td>
+    </tr>
+  </tbody>
+</table>
+
+
 
 ---
 
