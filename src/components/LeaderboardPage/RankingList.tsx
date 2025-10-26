@@ -5,7 +5,7 @@ import ranking_1 from '../../assets/ranking_one.svg';
 import ranking_3 from '../../assets/ranking_three.svg';
 import ranking_2 from '../../assets/ranking_two.svg';
 
-import { HighlightRow } from './LeaderboardPage.styles';
+import { HighlightRow, SyneTypography } from './LeaderboardPage.styles';
 
 import type { LeaderboardUser } from './LeaderboardPage.types';
 
@@ -37,7 +37,7 @@ export const RankingList: React.FC<{ users: LeaderboardUser[]; currentUserId?: s
                   <Typography fontWeight={700}>
                     {u.rank}. {u.fullName}
                   </Typography>
-                  <Typography variant="caption">@{u.username}</Typography>
+                  <SyneTypography variant="caption">{u.username}</SyneTypography>
                 </Box>
               </Box>
 
