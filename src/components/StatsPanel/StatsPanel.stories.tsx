@@ -1,13 +1,30 @@
 import { StatsPanel } from './StatsPanel';
-
 import type { Meta, StoryObj } from '@storybook/react';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import theme from '../../style-library/theme/theme';
 
 const meta: Meta<typeof StatsPanel> = {
-  title: 'Dashboard/StatsPanel',
+  title: 'components/StatsPanel',
   component: StatsPanel,
   parameters: {
     layout: 'centered',
   },
+  decorators: [
+    (Story) => (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div
+          style={{
+            backgroundColor: theme.palette.background.default,
+            padding: theme.spacing(4),
+            borderRadius: theme.shape.borderRadius,
+          }}
+        >
+          <Story />
+        </div>
+      </ThemeProvider>
+    ),
+  ],
 };
 
 export default meta;

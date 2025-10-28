@@ -7,10 +7,19 @@ export interface StatsPanelProps {
   waiting: number;
 }
 
+export type StatColor =
+  | 'primary'
+  | 'secondary'
+  | 'error'
+  | 'warning'
+  | 'success'
+  | 'info'
+  | 'text';
+
 export interface StatItemData {
   id: string;
   label: string;
   value: number;
-  icon: ElementType;
-  color: string;
+  icon: string | ElementType;
+  color: StatColor;
 }
