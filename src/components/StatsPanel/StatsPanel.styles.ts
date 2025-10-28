@@ -23,7 +23,6 @@ export const StatItem = styled('div')(({ theme }) => ({
 
 type SafeColorKey = 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'info';
 
-// Si no necesitas `color`, puedes eliminar este parámetro
 export const IconWrapper = styled('div')(({ theme }) => {
   const softBg = theme.palette.backgroundIcon;
 
