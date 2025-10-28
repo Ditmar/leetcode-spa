@@ -1,13 +1,18 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../style-library/theme/theme';
 import { StatsPanel } from './StatsPanel';
+import { describe, it, expect } from 'vitest';
 
 describe('StatsPanel', () => {
   it('renders the provided stats correctly with accessible labels', () => {
-    render(<StatsPanel totalTests={32} passed={12} failed={19} waiting={1} />);
+    render(
+      <ThemeProvider theme={theme}>
+        <StatsPanel totalTests={32} passed={12} failed={19} waiting={1} />
+      </ThemeProvider>
+    );
 
-    expect(screen.getByText(/Number of tests/i)).toBeInTheDocument();
+    expect(screen.getByText(/N° of tests/i)).toBeInTheDocument();
     expect(screen.getByText(/Passed/i)).toBeInTheDocument();
     expect(screen.getByText(/Failed/i)).toBeInTheDocument();
     expect(screen.getByText(/Waiting for result/i)).toBeInTheDocument();

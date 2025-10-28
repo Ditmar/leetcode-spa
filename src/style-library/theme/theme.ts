@@ -1,8 +1,8 @@
 import Syne700 from '../../assets/fonts/Syne-700.woff2';
 import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
 import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
-import PoppinsSemiBold from '../../components/StatsPanel/assets/fonts/Poppins-SemiBold.woff2';
 import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
+import PoppinsSemiBold from '../../components/StatsPanel/assets/fonts/Poppins-SemiBold.woff2';
 import { createCustomTheme } from '../types/theme.helpers';
 
 import type { ThemeConfig } from '../types/theme.types';
@@ -15,8 +15,8 @@ declare module '@mui/material/styles' {
     subtitle: CSSProperties;
     question: CSSProperties;
     option: CSSProperties;
-    texts: CSSProperties;
     numbers: CSSProperties;
+    texts: CSSProperties;
   }
 
   interface TypographyVariantsOptions {
@@ -24,8 +24,8 @@ declare module '@mui/material/styles' {
     subtitle?: CSSProperties;
     question?: CSSProperties;
     option?: CSSProperties;
-    texts: CSSProperties;
     numbers: CSSProperties;
+    texts: CSSProperties;
   }
 
   interface Palette {
@@ -45,8 +45,8 @@ declare module '@mui/material/Typography' {
     subtitle: true;
     question: true;
     option: true;
-    texts: true;
     numbers: true;
+    texts: true;
   }
 }
 
@@ -54,7 +54,7 @@ const themeConfig: ThemeConfig = {
   mode: 'light',
   primaryColor: '#1976d2',
   secondaryColor: '#dc004e',
-  fontFamily: `"Montserrat", "Syne", "Inter", "Roboto", "Helvetica", "Arial", sans-serif`,
+  fontFamily: `"Poppins","Montserrat", "Syne", "Inter", "Roboto", "Helvetica", "Arial", sans-serif`,
   borderRadius: 12,
   spacing: 8,
 };
@@ -111,17 +111,16 @@ theme.typography = {
     fontSize: '1.19rem',
     lineHeight: 1.2,
   },
+  numbers: {
+    fontFamily: '"Poppins", "Syne", "Montserrat", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontSize: '1.25rem',
+    fontWeight: 600,
+    lineHeight: 1.2,
+  },
   texts: {
     fontFamily: '"Syne","Montserrat","Inter","Roboto","Helvetica","Arial",sans-serif',
     fontSize: '0.625rem',
     fontWeight: 500,
-    lineHeight: 1.2,
-  },
-  numbers: {
-    fontFamily:
-      '"Poppins", "Syne", "Montserrat", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    fontSize: '1.25rem',
-    fontWeight: 600,
     lineHeight: 1.2,
   },
 };

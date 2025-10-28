@@ -1,5 +1,4 @@
 import { styled } from '@mui/material/styles';
-
 import type { PaletteColor } from '@mui/material/styles';
 
 export const CardContainer = styled('div')(({ theme }) => ({
@@ -25,7 +24,6 @@ type SafeColorKey = 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 
 
 export const IconWrapper = styled('div')(({ theme }) => {
   const softBg = theme.palette.backgroundIcon;
-
   return {
     width: theme.spacing(6),
     height: theme.spacing(6),
