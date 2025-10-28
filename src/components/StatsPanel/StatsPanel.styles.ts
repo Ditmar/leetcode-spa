@@ -1,4 +1,5 @@
 import { styled } from '@mui/material/styles';
+
 import type { PaletteColor } from '@mui/material/styles';
 
 export const CardContainer = styled('div')(({ theme }) => ({
@@ -20,61 +21,50 @@ export const StatItem = styled('div')(({ theme }) => ({
   minHeight: theme.spacing(8),
 }));
 
-type SafeColorKey =
-  | 'primary'
-  | 'secondary'
-  | 'error'
-  | 'warning'
-  | 'success'
-  | 'info';
+type SafeColorKey = 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'info';
 
-export const IconWrapper = styled('div')<{ color?: SafeColorKey }>(
-  ({ theme, color = 'primary' }) => {
-    const paletteColor = theme.palette[color] as PaletteColor | undefined;
-    const mainColor = paletteColor?.main ?? theme.palette.text.secondary;
-    const softBg = theme.palette.backgroundIcon;
+// Si no necesitas `color`, puedes eliminar este parámetro
+export const IconWrapper = styled('div')(({ theme }) => {
+  const softBg = theme.palette.backgroundIcon;
 
-    return {
-      width: theme.spacing(6),
-      height: theme.spacing(6),
-      borderRadius: '50%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: softBg,
-      boxShadow: theme.shadows[1],
-      flexShrink: 0,
-      padding: theme.spacing(1.25),
-    };
-  }
-);
+  return {
+    width: theme.spacing(6),
+    height: theme.spacing(6),
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: softBg,
+    boxShadow: theme.shadows[1],
+    flexShrink: 0,
+    padding: theme.spacing(1.25),
+  };
+});
 
-export const StatIcon = styled('div')<{ color?: SafeColorKey }>(
-  ({ theme, color = 'primary' }) => {
-    const paletteColor = theme.palette[color] as PaletteColor | undefined;
-    const resolvedColor = paletteColor?.main ?? theme.palette.text.primary;
+export const StatIcon = styled('div')<{ color?: SafeColorKey }>(({ theme, color = 'primary' }) => {
+  const paletteColor = theme.palette[color] as PaletteColor | undefined;
+  const resolvedColor = paletteColor?.main ?? theme.palette.text.primary;
 
-    return {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: resolvedColor,
+  return {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: resolvedColor,
+    width: '100%',
+    height: '100%',
+    '& svg, & img': {
       width: '100%',
       height: '100%',
-      '& svg, & img': {
-        width: '100%',
-        height: '100%',
-        objectFit: 'contain',
-        fill: resolvedColor,
-        stroke: resolvedColor,
-        transition: 'transform 0.2s ease',
-      },
-      '&:hover svg, &:hover img': {
-        transform: 'scale(1.08)',
-      },
-    };
-  }
-);
+      objectFit: 'contain',
+      fill: resolvedColor,
+      stroke: resolvedColor,
+      transition: 'transform 0.2s ease',
+    },
+    '&:hover svg, &:hover img': {
+      transform: 'scale(1.08)',
+    },
+  };
+});
 
 export const StatValue = styled('div')(({ theme }) => ({
   fontFamily: theme.typography.numbers.fontFamily,

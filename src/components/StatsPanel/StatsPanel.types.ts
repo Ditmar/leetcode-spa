@@ -7,14 +7,7 @@ export interface StatsPanelProps {
   waiting: number;
 }
 
-export type StatColor =
-  | 'primary'
-  | 'secondary'
-  | 'error'
-  | 'warning'
-  | 'success'
-  | 'info'
-  | 'text';
+export type StatColor = 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'info' | 'text';
 
 export interface StatItemData {
   id: string;

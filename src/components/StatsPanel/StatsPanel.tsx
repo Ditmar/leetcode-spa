@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useStatsPanel } from './StatsPanel.hook';
 import {
   CardContainer,
@@ -38,9 +39,7 @@ export const StatsPanel = ({ totalTests, passed, failed, waiting }: StatsPanelPr
             </IconWrapper>
 
             <div>
-              <StatValue aria-label={`stat-value-${stat.id}`}>
-                {stat.value}
-              </StatValue>
+              <StatValue aria-label={`stat-value-${stat.id}`}>{stat.value}</StatValue>
               <StatText>{stat.label}</StatText>
             </div>
           </StatItem>

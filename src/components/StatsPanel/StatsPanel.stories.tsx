@@ -1,7 +1,10 @@
-import { StatsPanel } from './StatsPanel';
-import type { Meta, StoryObj } from '@storybook/react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
+
 import theme from '../../style-library/theme/theme';
+
+import { StatsPanel } from './StatsPanel';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof StatsPanel> = {
   title: 'components/StatsPanel',
