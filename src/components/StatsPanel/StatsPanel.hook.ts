@@ -7,6 +7,7 @@ export const useStatsPanel = ({
   passed = 0,
   failed = 0,
   waiting = 0,
+
 }: StatsPanelProps): StatItemData[] =>
   useMemo(
     () => [
