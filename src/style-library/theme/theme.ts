@@ -1,8 +1,8 @@
 import Syne700 from '../../assets/fonts/Syne-700.woff2';
 import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
 import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
-import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
 import PoppinsSemiBold from '../../components/StatsPanel/assets/fonts/Poppins-SemiBold.woff2';
+import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
 import { createCustomTheme } from '../types/theme.helpers';
 
 import type { ThemeConfig } from '../types/theme.types';
@@ -112,7 +112,8 @@ theme.typography = {
     lineHeight: 1.2,
   },
   numbers: {
-    fontFamily: '"Poppins", "Syne", "Montserrat", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily:
+      '"Poppins", "Syne", "Montserrat", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     fontSize: '1.25rem',
     fontWeight: 600,
     lineHeight: 1.2,

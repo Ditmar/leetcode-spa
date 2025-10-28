@@ -1,4 +1,5 @@
 import { styled } from '@mui/material/styles';
+
 import type { PaletteColor } from '@mui/material/styles';
 
 export const CardContainer = styled('div')(({ theme }) => ({

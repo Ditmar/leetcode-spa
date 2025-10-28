@@ -1,8 +1,10 @@
-import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../style-library/theme/theme';
-import { StatsPanel } from './StatsPanel';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
+
+import theme from '../../style-library/theme/theme';
+
+import { StatsPanel } from './StatsPanel';
 
 describe('StatsPanel', () => {
   it('renders the provided stats correctly with accessible labels', () => {
