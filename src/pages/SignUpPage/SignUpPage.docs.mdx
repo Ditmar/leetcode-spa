@@ -1,0 +1,144 @@
+# 📝 SignUpPage - Página de Registro
+
+El componente `SignUpPage` permite a los usuarios registrarse en la plataforma usando un formulario con validaciones en tiempo real. Además de los campos de entrada, ofrece botones para iniciar sesión con cuentas sociales y proporciona un spinner de carga cuando se procesa el registro.
+
+---
+
+## 🎯 Propósito y Características
+
+### Propósito
+* Gestionar el registro de usuarios con **email**, **nombre de usuario** y **contraseña**.
+* Validar la entrada de datos en tiempo real.
+* Proveer opciones de **autenticación social** (Google, GitHub, Facebook).
+* Mostrar un **spinner de carga** mientras se procesa la información.
+
+### ✨ Características
+* Campos de entrada para **Email**, **Nombre de Usuario** y **Contraseña** con validaciones.
+* Funcionalidad de carga con desactivación del botón mientras se envía el formulario.
+* Inclusión de iconos para login social con **Google**, **GitHub** y **Facebook**.
+* **Enlaces de navegación** a la página de login y políticas legales (Términos de servicio y Política de privacidad).
+* **Responsivo** y accesible.
+
+---
+
+## ⚙️ Props del Componente
+
+| Prop | Tipo | Descripción |
+| :--- | :--- | :--- |
+| `loading` | `boolean` | Muestra el spinner de carga en el botón de registro. |
+| `buttonText` | `string` | Texto del botón de registro. |
+| `disabled` | `boolean` | Desactiva el botón de registro si es `true`. |
+| `onSubmit` | `() => void` | Función de callback al enviar el formulario. |
+| `loginText` | `string` | Texto del enlace para iniciar sesión ("Log In"). |
+| `signupWithText` | `string` | Texto antes de los iconos de autenticación social. |
+| `showSocialIcons` | `boolean` | Muestra u oculta los iconos sociales. |
+| `showLegalText` | `boolean` | Muestra u oculta el texto legal de reCAPTCHA. |
+| `googleLoginUrl` | `string` | URL de redirección para el login de Google. |
+| `privacyPolicyUrl`| `string` | URL de la Política de Privacidad. |
+| `termsOfServiceUrl`| `string` | URL de los Términos de Servicio. |
+
+---
+
+## 🧩 Estructura y Archivos
+
+* `SignUpPage.tsx`: Componente principal con la lógica del formulario y la interfaz de usuario.
+* `SignUpPage.types.ts`: Tipos y interfaces de las props utilizadas en el componente.
+* `SignUpPage.constants.ts`: Constantes utilizadas para validaciones o textos, opcional.
+* `SignUpPage.styles.ts`: Estilos para el componente usando MUI y `sx`.
+* `SignUpPage.test.tsx`: Pruebas unitarias con Jest y Testing Library.
+* `SignUpPage.stories.tsx`: Historias de Storybook para ver los diferentes estados de la página.
+* `SignUpPage.docs.mdx`: Documentación del componente.
+
+---
+
+## 🚨 Dependencias y Notas sobre la Implementación
+
+### Dependencias Pendientes
+
+Los siguientes componentes son esenciales para la funcionalidad completa, pero aún no están disponibles. Deben dejarse como **placeholders** hasta que los componentes reales estén listos:
+
+* **Logo**: Componente para el logo de la aplicación.
+* **FormInput**: Componente utilizado para los campos de entrada (email, nombre de usuario, contraseña).
+* **PrimaryButton**: Componente utilizado para el botón de registro.
+
+### Pasos a Seguir para la Integración
+
+| Paso | Descripción | Ejemplo de Código (Al estar disponible) |
+| :--- | :--- | :--- |
+| **1. Reemplazar Placeholders** | Sustituir las líneas comentadas por las **importaciones reales** de los componentes. | `import { Logo } from "../../components/Logo/Logo";` |
+| **2. Eliminar Comentarios** | Descomentar las líneas de importación y asegurarse de que el componente esté importado correctamente, **eliminando los placeholders**. | N/A |
+| **3. Probar Integración** | Realizar pruebas de integración para asegurar que los valores, la validación y el comportamiento (spinner de carga, etc.) funcionen correctamente. | N/A |
+
+---
+
+## 🎨 Diseño y Estilos
+
+El diseño está basado en **Material UI**, priorizando la consistencia y la accesibilidad.
+
+* **Fuente**: Syne, peso negrita (**700**).
+* **Espaciado**: Utiliza `theme.spacing()` para tamaños y márgenes, garantizando una apariencia responsiva.
+* **Color**: Uso de `theme.palette` para asegurar la consistencia de colores.
+
+### 🧾 Referencia de Estilo Visual
+
+| Elemento | Propiedad | Valor |
+| :--- | :--- | :--- |
+| **Texto del Botón** | Tamaño de fuente | 16px |
+| **Iconos Sociales** | Tamaño de icono | 24px |
+| **Texto de Política** | Color | `#0044FF` |
+
+---
+
+## ♿ Accesibilidad
+
+* Uso de roles semánticos (`role="img"`, `aria-label`) para iconos y otros elementos interactivos.
+* Compatible con **lectores de pantalla**.
+* **Navegación por teclado** y **enlaces con `aria-label`** para mejorar la accesibilidad.
+
+---
+
+## 🧪 Pruebas Unitarias
+
+* **Pruebas de validación**: Verificar que los campos **Email**, **Username** y **Password** se validen correctamente según las reglas definidas.
+* **Pruebas de botón**: Verificar que el botón se **desactive** correctamente durante el estado de carga (`loading: true`).
+* **Pruebas de llamadas a la API**: Mocking de las llamadas a la API para asegurar que la función `onSubmit` se ejecute correctamente.
+
+---
+
+## 📦 Uso en Storybook
+
+Se definieron varias historias para mostrar el comportamiento del componente en diferentes estados.
+
+| Historia | Descripción | Cambios en `args` |
+| :--- | :--- | :--- |
+| **Default** | Muestra la página con los valores predeterminados de las props. | N/A |
+| **Loading** | Activa el estado de carga y muestra el spinner. | `loading: true`, `disabled: true` |
+| **Disabled** | Desactiva el botón de registro. | `disabled: true` |
+| **No Socials** | Muestra la página sin los iconos de autenticación social. | `showSocialIcons: false` |
+| **Compact** | Muestra la página sin el texto legal de reCAPTCHA. | `showLegalText: false` |
+| **CustomText** | Personaliza los textos de los botones y enlaces. | `buttonText`, `loginText`, etc. |
+
+### Ejemplos de Historias (Storybook)
+
+```typescript
+// En SignUpPage.stories.tsx
+
+// 1. Historia por Defecto (Hereda TODOS los args de 'meta')
+export const Default: Story = {};
+
+// 2. Estado de Carga (Solo definimos lo que CAMBIA)
+export const Loading: Story = {
+    args: {
+        loading: true, 
+        buttonText: "Registering...",
+        disabled: true, // Desactivamos el botón durante el proceso de carga
+    },
+};
+
+// 3. Estado Deshabilitado (Solo definimos lo que CAMBIA)
+export const Disabled: Story = {
+    args: {
+        disabled: true,
+        buttonText: "Register (Disabled)",
+    },
+};
