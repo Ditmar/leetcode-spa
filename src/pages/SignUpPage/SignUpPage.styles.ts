@@ -1,5 +1,7 @@
 // src/pages/SignUpPage/SignUpPage.styles.ts
 
+import { type Theme } from '@mui/material';
+
 // ✅ No importamos NINGÚN tipo de MUI (Theme, SxProps, etc.) para evitar el error de Storybook/Vite.
 
 // Helper: Convierte px a la unidad numérica de theme.spacing (N/8)
@@ -18,7 +20,7 @@ const GEOMETRY_UNITS = {
   USERNAME_INPUT_TOP: themeUnit(225.65),
   PASSWORD_INPUT_TOP: themeUnit(328.88),
   BUTTON_TOP: themeUnit(432.12),
-  LOGIN_LINK_TOP: themeUnit(517.08), 
+  LOGIN_LINK_TOP: themeUnit(517.08),
   SIGNUP_WITH_TOP: themeUnit(570.98),
   ICONS_TOP: themeUnit(609.35),
   LEGAL_TEXT_TOP: themeUnit(689.74),
@@ -31,40 +33,46 @@ const GEOMETRY_UNITS = {
   LOGO_HEIGHT: themeUnit(45.68),
   LOGO_LEFT: themeUnit(111.45),
   ICON_SIZE: themeUnit(42.02),
-  ICON_SEPARATION: themeUnit(54), 
+  ICON_SEPARATION: themeUnit(54),
   GOOGLE_POS_X: themeUnit(119.68),
   LOGIN_LINK_LEFT: themeUnit(399),
   LEGAL_TEXT_WIDTH: themeUnit(405.62),
 };
-
 
 // -------------------------------------------------------------
 // ✅ Funciones de estilo: Aceptan 'theme' (sin tipar) y devuelven el objeto de estilo
 // -------------------------------------------------------------
 
 // 2.1 Estilos del Contenedor Principal (Formulario Blanco)
-// @ts-ignore: Omitimos el tipado explícito para evitar el error de Storybook
-export const getPageContainerStyles = (theme: any) => ({
-  position: "relative",
+// @ts-expect-error: Omitimos el tipado explícito para evitar el error de Storybook
+export const getPageContainerStyles = (theme: Theme) => ({
+  position: 'relative',
   width: theme.spacing(GEOMETRY_UNITS.PAGE_WIDTH),
   height: theme.spacing(GEOMETRY_UNITS.PAGE_HEIGHT),
-  margin: "auto", 
-  background: theme.palette.background.paper, 
+  margin: 'auto',
+  background: theme.palette.background.paper,
   borderRadius: theme.spacing(GEOMETRY_UNITS.PAGE_BORDER_RADIUS),
-  boxSizing: "border-box",
+  boxSizing: 'border-box',
   zIndex: 1,
   overflow: 'hidden',
 });
 
 // 2.2 Estilos de Elementos Posicionados Absolutamente
-const getAbsoluteElementBase = (topUnit: number, leftUnit: number, widthUnit: number, heightUnit: number, theme: any, zIndex: number = 2) => ({
-  position: "absolute",
+const getAbsoluteElementBase = (
+  topUnit: number,
+  leftUnit: number,
+  widthUnit: number,
+  heightUnit: number,
+  theme: Theme,
+  zIndex: number = 2
+) => ({
+  position: 'absolute',
   left: theme.spacing(leftUnit),
   top: theme.spacing(topUnit),
   width: theme.spacing(widthUnit),
   height: theme.spacing(heightUnit),
   zIndex: zIndex,
-  backgroundColor: theme.palette.grey[300], 
+  backgroundColor: theme.palette.grey[300],
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -72,104 +80,106 @@ const getAbsoluteElementBase = (topUnit: number, leftUnit: number, widthUnit: nu
 });
 
 // Estilos Específicos
-export const getLogoStyles = (theme: any) => getAbsoluteElementBase(
+export const getLogoStyles = (theme: Theme) =>
+  getAbsoluteElementBase(
     GEOMETRY_UNITS.LOGO_TOP,
     GEOMETRY_UNITS.LOGO_LEFT,
     GEOMETRY_UNITS.LOGO_WIDTH,
     GEOMETRY_UNITS.LOGO_HEIGHT,
     theme
-);
+  );
 
-export const getInputStyles = (topUnit: number, theme: any) => getAbsoluteElementBase(
+export const getInputStyles = (topUnit: number, theme: Theme) =>
+  getAbsoluteElementBase(
     topUnit,
     GEOMETRY_UNITS.INPUT_LEFT,
     GEOMETRY_UNITS.INPUT_WIDTH,
     GEOMETRY_UNITS.INPUT_HEIGHT,
     theme
-);
+  );
 
-export const getButtonStyles = (theme: any) => ({
-    ...getAbsoluteElementBase(
-        GEOMETRY_UNITS.BUTTON_TOP,
-        GEOMETRY_UNITS.INPUT_LEFT,
-        GEOMETRY_UNITS.INPUT_WIDTH,
-        GEOMETRY_UNITS.BUTTON_HEIGHT,
-        theme
-    ),
-    backgroundColor: theme.palette.grey[500],
-    color: theme.palette.common.white,
-    cursor: 'pointer',
-    zIndex: 2,
+export const getButtonStyles = (theme: Theme) => ({
+  ...getAbsoluteElementBase(
+    GEOMETRY_UNITS.BUTTON_TOP,
+    GEOMETRY_UNITS.INPUT_LEFT,
+    GEOMETRY_UNITS.INPUT_WIDTH,
+    GEOMETRY_UNITS.BUTTON_HEIGHT,
+    theme
+  ),
+  backgroundColor: theme.palette.grey[500],
+  color: theme.palette.common.white,
+  cursor: 'pointer',
+  zIndex: 2,
 });
 
 // 2.3 Estilos de Texto y Enlaces Inferiores
-export const haveAccountTextStyles = (theme: any) => ({
-    position: "absolute",
-    left: theme.spacing(GEOMETRY_UNITS.INPUT_LEFT), 
-    top: theme.spacing(GEOMETRY_UNITS.LOGIN_LINK_TOP),
-    fontFamily: "Syne, sans-serif",
-    fontSize: theme.typography.pxToRem(16.4442), 
-    color: theme.palette.text.secondary, 
-    zIndex: 1,
+export const haveAccountTextStyles = (theme: Theme) => ({
+  position: 'absolute',
+  left: theme.spacing(GEOMETRY_UNITS.INPUT_LEFT),
+  top: theme.spacing(GEOMETRY_UNITS.LOGIN_LINK_TOP),
+  fontFamily: 'Syne, sans-serif',
+  fontSize: theme.typography.pxToRem(16.4442),
+  color: theme.palette.text.secondary,
+  zIndex: 1,
 });
 
-export const loginLinkStyles = (theme: any) => ({
-    position: "absolute",
-    left: theme.spacing(GEOMETRY_UNITS.LOGIN_LINK_LEFT), 
-    top: theme.spacing(GEOMETRY_UNITS.LOGIN_LINK_TOP),
-    fontFamily: "Syne, sans-serif",
-    fontSize: theme.typography.pxToRem(16.4442),
-    color: "#B441EB", 
-    cursor: "pointer",
-    textDecoration: "none",
-    '&:hover': {
-        textDecoration: "underline",
-    }
+export const loginLinkStyles = (theme: Theme) => ({
+  position: 'absolute',
+  left: theme.spacing(GEOMETRY_UNITS.LOGIN_LINK_LEFT),
+  top: theme.spacing(GEOMETRY_UNITS.LOGIN_LINK_TOP),
+  fontFamily: 'Syne, sans-serif',
+  fontSize: theme.typography.pxToRem(16.4442),
+  color: '#B441EB',
+  cursor: 'pointer',
+  textDecoration: 'none',
+  '&:hover': {
+    textDecoration: 'underline',
+  },
 });
 
-export const signupWithTextStyles = (theme: any) => ({
-    position: "absolute",
-    left: '50%',
-    transform: 'translateX(-50%)', 
-    top: theme.spacing(GEOMETRY_UNITS.SIGNUP_WITH_TOP),
-    fontFamily: "Syne, sans-serif",
-    fontSize: theme.typography.pxToRem(14.617),
-    color: theme.palette.text.secondary,
-    whiteSpace: 'nowrap'
+export const signupWithTextStyles = (theme: Theme) => ({
+  position: 'absolute',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  top: theme.spacing(GEOMETRY_UNITS.SIGNUP_WITH_TOP),
+  fontFamily: 'Syne, sans-serif',
+  fontSize: theme.typography.pxToRem(14.617),
+  color: theme.palette.text.secondary,
+  whiteSpace: 'nowrap',
 });
 
 // 2.4 Estilos de Iconos Sociales
 const calculateIconPosX = (iconIndex: 0 | 1 | 2): number => {
-    const { GOOGLE_POS_X, ICON_SIZE, ICON_SEPARATION } = GEOMETRY_UNITS;
-    return GOOGLE_POS_X + (iconIndex * (ICON_SIZE + ICON_SEPARATION));
+  const { GOOGLE_POS_X, ICON_SIZE, ICON_SEPARATION } = GEOMETRY_UNITS;
+  return GOOGLE_POS_X + iconIndex * (ICON_SIZE + ICON_SEPARATION);
 };
 
-export const getSocialIconStyles = (iconIndex: 0 | 1 | 2, theme: any) => ({
-    position: "absolute",
-    left: theme.spacing(calculateIconPosX(iconIndex)),
-    top: theme.spacing(GEOMETRY_UNITS.ICONS_TOP),
-    width: theme.spacing(GEOMETRY_UNITS.ICON_SIZE),
-    height: theme.spacing(GEOMETRY_UNITS.ICON_SIZE),
-    cursor: "pointer",
-    transition: "transform 0.2s ease",
-    '&:hover': { transform: "scale(1.1)" }
+export const getSocialIconStyles = (iconIndex: 0 | 1 | 2, theme: Theme) => ({
+  position: 'absolute',
+  left: theme.spacing(calculateIconPosX(iconIndex)),
+  top: theme.spacing(GEOMETRY_UNITS.ICONS_TOP),
+  width: theme.spacing(GEOMETRY_UNITS.ICON_SIZE),
+  height: theme.spacing(GEOMETRY_UNITS.ICON_SIZE),
+  cursor: 'pointer',
+  transition: 'transform 0.2s ease',
+  '&:hover': { transform: 'scale(1.1)' },
 });
-
 
 // 2.5 Estilos de Texto Legal
-export const legalTextStyles = (theme: any) => ({
-    position: "absolute",
-    left: theme.spacing(GEOMETRY_UNITS.INPUT_LEFT),
-    top: theme.spacing(GEOMETRY_UNITS.LEGAL_TEXT_TOP),
-    width: theme.spacing(GEOMETRY_UNITS.LEGAL_TEXT_WIDTH),
-    fontFamily: "Syne, sans-serif",
-    fontSize: theme.typography.pxToRem(14.617),
-    lineHeight: theme.typography.pxToRem(18),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
+export const legalTextStyles = (theme: Theme) => ({
+  position: 'absolute',
+  left: theme.spacing(GEOMETRY_UNITS.INPUT_LEFT),
+  top: theme.spacing(GEOMETRY_UNITS.LEGAL_TEXT_TOP),
+  width: theme.spacing(GEOMETRY_UNITS.LEGAL_TEXT_WIDTH),
+  fontFamily: 'Syne, sans-serif',
+  fontSize: theme.typography.pxToRem(14.617),
+  lineHeight: theme.typography.pxToRem(18),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
 });
 
-export const legalLinkStyles = { // No necesita 'theme'
-    color: "#4285F4", 
-    textDecoration: "underline",
+export const legalLinkStyles = {
+  // No necesita 'theme'
+  color: '#4285F4',
+  textDecoration: 'underline',
 };
