@@ -174,7 +174,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
   loading = false,
   buttonText = 'Register',
   disabled = false,
-  onSubmit = () => { },
+  onSubmit = () => {},
   loginText = 'Log In',
   signupWithText = 'Or you can Signup with',
   showSocialIcons = true,
