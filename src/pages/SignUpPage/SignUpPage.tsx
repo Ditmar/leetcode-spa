@@ -1,33 +1,15 @@
-/* eslint-disable @typescript-eslint/no-require-imports, import/order */
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { Box, Typography, useTheme, Link } from '@mui/material';
 import React, { useState } from 'react';
-
-// Prefer static URL imports so Vite/Storybook includes these files in the
-// static build. The `?url` suffix tells Vite to return the final URL for
-// the asset which prevents 404s when Storybook serves the built output.
-// Keep existing dynamic require/import.meta fallbacks for environments
-// where the static resolution isn't available.
-// TypeScript may not have typings for the `?url` import. These imports
-// are intentionally used to force bundlers (Vite/Storybook) to include
-// the static asset in the build; they yield a URL string at runtime.
-// @ts-expect-error - Vite provides a string URL for `?url` imports
-// eslint-disable-next-line import/no-unresolved -- virtual `?url` import provided by Vite at build time
-import FacebookStaticUrl from './assets/facebook.svg?url';
-// @ts-expect-error - Vite provides a string URL for `?url` imports
-// eslint-disable-next-line import/no-unresolved -- virtual `?url` import provided by Vite at build time
-import GithubStaticUrl from './assets/github.svg?url';
-// @ts-expect-error - Vite provides a string URL for `?url` imports
-// eslint-disable-next-line import/no-unresolved -- virtual `?url` import provided by Vite at build time
-import GoogleStaticUrl from './assets/google.svg?url';
 // Cargamos los assets de forma dinámica con fallback string para evitar
 // errores de lint/CI cuando los archivos no están disponibles en el
 // entorno (por ejemplo en branches parciales). Si los archivos existen
 // se asigna la URL real, si no, se usa un string simbólico.
-// Start with the statically imported URLs (if the bundler provides them),
-// otherwise fall back to runtime resolution below.
-let FacebookIcon: string | undefined = FacebookStaticUrl ?? undefined;
-let GithubIcon: string | undefined = GithubStaticUrl ?? undefined;
-let GoogleIcon: string | undefined = GoogleStaticUrl ?? undefined;
+// Start with undefined; resolve at runtime via require/new URL fallbacks
+// so tests and CI that run Vite import-analysis don't fail on `?url`.
+let FacebookIcon: string | undefined = undefined;
+let GithubIcon: string | undefined = undefined;
+let GoogleIcon: string | undefined = undefined;
 try {
   const mod = require('./assets/facebook.svg');
   FacebookIcon = mod && (mod.default ?? mod);
