@@ -1,14 +1,30 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-require-imports, import/order */
 import { Box, Typography, useTheme, Link } from '@mui/material';
 import React, { useState } from 'react';
 
+// Prefer static URL imports so Vite/Storybook includes these files in the
+// static build. The `?url` suffix tells Vite to return the final URL for
+// the asset which prevents 404s when Storybook serves the built output.
+// Keep existing dynamic require/import.meta fallbacks for environments
+// where the static resolution isn't available.
+// TypeScript may not have typings for the `?url` import. These imports
+// are intentionally used to force bundlers (Vite/Storybook) to include
+// the static asset in the build; they yield a URL string at runtime.
+// @ts-expect-error - Vite provides a string URL for `?url` imports
+import FacebookStaticUrl from './assets/facebook.svg?url';
+// @ts-expect-error - Vite provides a string URL for `?url` imports
+import GithubStaticUrl from './assets/github.svg?url';
+// @ts-expect-error - Vite provides a string URL for `?url` imports
+import GoogleStaticUrl from './assets/google.svg?url';
 // Cargamos los assets de forma dinámica con fallback string para evitar
 // errores de lint/CI cuando los archivos no están disponibles en el
 // entorno (por ejemplo en branches parciales). Si los archivos existen
 // se asigna la URL real, si no, se usa un string simbólico.
-let FacebookIcon: string | undefined = undefined;
-let GithubIcon: string | undefined = undefined;
-let GoogleIcon: string | undefined = undefined;
+// Start with the statically imported URLs (if the bundler provides them),
+// otherwise fall back to runtime resolution below.
+let FacebookIcon: string | undefined = FacebookStaticUrl ?? undefined;
+let GithubIcon: string | undefined = GithubStaticUrl ?? undefined;
+let GoogleIcon: string | undefined = GoogleStaticUrl ?? undefined;
 try {
   const mod = require('./assets/facebook.svg');
   FacebookIcon = mod && (mod.default ?? mod);
