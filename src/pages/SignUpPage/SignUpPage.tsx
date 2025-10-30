@@ -3,8 +3,11 @@ import { Box, Typography, useTheme, Link } from '@mui/material';
 import React, { useState } from 'react';
 // Static imports like in TestHeader so the bundler includes the assets and
 // resolves their final URLs the same way across stories/builds.
+// eslint-disable-next-line import/no-unresolved -- asset resolved by bundler at build time
 import FacebookStatic from './assets/facebook.svg';
+// eslint-disable-next-line import/no-unresolved -- asset resolved by bundler at build time
 import GithubStatic from './assets/github.svg';
+// eslint-disable-next-line import/no-unresolved -- asset resolved by bundler at build time
 import GoogleStatic from './assets/google.svg';
 // Cargamos los assets de forma dinámica con fallback string para evitar
 // errores de lint/CI cuando los archivos no están disponibles en el
