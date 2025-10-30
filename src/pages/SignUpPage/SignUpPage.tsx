@@ -10,12 +10,25 @@ import React, { useState } from 'react';
 let FacebookIcon: string | undefined = undefined;
 let GithubIcon: string | undefined = undefined;
 let GoogleIcon: string | undefined = undefined;
+
+// Public base URL provided by Vite at build time. We read it via a safe
+// typed cast so TypeScript doesn't complain when `import.meta.env` types
+// are not present in the environment. Falls back to '/'.
+const PUBLIC_BASE: string = (() => {
+  const meta = import.meta as unknown as { env?: { BASE_URL?: string } };
+  return meta.env && meta.env.BASE_URL ? meta.env.BASE_URL : '/';
+})();
 try {
   const mod = require('./assets/facebook.svg');
   FacebookIcon = mod && (mod.default ?? mod);
 } catch {
   try {
-    FacebookIcon = new URL('./assets/facebook.svg', import.meta.url).href;
+    // Fallback compatible con builds que sirven assets desde la carpeta
+    // `assets/` en la raíz (p. ej. GitHub Pages). `import.meta.env.BASE_URL`
+    // contiene la base pública (por ejemplo `/repo/branch/`) en tiempo
+    // de build; concatenando `assets/<file>` apuntamos a la ubicación
+    // donde Vite emite los assets en la salida estática.
+    FacebookIcon = `${PUBLIC_BASE}assets/facebook.svg`;
   } catch {
     FacebookIcon = undefined;
   }
@@ -25,7 +38,8 @@ try {
   GithubIcon = mod && (mod.default ?? mod);
 } catch {
   try {
-    GithubIcon = new URL('./assets/github.svg', import.meta.url).href;
+    // See comment above for rationale
+    GithubIcon = `${PUBLIC_BASE}assets/github.svg`;
   } catch {
     GithubIcon = undefined;
   }
@@ -35,8 +49,8 @@ try {
   GoogleIcon = mod && (mod.default ?? mod);
 } catch {
   try {
-    // Try resolving via import.meta.url so Vite/Storybook dev server serves the file
-    GoogleIcon = new URL('./assets/google.svg', import.meta.url).href;
+    // See comment above for rationale
+    GoogleIcon = `${PUBLIC_BASE}assets/google.svg`;
   } catch {
     GoogleIcon = undefined;
   }
