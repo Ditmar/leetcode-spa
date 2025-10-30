@@ -1,8 +1,15 @@
 /* eslint-disable @typescript-eslint/no-require-imports, import/order */
 import { Box, Typography, useTheme, Link } from '@mui/material';
-import React, { useState } from 'react';
-// We resolve SVG assets at runtime (require/new URL) to avoid Vite's
-// import-analysis errors in CI. Tests mock the assets as needed.
+import React, { useState, useEffect } from 'react';
+// Import static SVGs (like TestHeader) so the bundler resolves and emits
+// the final URLs that Storybook and production will serve.
+// Use Vite `?url` to force emitting assets as separate files (not inlined)
+// eslint-disable-next-line import/no-unresolved -- Vite provides virtual `?url` modules at build time
+import FacebookStatic from './assets/facebook.svg?url';
+// eslint-disable-next-line import/no-unresolved -- Vite provides virtual `?url` modules at build time
+import GithubStatic from './assets/github.svg?url';
+// eslint-disable-next-line import/no-unresolved -- Vite provides virtual `?url` modules at build time
+import GoogleStatic from './assets/google.svg?url';
 // Cargamos los assets de forma dinámica con fallback string para evitar
 // errores de lint/CI cuando los archivos no están disponibles en el
 // entorno (por ejemplo en branches parciales). Si los archivos existen
@@ -13,27 +20,39 @@ import React, { useState } from 'react';
 // components (see TestHeader). If runtime resolution via require succeeds
 // it will override these values; otherwise the static imports will be used.
 // Start undefined; try runtime resolution (require) then fall back to import.meta URL
-let FacebookIcon: string | undefined = undefined;
-let GithubIcon: string | undefined = undefined;
-let GoogleIcon: string | undefined = undefined;
-try {
-  const mod = require('./assets/facebook.svg');
-  FacebookIcon = mod && (mod.default ?? mod);
-} catch {
-  // keep the static import value (FacebookStatic) if require() fails
+// Prefer the static imports so dev and Storybook show the real assets.
+let FacebookIcon: string | undefined = FacebookStatic ?? undefined;
+let GithubIcon: string | undefined = GithubStatic ?? undefined;
+let GoogleIcon: string | undefined = GoogleStatic ?? undefined;
+if (!FacebookIcon) {
+  try {
+    const mod = require('./assets/facebook.svg');
+    FacebookIcon = mod && (mod.default ?? mod);
+  } catch {
+    // keep the static import value (FacebookStatic) if require() fails
+  }
 }
-try {
-  const mod = require('./assets/github.svg');
-  GithubIcon = mod && (mod.default ?? mod);
-} catch {
-  // keep the static import value (GithubStatic) if require() fails
+
+if (!GithubIcon) {
+  try {
+    const mod = require('./assets/github.svg');
+    GithubIcon = mod && (mod.default ?? mod);
+  } catch {
+    // keep the static import value (GithubStatic) if require() fails
+  }
 }
-try {
-  const mod = require('./assets/google.svg');
-  GoogleIcon = mod && (mod.default ?? mod);
-} catch {
-  // keep the static import value (GoogleStatic) if require() fails
+
+if (!GoogleIcon) {
+  try {
+    const mod = require('./assets/google.svg');
+    GoogleIcon = mod && (mod.default ?? mod);
+  } catch {
+    // keep the static import value (GoogleStatic) if require() fails
+  }
 }
+
+// Runtime require attempts may override the static imports in some
+// environments; if they fail we stick with the static imports above.
 
 import {
   getPageContainerStyles,
@@ -190,6 +209,18 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
   });
 
   const theme = useTheme();
+
+  useEffect(() => {
+    // sólo en navegador: imprimimos qué resolvió el bundler para cada icono
+    if (typeof window !== 'undefined') {
+      // eslint-disable-next-line no-console
+      console.debug('SignUpPage: resolved social icons', {
+        GoogleIcon,
+        GithubIcon,
+        FacebookIcon,
+      });
+    }
+  }, [GoogleIcon, GithubIcon, FacebookIcon]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
