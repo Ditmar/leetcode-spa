@@ -2,8 +2,8 @@ import { styled, Card, Box, Typography } from '@mui/material';
 
 export const StyledCard = styled(Card)(({ theme }) => ({
   position: 'relative',
-  width: theme.spacing(37), // 296px / 8 = 37
-  height: theme.spacing(19.75), // 158px / 8 = 19.75
+  width: theme.spacing(37),
+  height: theme.spacing(19.75),
   boxShadow: theme.shadows[1],
   borderRadius:
     typeof theme.shape.borderRadius === 'number'
@@ -29,31 +29,25 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     height: 'auto',
     minHeight: theme.spacing(16),
   },
-  [theme.breakpoints.down('xs')]: {
-    maxWidth: '100%',
-    minHeight: theme.spacing(14),
-  },
 }));
 
 export const IconBackground = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  width: theme.spacing(7.75), // 62px / 8 = 7.75
+  width: theme.spacing(7.75),
   height: theme.spacing(7.75),
-  left: theme.spacing(3.75), // 30px / 8 = 3.75
+  left: theme.spacing(3.75),
   top: theme.spacing(6),
   backgroundColor: '#F8F6FF',
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-
   [theme.breakpoints.down('md')]: {
     width: theme.spacing(6.5),
     height: theme.spacing(6.5),
     left: theme.spacing(3),
     top: theme.spacing(4),
   },
-
   [theme.breakpoints.down('sm')]: {
     width: theme.spacing(6),
     height: theme.spacing(6),
@@ -62,33 +56,21 @@ export const IconBackground = styled(Box)(({ theme }) => ({
     position: 'relative',
     margin: `${theme.spacing(2)} auto ${theme.spacing(1)}`,
   },
-  [theme.breakpoints.down('xs')]: {
-    width: theme.spacing(5),
-    height: theme.spacing(5),
-    margin: `${theme.spacing(1.5)} auto ${theme.spacing(0.5)}`,
-  },
 }));
 
 export const IconWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: theme.spacing(3), // 24px / 8 = 3
-  height: theme.spacing(3),
-
+  width: theme.spacing(3.5),
+  height: theme.spacing(3.5),
   [theme.breakpoints.down('md')]: {
     width: theme.spacing(2.75),
     height: theme.spacing(2.75),
   },
-
   [theme.breakpoints.down('sm')]: {
     width: theme.spacing(2.5),
     height: theme.spacing(2.5),
-  },
-
-  [theme.breakpoints.down('xs')]: {
-    width: theme.spacing(2),
-    height: theme.spacing(2),
   },
 }));
 
@@ -97,11 +79,6 @@ export const IconImage = styled('img')(({ theme }) => ({
   height: '100%',
   objectFit: 'contain',
   color: '#B23DEB',
-  filter: `
-    brightness(0) saturate(100%) 
-    invert(32%) sepia(89%) saturate(2916%) 
-    hue-rotate(266deg) brightness(92%) contrast(91%)
-  `,
   [theme.breakpoints.down('sm')]: {
     maxWidth: '100%',
   },
@@ -109,18 +86,16 @@ export const IconImage = styled('img')(({ theme }) => ({
 
 export const ContentWrapper = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  left: theme.spacing(14.75), // 118px / 8 = 14.75
-  top: theme.spacing(6), // 48px / 8 = 6
+  left: theme.spacing(14.75),
+  top: theme.spacing(6),
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(1), // 8px / 8 = 1
-
+  gap: theme.spacing(0.5),
   [theme.breakpoints.down('md')]: {
     left: theme.spacing(12),
     top: theme.spacing(4),
     gap: theme.spacing(0.75),
   },
-
   [theme.breakpoints.down('sm')]: {
     position: 'relative',
     left: 'auto',
@@ -130,57 +105,62 @@ export const ContentWrapper = styled(Box)(({ theme }) => ({
     gap: theme.spacing(0.5),
     padding: `0 ${theme.spacing(1)} ${theme.spacing(2)}`,
   },
-  [theme.breakpoints.down('xs')]: {
-    gap: theme.spacing(0.25),
-    padding: `0 ${theme.spacing(0.5)} ${theme.spacing(1.5)}`,
-  },
 }));
 
 export const ValueText = styled(Typography)(({ theme }) => ({
-  fontFamily: theme.typography.fontFamily,
-  fontStyle: 'normal',
-  fontWeight: 600,
-  fontSize: theme.typography.h4.fontSize,
-  lineHeight: 1,
-  color: theme.palette.text.primary + 'CC',
+  fontFamily: "'Poppins', sans-serif", //  EXACTO de Figma
+  fontStyle: 'normal', // EXACTO de Figma
+  fontWeight: 600, //  EXACTO de Figma
+  fontSize: '28px', //  EXACTO de Figma
+  lineHeight: '42px', //  EXACTO de Figma
+  color: 'rgba(13, 13, 13, 0.8)', //  EXACTO de Figma
+  width: '53px', //  EXACTO de Figma
+  height: '31px', //  EXACTO de Figma
   margin: 0,
   padding: 0,
-
+  display: 'flex',
+  alignItems: 'center', //  Centrar verticalmente dentro del contenedor
   [theme.breakpoints.down('md')]: {
-    fontSize: theme.typography.h5.fontSize,
+    fontSize: '24px',
+    lineHeight: '36px',
+    width: '45px',
+    height: '27px',
   },
-
   [theme.breakpoints.down('sm')]: {
-    fontSize: theme.typography.h6.fontSize,
+    fontSize: '22px',
+    lineHeight: '33px',
+    width: 'auto',
+    height: 'auto',
     textAlign: 'center',
-    width: '100%',
-  },
-  [theme.breakpoints.down('xs')]: {
-    fontSize: theme.typography.body1.fontSize,
+    justifyContent: 'center',
   },
 }));
 
 export const LabelText = styled(Typography)(({ theme }) => ({
-  fontFamily: theme.typography.fontFamily,
-  fontStyle: 'normal',
-  fontWeight: 500,
-  fontSize: theme.typography.body2.fontSize,
-  lineHeight: 1,
-  color: theme.palette.text.secondary + '99',
+  fontFamily: "'Syne', sans-serif", //  EXACTO de Figma
+  fontStyle: 'normal', //  EXACTO de Figma
+  fontWeight: 500, // EXACTO de Figma
+  fontSize: '15px', //  EXACTO de Figma
+  lineHeight: '18px', //  EXACTO de Figma
+  color: 'rgba(13, 13, 13, 0.5)', //  EXACTO de Figma
+  width: '95px', // EXACTO de Figma
+  height: '18px', //  EXACTO de Figma
   margin: 0,
   padding: 0,
-
+  display: 'flex',
+  alignItems: 'center',
   [theme.breakpoints.down('md')]: {
-    fontSize: theme.typography.body2.fontSize,
+    fontSize: '13px',
+    lineHeight: '15.6px',
+    width: '81px',
+    height: '15.6px',
   },
-
   [theme.breakpoints.down('sm')]: {
-    fontSize: theme.typography.caption.fontSize,
+    fontSize: '12px',
+    lineHeight: '14.4px',
+    width: 'auto',
+    height: 'auto',
     textAlign: 'center',
-    width: '100%',
-  },
-
-  [theme.breakpoints.down('xs')]: {
-    fontSize: theme.typography.caption.fontSize,
+    justifyContent: 'center',
   },
 }));
