@@ -1,59 +1,40 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-require-imports, import/order */
 import { Box, Typography, useTheme, Link } from '@mui/material';
 import React, { useState } from 'react';
+// Static imports like in TestHeader so the bundler includes the assets and
+// resolves their final URLs the same way across stories/builds.
+import FacebookStatic from './assets/facebook.svg';
+import GithubStatic from './assets/github.svg';
+import GoogleStatic from './assets/google.svg';
 // Cargamos los assets de forma dinámica con fallback string para evitar
 // errores de lint/CI cuando los archivos no están disponibles en el
 // entorno (por ejemplo en branches parciales). Si los archivos existen
 // se asigna la URL real, si no, se usa un string simbólico.
 // Start with undefined; resolve at runtime via require/new URL fallbacks
 // so tests and CI that run Vite import-analysis don't fail on `?url`.
-let FacebookIcon: string | undefined = undefined;
-let GithubIcon: string | undefined = undefined;
-let GoogleIcon: string | undefined = undefined;
-
-// Public base URL provided by Vite at build time. We read it via a safe
-// typed cast so TypeScript doesn't complain when `import.meta.env` types
-// are not present in the environment. Falls back to '/'.
-const PUBLIC_BASE: string = (() => {
-  const meta = import.meta as unknown as { env?: { BASE_URL?: string } };
-  return meta.env && meta.env.BASE_URL ? meta.env.BASE_URL : '/';
-})();
+// Start with static imports so bundler resolves them similarly to other
+// components (see TestHeader). If runtime resolution via require succeeds
+// it will override these values; otherwise the static imports will be used.
+let FacebookIcon: string | undefined = FacebookStatic ?? undefined;
+let GithubIcon: string | undefined = GithubStatic ?? undefined;
+let GoogleIcon: string | undefined = GoogleStatic ?? undefined;
 try {
   const mod = require('./assets/facebook.svg');
   FacebookIcon = mod && (mod.default ?? mod);
 } catch {
-  try {
-    // Fallback compatible con builds que sirven assets desde la carpeta
-    // `assets/` en la raíz (p. ej. GitHub Pages). `import.meta.env.BASE_URL`
-    // contiene la base pública (por ejemplo `/repo/branch/`) en tiempo
-    // de build; concatenando `assets/<file>` apuntamos a la ubicación
-    // donde Vite emite los assets en la salida estática.
-    FacebookIcon = `${PUBLIC_BASE}assets/facebook.svg`;
-  } catch {
-    FacebookIcon = undefined;
-  }
+  // keep the static import value (FacebookStatic) if require() fails
 }
 try {
   const mod = require('./assets/github.svg');
   GithubIcon = mod && (mod.default ?? mod);
 } catch {
-  try {
-    // See comment above for rationale
-    GithubIcon = `${PUBLIC_BASE}assets/github.svg`;
-  } catch {
-    GithubIcon = undefined;
-  }
+  // keep the static import value (GithubStatic) if require() fails
 }
 try {
   const mod = require('./assets/google.svg');
   GoogleIcon = mod && (mod.default ?? mod);
 } catch {
-  try {
-    // See comment above for rationale
-    GoogleIcon = `${PUBLIC_BASE}assets/google.svg`;
-  } catch {
-    GoogleIcon = undefined;
-  }
+  // keep the static import value (GoogleStatic) if require() fails
 }
 
 import {
