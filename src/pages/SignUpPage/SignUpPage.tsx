@@ -5,11 +5,11 @@ import React, { useState, useEffect } from 'react';
 // the final URLs that Storybook and production will serve.
 // Use Vite `?url` to force emitting assets as separate files (not inlined)
 // eslint-disable-next-line import/no-unresolved -- Vite provides virtual `?url` modules at build time
-import FacebookStatic from './assets/facebook.svg?url';
+import FacebookStatic from './assets/Facebook.svg?url';
 // eslint-disable-next-line import/no-unresolved -- Vite provides virtual `?url` modules at build time
-import GithubStatic from './assets/github.svg?url';
+import GithubStatic from './assets/Github.svg?url';
 // eslint-disable-next-line import/no-unresolved -- Vite provides virtual `?url` modules at build time
-import GoogleStatic from './assets/google.svg?url';
+import GoogleStatic from './assets/Google.svg?url';
 // Cargamos los assets de forma dinámica con fallback string para evitar
 // errores de lint/CI cuando los archivos no están disponibles en el
 // entorno (por ejemplo en branches parciales). Si los archivos existen
@@ -26,7 +26,7 @@ let GithubIcon: string | undefined = GithubStatic ?? undefined;
 let GoogleIcon: string | undefined = GoogleStatic ?? undefined;
 if (!FacebookIcon) {
   try {
-    const mod = require('./assets/facebook.svg');
+    const mod = require('./assets/Facebook.svg');
     FacebookIcon = mod && (mod.default ?? mod);
   } catch {
     // keep the static import value (FacebookStatic) if require() fails
@@ -35,7 +35,7 @@ if (!FacebookIcon) {
 
 if (!GithubIcon) {
   try {
-    const mod = require('./assets/github.svg');
+    const mod = require('./assets/Github.svg');
     GithubIcon = mod && (mod.default ?? mod);
   } catch {
     // keep the static import value (GithubStatic) if require() fails
@@ -44,7 +44,7 @@ if (!GithubIcon) {
 
 if (!GoogleIcon) {
   try {
-    const mod = require('./assets/google.svg');
+    const mod = require('./assets/Google.svg');
     GoogleIcon = mod && (mod.default ?? mod);
   } catch {
     // keep the static import value (GoogleStatic) if require() fails
