@@ -11,10 +11,13 @@ import React, { useState } from 'react';
 // are intentionally used to force bundlers (Vite/Storybook) to include
 // the static asset in the build; they yield a URL string at runtime.
 // @ts-expect-error - Vite provides a string URL for `?url` imports
+// eslint-disable-next-line import/no-unresolved -- virtual `?url` import provided by Vite at build time
 import FacebookStaticUrl from './assets/facebook.svg?url';
 // @ts-expect-error - Vite provides a string URL for `?url` imports
+// eslint-disable-next-line import/no-unresolved -- virtual `?url` import provided by Vite at build time
 import GithubStaticUrl from './assets/github.svg?url';
 // @ts-expect-error - Vite provides a string URL for `?url` imports
+// eslint-disable-next-line import/no-unresolved -- virtual `?url` import provided by Vite at build time
 import GoogleStaticUrl from './assets/google.svg?url';
 // Cargamos los assets de forma dinámica con fallback string para evitar
 // errores de lint/CI cuando los archivos no están disponibles en el
