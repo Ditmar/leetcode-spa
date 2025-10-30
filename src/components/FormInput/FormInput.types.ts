@@ -1,4 +1,7 @@
+import { SHAPE_CONFIGS } from './FormInput.constants';
+
 import type { TextFieldProps } from '@mui/material/TextField';
+import type { ChangeEvent, FocusEvent } from 'react';
 
 export type FormInputVariant = 'outlined' | 'filled';
 export type FormInputType = 'text' | 'email' | 'password';
@@ -10,11 +13,11 @@ export interface FormInputProps extends Omit<TextFieldProps, 'variant' | 'size'>
   size?: FormInputSize;
   placeholder?: string;
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   errorMessage?: string;
   disabled?: boolean;
-  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
   'data-testid'?: string;
 }
 

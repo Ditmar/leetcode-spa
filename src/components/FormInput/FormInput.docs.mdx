@@ -1,33 +1,113 @@
-# FormInput
+# 🧩 FormInput
 
-A reusable component for displaying form input fields with customized borders, variant support, and an elegant design based on Figma.
-
----
-
-## Component Purpose
-
-The **FormInput** component is designed to represent form fields such as "Mail Id," "Username," and "Password" with a distinctive visual style, faithfully aligned with Figma designs.  
-It adheres to the following principles:
-
-- **Component-Driven Development (CDD)**  
-- **Pixel-perfect design** based on Figma  
-- **WCAG AA accessibility compliance**  
-- **Extensibility and consistency with Material UI (MUI)**  
+The **FormInput** component is a reusable, styled input field built with React, TypeScript, and Material UI.  
+It provides consistent input appearance and behavior across the app, following Figma’s pixel-perfect design specifications.
 
 ---
 
-## Key Features
+## 🎯 Component Purpose
 
-- **Two visual variants**: `outlined` and `filled` (defined in `.constants.ts`)  
-- **Three sizes**: `small`, `medium`, `large`  
-- **Three input types**: `text`, `email`, `password` 
-- **Dynamic text**: Placeholder color changes based on state (e.g., error)  
-- **Integrated accessibility**: Supports `aria-label` and `aria-invalid`  
+The **FormInput** component is designed to represent input fields such as **"Mail Id," "Username," or "Password"**, providing visual consistency and accessibility across forms.
+
+It adheres to:
+
+- **Component-Driven Development (CDD)**
+- **Pixel-perfect design** based on Figma
+- **WCAG AA accessibility compliance**
+- **Extensibility and visual consistency** using Material UI (MUI)
 
 ---
 
-## Installation and Usage
+## ⚙️ Props
 
-### Import
+The **FormInput** component accepts the following properties:
+
+- **label** *(string)* — Text label displayed above the input field.
+- **type** *(“text” | “email” | “password”)* — Defines the input type. Default: `"text"`.
+- **variant** *(“outlined” | “filled”)* — Visual variant of the input. Default: `"outlined"`.
+- **size** *(“small” | “medium” | “large”)* — Adjusts font size, height, and padding. Default: `"medium"`.
+- **value** *(string)* — Current input value (for controlled components).
+- **placeholder** *(string)* — Text displayed when the field is empty.
+- **error** *(boolean)* — When `true`, applies error styling and sets accessibility attributes.
+- **helperText** *(string)* — Optional hint or validation message below the input.
+- **disabled** *(boolean)* — Disables interaction and reduces opacity.
+- **onChange** *(function)* — Triggered when the input value changes.
+- **onFocus** *(function)* — Triggered when the input gains focus.
+- **onBlur** *(function)* — Triggered when the input loses focus.
+
+---
+
+### 💡 Notes
+
+- **Size logic:**  
+  Sizes are dynamically styled through the `getSizeStyles()` function, which reads spacing and typography tokens from `SIZE_CONFIGS` defined in `.constants.ts`.
+
+- **Accessibility:**  
+  - The input automatically includes `aria-label` (via the `label` prop).  
+  - Error states toggle `aria-invalid` for screen readers.  
+  - Label is programmatically associated with the input via `htmlFor` and `id`.
+
+---
+
+## 🧱 Component Structure
+
+The **FormInput** component follows a modular structure for scalability and maintainability:
+
+- `FormInput.tsx` → Main logic and rendering.  
+- `FormInput.styles.ts` → Styled MUI TextField using the `styled` API.  
+- `FormInput.constants.ts` → Default values and size configuration.  
+- `FormInput.types.ts` → TypeScript interfaces for props.  
+- `FormInput.stories.tsx` → Storybook stories for visual testing.  
+- `FormInput.test.tsx` → Unit tests with Vitest and React Testing Library.
+
+---
+
+## 🎨 Design and Styles
+
+- Built upon **MUI’s TextField**, extended with custom responsive styling via `styled()` API.
+- Uses **`SIZE_CONFIGS`** to define per-size metrics such as:
+  - `width`, `height`, `padding`, `fontSize`, and `borderRadius`
+- Each breakpoint (mobile, tablet, desktop) applies its own size configuration dynamically.
+
+Label behavior:
+- The label sits **inside the input** (placeholder-style).  
+- It **disappears on focus or when text is filled**, matching the Figma design.  
+- The MUI **notch** is fully disabled (`.MuiOutlinedInput-notchedOutline legend { width: 0 }`) to remove the floating label gap.
+
+---
+
+## ♿ Accessibility (A11y)
+
+Accessibility features:
+
+- Supports `aria-label`, `aria-invalid`, and `aria-disabled` attributes automatically.
+- Fully compatible with screen readers.
+- High color contrast for text and error states (AA compliant).
+- Keyboard navigation supported for all input types.
+- Disabled state prevents pointer and keyboard interaction while maintaining semantic structure.
+
+---
+
+## 🧪 Unit Tests
+
+Implemented with **React Testing Library** and **Vitest**, verifying:
+
+- Proper rendering with label and placeholder.
+- Controlled value updates via `onChange`.
+- `onFocus` and `onBlur` event triggers.
+- Disabled state behavior.
+- Error message rendering and ARIA attributes.
+- Typing interactions (with real keyboard simulation via `userEvent`).
+
+Example:
+
 ```tsx
-import { FormInput } from '@/components/FormInput';
+<FormInput
+  label="Email"
+  type="email"
+  placeholder="Enter your email"
+  variant="outlined"
+  size="medium"
+  errorMessage="Invalid email format"
+  onChange={(e) => console.log(e.target.value)}
+/>

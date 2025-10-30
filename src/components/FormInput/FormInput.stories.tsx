@@ -30,7 +30,8 @@ const meta: Meta<typeof FormInput> = {
     onBlur: { action: 'blurred' },
   },
   args: {
-    placeholder: 'Mail Id',
+    label: 'Mail Id',
+    placeholder: 'Enter your mail',
     value: '',
     variant: 'outlined',
     size: 'medium',
@@ -39,6 +40,8 @@ const meta: Meta<typeof FormInput> = {
     errorMessage: '',
   },
 };
+
+// Storybook requires a default export for CSF meta
 export default meta;
 
 type Story = StoryObj<typeof meta>;
@@ -47,27 +50,31 @@ export const Playground: Story = {};
 
 export const Default: Story = {
   args: {
-    placeholder: 'Username',
+    label: 'Username',
+    placeholder: 'Enter your username',
   },
 };
 
 export const Filled: Story = {
   args: {
     variant: 'filled',
-    placeholder: 'Password',
+    label: 'Password',
+    placeholder: 'Enter your password',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    placeholder: 'Mail Id',
+    label: 'Mail Id',
+    placeholder: 'Enter your email',
     disabled: true,
   },
 };
 
 export const Error: Story = {
   args: {
-    placeholder: 'Email',
+    label: '',
+    placeholder: 'Enter your email',
     errorMessage: 'Invalid email format',
   },
 };
