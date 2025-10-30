@@ -23,7 +23,7 @@ describe('FormInput', () => {
     return <FormInput {...props} value={value} onChange={handleChange} />;
   };
 
-  it('renderiza con props por defecto', () => {
+  it('renders with default props', () => {
     render(<FormInputWrapper {...defaultProps} />);
     const inputContainer = screen.getByTestId('form-input');
     expect(inputContainer).toBeInTheDocument();
@@ -31,7 +31,7 @@ describe('FormInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
-  it('renderiza con placeholder y value correctos', () => {
+  it('renders with correct placeholder and value', () => {
     render(
       <FormInputWrapper {...defaultProps} placeholder="Enter email" value="test@example.com" />
     );
@@ -40,19 +40,16 @@ describe('FormInput', () => {
     expect(input).toHaveValue('test@example.com');
   });
 
-  it('dispara onChange con un nuevo valor', async () => {
-    render(<FormInputWrapper {...defaultProps} />);
+  it('fires onChange when typing a new value', async () => {
+    const handleChange = vi.fn();
+    render(<FormInputWrapper {...defaultProps} onChange={handleChange} />);
     const input = screen.getByRole('textbox');
     await userEvent.type(input, 'test@example.com');
     expect(input).toHaveValue('test@example.com');
-    expect(defaultProps.onChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        target: expect.objectContaining({ value: 'test@example.com' }),
-      })
-    );
+    expect(handleChange).toHaveBeenCalledTimes(16);
   });
 
-  it('no dispara onChange si está disabled', async () => {
+  it('does not call onChange when disabled', async () => {
     const handleChange = vi.fn();
     render(<FormInputWrapper {...defaultProps} onChange={handleChange} disabled />);
     const input = screen.getByRole('textbox');
@@ -61,7 +58,7 @@ describe('FormInput', () => {
     expect(handleChange).not.toHaveBeenCalled();
   });
 
-  it('muestra estado de error con errorMessage', () => {
+  it('shows error state when errorMessage is provided', () => {
     const errorMessage = 'Invalid input';
     render(<FormInputWrapper {...defaultProps} errorMessage={errorMessage} />);
     const input = screen.getByRole('textbox');
@@ -69,7 +66,7 @@ describe('FormInput', () => {
     expect(input).toHaveAttribute('aria-invalid', 'true');
   });
 
-  it('dispara onFocus cuando se enfoca', async () => {
+  it('calls onFocus when focused', async () => {
     const handleFocus = vi.fn();
     render(<FormInputWrapper {...defaultProps} onFocus={handleFocus} />);
     const input = screen.getByRole('textbox');
@@ -77,9 +74,14 @@ describe('FormInput', () => {
     expect(handleFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('dispara onBlur cuando pierde el foco', async () => {
+  it('calls onBlur when input loses focus', async () => {
     const handleBlur = vi.fn();
-    render(<FormInputWrapper {...defaultProps} onBlur={handleBlur} />);
+    render(
+      <>
+        <FormInputWrapper {...defaultProps} onBlur={handleBlur} />
+        <button>Next</button>
+      </>
+    );
     const input = screen.getByRole('textbox');
     await userEvent.click(input);
     await userEvent.tab();
