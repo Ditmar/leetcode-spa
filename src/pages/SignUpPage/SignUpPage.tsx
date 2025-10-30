@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-require-imports, import/order */
 import { Box, Typography, useTheme, Link } from '@mui/material';
 import React, { useState } from 'react';
-// Static imports like in TestHeader so the bundler includes the assets and
-// resolves their final URLs the same way across stories/builds.
-// eslint-disable-next-line import/no-unresolved -- asset resolved by bundler at build time
-import FacebookStatic from './assets/facebook.svg';
-// eslint-disable-next-line import/no-unresolved -- asset resolved by bundler at build time
-import GithubStatic from './assets/github.svg';
-// eslint-disable-next-line import/no-unresolved -- asset resolved by bundler at build time
-import GoogleStatic from './assets/google.svg';
+// We resolve SVG assets at runtime (require/new URL) to avoid Vite's
+// import-analysis errors in CI. Tests mock the assets as needed.
 // Cargamos los assets de forma dinámica con fallback string para evitar
 // errores de lint/CI cuando los archivos no están disponibles en el
 // entorno (por ejemplo en branches parciales). Si los archivos existen
@@ -18,9 +12,10 @@ import GoogleStatic from './assets/google.svg';
 // Start with static imports so bundler resolves them similarly to other
 // components (see TestHeader). If runtime resolution via require succeeds
 // it will override these values; otherwise the static imports will be used.
-let FacebookIcon: string | undefined = FacebookStatic ?? undefined;
-let GithubIcon: string | undefined = GithubStatic ?? undefined;
-let GoogleIcon: string | undefined = GoogleStatic ?? undefined;
+// Start undefined; try runtime resolution (require) then fall back to import.meta URL
+let FacebookIcon: string | undefined = undefined;
+let GithubIcon: string | undefined = undefined;
+let GoogleIcon: string | undefined = undefined;
 try {
   const mod = require('./assets/facebook.svg');
   FacebookIcon = mod && (mod.default ?? mod);
