@@ -6,9 +6,14 @@ import React from 'react';
 import { vi } from 'vitest'; // Asegúrate de importar 'vi' si no está importado
 
 // Mocks de los SVGs (Necesarios para Vitest)
+// Mock both plain imports and `?url` virtual imports used by Vite.
 vi.mock('./assets/google.svg', () => ({ default: 'google.svg' }));
 vi.mock('./assets/github.svg', () => ({ default: 'github.svg' }));
 vi.mock('./assets/facebook.svg', () => ({ default: 'facebook.svg' }));
+// Mocks for Vite `?url` imports that may be used in the component.
+vi.mock('./assets/google.svg?url', () => ({ default: 'google.svg' }));
+vi.mock('./assets/github.svg?url', () => ({ default: 'github.svg' }));
+vi.mock('./assets/facebook.svg?url', () => ({ default: 'facebook.svg' }));
 vi.mock('../../components/Logo/Logo', () => ({ Logo: () => <div data-testid="logo-mock" /> }));
 
 // Mocks para componentes que no están presentes en el workspace (evitan resolver imports)
