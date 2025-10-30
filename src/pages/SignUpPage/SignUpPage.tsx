@@ -233,22 +233,31 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
     try {
       // intento derivar una URL desde import.meta (bundled context)
       // new URL('./assets/Name.svg', import.meta.url) suele apuntar al asset emitido
-      if (img.alt === 'Google') srcCandidates.push(new URL('./assets/Google.svg', import.meta.url).href);
-      if (img.alt === 'GitHub') srcCandidates.push(new URL('./assets/Github.svg', import.meta.url).href);
-      if (img.alt === 'Facebook') srcCandidates.push(new URL('./assets/Facebook.svg', import.meta.url).href);
+      if (img.alt === 'Google') {
+        srcCandidates.push(new URL('./assets/Google.svg', import.meta.url).href);
+      }
+      if (img.alt === 'GitHub') {
+        srcCandidates.push(new URL('./assets/Github.svg', import.meta.url).href);
+      }
+      if (img.alt === 'Facebook') {
+        srcCandidates.push(new URL('./assets/Facebook.svg', import.meta.url).href);
+      }
     } catch {
       // ignore — some runtimes may not support import.meta.url
     }
 
     // rutas relativas comunes en builds estáticos
     if (img.alt === 'Google') {
-      srcCandidates.push('/assets/Google.svg', '/src/pages/SignUpPage/assets/Google.svg');
+      srcCandidates.push('/assets/Google.svg');
+      srcCandidates.push('/src/pages/SignUpPage/assets/Google.svg');
     }
     if (img.alt === 'GitHub') {
-      srcCandidates.push('/assets/Github.svg', '/src/pages/SignUpPage/assets/Github.svg');
+      srcCandidates.push('/assets/Github.svg');
+      srcCandidates.push('/src/pages/SignUpPage/assets/Github.svg');
     }
     if (img.alt === 'Facebook') {
-      srcCandidates.push('/assets/Facebook.svg', '/src/pages/SignUpPage/assets/Facebook.svg');
+      srcCandidates.push('/assets/Facebook.svg');
+      srcCandidates.push('/src/pages/SignUpPage/assets/Facebook.svg');
     }
 
     for (const candidate of srcCandidates) {
