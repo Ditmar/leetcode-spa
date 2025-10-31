@@ -1,80 +1,84 @@
 # ConsoleIO
 
-The **ConsoleIO** component represents a **data entry console with two tabs**: **Sample** and **Custom**.
-It displays sample or custom values, captures changes using callbacks, and keeps tabs visible even if the content is large.
-It is designed with **Material UI**, follows **Accessibility (ARIA)** and responsive design principles, and integrates easily with Storybook and automated testing.
+The **ConsoleIO** component provides an interactive console interface with two tabs: **Sample** and **Custom**.
+It allows users to view predefined data samples or input their own custom values. The component is fully responsive, accessible, and integrated with the application theme via **Material UI**.
 
 ---
 
 ## Purpose
 
-The component is used to simulate data entry in an interactive console, ideal for:
+The component is designed to simulate data input in a console-like environment.
+It is particularly useful for:
 
-- Testing example cases in algorithms.
-- Custom user input.
-- Integrating with educational simulations or interactive assessments.
-- Maintaining a clean UI with invisible scrolling in large text areas.
+* Testing and visualizing sample input for algorithms.
+* Allowing users to provide custom test cases.
+* Educational or assessment tools that require interactive text areas.
+* Maintaining consistent layout and scroll behavior in limited space.
 
 ---
 
 ## Props
 
-- **`sampleValue?: string`**  
-  Initial value of the tab **Sample**.
+**sampleValue?: string**
+Initial text for the **Sample** tab. Default is an empty string.
 
-- **`customValue?: string`**  
-  Initial value of the tab **Custom**.
+**customValue?: string**
+Initial text for the **Custom** tab. Default is an empty string.
 
-- **`onSampleChange?: (value: string) => void`**  
-  Callback that executes when the value in the tab changes **Sample**.
+**onSampleChange?: (value: string) => void**
+Callback triggered when the text in the **Sample** tab changes.
 
-- **`onCustomChange?: (value: string) => void`**  
-  Callback that executes when the value in the tab changes **Custom**.
+**onCustomChange?: (value: string) => void**
+Callback triggered when the text in the **Custom** tab changes.
 
-- **`defaultTab?: 'sample' | 'custom'`**  
-  Defines which tab is displayed by default.
-  Default value: `'sample'`.
+**defaultTab?: 'sample' | 'custom'**
+Specifies which tab is active when the component is rendered.
+Default value: `'sample'`.
 
-- **`height?: number | string`**  
-  Console container height.
-  Default value: `502px`.
+**height?: number | string**
+Height of the console container.
+If not defined, it uses the theme value: `theme.consoleIO.dimensions.containerHeight` (default 502px).
 
-- **`width?: number | string`**  
-  Width of the console container.
-  Default value: `100%` up to a maximum of `260px`.
+**width?: number | string**
+Width of the console container.
+If not defined, it uses the theme value: `theme.consoleIO.dimensions.containerWidth` (default 260px, up to 100%).
 
-- **`data-testid?: string`**  
-  Identifier for unit tests with `React Testing Library`.
+**data-testid?: string**
+Identifier for testing with React Testing Library.
+Default value: `'consoleio-root'`.
 
 ---
 
-## Basic usage example
+## Behavior and Accessibility
 
-This example shows how to use the component with sample and custom values:
+* Tabs remain visible even when text content is large.
+* Each text area supports scrolling and multi-line input.
+* Implements ARIA roles (`role="region"`, `aria-label`) for screen readers.
+* Fully compatible with responsive layouts defined in the project theme.
+
+---
+
+## Example Usage
 
 ```tsx
-import { ConsoleIO } from './ConsoleIO';
-
-function App() {
-  const handleSampleChange = (value: string) => {
-    console.log('Sample changed:', value);
-  };
-
-  const handleCustomChange = (value: string) => {
-    console.log('Custom changed:', value);
-  };
-
-  return (
-    <ConsoleIO
-      sampleValue={`2\n6 3\n0 5 5 6 6 6\n8 2\n0 0 1 1 2 2 2 2`}
-      customValue="Here you can enter your own text"
-      defaultTab="sample"
-      height={502}
-      width={260}
-      onSampleChange={handleSampleChange}
-      onCustomChange={handleCustomChange}
-      data-testid="consoleio-root"
-    />
-  );
-}
+<ConsoleIO
+  sampleValue={`2\n6 3\n0 5 5 6 6 6\n8 2\n0 0 1 1 2 2 2 2`}
+  customValue="Enter your own test data here"
+  defaultTab="sample"
+  onSampleChange={(value) => console.log('Sample changed:', value)}
+  onCustomChange={(value) => console.log('Custom changed:', value)}
+  height={502}
+  width={260}
+  data-testid="consoleio-root"
+/>
 ```
+
+---
+
+## Notes
+
+* The `height` and `width` adapt dynamically if the theme values change.
+* Works seamlessly with automated tests and Storybook examples.
+* Styling and structure are defined in `ConsoleIO.styles.ts` for consistent visual behavior.
+
+---
