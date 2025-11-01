@@ -1,8 +1,11 @@
 import { Box, Typography, useTheme, Link } from '@mui/material';
 import React, { useState } from 'react';
 
+// eslint-disable-next-line import/no-unresolved
 import FacebookStatic from './assets/facebook.svg?url';
+// eslint-disable-next-line import/no-unresolved
 import GithubStatic from './assets/github.svg?url';
+// eslint-disable-next-line import/no-unresolved
 import GoogleStatic from './assets/google.svg?url';
 import {
   getPageContainerStyles,
