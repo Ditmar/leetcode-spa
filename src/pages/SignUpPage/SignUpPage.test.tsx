@@ -4,13 +4,13 @@ import { describe, it, expect, vi } from 'vitest';
 
 // Mocks de los SVGs (Necesarios para Vitest)
 // Mock both plain imports and `?url` virtual imports used by Vite.
-vi.mock('./assets/facebook.svg', () => ({ default: 'facebook.svg' }));
-vi.mock('./assets/github.svg', () => ({ default: 'github.svg' }));
-vi.mock('./assets/google.svg', () => ({ default: 'google.svg' }));
+vi.mock('./assets/Facebook.svg', () => ({ default: 'Facebook.svg' }));
+vi.mock('./assets/Github.svg', () => ({ default: 'Github.svg' }));
+vi.mock('./assets/Google.svg', () => ({ default: 'Google.svg' }));
 // Mocks for Vite `?url` imports that may be used in the component.
-vi.mock('./assets/facebook.svg?url', () => ({ default: 'facebook.svg' }));
-vi.mock('./assets/github.svg?url', () => ({ default: 'github.svg' }));
-vi.mock('./assets/google.svg?url', () => ({ default: 'google.svg' }));
+vi.mock('./assets/Facebook.svg?url', () => ({ default: 'Facebook.svg' }));
+vi.mock('./assets/Github.svg?url', () => ({ default: 'Github.svg' }));
+vi.mock('./assets/Google.svg?url', () => ({ default: 'Google.svg' }));
 
 import theme from '../../style-library/theme/theme';
 
