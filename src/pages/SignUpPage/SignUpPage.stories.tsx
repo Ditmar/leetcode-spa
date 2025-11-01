@@ -1,5 +1,3 @@
-// src/pages/SignUpPage/SignUpPage.stories.tsx
-
 import MuiThemeProvider from '../../style-library/provider/MuiThemeProvider';
 
 import { SignUpPage } from './SignUpPage';
@@ -7,16 +5,11 @@ import { SignUpPage } from './SignUpPage';
 import type { SignUpPageProps } from './SignUpPage.types';
 import type { Meta, StoryObj } from '@storybook/react';
 
-// ✅ Importación de MuiThemeProvider (asumiendo export default y ruta relativa correcta)
-
 const meta: Meta<SignUpPageProps> = {
   title: 'Pages/SignUpPage',
   component: SignUpPage,
-  parameters: {
-    layout: 'centered',
-  },
+  parameters: {},
 
-  // ✅ DEFINICIÓN COMPLETA DE CONTROLES (Se mantiene igual)
   argTypes: {
     loading: { control: 'boolean', description: 'Muestra el spinner de carga en el botón.' },
     buttonText: { control: 'text', description: 'Texto del botón principal.' },
@@ -37,18 +30,16 @@ const meta: Meta<SignUpPageProps> = {
     termsOfServiceUrl: { control: 'text', description: 'URL de los Términos de Servicio.' },
   },
 
-  // ✅ DECORADOR (Se mantiene igual)
   decorators: [
     (Story) => (
       <MuiThemeProvider>
-        <div style={{ padding: '0px', minWidth: '550px' }}>
+        <div style={{ padding: '0px' }}>
           <Story />
         </div>
       </MuiThemeProvider>
     ),
   ],
 
-  // ✅ ARGUMENTOS BASE (Se aplican automáticamente a todas las historias)
   args: {
     loading: false,
     buttonText: 'Register',
@@ -73,23 +64,21 @@ export default meta;
 
 type Story = StoryObj<SignUpPageProps>;
 
-// 1. Historia por Defecto (Hereda TODOS los args de 'meta')
-// Aquí definimos todos los controles posibles
 export const Default: Story = {};
 
-// 2. Estado de Carga (Solo definimos lo que CAMBIA)
+// Load Status
 export const Loading: Story = {
   args: {
-    loading: true, // Activamos la animación de carga
-    buttonText: 'Registering...', // Texto del botón cuando se está cargando
-    disabled: true, // Deshabilitamos el botón durante la carga
+    loading: true, // We activate the loading animation
+    buttonText: 'Registering...', // Button text while loading
+    disabled: true, // We disable the button during charging
   },
 };
 
-// 3. Estado Deshabilitado (Solo definimos lo que CAMBIA)
+// Disabled State (We only define what CHANGES)
 export const Disabled: Story = {
   args: {
-    disabled: true, // Activamos el estado deshabilitado del botón
-    buttonText: 'Register (Disabled)', // Texto del botón cuando está deshabilitado
+    disabled: true, // We activate the disabled state of the button
+    buttonText: 'Register (Disabled)', // Button text when disabled
   },
 };
