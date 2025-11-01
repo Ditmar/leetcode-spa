@@ -1,147 +1,84 @@
-# 📝 SignUpPage - Página de Registro
+# 📝 SignUpPage - Registration Page
 
-El componente `SignUpPage` permite a los usuarios registrarse en la plataforma usando un formulario con validaciones en tiempo real. Además de los campos de entrada, ofrece botones para iniciar sesión con cuentas sociales y proporciona un spinner de carga cuando se procesa el registro.
-
----
-
-## 🎯 Propósito y Características
-
-### Propósito
-
-- Gestionar el registro de usuarios con **email**, **nombre de usuario** y **contraseña**.
-- Validar la entrada de datos en tiempo real.
-- Proveer opciones de **autenticación social** (Google, GitHub, Facebook).
-- Mostrar un **spinner de carga** mientras se procesa la información.
-
-### ✨ Características
-
-- Campos de entrada para **Email**, **Nombre de Usuario** y **Contraseña** con validaciones.
-- Funcionalidad de carga con desactivación del botón mientras se envía el formulario.
-- Inclusión de iconos para login social con **Google**, **GitHub** y **Facebook**.
-- **Enlaces de navegación** a la página de login y políticas legales (Términos de servicio y Política de privacidad).
-- **Responsivo** y accesible.
+The `SignUpPage` component is the main interface for new user registration on the platform.
 
 ---
 
-## ⚙️ Props del Componente
+## ⚠️ Important Note: Implementation as "Skeleton" (DEV Build)
 
-| Prop                | Tipo         | Descripción                                          |
-| :------------------ | :----------- | :--------------------------------------------------- |
-| `loading`           | `boolean`    | Muestra el spinner de carga en el botón de registro. |
-| `buttonText`        | `string`     | Texto del botón de registro.                         |
-| `disabled`          | `boolean`    | Desactiva el botón de registro si es `true`.         |
-| `onSubmit`          | `() => void` | Función de callback al enviar el formulario.         |
-| `loginText`         | `string`     | Texto del enlace para iniciar sesión ("Log In").     |
-| `signupWithText`    | `string`     | Texto antes de los iconos de autenticación social.   |
-| `showSocialIcons`   | `boolean`    | Muestra u oculta los iconos sociales.                |
-| `showLegalText`     | `boolean`    | Muestra u oculta el texto legal de reCAPTCHA.        |
-| `googleLoginUrl`    | `string`     | URL de redirección para el login de Google.          |
-| `privacyPolicyUrl`  | `string`     | URL de la Política de Privacidad.                    |
-| `termsOfServiceUrl` | `string`     | URL de los Términos de Servicio.                     |
+It is crucial to understand that this implementation of `SignUpPage` has been intentionally developed as a **"skeleton" (or "scaffolding")**.
 
----
+### Reason for this Approach (Pending Dependencies)
 
-## 🧩 Estructura y Archivos
+The `SignUpPage` ticket has direct dependencies on three other shared UI components that belong to different tickets and, at the time of this development, **have not yet been integrated (merged) into the `master` branch**.
 
-- `SignUpPage.tsx`: Componente principal con la lógica del formulario y la interfaz de usuario.
-- `SignUpPage.types.ts`: Tipos y interfaces de las props utilizadas en el componente.
-- `SignUpPage.constants.ts`: Constantes utilizadas para validaciones o textos, opcional.
-- `SignUpPage.styles.ts`: Estilos para el componente usando MUI y `sx`.
-- `SignUpPage.test.tsx`: Pruebas unitarias con Jest y Testing Library.
-- `SignUpPage.stories.tsx`: Historias de Storybook para ver los diferentes estados de la página.
-- `SignUpPage.docs.mdx`: Documentación del componente.
+These components are:
+1.  `Logo` (to display the company logo).
+2.  `FormInput` (for the email, username, and password fields).
+3.  `PrimaryButton` (for the registration button).
 
----
+### Solution: Local Placeholders (Fallbacks)
 
-## 🚨 Dependencias y Notas sobre la Implementación
+Following the project guidelines for managing pending dependencies ("just build the skeleton"), this component **DOES NOT** attempt to import non-existent components.
 
-### Dependencias Pendientes
+Instead, `SignUpPage.tsx` **defines local 'Fallback' (placeholder) versions** of these three components. These fallbacks are styled `<div>` elements that simulate the presence and, most importantly, **occupy the exact layout space of the real components**.
 
-Los siguientes componentes son esenciales para la funcionalidad completa, pero aún no están disponibles. Deben dejarse como **placeholders** hasta que los componentes reales estén listos:
+### What does this approach enable?
 
-- **Logo**: Componente para el logo de la aplicación.
-- **FormInput**: Componente utilizado para los campos de entrada (email, nombre de usuario, contraseña).
-- **PrimaryButton**: Componente utilizado para el botón de registro.
+This "skeleton" approach allows `SignUpPage` to be a complete and functional component in itself, enabling:
+1.  **Isolated Development:** Develop all state logic (`useState` for inputs) and validations (`handleSubmit`).
+2.  **Visual Testing:** Render the complete page in Storybook (`SignUpPage.stories.tsx`) to verify layout, responsiveness, and styles.
+3.  **Exact Positioning:** The styles in `SignUpPage.styles.ts` use the placeholders to absolutely position every element (inputs, button, logo, texts) based on the Figma coordinates.
+4.  **Unit Testing:** The tests (`SignUpPage.test.tsx`) can verify that all elements (including the fallbacks) are rendered correctly.
 
-### Pasos a Seguir para la Integración
-
-| Paso                           | Descripción                                                                                                                                        | Ejemplo de Código (Al estar disponible)              |
-| :----------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------- |
-| **1. Reemplazar Placeholders** | Sustituir las líneas comentadas por las **importaciones reales** de los componentes.                                                               | `import { Logo } from "../../components/Logo/Logo";` |
-| **2. Eliminar Comentarios**    | Descomentar las líneas de importación y asegurarse de que el componente esté importado correctamente, **eliminando los placeholders**.             | N/A                                                  |
-| **3. Probar Integración**      | Realizar pruebas de integración para asegurar que los valores, la validación y el comportamiento (spinner de carga, etc.) funcionen correctamente. | N/A                                                  |
+When the real components (`Logo`, `FormInput`, `PrimaryButton`) become available in `master`, the final integration will be as simple as removing the local fallbacks and changing the imports.
 
 ---
 
-## 🎨 Diseño y Estilos
+## 🎯 Purpose and Features (Implemented Logic)
 
-El diseño está basado en **Material UI**, priorizando la consistencia y la accesibilidad.
+### Purpose
 
-- **Fuente**: Syne, peso negrita (**700**).
-- **Espaciado**: Utiliza `theme.spacing()` para tamaños y márgenes, garantizando una apariencia responsiva.
-- **Color**: Uso de `theme.palette` para asegurar la consistencia de colores.
+- Manage user registration using **email**, **username**, and **password**.
+- Validate data input in real-time (length, email format).
+- Provide **social authentication** options (Google, GitHub, Facebook).
+- Display a **loading spinner** (via the `loading` prop) while processing information.
 
-### 🧾 Referencia de Estilo Visual
+### ✨ Features
 
-| Elemento              | Propiedad        | Valor     |
-| :-------------------- | :--------------- | :-------- |
-| **Texto del Botón**   | Tamaño de fuente | 16px      |
-| **Iconos Sociales**   | Tamaño de icono  | 24px      |
-| **Texto de Política** | Color            | `#0044FF` |
-
----
-
-## ♿ Accesibilidad
-
-- Uso de roles semánticos (`role="img"`, `aria-label`) para iconos y otros elementos interactivos.
-- Compatible con **lectores de pantalla**.
-- **Navegación por teclado** y **enlaces con `aria-label`** para mejorar la accesibilidad.
+- Input fields (placeholders) for **Email**, **Username**, and **Password**.
+- **Responsive Design:** The layout is 100% fluid and adapts to any screen size, maintaining the proportions defined in the Figma design.
+- **Local validation logic** that checks email format, non-empty username, and password length before calling `onSubmit`.
+- Loading functionality that disables the button (logic in `isDisabled`) while the form is submitting.
+- Inclusion of social login icons for **Google**, **GitHub**, and **Facebook**.
+- **Navigation links** to the Login page and legal policies (Terms of Service and Privacy Policy).
 
 ---
 
-## 🧪 Pruebas Unitarias
+## ⚙️ Component Props (API)
 
-- **Pruebas de validación**: Verificar que los campos **Email**, **Username** y **Password** se validen correctamente según las reglas definidas.
-- **Pruebas de botón**: Verificar que el botón se **desactive** correctamente durante el estado de carga (`loading: true`).
-- **Pruebas de llamadas a la API**: Mocking de las llamadas a la API para asegurar que la función `onSubmit` se ejecute correctamente.
+| Prop | Type | Description |
+| :--- | :--- | :--- |
+| `loading` | `boolean` | Shows loading spinner and disables the button. |
+| `buttonText` | `string` | Text for the registration button. |
+| `disabled` | `boolean` | Disables the button (independent of `loading`). |
+| `onSubmit` | `(data) => void` | Callback on form submission (only if validation passes). |
+| `loginText` | `string` | Text for the "Log In" link. |
+| `signupWithText` | `string` | Text displayed above the social auth icons. |
+| `showSocialIcons` | `boolean` | Shows or hides the social icons. |
+| `showLegalText` | `boolean` | Shows or hides the reCAPTCHA legal text. |
+| `googleLoginUrl` | `string` | Redirect URL for Google login. |
+| `githubLoginUrl` | `string` | Redirect URL for GitHub login. |
+| `facebookLoginUrl` | `string` | Redirect URL for Facebook login. |
+| `privacyPolicyUrl` | `string` | URL for the Privacy Policy. |
+| `termsOfServiceUrl` | `string` | URL for the Terms of Service. |
 
 ---
 
-## 📦 Uso en Storybook
+## 🧩 Additional Implementation Details
 
-Se definieron varias historias para mostrar el comportamiento del componente en diferentes estados.
+- **Styling:** Styles are managed entirely with MUI (`sx`) via `SignUpPage.styles.ts`. The layout is **fully responsive** and scalable, using percentages (`percentW`, `percentH`) calculated from the exact Figma design dimensions (`GEOMETRY_PX`), adhering to the "no hardcoded px" guideline.
 
-| Historia       | Descripción                                                     | Cambios en `args`                 |
-| :------------- | :-------------------------------------------------------------- | :-------------------------------- |
-| **Default**    | Muestra la página con los valores predeterminados de las props. | N/A                               |
-| **Loading**    | Activa el estado de carga y muestra el spinner.                 | `loading: true`, `disabled: true` |
-| **Disabled**   | Desactiva el botón de registro.                                 | `disabled: true`                  |
-| **No Socials** | Muestra la página sin los iconos de autenticación social.       | `showSocialIcons: false`          |
-| **Compact**    | Muestra la página sin el texto legal de reCAPTCHA.              | `showLegalText: false`            |
-| **CustomText** | Personaliza los textos de los botones y enlaces.                | `buttonText`, `loginText`, etc.   |
+- **Icon Handling (Assets):** The social icons (Google, GitHub, Facebook) are imported using Vite's `?url` suffix to get the asset URL. A `handleImgError` function is included as a *fallback* mechanism in case the primary URL fails, attempting to load the assets from alternative paths (e.g., `/assets/google.svg`).
 
-### Ejemplos de Historias (Storybook)
-
-```typescript
-// En SignUpPage.stories.tsx
-
-// 1. Historia por Defecto (Hereda TODOS los args de 'meta')
-export const Default: Story = {};
-
-// 2. Estado de Carga (Solo definimos lo que CAMBIA)
-export const Loading: Story = {
-  args: {
-    loading: true,
-    buttonText: 'Registering...',
-    disabled: true, // Desactivamos el botón durante el proceso de carga
-  },
-};
-
-// 3. Estado Deshabilitado (Solo definimos lo que CAMBIA)
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    buttonText: 'Register (Disabled)',
-  },
-};
-```
+- **Testing:** The tests (`SignUpPage.test.tsx`) are configured to validate the **presence of the 'fallback' elements** (using `data-testid` and `alt`). This confirms that the page structure renders correctly, in line with the skeleton approach.

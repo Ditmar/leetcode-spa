@@ -1,21 +1,19 @@
-// src/pages/SignUpPage/SignUpPage.types.ts
-
 export interface SignUpPageProps {
-  // 1. Controles de Botón/Formulario
+  // Button/Form Controls
   loading?: boolean;
   buttonText?: string;
   disabled?: boolean;
   onSubmit?: (data: { email: string; username: string; password: string }) => void;
 
-  // 2. Controles de Texto y Enlaces
+  // Text Controls and Links
   loginText?: string;
   signupWithText?: string;
 
-  // 3. Controles de Visibilidad
+  // Visibility Controls
   showSocialIcons?: boolean;
   showLegalText?: boolean;
 
-  // 4. Controles de URLs
+  // URL controls
   googleLoginUrl?: string;
   githubLoginUrl?: string;
   facebookLoginUrl?: string;

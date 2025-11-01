@@ -1,61 +1,12 @@
-/* eslint-disable @typescript-eslint/no-require-imports, import/order */
 import { Box, Typography, useTheme, Link } from '@mui/material';
-import React, { useState, useEffect } from 'react';
-// Import static SVGs (like TestHeader) so the bundler resolves and emits
-// the final URLs that Storybook and production will serve.
-// Use Vite `?url` to force emitting assets as separate files (not inlined)
-// eslint-disable-next-line import/no-unresolved -- Vite provides virtual `?url` modules at build time
-import FacebookStatic from './assets/Facebook.svg?url';
-// eslint-disable-next-line import/no-unresolved -- Vite provides virtual `?url` modules at build time
-import GithubStatic from './assets/Github.svg?url';
-// eslint-disable-next-line import/no-unresolved -- Vite provides virtual `?url` modules at build time
-import GoogleStatic from './assets/Google.svg?url';
-// Cargamos los assets de forma dinámica con fallback string para evitar
-// errores de lint/CI cuando los archivos no están disponibles en el
-// entorno (por ejemplo en branches parciales). Si los archivos existen
-// se asigna la URL real, si no, se usa un string simbólico.
-// Start with undefined; resolve at runtime via require/new URL fallbacks
-// so tests and CI that run Vite import-analysis don't fail on `?url`.
-// Start with static imports so bundler resolves them similarly to other
-// components (see TestHeader). If runtime resolution via require succeeds
-// it will override these values; otherwise the static imports will be used.
-// Start undefined; try runtime resolution (require) then fall back to import.meta URL
-// Prefer the static imports so dev and Storybook show the real assets.
-let FacebookIcon: string | undefined = FacebookStatic ?? undefined;
-let GithubIcon: string | undefined = GithubStatic ?? undefined;
-let GoogleIcon: string | undefined = GoogleStatic ?? undefined;
-if (!FacebookIcon) {
-  try {
-    const mod = require('./assets/Facebook.svg');
-    FacebookIcon = mod && (mod.default ?? mod);
-  } catch {
-    // keep the static import value (FacebookStatic) if require() fails
-  }
-}
+import React, { useState } from 'react';
 
-if (!GithubIcon) {
-  try {
-    const mod = require('./assets/Github.svg');
-    GithubIcon = mod && (mod.default ?? mod);
-  } catch {
-    // keep the static import value (GithubStatic) if require() fails
-  }
-}
-
-if (!GoogleIcon) {
-  try {
-    const mod = require('./assets/Google.svg');
-    GoogleIcon = mod && (mod.default ?? mod);
-  } catch {
-    // keep the static import value (GoogleStatic) if require() fails
-  }
-}
-
-// Runtime require attempts may override the static imports in some
-// environments; if they fail we stick with the static imports above.
-
+import FacebookStatic from './assets/facebook.svg?url';
+import GithubStatic from './assets/github.svg?url';
+import GoogleStatic from './assets/google.svg?url';
 import {
   getPageContainerStyles,
+  getFormStyles,
   getLogoStyles,
   getInputStyles,
   getButtonStyles,
@@ -69,10 +20,9 @@ import {
 
 import type { SignUpPageProps } from './SignUpPage.types';
 
-// Las dependencias externas (Logo, FormInput, PrimaryButton) pueden no
-// existir en este branch / entorno de tests. Proveemos fallbacks con
-// tipos concretos y luego intentamos cargarlos dinámicamente. Solo
-// modificamos código dentro de esta carpeta.
+const FacebookIcon: string | undefined = FacebookStatic ?? undefined;
+const GithubIcon: string | undefined = GithubStatic ?? undefined;
+const GoogleIcon: string | undefined = GoogleStatic ?? undefined;
 
 type LogoFallbackProps = {
   orientation?: string;
@@ -99,27 +49,21 @@ type PrimaryButtonFallbackProps = {
   sx?: Record<string, unknown>;
 };
 
-let Logo: React.ComponentType<LogoFallbackProps> = () => <div data-testid="logo-fallback" />;
+const Logo: React.ComponentType<LogoFallbackProps> = () => <div data-testid="logo-fallback" />;
 
-// Fallbacks silenciosos: renderizan cajas vacías aplicando `sx` si se
-// proporciona para preservar el layout/posiciones sin mostrar inputs
-// ni botones reales cuando las dependencias no existen.
-let FormInput: React.FC<FormInputFallbackProps> = (props) => (
+const FormInput: React.FC<FormInputFallbackProps> = (props) => (
   <>
-    {/* Visual placeholder to preserve spacing when the real FormInput is missing */}
     <Box
       data-testid={`form-input-fallback-${props.placeholder ?? 'input'}`}
       component="div"
       sx={(props.sx as unknown as Record<string, unknown>) ?? { width: '100%', height: '40px' }}
       aria-hidden="true"
     />
-    {/* Hidden input so tests that rely on placeholder still pass */}
     <input
       placeholder={props.placeholder}
       defaultValue={props.value}
       onChange={props.onChange}
       type={props.type}
-      // visually hidden but still accessible to testing-library
       style={{
         position: 'absolute',
         left: '-9999px',
@@ -130,19 +74,17 @@ let FormInput: React.FC<FormInputFallbackProps> = (props) => (
     />
   </>
 );
-let PrimaryButton: React.FC<PrimaryButtonFallbackProps> = (props) => (
+
+const PrimaryButton: React.FC<PrimaryButtonFallbackProps> = (props) => (
   <>
-    {/* Visual placeholder box to preserve layout */}
     <Box
       data-testid="primary-button-fallback"
       component="div"
       sx={(props.sx as unknown as Record<string, unknown>) ?? { width: '100%', height: '40px' }}
       aria-hidden="true"
     />
-    {/* Hidden button so tests that query role/button by name still find it */}
     <button
       type="button"
-      // visually hidden but still accessible to testing-library
       style={{
         position: 'absolute',
         left: '-9999px',
@@ -155,30 +97,6 @@ let PrimaryButton: React.FC<PrimaryButtonFallbackProps> = (props) => (
     </button>
   </>
 );
-
-/* eslint-disable @typescript-eslint/no-require-imports, import/extensions */
-try {
-  const logoModule = require('../../components/Logo/Logo');
-  if (logoModule && logoModule.Logo) Logo = logoModule.Logo;
-} catch {
-  // ignore - fallback will be used
-}
-
-try {
-  const formInputModule = require('../../components/FormInput/FormInput');
-  if (formInputModule && formInputModule.FormInput) FormInput = formInputModule.FormInput;
-} catch {
-  // ignore - fallback will be used
-}
-
-try {
-  const primaryBtnModule = require('../../components/PrimaryButton/PrimaryButton');
-  if (primaryBtnModule && primaryBtnModule.PrimaryButton)
-    PrimaryButton = primaryBtnModule.PrimaryButton;
-} catch {
-  // ignore - fallback will be used
-}
-/* eslint-enable @typescript-eslint/no-require-imports, import/extensions */
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PASSWORD_MIN_LENGTH = 6;
@@ -210,66 +128,58 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 
   const theme = useTheme();
 
-  useEffect(() => {
-    // sólo en navegador: imprimimos qué resolvió el bundler para cada icono
-    if (typeof window !== 'undefined') {
-      // eslint-disable-next-line no-console
-      console.debug('SignUpPage: resolved social icons', {
-        GoogleIcon,
-        GithubIcon,
-        FacebookIcon,
-      });
-    }
-  }, [GoogleIcon, GithubIcon, FacebookIcon]);
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const doc = document.documentElement;
+    const body = document.body;
+    const prevDocOverflowX = doc.style.overflowX;
+    const prevBodyOverflowX = body.style.overflowX;
+    doc.style.overflowX = 'hidden';
+    body.style.overflowX = 'hidden';
+    return () => {
+      doc.style.overflowX = prevDocOverflowX || '';
+      body.style.overflowX = prevBodyOverflowX || '';
+    };
+  }, []);
 
-  // Handler runtime: si la imagen falla (404 en GH Pages), intentamos
-  // localizarla probando varias rutas y, si encontramos el recurso,
-  // lo convertimos a blob URL para asignarlo al elemento <img>.
   const handleImgError = async (e: React.SyntheticEvent<HTMLImageElement>) => {
     const img = e.currentTarget as HTMLImageElement;
-    // candidatos a probar en orden (preservando importado ?url primero)
     const srcCandidates: string[] = [];
     if (img.src) srcCandidates.push(img.src);
     try {
-      // intento derivar una URL desde import.meta (bundled context)
-      // new URL('./assets/Name.svg', import.meta.url) suele apuntar al asset emitido
       if (img.alt === 'Google') {
-        srcCandidates.push(new URL('./assets/Google.svg', import.meta.url).href);
+        srcCandidates.push(new URL('./assets/google.svg', import.meta.url).href);
       }
       if (img.alt === 'GitHub') {
-        srcCandidates.push(new URL('./assets/Github.svg', import.meta.url).href);
+        srcCandidates.push(new URL('./assets/github.svg', import.meta.url).href);
       }
       if (img.alt === 'Facebook') {
-        srcCandidates.push(new URL('./assets/Facebook.svg', import.meta.url).href);
+        srcCandidates.push(new URL('./assets/facebook.svg', import.meta.url).href);
       }
     } catch {
-      // ignore — some runtimes may not support import.meta.url
+      // ignore
     }
 
-    // rutas relativas comunes en builds estáticos
     if (img.alt === 'Google') {
-      srcCandidates.push('/assets/Google.svg');
-      srcCandidates.push('/src/pages/SignUpPage/assets/Google.svg');
+      srcCandidates.push('/assets/google.svg');
+      srcCandidates.push('/src/pages/SignUpPage/assets/google.svg');
     }
     if (img.alt === 'GitHub') {
-      srcCandidates.push('/assets/Github.svg');
-      srcCandidates.push('/src/pages/SignUpPage/assets/Github.svg');
+      srcCandidates.push('/assets/github.svg');
+      srcCandidates.push('/src/pages/SignUpPage/assets/github.svg');
     }
     if (img.alt === 'Facebook') {
-      srcCandidates.push('/assets/Facebook.svg');
-      srcCandidates.push('/src/pages/SignUpPage/assets/Facebook.svg');
+      srcCandidates.push('/assets/facebook.svg');
+      srcCandidates.push('/src/pages/SignUpPage/assets/facebook.svg');
     }
 
     for (const candidate of srcCandidates) {
       if (!candidate) continue;
       try {
-        // Probamos fetch; si responde OK, convertimos a blob y lo usamos
-        // Sólo en navegadores (evitamos correr en tests node)
         if (typeof window === 'undefined' || typeof fetch === 'undefined') break;
-        // usa HEAD para chequear disponibilidad rápidamente
+
         const res = await fetch(candidate, { method: 'HEAD' });
         if (res && res.ok) {
-          // ahora obtenemos el blob real (GET) y creamos object URL
           const getRes = await fetch(candidate);
           if (getRes && getRes.ok) {
             const blob = await getRes.blob();
@@ -279,10 +189,9 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           }
         }
       } catch {
-        // ignora y prueba el siguiente candidato
+        // ignore
       }
     }
-    // último recurso: no hacemos nada (el alt seguirá mostrando)
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -293,11 +202,9 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
     if (!EMAIL_REGEX.test(email)) {
       newErrors.email = 'Please enter a valid email address.';
     }
-
     if (!username) {
       newErrors.username = 'Username is required.';
     }
-
     if (password.length < PASSWORD_MIN_LENGTH) {
       newErrors.password = `Password must be at least ${PASSWORD_MIN_LENGTH} characters long.`;
     }
@@ -322,14 +229,12 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
     !!errors.password;
 
   return (
+    // This Box is the outer (parent) container that scales
     <Box sx={getPageContainerStyles(theme)}>
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{ position: 'absolute', width: '100%', height: '100%', zIndex: 1 }}
-      >
+      {/* This Box is the <form> (child) that contains everything */}
+      <Box component="form" onSubmit={handleSubmit} sx={getFormStyles(theme)}>
         <Box sx={getLogoStyles(theme)}>
-          <Logo orientation="horizontal" width="266.14" height="45.68" alt="Logo" />
+          <Logo orientation="horizontal" width="100%" height="100%" alt="Logo" />
         </Box>
 
         <FormInput
@@ -341,7 +246,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           }}
           placeholder="Enter your email"
           errorMessage={errors.email}
-          sx={getInputStyles(122.42 / 8, theme)}
+          sx={getInputStyles(122.42, theme)}
         />
 
         <FormInput
@@ -353,7 +258,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           }}
           placeholder="Enter your username"
           errorMessage={errors.username}
-          sx={getInputStyles(225.65 / 8, theme)}
+          sx={getInputStyles(225.65, theme)}
         />
 
         <FormInput
@@ -366,7 +271,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           }}
           placeholder="Enter your password"
           errorMessage={errors.password}
-          sx={getInputStyles(328.88 / 8, theme)}
+          sx={getInputStyles(328.88, theme)}
         />
 
         <PrimaryButton
@@ -421,6 +326,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           <Typography sx={legalTextStyles(theme)}>
             This site is protected by reCAPTCHA and the Google{' '}
             <Link href={privacyPolicyUrl} target="_blank" sx={legalLinkStyles}>
+              <br />
               Privacy Policy
             </Link>{' '}
             and{' '}
