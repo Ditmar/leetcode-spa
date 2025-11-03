@@ -1,3 +1,4 @@
+import MenuIcon from '@mui/icons-material/Menu';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -52,17 +53,18 @@ export const SectionNav: React.FC<SectionNavProps> = ({
 
   const displayTitle = title ?? 'Section';
   return (
-    <Root className={className} aria-label="sections-navigation">
+    <Root className={className} aria-label={title || 'Navigation'}>
       <Title titleSize={titleSize}>{displayTitle}</Title>
       {effectiveOrientation === 'horizontal' && isSmall ? (
         <>
           <IconButton
             aria-controls={open ? 'section-menu' : undefined}
-            aria-haspopup="true"
+            aria-expanded={open}
+            aria-haspopup="menu"
             onClick={handleOpen}
-            aria-label="Open sections"
+            aria-label={`Open ${title || 'sections'} menu`}
           >
-            ☰
+            <MenuIcon fontSize="small" aria-hidden="true" />
           </IconButton>
           <Menu id="section-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
             {sections.map((s) => (
@@ -81,7 +83,6 @@ export const SectionNav: React.FC<SectionNavProps> = ({
           <StyledList
             orientation={effectiveOrientation}
             maxCrossAxis={maxCrossAxis}
-            role="navigation"
             aria-orientation={effectiveOrientation}
           >
             {sections.map((s) => {
@@ -93,8 +94,7 @@ export const SectionNav: React.FC<SectionNavProps> = ({
                   onClick={() => doSelect(s.id)}
                   itemSize={itemSize}
                   orientation={effectiveOrientation}
-                  role="button"
-                  aria-current={selected ? 'true' : undefined}
+                  aria-current={selected ? 'page' : undefined}
                 >
                   <ListItemText primary={s.label} />
                 </StyledItemButton>
@@ -108,5 +108,3 @@ export const SectionNav: React.FC<SectionNavProps> = ({
 };
 
 SectionNav.displayName = 'SectionNav';
-
-export default SectionNav;

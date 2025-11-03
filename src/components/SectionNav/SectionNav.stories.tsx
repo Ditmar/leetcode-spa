@@ -15,7 +15,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Componente para navegar entre secciones de una prueba (ej. MCQ y Programming).\n\nProps:\n- sections: { id: string; label: string }[]\n- activeSectionId: string\n- onSelect: (id: string) => void\n- orientation?: "vertical" | "horizontal"\n- itemSize?: number | string\n- width?: string | number\n- height?: string | number\n- maxCrossAxis?: string\n- className?: string',
+          'Component to navigate between sections of an assessment (e.g. MCQ and Programming).\n\nProps:\n- sections: { id: string; label: string }[]\n- activeSectionId: string\n- onSelect: (id: string) => void\n- orientation?: "vertical" | "horizontal"\n- itemSize?: number | string\n- width?: string | number\n- height?: string | number\n- maxCrossAxis?: string\n- className?: string',
       },
     },
   },
@@ -166,7 +166,7 @@ const withUpdateArgs: Decorator = (Story, context) => {
       if (typeof context.args?.onSelect === 'function') context.args.onSelect(id);
     },
   };
-  return <Story {...context} args={props} />;
+  return <Story args={props} />;
 };
 
 Vertical.decorators = [withUpdateArgs];
@@ -199,7 +199,7 @@ export const WidthVariants: Story = {
 WidthVariants.argTypes = {
   width: {
     control: { type: 'text' },
-    description: 'Ancho del contenedor (ej: 100%, 600px, 300px)',
+    description: 'Container width (e.g.: 100%, 600px, 300px)',
   },
   activeSectionId: { control: { type: 'select' }, options: manySections.map((s) => s.id) },
   itemSize: { control: { type: 'number' } },

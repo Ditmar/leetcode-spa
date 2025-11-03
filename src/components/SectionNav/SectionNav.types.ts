@@ -1,10 +1,12 @@
+import type { BoxProps } from '@mui/material/Box';
+
 export type Section = {
   id: string;
   label: string;
 };
 export type Orientation = 'vertical' | 'horizontal';
 
-export interface SectionNavProps {
+export interface SectionNavProps extends Omit<BoxProps, 'onSelect'> {
   sections: Section[];
   activeSectionId?: string;
   onSelect?: (id: string) => void;
