@@ -1,7 +1,7 @@
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 
-import { render, screen, fireEvent } from '../../../test/test-utils';
+import { render, screen, fireEvent } from '../../test/test-utils';
 
 import { SectionNav } from './SectionNav';
 
@@ -11,21 +11,21 @@ const sections = [
 ];
 
 describe('SectionNav', () => {
-  it('highlights the active section based on activeSectionId', () => {
+  it('marks the active section based on activeSectionId (aria-current)', () => {
     render(<SectionNav sections={sections} activeSectionId="programming" onSelect={() => {}} />);
     const activeButton = screen.getByRole('button', { name: /Programming/i });
-    expect(activeButton).toHaveClass('Mui-selected');
+    expect(activeButton).toHaveAttribute('aria-current', 'page');
   });
 
-  it('calls onSelect con el id correcto al hacer click', () => {
+  it('calls onSelect with the correct id when clicking a section', () => {
     const onSelect = vi.fn();
     render(<SectionNav sections={sections} activeSectionId="mcq" onSelect={onSelect} />);
-    const programming = screen.getByText('Programming');
+    const programming = screen.getByRole('button', { name: /Programming/i });
     fireEvent.click(programming);
     expect(onSelect).toHaveBeenCalledWith('programming');
   });
 
-  it('muestra el título personalizado si se pasa la prop title', () => {
+  it('renders a custom title when the title prop is provided', () => {
     render(
       <SectionNav
         sections={sections}
@@ -37,12 +37,12 @@ describe('SectionNav', () => {
     expect(screen.getByText('Custom Title')).toBeInTheDocument();
   });
 
-  it('usa el valor por defecto del título si no se pasa la prop title', () => {
+  it('renders the default title when no title prop is provided', () => {
     render(<SectionNav sections={sections} activeSectionId="mcq" onSelect={() => {}} />);
     expect(screen.getByText('Section')).toBeInTheDocument();
   });
 
-  it('aplica la clase pasada por className', () => {
+  it('applies the passed className to the root element', () => {
     render(
       <SectionNav
         sections={sections}
@@ -51,10 +51,11 @@ describe('SectionNav', () => {
         className="test-class"
       />
     );
-    expect(screen.getByLabelText('sections-navigation')).toHaveClass('test-class');
+    const nav = screen.getByRole('navigation');
+    expect(nav).toHaveClass('test-class');
   });
 
-  it('renderiza en orientación horizontal si se pasa orientation="horizontal"', () => {
+  it('renders horizontal orientation when orientation="horizontal"', () => {
     render(
       <SectionNav
         sections={sections}
@@ -63,25 +64,23 @@ describe('SectionNav', () => {
         orientation="horizontal"
       />
     );
-    const navs = screen.getAllByRole('navigation');
-    const ulNav = navs.find((el) => el.tagName.toLowerCase() === 'ul');
-    expect(ulNav).toHaveAttribute('aria-orientation', 'horizontal');
+    const list = screen.getByRole('list');
+    expect(list).toHaveAttribute('aria-orientation', 'horizontal');
   });
 
-  it('renderiza en orientación vertical por defecto', () => {
+  it('defaults to vertical orientation', () => {
     render(<SectionNav sections={sections} activeSectionId="mcq" onSelect={() => {}} />);
-    const navs = screen.getAllByRole('navigation');
-    const ulNav = navs.find((el) => el.tagName.toLowerCase() === 'ul');
-    expect(ulNav).toHaveAttribute('aria-orientation', 'vertical');
+    const list = screen.getByRole('list');
+    expect(list).toHaveAttribute('aria-orientation', 'vertical');
   });
 
-  it('renderiza los labels de las secciones', () => {
+  it('renders the section labels', () => {
     render(<SectionNav sections={sections} activeSectionId="mcq" onSelect={() => {}} />);
     expect(screen.getByText('MCQ')).toBeInTheDocument();
     expect(screen.getByText('Programming')).toBeInTheDocument();
   });
 
-  it('llama a onSelect y cierra el menú en modo horizontal+small (simulado)', async () => {
+  it('calls onSelect and closes the menu in horizontal+small mode (simulated)', async () => {
     vi.resetModules();
     vi.doMock('@mui/material/useMediaQuery', () => ({ __esModule: true, default: () => true }));
     const { SectionNav } = await import('./SectionNav');

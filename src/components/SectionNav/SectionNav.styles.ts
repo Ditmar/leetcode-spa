@@ -2,17 +2,15 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import { styled } from '@mui/material/styles';
 
-export const Title = styled('div')<{ titleSize?: string }>(({ theme, titleSize }) => ({
-  fontWeight: 600,
-  fontSize: titleSize || '1.35rem',
-  color: '#fff',
+export const Title = styled('h2')<{ titleSize?: string }>(({ theme, titleSize }) => ({
+  ...theme.typography.title,
+  fontSize: titleSize || theme.typography.h5.fontSize,
+  color: theme.palette.text.primary,
   marginBottom: theme.spacing(2),
   marginTop: theme.spacing(1),
   paddingLeft: theme.spacing(1),
   userSelect: 'none',
-  letterSpacing: '0.01em',
-  textShadow: '0 2px 8px rgba(0,0,0,0.12)',
-  lineHeight: 1.2,
+  textShadow: `0 2px 8px ${theme.palette.common.black}12`,
   textAlign: 'left',
   zIndex: 2,
   position: 'relative',
@@ -23,9 +21,9 @@ const parseSize = (v: number | string | undefined) => {
 };
 
 export const Root = styled('nav')(({ theme }) => ({
-  background: theme.palette.mode === 'dark' ? '#2b2b2b' : '#2b2b2b',
-  color: theme.palette.getContrastText(theme.palette.background.paper),
-  borderRadius: 12,
+  background: theme.palette.background.paper,
+  color: theme.palette.text.primary,
+  borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(1.5),
 }));
 
@@ -54,9 +52,9 @@ export const StyledItemButton = styled(ListItemButton, {
 }>(({ theme, itemSize, orientation = 'vertical' }) => {
   const minCross = parseSize(itemSize) || '48px';
   return {
-    color: 'rgba(255,255,255,0.95)',
+    color: theme.palette.text.primary,
     borderRadius: theme.shape.borderRadius,
-    padding: '8px 12px',
+    padding: theme.spacing(1, 1.5),
     marginBottom: theme.spacing(1),
     minHeight: orientation === 'vertical' ? minCross : 'auto',
     minWidth: orientation === 'horizontal' ? minCross : 'auto',
@@ -68,14 +66,16 @@ export const StyledItemButton = styled(ListItemButton, {
     textAlign: 'left',
     '&.Mui-selected': {
       backgroundColor: theme.palette.primary.main,
-      color: 'rgba(255,255,255,0.95)',
+      color: theme.palette.primary.contrastText,
     },
     '&:not(.Mui-selected):hover': {
-      backgroundColor: '#3a3a3a',
-      color: 'rgba(255,255,255,1)',
-      boxShadow: `0 2px 8px rgba(0,0,0,0.18)`,
+      backgroundColor: theme.palette.action.hover,
+      color: theme.palette.text.primary,
+      boxShadow: theme.shadows[2],
       transform: 'translateY(-2px)',
-      transition: 'transform 140ms ease, box-shadow 140ms, background-color 120ms',
+      transition: theme.transitions.create(['transform', 'box-shadow', 'background-color'], {
+        duration: theme.transitions.duration.shorter,
+      }),
     },
   };
 });
