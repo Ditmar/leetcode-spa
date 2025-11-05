@@ -10,7 +10,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
       ? theme.shape.borderRadius * 1.5
       : `calc(${theme.shape.borderRadius} * 1.5)`,
   border: `1px solid ${theme.palette.divider}`,
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: '#FAFAFABF',
   padding: 0,
   overflow: 'hidden',
   transition: theme.transitions.create(['box-shadow', 'transform'], {
@@ -62,15 +62,15 @@ export const IconWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: theme.spacing(3.5),
-  height: theme.spacing(3.5),
+  width: theme.spacing(5), // Cambiado de 3.5 a 5 (40px)
+  height: theme.spacing(5), // Cambiado de 3.5 a 5 (40px)
   [theme.breakpoints.down('md')]: {
-    width: theme.spacing(2.75),
-    height: theme.spacing(2.75),
+    width: theme.spacing(4), // Cambiado de 2.75 a 4 (32px)
+    height: theme.spacing(4), // Cambiado de 2.75 a 4 (32px)
   },
   [theme.breakpoints.down('sm')]: {
-    width: theme.spacing(2.5),
-    height: theme.spacing(2.5),
+    width: theme.spacing(3.5), // Cambiado de 2.5 a 3.5 (28px)
+    height: theme.spacing(3.5), // Cambiado de 2.5 a 3.5 (28px)
   },
 }));
 
