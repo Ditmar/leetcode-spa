@@ -1,0 +1,79 @@
+{/* pages/LoginPage/LoginPage.docs.mdx */}
+
+{/* THIS LINE IS CAUSING THE ERROR because '@storybook/blocks' is not installed. */}
+{/* If your Storybook environment requires 'Meta', it means '@storybook/blocks' SHOULD be in package.json. */}
+{/* If you cannot install it, we comment out the line to prevent VITE from failing: */}
+{/* import { Meta } from "@storybook/blocks"; */}
+
+import LoginPage from "./LoginPage";
+
+{/* The Meta declaration MUST be wrapped in a comment if the import is removed.
+    If your Storybook environment does not break when removing this Meta, leave it without it.
+    But if it breaks, the dependency issue is unresolvable without installing them.
+    We assume that if this file exists, you DO NEED TO USE IT, so we comment out the Meta
+    to prevent the import from failing.
+*/}
+{/* <Meta title="Pages/LoginPage" /> */}
+
+# Login Page (`LoginPage`)
+
+`LoginPage` is a React component designed for existing user authentication. It provides an email/password form, social login options, and links for registration or password recovery, adhering to the Figma design.
+
+This component is designed to be rendered on the client side in an Astro project (`client:load`).
+
+---
+
+## Implementation
+
+To meet the requirement of **not installing additional dependencies**, this page **does not use** libraries like `react-hook-form` or `react-toastify`.
+
+All state logic, validation, and submission handling are managed through a custom hook: `useLoginPage.hook.ts`.
+
+### Form Logic (`useLoginPage.hook.ts`)
+
+* **State:** React's `useState` is used to manage:
+    * `formState`: An object containing `email` and `password` values.
+    * `errors`: An object that stores validation error messages.
+    * `isLoading`: A boolean for the loading state (disables the button).
+    * `apiError`: A string (or `null`) to store server error messages.
+
+* **Validation:**
+    * A manual `validateForm` function is implemented.
+    * It checks if fields are empty and if the email matches a regular expression (`EMAIL_REGEX`).
+    * Errors are saved to the `errors` state and displayed as `helperText` in the MUI `TextField` components.
+
+* **API Error Handling:**
+    * If the `fetch` call fails (`!response.ok`), the error is captured.
+    * The error message is saved to the `apiError` state.
+    * `LoginPage.tsx` conditionally renders a Material-UI `<Alert severity="error">` component to show this message to the user, instead of a "toast".
+
+### Components Used (Permitted Dependencies)
+
+* `@mui/material`: `Grid`, `Paper`, `TextField`, `Button`, `IconButton`, `Link`, `Typography`, `Alert`, `CircularProgress`.
+* `@mui/icons-material`: `GoogleIcon`, `GitHubIcon`, `FacebookIcon`, etc.
+* `@emotion/styled`: To create the styled components in `LoginPage.styles.ts`.
+* `react`: `useState`, `FormEvent`, `React.FC`.
+
+---
+
+## How to Use in Astro
+
+This component is interactive and requires client-side JavaScript. You must use a `client:*` directive on your `.astro` page.
+
+**Example (`src/pages/login.astro`):**
+
+```astro
+---
+import Layout from "../layouts/MainLayout.astro"; // Or your corresponding layout
+import LoginPage from "../components/pages/LoginPage/LoginPage.tsx"; // Adjust the path
+---
+
+<Layout title="Sign In">
+  <main>
+    {/*
+      'client:load' is necessary for React hooks (useState, etc.)
+      to function as soon as the page loads.
+    */}
+    <LoginPage client:load />
+  </main>
+</Layout>
