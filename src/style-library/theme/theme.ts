@@ -126,6 +126,17 @@ export const pillTagTokens = {
   },
 } as const;
 
+/**
+ * FormInput Component Tokens
+ * Colors for input states, sourced from Figma:
+ * - focusBorder: Used for input border on focus state
+ */
+export const formInputTokens = {
+  colors: {
+    focusBorder: '#B23DEA', // Figma focus border color
+  },
+} as const;
+
 const themeConfig: ThemeConfig = {
   mode: 'light',
   primaryColor: '#1976d2',
