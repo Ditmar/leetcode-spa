@@ -1,0 +1,39 @@
+# StatsCard
+
+The **StatsCard** component displays key statistics and metrics in a visually appealing card format, designed specifically for dashboard interfaces.
+
+## Features
+
+* Displays an icon, value, and label with consistent spacing and hierarchy.
+* Theme-compliant: uses MUI theme tokens for colors, spacing, typography, and shadows.
+* Responsive design: maintains proper proportions across different screen sizes.
+* **Accessible:** includes semantic roles, proper ARIA attributes, and screen reader support.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `ReactNode` | Custom icon | Icon to display |
+| `value` | `string \| number` | - | The main statistic value |
+| `label` | `string` | - | Descriptive label for the statistic |
+| `sx` | `SxProps` | - | Additional Material-UI styles |
+
+## Accessibility
+
+The **StatsCard** component is designed following accessibility (A11y) best practices to ensure an inclusive experience for all users.
+
+### Implementation in code
+
+Inside the `StatsCard.tsx` file, the following accessibility features are applied:
+
+* **Semantic group role and aria-label:**
+
+  ```tsx
+  <StyledCard
+    {...rest}
+    sx={sx}
+    elevation={0}
+    role="group"
+    aria-label={`${label} statistic`}
+    aria-labelledby={`${labelId} ${valueId}`}
+  >
