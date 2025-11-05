@@ -1,0 +1,80 @@
+# PillTag
+
+Reusable pill/tag component to display categories like "Courses" or "Test" in a rounded chip style.
+
+---
+
+## Purpose
+
+The **PillTag** component is designed to represent categories like “Courses” or “Test” with a distinct visual style based on Figma designs.  
+It follows principles of:
+
+- **Component-Driven Development (CDD)**
+- **Pixel-perfect design** according to Figma
+- **WCAG AA accessibility**
+- **Extensibility and consistency with MUI**
+
+---
+
+## Figma Specifications
+
+### Primary Variant (Courses)
+
+**Container:**
+- Width: **251.51px**
+- Height: **85.1px**
+- Border Radius: **Top-right 0px**, others **42.55px**
+- Background: **#FFFFFF**
+- Shadow: **Y: 18.91px**, **Blur: 66.19px**, **Color: #000000 (15%)**
+
+**Text:**
+- Font: **Poppins**, Weight: **500 (Medium)**
+- Size: **28.37px**
+- Line Height: **100%**
+- Alignment: **Center**
+- Gradient: **#B23DEB → #DE8FFF**
+
+### Secondary Variant (Test)
+
+**Container:**
+- Width: **227.17px**
+- Height: **76.86px**
+- Border Radius: **Bottom-left 0px**, others **38.43px**
+- Background: **#FFFFFF**
+- Shadow: **Y: 17.08px**, **Blur: 59.78px**, **Color: #000000 (15%)**
+
+**Text:**
+- Font: **Poppins**, Weight: **500 (Medium)**
+- Size: **25.62px**
+- Line Height: **100%**
+- Alignment: **Center**
+- Gradient: **#B23DEB → #DE8FFF**
+
+---
+
+## Key Features
+
+- **Two visual variants:** `primary` and `secondary` (defined in constants)
+- **Pixel-perfect design**: exact dimensions, border radii, and shadows
+- **Linear gradient text:** from `#B23DEB` to `#DE8FFF` using WebKit
+- **White background with shadow:** clean and modern elevation effect
+- **Asymmetric borders:** reflecting each variant’s personality
+- **Automatic truncation:** long labels shorten with `...`
+- **MUI compatibility:** extends `ChipProps` for full flexibility
+- **Integrated accessibility:** keyboard support, `focus-visible`, ARIA
+- **Robust testing:** 14 Vitest + Testing Library tests
+- **Safe fallbacks:** empty labels or invalid variants handled gracefully
+
+---
+
+##Usage Example
+
+```tsx
+import { PillTag } from '@/components/PillTag';
+
+
+// Primary variant (Courses)
+<PillTag label="Courses" variant="primary" />
+
+// Secondary variant (Test)
+<PillTag label="Test" variant="secondary" />
