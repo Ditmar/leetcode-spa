@@ -1,7 +1,7 @@
 import { useTheme, useMediaQuery } from '@mui/material';
 import React from 'react';
 
-import editIcon from './assets/icons/edit-icon.svg';
+import editIcon from './assets/icons/edit-icon.svg?url';
 import { DEFAULT_VALUE, DEFAULT_LABEL } from './StatsCard.constants';
 import {
   StyledCard,
