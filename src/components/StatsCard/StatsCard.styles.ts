@@ -62,15 +62,15 @@ export const IconWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: theme.spacing(5), // Cambiado de 3.5 a 5 (40px)
-  height: theme.spacing(5), // Cambiado de 3.5 a 5 (40px)
+  width: '23.48px', // ← Tamaño EXACTO del lápiz
+  height: '29.17px', // ← Tamaño EXACTO del lápiz
   [theme.breakpoints.down('md')]: {
-    width: theme.spacing(4), // Cambiado de 2.75 a 4 (32px)
-    height: theme.spacing(4), // Cambiado de 2.75 a 4 (32px)
+    width: '18.78px', // ← 80% del original (23.48 * 0.8)
+    height: '23.34px', // ← 80% del original (29.17 * 0.8)
   },
   [theme.breakpoints.down('sm')]: {
-    width: theme.spacing(3.5), // Cambiado de 2.5 a 3.5 (28px)
-    height: theme.spacing(3.5), // Cambiado de 2.5 a 3.5 (28px)
+    width: '16.44px', // ← 70% del original (23.48 * 0.7)
+    height: '20.42px', // ← 70% del original (29.17 * 0.7)
   },
 }));
 
@@ -108,18 +108,18 @@ export const ContentWrapper = styled(Box)(({ theme }) => ({
 }));
 
 export const ValueText = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Poppins', sans-serif", //  EXACTO de Figma
-  fontStyle: 'normal', // EXACTO de Figma
-  fontWeight: 600, //  EXACTO de Figma
-  fontSize: '28px', //  EXACTO de Figma
-  lineHeight: '42px', //  EXACTO de Figma
-  color: 'rgba(13, 13, 13, 0.8)', //  EXACTO de Figma
-  width: '53px', //  EXACTO de Figma
-  height: '31px', //  EXACTO de Figma
+  fontFamily: "'Poppins', sans-serif",
+  fontStyle: 'normal',
+  fontWeight: 600,
+  fontSize: '28px',
+  lineHeight: '42px',
+  color: 'rgba(13, 13, 13, 0.8)',
+  width: '53px',
+  height: '31px',
   margin: 0,
   padding: 0,
   display: 'flex',
-  alignItems: 'center', //  Centrar verticalmente dentro del contenedor
+  alignItems: 'center',
   [theme.breakpoints.down('md')]: {
     fontSize: '24px',
     lineHeight: '36px',
@@ -137,14 +137,14 @@ export const ValueText = styled(Typography)(({ theme }) => ({
 }));
 
 export const LabelText = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Syne', sans-serif", //  EXACTO de Figma
-  fontStyle: 'normal', //  EXACTO de Figma
-  fontWeight: 500, // EXACTO de Figma
-  fontSize: '15px', //  EXACTO de Figma
-  lineHeight: '18px', //  EXACTO de Figma
-  color: 'rgba(13, 13, 13, 0.5)', //  EXACTO de Figma
-  width: '95px', // EXACTO de Figma
-  height: '18px', //  EXACTO de Figma
+  fontFamily: "'Syne', sans-serif",
+  fontStyle: 'normal',
+  fontWeight: 500,
+  fontSize: '15px',
+  lineHeight: '18px',
+  color: 'rgba(13, 13, 13, 0.5)',
+  width: '95px',
+  height: '18px',
   margin: 0,
   padding: 0,
   display: 'flex',
