@@ -21,7 +21,7 @@ These components are:
 
 Following the project guidelines for managing pending dependencies ("just build the skeleton"), this component **DOES NOT** attempt to import non-existent components.
 
-Instead, `SignUpPage.tsx` **defines local 'Fallback' (placeholder) versions** of these three components. These fallbacks are styled `<div>` elements that simulate the presence and, most importantly, **occupy the exact layout space of the real components**.
+Instead, `SignUpPage.tsx` **defines local 'Fallback' (placeholder) versions** of these three components. To address code review feedback on accessibility, these fallbacks use **semantic MUI components** (like `<Button>` and `<Box component="input">`) instead of simple `<div>` elements. This ensures the page is accessible and testable, while still occupying the exact layout space.
 
 ### What does this approach enable?
 
@@ -29,7 +29,7 @@ This "skeleton" approach allows `SignUpPage` to be a complete and functional com
 1.  **Isolated Development:** Develop all state logic (`useState` for inputs) and validations (`handleSubmit`).
 2.  **Visual Testing:** Render the complete page in Storybook (`SignUpPage.stories.tsx`) to verify layout, responsiveness, and styles.
 3.  **Exact Positioning:** The styles in `SignUpPage.styles.ts` use the placeholders to absolutely position every element (inputs, button, logo, texts) based on the Figma coordinates.
-4.  **Unit Testing:** The tests (`SignUpPage.test.tsx`) can verify that all elements (including the fallbacks) are rendered correctly.
+4.  **Unit Testing:** The tests (`SignUpPage.test.tsx`) can verify the complete form validation logic (e.g., showing error messages on an empty submit) and user interaction.
 
 When the real components (`Logo`, `FormInput`, `PrimaryButton`) become available in `master`, the final integration will be as simple as removing the local fallbacks and changing the imports.
 
@@ -81,4 +81,4 @@ When the real components (`Logo`, `FormInput`, `PrimaryButton`) become available
 
 - **Icon Handling (Assets):** The social icons (Google, GitHub, Facebook) are imported using Vite's `?url` suffix to get the asset URL. A `handleImgError` function is included as a *fallback* mechanism in case the primary URL fails, attempting to load the assets from alternative paths (e.g., `/assets/google.svg`).
 
-- **Testing:** The tests (`SignUpPage.test.tsx`) are configured to validate the **presence of the 'fallback' elements** (using `data-testid` and `alt`). This confirms that the page structure renders correctly, in line with the skeleton approach.
+- **Testing:** The tests (`SignUpPage.test.tsx`) are configured to validate the component's **behavioral logic**. They simulate user input, trigger form submission, and verify that the correct validation error messages are displayed or that `onSubmit` is called appropriately, adhering to best practices.

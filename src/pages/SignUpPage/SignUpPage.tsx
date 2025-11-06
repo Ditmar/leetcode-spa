@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme, Link } from '@mui/material';
+import { Box, Typography, useTheme, Link, Button } from '@mui/material';
 import React, { useState } from 'react';
 
 import FacebookStatic from './assets/Facebook.svg?url';
@@ -19,6 +19,8 @@ import {
 } from './SignUpPage.styles';
 
 import type { SignUpPageProps } from './SignUpPage.types';
+import type { Theme } from '@mui/material';
+import type { SxProps } from '@mui/system';
 
 const FacebookIcon: string | undefined = FacebookStatic ?? undefined;
 const GithubIcon: string | undefined = GithubStatic ?? undefined;
@@ -37,7 +39,7 @@ type FormInputFallbackProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   errorMessage?: string;
-  sx?: Record<string, unknown>;
+  sx?: SxProps<Theme>;
   type?: string;
 };
 
@@ -46,56 +48,53 @@ type PrimaryButtonFallbackProps = {
   onClick?: (e: React.FormEvent) => void;
   disabled?: boolean;
   loading?: boolean;
-  sx?: Record<string, unknown>;
+  sx?: SxProps<Theme>;
 };
 
 const Logo: React.ComponentType<LogoFallbackProps> = () => <div data-testid="logo-fallback" />;
 
+// FALLBACK COMPONENTS (SKELETON IMPLEMENTATION)
+// -----------------------------------------------------------------------------
+// The following components (`FormInput`, `PrimaryButton`) are local fallbacks.
+// They are implemented as simple, semantic wrappers to stand in for shared
+// components that are not yet available in the `master` branch.
+//
+// WHY: The original skeleton implementation used non-semantic `<div>`s, which
+// caused critical accessibility issues (unusable with keyboards, invisible to
+// screen readers) that were flagged during code review. This version uses a
+// basic `input` and MUI `Button` to ensure the page is accessible and testable.
+//
+// HOW TO REPLACE: Once the real `FormInput` and `PrimaryButton` components are
+// merged into `master`, these local fallbacks should be deleted, and the
+// real components should be imported from the project's component library.
+// The props and logic in `SignUpPage` are already set up to work with them.
+// -----------------------------------------------------------------------------
+
 const FormInput: React.FC<FormInputFallbackProps> = (props) => (
-  <>
-    <Box
-      data-testid={`form-input-fallback-${props.placeholder ?? 'input'}`}
-      component="div"
-      sx={(props.sx as unknown as Record<string, unknown>) ?? { width: '100%', height: '40px' }}
-      aria-hidden="true"
-    />
-    <input
-      placeholder={props.placeholder}
-      defaultValue={props.value}
-      onChange={props.onChange}
-      type={props.type}
-      style={{
-        position: 'absolute',
-        left: '-9999px',
-        width: '1px',
-        height: '1px',
-        overflow: 'hidden',
-      }}
-    />
-  </>
+  <Box
+    component="input"
+    type={props.type || 'text'}
+    placeholder={props.placeholder}
+    value={props.value}
+    onChange={props.onChange}
+    sx={{
+      ...props.sx,
+      '::placeholder': {
+        color: 'text.secondary',
+      },
+    }}
+  />
 );
 
 const PrimaryButton: React.FC<PrimaryButtonFallbackProps> = (props) => (
-  <>
-    <Box
-      data-testid="primary-button-fallback"
-      component="div"
-      sx={(props.sx as unknown as Record<string, unknown>) ?? { width: '100%', height: '40px' }}
-      aria-hidden="true"
-    />
-    <button
-      type="button"
-      style={{
-        position: 'absolute',
-        left: '-9999px',
-        width: '1px',
-        height: '1px',
-        overflow: 'hidden',
-      }}
-    >
-      {props.children}
-    </button>
-  </>
+  <Button
+    variant="contained"
+    onClick={props.onClick}
+    disabled={props.disabled || props.loading}
+    sx={props.sx}
+  >
+    {props.loading ? '...' : props.children}
+  </Button>
 );
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -128,69 +127,15 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 
   const theme = useTheme();
 
-  React.useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const doc = document.documentElement;
-    const body = document.body;
-    const prevDocOverflowX = doc.style.overflowX;
-    const prevBodyOverflowX = body.style.overflowX;
-    doc.style.overflowX = 'hidden';
-    body.style.overflowX = 'hidden';
-    return () => {
-      doc.style.overflowX = prevDocOverflowX || '';
-      body.style.overflowX = prevBodyOverflowX || '';
-    };
-  }, []);
-
-  const handleImgError = async (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = e.currentTarget as HTMLImageElement;
-    const srcCandidates: string[] = [];
-    if (img.src) srcCandidates.push(img.src);
-    try {
-      if (img.alt === 'Google') {
-        srcCandidates.push(new URL('./assets/google.svg', import.meta.url).href);
-      }
-      if (img.alt === 'GitHub') {
-        srcCandidates.push(new URL('./assets/github.svg', import.meta.url).href);
-      }
-      if (img.alt === 'Facebook') {
-        srcCandidates.push(new URL('./assets/facebook.svg', import.meta.url).href);
-      }
-    } catch {
-      // ignore
-    }
-
-    if (img.alt === 'Google') {
-      srcCandidates.push('/assets/google.svg');
-      srcCandidates.push('/src/pages/SignUpPage/assets/google.svg');
-    }
-    if (img.alt === 'GitHub') {
-      srcCandidates.push('/assets/github.svg');
-      srcCandidates.push('/src/pages/SignUpPage/assets/github.svg');
-    }
-    if (img.alt === 'Facebook') {
-      srcCandidates.push('/assets/facebook.svg');
-      srcCandidates.push('/src/pages/SignUpPage/assets/facebook.svg');
-    }
-
-    for (const candidate of srcCandidates) {
-      if (!candidate) continue;
-      try {
-        if (typeof window === 'undefined' || typeof fetch === 'undefined') break;
-
-        const res = await fetch(candidate, { method: 'HEAD' });
-        if (res && res.ok) {
-          const getRes = await fetch(candidate);
-          if (getRes && getRes.ok) {
-            const blob = await getRes.blob();
-            const blobUrl = URL.createObjectURL(blob);
-            img.src = blobUrl;
-            return;
-          }
-        }
-      } catch {
-        // ignore
-      }
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    const alt = img.alt;
+    if (alt === 'Google' && img.src !== GoogleIcon) {
+      img.src = GoogleIcon ?? '';
+    } else if (alt === 'GitHub' && img.src !== GithubIcon) {
+      img.src = GithubIcon ?? '';
+    } else if (alt === 'Facebook' && img.src !== FacebookIcon) {
+      img.src = FacebookIcon ?? '';
     }
   };
 
@@ -219,19 +164,10 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
   };
 
   const isDisabled =
-    disabled ||
-    loading ||
-    !email ||
-    !username ||
-    !password ||
-    !!errors.email ||
-    !!errors.username ||
-    !!errors.password;
+    disabled || loading || !!errors.email || !!errors.username || !!errors.password;
 
   return (
-    // This Box is the outer (parent) container that scales
-    <Box sx={getPageContainerStyles(theme)}>
-      {/* This Box is the <form> (child) that contains everything */}
+    <Box sx={getPageContainerStyles()}>
       <Box component="form" onSubmit={handleSubmit} sx={getFormStyles(theme)}>
         <Box sx={getLogoStyles(theme)}>
           <Logo orientation="horizontal" width="100%" height="100%" alt="Logo" />
@@ -248,6 +184,14 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           errorMessage={errors.email}
           sx={getInputStyles(122.42, theme)}
         />
+        {errors.email && (
+          <Typography
+            variant="caption"
+            sx={{ position: 'absolute', top: '26.5%', left: '8.5%', color: 'error.main' }}
+          >
+            {errors.email}
+          </Typography>
+        )}
 
         <FormInput
           label="Username"
@@ -260,6 +204,14 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           errorMessage={errors.username}
           sx={getInputStyles(225.65, theme)}
         />
+        {errors.username && (
+          <Typography
+            variant="caption"
+            sx={{ position: 'absolute', top: '40.2%', left: '8.5%', color: 'error.main' }}
+          >
+            {errors.username}
+          </Typography>
+        )}
 
         <FormInput
           label="Password"
@@ -273,6 +225,14 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           errorMessage={errors.password}
           sx={getInputStyles(328.88, theme)}
         />
+        {errors.password && (
+          <Typography
+            variant="caption"
+            sx={{ position: 'absolute', top: '53.8%', left: '8.5%', color: 'error.main' }}
+          >
+            {errors.password}
+          </Typography>
+        )}
 
         <PrimaryButton
           sx={getButtonStyles(theme)}
@@ -293,44 +253,72 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
 
         {showSocialIcons && (
           <>
-            <Box
-              component="img"
-              src={GoogleIcon}
-              alt="Google"
-              sx={getSocialIconStyles(0, theme)}
-              onClick={() => window.open(googleLoginUrl, '_blank')}
-              onError={handleImgError}
-            />
+            <Link
+              href={googleLoginUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Sign up with Google"
+            >
+              <Box
+                component="img"
+                src={GoogleIcon}
+                alt="Google"
+                sx={getSocialIconStyles(0)}
+                onError={handleImgError}
+              />
+            </Link>
 
-            <Box
-              component="img"
-              src={GithubIcon}
-              alt="GitHub"
-              sx={getSocialIconStyles(1, theme)}
-              onClick={() => window.open(githubLoginUrl, '_blank')}
-              onError={handleImgError}
-            />
+            <Link
+              href={githubLoginUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Sign up with GitHub"
+            >
+              <Box
+                component="img"
+                src={GithubIcon}
+                alt="GitHub"
+                sx={getSocialIconStyles(1)}
+                onError={handleImgError}
+              />
+            </Link>
 
-            <Box
-              component="img"
-              src={FacebookIcon}
-              alt="Facebook"
-              sx={getSocialIconStyles(2, theme)}
-              onClick={() => window.open(facebookLoginUrl, '_blank')}
-              onError={handleImgError}
-            />
+            <Link
+              href={facebookLoginUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Sign up with Facebook"
+            >
+              <Box
+                component="img"
+                src={FacebookIcon}
+                alt="Facebook"
+                sx={getSocialIconStyles(2)}
+                onError={handleImgError}
+              />
+            </Link>
           </>
         )}
 
         {showLegalText && (
           <Typography sx={legalTextStyles(theme)}>
             This site is protected by reCAPTCHA and the Google{' '}
-            <Link href={privacyPolicyUrl} target="_blank" sx={legalLinkStyles}>
+            <Link
+              href={privacyPolicyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={legalLinkStyles(theme)}
+            >
               <br />
               Privacy Policy
             </Link>{' '}
             and{' '}
-            <Link href={termsOfServiceUrl} target="_blank" sx={legalLinkStyles}>
+            <Link
+              href={termsOfServiceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={legalLinkStyles(theme)}
+            >
               Terms of Service
             </Link>{' '}
             apply.

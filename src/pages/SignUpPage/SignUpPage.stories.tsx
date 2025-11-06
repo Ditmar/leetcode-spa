@@ -1,4 +1,9 @@
-import MuiThemeProvider from '../../style-library/provider/MuiThemeProvider';
+import { CacheProvider } from '@emotion/react';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+
+import createEmotionCache from '../../style-library/cache/createEmotionCache';
+import signupTheme from '../../style-library/theme/signup-theme';
 
 import { SignUpPage } from './SignUpPage';
 
@@ -11,32 +16,35 @@ const meta: Meta<SignUpPageProps> = {
   parameters: {},
 
   argTypes: {
-    loading: { control: 'boolean', description: 'Muestra el spinner de carga en el botón.' },
-    buttonText: { control: 'text', description: 'Texto del botón principal.' },
-    disabled: { control: 'boolean', description: 'Deshabilita el botón.' },
+    loading: { control: 'boolean', description: 'Shows loading spinner on the primary button.' },
+    buttonText: { control: 'text', description: 'Text for the primary button.' },
+    disabled: { control: 'boolean', description: 'Disables the button.' },
     onSubmit: {
       action: 'onSubmitData',
-      description: 'Callback al enviar el formulario (Action Logger).',
+      description: 'Callback on form submission (Action Logger).',
     },
 
-    loginText: { control: 'text', description: 'Texto del enlace para iniciar sesión ("Log In").' },
-    signupWithText: { control: 'text', description: 'Texto sobre los iconos sociales.' },
+    loginText: { control: 'text', description: 'Text for the login link ("Log In").' },
+    signupWithText: { control: 'text', description: 'Text displayed above the social auth icons.' },
 
-    showSocialIcons: { control: 'boolean', description: 'Mostrar/Ocultar iconos sociales.' },
-    showLegalText: { control: 'boolean', description: 'Mostrar/Ocultar texto legal de reCAPTCHA.' },
+    showSocialIcons: { control: 'boolean', description: 'Shows or hides the social icons.' },
+    showLegalText: { control: 'boolean', description: 'Shows or hides the reCAPTCHA legal text.' },
 
-    googleLoginUrl: { control: 'text', description: 'URL de redirección de Google.' },
-    privacyPolicyUrl: { control: 'text', description: 'URL de la Política de Privacidad.' },
-    termsOfServiceUrl: { control: 'text', description: 'URL de los Términos de Servicio.' },
+    googleLoginUrl: { control: 'text', description: 'Redirect URL for Google login.' },
+    privacyPolicyUrl: { control: 'text', description: 'URL for the Privacy Policy.' },
+    termsOfServiceUrl: { control: 'text', description: 'URL for the Terms of Service.' },
   },
 
   decorators: [
     (Story) => (
-      <MuiThemeProvider>
-        <div style={{ padding: '0px' }}>
-          <Story />
-        </div>
-      </MuiThemeProvider>
+      <CacheProvider value={createEmotionCache()}>
+        <ThemeProvider theme={signupTheme}>
+          <CssBaseline />
+          <div style={{ padding: 0 }}>
+            <Story />
+          </div>
+        </ThemeProvider>
+      </CacheProvider>
     ),
   ],
 
@@ -69,16 +77,16 @@ export const Default: Story = {};
 // Load Status
 export const Loading: Story = {
   args: {
-    loading: true, // We activate the loading animation
+    loading: true, // Activates the loading animation
     buttonText: 'Registering...', // Button text while loading
-    disabled: true, // We disable the button during charging
+    disabled: true, // Disables the button during loading
   },
 };
 
 // Disabled State (We only define what CHANGES)
 export const Disabled: Story = {
   args: {
-    disabled: true, // We activate the disabled state of the button
+    disabled: true, // Activates the disabled state of the button
     buttonText: 'Register (Disabled)', // Button text when disabled
   },
 };
