@@ -1,9 +1,8 @@
 # LeaderboardPage
 
-Componente de página para mostrar un ranking de usuarios. Implementa:
-
-- Vista de tabla (desktop) y cartas (mobile).
-- Resalta al usuario actual.
+Page component to display a user ranking. Implements:
+- Table view (desktop) and cards (mobile).
+- Highlight the current user.
 
 ## Props
 
@@ -27,6 +26,6 @@ type LeaderboardUser = {
 
 ## Behavior
 
-- La página carga datos desde una API simulada (`mockData.fetchLeaderboard`).
-- Mientras carga muestra un spinner; en error muestra mensaje.
-- Recomendado: desacoplar fetch en un servicio real para producción.
+- The page loads data from a mocked API (`mockData.fetchLeaderboard`).
+- While loading, it shows a spinner; in case of an error, it shows a message.
+- Recommended: decouple fetch into a real service for production.

@@ -1,6 +1,16 @@
+import { Box } from '@mui/material';
+
 import { LeaderboardPage } from './LeaderboardPage';
 
 import type { Meta, StoryObj } from '@storybook/react';
+
+/* 
+  ESLint rule exception:
+  Storybook requires a default export for CSF (Component Story Format) files.
+  This default export defines story metadata (title, component, etc.)
+  and is mandatory for Storybook to index stories correctly.
+  Disable 'import/no-default-export' for this file only.
+*/
 
 const meta: Meta<typeof LeaderboardPage> = {
   title: 'Components/LeaderboardPage',
@@ -10,13 +20,20 @@ const meta: Meta<typeof LeaderboardPage> = {
   },
   decorators: [
     (Story) => (
-      <div style={{ padding: 16, backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
+      <Box
+        sx={{
+          p: 2,
+          bgcolor: 'background.default',
+          minHeight: '100vh',
+        }}
+      >
         <Story />
-      </div>
+      </Box>
     ),
   ],
 };
-export default meta;
+
+export default meta; // ✅ requerido por Storybook
 
 type Story = StoryObj<typeof LeaderboardPage>;
 

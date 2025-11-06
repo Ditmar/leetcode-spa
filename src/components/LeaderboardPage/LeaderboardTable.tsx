@@ -7,6 +7,7 @@ import {
   Typography,
   Box,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import React from 'react';
 
 import ranking_1 from '../../assets/ranking_one.svg';
@@ -17,10 +18,9 @@ import { CustomAvatar, SyneTypography } from './LeaderboardPage.styles';
 
 import type { LeaderboardUser } from './LeaderboardPage.types';
 
-export const LeaderboardTable: React.FC<{
-  users: LeaderboardUser[];
-  currentUserId?: string;
-}> = ({ users }) => {
+export const LeaderboardTable: React.FC<{ users: LeaderboardUser[] }> = ({ users }) => {
+  const theme = useTheme();
+
   return (
     <TableContainer>
       <Table
@@ -35,13 +35,14 @@ export const LeaderboardTable: React.FC<{
             const rankingImg =
               idx === 0 ? ranking_1 : idx === 1 ? ranking_2 : idx === 2 ? ranking_3 : null;
 
-            const row = (
+            return (
               <TableRow key={u.id} data-testid={`row-${u.username}`}>
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <CustomAvatar src={u.avatarUrl} alt={u.fullName} />
                   </Box>
                 </TableCell>
+
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Box>
@@ -50,13 +51,22 @@ export const LeaderboardTable: React.FC<{
                     </Box>
                   </Box>
                 </TableCell>
-                <TableCell align="right" sx={{ width: 120 }}>
+
+                <TableCell
+                  align="right"
+                  sx={{
+                    minWidth: { xs: '8rem', sm: '10rem', md: '12rem' }, // ✅ theme-friendly responsive widths
+                  }}
+                >
                   {rankingImg ? (
                     <Box
                       component="img"
                       src={rankingImg}
                       alt={`rank-${idx + 1}`}
-                      sx={{ height: 48, width: 'auto' }}
+                      sx={{
+                        height: theme.spacing(6),
+                        width: 'auto',
+                      }}
                     />
                   ) : (
                     <Typography variant="body2">{u.rank ?? idx + 1}</Typography>
@@ -64,8 +74,6 @@ export const LeaderboardTable: React.FC<{
                 </TableCell>
               </TableRow>
             );
-
-            return row;
           })}
         </TableBody>
       </Table>
