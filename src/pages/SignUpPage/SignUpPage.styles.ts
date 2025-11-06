@@ -35,78 +35,22 @@ const percentH = (px: number) => (px / GEOMETRY_PX.PAGE_HEIGHT) * 100 + '%';
 
 const fontVw = (px: number, capPx: number, theme: Theme) => {
   const vw = (px / GEOMETRY_PX.PAGE_WIDTH) * 100;
-
   const rem = theme.typography.pxToRem(capPx);
 
-  const dummy = theme.palette.primary.main;
   return {
-    fontSize: `clamp(8px, ${vw}vw, ${rem})`,
-
-    'data-theme': dummy,
+    fontSize: `clamp(${theme.typography.pxToRem(8)}, ${vw}vw, ${rem})`,
   };
 };
 
-// Use theme to avoid lint error
-const fontVwThemeUsage = (theme: Theme) => {
-  const dummy = theme.palette.primary.main;
-  return dummy;
-};
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-fontVwThemeUsage;
-
-const fontVwUsage = (theme: Theme) => theme.palette.primary.main;
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-fontVwUsage;
-
-const dummyThemeUsage2 = (theme: Theme) => theme.palette.primary.main;
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-dummyThemeUsage2;
-
-const themeUsage = (theme: Theme) => theme.palette.primary.main;
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-themeUsage;
-
-const useTheme = (theme: Theme) => theme.palette.primary.main;
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-useTheme;
-
-const dummy = (theme: Theme) => theme.palette.primary.main;
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-dummy;
-
-const finalThemeUsage = (theme: Theme) => theme.palette.primary.main;
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-finalThemeUsage;
-
-const lastThemeUsage = (theme: Theme) => theme.palette.primary.main;
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-lastThemeUsage;
-
-const ultimateThemeUsage = (theme: Theme) => theme.palette.primary.main;
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-ultimateThemeUsage;
-
-const finalUltimateThemeUsage = (theme: Theme) => theme.palette.primary.main;
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-finalUltimateThemeUsage;
-
-const dummyThemeUsage = (theme: Theme) => theme.palette.primary.main;
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-dummyThemeUsage;
-
-export const getPageContainerStyles = (theme: Theme) => ({
+export const getPageContainerStyles = () => ({
   position: 'relative',
   width: '100%',
-
-  maxWidth: `${GEOMETRY_PX.PAGE_WIDTH}px`,
-
+  maxWidth: GEOMETRY_PX.PAGE_WIDTH,
   aspectRatio: `${GEOMETRY_PX.PAGE_WIDTH} / ${GEOMETRY_PX.PAGE_HEIGHT}`,
   height: 'auto',
   margin: 'auto',
-
   boxSizing: 'border-box',
   zIndex: 1,
-  'data-theme': theme.palette.primary.main,
 });
 
 export const getFormStyles = (theme: Theme) => ({
@@ -117,11 +61,9 @@ export const getFormStyles = (theme: Theme) => ({
   textAlign: 'left',
   top: 0,
   left: 0,
-
   borderRadius: percentW(GEOMETRY_PX.PAGE_BORDER_RADIUS),
   background: theme.palette.background.paper,
   overflow: 'hidden',
-  'data-theme': theme.palette.primary.main,
 });
 
 const getAbsoluteElementBase = (
@@ -133,7 +75,6 @@ const getAbsoluteElementBase = (
   zIndex: number = 2
 ) => ({
   position: 'absolute',
-  // Everything in percentages!
   left: percentW(leftPx),
   top: percentH(topPx),
   width: percentW(widthPx),
@@ -144,7 +85,6 @@ const getAbsoluteElementBase = (
   alignItems: 'center',
   justifyContent: 'center',
   color: theme.palette.text.secondary,
-  'data-theme': theme.palette.primary.main,
 });
 
 export const getLogoStyles = (theme: Theme) => ({
@@ -183,12 +123,11 @@ export const getButtonStyles = (theme: Theme) => ({
   ...fontVw(16.44, 16.44, theme),
 });
 
-// 3.5 Text and Link Styles
 export const haveAccountTextStyles = (theme: Theme) => ({
   position: 'absolute',
   left: percentW(GEOMETRY_PX.INPUT_LEFT),
   top: percentH(GEOMETRY_PX.LOGIN_LINK_TOP),
-  fontFamily: 'Syne, sans-serif',
+  fontFamily: theme.typography.fontFamily,
   color: theme.palette.text.secondary,
   zIndex: 1,
   ...fontVw(16.4442, 16.4442, theme), // Scaled
@@ -198,8 +137,8 @@ export const loginLinkStyles = (theme: Theme) => ({
   position: 'absolute',
   left: percentW(GEOMETRY_PX.LOGIN_LINK_LEFT),
   top: percentH(GEOMETRY_PX.LOGIN_LINK_TOP),
-  fontFamily: 'Syne, sans-serif',
-  color: '#B441EB',
+  fontFamily: theme.typography.fontFamily,
+  color: theme.palette.link.purple,
   cursor: 'pointer',
   textDecoration: 'none',
   '&:hover': {
@@ -213,21 +152,18 @@ export const signupWithTextStyles = (theme: Theme) => ({
   left: '50%',
   transform: 'translateX(-50%)',
   top: percentH(GEOMETRY_PX.SIGNUP_WITH_TOP),
-  fontFamily: 'Syne, sans-serif',
+  fontFamily: theme.typography.fontFamily,
   color: theme.palette.text.secondary,
   whiteSpace: 'nowrap',
   ...fontVw(14.617, 14.617, theme),
 });
 
-// 3.6 Social Icon Styles
-
 const calculateIconPosXPx = (iconIndex: 0 | 1 | 2): number => {
   const { GOOGLE_POS_X, ICON_SIZE, ICON_SEPARATION } = GEOMETRY_PX;
-
   return GOOGLE_POS_X + iconIndex * (ICON_SIZE + ICON_SEPARATION);
 };
 
-export const getSocialIconStyles = (iconIndex: 0 | 1 | 2, theme: Theme) => ({
+export const getSocialIconStyles = (iconIndex: 0 | 1 | 2) => ({
   position: 'absolute',
   left: percentW(calculateIconPosXPx(iconIndex)),
   top: percentH(GEOMETRY_PX.ICONS_TOP),
@@ -236,23 +172,21 @@ export const getSocialIconStyles = (iconIndex: 0 | 1 | 2, theme: Theme) => ({
   cursor: 'pointer',
   transition: 'transform 0.2s ease',
   '&:hover': { transform: 'scale(1.1)' },
-  'data-theme': theme.palette.primary.main,
 });
 
-// Legal Text Styles
 export const legalTextStyles = (theme: Theme) => ({
   position: 'absolute',
   left: percentW(GEOMETRY_PX.INPUT_LEFT),
   top: percentH(GEOMETRY_PX.LEGAL_TEXT_TOP),
   width: percentW(GEOMETRY_PX.LEGAL_TEXT_WIDTH),
-  fontFamily: 'Syne, sans-serif',
+  fontFamily: theme.typography.fontFamily,
   lineHeight: 1.2,
   textAlign: 'center',
   color: theme.palette.text.secondary,
   ...fontVw(14.617, 14.617, theme),
 });
 
-export const legalLinkStyles = {
-  color: '#4285F4',
+export const legalLinkStyles = (theme: Theme) => ({
+  color: theme.palette.link.blue,
   textDecoration: 'underline',
-};
+});
