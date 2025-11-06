@@ -1,18 +1,18 @@
 import { Box, Avatar, Typography, Paper } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import React from 'react';
 
 import ranking_1 from '../../assets/ranking_one.svg';
 import ranking_3 from '../../assets/ranking_three.svg';
 import ranking_2 from '../../assets/ranking_two.svg';
 
-import { HighlightRow, SyneTypography } from './LeaderboardPage.styles';
+import { SyneTypography } from './LeaderboardPage.styles';
 
 import type { LeaderboardUser } from './LeaderboardPage.types';
 
-export const RankingList: React.FC<{ users: LeaderboardUser[]; currentUserId?: string }> = ({
-  users,
-  currentUserId,
-}) => {
+export const RankingList: React.FC<{ users: LeaderboardUser[] }> = ({ users }) => {
+  const theme = useTheme();
+
   return (
     <Box sx={{ display: 'grid', gap: 1 }}>
       {users.map((u) => {
@@ -32,7 +32,7 @@ export const RankingList: React.FC<{ users: LeaderboardUser[]; currentUserId?: s
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Avatar src={u.avatarUrl} />
+                <Avatar src={u.avatarUrl} alt={u.fullName} />
                 <Box>
                   <Typography fontWeight={700}>
                     {u.rank}. {u.fullName}
@@ -46,16 +46,12 @@ export const RankingList: React.FC<{ users: LeaderboardUser[]; currentUserId?: s
                   component="img"
                   src={rankImg}
                   alt={`ranking-${u.rank}`}
-                  sx={{ width: 40, height: 40, objectFit: 'contain' }}
+                  sx={{ width: theme.spacing(5), height: theme.spacing(5), objectFit: 'contain' }}
                 />
               )}
             </Box>
           </Paper>
         );
-
-        if (u.id === currentUserId) {
-          return <HighlightRow key={u.id}>{content}</HighlightRow>;
-        }
 
         return <div key={u.id}>{content}</div>;
       })}

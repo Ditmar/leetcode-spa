@@ -3,15 +3,12 @@ import { Box, Grid, CircularProgress, useMediaQuery, type Theme } from '@mui/mat
 import { purple } from '@mui/material/colors';
 import React from 'react';
 
-import { CURRENT_USER_ID } from './LeaderboardPage.constants';
 import { useLeaderboardPage } from './LeaderboardPage.hook';
 import { PageWrap, ContentCard, LeaderboardTitle } from './LeaderboardPage.styles';
 import { LeaderboardTable } from './LeaderboardTable';
 import { RankingList } from './RankingList';
 
-export const LeaderboardPage: React.FC<{ currentUserId?: string }> = ({
-  currentUserId = CURRENT_USER_ID,
-}) => {
+export const LeaderboardPage: React.FC = () => {
   const { users, loading, error } = useLeaderboardPage();
 
   const isSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -36,11 +33,7 @@ export const LeaderboardPage: React.FC<{ currentUserId?: string }> = ({
 
           {!loading && !error && (
             <Box>
-              {isSmall ? (
-                <RankingList users={users} currentUserId={currentUserId} />
-              ) : (
-                <LeaderboardTable users={users} currentUserId={currentUserId} />
-              )}
+              {isSmall ? <RankingList users={users} /> : <LeaderboardTable users={users} />}
             </Box>
           )}
         </ContentCard>

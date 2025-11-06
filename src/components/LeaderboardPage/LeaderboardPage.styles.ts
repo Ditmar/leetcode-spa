@@ -16,38 +16,33 @@ export const HighlightRow = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
 }));
 
-export const SyneTypography = styled(Typography)(() => ({
-  fontFamily: 'Syne, sans-serif',
+export const SyneTypography = styled(Typography)(({ theme }) => ({
+  ...theme.typography.caption,
   fontWeight: 500,
-  fontStyle: 'normal',
-  fontSize: '15px',
-  lineHeight: '100%',
-  letterSpacing: '0%',
-  color: '#0D0D0D80',
+  color: theme.palette.text.secondary,
+  fontFamily: '"Syne", ' + theme.typography.fontFamily,
 }));
 
 export const CustomAvatar = styled(Avatar)(({ theme }) => ({
-  width: 32,
-  height: 32,
+  width: theme.spacing(4),
+  height: theme.spacing(4),
 
   [theme.breakpoints.up('sm')]: {
-    width: 40,
-    height: 40,
+    width: theme.spacing(5),
+    height: theme.spacing(5),
   },
 
   [theme.breakpoints.up('md')]: {
-    width: 48,
-    height: 48,
+    width: theme.spacing(6),
+    height: theme.spacing(6),
   },
 }));
 
 export const LeaderboardTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'Poppins, sans-serif',
+  ...theme.typography.h5,
   fontWeight: 600,
-  fontSize: '28px',
-  lineHeight: '100%',
-  letterSpacing: 0,
   padding: theme.spacing(1.5, 3),
   borderRadius: theme.spacing(1),
   display: 'inline-block',
+  color: theme.palette.text.primary,
 }));
