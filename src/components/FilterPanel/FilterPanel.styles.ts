@@ -47,7 +47,7 @@ export const FilterButton = styled(Button, {
   const isPrimary = panelVariant === 'primary' || !panelVariant;
   const sizeCfg = FILTER_BUTTON_SIZES[size];
   const activeFill = isPrimary ? theme.palette.primary.main : theme.palette.secondary.main;
-  const hoverFill = isPrimary ? theme.palette.primary.dark : theme.palette.secondary.dark;
+  const hoverFill = isPrimary ? theme.palette.primary.dark : theme.palette.secondary.main;
   const inactiveText = isPrimary ? theme.palette.text.primary : theme.palette.secondary.main;
   const activeText = theme.palette.getContrastText(activeFill);
   return {
