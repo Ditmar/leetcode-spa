@@ -14,7 +14,7 @@ interface FilterPanelContainerProps {
 }
 
 const PANEL_MAX_WIDTHS: Record<PanelSize, string> = {
-  medium: '317px',
+  medium: '301px',
   large: '360px',
   xlarge: '560px',
 };
@@ -26,7 +26,7 @@ export const FilterPanelContainer = styled(Box, {
   flexDirection: 'column',
   border: `none`,
   borderRadius: theme.shape.borderRadius,
-  padding: theme.spacing(1),
+  padding: 0,
   gap: 0,
   maxWidth: PANEL_MAX_WIDTHS[size],
   width: '100%',
