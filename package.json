@@ -29,7 +29,8 @@
     "@mui/material": "^7.3.4",
     "astro": "5.13.9",
     "react": "19.1.1",
-    "react-dom": "19.1.1"
+    "react-dom": "19.1.1",
+    "yaml": "2.4.2"
   },
   "engines": {
     "node": ">=20.3.0",
@@ -48,8 +49,8 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/parse-json": "7.0.0",
     "@types/prop-types": "15.7.15",
-    "@types/react": "19.1.13",
-    "@types/react-dom": "^19.2.0",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
     "@typescript-eslint/eslint-plugin": "8.44.0",
     "@typescript-eslint/parser": "8.44.0",
     "@vitejs/plugin-react": "^5.0.4",
