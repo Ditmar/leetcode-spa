@@ -1,0 +1,84 @@
+# ConsoleIO
+
+The **ConsoleIO** component provides an interactive console interface with two tabs: **Sample** and **Custom**.
+It allows users to view predefined data samples or input their own custom values. The component is fully responsive, accessible, and integrated with the application theme via **Material UI**.
+
+---
+
+## Purpose
+
+The component is designed to simulate data input in a console-like environment.
+It is particularly useful for:
+
+* Testing and visualizing sample input for algorithms.
+* Allowing users to provide custom test cases.
+* Educational or assessment tools that require interactive text areas.
+* Maintaining consistent layout and scroll behavior in limited space.
+
+---
+
+## Props
+
+**sampleValue?: string**
+Initial text for the **Sample** tab. Default is an empty string.
+
+**customValue?: string**
+Initial text for the **Custom** tab. Default is an empty string.
+
+**onSampleChange?: (value: string) => void**
+Callback triggered when the text in the **Sample** tab changes.
+
+**onCustomChange?: (value: string) => void**
+Callback triggered when the text in the **Custom** tab changes.
+
+**defaultTab?: 'sample' | 'custom'**
+Specifies which tab is active when the component is rendered.
+Default value: `'sample'`.
+
+**height?: number | string**
+Height of the console container.
+If not defined, it uses the theme value: `theme.consoleIO.dimensions.containerHeight` (default 502px).
+
+**width?: number | string**
+Width of the console container.
+If not defined, it uses the theme value: `theme.consoleIO.dimensions.containerWidth` (default 260px, up to 100%).
+
+**data-testid?: string**
+Identifier for testing with React Testing Library.
+Default value: `'consoleio-root'`.
+
+---
+
+## Behavior and Accessibility
+
+* Tabs remain visible even when text content is large.
+* Each text area supports scrolling and multi-line input.
+* Implements ARIA roles (`role="region"`, `aria-label`) for screen readers.
+* Fully compatible with responsive layouts defined in the project theme.
+
+---
+
+## Example Usage
+
+```tsx
+<ConsoleIO
+  sampleValue={`2\n6 3\n0 5 5 6 6 6\n8 2\n0 0 1 1 2 2 2 2`}
+  customValue="Enter your own test data here"
+  defaultTab="sample"
+  onSampleChange={(value) => console.log('Sample changed:', value)}
+  onCustomChange={(value) => console.log('Custom changed:', value)}
+  height={502}
+  width={260}
+  data-testid="consoleio-root"
+/>
+```
+
+---
+
+## Notes
+
+* The `height` and `width` adapt dynamically if the theme values change.
+* Works seamlessly with automated tests and Storybook examples.
+* Styling and structure are defined in `ConsoleIO.styles.ts` for consistent visual behavior.
+
+---
