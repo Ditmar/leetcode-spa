@@ -3,7 +3,8 @@ import type { StorybookConfig } from '@storybook/react-vite';
 const config: StorybookConfig = {
   stories: [
     '../src/**/*.mdx',
-    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'
+    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+    '!../src/components/ConsoleIO/ConsoleIO.docs.mdx', // just exclusion 
   ],
   addons: [
     '@chromatic-com/storybook',
@@ -17,4 +18,4 @@ const config: StorybookConfig = {
   },
 };
 
-export default config;
+export { config };
