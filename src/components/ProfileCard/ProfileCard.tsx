@@ -3,7 +3,7 @@ import * as React from 'react';
 import {
   DEFAULT_PROPS,
   STATS_ICONS,
-  STATS_LABELS,
+  STATS_LABELS_FALLBACK,
   DEFAULT_AVATAR_ICON,
   FALLBACK_INITIALS,
 } from './ProfileCard.constants';
@@ -30,9 +30,11 @@ const StatsItem: React.FC<StatsItemProps> = ({
   label,
   value,
   $variant,
+  locale,
   'data-testid': dataTestId,
 }) => {
-  const formattedValue = typeof value === 'number' ? value.toLocaleString('en-US') : value;
+  // Use user's locale for number formatting (respects browser/system locale)
+  const formattedValue = typeof value === 'number' ? value.toLocaleString(locale) : value;
 
   return (
     <StyledStatItem $variant={$variant} data-testid={dataTestId}>
@@ -45,7 +47,22 @@ const StatsItem: React.FC<StatsItemProps> = ({
   );
 };
 
-/** Profile card component for displaying user information and statistics */
+/**
+ * Profile card component for displaying user information and statistics
+ *
+ * @component
+ * @example
+ * ```tsx
+ * import { ProfileCard } from './ProfileCard';
+ *
+ * <ProfileCard
+ *   name="John Doe"
+ *   username="johndoe"
+ *   role="Developer"
+ *   stats={{ courses: 10, points: 2500, ranking: 15 }}
+ * />
+ * ```
+ */
 export const ProfileCard: React.FC<ProfileCardProps> = ({
   avatarUrl,
   name,
@@ -55,6 +72,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   size = DEFAULT_PROPS.size,
   variant = DEFAULT_PROPS.variant,
   showStats = DEFAULT_PROPS.showStats,
+  locale,
   className,
   'data-testid': dataTestId = 'profile-card',
   ...cardProps
@@ -66,6 +84,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
   const DefaultIcon = DEFAULT_AVATAR_ICON;
   const initials = FALLBACK_INITIALS(name);
+
+  // Detect user's locale if not provided
+  const userLocale = locale || (typeof navigator !== 'undefined' ? navigator.language : undefined);
 
   const formatRanking = (rank: number): string => {
     if (rank === 0) return '-';
@@ -142,23 +163,26 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         >
           <StatsItem
             icon={<STATS_ICONS.courses />}
-            label={STATS_LABELS.courses}
+            label={STATS_LABELS_FALLBACK.courses}
             value={stats.courses}
             $variant={variant}
+            locale={userLocale}
             data-testid={`${dataTestId}-stat-courses`}
           />
           <StatsItem
             icon={<STATS_ICONS.points />}
-            label={STATS_LABELS.points}
+            label={STATS_LABELS_FALLBACK.points}
             value={stats.points}
             $variant={variant}
+            locale={userLocale}
             data-testid={`${dataTestId}-stat-points`}
           />
           <StatsItem
             icon={<STATS_ICONS.ranking />}
-            label={STATS_LABELS.ranking}
+            label={STATS_LABELS_FALLBACK.ranking}
             value={formatRanking(stats.ranking)}
             $variant={variant}
+            locale={userLocale}
             data-testid={`${dataTestId}-stat-ranking`}
           />
         </StyledStatsContainer>
@@ -166,5 +190,3 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     </StyledCard>
   );
 };
-
-export default ProfileCard;

@@ -52,7 +52,26 @@ export const STATS_ICONS = {
   ranking: EmojiEventsIcon,
 } as const;
 
-export const STATS_LABELS = {
+/**
+ * Statistics label keys for i18n system
+ *
+ * TODO: Replace with actual i18n implementation
+ * Usage example: t('profile.stats.courses')
+ *
+ * For now, these are fallback keys that should be replaced
+ * with your i18n translation function calls
+ */
+export const STATS_LABEL_KEYS = {
+  courses: 'profile.stats.courses', // Should resolve to translated "Courses"
+  points: 'profile.stats.points', // Should resolve to translated "Points"
+  ranking: 'profile.stats.ranking', // Should resolve to translated "Ranking"
+} as const;
+
+/**
+ * Temporary fallback labels until i18n is fully integrated
+ * These should be removed once i18n system is in place
+ */
+export const STATS_LABELS_FALLBACK = {
   courses: 'Courses',
   points: 'Points',
   ranking: 'Ranking',

@@ -55,6 +55,62 @@ declare module '@mui/material/Typography' {
   }
 }
 
+// ========================================
+// ProfileCard Component Spacing Tokens
+// ========================================
+// All values are in spacing units (multiplied by base spacing: 8px)
+// Example: avatarSpacing: 6 = 6 * 8px = 48px
+
+export const PROFILE_CARD_SPACING = {
+  small: {
+    avatarSpacing: 6,
+    paddingUnits: 2,
+    infoGap: 0.5,
+    statsGap: 1.5,
+    statsPaddingTop: 2,
+    borderWidth: 1,
+  },
+  medium: {
+    avatarSpacing: 8,
+    paddingUnits: 2.5,
+    infoGap: 0.5,
+    statsGap: 2,
+    statsPaddingTop: 2,
+    borderWidth: 1,
+  },
+  large: {
+    avatarSpacing: 10,
+    paddingUnits: 3,
+    infoGap: 0.5,
+    statsGap: 2.5,
+    statsPaddingTop: 2,
+    borderWidth: 1,
+  },
+} as const;
+
+// ========================================
+// ProfileCard Component Typography Tokens
+// ========================================
+// All font sizes use rem units for scalability
+
+export const PROFILE_CARD_TYPOGRAPHY = {
+  small: {
+    nameSize: '1rem',
+    usernameSize: '0.875rem',
+    roleSize: '0.75rem',
+  },
+  medium: {
+    nameSize: '1.125rem',
+    usernameSize: '0.875rem',
+    roleSize: '0.8125rem',
+  },
+  large: {
+    nameSize: '1.25rem',
+    usernameSize: '1rem',
+    roleSize: '0.875rem',
+  },
+} as const;
+
 /**
  * PillTag Component Tokens
  * Dimensiones exactas desde Figma siguiendo la estructura:
@@ -148,61 +204,6 @@ theme.components = {
         font-style: normal;
         font-display: swap;
       }
-    `,
-  },
-};
-
-theme.typography = {
-  ...theme.typography,
-  fontFamily: '"Montserrat", "Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
-  title: {
-    fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
-    fontWeight: 600,
-    fontStyle: 'normal',
-    fontSize: '1.125rem',
-    lineHeight: '100%',
-    letterSpacing: '0%',
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
-    fontWeight: 400,
-    fontStyle: 'normal',
-    fontSize: '1rem',
-    lineHeight: '100%',
-    letterSpacing: '0%',
-    textAlign: 'center',
-  },
-  question: {
-    fontFamily: '"Montserrat","Inter","Roboto","Helvetica","Arial",sans-serif',
-    fontWeight: 600,
-    fontSize: '1.125rem',
-    lineHeight: 1.3,
-    textTransform: 'capitalize',
-  },
-
-  option: {
-    fontFamily: '"Syne","Montserrat","Inter","Roboto","Helvetica","Arial",sans-serif',
-    fontWeight: 500,
-    fontSize: '1.19rem',
-    lineHeight: 1.2,
-  },
-};
-
-theme.palette = {
-  ...theme.palette,
-  text: {
-    primary: '#000000',
-    secondary: '#4F4F4F',
-    disabled: '',
-  },
-  backgroundQuestion: '#F1F3F9',
-};
-
-theme.components = {
-  ...theme.components,
-  MuiCssBaseline: {
-    styleOverrides: `
       @font-face {
         font-family: 'Syne';
         src: url(${SyneRegular}) format('woff2');
@@ -241,6 +242,53 @@ theme.components = {
     `,
   },
 };
+
+theme.typography = {
+  ...theme.typography,
+  fontFamily: '"Montserrat", "Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
+  title: {
+    fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
+    fontWeight: 600,
+    fontStyle: 'normal',
+    fontSize: '1.125rem',
+    lineHeight: '100%',
+    letterSpacing: '0%',
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
+    fontWeight: 400,
+    fontStyle: 'normal',
+    fontSize: '1rem',
+    lineHeight: '100%',
+    letterSpacing: '0%',
+    textAlign: 'center',
+  },
+  question: {
+    fontFamily: '"Montserrat","Inter","Roboto","Helvetica","Arial",sans-serif',
+    fontWeight: 600,
+    fontSize: '1.125rem',
+    lineHeight: 1.3,
+    textTransform: 'capitalize',
+  },
+  option: {
+    fontFamily: '"Syne","Montserrat","Inter","Roboto","Helvetica","Arial",sans-serif',
+    fontWeight: 500,
+    fontSize: '1.19rem',
+    lineHeight: 1.2,
+  },
+};
+
+theme.palette = {
+  ...theme.palette,
+  text: {
+    primary: '#000000',
+    secondary: '#4F4F4F',
+    disabled: '',
+  },
+  backgroundQuestion: '#F1F3F9',
+};
+
 theme.consoleIO = {
   dimensions: {
     containerWidth: 260,
@@ -252,7 +300,7 @@ theme.consoleIO = {
   },
 };
 
-export default theme;
+export { theme };
 export { themeConfig };
 
 export const darkTheme = createCustomTheme({

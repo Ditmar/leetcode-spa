@@ -27,6 +27,8 @@ export interface ProfileCardProps extends Omit<CardProps, 'children' | 'variant'
   variant?: ProfileCardVariant;
   /** Whether to show the stats section */
   showStats?: boolean;
+  /** Locale for number formatting (defaults to user's browser locale) */
+  locale?: string;
   /** Custom className */
   className?: string;
   /** Test id for testing purposes */
@@ -46,6 +48,7 @@ export interface StatsItemProps {
   label: string;
   value: number | string;
   $variant: ProfileCardVariant;
+  locale?: string;
   'data-testid'?: string;
 }
 

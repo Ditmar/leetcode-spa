@@ -24,7 +24,7 @@ export const StyledCard = styled(Card, {
     }),
     '&:hover': {
       boxShadow: theme.shadows[4],
-      transform: 'translateY(-2px)',
+      transform: `translateY(-${theme.spacing(0.25)})`,
     },
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(2),
@@ -61,7 +61,7 @@ export const StyledAvatar = styled(Avatar, {
     backgroundColor: theme.palette.primary.main,
     fontSize: `calc(${theme.spacing(spacingConfig.avatarSpacing)} * 0.4)`,
     fontWeight: theme.typography.fontWeightBold || 600,
-    border: `${spacingConfig.borderWidth}px solid ${theme.palette.background.paper}`,
+    border: `${theme.spacing(spacingConfig.borderWidth / 8)} solid ${theme.palette.background.paper}`,
     boxShadow: theme.shadows[2],
     [theme.breakpoints.down('sm')]: {
       width: theme.spacing(6),
@@ -159,7 +159,7 @@ export const StyledStatsContainer = styled(Box, {
     gap: theme.spacing(spacingConfig.statsGap),
     marginTop: theme.spacing(spacingConfig.statsPaddingTop),
     paddingTop: theme.spacing(spacingConfig.statsPaddingTop),
-    borderTop: `1px solid ${theme.palette.grey[200]}`,
+    borderTop: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
     justifyContent: $variant === 'expanded' ? 'space-between' : 'center',
     flexWrap: 'wrap',
     [theme.breakpoints.down('sm')]: {
