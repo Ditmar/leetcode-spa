@@ -4,7 +4,6 @@ const config: StorybookConfig = {
   stories: [
     '../src/**/*.mdx',
     '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-    '!../src/components/ConsoleIO/ConsoleIO.docs.mdx', // just exclusion 
   ],
   addons: [
     '@chromatic-com/storybook',
@@ -17,5 +16,21 @@ const config: StorybookConfig = {
     options: {}
   },
 };
+
+// Excluir ConsoleIO manualmente
+// Handle both array and function forms of PresetValue<StoriesEntry[]>
+if (Array.isArray(config.stories)) {
+  config.stories = config.stories.filter(pattern =>
+    typeof pattern === 'string' && !pattern.includes('ConsoleIO')
+  );
+} else if (typeof config.stories === 'function') {
+  const originalStories = config.stories;
+  config.stories = async (entry, options) => {
+    const resolved = await (originalStories as any)(entry, options);
+    return (Array.isArray(resolved) ? resolved : []).filter(pattern =>
+      typeof pattern === 'string' && !pattern.includes('ConsoleIO')
+    );
+  };
+}
 
 export default config;
