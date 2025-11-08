@@ -1,0 +1,96 @@
+import { TestCard } from './TestCard';
+
+# 🧩 TestCard — Interactive Visual Card
+
+The **TestCard** component displays an image (or React node) with a title and description, either overlaid or arranged horizontally.  
+It is designed for use cases where you want to highlight visual elements (such as products, users, or courses) with an elegant, accessible, and adaptable appearance.
+
+This component uses `CardActionArea` internally to ensure keyboard accessibility and supports `onSelect` as a standard React mouse event handler.
+
+---
+
+## 🌆 Vertical Example
+
+<TestCard
+  logo="https://i.postimg.cc/KckvLBVj/codigo.jpg"
+/>
+
+---
+
+## 🧭 Horizontal Example
+
+<TestCard
+  logo="https://i.postimg.cc/xTFCBQZ6/istockphoto-1164357236-612x612.jpg"
+  orientation="horizontal"
+/>
+
+---
+
+## 🖱️ Interaction with onSelect
+
+You can handle clicks with `onSelect` 👇
+
+<TestCard
+  logo="https://i.postimg.cc/KckvLBVj/codigo.jpg"
+  onSelect={(event) => console.log('Card clicked', event)}
+/>
+
+> ✅ `onSelect` uses `React.MouseEvent<HTMLButtonElement>` so you can access the event if needed.
+
+---
+
+## 🧩 Double Card (Comparison)
+
+Example showing two cards side by side with different images and descriptions.
+
+<div style={{ display: 'flex', gap: '24px', justifyContent: 'center', flexWrap: 'wrap' }}>
+  <TestCard
+    logo="https://i.postimg.cc/KckvLBVj/codigo.jpg"
+    title="Card A"
+    description="Based on main Figma design"
+  />
+  <TestCard
+    logo="https://i.postimg.cc/FRZFpXcM/X-tipos-de-lenguaje-de-programaci-n-m-s-buscados-por-las-empresas.jpg"
+    title="Card B"
+    description="Second card with a different image"
+  />
+</div>
+
+---
+
+## ⚙️ Main Props
+
+| Property      | Type                               | Description |
+|---------------|-----------------------------------|-------------|
+| `logo`        | `string \| ReactNode`             | Main image or React node displayed in the card. |
+| `title`       | `string`                           | Title displayed in overlay. |
+| `description` | `string`                           | Descriptive text shown in overlay. |
+| `orientation` | `'vertical' \| 'horizontal'`      | Layout orientation of the card. Defaults to `'vertical'`. |
+| `onSelect`    | `React.MouseEventHandler<HTMLButtonElement>` | Function called when the card is clicked, receives the click event. |
+| `cardProps`   | `Omit<CardProps, 'onClick'>`       | Optional props to pass to the underlying MUI `Card` component. |
+
+---
+
+## 💡 Usage Recommendations
+
+- Use images with similar proportions (ideally **202×285 px**) for consistent presentation.  
+- Avoid overly long titles or descriptions.  
+- Ideal for interactive panels, dashboards, or galleries.  
+- `onSelect` allows keyboard and mouse accessibility.  
+
+---
+
+### 🧠 Code Example
+
+```tsx
+import { TestCard } from '@/components/TestCard';
+
+export const Example = () => (
+  <TestCard
+    logo="https://i.postimg.cc/KckvLBVj/codigo.jpg"
+    title="My Card"
+    description="Usage example inside a React application"
+    orientation="vertical"
+    onSelect={(event) => console.log('Card clicked!', event)}
+  />
+);
