@@ -1,10 +1,18 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 
+const shouldExcludeConsoleIO = process.env.CI || process.env.SKIP_CONSOLEIO;
+
 const config: StorybookConfig = {
-  stories: [
-    '../src/**/*.mdx',
-    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-  ],
+  stories: shouldExcludeConsoleIO 
+    ? [
+        '../src/**/*.mdx',
+        '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+        '!../src/components/ConsoleIO/ConsoleIO.docs.mdx'
+      ]
+    : [
+        '../src/**/*.mdx',
+        '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+      ],
   addons: [
     '@chromatic-com/storybook',
     '@storybook/addon-essentials',
@@ -16,21 +24,5 @@ const config: StorybookConfig = {
     options: {}
   },
 };
-
-// Excluir ConsoleIO manualmente
-// Handle both array and function forms of PresetValue<StoriesEntry[]>
-if (Array.isArray(config.stories)) {
-  config.stories = config.stories.filter(pattern =>
-    typeof pattern === 'string' && !pattern.includes('ConsoleIO')
-  );
-} else if (typeof config.stories === 'function') {
-  const originalStories = config.stories;
-  config.stories = async (entry, options) => {
-    const resolved = await (originalStories as any)(entry, options);
-    return (Array.isArray(resolved) ? resolved : []).filter(pattern =>
-      typeof pattern === 'string' && !pattern.includes('ConsoleIO')
-    );
-  };
-}
 
 export default config;
