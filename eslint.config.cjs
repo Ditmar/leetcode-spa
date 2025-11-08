@@ -20,6 +20,11 @@ module.exports = [
       '*.config.ts',
       '*.config.mjs',
       'astro.config.mjs',
+      'coverage/**',
+      '**/*.astro',
+      'src/pages/**/*.astro',
+      'src/layouts/**/*.astro',
+      '.astro/**'
     ] 
   },
   js.configs.recommended,
