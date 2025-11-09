@@ -1,0 +1,11 @@
+import{j as r}from"./jsx-runtime-BTt0U4fe.js";import{M as d}from"./MuiThemeProvider-CB7OStPT.js";import{r as h}from"./index-DtJulBIN.js";import{B as x}from"./Box-DDmOFRI_.js";import{P as g}from"./Paper-Bc337sqf.js";import{T as a}from"./Typography-FgKIGWry.js";import{B as f}from"./Button-0DjRwnYI.js";import"./identifier-Bm9izWyR.js";import"./extends-CF3RwP-h.js";import"./_commonjsHelpers-BosuxZz1.js";import"./theme-Bk7-DOo_.js";import"./theme.helpers-DAB0_Nud.js";import"./useId-BdOt_5g2.js";import"./useEnhancedEffect-B9e5S8q0.js";import"./ButtonBase-BvB5UX1y.js";import"./useIsFocusVisible-Dxr7n688.js";import"./assertThisInitialized-C1KLUksq.js";function u(){const[o,l]=h.useState(0);return r.jsx(x,{sx:{p:4,maxWidth:400,mx:"auto"},children:r.jsxs(g,{elevation:3,sx:{p:3},children:[r.jsx(a,{variant:"h4",component:"h1",gutterBottom:!0,children:"MUI + SSR Test"}),r.jsx(a,{variant:"body1",paragraph:!0,children:"Este componente usa Material-UI con soporte completo para SSR."}),r.jsxs(a,{variant:"h6",sx:{mb:2},children:["Contador: ",o]}),r.jsx(f,{variant:"contained",onClick:()=>l(o+1),fullWidth:!0,children:"Incrementar"})]})})}u.__docgenInfo={description:"",methods:[],displayName:"SimpleMuiExample"};const H={title:"Theme/SimpleMuiExample",component:u,decorators:[o=>r.jsx(d,{children:r.jsx(o,{})})],parameters:{layout:"fullscreen"},tags:["autodocs"]},e={},t={decorators:[o=>r.jsx(d,{children:r.jsx("div",{style:{backgroundColor:"#121212",minHeight:"100vh",padding:"1rem"},children:r.jsx(o,{})})})]};var i,s,n;e.parameters={...e.parameters,docs:{...(i=e.parameters)==null?void 0:i.docs,source:{originalSource:"{}",...(n=(s=e.parameters)==null?void 0:s.docs)==null?void 0:n.source}}};var m,p,c;t.parameters={...t.parameters,docs:{...(m=t.parameters)==null?void 0:m.docs,source:{originalSource:`{
+  decorators: [Story => <MuiThemeProvider>
+        <div style={{
+      backgroundColor: '#121212',
+      minHeight: '100vh',
+      padding: '1rem'
+    }}>
+          <Story />
+        </div>
+      </MuiThemeProvider>]
+}`,...(c=(p=t.parameters)==null?void 0:p.docs)==null?void 0:c.source}}};const U=["Default","WithDarkBackground"];export{e as Default,t as WithDarkBackground,U as __namedExportsOrder,H as default};
