@@ -1,6 +1,6 @@
 {
   "include": [".astro/types.d.ts", "**/*", "src"],
-  "exclude": ["dist"],
+  "exclude": ["dist", "node_modules"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "react",
@@ -8,6 +8,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
 
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
