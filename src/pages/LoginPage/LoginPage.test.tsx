@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import loginTheme from '../../style-library/theme/login-theme';
+
 import { LoginPage } from './LoginPage';
 
 vi.mock('./src/Facebook.svg', () => ({ default: 'Facebook.svg' }));
