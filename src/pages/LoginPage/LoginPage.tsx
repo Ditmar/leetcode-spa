@@ -19,8 +19,8 @@ import {
   legalLinkStyles,
 } from './LoginPage.styles';
 
-import type { SxProps } from '@mui/material/styles';
 import type { LoginPageProps } from './LoginPage.types';
+import type { SxProps } from '@mui/material/styles';
 
 type LogoFallbackProps = {
   orientation?: string;
@@ -47,9 +47,9 @@ type PrimaryButtonFallbackProps = {
   sx?: SxProps<Theme>;
 };
 
-const FacebookIcon: string | undefined = (FacebookStatic as any) ?? undefined;
-const GithubIcon: string | undefined = (GithubStatic as any) ?? undefined;
-const GoogleIcon: string | undefined = (GoogleStatic as any) ?? undefined;
+const FacebookIcon: string | undefined = FacebookStatic ?? undefined;
+const GithubIcon: string | undefined = GithubStatic ?? undefined;
+const GoogleIcon: string | undefined = GoogleStatic ?? undefined;
 
 const Logo: React.ComponentType<LogoFallbackProps> = () => <div data-testid="logo-fallback" />;
 
@@ -128,9 +128,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
     if (!emailOrUsername) {
       newErrors.emailOrUsername = 'Email or Username is required.';
-    } else if (
-      emailOrUsername.includes('@') && !EMAIL_REGEX.test(emailOrUsername)
-    ) {
+    } else if (emailOrUsername.includes('@') && !EMAIL_REGEX.test(emailOrUsername)) {
       newErrors.emailOrUsername = 'Please enter a valid email address.';
     }
 
