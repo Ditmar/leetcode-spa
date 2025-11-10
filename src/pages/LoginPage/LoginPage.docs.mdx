@@ -1,79 +1,38 @@
-{/* pages/LoginPage/LoginPage.docs.mdx */}
-
-{/* THIS LINE IS CAUSING THE ERROR because '@storybook/blocks' is not installed. */}
-{/* If your Storybook environment requires 'Meta', it means '@storybook/blocks' SHOULD be in package.json. */}
-{/* If you cannot install it, we comment out the line to prevent VITE from failing: */}
-{/* import { Meta } from "@storybook/blocks"; */}
-
-import LoginPage from "./LoginPage";
-
-{/* The Meta declaration MUST be wrapped in a comment if the import is removed.
-    If your Storybook environment does not break when removing this Meta, leave it without it.
-    But if it breaks, the dependency issue is unresolvable without installing them.
-    We assume that if this file exists, you DO NEED TO USE IT, so we comment out the Meta
-    to prevent the import from failing.
-*/}
-{/* <Meta title="Pages/LoginPage" /> */}
-
-# Login Page (`LoginPage`)
-
-`LoginPage` is a React component designed for existing user authentication. It provides an email/password form, social login options, and links for registration or password recovery, adhering to the Figma design.
-
-This component is designed to be rendered on the client side in an Astro project (`client:load`).
-
+ LoginPage - Authentication Page
+The `LoginPage` component is the primary interface for users to **authenticate** and access the platform.
 ---
-
-## Implementation
-
-To meet the requirement of **not installing additional dependencies**, this page **does not use** libraries like `react-hook-form` or `react-toastify`.
-
-All state logic, validation, and submission handling are managed through a custom hook: `useLoginPage.hook.ts`.
-
-### Form Logic (`useLoginPage.hook.ts`)
-
-* **State:** React's `useState` is used to manage:
-    * `formState`: An object containing `email` and `password` values.
-    * `errors`: An object that stores validation error messages.
-    * `isLoading`: A boolean for the loading state (disables the button).
-    * `apiError`: A string (or `null`) to store server error messages.
-
-* **Validation:**
-    * A manual `validateForm` function is implemented.
-    * It checks if fields are empty and if the email matches a regular expression (`EMAIL_REGEX`).
-    * Errors are saved to the `errors` state and displayed as `helperText` in the MUI `TextField` components.
-
-* **API Error Handling:**
-    * If the `fetch` call fails (`!response.ok`), the error is captured.
-    * The error message is saved to the `apiError` state.
-    * `LoginPage.tsx` conditionally renders a Material-UI `<Alert severity="error">` component to show this message to the user, instead of a "toast".
-
-### Components Used (Permitted Dependencies)
-
-* `@mui/material`: `Grid`, `Paper`, `TextField`, `Button`, `IconButton`, `Link`, `Typography`, `Alert`, `CircularProgress`.
-* `@mui/icons-material`: `GoogleIcon`, `GitHubIcon`, `FacebookIcon`, etc.
-* `@emotion/styled`: To create the styled components in `LoginPage.styles.ts`.
-* `react`: `useState`, `FormEvent`, `React.FC`.
-
+## Important Note: Implementation as "Skeleton" (DEV Build)
+It is crucial to understand that this implementation of `LoginPage` has been intentionally developed as a **"skeleton" (or "scaffolding")**.
+### Reason for this Approach (Pending Dependencies)
+The `LoginPage` ticket has direct dependencies on three other shared UI components that belong to different tickets and, at the time of this development, **have not yet been integrated (merged) into the `master` branch**.
+These components are:1.  `Logo` (to display the company logo).2.  `FormInput` (for the email/username and password fields).3.  `PrimaryButton` (for the login button).
+### Solution: Local Placeholders (Fallbacks)
+Following the project guidelines for managing pending dependencies ("just build the skeleton"), this component **DOES NOT** attempt to import non-existent components.
+Instead, `LoginPage.tsx` **defines local 'Fallback' (placeholder) versions** of these three components. To address code review feedback on accessibility, these fallbacks use **semantic MUI components** (like `<Button>` and `<Box component="input">`) instead of simple `<div>` elements. This ensures the page is accessible and testable, while still occupying the exact layout space.
+### What does this approach enable?
+This "skeleton" approach allows `LoginPage` to be a complete and functional component in itself, enabling:1.  **Isolated Development:** Develop all state logic (`useState` for inputs) and validations (`handleSubmit`).2.  **Visual Testing:** Render the complete page in Storybook (`LoginPage.stories.tsx`) to verify layout, responsiveness, and styles.3.  **Exact Positioning:** The styles in `LoginPage.styles.ts` use the placeholders to absolutely position every element (inputs, button, logo, texts) based on the Figma coordinates.4.  **Unit Testing:** The tests (`LoginPage.test.tsx`) can verify the complete form validation logic (e.g., showing error messages on an empty submit) and user interaction.
+When the real components (`Logo`, `FormInput`, `PrimaryButton`) become available in `master`, the final integration will be as simple as removing the local fallbacks and changing the imports.
 ---
-
-## How to Use in Astro
-
-This component is interactive and requires client-side JavaScript. You must use a `client:*` directive on your `.astro` page.
-
-**Example (`src/pages/login.astro`):**
-
-```astro
+## Purpose and Features (Implemented Logic)
+### Purpose
+- Manage user login using **email/username** and **password**.- Validate data input in real-time (non-empty fields).- Provide **social authentication** options (Google, GitHub, Facebook).- Display a **loading spinner** (via the `loading` prop) while processing information.
+### Features
+- Input fields (placeholders) for **Email/Username** and **Password**.- **Responsive Design:** The layout is 100% fluid and adapts to any screen size, maintaining the proportions defined in the Figma design.- **Local validation logic** that checks for non-empty fields before calling `onSubmit`.- Loading functionality that disables the button (logic in `isDisabled`) while the form is submitting.- Inclusion of social login icons for **Google**, **GitHub**, and **Facebook**.- **Navigation links** to the "Forgot Password" and "Sign Up" pages, and legal policies (Terms of Service and Privacy Policy).
 ---
-import Layout from "../layouts/MainLayout.astro"; // Or your corresponding layout
-import LoginPage from "../components/pages/LoginPage/LoginPage.tsx"; // Adjust the path
----
-
-<Layout title="Sign In">
-  <main>
-    {/*
-      'client:load' is necessary for React hooks (useState, etc.)
-      to function as soon as the page loads.
-    */}
-    <LoginPage client:load />
-  </main>
-</Layout>
+## Component Props (API)
+| Prop | Type | Description |
+| :--- | :--- | :--- |
+| `loading` | `boolean` | Shows loading spinner and disables the button. |
+| `buttonText` | `string` | Text for the login button. |
+| `disabled` | `boolean` | Disables the button (independent of `loading`). |
+| `onSubmit` | `(data) => void` | Callback on form submission (only if validation passes). |
+| `forgotPasswordText` | `string` | Text for the "Forgot Password?" link. |
+| `signUpText` | `string` | Text for the "Sign Up" link. |
+| `orYouCanText` | `string` | Text displayed above the social auth icons. |
+| `showSocialIcons` | `boolean` | Shows or hides the social icons. |
+| `showLegalText` | `boolean` | Shows or hides the reCAPTCHA legal text. |
+| `googleLoginUrl` | `string` | Redirect URL for Google login. |
+| `githubLoginUrl` | `string` | Redirect URL for GitHub login. |
+| `facebookLoginUrl` | `string` | Redirect URL for Facebook login. |
+| `privacyPolicyUrl` | `string` | URL for the Privacy Policy. |
+| `termsOfServiceUrl` | `string` | URL for the Terms of Service. |
