@@ -39,7 +39,7 @@ const loginTheme = createTheme(baseTheme, {
         },
         grey: {
             500: '#555555',
-        }
+        },
     },
     typography: {
         fontFamily: 'Syne, sans-serif',

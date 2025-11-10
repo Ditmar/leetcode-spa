@@ -1,4 +1,5 @@
-import { Box, Typography, useTheme, Link, Button, IconButton } from '@mui/material';
+import { Box, Typography, useTheme, Link, Button, IconButton, type Theme } from '@mui/material';
+import type { SxProps } from '@mui/material/styles';
 import React, { useState } from 'react';
 
 import FacebookStatic from '../../assets/facebook.svg';
@@ -18,30 +19,38 @@ import {
   legalTextStyles,
   legalLinkStyles,
 } from './LoginPage.styles';
-
 import type { LoginPageProps } from './LoginPage.types';
 
-type LogoFallbackProps = { orientation?: string; width?: string | number; height?: string | number; alt?: string; };
+// Fallbacks y Tipos Corregidos
+type LogoFallbackProps = {
+  orientation?: string;
+  width?: string | number;
+  height?: string | number;
+  alt?: string;
+};
+
 type FormInputFallbackProps = {
   label?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   errorMessage?: string;
-  sx?: any;
+  sx?: SxProps<Theme>;
   type?: string;
 };
+
 type PrimaryButtonFallbackProps = {
   children?: React.ReactNode;
   onClick?: (e: React.FormEvent) => void;
   disabled?: boolean;
   loading?: boolean;
-  sx?: any;
+  sx?: SxProps<Theme>;
 };
 
-const FacebookIcon: string | undefined = FacebookStatic as any ?? undefined;
-const GithubIcon: string | undefined = GithubStatic as any ?? undefined;
-const GoogleIcon: string | undefined = GoogleStatic as any ?? undefined;
+// Se envuelve 'as any' entre paréntesis para Prettier y Linter
+const FacebookIcon: string | undefined = (FacebookStatic as any) ?? undefined;
+const GithubIcon: string | undefined = (GithubStatic as any) ?? undefined;
+const GoogleIcon: string | undefined = (GoogleStatic as any) ?? undefined;
 
 const Logo: React.ComponentType<LogoFallbackProps> = () => <div data-testid="logo-fallback" />;
 
@@ -74,7 +83,6 @@ const PrimaryButton: React.FC<PrimaryButtonFallbackProps> = (props) => (
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PASSWORD_MIN_LENGTH = 6;
-
 
 export const LoginPage: React.FC<LoginPageProps> = ({
   loading = false,
@@ -122,8 +130,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     if (!emailOrUsername) {
       newErrors.emailOrUsername = 'Email or Username is required.';
     } else if (
-      emailOrUsername.includes('@') &&
-      !EMAIL_REGEX.test(emailOrUsername)
+      emailOrUsername.includes('@') && !EMAIL_REGEX.test(emailOrUsername)
     ) {
       newErrors.emailOrUsername = 'Please enter a valid email address.';
     }
@@ -134,7 +141,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       newErrors.password = `Password must be at least ${PASSWORD_MIN_LENGTH} characters long.`;
     }
 
-
     if (newErrors.emailOrUsername || newErrors.password) {
       setErrors(newErrors);
       return;
@@ -144,8 +150,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     onSubmit({ emailOrUsername, password });
   };
 
-  const isDisabled =
-    disabled || loading || !!errors.emailOrUsername || !!errors.password;
+  const isDisabled = disabled || loading || !!errors.emailOrUsername || !!errors.password;
 
   return (
     <Box sx={getPageContainerStyles()}>
@@ -214,7 +219,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           href="/forgot-password"
           sx={{
             ...forgotPasswordLinkStyles(theme),
-            color: '#757575 !important'
+            color: '#757575 !important',
           }}
         >
           {forgotPasswordText}
@@ -224,7 +229,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           href="/signup"
           sx={{
             ...signUpLinkStyles(theme),
-            color: '#757575 !important'
+            color: '#757575 !important',
           }}
         >
           {signUpText}
@@ -283,7 +288,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
             </IconButton>
           </>
         )}
-
         {showLegalText && (
           <Typography sx={legalTextStyles(theme)}>
             This site is protected by reCAPTCHA and the Google{' '}
