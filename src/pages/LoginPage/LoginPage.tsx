@@ -1,5 +1,4 @@
 import { Box, Typography, useTheme, Link, Button, IconButton, type Theme } from '@mui/material';
-import type { SxProps } from '@mui/material/styles';
 import React, { useState } from 'react';
 
 import FacebookStatic from '../../assets/facebook.svg';
@@ -19,9 +18,10 @@ import {
   legalTextStyles,
   legalLinkStyles,
 } from './LoginPage.styles';
+
+import type { SxProps } from '@mui/material/styles';
 import type { LoginPageProps } from './LoginPage.types';
 
-// Fallbacks y Tipos Corregidos
 type LogoFallbackProps = {
   orientation?: string;
   width?: string | number;
@@ -47,7 +47,6 @@ type PrimaryButtonFallbackProps = {
   sx?: SxProps<Theme>;
 };
 
-// Se envuelve 'as any' entre paréntesis para Prettier y Linter
 const FacebookIcon: string | undefined = (FacebookStatic as any) ?? undefined;
 const GithubIcon: string | undefined = (GithubStatic as any) ?? undefined;
 const GoogleIcon: string | undefined = (GoogleStatic as any) ?? undefined;
