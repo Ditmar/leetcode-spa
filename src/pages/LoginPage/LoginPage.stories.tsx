@@ -6,6 +6,7 @@ import createEmotionCache from '../../style-library/cache/createEmotionCache';
 import loginTheme from '../../style-library/theme/login-theme';
 
 import { LoginPage } from './LoginPage';
+
 import type { LoginPageProps } from './LoginPage.types';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -50,9 +51,9 @@ const meta: Meta<LoginPageProps> = {
 
   args: {
     loading: false,
-    buttonText: 'Login',
+    buttonText: 'LogIn',
     disabled: false,
-    onSubmit: () => { },
+    onSubmit: () => {},
 
     forgotPasswordText: 'Forget Password?',
     signUpText: 'Sign Up',
