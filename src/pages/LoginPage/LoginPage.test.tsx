@@ -1,125 +1,75 @@
+import { ThemeProvider } from '@mui/material/styles';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import loginTheme from '../../style-library/theme/login-theme';
+import { LoginPage } from './LoginPage';
 
-import '@testing-library/jest-dom';
-import LoginPage from './LoginPage';
-import { ERROR_MESSAGES } from './LoginPage.constants';
+vi.mock('./src/Facebook.svg', () => ({ default: 'Facebook.svg' }));
+vi.mock('./src/assets/Github.svg', () => ({ default: 'Github.svg' }));
+vi.mock('./src/assets/Google.svg', () => ({ default: 'Google.svg' }));
+vi.mock('./assets/Facebook.svg?url', () => ({ default: 'Facebook.svg' }));
+vi.mock('./assets/Github.svg?url', () => ({ default: 'Github.svg' }));
+vi.mock('./assets/Google.svg?url', () => ({ default: 'Google.svg' }));
 
-global.fetch = vi.fn();
-
-let locationHref = '';
-
-beforeEach(() => {
-  Object.defineProperty(window, 'location', {
-    configurable: true,
-    value: {
-      ...window.location,
-      get href() {
-        return locationHref;
-      },
-      set href(value: string) {
-        locationHref = value;
-      },
-    },
-  });
-
-  locationHref = '';
-
-  vi.mocked(global.fetch).mockClear();
-
-  render(<LoginPage />);
-});
-
-afterEach(() => {
-  vi.restoreAllMocks();
-});
-
-describe('LoginPage (Sin React-Hook-Form)', () => {
-  const getEmailInput = () => screen.getByLabelText(/Email or Username/i);
-  const getPasswordInput = () => screen.getByLabelText(/Password/i);
-  const getLoginButton = () => screen.getByRole('button', { name: 'Login' });
-
-  it('muestra errores de validación si los campos están vacíos al enviar', async () => {
-    fireEvent.click(getLoginButton());
-
-    expect(await screen.findByText(ERROR_MESSAGES.REQUIRED_FIELD)).toBeInTheDocument();
-    expect(screen.getAllByText(ERROR_MESSAGES.REQUIRED_FIELD).length).toBe(2);
-    expect(global.fetch).not.toHaveBeenCalled();
-  });
-
-  it('muestra error de formato de email inválido', async () => {
-    fireEvent.change(getEmailInput(), { target: { value: 'emailinvalido' } });
-    fireEvent.change(getPasswordInput(), { target: { value: 'password123' } });
-    fireEvent.click(getLoginButton());
-
-    expect(await screen.findByText(ERROR_MESSAGES.INVALID_EMAIL)).toBeInTheDocument();
-    expect(global.fetch).not.toHaveBeenCalled();
-  });
-
-  it('deshabilita el botón y muestra spinner durante el envío', async () => {
-    vi.mocked(global.fetch).mockImplementation(
-      () =>
-        new Promise((resolve) =>
-          setTimeout(
-            () =>
-              resolve({
-                ok: true,
-                json: () => Promise.resolve({ token: 'fake-token' }),
-              } as Response),
-            100
-          )
-        )
+describe('LoginPage', () => {
+  const renderComponent = (props = {}) =>
+    render(
+      <ThemeProvider theme={loginTheme}>
+        <LoginPage {...props} />
+      </ThemeProvider>
     );
 
-    fireEvent.change(getEmailInput(), { target: { value: 'test@user.com' } });
-    fireEvent.change(getPasswordInput(), { target: { value: 'password123' } });
-    fireEvent.click(getLoginButton());
+  it('renders email, password fields and the login button', () => {
+    renderComponent();
+    expect(screen.getByPlaceholderText('Mail Id')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+  });
 
-    expect(getLoginButton()).toBeDisabled();
-    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  it('renders forgot password link and social icons', () => {
+    renderComponent();
+    expect(screen.getByText('Forget Password?')).toBeInTheDocument();
+    expect(screen.getByText('Sign Up')).toBeInTheDocument();
+    expect(screen.getByAltText('Google')).toBeInTheDocument();
+    expect(screen.getByAltText('GitHub')).toBeInTheDocument();
+    expect(screen.getByAltText('Facebook')).toBeInTheDocument();
+  });
 
-    await waitFor(() => {
-      expect(getLoginButton()).not.toBeDisabled();
+  it('shows validation errors for empty input fields', async () => {
+    renderComponent();
+    const loginButton = screen.getByRole('button', { name: /login/i });
+
+    fireEvent.click(loginButton);
+
+    expect(await screen.findByText('Email or Username is required.')).toBeInTheDocument();
+    expect(await screen.findByText('Password is required.')).toBeInTheDocument();
+  });
+
+  it('enables the button when form is valid and calls onSubmit', () => {
+    const handleSubmit = vi.fn();
+    renderComponent({ onSubmit: handleSubmit });
+
+    const emailInput = screen.getByPlaceholderText('Mail Id');
+    const passwordInput = screen.getByPlaceholderText('Password');
+    const loginButton = screen.getByRole('button', { name: /login/i });
+
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+
+    expect(loginButton).not.toBeDisabled();
+
+    fireEvent.click(loginButton);
+
+    expect(handleSubmit).toHaveBeenCalledWith({
+      emailOrUsername: 'test@example.com',
+      password: 'password123',
     });
   });
 
-  it('llama a la API y redirige al dashboard en un login exitoso', async () => {
-    vi.mocked(global.fetch).mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({ token: 'fake-token' }),
-    } as Response);
-
-    fireEvent.change(getEmailInput(), { target: { value: 'test@user.com' } });
-    fireEvent.change(getPasswordInput(), { target: { value: 'password123' } });
-    fireEvent.click(getLoginButton());
-
-    await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
-        '/auth/login',
-        expect.objectContaining({
-          method: 'POST',
-        })
-      );
-    });
-
-    expect(locationHref).toBe('/dashboard');
-  });
-
-  it('muestra un Alert de MUI si la API falla', async () => {
-    vi.mocked(global.fetch).mockResolvedValue({
-      ok: false,
-      json: () => Promise.resolve({ message: 'Usuario no encontrado' }),
-    } as Response);
-
-    fireEvent.change(getEmailInput(), { target: { value: 'test@user.com' } });
-    fireEvent.change(getPasswordInput(), { target: { value: 'wrongpassword' } });
-    fireEvent.click(getLoginButton());
-
-    const alert = await screen.findByRole('alert');
-    expect(alert).toBeInTheDocument();
-    expect(alert).toHaveTextContent('Usuario no encontrado');
-    expect(getLoginButton()).not.toBeDisabled();
-    expect(locationHref).not.toBe('/dashboard');
+  it('disables the button when loading', () => {
+    renderComponent({ loading: true });
+    const loginButton = screen.getByRole('button');
+    expect(loginButton).toBeDisabled();
   });
 });
