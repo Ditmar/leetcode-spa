@@ -1,3 +1,5 @@
+import MontserratLight from '../../assets/fonts/Montserrat-Light.woff2';
+import MontserratRegular from '../../assets/fonts/Montserrat-Regular.woff2';
 import Syne700 from '../../assets/fonts/Syne-700.woff2';
 import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
 import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
@@ -30,6 +32,18 @@ declare module '@mui/material/styles' {
   interface PaletteOptions {
     backgroundQuestion?: string;
   }
+  interface Theme {
+    consoleIO?: {
+      dimensions: {
+        containerWidth: number;
+        containerHeight: number;
+        frameHeight: number;
+        tabSampleWidth: number;
+        tabCustomWidth: number;
+        tabHeight: number;
+      };
+    };
+  }
 }
 
 declare module '@mui/material/Typography' {
@@ -40,6 +54,77 @@ declare module '@mui/material/Typography' {
     option: true;
   }
 }
+
+/**
+ * PillTag Component Tokens
+ * Dimensiones exactas desde Figma siguiendo la estructura:
+ * - Rectangle (contenedor): dimensiones del chip completo
+ * - Text (label): auto-ajustable dentro del contenedor
+ */
+export const pillTagTokens = {
+  colors: {
+    background: '#FFFFFF',
+    gradientStart: '#B23DEB',
+    gradientEnd: '#DE8FFF',
+  },
+  typography: {
+    fontFamily: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: 500,
+    lineHeight: 1,
+    letterSpacing: '0',
+  },
+  dimensions: {
+    primary: {
+      width: 251.51,
+      height: 85.1,
+      borderRadius: '42.55px',
+      fontSize: 28.37,
+      textAlign: 'center',
+      padding: {
+        vertical: 2.5,
+        horizontal: 4,
+      },
+    },
+    secondary: {
+      width: 227.17,
+      height: 76.86,
+      borderRadius: '38.43px',
+      fontSize: 25.62,
+      textAlign: 'center',
+      padding: {
+        vertical: 2.2,
+        horizontal: 3.5,
+      },
+    },
+  },
+  shadows: {
+    primary: {
+      default: '0px 18.91px 66.19px 0px rgba(0, 0, 0, 0.15)',
+      hover: '0px 20.91px 71.19px 0px rgba(0, 0, 0, 0.20)',
+      active: '0px 16.91px 56.19px 0px rgba(0, 0, 0, 0.18)',
+    },
+    secondary: {
+      default: '0px 17.08px 59.78px 0px rgba(0, 0, 0, 0.15)',
+      hover: '0px 19.08px 64.78px 0px rgba(0, 0, 0, 0.20)',
+      active: '0px 15.08px 49.78px 0px rgba(0, 0, 0, 0.18)',
+    },
+  },
+  states: {
+    hover: {
+      translateY: -2,
+    },
+    active: {
+      scale: 0.98,
+    },
+    disabled: {
+      opacity: 0.5,
+    },
+  },
+  transitions: {
+    duration: 200,
+    easing: 'ease-in-out',
+  },
+} as const;
 
 const themeConfig: ThemeConfig = {
   mode: 'light',
@@ -139,7 +224,31 @@ theme.components = {
         font-style: normal;
         font-display: swap;
       }
+      @font-face {
+        font-family: 'Montserrat';
+        src: url(${MontserratLight}) format('woff2');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Montserrat';
+        src: url(${MontserratRegular}) format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
     `,
+  },
+};
+theme.consoleIO = {
+  dimensions: {
+    containerWidth: 260,
+    containerHeight: 502,
+    frameHeight: 460,
+    tabSampleWidth: 129,
+    tabCustomWidth: 131,
+    tabHeight: 42,
   },
 };
 

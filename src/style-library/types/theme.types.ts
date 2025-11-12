@@ -124,7 +124,6 @@ export interface BreakpointValues {
 }
 
 export interface BreakpointOverrides {
-  // Permite extensión de breakpoints personalizados
   [key: string]: unknown;
 }
 
@@ -309,10 +308,88 @@ export interface CustomBreakpoints {
   wide: string;
 }
 
+// ==========================================
+// COMPONENT TOKENS TYPES
+// ==========================================
+
+export interface ComponentDimensions {
+  width: number;
+  height: number;
+  borderRadius: string;
+  lineHeight: number;
+  fontSize: number;
+  textAlign: 'left' | 'center' | 'right';
+  padding: {
+    vertical: number;
+    horizontal: number;
+  };
+}
+
+export interface ResponsiveComponentDimensions {
+  mobile: ComponentDimensions;
+  tablet: ComponentDimensions;
+  desktop: ComponentDimensions;
+}
+
+export interface ComponentShadows {
+  default: string;
+  hover: string;
+  active: string;
+}
+
+export interface ComponentStates {
+  hover: {
+    translateY: number;
+  };
+  active: {
+    scale: number;
+  };
+  disabled: {
+    opacity: number;
+  };
+}
+
+export interface ComponentTransitions {
+  duration: number;
+  easing: string;
+}
+
+export interface PillTagTokens {
+  colors: {
+    background: string;
+    gradientStart: string;
+    gradientEnd: string;
+  };
+  typography: {
+    fontFamily: string;
+    fontWeight: number;
+    letterSpacing: string;
+  };
+  dimensions: {
+    primary: ResponsiveComponentDimensions;
+    secondary: ResponsiveComponentDimensions;
+  };
+  shadows: {
+    primary: ComponentShadows;
+    secondary: ComponentShadows;
+  };
+  states: ComponentStates;
+  transitions: ComponentTransitions;
+}
+
+export interface ComponentTokens {
+  pillTag: PillTagTokens;
+}
+
 declare module '@mui/material/styles' {
   interface Theme {
     customShadows: CustomShadows;
     customBreakpoints: CustomBreakpoints;
+    componentTokens: ComponentTokens;
+  }
+
+  interface ThemeOptions {
+    componentTokens?: ComponentTokens;
   }
 
   interface Palette {
