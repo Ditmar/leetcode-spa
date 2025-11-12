@@ -4,7 +4,12 @@ import React from 'react';
 
 import { DEFAULT_AVATAR_MENU_ITEMS } from './AvatarMenu.constants';
 import { useAvatarMenu } from './AvatarMenu.hook';
-import { AvatarMenuRoot, AvatarContainer, TriangleIndicator } from './AvatarMenu.styles';
+import {
+  AvatarMenuRoot,
+  AvatarContainer,
+  TriangleIndicator,
+  ArrowWrapper,
+} from './AvatarMenu.styles';
 
 import type { AvatarMenuProps } from './AvatarMenu.types';
 
@@ -57,7 +62,9 @@ export const AvatarMenu: React.FC<AvatarMenuProps> = ({
             sx={{ ...avatarBaseSx, ...customSx }}
             {...restAvatarProps}
           />
-          <TriangleIndicator $isOpen={isOpen} />
+          <ArrowWrapper>
+            <TriangleIndicator $isOpen={isOpen} />
+          </ArrowWrapper>
         </AvatarContainer>
       </AvatarMenuRoot>
 
