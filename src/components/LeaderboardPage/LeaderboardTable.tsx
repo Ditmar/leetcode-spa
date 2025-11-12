@@ -55,7 +55,7 @@ export const LeaderboardTable: React.FC<{ users: LeaderboardUser[] }> = ({ users
                 <TableCell
                   align="right"
                   sx={{
-                    minWidth: { xs: '8rem', sm: '10rem', md: '12rem' }, // ✅ theme-friendly responsive widths
+                    minWidth: { xs: '8rem', sm: '10rem', md: '12rem' },
                   }}
                 >
                   {rankingImg ? (
