@@ -1,60 +1,14 @@
-import { Box, Avatar, Typography, Paper } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import React from 'react';
 
-import ranking_1 from '../../assets/ranking_one.svg';
-import ranking_3 from '../../assets/ranking_three.svg';
-import ranking_2 from '../../assets/ranking_two.svg';
-
-import { SyneTypography } from './LeaderboardPage.styles';
+import { PageRakingListWrap } from './LeaderboardPage.styles';
+import { LeaderboardTable } from './LeaderboardTable';
 
 import type { LeaderboardUser } from './LeaderboardPage.types';
 
 export const RankingList: React.FC<{ users: LeaderboardUser[] }> = ({ users }) => {
-  const theme = useTheme();
-
   return (
-    <Box sx={{ display: 'grid', gap: 1 }}>
-      {users.map((u) => {
-        let rankImg: string | null = null;
-        if (u.rank === 1) rankImg = ranking_1;
-        else if (u.rank === 2) rankImg = ranking_2;
-        else if (u.rank === 3) rankImg = ranking_3;
-
-        const content = (
-          <Paper variant="outlined" sx={{ p: 1 }} data-testid={`card-${u.username}`}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 2,
-              }}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Avatar src={u.avatarUrl} alt={u.fullName} />
-                <Box>
-                  <Typography fontWeight={700}>
-                    {u.rank}. {u.fullName}
-                  </Typography>
-                  <SyneTypography variant="caption">{u.username}</SyneTypography>
-                </Box>
-              </Box>
-
-              {rankImg && (
-                <Box
-                  component="img"
-                  src={rankImg}
-                  alt={`ranking-${u.rank}`}
-                  sx={{ width: theme.spacing(5), height: theme.spacing(5), objectFit: 'contain' }}
-                />
-              )}
-            </Box>
-          </Paper>
-        );
-
-        return <div key={u.id}>{content}</div>;
-      })}
-    </Box>
+    <PageRakingListWrap sx={{ display: 'grid', gap: 1 }}>
+      <LeaderboardTable users={users} />
+    </PageRakingListWrap>
   );
 };
