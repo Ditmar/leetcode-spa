@@ -17,6 +17,8 @@ import {
   getSocialIconStyles,
   legalTextStyles,
   legalLinkStyles,
+  getErrorTextStyles,
+  GEOMETRY_PX,
 } from './LoginPage.styles';
 
 import type { LoginPageProps } from './LoginPage.types';
@@ -88,7 +90,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   buttonText = 'Login',
   disabled = false,
   onSubmit = () => undefined,
-  forgotPasswordText = 'Forget Password?',
+  forgotPasswordText = 'Forget Password ?',
   signUpText = 'Sign Up',
   orYouCanText = 'Or you can Signup with',
   showSocialIcons = true,
@@ -165,12 +167,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           }}
           placeholder="Mail Id"
           errorMessage={errors.emailOrUsername}
-          sx={getInputStyles(122.42, theme)}
+          sx={getInputStyles(GEOMETRY_PX.EMAIL_USERNAME_INPUT_TOP, theme)}
         />
         {errors.emailOrUsername && (
           <Typography
             variant="caption"
-            sx={{ position: 'absolute', top: '15.9%', left: '8.5%', color: 'error.main' }}
+            sx={getErrorTextStyles(GEOMETRY_PX.EMAIL_USERNAME_ERROR_TOP, theme)}
           >
             {errors.emailOrUsername}
           </Typography>
@@ -186,12 +188,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           }}
           placeholder="Password"
           errorMessage={errors.password}
-          sx={getInputStyles(225.65, theme)}
+          sx={getInputStyles(GEOMETRY_PX.PASSWORD_INPUT_TOP, theme)}
         />
         {errors.password && (
           <Typography
             variant="caption"
-            sx={{ position: 'absolute', top: '32.6%', left: '8.5%', color: 'error.main' }}
+            sx={getErrorTextStyles(GEOMETRY_PX.PASSWORD_ERROR_TOP, theme)}
           >
             {errors.password}
           </Typography>
@@ -212,23 +214,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           {buttonText}
         </PrimaryButton>
 
-        <Link
-          href="/forgot-password"
-          sx={{
-            ...forgotPasswordLinkStyles(theme),
-            color: '#757575 !important',
-          }}
-        >
+        <Link href="/forgot-password" sx={forgotPasswordLinkStyles(theme)}>
           {forgotPasswordText}
         </Link>
 
-        <Link
-          href="/signup"
-          sx={{
-            ...signUpLinkStyles(theme),
-            color: '#757575 !important',
-          }}
-        >
+        <Link href="/signup" sx={signUpLinkStyles(theme)}>
           {signUpText}
         </Link>
 
@@ -241,7 +231,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Login with Google"
-              sx={getSocialIconStyles(0)}
+              sx={{ ...getSocialIconStyles(0), background: 'none', borderRadius: '0%' }}
             >
               <Box
                 component="img"
@@ -257,7 +247,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Login with GitHub"
-              sx={getSocialIconStyles(1)}
+              sx={{ ...getSocialIconStyles(1), background: 'none', borderRadius: '0%' }}
             >
               <Box
                 component="img"
@@ -273,7 +263,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Login with Facebook"
-              sx={getSocialIconStyles(2)}
+              sx={{ ...getSocialIconStyles(2), background: 'none', borderRadius: '0%' }}
             >
               <Box
                 component="img"
