@@ -252,6 +252,15 @@ theme.consoleIO = {
     tabHeight: 42,
   },
 };
+export const typographyTokens = {
+  menuBadge: {
+    fontFamily: '"Syne", "Montserrat", sans-serif',
+    fontWeight: 500 as const,
+    fontSize: '18px' as const,
+    lineHeight: 1 as const,
+    letterSpacing: 0 as const,
+  },
+} as const;
 
 export default theme;
 export { themeConfig };
