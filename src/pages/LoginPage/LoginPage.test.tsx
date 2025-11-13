@@ -30,7 +30,7 @@ describe('LoginPage', () => {
 
   it('renders forgot password link and social icons', () => {
     renderComponent();
-    expect(screen.getByText('Forget Password?')).toBeInTheDocument();
+    expect(screen.getByText('Forget Password ?')).toBeInTheDocument();
     expect(screen.getByText('Sign Up')).toBeInTheDocument();
     expect(screen.getByAltText('Google')).toBeInTheDocument();
     expect(screen.getByAltText('GitHub')).toBeInTheDocument();
