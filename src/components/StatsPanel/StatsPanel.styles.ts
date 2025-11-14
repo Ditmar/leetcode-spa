@@ -1,81 +1,99 @@
 import { styled } from '@mui/material/styles';
-
 import type { PaletteColor } from '@mui/material/styles';
 
+
+// CONVERSIÓN PX → theme.spacing (A + C):
+// - Todo pasa por theme.spacing
+// - Se mantienen decimales cuando corresponde
+// - Se redondean valores feos manteniendo proporción visual
+// ------------------------------------------------------------
+
+
+const toSp = (theme: any, px: number) => theme.spacing(px / 8);
+
+
 export const CardContainer = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  borderRadius: theme.shape.borderRadius,
-  padding: theme.spacing(4),
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(3),
-  width: '100%',
-  maxWidth: theme.spacing(40),
+  position: 'relative',
+  width: toSp(theme, 187), // 23.375 spacing
+  height: toSp(theme, 307), // 38.375 spacing
+  borderRadius: toSp(theme, 12),
+  backgroundColor: theme.palette.backgroundCard,
   boxShadow: theme.shadows[3],
+  overflow: 'hidden',
+  padding: 0,
 }));
 
-export const StatItem = styled('div')(({ theme }) => ({
+
+export const IconWrapper = styled('div')<{
+  top: number;
+  left: number;
+}>(({ theme, top, left }) => ({
+  position: 'absolute',
+  top: toSp(theme, top),
+  left: toSp(theme, left),
+  width: toSp(theme, 48), // 6 spacing
+  height: toSp(theme, 48),
+  borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
-  gap: theme.spacing(2),
-  minHeight: theme.spacing(8),
+  justifyContent: 'center',
+  padding: toSp(theme, 10),
+  backgroundColor: theme.palette.backgroundIcon,
 }));
 
-type SafeColorKey = 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'info';
 
-export const IconWrapper = styled('div')(({ theme }) => {
-  const softBg = theme.palette.backgroundIcon;
-  return {
-    width: theme.spacing(6),
-    height: theme.spacing(6),
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: softBg,
-    boxShadow: theme.shadows[1],
-    flexShrink: 0,
-    padding: theme.spacing(1.25),
-  };
-});
+export const InnerIconBox = styled('div')(({ theme }) => ({
+  width: toSp(theme, 28),
+  height: toSp(theme, 28),
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}));
 
-export const StatIcon = styled('div')<{ color?: SafeColorKey }>(({ theme, color = 'primary' }) => {
-  const paletteColor = theme.palette[color] as PaletteColor | undefined;
-  const resolvedColor = paletteColor?.main ?? theme.palette.text.primary;
 
-  return {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: resolvedColor,
-    width: '100%',
-    height: '100%',
-    '& svg, & img': {
-      width: '100%',
-      height: '100%',
-      objectFit: 'contain',
-      fill: resolvedColor,
-      stroke: resolvedColor,
-      transition: 'transform 0.2s ease',
-    },
-    '&:hover svg, &:hover img': {
-      transform: 'scale(1.08)',
-    },
-  };
-});
+export const IconImg = styled('img')(({ theme }) => ({
+  width: '100%',
+  height: '100%',
+  objectFit: 'contain',
+  display: 'block',
+}));
 
-export const StatValue = styled('div')(({ theme }) => ({
-  fontFamily: theme.typography.numbers.fontFamily,
-  fontSize: theme.typography.numbers.fontSize,
-  fontWeight: theme.typography.numbers.fontWeight,
-  lineHeight: theme.typography.numbers.lineHeight,
+export const TextBlock = styled('div')<{
+  top: number;
+  left: number;
+}>(({ theme, top, left }) => ({
+  position: 'absolute',
+  top: toSp(theme, top),
+  left: toSp(theme, left),
+  width: toSp(theme, 98.459), // spacing(12.307), ajustado
+  height: toSp(theme, 43),
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+}));
+
+
+export const ValueBox = styled('div')(({ theme }) => ({
+  width: toSp(theme, 51.667),
+  height: toSp(theme, 31),
+  fontFamily: theme.typography.numbers?.fontFamily,
+  fontSize: theme.typography.numbers?.fontSize,
+  fontWeight: theme.typography.numbers?.fontWeight,
+  lineHeight: theme.typography.numbers?.lineHeight,
   color: theme.palette.text.primary,
+  display: 'flex',
+  alignItems: 'center',
 }));
 
-export const StatText = styled('div')(({ theme }) => ({
-  fontFamily: theme.typography.texts.fontFamily,
-  fontSize: theme.typography.texts.fontSize,
-  fontWeight: theme.typography.texts.fontWeight,
-  lineHeight: theme.typography.texts.lineHeight,
+
+export const LabelBox = styled('div')(({ theme }) => ({
+  width: toSp(theme, 98.459),
+  height: toSp(theme, 12),
+  fontFamily: 'Syne',
+  fontSize: toSp(theme, 10),
+  fontWeight: 500,
+  lineHeight: '100%',
+  display: 'flex',
+  alignItems: 'center',
   color: theme.palette.text.secondary,
 }));

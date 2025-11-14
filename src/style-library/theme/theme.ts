@@ -31,11 +31,13 @@ declare module '@mui/material/styles' {
   interface Palette {
     backgroundQuestion: string;
     backgroundIcon: string;
+    backgroundCard: string;
   }
 
   interface PaletteOptions {
     backgroundQuestion?: string;
     backgroundIcon?: string;
+    backgroundCard?: string;
   }
 }
 
@@ -135,6 +137,7 @@ theme.palette = {
   },
   backgroundQuestion: '#F1F3F9',
   backgroundIcon: '#F8F6FF',
+  backgroundCard: '#FAFAFA',
 };
 
 theme.components = {
