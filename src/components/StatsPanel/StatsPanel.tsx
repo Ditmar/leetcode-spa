@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StatsPanelProps } from './StatsPanel.types';
+
 import { useStatsPanel } from './StatsPanel.hook';
 import {
   CardContainer,
@@ -11,6 +11,8 @@ import {
   LabelBox,
 } from './StatsPanel.styles';
 
+import type { StatsPanelProps } from './StatsPanel.types';
+
 const ICONS_POSITIONS = {
   total: { top: 17, left: 16 },
   passed: { top: 90, left: 16 },
@@ -18,10 +20,8 @@ const ICONS_POSITIONS = {
   waiting: { top: 236, left: 16 },
 } as const;
 
-
 const ICON_SIZE = 48;
 const H_GAP = 18;
-
 
 const TEXTS_POS = Object.fromEntries(
   Object.entries(ICONS_POSITIONS).map(([k, pos]) => [
@@ -30,10 +30,8 @@ const TEXTS_POS = Object.fromEntries(
   ])
 ) as Record<keyof typeof ICONS_POSITIONS, { top: number; left: number }>;
 
-
 export const StatsPanel = ({ totalTests, passed, failed, waiting }: StatsPanelProps) => {
   const stats = useStatsPanel({ totalTests, passed, failed, waiting });
-
 
   return (
     <CardContainer role="region" aria-label="stats-panel">
@@ -41,7 +39,6 @@ export const StatsPanel = ({ totalTests, passed, failed, waiting }: StatsPanelPr
         const iconPos = ICONS_POSITIONS[stat.id as keyof typeof ICONS_POSITIONS];
         const textPos = TEXTS_POS[stat.id as keyof typeof TEXTS_POS];
         const Icon = stat.icon;
-
 
         return (
           <React.Fragment key={stat.id}>
@@ -51,16 +48,15 @@ export const StatsPanel = ({ totalTests, passed, failed, waiting }: StatsPanelPr
                   <IconImg src={Icon} />
                 ) : (
                   <span style={{ display: 'inline-flex', width: '100%', height: '100%' }}>
-                    {/* @ts-ignore */}
+                    {/* @ts-expect-error TS ignores icon component type */}
                     <Icon fontSize="small" />
                   </span>
                 )}
               </InnerIconBox>
             </IconWrapper>
 
-
             <TextBlock top={textPos.top} left={textPos.left}>
-              <ValueBox>{stat.value}</ValueBox>
+              <ValueBox aria-label={`stat-value-${stat.id}`}>{stat.value}</ValueBox>
               <LabelBox>{stat.label}</LabelBox>
             </TextBlock>
           </React.Fragment>
