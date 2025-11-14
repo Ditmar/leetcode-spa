@@ -1,0 +1,30 @@
+import { Logo } from './Logo';
+
+# 🖼️ Component: Logo
+
+The **Logo** component displays the main application logo.  
+It can be shown in **vertical** orientation (compact logo) or **horizontal** orientation (extended logo with text).
+
+---
+
+## 📸 Example
+
+```jsx
+<Logo orientation="vertical" width={100} height={100} alt="App logo" />
+```
+
+## ⚙️ Variants
+
+```jsx
+<Logo orientation="horizontal" width={150} height={80} alt="App logo" />
+```
+
+---
+
+## 💡 Notes
+
+- The image switches depending on the `orientation` prop.
+- Keep width/height proportions appropriate.
+- Provide meaningful `alt` text or mark it decorative if appropriate.
+  -The image changes automatically based on the value of orientation.
+  -It is recommended to maintain appropriate width and height proportions.
