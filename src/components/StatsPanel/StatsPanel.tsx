@@ -13,31 +13,19 @@ import {
 
 import type { StatsPanelProps } from './StatsPanel.types';
 
-const ICONS_POSITIONS = {
-  total: { top: 17, left: 16 },
-  passed: { top: 90, left: 16 },
-  failed: { top: 163, left: 16 },
-  waiting: { top: 236, left: 16 },
-} as const;
-
 const ICON_SIZE = 48;
 const H_GAP = 18;
-
-const TEXTS_POS = Object.fromEntries(
-  Object.entries(ICONS_POSITIONS).map(([k, pos]) => [
-    k,
-    { top: pos.top, left: pos.left + ICON_SIZE + H_GAP },
-  ])
-) as Record<keyof typeof ICONS_POSITIONS, { top: number; left: number }>;
+const V_GAP = 73;
 
 export const StatsPanel = ({ totalTests, passed, failed, waiting }: StatsPanelProps) => {
   const stats = useStatsPanel({ totalTests, passed, failed, waiting });
 
   return (
     <CardContainer role="region" aria-label="stats-panel">
-      {stats.map((stat) => {
-        const iconPos = ICONS_POSITIONS[stat.id as keyof typeof ICONS_POSITIONS];
-        const textPos = TEXTS_POS[stat.id as keyof typeof TEXTS_POS];
+      {stats.map((stat, index) => {
+        const top = 17 + index * V_GAP;
+        const iconPos = { top, left: 16 };
+        const textPos = { top, left: iconPos.left + ICON_SIZE + H_GAP };
         const Icon = stat.icon;
 
         return (
