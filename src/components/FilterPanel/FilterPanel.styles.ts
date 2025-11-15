@@ -46,8 +46,7 @@ export const FilterButton = styled(Button, {
 }>(({ theme, selected, panelVariant, size = 'medium', position }) => {
   const isPrimary = panelVariant === 'primary' || !panelVariant;
   const sizeCfg = FILTER_BUTTON_SIZES[size];
-  const activeFill = isPrimary ? theme.palette.primary.main : theme.palette.secondary.main;
-  const hoverFill = isPrimary ? theme.palette.primary.dark : theme.palette.secondary.main;
+  const activeFill = isPrimary ? theme.palette.secondary.main : theme.palette.secondary.main;
   const inactiveText = isPrimary ? theme.palette.text.primary : theme.palette.secondary.main;
   const activeText = theme.palette.getContrastText(activeFill);
   return {
@@ -70,11 +69,6 @@ export const FilterButton = styled(Button, {
     border: selected ? `2px solid ${activeFill}` : `1px solid transparent`,
     backgroundColor: selected ? activeFill : 'transparent',
     color: selected ? activeText : inactiveText,
-    '&:hover': {
-      backgroundColor: selected ? hoverFill : theme.palette.action.hover,
-      color: selected ? activeText : inactiveText,
-      borderColor: selected ? hoverFill : 'transparent',
-    },
     transition: theme.transitions.create(
       ['background-color', 'border-color', 'color', 'box-shadow'],
       {
