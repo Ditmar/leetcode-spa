@@ -8,7 +8,9 @@ import {
   getPageContainerStyles,
   getFormStyles,
   getLogoStyles,
-  getInputStyles,
+  getEmailInputStyles,
+  getUsernameInputStyles,
+  getPasswordInputStyles,
   getButtonStyles,
   haveAccountTextStyles,
   loginLinkStyles,
@@ -16,6 +18,9 @@ import {
   getSocialIconStyles,
   legalTextStyles,
   legalLinkStyles,
+  getEmailErrorStyles,
+  getUsernameErrorStyles,
+  getPasswordErrorStyles,
 } from './SignUpPage.styles';
 
 import type { SignUpPageProps } from './SignUpPage.types';
@@ -52,23 +57,6 @@ type PrimaryButtonFallbackProps = {
 };
 
 const Logo: React.ComponentType<LogoFallbackProps> = () => <div data-testid="logo-fallback" />;
-
-// FALLBACK COMPONENTS (SKELETON IMPLEMENTATION)
-// -----------------------------------------------------------------------------
-// The following components (`FormInput`, `PrimaryButton`) are local fallbacks.
-// They are implemented as simple, semantic wrappers to stand in for shared
-// components that are not yet available in the `master` branch.
-//
-// WHY: The original skeleton implementation used non-semantic `<div>`s, which
-// caused critical accessibility issues (unusable with keyboards, invisible to
-// screen readers) that were flagged during code review. This version uses a
-// basic `input` and MUI `Button` to ensure the page is accessible and testable.
-//
-// HOW TO REPLACE: Once the real `FormInput` and `PrimaryButton` components are
-// merged into `master`, these local fallbacks should be deleted, and the
-// real components should be imported from the project's component library.
-// The props and logic in `SignUpPage` are already set up to work with them.
-// -----------------------------------------------------------------------------
 
 const FormInput: React.FC<FormInputFallbackProps> = (props) => (
   <Box
@@ -167,8 +155,13 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
     disabled || loading || !!errors.email || !!errors.username || !!errors.password;
 
   return (
-    <Box sx={getPageContainerStyles()}>
-      <Box component="form" onSubmit={handleSubmit} sx={getFormStyles(theme)}>
+    <Box sx={getPageContainerStyles(theme)}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={getFormStyles(theme)}
+        data-theme={theme.palette.primary.main}
+      >
         <Box sx={getLogoStyles(theme)}>
           <Logo orientation="horizontal" width="100%" height="100%" alt="Logo" />
         </Box>
@@ -182,13 +175,10 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           }}
           placeholder="Enter your email"
           errorMessage={errors.email}
-          sx={getInputStyles(122.42, theme)}
+          sx={getEmailInputStyles(theme)}
         />
         {errors.email && (
-          <Typography
-            variant="caption"
-            sx={{ position: 'absolute', top: '26.5%', left: '8.5%', color: 'error.main' }}
-          >
+          <Typography variant="caption" sx={getEmailErrorStyles(theme)}>
             {errors.email}
           </Typography>
         )}
@@ -202,13 +192,10 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           }}
           placeholder="Enter your username"
           errorMessage={errors.username}
-          sx={getInputStyles(225.65, theme)}
+          sx={getUsernameInputStyles(theme)}
         />
         {errors.username && (
-          <Typography
-            variant="caption"
-            sx={{ position: 'absolute', top: '40.2%', left: '8.5%', color: 'error.main' }}
-          >
+          <Typography variant="caption" sx={getUsernameErrorStyles(theme)}>
             {errors.username}
           </Typography>
         )}
@@ -223,13 +210,10 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           }}
           placeholder="Enter your password"
           errorMessage={errors.password}
-          sx={getInputStyles(328.88, theme)}
+          sx={getPasswordInputStyles(theme)}
         />
         {errors.password && (
-          <Typography
-            variant="caption"
-            sx={{ position: 'absolute', top: '53.8%', left: '8.5%', color: 'error.main' }}
-          >
+          <Typography variant="caption" sx={getPasswordErrorStyles(theme)}>
             {errors.password}
           </Typography>
         )}
@@ -263,7 +247,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
                 component="img"
                 src={GoogleIcon}
                 alt="Google"
-                sx={getSocialIconStyles(0)}
+                sx={getSocialIconStyles(0, theme)}
                 onError={handleImgError}
               />
             </Link>
@@ -278,7 +262,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
                 component="img"
                 src={GithubIcon}
                 alt="GitHub"
-                sx={getSocialIconStyles(1)}
+                sx={getSocialIconStyles(1, theme)}
                 onError={handleImgError}
               />
             </Link>
@@ -293,7 +277,7 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
                 component="img"
                 src={FacebookIcon}
                 alt="Facebook"
-                sx={getSocialIconStyles(2)}
+                sx={getSocialIconStyles(2, theme)}
                 onError={handleImgError}
               />
             </Link>
