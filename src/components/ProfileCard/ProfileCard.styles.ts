@@ -1,6 +1,8 @@
 import { Card, Avatar, Typography, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
+
 import { PROFILE_CARD_SPACING, PROFILE_CARD_TYPOGRAPHY } from '../../style-library/theme/theme';
+
 import { VARIANT_CONFIGS } from './ProfileCard.constants';
 
 import type {
