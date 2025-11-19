@@ -1,4 +1,7 @@
-import React from 'react';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import { IconButton, InputAdornment } from '@mui/material';
+import React, { useState } from 'react';
 
 import { DEFAULT_PROPS } from './FormInput.constants';
 import { StyledFormInput } from './FormInput.styles';
@@ -21,7 +24,11 @@ export const FormInput: React.FC<FormInputProps> = ({
   inputProps: userInputProps,
   ...rest
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
   const isError = !!errorMessage;
+  const isPassword = type === 'password';
+
+  const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     if (onFocus) onFocus(event);
@@ -56,6 +63,28 @@ export const FormInput: React.FC<FormInputProps> = ({
       $size={size}
       $error={isError}
       inputProps={mergedInputProps}
+      InputProps={{
+        endAdornment: isPassword ? (
+          <InputAdornment position="end">
+            <IconButton
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              onClick={handleTogglePassword}
+              edge="end"
+              disabled={disabled}
+            >
+              {showPassword ? (
+                <VisibilityOffOutlinedIcon
+                  sx={{
+                    transform: 'rotateY(180deg)',
+                  }}
+                />
+              ) : (
+                <VisibilityOutlinedIcon />
+              )}
+            </IconButton>
+          </InputAdornment>
+        ) : null,
+      }}
       {...rest}
     />
   );

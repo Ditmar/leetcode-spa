@@ -133,7 +133,27 @@ export const pillTagTokens = {
  */
 export const formInputTokens = {
   colors: {
-    focusBorder: '#B23DEA', // Figma focus border color
+    focusBorder: '#B23DEA',
+    defaultBorder: '#C4C4C4',
+    placeholder: '#CCCCCC',
+    label: '#BCBCBC',
+    eye: {
+      icon: '#BCBCBC',
+      hover: '#A0A0A0',
+      disabled: '#E0E0E0',
+    },
+  },
+  eye: {
+    size: {
+      small: { width: 15.34, height: 15.16 },
+      medium: { width: 18.5, height: 18.5 },
+      large: { width: 21.93, height: 21.93 },
+    },
+    padding: {
+      small: 18,
+      medium: 20,
+      large: 24,
+    },
   },
 } as const;
 
