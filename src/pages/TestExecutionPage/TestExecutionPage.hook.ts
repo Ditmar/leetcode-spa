@@ -10,6 +10,10 @@ import type {
   UseTestExecutionResult,
 } from './TestExecutionPage.types';
 
+/**
+ * Creates the initial state of the test.
+ * If no test exists, it starts in "idle" mode.
+ */
 function createInitialState(test?: TestDefinition): TestExecutionState {
   return {
     currentIndex: 0,
@@ -17,17 +21,14 @@ function createInitialState(test?: TestDefinition): TestExecutionState {
     remainingSeconds: test?.totalDurationSeconds ?? 0,
     status: test ? ('running' as TestStatus) : ('idle' as TestStatus),
     isSubmitting: false,
-    error: undefined,
   };
 }
 
-async function mockSaveAnswersToApi(
-  test: TestDefinition,
-  answers: Record<string, string>
-): Promise<void> {
-  {
-    await mockSaveAnswersToApi(test, answers);
-  }
+/**
+ * Mock function to simulate an API call with latency.
+ */
+async function mockSaveAnswersToApi(): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, 300));
 }
 
 export function useTestExecution(testId: string): UseTestExecutionResult {
@@ -36,6 +37,10 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | undefined>(undefined);
 
+  /**
+   * Loads the test for the provided testId.
+   * If not found, clears previous state to avoid stale data.
+   */
   useEffect(() => {
     setIsLoading(true);
     setError(undefined);
@@ -44,8 +49,9 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
       const foundTest = MOCK_TESTS[testId];
 
       if (!foundTest) {
-        setError('Test no encontrado');
+        setError('Test not found');
         setIsLoading(false);
+        setTest(undefined);
         setState(createInitialState());
         return;
       }
@@ -58,6 +64,9 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
     return () => clearTimeout(timeout);
   }, [testId]);
 
+  /**
+   * Returns the current question based on the state index.
+   */
   const currentQuestion: Question | undefined = useMemo(() => {
     if (!test) return undefined;
     return test.questions[state.currentIndex];
@@ -111,17 +120,22 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
     }));
   };
 
+  /**
+   * Submits the user's answers.
+   */
   const handleSubmit = async () => {
     if (!test) return;
 
     setState((prev) => ({
       ...prev,
       isSubmitting: true,
-      error: undefined,
     }));
+    setError(undefined);
 
     try {
-      await mockSaveAnswersToApi(test, state.answers);
+      // mock API call — no args needed for now
+      await mockSaveAnswersToApi();
+
       setState((prev) => ({
         ...prev,
         isSubmitting: false,
@@ -131,8 +145,8 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
       setState((prev) => ({
         ...prev,
         isSubmitting: false,
-        error: 'No se pudieron guardar las respuestas.',
       }));
+      setError('Failed to save answers.');
     }
   };
 

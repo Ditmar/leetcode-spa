@@ -4,23 +4,25 @@ import React from 'react';
 export interface AnswerOptionProps {
   label: string;
   selected?: boolean;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export const AnswerOption: React.FC<AnswerOptionProps> = ({ label, selected = false, onClick }) => {
+const AnswerOptionComponent: React.FC<AnswerOptionProps> = ({
+  label,
+  selected = false,
+  onClick,
+}) => {
   return (
     <Button
       fullWidth
       variant={selected ? 'contained' : 'outlined'}
-      color={selected ? 'primary' : 'inherit'}
+      color="primary"
+      aria-pressed={selected}
       onClick={onClick}
-      sx={{
-        justifyContent: 'flex-start',
-        textTransform: 'none',
-        mb: 1,
-      }}
     >
       {label}
     </Button>
   );
 };
+
+export const AnswerOption = React.memo(AnswerOptionComponent);

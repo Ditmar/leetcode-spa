@@ -1,5 +1,5 @@
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { AnswerOption } from '../../components/AnswerOption/AnswerOption';
 import { CountdownTimer } from '../../components/CountdownTimer/CountdownTimer';
@@ -26,11 +26,7 @@ const TestExecutionPage: React.FC<TestExecutionPageProps> = ({ testId }) => {
     handleTimeout,
   } = useTestExecution(testId);
 
-  const [timerExpired, setTimerExpired] = useState(false);
-
-  // Cuando el temporizador termine
   const onTimerEnd = () => {
-    setTimerExpired(true);
     handleTimeout();
   };
 
@@ -49,7 +45,6 @@ const TestExecutionPage: React.FC<TestExecutionPageProps> = ({ testId }) => {
   const currentIndex = state.currentIndex;
   const totalQuestions = test.questions.length;
 
-  // Respuesta actual (para MCQ)
   const currentAnswer = state.answers[currentQuestion.id] ?? '';
 
   const handleAnswerChange = (optionId: string) => {
@@ -89,7 +84,7 @@ const TestExecutionPage: React.FC<TestExecutionPageProps> = ({ testId }) => {
             />
           ))}
 
-        {/* Pregunta de programación (editor de código sencillo) */}
+        {/* Pregunta de programación */}
         {currentQuestion.type === 'code' && (
           <Box>
             <Typography variant="h6">Editor de Código (Simulado)</Typography>
@@ -118,7 +113,9 @@ const TestExecutionPage: React.FC<TestExecutionPageProps> = ({ testId }) => {
         </Button>
       </Box>
 
-      {timerExpired && (
+      {/* ❌ eliminar timerExpired */}
+      {/* ✅ usar estado centralizado */}
+      {state.status === 'expired' && (
         <Typography mt={2} color="error">
           ¡Tiempo agotado!
         </Typography>
