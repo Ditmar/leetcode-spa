@@ -7,6 +7,7 @@ declare module '@mui/material/styles' {
     link: {
       purple: string;
       blue: string;
+      gray: string;
     };
     custom: {
       inputFocus: string;
@@ -17,6 +18,7 @@ declare module '@mui/material/styles' {
     link?: {
       purple?: string;
       blue?: string;
+      gray?: string;
     };
     custom?: {
       inputFocus?: string;
@@ -29,6 +31,7 @@ const loginTheme = createTheme(baseTheme, {
   palette: {
     link: {
       purple: '#B441EB',
+      blue: '#3366FF',
       gray: '#BCBCBC',
     },
     text: {
