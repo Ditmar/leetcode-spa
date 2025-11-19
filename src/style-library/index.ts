@@ -1,4 +1,4 @@
-export { default as theme, themeConfig, darkTheme, modernTheme, classicTheme } from './theme/theme';
+export { theme, themeConfig, darkTheme, modernTheme, classicTheme } from './theme/theme';
 
 export type * from './types/theme.types';
 
