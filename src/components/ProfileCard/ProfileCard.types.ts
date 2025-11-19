@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import type { CardProps } from '@mui/material/Card';
+import type { ReactNode } from 'react';
 
 export interface ProfileStatsProps {
   /** Number of courses enrolled */
