@@ -202,9 +202,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         <PrimaryButton
           sx={{
             ...getButtonStyles(theme),
-            backgroundColor: '#333333 !important',
+            // REFACTOR: Usar tokens del tema en lugar de colores harcodeados
+            backgroundColor: `${theme.palette.common.black} !important`,
             '&:hover': {
-              backgroundColor: '#111111 !important',
+              backgroundColor: `${theme.palette.grey[900]} !important`,
             },
           }}
           onClick={handleSubmit}
