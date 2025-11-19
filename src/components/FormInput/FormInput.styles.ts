@@ -56,7 +56,8 @@ export const StyledFormInput = styled(TextField, {
       top: '50%',
       left: `${SIZE_CONFIGS.medium.padding[1]}px`,
       transform: 'translateY(-50%)',
-      color: theme.palette.divider,
+      //color: theme.palette.divider,
+      color: $error ? theme.palette.error.main : formInputTokens.colors.label,
       [theme.breakpoints.down('sm')]: {
         left: `${SIZE_CONFIGS.small.padding[1]}px`,
         fontSize: `${SIZE_CONFIGS.small.fontSize}px`,
@@ -83,7 +84,7 @@ export const StyledFormInput = styled(TextField, {
     },
 
     '& .MuiInputBase-input::placeholder': {
-      color: $error ? theme.palette.error.main : theme.palette.divider,
+      color: $error ? theme.palette.error.main : formInputTokens.colors.placeholder,
       opacity: 1,
     },
 
@@ -93,10 +94,10 @@ export const StyledFormInput = styled(TextField, {
 
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: $error ? theme.palette.error.main : theme.palette.text.disabled,
+        borderColor: $error ? theme.palette.error.main : formInputTokens.colors.defaultBorder,
       },
       '&:hover fieldset': {
-        borderColor: $error ? theme.palette.error.main : theme.palette.primary.main,
+        borderColor: $error ? theme.palette.error.main : formInputTokens.colors.focusBorder,
       },
       '&.Mui-focused fieldset': {
         borderColor: formInputTokens.colors.focusBorder,
@@ -122,9 +123,60 @@ export const StyledFormInput = styled(TextField, {
         WebkitTextFillColor: theme.palette.text.disabled,
       },
       '& fieldset': {
-        borderColor: theme.palette.text.disabled,
+        borderColor: `${formInputTokens.colors.defaultBorder} !important`,
         tabIndex: -1,
       },
+    },
+
+    '& .MuiInputAdornment-root': {
+      marginRight: theme.spacing(2),
+    },
+
+    '& .MuiIconButton-root': {
+      backgroundColor: 'transparent',
+      borderRadius: '50%',
+      color: formInputTokens.colors.eye.icon,
+      // Base size (medium)
+      width: `${formInputTokens.eye.size.medium.width}px !important`,
+      height: `${formInputTokens.eye.size.medium.height}px !important`,
+      padding: `${formInputTokens.eye.padding.medium}px !important`,
+      // Small size
+      [theme.breakpoints.down('sm')]: {
+        width: `${formInputTokens.eye.size.small.width}px !important`,
+        height: `${formInputTokens.eye.size.small.height}px !important`,
+        padding: `${formInputTokens.eye.padding.small}px !important`,
+      },
+      // Medium size
+      [theme.breakpoints.between('sm', 'md')]: {
+        width: formInputTokens.eye.size.medium.width,
+        height: formInputTokens.eye.size.medium.height,
+        padding: formInputTokens.eye.padding.medium,
+      },
+      // Large size
+      [theme.breakpoints.up('md')]: {
+        width: `${formInputTokens.eye.size.large.width}px !important`,
+        height: `${formInputTokens.eye.size.large.height}px !important`,
+        padding: `${formInputTokens.eye.padding.large}px !important`,
+      },
+
+      '& .MuiSvgIcon-root': {
+        fontSize: 'inherit !important',
+      },
+
+      '&:hover': {
+        backgroundColor: 'transparent',
+        color: formInputTokens.colors.eye.hover,
+      },
+
+      '&.Mui-disabled': {
+        backgroundColor: 'transparent',
+        color: formInputTokens.colors.eye.disabled,
+        opacity: 0.6,
+      },
+    },
+
+    '& .MuiSvgIcon-root': {
+      fontSize: 'inherit !important',
     },
   };
 });

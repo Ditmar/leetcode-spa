@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { FormInput } from './FormInput';
 import { FORM_INPUT_VARIANTS, FORM_INPUT_SIZES, FORM_INPUT_TYPES } from './FormInput.constants';
 
@@ -60,6 +62,21 @@ export const Filled: Story = {
     variant: 'filled',
     label: 'Password',
     placeholder: 'Enter your password',
+  },
+};
+
+export const PasswordInteractive: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <FormInput
+        type="password"
+        label="Password"
+        placeholder="Enter your password"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    );
   },
 };
 
