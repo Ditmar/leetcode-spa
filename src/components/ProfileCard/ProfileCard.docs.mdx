@@ -1,0 +1,179 @@
+# ProfileCard Component
+
+## 📋 Overview
+
+This PR introduces the **ProfileCard** component — a fully reusable, responsive, and accessible UI component for displaying user profile information and statistics. Built following **Component-Driven Development (CDD)** principles and **Material-UI** design system.
+
+---
+
+## ✨ Features
+
+### Core Functionality
+- **User Info Display**: Avatar, name, username, and optional role/title
+- **Smart Avatar Fallbacks**: Automatically shows initials (e.g., "JD" for "John Doe") or default icon when no avatar URL is provided
+- **Statistics Section**: Displays metrics (courses, points, ranking) with icons and proper formatting
+- **Flexible Layouts**: Three variants (`default`, `compact`, `expanded`) for different use cases
+- **Size Options**: Three sizes (`small`, `medium`, `large`) for different contexts
+- **Responsive Design**: Adapts automatically to mobile, tablet, and desktop screens using MUI breakpoints
+- **Fully Accessible**: ARIA attributes, semantic HTML, keyboard navigation, and screen reader support
+
+### Technical Highlights
+- **Type-Safe**: Full TypeScript support with proper prop types
+- **Theme Integration**: Uses MUI theme system (`theme.spacing`, `theme.palette`) — no hardcoded values
+- **Customizable**: Supports custom `className` and MUI `sx` prop for style overrides
+- **Number Formatting**: Automatic locale formatting (e.g., "2,500" points) and ordinal ranking (1st, 2nd, 3rd, 21st, 22nd, etc.)
+- **Text Truncation**: Long names/usernames truncate gracefully with tooltips
+
+---
+
+## 🚀 Usage Examples
+
+### Basic Usage
+```tsx
+import { ProfileCard } from '@/components/ProfileCard/ProfileCard';
+
+export const Example = () => {
+  return (
+    <ProfileCard
+      name="Caleb Coronado"
+      username="caleb.dev"
+      role="Frontend Developer"
+      avatarUrl="https://example.com/avatar.jpg"
+      stats={{
+        courses: 12,
+        points: 1280,
+        ranking: 5,
+      }}
+      size="medium"
+      variant="default"
+    />
+  );
+};
+```
+
+### Compact Variant (for lists)
+```tsx
+<ProfileCard
+  name="Rosa Quispe"
+  username="rosaq"
+  role="UX Designer"
+  stats={{ courses: 8, points: 2400, ranking: 12 }}
+  variant="compact"
+  size="small"
+/>
+```
+
+### Without Avatar (shows initials)
+```tsx
+<ProfileCard
+  name="John Doe"
+  username="johndoe"
+  role="Developer"
+  stats={{ courses: 10, points: 2500, ranking: 15 }}
+/>
+```
+
+### Without Stats
+```tsx
+<ProfileCard
+  name="Jane Smith"
+  username="janesmith"
+  role="Product Manager"
+  avatarUrl="https://example.com/jane.jpg"
+  showStats={false}
+/>
+```
+
+---
+
+## 🧩 Component Variants
+
+### Layout Variants
+
+| Variant | Description | Best For |
+|---------|-------------|----------|
+| `default` | Vertical centered layout | Cards, grids, standalone displays |
+| `compact` | Horizontal layout with avatar on left | Lists, comments, sidebars |
+| `expanded` | Vertical with column stats | Detailed profiles, modals |
+
+### Size Variants
+
+| Size | Avatar | Padding | Best For |
+|------|--------|---------|----------|
+| `small` | 48px | 16px | Dense lists, mobile views |
+| `medium` | 64px | 20px | General use, dashboards |
+| `large` | 80px | 24px | Profile pages, headers |
+
+---
+
+## 📘 Documentation
+
+### Storybook Stories
+- ✅ **Playground**: Interactive testing with all controls
+- ✅ **Size Variations**: Visual comparison of all sizes
+- ✅ **Layout Variants**: Showcase of default, compact, and expanded
+- ✅ **Edge Cases**: Long names, missing avatars, empty stats
+- ✅ **Gallery**: Comprehensive visual overview
+
+## 🧪 Testing
+
+### Test Coverage
+Comprehensive unit tests (`ProfileCard.test.tsx`) with **20 test cases** covering rendering, accessibility, edge cases, and all prop combinations.
+
+---
+
+## 📁 Files Structure
+
+```
+ProfileCard/
+├── ProfileCard.tsx
+├── ProfileCard.types.ts
+├── ProfileCard.constants.ts
+├── ProfileCard.styles.ts
+├── ProfileCard.test.tsx
+├── ProfileCard.stories.tsx
+└── ProfileCard.docs.mdx
+```
+
+---
+
+## ✅ Code Quality
+
+- Named exports only
+- Props suffix on types
+- MUI theme system (no hardcoded values)
+- Responsive breakpoints
+- Full TypeScript typing
+- Semantic HTML + ARIA attributes
+
+---
+
+## 🧾 Checklist
+
+- [x] All tests passing
+- [x] Storybook stories ready
+- [x] Documentation completed
+- [x] Code reviewed and linted
+
+---
+
+## 👀 Visual Preview
+
+Run Storybook locally:
+```bash
+yarn storybook
+```
+
+Then navigate to: **Components → ProfileCard**
+
+---
+
+## 🧰 How to Test
+
+```bash
+# Install dependencies
+yarn install
+
+# Run tests
+yarn test
+```
