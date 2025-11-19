@@ -1,0 +1,51 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import { Box } from '@mui/material';
+import * as TestExecutionPageStories from './TestExecutionPage.stories';
+
+<Meta of={TestExecutionPageStories} title="Pages/TestExecutionPage" />
+
+# TestExecutionPage
+
+`TestExecutionPage` permite a los usuarios ejecutar un test de tipo LeetCode con:
+
+- Preguntas de opción múltiple.
+- Preguntas de programación con editor de código.
+- Temporizador global del test.
+- Navegación entre preguntas.
+- Envío de respuestas a una API (mock).
+
+## Props
+
+### `testId: string`
+
+Identificador del test a ejecutar. En este ejemplo se usa un mock almacenado en `TestExecutionPage.constants.ts`, pero en un escenario real se puede reemplazar por una llamada a API.
+
+### `onSubmitted?: (testId: string) => void`
+
+Callback opcional que se ejecuta cuando el test se envía correctamente. Puede usarse para navegación o tracking.
+
+## Composición
+
+La página se compone utilizando:
+
+- `NavigationSidebar` para la navegación lateral.
+- `DonutProgress` para mostrar el avance de preguntas.
+- `CountdownTimer` para mostrar el tiempo restante del test.
+- `AnswerOption` para las respuestas de opción múltiple.
+- `ConsoleIO` (o un editor equivalente) para las preguntas de programación.
+
+Las decisiones de diseño siguen las convenciones CDD del proyecto:
+
+- Estilos con MUI (`styled` y `sx`).
+- Tipado estricto con TypeScript.
+- Configuración de layout responsivo adaptada a mobile y desktop.
+
+## Ejemplos
+
+<Canvas>
+  <Story id="pages-testexecutionpage--multiple-choice-and-code" />
+</Canvas>
+
+<Canvas>
+  <Story id="pages-testexecutionpage--mobile-view" />
+</Canvas>
