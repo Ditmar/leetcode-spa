@@ -6,43 +6,67 @@ import {
   CARD_DEFAULT_HEIGHT,
   CARD_DEFAULT_WIDTH,
   OVERLAY_HEIGHT,
+  OVERLAY_GRADIENT,
+  OVERLAY_BLUR,
 } from './TestCard.constants';
 
-interface StyledCardProps {
-  orientation?: 'vertical' | 'horizontal';
-}
-
-export const StyledCard = styled(Card)<StyledCardProps>(({ theme, orientation }) => ({
-  backgroundPosition: 'center',
-  backgroundSize: 'cover',
+export const StyledCard = styled(Card)(() => ({
+  position: 'relative',
+  overflow: 'hidden',
   borderRadius: CARD_BORDER_RADIUS,
-  boxShadow: 'none',
   display: 'flex',
   flexDirection: 'column',
-  height: orientation === 'horizontal' ? CARD_DEFAULT_WIDTH : CARD_DEFAULT_HEIGHT,
-  overflow: 'hidden',
-  position: 'relative',
+  backgroundPosition: 'center',
+  backgroundSize: 'cover',
+  width: CARD_DEFAULT_WIDTH,
+  height: CARD_DEFAULT_HEIGHT,
   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-  width: orientation === 'horizontal' ? CARD_DEFAULT_HEIGHT : CARD_DEFAULT_WIDTH,
-
   '&:hover': {
-    boxShadow: theme.shadows[4],
     transform: 'scale(1.02)',
   },
 }));
 
 export const StyledOverlay = styled('div')(() => ({
-  alignItems: 'center',
-  backdropFilter: 'blur(19.41px)',
-  background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.122) 0%, rgba(255, 255, 255, 0) 100%)',
+  position: 'absolute',
+  bottom: 0,
+  width: CARD_DEFAULT_WIDTH,
+  height: OVERLAY_HEIGHT,
+  background: OVERLAY_GRADIENT,
+  backdropFilter: `blur(${OVERLAY_BLUR})`,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  justifyContent: 'flex-start',
+  color: '#fff',
   borderBottomLeftRadius: CARD_BORDER_RADIUS,
   borderBottomRightRadius: CARD_BORDER_RADIUS,
-  bottom: 0,
+}));
+
+export const Title = styled('div')(() => ({
+  maxWidth: `calc(${CARD_DEFAULT_WIDTH} * 0.70)`,
+  height: '21px',
+  fontFamily: 'Poppins',
+  fontWeight: 500,
+  fontSize: '14px',
+  lineHeight: '100%',
   color: '#fff',
-  display: 'flex',
-  height: OVERLAY_HEIGHT,
-  justifyContent: 'center',
-  padding: '0 8px',
-  position: 'absolute',
-  width: '100%',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  marginTop: '20px',
+  marginLeft: '10px',
+}));
+
+export const Text = styled('div')(() => ({
+  maxWidth: `calc(${CARD_DEFAULT_WIDTH} * 0.70)`,
+  height: '19px',
+  backgroundColor: 'rgba(0,0,0,1)',
+  borderRadius: '3px',
+  padding: '2px 6px',
+  color: '#fff',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  marginTop: '5px',
+  marginLeft: '10px',
 }));
