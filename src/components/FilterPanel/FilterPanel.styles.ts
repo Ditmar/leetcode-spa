@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import { styled, darken } from '@mui/material/styles';
 
 import { FILTER_BUTTON_SIZES } from './FilterPanel.constants';
 
@@ -46,9 +46,15 @@ export const FilterButton = styled(Button, {
 }>(({ theme, selected, panelVariant, size = 'medium', position }) => {
   const isPrimary = panelVariant === 'primary' || !panelVariant;
   const sizeCfg = FILTER_BUTTON_SIZES[size];
-  const activeFill = isPrimary ? theme.palette.secondary.main : theme.palette.secondary.main;
-  const inactiveText = isPrimary ? theme.palette.text.primary : theme.palette.secondary.main;
-  const activeText = theme.palette.getContrastText(activeFill);
+  const activeFill = theme.palette.secondary.main;
+  const activeFillHover = darken(activeFill, 0.1);
+  const inactiveText = isPrimary ? theme.palette.common.black : theme.palette.secondary.main;
+  const activeText = isPrimary
+    ? theme.palette.common.white
+    : theme.palette.getContrastText(activeFill);
+  const primaryInactiveHover = theme.palette.action.hover;
+  const secondaryInactiveHover = theme.palette.grey[800];
+
   return {
     justifyContent: 'center',
     display: 'flex',
@@ -76,5 +82,16 @@ export const FilterButton = styled(Button, {
         easing: theme.transitions.easing.easeInOut,
       }
     ),
+
+    '&:hover': {
+      backgroundColor: selected
+        ? activeFillHover
+        : isPrimary
+          ? primaryInactiveHover
+          : secondaryInactiveHover,
+
+      borderColor: selected ? activeFillHover : 'transparent',
+      color: selected ? activeText : inactiveText,
+    },
   };
 });
