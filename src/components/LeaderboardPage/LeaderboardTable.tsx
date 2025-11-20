@@ -44,7 +44,14 @@ export const LeaderboardTable: React.FC<{ users: LeaderboardUser[] }> = ({ users
                 </TableCell>
 
                 <TableCell>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box
+                    sx={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 1,
+                      width: 'max-content',
+                    }}
+                  >
                     <Box>
                       <Typography fontWeight={600}>{u.fullName}</Typography>
                       <SyneTypography variant="caption">{u.username}</SyneTypography>
@@ -52,12 +59,7 @@ export const LeaderboardTable: React.FC<{ users: LeaderboardUser[] }> = ({ users
                   </Box>
                 </TableCell>
 
-                <TableCell
-                  align="right"
-                  sx={{
-                    minWidth: { xs: '8rem', sm: '10rem', md: '12rem' },
-                  }}
-                >
+                <TableCell align="center">
                   {rankingImg ? (
                     <Box
                       component="img"

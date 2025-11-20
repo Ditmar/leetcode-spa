@@ -3,6 +3,13 @@ import { describe, expect, it, vi, beforeEach } from 'vitest';
 
 import { LeaderboardPage } from './LeaderboardPage';
 
+vi.mock('canvas-confetti', () => ({
+  __esModule: true,
+  default: vi.fn(() => ({
+    create: () => vi.fn(),
+  })),
+}));
+
 const { mockUseMediaQuery, mockUseLeaderboardPage } = vi.hoisted(() => {
   return {
     mockUseMediaQuery: vi.fn(),
@@ -132,7 +139,7 @@ describe('LeaderboardPage', () => {
 
     mockUseMediaQuery.mockReturnValue(false);
 
-    render(<LeaderboardPage currentUserId="test-user-123" />);
+    render(<LeaderboardPage />);
 
     expect(screen.getByTestId('leaderboard-table')).toBeInTheDocument();
   });
