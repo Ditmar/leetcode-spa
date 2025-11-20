@@ -22,7 +22,7 @@ type Story = StoryObj<typeof FilterPanel>;
 export const Primary: Story = {
   args: {
     filters: DEFAULT_FILTERS,
-    selectedValue: 'all',
+    selectedValue: '',
     panelVariant: 'primary',
     size: 'medium',
   },
@@ -31,7 +31,7 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: {
     filters: DEFAULT_FILTERS,
-    selectedValue: 'all',
+    selectedValue: '',
     panelVariant: 'secondary',
     size: 'medium',
   },

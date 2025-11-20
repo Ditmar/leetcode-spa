@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { styled, darken } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import { FILTER_BUTTON_SIZES } from './FilterPanel.constants';
 
@@ -17,14 +17,6 @@ const PANEL_MAX_WIDTHS: Record<PanelSize, string> = {
   medium: '301px',
   large: '360px',
   xlarge: '560px',
-};
-
-const hexToRgba = (hex: string, alpha: number) => {
-  const sanitized = hex.replace('#', '');
-  const r = parseInt(sanitized.substring(0, 2), 16);
-  const g = parseInt(sanitized.substring(2, 4), 16);
-  const b = parseInt(sanitized.substring(4, 6), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
 export const FilterPanelContainer = styled(Box, {
@@ -54,10 +46,7 @@ export const FilterButton = styled(Button, {
 }>(({ theme, selected, panelVariant, size = 'medium', position }) => {
   const isPrimary = panelVariant === 'primary' || !panelVariant;
   const sizeCfg = FILTER_BUTTON_SIZES[size];
-
   const activeFill = theme.palette.secondary.main;
-  const activeFillHover = darken(activeFill, 0.1);
-  const mutedSecondary = hexToRgba(activeFill, 0.25);
   const inactiveText = isPrimary ? theme.palette.common.black : theme.palette.secondary.main;
   const activeText = isPrimary
     ? theme.palette.common.white
@@ -92,9 +81,9 @@ export const FilterButton = styled(Button, {
     ),
 
     '&:hover': {
-      backgroundColor: selected ? activeFillHover : mutedSecondary,
-      borderColor: selected ? activeFillHover : 'transparent',
-      color: selected ? activeText : inactiveText,
+      backgroundColor: activeFill,
+      borderColor: 'transparent',
+      color: activeText,
     },
   };
 });
