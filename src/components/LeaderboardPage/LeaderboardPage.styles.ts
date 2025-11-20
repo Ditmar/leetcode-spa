@@ -1,4 +1,4 @@
-import { Avatar, Box, Paper, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const PageWrap = styled(Box)(({ theme }) => ({
@@ -15,11 +15,6 @@ export const PageRakingListWrap = styled(Box)(({ theme }) => ({
   height: theme.spacing(31.115),
   top: theme.spacing(87.375),
   left: theme.spacing(3),
-}));
-
-export const ContentCard = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
-  borderRadius: theme.spacing(1.5),
 }));
 
 export const HighlightRow = styled(Box)(({ theme }) => ({
