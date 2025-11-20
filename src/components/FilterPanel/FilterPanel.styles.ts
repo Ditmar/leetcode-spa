@@ -19,6 +19,14 @@ const PANEL_MAX_WIDTHS: Record<PanelSize, string> = {
   xlarge: '560px',
 };
 
+const hexToRgba = (hex: string, alpha: number) => {
+  const sanitized = hex.replace('#', '');
+  const r = parseInt(sanitized.substring(0, 2), 16);
+  const g = parseInt(sanitized.substring(2, 4), 16);
+  const b = parseInt(sanitized.substring(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
 export const FilterPanelContainer = styled(Box, {
   shouldForwardProp: (prop) => !['panelVariant', 'size'].includes(prop as string),
 })<FilterPanelContainerProps>(({ theme, panelVariant, size = 'medium' }) => ({
@@ -46,14 +54,14 @@ export const FilterButton = styled(Button, {
 }>(({ theme, selected, panelVariant, size = 'medium', position }) => {
   const isPrimary = panelVariant === 'primary' || !panelVariant;
   const sizeCfg = FILTER_BUTTON_SIZES[size];
+
   const activeFill = theme.palette.secondary.main;
   const activeFillHover = darken(activeFill, 0.1);
+  const mutedSecondary = hexToRgba(activeFill, 0.25);
   const inactiveText = isPrimary ? theme.palette.common.black : theme.palette.secondary.main;
   const activeText = isPrimary
     ? theme.palette.common.white
     : theme.palette.getContrastText(activeFill);
-  const primaryInactiveHover = theme.palette.action.hover;
-  const secondaryInactiveHover = theme.palette.grey[800];
 
   return {
     justifyContent: 'center',
@@ -84,12 +92,7 @@ export const FilterButton = styled(Button, {
     ),
 
     '&:hover': {
-      backgroundColor: selected
-        ? activeFillHover
-        : isPrimary
-          ? primaryInactiveHover
-          : secondaryInactiveHover,
-
+      backgroundColor: selected ? activeFillHover : mutedSecondary,
       borderColor: selected ? activeFillHover : 'transparent',
       color: selected ? activeText : inactiveText,
     },
