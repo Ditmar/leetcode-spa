@@ -259,6 +259,8 @@ export const typographyTokens = {
     fontSize: '18px' as const,
     lineHeight: 1 as const,
     letterSpacing: 0 as const,
+    minWidth: '96px' as const,
+    minHeight: '22px' as const,
   },
 } as const;
 
