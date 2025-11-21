@@ -2,6 +2,7 @@ import Syne700 from '../../assets/fonts/Syne-700.woff2';
 import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
 import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
 import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
+import PoppinsSemiBold from '../../components/StatsPanel/assets/fonts/Poppins-SemiBold.woff2';
 import { createCustomTheme } from '../types/theme.helpers';
 
 import type { ThemeConfig } from '../types/theme.types';
@@ -14,6 +15,8 @@ declare module '@mui/material/styles' {
     subtitle: CSSProperties;
     question: CSSProperties;
     option: CSSProperties;
+    numbers: CSSProperties;
+    texts: CSSProperties;
   }
 
   interface TypographyVariantsOptions {
@@ -21,14 +24,24 @@ declare module '@mui/material/styles' {
     subtitle?: CSSProperties;
     question?: CSSProperties;
     option?: CSSProperties;
+    numbers?: CSSProperties;
+    texts?: CSSProperties;
   }
 
   interface Palette {
     backgroundQuestion: string;
+    backgroundIcon: string;
+    backgroundCard: string;
+    statsNumbers: string;
+    statsLabel: string;
   }
 
   interface PaletteOptions {
     backgroundQuestion?: string;
+    backgroundIcon?: string;
+    backgroundCard?: string;
+    statsNumbers?: string;
+    statsLabel?: string;
   }
 }
 
@@ -38,6 +51,8 @@ declare module '@mui/material/Typography' {
     subtitle: true;
     question: true;
     option: true;
+    numbers: true;
+    texts: true;
   }
 }
 
@@ -45,7 +60,7 @@ const themeConfig: ThemeConfig = {
   mode: 'light',
   primaryColor: '#1976d2',
   secondaryColor: '#dc004e',
-  fontFamily: `"Montserrat", "Syne", "Inter", "Roboto", "Helvetica", "Arial", sans-serif`,
+  fontFamily: `'"Poppins", "Montserrat", "Syne", "Inter", "Roboto", "Helvetica", "Arial", sans-serif`,
   borderRadius: 12,
   spacing: 8,
 };
@@ -69,7 +84,7 @@ theme.components = {
 
 theme.typography = {
   ...theme.typography,
-  fontFamily: '"Montserrat", "Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
+  fontFamily: '"Poppins", "Montserrat", "Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
   title: {
     fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
     fontWeight: 600,
@@ -102,6 +117,20 @@ theme.typography = {
     fontSize: '1.19rem',
     lineHeight: 1.2,
   },
+  numbers: {
+    fontFamily: '"Poppins", "Syne", "Montserrat", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontSize: '1.25rem',
+    fontWeight: 600,
+    lineHeight: 1,
+    letterSpacing: '0%',
+  },
+  texts: {
+    fontFamily: '"Syne","Montserrat","Inter","Roboto","Helvetica","Arial",sans-serif',
+    fontSize: '0.625rem',
+    fontWeight: 500,
+    lineHeight: 1.2,
+    letterSpacing: '0%',
+  },
 };
 
 theme.palette = {
@@ -112,6 +141,10 @@ theme.palette = {
     disabled: '',
   },
   backgroundQuestion: '#F1F3F9',
+  backgroundIcon: '#F8F6FF',
+  backgroundCard: '#FAFAFA',
+  statsNumbers: '#0D0D0DCC',
+  statsLabel: '#0D0D0D80',
 };
 
 theme.components = {
@@ -138,6 +171,13 @@ theme.components = {
         font-weight: 600;
         font-style: normal;
         font-display: swap;
+      }
+      @font-face {
+       font-family: 'Poppins';
+       src: url(${PoppinsSemiBold}) format('woff2');
+       font-weight: 600;
+       font-style: normal;
+       font-display: swap;
       }
     `,
   },
