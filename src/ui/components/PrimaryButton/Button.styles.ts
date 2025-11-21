@@ -1,25 +1,12 @@
 import { styled, type CSSObject } from '@mui/material/styles';
 
-import { SIZE_CONFIGS, SHAPE_CONFIGS } from './Button.constants';
-
 import type { ButtonShape, ButtonSize, ButtonVariant } from './Button.types';
-
-// escala el borderRadius aunque venga como '0.5rem'
-const scaleLength = (len: number | string, factor: number): number | string => {
-  if (typeof len === 'number') return len * factor;
-  const m = /^(\d*\.?\d+)\s*([a-z%]*)$/i.exec(len.trim());
-  if (!m) return len;
-  const [, num, unit] = m;
-  const value = parseFloat(num) * factor;
-  return unit ? `${value}${unit}` : value;
-};
 
 type ButtonGradients = {
   primary?: string;
   primaryHover?: string;
 };
 
-// helper para leer theme.gradients SIN usar any
 const getGradients = (t: unknown): ButtonGradients => {
   if (typeof t === 'object' && t !== null && 'gradients' in t) {
     const maybe = (t as { gradients?: ButtonGradients }).gradients;
@@ -33,40 +20,63 @@ export const StyledButton = styled('button')<{
   $size: ButtonSize;
   $shape: ButtonShape;
   $loading?: boolean;
-}>(({ theme, $variant, $size, $shape, $loading }) => {
-  const s = SIZE_CONFIGS[$size];
-  const radius = scaleLength(theme.shape.borderRadius, SHAPE_CONFIGS[$shape]);
+}>(({ theme, $variant, $loading }) => {
+  // 👆 OJO: ya no desestructuramos $size ni $shape para evitar no-used-vars
 
   const gradients = getGradients(theme);
   const gradient = gradients.primary ?? 'linear-gradient(60deg, #B33DEB 13.4%, #DE8FFF 86.6%)';
   const gradientHover = gradients.primaryHover ?? gradient;
 
-  // 👇 en vez de Record<string, any> usamos CSSObject
   const base: CSSObject = {
     position: 'relative',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: theme.spacing(1),
-    height: theme.spacing(s.height),
-    minWidth: theme.spacing(s.minWidth),
-    padding: `${theme.spacing(s.paddingScale[0])} ${theme.spacing(s.paddingScale[1])}`,
-    fontSize: `${s.fontSizeRem}rem`,
-    fontWeight: 600,
-    borderRadius: radius,
+    gap: theme.spacing(1.25),
+
+    height: 76,
+    minWidth: 289,
+    padding: '20px 40px',
+    borderRadius: 50,
+
+    fontFamily: "'Syne', sans-serif",
+    fontWeight: 400,
+    fontSize: 30,
+    lineHeight: '36px',
+    textTransform: 'capitalize',
+    color: '#FFFFFF',
+
     border: 'none',
     cursor: $loading ? 'default' : 'pointer',
     transition: theme.transitions.create(['transform', 'background', 'box-shadow'], {
       duration: theme.transitions.duration.shortest,
     }),
     outline: 'none',
+
     '&:disabled': {
       cursor: 'not-allowed',
+    },
+
+    // 📱 tablet
+    [theme.breakpoints.down('md')]: {
+      height: 64,
+      minWidth: 240,
+      padding: '16px 32px',
+      fontSize: 24,
+    },
+
+    // 📱 móvil
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      maxWidth: 320,
+      minWidth: 'auto',
+      height: 56,
+      padding: '12px 24px',
+      fontSize: 18,
     },
   };
 
   if ($variant === 'primary') {
-    // botón lleno
     Object.assign<CSSObject, CSSObject>(base, {
       backgroundImage: gradient,
       color: theme.palette.common.white,
@@ -85,7 +95,6 @@ export const StyledButton = styled('button')<{
       },
     });
   } else {
-    // outline
     const bg = theme.palette.background?.default ?? '#ffffff';
 
     Object.assign<CSSObject, CSSObject>(base, {
@@ -140,5 +149,7 @@ export const LoadingSpinner = styled('span')(({ theme }) => ({
   border: `${theme.spacing(0.25)} solid rgba(255,255,255,0.7)`,
   borderTopColor: 'transparent',
   animation: 'spin 750ms linear infinite',
-  '@keyframes spin': { to: { transform: 'rotate(360deg)' } },
+  '@keyframes spin': {
+    to: { transform: 'rotate(360deg)' },
+  },
 }));

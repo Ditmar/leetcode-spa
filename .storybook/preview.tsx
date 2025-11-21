@@ -1,3 +1,5 @@
+import '../src/assets/fonts/syne.css';
+
 import { FC } from 'react';
 
 import ThemeProvider from '../src/style-library/provider/MuiThemeProvider';
