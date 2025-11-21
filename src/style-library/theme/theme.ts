@@ -129,7 +129,7 @@ export const pillTagTokens = {
 const themeConfig: ThemeConfig = {
   mode: 'light',
   primaryColor: '#1976d2',
-  secondaryColor: '#dc004e',
+  secondaryColor: '#DC93FF', //added secondary color accord with figma style
   fontFamily: `"Montserrat", "Syne", "Inter", "Roboto", "Helvetica", "Arial", sans-serif`,
   borderRadius: 12,
   spacing: 8,
