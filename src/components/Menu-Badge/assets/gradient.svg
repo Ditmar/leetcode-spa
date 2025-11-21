@@ -21,4 +21,5 @@
 <stop offset="1" stop-color="#DE8FFF"/>
 </linearGradient>
 </defs>
+<rect x="0" y="0" width="24" height="24" fill="none" stroke="url(#grad)" stroke-width="2" rx="6" />
 </svg>

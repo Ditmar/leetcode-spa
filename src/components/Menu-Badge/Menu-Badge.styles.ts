@@ -11,9 +11,13 @@ export const MenuBadgeContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   padding: theme.spacing(2),
   gap: theme.spacing(2.8),
+  width: '96px',
+  height: '22px',
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
     alignItems: 'center',
+    width: 'auto',
+    height: 'auto',
   },
 }));
 
