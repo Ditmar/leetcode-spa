@@ -19,8 +19,6 @@ const meta: Meta<typeof StatsPanel> = {
         <div
           style={{
             backgroundColor: theme.palette.background.default,
-            padding: theme.spacing(4),
-            borderRadius: theme.shape.borderRadius,
           }}
         >
           <Story />
