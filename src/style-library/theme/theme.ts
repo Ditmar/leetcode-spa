@@ -4,6 +4,7 @@ import Syne700 from '../../assets/fonts/Syne-700.woff2';
 import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
 import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
 import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
+import PoppinsSemiBold from '../../components/StatsPanel/assets/fonts/Poppins-SemiBold.woff2';
 import { createCustomTheme } from '../types/theme.helpers';
 
 import type { ThemeConfig } from '../types/theme.types';
@@ -568,7 +569,7 @@ theme.components = {
 
 theme.typography = {
   ...theme.typography,
-  fontFamily: '"Montserrat", "Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
+  fontFamily: '"Poppins", "Montserrat", "Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
   title: {
     fontFamily: '"Syne","Inter","Roboto","Helvetica","Arial",sans-serif',
     fontWeight: 600,
@@ -626,6 +627,10 @@ theme.palette = {
     disabled: '',
   },
   backgroundQuestion: '#F1F3F9',
+  backgroundIcon: '#F8F6FF',
+  backgroundCard: '#FAFAFA',
+  statsNumbers: '#0D0D0DCC',
+  statsLabel: '#0D0D0D80',
 };
 theme.consoleIO = {
   dimensions: {

@@ -62,7 +62,7 @@ export const ValueBox = styled('div')(({ theme }) => ({
   fontSize: theme.typography.numbers?.fontSize,
   fontWeight: theme.typography.numbers?.fontWeight,
   lineHeight: theme.typography.numbers?.lineHeight,
-  color: theme.palette.text.primary,
+  color: theme.palette.statsNumbers,
   display: 'flex',
   alignItems: 'center',
 }));
@@ -70,11 +70,11 @@ export const ValueBox = styled('div')(({ theme }) => ({
 export const LabelBox = styled('div')(({ theme }) => ({
   width: toSp(theme, 98.459),
   height: toSp(theme, 12),
-  fontFamily: 'Syne',
-  fontSize: toSp(theme, 10),
-  fontWeight: 500,
-  lineHeight: '100%',
+  fontFamily: theme.typography.texts?.fontFamily,
+  fontSize: theme.typography.texts?.fontSize,
+  fontWeight: theme.typography.texts?.fontWeight,
+  lineHeight: theme.typography.texts?.lineHeight,
   display: 'flex',
   alignItems: 'center',
-  color: theme.palette.text.secondary,
+  color: theme.palette.statsLabel,
 }));
