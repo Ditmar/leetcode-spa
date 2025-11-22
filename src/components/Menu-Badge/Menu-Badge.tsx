@@ -27,8 +27,8 @@ export const MenuBadge: React.FC<MenuBadgeProps> = ({ label, variant = 'primaryT
                 src={gradientIcon}
                 alt="MenuBadge gradient"
                 sx={{
-                  width: '19.5px',
-                  height: '19.5px',
+                  width: '24px',
+                  height: '24px',
                   alignSelf: 'center',
                 }}
               />
@@ -38,8 +38,8 @@ export const MenuBadge: React.FC<MenuBadgeProps> = ({ label, variant = 'primaryT
                 src={darkIcon}
                 alt="MenuBadge dark"
                 sx={{
-                  width: '19.5px',
-                  height: '19.5px',
+                  width: '24px',
+                  height: '24px',
                   alignSelf: 'center',
                 }}
               />
