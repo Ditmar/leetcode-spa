@@ -7,17 +7,8 @@ import type { Meta, StoryObj, Decorator } from '@storybook/react';
 const meta = {
   title: 'Components/SectionNav',
   component: SectionNav,
-  tags: ['autodocs'],
   argTypes: {
-    orientation: { control: { type: 'radio' }, options: ['vertical', 'horizontal'] },
-  },
-  parameters: {
-    docs: {
-      description: {
-        component:
-          'Component to navigate between sections of an assessment (e.g. MCQ and Programming).\n\nProps:\n- sections: { id: string; label: string }[]\n- activeSectionId: string\n- onSelect: (id: string) => void\n- orientation?: "vertical" | "horizontal"\n- itemSize?: number | string\n- width?: string | number\n- height?: string | number\n- maxCrossAxis?: string\n- className?: string',
-      },
-    },
+    bottomSpacing: { control: { type: 'text' } },
   },
 } satisfies Meta<typeof SectionNav>;
 
@@ -36,125 +27,47 @@ const manySections = Array.from({ length: 20 }, (_, i) => ({
   id: `sec${i + 1}`,
   label: `Section ${i + 1}`,
 }));
-export const ManyHorizontal: Story = {
-  args: {
-    sections: manySections,
-    activeSectionId: 'sec1',
-    orientation: 'horizontal',
-    itemSize: 48,
-    width: '100%',
-    height: 56,
-    maxCrossAxis: '100vw',
-    onSelect: () => {},
-  },
-};
-
-export const ManyVertical: Story = {
-  args: {
-    sections: manySections,
-    activeSectionId: 'sec1',
-    orientation: 'vertical',
-    itemSize: 48,
-    maxCrossAxis: '320px',
-    onSelect: () => {},
-  },
-};
-ManyHorizontal.argTypes = {
-  activeSectionId: { control: { type: 'select' }, options: manySections.map((s) => s.id) },
-  itemSize: { control: { type: 'number' } },
-  width: { control: { type: 'text' } },
-  height: { control: { type: 'number' } },
-  maxCrossAxis: { control: { type: 'text' } },
-};
-ManyVertical.argTypes = {
-  activeSectionId: { control: { type: 'select' }, options: manySections.map((s) => s.id) },
-  itemSize: { control: { type: 'number' } },
-  maxCrossAxis: { control: { type: 'text' } },
-};
-
-export const Vertical: Story = {
+export const Default: Story = {
   args: {
     sections,
     activeSectionId: 'mcq',
-    orientation: 'vertical',
-    onSelect: () => {},
+    title: 'Section',
+    onSelect: () => { },
   },
 };
 
-export const Horizontal: Story = {
+Default.args = Default.args || {};
+Default.argTypes = {
+  activeSectionId: { control: { type: 'select' }, options: sections.map((s) => s.id) },
+};
+
+export const ManyItems: Story = {
   args: {
-    sections: sections.slice(0, 2),
-    activeSectionId: 'programming',
-    orientation: 'horizontal',
-    onSelect: () => {},
+    sections: manySections,
+    activeSectionId: 'sec1',
+    title: 'Section',
+    onSelect: () => { },
   },
+};
+
+ManyItems.argTypes = {
+  activeSectionId: { control: { type: 'select' }, options: manySections.map((s) => s.id) },
+  height: { control: { type: 'number' } },
 };
 
 export const Sizes: Story = {
   args: {
     sections: sections.slice(0, 3),
     activeSectionId: 'debugging',
-    orientation: 'vertical',
-    onSelect: () => {},
-    itemSize: 56,
-    maxCrossAxis: '300px',
+    title: 'Section',
+    bottomSpacing: '1000px',
+    onSelect: () => { },
   },
-};
-
-export const LargeVertical: Story = {
-  args: {
-    sections,
-    activeSectionId: 'programming',
-    orientation: 'vertical',
-    itemSize: 72,
-    maxCrossAxis: '400px',
-    onSelect: () => {},
-  },
-};
-
-export const SmallHorizontal: Story = {
-  args: {
-    sections,
-    activeSectionId: 'review',
-    orientation: 'horizontal',
-    itemSize: 28,
-    width: '100%',
-    height: 36,
-    maxCrossAxis: '100vw',
-    onSelect: () => {},
-  },
-};
-
-Vertical.args = Vertical.args || {};
-Vertical.argTypes = {
-  activeSectionId: { control: { type: 'select' }, options: sections.map((s) => s.id) },
-  itemSize: { control: { type: 'number' } },
-  maxCrossAxis: { control: { type: 'text' } },
-};
-
-Horizontal.argTypes = {
-  activeSectionId: { control: { type: 'select' }, options: sections.slice(0, 2).map((s) => s.id) },
-  itemSize: { control: { type: 'number' } },
-  maxCrossAxis: { control: { type: 'text' } },
 };
 
 Sizes.argTypes = {
   activeSectionId: { control: { type: 'select' }, options: sections.slice(0, 3).map((s) => s.id) },
-  itemSize: { control: { type: 'number' } },
-  maxCrossAxis: { control: { type: 'text' } },
-};
-
-LargeVertical.argTypes = {
-  activeSectionId: { control: { type: 'select' }, options: sections.map((s) => s.id) },
-  itemSize: { control: { type: 'number' } },
-  maxCrossAxis: { control: { type: 'text' } },
-};
-SmallHorizontal.argTypes = {
-  activeSectionId: { control: { type: 'select' }, options: sections.map((s) => s.id) },
-  itemSize: { control: { type: 'number' } },
-  width: { control: { type: 'text' } },
-  height: { control: { type: 'number' } },
-  maxCrossAxis: { control: { type: 'text' } },
+  bottomSpacing: { control: { type: 'text' } },
 };
 
 const withUpdateArgs: Decorator = (Story, context) => {
@@ -169,41 +82,6 @@ const withUpdateArgs: Decorator = (Story, context) => {
   return <Story args={props} />;
 };
 
-Vertical.decorators = [withUpdateArgs];
-Horizontal.decorators = [withUpdateArgs];
+Default.decorators = [withUpdateArgs];
 Sizes.decorators = [withUpdateArgs];
-
-LargeVertical.decorators = [withUpdateArgs];
-SmallHorizontal.decorators = [withUpdateArgs];
-ManyHorizontal.decorators = [withUpdateArgs];
-ManyVertical.decorators = [withUpdateArgs];
-
-export const WidthVariants: Story = {
-  render: (args) => (
-    <div style={{ width: '180px', overflow: 'hidden' }}>
-      <SectionNav {...args} width="100%" />
-    </div>
-  ),
-  args: {
-    sections: manySections,
-    activeSectionId: 'sec1',
-    orientation: 'horizontal',
-    itemSize: 48,
-    width: '100%',
-    height: 56,
-    maxCrossAxis: '100vw',
-    onSelect: () => {},
-  },
-};
-
-WidthVariants.argTypes = {
-  width: {
-    control: { type: 'text' },
-    description: 'Container width (e.g.: 100%, 600px, 300px)',
-  },
-  activeSectionId: { control: { type: 'select' }, options: manySections.map((s) => s.id) },
-  itemSize: { control: { type: 'number' } },
-  height: { control: { type: 'number' } },
-  maxCrossAxis: { control: { type: 'text' } },
-};
-WidthVariants.decorators = [withUpdateArgs];
+ManyItems.decorators = [withUpdateArgs];

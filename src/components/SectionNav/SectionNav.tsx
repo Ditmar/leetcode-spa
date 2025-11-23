@@ -1,110 +1,67 @@
-import MenuIcon from '@mui/icons-material/Menu';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { Root, StyledList, StyledItemButton, Title } from './SectionNav.styles';
 
 import type { SectionNavProps } from './SectionNav.types';
 
-export const SectionNav: React.FC<SectionNavProps> = ({
-  sections,
+const SectionNavComponent: React.FC<SectionNavProps> = ({
+  sections = [],
   activeSectionId,
   onSelect,
   title,
-  titleSize,
-  orientation,
-  itemSize,
-  maxCrossAxis,
+  bottomSpacing,
   className,
+  ...rest
 }) => {
-  const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const [internalActive, setInternalActive] = useState<string | null>(activeSectionId ?? null);
 
-  const effectiveOrientation: 'vertical' | 'horizontal' =
-    orientation ?? (isSmall ? 'horizontal' : 'vertical');
-
-  const [internalActive, setInternalActive] = React.useState<string | null>(
-    activeSectionId ?? null
-  );
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (activeSectionId !== undefined && activeSectionId !== null) {
       setInternalActive(activeSectionId);
     }
   }, [activeSectionId]);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const doSelect = useCallback(
+    (id: string) => {
+      setInternalActive(id);
+      if (onSelect) onSelect(id);
+    },
+    [onSelect]
+  );
 
-  const handleOpen = (e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
-  const handleClose = () => setAnchorEl(null);
+  const displayTitle = title;
 
-  const doSelect = (id: string) => {
-    setInternalActive(id);
-    if (onSelect) onSelect(id);
-    handleClose();
-  };
-
-  const displayTitle = title ?? 'Section';
   return (
-    <Root className={className} aria-label={title || 'Navigation'}>
-      <Title titleSize={titleSize}>{displayTitle}</Title>
-      {effectiveOrientation === 'horizontal' && isSmall ? (
-        <>
-          <IconButton
-            aria-controls={open ? 'section-menu' : undefined}
-            aria-expanded={open}
-            aria-haspopup="menu"
-            onClick={handleOpen}
-            aria-label={`Open ${title || 'sections'} menu`}
-          >
-            <MenuIcon fontSize="small" aria-hidden="true" />
-          </IconButton>
-          <Menu id="section-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
-            {sections.map((s) => (
-              <MenuItem
+    <Root
+      {...rest}
+      component="nav"
+      bottomSpacing={bottomSpacing}
+      className={className}
+      aria-label={title || 'Navigation'}
+    >
+      {displayTitle ? <Title>{displayTitle}</Title> : null}
+      <Box display="block">
+        <StyledList aria-orientation="vertical">
+          {sections.map((s) => {
+            const selected = s.id === internalActive;
+            return (
+              <StyledItemButton
                 key={s.id}
-                selected={s.id === internalActive}
+                selected={selected}
                 onClick={() => doSelect(s.id)}
+                aria-current={selected ? 'page' : undefined}
               >
-                {s.label}
-              </MenuItem>
-            ))}
-          </Menu>
-        </>
-      ) : (
-        <Box display={effectiveOrientation === 'vertical' ? 'block' : 'flex'}>
-          <StyledList
-            orientation={effectiveOrientation}
-            maxCrossAxis={maxCrossAxis}
-            aria-orientation={effectiveOrientation}
-          >
-            {sections.map((s) => {
-              const selected = s.id === internalActive;
-              return (
-                <StyledItemButton
-                  key={s.id}
-                  selected={selected}
-                  onClick={() => doSelect(s.id)}
-                  itemSize={itemSize}
-                  orientation={effectiveOrientation}
-                  aria-current={selected ? 'page' : undefined}
-                >
-                  <ListItemText primary={s.label} />
-                </StyledItemButton>
-              );
-            })}
-          </StyledList>
-        </Box>
-      )}
+                <ListItemText primary={s.label} />
+              </StyledItemButton>
+            );
+          })}
+        </StyledList>
+      </Box>
     </Root>
   );
 };
 
+export const SectionNav = React.memo(SectionNavComponent);
 SectionNav.displayName = 'SectionNav';

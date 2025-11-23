@@ -377,8 +377,27 @@ export interface PillTagTokens {
   transitions: ComponentTransitions;
 }
 
+export interface SectionNavTokens {
+  colors: {
+    background: string;
+    text: string;
+    gradientStart: string;
+    gradientEnd: string;
+    hoverBackground: string;
+  };
+  typography: {
+    titleFontSize: string | number;
+    itemFontSize: string | number;
+  };
+  dimensions: {
+    navWidth: number;
+    itemHeight: number;
+  };
+}
+
 export interface ComponentTokens {
   pillTag: PillTagTokens;
+  sectionNav?: SectionNavTokens;
 }
 
 declare module '@mui/material/styles' {

@@ -9,6 +9,7 @@ import type {
   CustomBreakpoints,
   ComponentTokens,
   PillTagTokens,
+  SectionNavTokens,
 } from './theme.types';
 import type { Theme, ThemeOptions } from '@mui/material/styles';
 
@@ -295,7 +296,32 @@ export const pillTagTokens: PillTagTokens = {
   },
 };
 
-export const componentTokens: ComponentTokens = { pillTag: pillTagTokens };
+// ==========================================
+// COMPONENT TOKENS - SECTIONNAV
+// ==========================================
+
+export const sectionNavTokens: SectionNavTokens = {
+  colors: {
+    background: '#323232',
+    text: '#FFFFFF',
+    gradientStart: '#B33DEB',
+    gradientEnd: '#DE8FFF',
+    hoverBackground: '#dc93ff',
+  },
+  typography: {
+    titleFontSize: '24px',
+    itemFontSize: '20px',
+  },
+  dimensions: {
+    navWidth: 234,
+    itemHeight: 81.33,
+  },
+};
+
+export const componentTokens: ComponentTokens = {
+  pillTag: pillTagTokens,
+  sectionNav: sectionNavTokens,
+};
 
 // ==========================================
 // THEME CREATORS
@@ -415,6 +441,10 @@ export function createCustomTheme(config: Partial<ThemeConfig> = {}): ExtendedTh
 
 export function getPillTagTokens(theme: ExtendedTheme): PillTagTokens {
   return theme.componentTokens?.pillTag || pillTagTokens;
+}
+
+export function getSectionNavTokens(theme: ExtendedTheme): SectionNavTokens {
+  return theme.componentTokens?.sectionNav || sectionNavTokens;
 }
 
 export function getPillTagDimensions(
