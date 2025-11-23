@@ -62,9 +62,9 @@ export const STATS_ICONS = {
  * with your i18n translation function calls
  */
 export const STATS_LABEL_KEYS = {
-  courses: 'profile.stats.courses', // Should resolve to translated "Courses"
-  points: 'profile.stats.points', // Should resolve to translated "Points"
-  ranking: 'profile.stats.ranking', // Should resolve to translated "Ranking"
+  courses: 'profile.stats.courses',
+  points: 'profile.stats.points',
+  ranking: 'profile.stats.ranking',
 } as const;
 
 /**
@@ -72,7 +72,7 @@ export const STATS_LABEL_KEYS = {
  * These should be removed once i18n system is in place
  */
 export const STATS_LABELS_FALLBACK = {
-  courses: 'Courses',
+  courses: 'Courses Enrolled',
   points: 'Points',
   ranking: 'Ranking',
 } as const;
