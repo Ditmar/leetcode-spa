@@ -1,5 +1,4 @@
 import { createTheme } from '@mui/material/styles';
-import type { Theme } from '@mui/material/styles';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
@@ -8,6 +7,8 @@ import { render, screen } from '../../test/test-utils';
 
 import { SectionNav } from './SectionNav';
 
+import type { Theme } from '@mui/material/styles';
+
 const sections = [
   { id: 'mcq', label: 'MCQ' },
   { id: 'programming', label: 'Programming' },
@@ -15,7 +16,7 @@ const sections = [
 
 describe('SectionNav', () => {
   it('marks the active section based on activeSectionId (aria-current)', () => {
-    render(<SectionNav sections={sections} activeSectionId="programming" onSelect={() => { }} />);
+    render(<SectionNav sections={sections} activeSectionId="programming" onSelect={() => {}} />);
     const activeButton = screen.getByRole('button', { name: /Programming/i });
     expect(activeButton).toHaveAttribute('aria-current', 'page');
   });
@@ -32,17 +33,17 @@ describe('SectionNav', () => {
 
   it('renders a custom title when the title prop is provided', () => {
     const baseTheme = createTheme();
-    const themeWithShadows = ({
+    const themeWithShadows = {
       ...baseTheme,
       // cast via unknown to avoid strict Theme typing while remaining explicit (no `any`)
       customShadows: { z4: '0 4px 12px rgba(0,0,0,0.08)' },
-    } as unknown) as Theme;
+    } as unknown as Theme;
 
     render(
       <SectionNav
         sections={sections}
         activeSectionId="mcq"
-        onSelect={() => { }}
+        onSelect={() => {}}
         title="Custom Title"
       />,
       { theme: themeWithShadows }
@@ -52,7 +53,7 @@ describe('SectionNav', () => {
   });
 
   it('does not render a title when no title prop is provided', () => {
-    render(<SectionNav sections={sections} activeSectionId="mcq" onSelect={() => { }} />);
+    render(<SectionNav sections={sections} activeSectionId="mcq" onSelect={() => {}} />);
     const nav = screen.getByRole('navigation');
     expect(nav).toHaveAttribute('aria-label', 'Navigation');
   });
@@ -62,7 +63,7 @@ describe('SectionNav', () => {
       <SectionNav
         sections={sections}
         activeSectionId="mcq"
-        onSelect={() => { }}
+        onSelect={() => {}}
         className="test-class"
       />
     );
@@ -71,20 +72,20 @@ describe('SectionNav', () => {
   });
 
   it('defaults to vertical orientation', () => {
-    render(<SectionNav sections={sections} activeSectionId="mcq" onSelect={() => { }} />);
+    render(<SectionNav sections={sections} activeSectionId="mcq" onSelect={() => {}} />);
     const list = screen.getByRole('list');
     expect(list).toHaveAttribute('aria-orientation', 'vertical');
   });
 
   it('renders the section labels', () => {
-    render(<SectionNav sections={sections} activeSectionId="mcq" onSelect={() => { }} />);
+    render(<SectionNav sections={sections} activeSectionId="mcq" onSelect={() => {}} />);
     expect(screen.getByText('MCQ')).toBeInTheDocument();
     expect(screen.getByText('Programming')).toBeInTheDocument();
   });
 
   it('updates active when activeSectionId prop changes', () => {
     const { rerender } = render(
-      <SectionNav sections={sections} activeSectionId="mcq" onSelect={() => { }} />
+      <SectionNav sections={sections} activeSectionId="mcq" onSelect={() => {}} />
     );
 
     expect(screen.getByRole('button', { name: /MCQ/i })).toHaveAttribute('aria-current', 'page');
@@ -92,7 +93,7 @@ describe('SectionNav', () => {
       'aria-current'
     );
 
-    rerender(<SectionNav sections={sections} activeSectionId="programming" onSelect={() => { }} />);
+    rerender(<SectionNav sections={sections} activeSectionId="programming" onSelect={() => {}} />);
 
     expect(screen.getByRole('button', { name: /Programming/i })).toHaveAttribute(
       'aria-current',

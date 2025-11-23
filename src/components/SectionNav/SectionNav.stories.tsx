@@ -32,7 +32,7 @@ export const Default: Story = {
     sections,
     activeSectionId: 'mcq',
     title: 'Section',
-    onSelect: () => { },
+    onSelect: () => {},
   },
 };
 
@@ -46,7 +46,7 @@ export const ManyItems: Story = {
     sections: manySections,
     activeSectionId: 'sec1',
     title: 'Section',
-    onSelect: () => { },
+    onSelect: () => {},
   },
 };
 
@@ -61,7 +61,7 @@ export const Sizes: Story = {
     activeSectionId: 'debugging',
     title: 'Section',
     bottomSpacing: '1000px',
-    onSelect: () => { },
+    onSelect: () => {},
   },
 };
 
