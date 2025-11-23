@@ -9,7 +9,6 @@ import { createCustomTheme } from '../types/theme.helpers';
 import type { ThemeConfig } from '../types/theme.types';
 import type { CSSProperties } from 'react';
 
-// Extend MUI typings to accept custom typography variants "question" and "option"
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     title: CSSProperties;
