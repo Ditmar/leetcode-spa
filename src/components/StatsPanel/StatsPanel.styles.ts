@@ -13,6 +13,14 @@ export const CardContainer = styled('div')(({ theme }) => ({
   boxShadow: theme.shadows[3],
   overflow: 'hidden',
   padding: 0,
+
+  [theme.breakpoints.down('sm')]: {
+    zoom: 0.688,
+  },
+
+  [theme.breakpoints.down(350)]: {
+    zoom: 0.688,
+  },
 }));
 
 export const IconWrapper = styled('div')<{ top: number; left: number }>(({ theme, top, left }) => ({
