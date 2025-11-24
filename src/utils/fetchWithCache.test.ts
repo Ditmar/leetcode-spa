@@ -6,28 +6,30 @@ describe('fetchWithCache', () => {
   beforeEach(() => {
     clearCache();
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
   });
 
   it('It should retrieve data and cache it.', async () => {
     const mockData = { message: 'hola mundo' };
 
-    // Mock the global fetch
-    global.fetch = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => mockData,
-    });
+    // Correct approach: stub global fetch
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => mockData,
+      })
+    );
 
     const url = 'https://api.fake.test/data';
 
-    // First call → makes a real fetch
     const result1 = await fetchWithCache(url);
     expect(result1).toEqual(mockData);
-    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(1);
 
-    // Second call → falls into cache
     const result2 = await fetchWithCache(url);
     expect(result2).toEqual(mockData);
-    expect(global.fetch).toHaveBeenCalledTimes(1); // It does NOT increase
+    expect(fetch).toHaveBeenCalledTimes(1); // reused from cache
   });
 
   it('The cache should expire according to the TTL', async () => {
@@ -35,35 +37,44 @@ describe('fetchWithCache', () => {
 
     const mockData = { value: 123 };
 
-    global.fetch = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => mockData,
-    });
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => mockData,
+      })
+    );
 
     const url = 'https://api.fake.test/value';
-
-    // Very short TTL for testing
     const ttl = 1000;
 
-    await fetchWithCache(url, {}, ttl);
-    expect(global.fetch).toHaveBeenCalledTimes(1);
+    // Set initial fake time
+    vi.setSystemTime(0);
 
-    // We advanced time beyond TTL
+    await fetchWithCache(url, {}, ttl);
+    expect(fetch).toHaveBeenCalledTimes(1);
+
+    // Advance timers AND system time
     vi.advanceTimersByTime(1500);
+    vi.setSystemTime(1500);
 
-    // Since it expired → you must call fetch again
+    // Now cached entry must be expired, so fetch again
     await fetchWithCache(url, {}, ttl);
-    expect(global.fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).toHaveBeenCalledTimes(2);
 
     vi.useRealTimers();
   });
 
   it('It should throw an error if fetch fails.', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
-      ok: false,
-      status: 500,
-      statusText: 'Internal Server Error',
-    });
+    // No json() required here; fetchWithCache throws before calling it
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error',
+      })
+    );
 
     await expect(fetchWithCache('https://api.fake.test/bad')).rejects.toThrow(
       'Fetch error: 500 Internal Server Error'
