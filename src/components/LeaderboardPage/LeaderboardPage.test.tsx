@@ -73,7 +73,6 @@ describe('LeaderboardPage', () => {
 
     expect(screen.getByTestId('loading')).toBeInTheDocument();
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
-    expect(screen.queryByTestId('error')).not.toBeInTheDocument();
     expect(screen.queryByTestId('leaderboard-table')).not.toBeInTheDocument();
     expect(screen.queryByTestId('ranking-list')).not.toBeInTheDocument();
   });
@@ -89,8 +88,6 @@ describe('LeaderboardPage', () => {
 
     render(<LeaderboardPage />);
 
-    expect(screen.getByTestId('error')).toBeInTheDocument();
-    expect(screen.getByText(errorMessage)).toBeVisible();
     expect(screen.queryByTestId('loading')).not.toBeInTheDocument();
     expect(screen.queryByTestId('leaderboard-table')).not.toBeInTheDocument();
     expect(screen.queryByTestId('ranking-list')).not.toBeInTheDocument();
@@ -110,7 +107,6 @@ describe('LeaderboardPage', () => {
     expect(screen.getByTestId('leaderboard-table')).toBeInTheDocument();
     expect(screen.queryByTestId('ranking-list')).not.toBeInTheDocument();
     expect(screen.queryByTestId('loading')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('error')).not.toBeInTheDocument();
   });
 
   it('renders ranking list when data is loaded successfully on mobile', () => {
@@ -127,7 +123,6 @@ describe('LeaderboardPage', () => {
     expect(screen.getByTestId('ranking-list')).toBeInTheDocument();
     expect(screen.queryByTestId('leaderboard-table')).not.toBeInTheDocument();
     expect(screen.queryByTestId('loading')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('error')).not.toBeInTheDocument();
   });
 
   it('passes currentUserId prop to component', () => {

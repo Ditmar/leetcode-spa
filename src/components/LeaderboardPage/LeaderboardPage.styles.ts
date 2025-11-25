@@ -1,6 +1,8 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+import gifBg from '../../assets/image.gif';
+
 export const PageWrap = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
   width: theme.spacing(62.25),
@@ -8,29 +10,16 @@ export const PageWrap = styled(Box)(({ theme }) => ({
   top: theme.spacing(27.125),
   left: theme.spacing(114),
 
+  backgroundImage: `url(${gifBg})`,
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center',
+
   [theme.breakpoints.down('sm')]: {
-    width: theme.spacing(30.75),
-    height: theme.spacing(20.625),
+    width: theme.spacing(42.75),
+    height: theme.spacing(30.865),
     padding: 0,
     margin: 0,
-  },
-}));
-
-export const PageRakingListWrap = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(3),
-  width: theme.spacing(50),
-  height: theme.spacing(31.115),
-  top: theme.spacing(87.375),
-  left: theme.spacing(3),
-
-  display: 'grid',
-  gap: theme.spacing(2),
-
-  [theme.breakpoints.down('sm')]: {
-    width: '100%',
-    height: 'auto',
-    padding: theme.spacing(1.5),
-    gap: theme.spacing(1),
   },
 }));
 
@@ -78,14 +67,21 @@ export const CustomAvatar = styled(Avatar)(({ theme }) => ({
 
 export const LeaderboardTitle = styled(Typography)(({ theme }) => ({
   ...theme.typography.h5,
-  fontWeight: 600,
+  fontWeight: 700,
   padding: theme.spacing(1.5, 3),
   borderRadius: theme.spacing(1),
   display: 'inline-block',
   color: theme.palette.text.primary,
+  width: theme.spacing(19.375),
+  height: theme.spacing(3),
+  fontSize: 20,
 
   [theme.breakpoints.down('sm')]: {
     ...theme.typography.subtitle1,
-    padding: theme.spacing(1.2, 2),
+    fontWeight: 700,
+
+    width: theme.spacing(20.125),
+    height: theme.spacing(3),
+    fontSize: 20,
   },
 }));
