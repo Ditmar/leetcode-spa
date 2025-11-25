@@ -100,7 +100,6 @@ jobs:
         run: |
           echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}/"
 
-
   # build-and-push-docker-image:
   #   name: Build and Push Docker Image
   #   runs-on: ubuntu-latest

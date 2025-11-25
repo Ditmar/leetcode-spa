@@ -39,10 +39,9 @@ export const LeaderboardPage: React.FC = () => {
         <LeaderboardTitle
           sx={{
             margin: 0,
-            padding: 0
+            padding: 0,
           }}
         >
-
           Leader Board
         </LeaderboardTitle>
       </Box>
@@ -52,7 +51,6 @@ export const LeaderboardPage: React.FC = () => {
           <CircularProgress />
         </Box>
       )}
-
 
       {!loading && !error && (
         <Box>{isSmall ? <RankingList users={users} /> : <LeaderboardTable users={users} />}</Box>

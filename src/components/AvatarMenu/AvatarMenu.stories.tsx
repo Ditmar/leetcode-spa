@@ -32,9 +32,13 @@ const extendedDefaultItems: AvatarMenuItemProps[] = DEFAULT_AVATAR_MENU_ITEMS.ma
 
 const customItems: AvatarMenuItemProps[] = [
   // eslint-disable-next-line prettier/prettier, no-console
-  { label: 'Dark Mode', onClick: () => console.log('Dark Mode'), 'data-testid': 'dark-mode-option'},
+  {
+    label: 'Dark Mode',
+    onClick: () => console.log('Dark Mode'),
+    'data-testid': 'dark-mode-option',
+  },
   // eslint-disable-next-line no-console, prettier/prettier
-  { label: 'Help', onClick: () => console.log('Help'), 'data-testid': 'help-option'},
+  { label: 'Help', onClick: () => console.log('Help'), 'data-testid': 'help-option' },
   // eslint-disable-next-line no-console
   { label: 'Logout', onClick: () => console.log('Logout'), divider: true },
 ];
