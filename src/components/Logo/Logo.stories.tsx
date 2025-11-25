@@ -28,7 +28,7 @@ const meta: Meta<typeof Logo> = {
       description: 'Logo width in pixels.',
       table: {
         type: { summary: 'number' },
-        defaultValue: { summary: '100' },
+        defaultValue: { summary: '192' },
       },
     },
     height: {
@@ -36,14 +36,14 @@ const meta: Meta<typeof Logo> = {
       description: 'Logo height in pixels.',
       table: {
         type: { summary: 'number' },
-        defaultValue: { summary: '100' },
+        defaultValue: { summary: '88' },
       },
     },
   },
   args: {
     orientation: 'vertical',
-    width: 100,
-    height: 100,
+    width: 192,
+    height: 88,
   },
 };
 
@@ -53,8 +53,8 @@ type Story = StoryObj<typeof Logo>;
 export const Primary: Story = {
   args: {
     orientation: 'vertical',
-    width: 100,
-    height: 100,
+    width: 192,
+    height: 88,
   },
   name: 'Vertical logo',
 };
@@ -62,8 +62,8 @@ export const Primary: Story = {
 export const Horizontal: Story = {
   args: {
     orientation: 'horizontal',
-    width: 150,
-    height: 80,
+    width: 266,
+    height: 45,
   },
   name: 'Horizontal logo',
 };
