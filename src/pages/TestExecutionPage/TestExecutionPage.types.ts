@@ -1,5 +1,3 @@
-// pages/TestExecutionPage/TestExecutionPage.types.ts
-
 export type QuestionType = 'mcq' | 'code';
 
 export interface BaseQuestion {

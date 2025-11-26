@@ -1,5 +1,3 @@
-// pages/TestExecutionPage/TestExecutionPage.constants.ts
-
 import type { TestDefinition } from './TestExecutionPage.types';
 
 export const TEST_EXECUTION_PAGE_TEST_ID_PARAM = 'testId';
@@ -21,12 +19,11 @@ export const TEST_EXECUTION_PAGE_COPY = {
   submittedLabel: 'Test enviado correctamente',
 } as const;
 
-// Mock de datos de prueba. En un futuro se podría reemplazar por llamada real a API.
 export const MOCK_TESTS: Record<string, TestDefinition> = {
   'sample-test': {
     id: 'sample-test',
     title: 'Sample LeetCode Test',
-    totalDurationSeconds: 20 * 60, // 20 minutos
+    totalDurationSeconds: 20 * 60,
     questions: [
       {
         id: 'q1',

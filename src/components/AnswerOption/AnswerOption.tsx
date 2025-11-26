@@ -1,23 +1,21 @@
 import { Button } from '@mui/material';
-import React from 'react';
+import { memo } from 'react';
+
+import type { FC, MouseEventHandler } from 'react';
 
 export interface AnswerOptionProps {
   label: string;
   selected?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const AnswerOptionComponent: React.FC<AnswerOptionProps> = ({
-  label,
-  selected = false,
-  onClick,
-}) => {
+const AnswerOptionComponent: FC<AnswerOptionProps> = ({ label, selected = false, onClick }) => {
   return (
     <Button
       fullWidth
       variant={selected ? 'contained' : 'outlined'}
       color="primary"
-      aria-pressed={selected}
+      aria-pressed={selected} // ✅ comunica el estado seleccionado
       onClick={onClick}
     >
       {label}
@@ -25,4 +23,4 @@ const AnswerOptionComponent: React.FC<AnswerOptionProps> = ({
   );
 };
 
-export const AnswerOption = React.memo(AnswerOptionComponent);
+export const AnswerOption = memo(AnswerOptionComponent);
