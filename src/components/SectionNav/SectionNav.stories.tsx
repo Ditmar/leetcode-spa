@@ -1,4 +1,7 @@
+import { ThemeProvider } from '@mui/material/styles';
 import React from 'react';
+
+import { darkTheme } from '../../style-library/theme/theme';
 
 import { SectionNav } from './SectionNav';
 
@@ -85,3 +88,20 @@ const withUpdateArgs: Decorator = (Story, context) => {
 Default.decorators = [withUpdateArgs];
 Sizes.decorators = [withUpdateArgs];
 ManyItems.decorators = [withUpdateArgs];
+
+const darkDecorator: Decorator = (Story) => (
+  <ThemeProvider theme={darkTheme}>
+    <Story />
+  </ThemeProvider>
+);
+
+export const Dark: Story = {
+  args: {
+    sections,
+    activeSectionId: 'mcq',
+    title: 'Section',
+    onSelect: () => {},
+  },
+};
+
+Dark.decorators = [withUpdateArgs, darkDecorator];

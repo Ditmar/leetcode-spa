@@ -65,6 +65,76 @@ export default function Example() {
 
 ---
 
+**Dark mode support**
+
+- `SectionNav` supports dark mode via the theme: when `theme.palette.mode === 'dark'` the component will use the dark token set returned by `getSectionNavTokens`.
+- Default dark tokens are defined in `src/style-library/types/theme.helpers.ts` under `sectionNavDarkTokens`. The default values include (but are not limited to):
+  - `background`: `#0b1220`
+  - `text`: `#E6F0FF`
+  - `gradientStart`: `#8F3DEB`
+  - `gradientEnd`: `#C89BFF`
+  - `hoverBackground`: `rgba(230,240,255,0.06)`
+- To enable dark mode at runtime wrap your app with MUI's `ThemeProvider` using a theme created with `createDarkTheme()` or `createCustomTheme({ mode: 'dark' })` so `theme.palette.mode` is set to `'dark'`.
+
+```tsx
+import React from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import { createCustomTheme } from 'src/style-library/types/theme.helpers';
+import { SectionNav } from './SectionNav';
+
+const darkTheme = createCustomTheme({ mode: 'dark' });
+
+export default function ExampleDark() {
+  return (
+    <ThemeProvider theme={darkTheme}>
+      <SectionNav sections={[{ id: 'a', label: 'A' }]} title="Sections" />
+    </ThemeProvider>
+  );
+}
+```
+
+- To customize dark colors for `SectionNav`, provide `componentTokens.sectionNavDark` when creating your custom theme; `getSectionNavTokens` will prefer `theme.componentTokens.sectionNavDark` over the defaults.
+- When customizing, ensure sufficient contrast for readability and accessibility (hover/selected states are also token-driven).
+
+**Responsive behavior**
+
+- `SectionNav` is responsive and adapts to three breakpoint categories: `desktop`, `tablet` and `mobile`. The component relies on theme tokens and CSS-in-JS breakpoints to adjust dimensions, typography and spacing.
+- Key tokens used for responsiveness (via `getSectionNavTokens`):
+  - `dimensions.navWidth.{desktop|tablet|mobile}` — controls the navigation column width and min-width.
+  - `dimensions.itemHeight.{desktop|tablet|mobile}` — controls the list item height and vertical rhythm.
+  - `typography.titleFontSize.{desktop|tablet|mobile}` — title font sizes per breakpoint.
+  - `typography.itemFontSize.{desktop|tablet|mobile}` — item font sizes per breakpoint.
+- In `SectionNav.styles.ts` the styles use `theme.customBreakpoints.tablet` and `theme.customBreakpoints.mobile` to apply different paddings, border radii and size rules for smaller screens. For example, `Root` adjusts `width` and `borderRadius`, while `StyledItemButton` and `Title` change `height`, `fontSize` and paddings.
+- To customize responsive values:
+  - Provide custom values for `componentTokens.sectionNav` (or `sectionNavDark`) when creating your theme. Update the `dimensions` and `typography` nested fields to change widths, item heights and font sizes per breakpoint.
+  - If you need different breakpoint thresholds, adjust `theme.customBreakpoints` when creating the theme factory (`createCustomTheme`).
+
+Example — overriding nav widths and item heights for responsive breakpoints:
+
+```ts
+// pseudo-code: merge your tokens into the theme's componentTokens
+import { createCustomTheme } from 'src/style-library/types/theme.helpers';
+
+const theme = createCustomTheme({ mode: 'light' });
+
+theme.componentTokens = {
+  ...theme.componentTokens,
+  sectionNav: {
+    ...theme.componentTokens.sectionNav,
+    dimensions: {
+      navWidth: { desktop: 280, tablet: 200, mobile: 140 },
+      itemHeight: { desktop: 88, tablet: 64, mobile: 44 },
+    },
+  },
+};
+
+// Wrap your app with ThemeProvider using the modified theme
+```
+
+- Testing tips: view the component at multiple viewport sizes in Storybook or in the browser DevTools device toolbar to verify padding, font sizes and selected/hover states remain usable and accessible.
+- Accessibility note: ensure that font sizes and touch target heights remain large enough on mobile; consider increasing `itemHeight.mobile` if users need larger tappable areas.
+
+
 **Additional examples**
 
 - Long list (no internal scroll): If you need to render many sections, control the parent layout rather than forcing an internal scroll inside `SectionNav`.

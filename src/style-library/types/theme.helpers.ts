@@ -309,18 +309,69 @@ export const sectionNavTokens: SectionNavTokens = {
     hoverBackground: '#dc93ff',
   },
   typography: {
-    titleFontSize: '24px',
-    itemFontSize: '20px',
+    titleFontSize: {
+      desktop: '24px',
+      tablet: '20px',
+      mobile: '14px',
+    },
+    itemFontSize: {
+      desktop: '20px',
+      tablet: '16px',
+      mobile: '12px',
+    },
   },
   dimensions: {
-    navWidth: 234,
-    itemHeight: 81.33,
+    navWidth: {
+      desktop: 234,
+      tablet: 180,
+      mobile: 120,
+    },
+    itemHeight: {
+      desktop: 81.33,
+      tablet: 64,
+      mobile: 40,
+    },
+  },
+};
+
+export const sectionNavDarkTokens: SectionNavTokens = {
+  colors: {
+    background: '#0b1220',
+    text: '#E6F0FF',
+    gradientStart: '#8F3DEB',
+    gradientEnd: '#C89BFF',
+    hoverBackground: 'rgba(230,240,255,0.06)',
+  },
+  typography: {
+    titleFontSize: {
+      desktop: '24px',
+      tablet: '20px',
+      mobile: '14px',
+    },
+    itemFontSize: {
+      desktop: '20px',
+      tablet: '16px',
+      mobile: '12px',
+    },
+  },
+  dimensions: {
+    navWidth: {
+      desktop: 234,
+      tablet: 180,
+      mobile: 120,
+    },
+    itemHeight: {
+      desktop: 81.33,
+      tablet: 64,
+      mobile: 40,
+    },
   },
 };
 
 export const componentTokens: ComponentTokens = {
   pillTag: pillTagTokens,
   sectionNav: sectionNavTokens,
+  sectionNavDark: sectionNavDarkTokens,
 };
 
 // ==========================================
@@ -444,6 +495,10 @@ export function getPillTagTokens(theme: ExtendedTheme): PillTagTokens {
 }
 
 export function getSectionNavTokens(theme: ExtendedTheme): SectionNavTokens {
+  // Return dark tokens when the theme is in dark mode. Keep current tokens as default.
+  if (theme?.palette?.mode === 'dark') {
+    return theme.componentTokens?.sectionNavDark || sectionNavDarkTokens;
+  }
   return theme.componentTokens?.sectionNav || sectionNavTokens;
 }
 

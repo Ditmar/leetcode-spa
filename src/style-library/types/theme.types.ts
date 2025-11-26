@@ -386,18 +386,35 @@ export interface SectionNavTokens {
     hoverBackground: string;
   };
   typography: {
-    titleFontSize: string | number;
-    itemFontSize: string | number;
+    titleFontSize: {
+      desktop: string | number;
+      tablet: string | number;
+      mobile: string | number;
+    };
+    itemFontSize: {
+      desktop: string | number;
+      tablet: string | number;
+      mobile: string | number;
+    };
   };
   dimensions: {
-    navWidth: number;
-    itemHeight: number;
+    navWidth: {
+      desktop: number;
+      tablet: number;
+      mobile: number;
+    };
+    itemHeight: {
+      desktop: number;
+      tablet: number;
+      mobile: number;
+    };
   };
 }
 
 export interface ComponentTokens {
   pillTag: PillTagTokens;
   sectionNav?: SectionNavTokens;
+  sectionNavDark?: SectionNavTokens;
 }
 
 declare module '@mui/material/styles' {
