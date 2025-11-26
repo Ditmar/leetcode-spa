@@ -2,14 +2,15 @@ import { PrimaryButton } from './Button';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof PrimaryButton> = {
+const meta = {
   title: 'Components/PrimaryButton',
   component: PrimaryButton,
   parameters: { layout: 'centered' },
-};
+} satisfies Meta<typeof PrimaryButton>;
+
 export default meta;
 
-type Story = StoryObj<typeof PrimaryButton>;
+type Story = StoryObj<typeof meta>;
 
 export const Gradient: Story = {
   args: {
@@ -36,5 +37,15 @@ export const Disabled: Story = {
     size: 'large',
     shape: 'pill',
     disabled: true,
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    children: 'Create Account',
+    variant: 'primary',
+    size: 'large',
+    shape: 'pill',
+    loading: true,
   },
 };
