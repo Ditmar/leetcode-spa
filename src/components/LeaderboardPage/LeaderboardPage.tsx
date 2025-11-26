@@ -36,14 +36,7 @@ export const LeaderboardPage: React.FC = () => {
           }}
         />
 
-        <LeaderboardTitle
-          sx={{
-            margin: 0,
-            padding: 0,
-          }}
-        >
-          Leader Board
-        </LeaderboardTitle>
+        <LeaderboardTitle>Leader Board</LeaderboardTitle>
       </Box>
 
       {loading && (

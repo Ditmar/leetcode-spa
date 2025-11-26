@@ -68,18 +68,20 @@ export const CustomAvatar = styled(Avatar)(({ theme }) => ({
 export const LeaderboardTitle = styled(Typography)(({ theme }) => ({
   ...theme.typography.h5,
   fontWeight: 700,
-  padding: theme.spacing(1.5, 3),
+  // padding: theme.spacing(1.5, 3),
   borderRadius: theme.spacing(1),
   display: 'inline-block',
   color: theme.palette.text.primary,
   width: theme.spacing(19.375),
   height: theme.spacing(3),
   fontSize: 20,
-
+  margin: theme.spacing(3.25),
+  padding: 0,
   [theme.breakpoints.down('sm')]: {
     ...theme.typography.subtitle1,
     fontWeight: 700,
-
+    margin: theme.spacing(0.5),
+    padding: 0,
     width: theme.spacing(20.125),
     height: theme.spacing(3),
     fontSize: 20,
