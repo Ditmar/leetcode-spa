@@ -2,16 +2,13 @@ import { ThemeProvider } from '@mui/material/styles';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
-import loginTheme from '../../style-library/theme/login-theme';
+import { loginTheme } from '../../style-library/theme/login-theme';
 
 import { LoginPage } from './LoginPage';
 
-vi.mock('./src/Facebook.svg', () => ({ default: 'Facebook.svg' }));
-vi.mock('./src/assets/Github.svg', () => ({ default: 'Github.svg' }));
-vi.mock('./src/assets/Google.svg', () => ({ default: 'Google.svg' }));
-vi.mock('./assets/Facebook.svg?url', () => ({ default: 'Facebook.svg' }));
-vi.mock('./assets/Github.svg?url', () => ({ default: 'Github.svg' }));
-vi.mock('./assets/Google.svg?url', () => ({ default: 'Google.svg' }));
+vi.mock('../../assets/Facebook.svg', () => ({ default: 'Facebook.svg' }));
+vi.mock('../../assets/Github.svg', () => ({ default: 'Github.svg' }));
+vi.mock('../../assets/Google.svg', () => ({ default: 'Google.svg' }));
 
 describe('LoginPage', () => {
   const renderComponent = (props = {}) =>

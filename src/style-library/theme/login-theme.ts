@@ -27,7 +27,7 @@ declare module '@mui/material/styles' {
   }
 }
 
-const loginTheme = createTheme(baseTheme, {
+export const loginTheme = createTheme(baseTheme, {
   palette: {
     link: {
       purple: '#B441EB',
@@ -49,5 +49,3 @@ const loginTheme = createTheme(baseTheme, {
     fontFamily: 'Syne, sans-serif',
   },
 });
-
-export default loginTheme;
