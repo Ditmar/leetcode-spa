@@ -3,7 +3,7 @@ export interface LoginPageProps {
   buttonText?: string;
   disabled?: boolean;
 
-  onSubmit?: (data: { emailOrUsername: string; password: string }) => void;
+  onSubmit?: (credentials: { emailOrUsername: string; password: string }) => void;
 
   forgotPasswordText?: string;
   signUpText?: string;
@@ -17,4 +17,9 @@ export interface LoginPageProps {
   facebookLoginUrl?: string;
   privacyPolicyUrl?: string;
   termsOfServiceUrl?: string;
+  recaptchaText?: string;
+  privacyPolicyLinkText?: string;
+  termsOfServiceLinkText?: string;
+  andText?: string;
+  applyText?: string;
 }

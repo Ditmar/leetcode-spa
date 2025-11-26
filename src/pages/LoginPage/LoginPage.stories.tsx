@@ -3,7 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 
 import createEmotionCache from '../../style-library/cache/createEmotionCache';
-import loginTheme from '../../style-library/theme/login-theme';
+import { loginTheme } from '../../style-library/theme/login-theme';
 
 import { LoginPage } from './LoginPage';
 
@@ -32,8 +32,32 @@ const meta: Meta<LoginPageProps> = {
     showLegalText: { control: 'boolean', description: 'Shows or hides the reCAPTCHA legal text.' },
 
     googleLoginUrl: { control: 'text', description: 'Redirect URL for Google login.' },
+    githubLoginUrl: { control: 'text', description: 'Redirect URL for GitHub login.' },
+    facebookLoginUrl: { control: 'text', description: 'Redirect URL for Facebook login.' },
     privacyPolicyUrl: { control: 'text', description: 'URL for the Privacy Policy.' },
     termsOfServiceUrl: { control: 'text', description: 'URL for the Terms of Service.' },
+
+    recaptchaText: {
+      control: 'text',
+      description:
+        'The reCAPTCHA protection text (e.g., "This site is protected by reCAPTCHA and the Google").',
+    },
+    privacyPolicyLinkText: {
+      control: 'text',
+      description: 'The link text for the Privacy Policy.',
+    },
+    termsOfServiceLinkText: {
+      control: 'text',
+      description: 'The link text for the Terms of Service.',
+    },
+    andText: {
+      control: 'text',
+      description: 'The connecting word between policy links (e.g., "and").',
+    },
+    applyText: {
+      control: 'text',
+      description: 'The closing word for the legal text (e.g., "apply.").',
+    },
   },
 
   decorators: [
@@ -67,6 +91,12 @@ const meta: Meta<LoginPageProps> = {
     facebookLoginUrl: 'https://www.facebook.com/login',
     privacyPolicyUrl: 'https://policies.google.com/privacy',
     termsOfServiceUrl: 'https://policies.google.com/terms',
+
+    recaptchaText: 'This site is protected by reCAPTCHA and the Google',
+    privacyPolicyLinkText: 'Privacy Policy',
+    termsOfServiceLinkText: 'Terms of Service',
+    andText: 'and',
+    applyText: 'apply.',
   },
 };
 

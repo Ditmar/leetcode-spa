@@ -32,51 +32,82 @@ type LogoFallbackProps = {
 };
 
 type FormInputFallbackProps = {
-  label?: string;
+  id: string;
+  name: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   errorMessage?: string;
   sx?: SxProps<Theme>;
   type?: string;
+  autoComplete?: string;
+  'aria-label'?: string;
 };
 
 type PrimaryButtonFallbackProps = {
   children?: React.ReactNode;
-  onClick?: (e: React.FormEvent) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   loading?: boolean;
   sx?: SxProps<Theme>;
+  type?: 'button' | 'submit' | 'reset';
 };
 
 const FacebookIcon: string | undefined = FacebookStatic ?? undefined;
 const GithubIcon: string | undefined = GithubStatic ?? undefined;
 const GoogleIcon: string | undefined = GoogleStatic ?? undefined;
 
-const Logo: React.ComponentType<LogoFallbackProps> = () => <div data-testid="logo-fallback" />;
+const Logo: React.FC<LogoFallbackProps> = (props) => (
+  <Box
+    data-testid="logo-fallback"
+    role="img"
+    aria-label={props.alt || 'Logo Placeholder'}
+    sx={{
+      width: props.width,
+      height: props.height,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      border: '1px solid currentColor',
+      color: 'text.secondary',
+    }}
+  >
+    <Typography variant="body2">Logo Placeholder</Typography>
+  </Box>
+);
 
 const FormInput: React.FC<FormInputFallbackProps> = (props) => (
   <Box
     component="input"
+    id={props.id}
+    name={props.name}
     type={props.type || 'text'}
     placeholder={props.placeholder}
     value={props.value}
     onChange={props.onChange}
-    sx={{
+    aria-invalid={!!props.errorMessage}
+    aria-label={props['aria-label'] || props.placeholder}
+    autoComplete={props.autoComplete}
+    sx={(theme) => ({
       ...props.sx,
       '::placeholder': {
-        color: 'text.secondary',
+        color: theme.palette.text.secondary,
       },
-    }}
+      ...(!!props.errorMessage && {
+        borderColor: theme.palette.error.main,
+      }),
+    })}
   />
 );
 
 const PrimaryButton: React.FC<PrimaryButtonFallbackProps> = (props) => (
   <Button
     variant="contained"
+    type={props.type || 'button'}
     onClick={props.onClick}
     disabled={props.disabled || props.loading}
-    sx={props.sx}
+    // AÑADIDA ESTA SOBREESCRITURA DE ESTILO
+    sx={{ textTransform: 'none', ...props.sx }}
   >
     {props.loading ? '...' : props.children}
   </Button>
@@ -100,6 +131,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   facebookLoginUrl = 'https://www.facebook.com/login',
   privacyPolicyUrl = 'https://policies.google.com/privacy',
   termsOfServiceUrl = 'https://policies.google.com/terms',
+  recaptchaText = 'This site is protected by reCAPTCHA and the Google',
+  privacyPolicyLinkText = 'Privacy Policy',
+  termsOfServiceLinkText = 'Terms of Service',
+  andText = 'and',
+  applyText = 'apply.',
 }) => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -111,21 +147,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
   const theme = useTheme();
 
-  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>, fallbackSrc: string) => {
     const img = e.currentTarget;
-    const alt = img.alt;
-    if (alt === 'Google' && img.src !== GoogleIcon) {
-      img.src = GoogleIcon ?? '';
-    } else if (alt === 'GitHub' && img.src !== GithubIcon) {
-      img.src = GithubIcon ?? '';
-    } else if (alt === 'Facebook' && img.src !== FacebookIcon) {
-      img.src = FacebookIcon ?? '';
+    if (img.src !== fallbackSrc) {
+      img.src = fallbackSrc;
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const validate = () => {
     const newErrors = { emailOrUsername: '', password: '' };
 
     if (!emailOrUsername) {
@@ -140,16 +169,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       newErrors.password = `Password must be at least ${PASSWORD_MIN_LENGTH} characters long.`;
     }
 
-    if (newErrors.emailOrUsername || newErrors.password) {
-      setErrors(newErrors);
-      return;
-    }
-
     setErrors(newErrors);
-    onSubmit({ emailOrUsername, password });
+    return !newErrors.emailOrUsername && !newErrors.password;
   };
 
-  const isDisabled = disabled || loading || !!errors.emailOrUsername || !!errors.password;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (validate()) {
+      onSubmit({ emailOrUsername, password });
+    }
+  };
+
+  const isDisabled = disabled || loading;
 
   return (
     <Box sx={getPageContainerStyles()}>
@@ -159,15 +191,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         </Box>
 
         <FormInput
-          label="Mail Id"
+          id="login-email-username"
+          name="emailOrUsername"
           value={emailOrUsername}
           onChange={(e) => {
             setEmailOrUsername(e.target.value);
-            setErrors({ ...errors, emailOrUsername: '' });
+            setErrors((prev) => ({ ...prev, emailOrUsername: '' }));
           }}
           placeholder="Mail Id"
           errorMessage={errors.emailOrUsername}
           sx={getInputStyles(GEOMETRY_PX.EMAIL_USERNAME_INPUT_TOP, theme)}
+          aria-label="Mail ID or Username"
         />
         {errors.emailOrUsername && (
           <Typography
@@ -179,16 +213,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         )}
 
         <FormInput
-          label="Password"
+          id="login-password"
+          name="password"
           type="password"
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
-            setErrors({ ...errors, password: '' });
+            setErrors((prev) => ({ ...prev, password: '' }));
           }}
           placeholder="Password"
           errorMessage={errors.password}
           sx={getInputStyles(GEOMETRY_PX.PASSWORD_INPUT_TOP, theme)}
+          aria-label="Password"
+          autoComplete="current-password"
         />
         {errors.password && (
           <Typography
@@ -200,17 +237,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         )}
 
         <PrimaryButton
+          type="submit"
           sx={{
             ...getButtonStyles(theme),
-            // REFACTOR: Usar tokens del tema en lugar de colores harcodeados
-            backgroundColor: `${theme.palette.common.black} !important`,
+            backgroundColor: theme.palette.common.black,
             '&:hover': {
-              backgroundColor: `${theme.palette.grey[900]} !important`,
+              backgroundColor: theme.palette.action.hover,
+            },
+            '&.Mui-disabled': {
+              backgroundColor: theme.palette.grey[500],
             },
           }}
-          onClick={handleSubmit}
           loading={loading}
-          disabled={isDisabled}
+          disabled={isDisabled || !!errors.emailOrUsername || !!errors.password}
         >
           {buttonText}
         </PrimaryButton>
@@ -238,7 +277,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 component="img"
                 src={GoogleIcon}
                 alt="Google"
-                onError={handleImgError}
+                onError={(e) => handleImgError(e, GoogleIcon ?? '')}
                 sx={{ width: '100%', height: '100%' }}
               />
             </IconButton>
@@ -254,7 +293,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 component="img"
                 src={GithubIcon}
                 alt="GitHub"
-                onError={handleImgError}
+                onError={(e) => handleImgError(e, GithubIcon ?? '')}
                 sx={{ width: '100%', height: '100%' }}
               />
             </IconButton>
@@ -270,7 +309,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 component="img"
                 src={FacebookIcon}
                 alt="Facebook"
-                onError={handleImgError}
+                onError={(e) => handleImgError(e, FacebookIcon ?? '')}
                 sx={{ width: '100%', height: '100%' }}
               />
             </IconButton>
@@ -278,7 +317,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         )}
         {showLegalText && (
           <Typography sx={legalTextStyles(theme)}>
-            This site is protected by reCAPTCHA and the Google{' '}
+            {recaptchaText}
             <Link
               href={privacyPolicyUrl}
               target="_blank"
@@ -286,18 +325,18 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               sx={legalLinkStyles(theme)}
             >
               <br />
-              Privacy Policy
+              {privacyPolicyLinkText}
             </Link>{' '}
-            and{' '}
+            {andText}{' '}
             <Link
               href={termsOfServiceUrl}
               target="_blank"
               rel="noopener noreferrer"
               sx={legalLinkStyles(theme)}
             >
-              Terms of Service
+              {termsOfServiceLinkText}
             </Link>{' '}
-            apply.
+            {applyText}
           </Typography>
         )}
       </Box>

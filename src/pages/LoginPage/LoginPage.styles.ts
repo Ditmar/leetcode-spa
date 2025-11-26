@@ -1,21 +1,11 @@
 import { type Theme, type SxProps } from '@mui/material';
 
-const BASE_FONT_SIZE_PX = 16.44;
-const INPUT_FONT_SIZE_PX = 18.27;
-const ERROR_FONT_SIZE_PX = 12;
-
-const BORDER_RADIUS_PX = 1.33;
-const BORDER_SIZE_PX = 2.43;
-const BORDER_COLOR_NORMAL = '#F1F1F1';
-
-const BUTTON_BORDER_RADIUS_PX = 40;
-
 export const GEOMETRY_PX = {
   PAGE_WIDTH: 488.76,
   PAGE_HEIGHT: 761,
   PAGE_BORDER_RADIUS: 36.55,
 
-  LOGO_TOP: 36.53,
+  LOGO_TOP: 60.53,
   EMAIL_USERNAME_INPUT_TOP: 161.46,
   PASSWORD_INPUT_TOP: 264.68,
 
@@ -41,10 +31,18 @@ export const GEOMETRY_PX = {
   LEGAL_TEXT_WIDTH: 405.63,
 };
 
+const INPUT_FONT_SIZE_RAW = 18.27;
+const ERROR_FONT_SIZE_RAW = 12;
+const BASE_FONT_SIZE_RAW = 16.44;
+const SMALL_TEXT_FONT_SIZE_RAW = 14.62;
+const BORDER_RADIUS_RAW = 1.33;
+const BORDER_SIZE_PX = 2.43;
+
 const percentW = (px: number): string => (px / GEOMETRY_PX.PAGE_WIDTH) * 100 + '%';
 const percentH = (px: number): string => (px / GEOMETRY_PX.PAGE_HEIGHT) * 100 + '%';
 
-const fontVw = (px: number, capPx: number, theme: Theme) => {
+const fontVw = (px: number, theme: Theme) => {
+  const capPx = px;
   const vw = (px / GEOMETRY_PX.PAGE_WIDTH) * 100;
   const rem = theme.typography.pxToRem(capPx);
 
@@ -118,22 +116,22 @@ export const getInputStyles = (topPx: number, theme: Theme): SxProps<Theme> => (
   ),
 
   color: theme.palette.common.black,
-  backgroundColor: '#FFFFFF',
-  borderRadius: BORDER_RADIUS_PX,
-  border: `${BORDER_SIZE_PX}px solid ${BORDER_COLOR_NORMAL}`,
+  backgroundColor: theme.palette.common.white,
+  borderRadius: theme.typography.pxToRem(BORDER_RADIUS_RAW),
+  border: `${BORDER_SIZE_PX}px solid ${theme.palette.grey[300]}`,
   caretColor: theme.palette.link.purple,
 
-  ...fontVw(INPUT_FONT_SIZE_PX, INPUT_FONT_SIZE_PX, theme),
+  ...fontVw(INPUT_FONT_SIZE_RAW, theme),
 
   '::placeholder': {
     color: theme.palette.text.secondary,
-    ...fontVw(INPUT_FONT_SIZE_PX, INPUT_FONT_SIZE_PX, theme),
+    ...fontVw(INPUT_FONT_SIZE_RAW, theme),
   },
 
   '&:focus-within': {
     outline: 'none',
     border: `${BORDER_SIZE_PX}px solid ${theme.palette.custom.inputBorderFocus}`,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.palette.common.white,
 
     '::placeholder': {
       color: `${theme.palette.custom.inputFocus} !important`,
@@ -153,9 +151,9 @@ export const getButtonStyles = (theme: Theme): SxProps<Theme> => ({
   color: theme.palette.common.white,
   cursor: 'pointer',
   zIndex: 2,
-  ...fontVw(BASE_FONT_SIZE_PX, BASE_FONT_SIZE_PX, theme),
+  ...fontVw(BASE_FONT_SIZE_RAW, theme),
 
-  borderRadius: BUTTON_BORDER_RADIUS_PX,
+  borderRadius: theme.typography.pxToRem(40),
 });
 
 export const forgotPasswordLinkStyles = (theme: Theme): SxProps<Theme> => ({
@@ -167,7 +165,7 @@ export const forgotPasswordLinkStyles = (theme: Theme): SxProps<Theme> => ({
   zIndex: 1,
   textDecoration: 'none',
   cursor: 'pointer',
-  ...fontVw(BASE_FONT_SIZE_PX, BASE_FONT_SIZE_PX, theme),
+  ...fontVw(BASE_FONT_SIZE_RAW, theme),
 });
 
 export const signUpLinkStyles = (theme: Theme): SxProps<Theme> => ({
@@ -182,7 +180,7 @@ export const signUpLinkStyles = (theme: Theme): SxProps<Theme> => ({
     textDecoration: 'underline',
     textDecorationColor: theme.palette.link.purple,
   },
-  ...fontVw(BASE_FONT_SIZE_PX, BASE_FONT_SIZE_PX, theme),
+  ...fontVw(BASE_FONT_SIZE_RAW, theme),
   textAlign: 'right',
 });
 
@@ -194,7 +192,7 @@ export const orYouCanTextStyles = (theme: Theme): SxProps<Theme> => ({
   fontFamily: theme.typography.fontFamily,
   color: theme.palette.text.secondary,
   whiteSpace: 'nowrap',
-  ...fontVw(14.62, 14.62, theme),
+  ...fontVw(SMALL_TEXT_FONT_SIZE_RAW, theme),
 });
 
 const calculateIconPosXPx = (iconIndex: 0 | 1 | 2): number => {
@@ -221,7 +219,7 @@ export const getErrorTextStyles = (topPx: number, theme: Theme): SxProps<Theme> 
   textAlign: 'left',
   width: percentW(GEOMETRY_PX.INPUT_WIDTH),
   whiteSpace: 'normal',
-  ...fontVw(ERROR_FONT_SIZE_PX, ERROR_FONT_SIZE_PX, theme),
+  ...fontVw(ERROR_FONT_SIZE_RAW, theme),
 });
 
 export const legalTextStyles = (theme: Theme): SxProps<Theme> => ({
@@ -233,7 +231,7 @@ export const legalTextStyles = (theme: Theme): SxProps<Theme> => ({
   lineHeight: 1.2,
   textAlign: 'center',
   color: theme.palette.text.secondary,
-  ...fontVw(14.62, 14.62, theme),
+  ...fontVw(SMALL_TEXT_FONT_SIZE_RAW, theme),
 });
 
 export const legalLinkStyles = (theme: Theme): SxProps<Theme> => ({
