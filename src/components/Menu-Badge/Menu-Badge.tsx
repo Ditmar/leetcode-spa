@@ -1,8 +1,8 @@
 import { Card, Box } from '@mui/material';
 import * as React from 'react';
 
-import darkIcon from './assets/dark.svg';
-import gradientIcon from './assets/gradient.svg';
+import darkIcon from './assets/dark.svg?url';
+import gradientIcon from './assets/gradient.svg?url';
 import { DEFAULT_LABEL_PRIMARY, DEFAULT_LABEL_SECONDARY } from './Menu-Badge.constraints';
 import { MenuBadgeContainer, IconWrapper, LabelText } from './Menu-Badge.styles';
 

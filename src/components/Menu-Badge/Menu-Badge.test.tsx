@@ -40,4 +40,5 @@ describe('MenuBadge Component', () => {
     render(<MenuBadge variant="secondaryText" />);
     expect(screen.getByText(DEFAULT_LABEL_SECONDARY)).toBeInTheDocument();
   });
+
 });

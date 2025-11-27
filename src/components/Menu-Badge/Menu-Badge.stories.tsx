@@ -34,4 +34,5 @@ export const SecondaryText: Story = {
     label: 'Dashboard',
     variant: 'secondaryText',
   },
+
 };
