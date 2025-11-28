@@ -107,12 +107,12 @@ export const AllPercentageCards: Story = {
         maxWidth: '1200px',
       }}
     >
-      <StatsCard value="80%" label="Overall Average" />
-      <StatsCard value="95%" label="Success Rate" />
-      <StatsCard value="87%" label="Completion Rate" />
-      <StatsCard value="92%" label="Accuracy" />
-      <StatsCard value="78%" label="Progress" />
-      <StatsCard value="85%" label="Efficiency" />
+      <StatsCard value="%80" label="Overall Average" />
+      <StatsCard value="%95" label="Success Rate" />
+      <StatsCard value="%87" label="Completion Rate" />
+      <StatsCard value="%92" label="Accuracy" />
+      <StatsCard value="%78" label="Progress" />
+      <StatsCard value="%85" label="Efficiency" />
     </Box>
   ),
 };
@@ -131,13 +131,13 @@ export const MixedCards: Story = {
       }}
     >
       <StatsCard value="32" label="Tests Written" />
-      <StatsCard value="80%" label="Overall Average" />
+      <StatsCard value="%80" label="Overall Average" />
       <StatsCard value="15" label="Projects" />
-      <StatsCard value="95%" label="Success Rate" />
+      <StatsCard value="%95" label="Success Rate" />
       <StatsCard value="42" label="Tasks Completed" />
-      <StatsCard value="87%" label="Completion Rate" />
+      <StatsCard value="%87" label="Completion Rate" />
       <StatsCard value="128" label="Total Users" />
-      <StatsCard value="92%" label="Satisfaction" />
+      <StatsCard value="%92" label="Satisfaction" />
     </Box>
   ),
 };
