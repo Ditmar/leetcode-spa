@@ -1,0 +1,108 @@
+import {
+  Meta,
+  Title,
+  Subtitle,
+  Description,
+  Primary,
+  Controls,
+  Canvas,
+  Stories,
+  Source,
+} from '@storybook/blocks';
+import * as AnswerOptionStories from './AnswerOption.stories';
+
+{/* 1. META: Links the documentation with the stories file (CSF) */}
+<Meta of={AnswerOptionStories} />
+
+{/* HEADING AND DESCRIPTION */}
+<Title />
+<Subtitle>Modular Component for Form Selections</Subtitle>
+
+{/* The component description is extracted from the JSDoc in the CSF file */}
+<Description of={AnswerOptionStories} />
+
+# `AnswerOption` Component
+
+The **`AnswerOption`** component is an abstraction designed to represent a selectable option (radio or checkbox) within a group of answers. It focuses on providing a large click area, clear visual feedback, and robust accessibility, decoupling the selection logic from the visual component.
+
+---
+
+## 🚀 Interactive Showcase
+
+Use the `Canvas` to view the primary story and the `Controls` to manipulate its properties in real time.
+
+<Canvas of={AnswerOptionStories.Default} />
+
+{/* 2. CONTROLS: Shows the automatically generated properties (props) table. */}
+## ⚙️ Properties (Props)
+
+The available properties for `AnswerOption` are detailed below. Their typing and description come from the TypeScript interface (`AnswerOption.types.ts`) and the `argTypes` in the stories file.
+
+<Controls of={AnswerOptionStories.Default} />
+
+---
+
+## 🎨 Variations and States
+
+Explore all predefined variations and states of the component to ensure its consistent use in different user interface contexts.
+
+{/* 3. STORIES: Displays all the stories defined in the AnswerOption.stories.tsx file */}
+<Stories />
+
+### Implementation Example (TSX Code)
+
+Example of how to integrate `AnswerOption` into a selection group, controlling the state of the chosen option.
+
+<Source
+  language="tsx"
+  code={`
+import React, { useState, useCallback } from 'react';
+import { AnswerOption } from './AnswerOption';
+import { Box } from '@mui/material';
+
+// Example data
+const questionOptions = [
+  { id: '1', value: 'opA', label: 'Option A: Default Selection' },
+  { id: '2', value: 'opB', label: 'Option B: Unselected State' },
+  { id: '3', value: 'opC', label: 'Option C: Disabled Option', disabled: true },
+];
+
+const QuizSelectionGroup = () => {
+  const [selectedValue, setSelectedValue] = useState('opA');
+
+  const handleChange = useCallback((newValue) => {
+    setSelectedValue(newValue);
+  }, []);
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '16px' }}>
+      {questionOptions.map((option) => (
+        <AnswerOption
+          key={option.id}
+          label={option.label}
+          value={option.value}
+          // Determines the 'selected' state
+          selected={selectedValue === option.value}
+          // Handler function that updates the state
+          onChange={handleChange}
+          disabled={option.disabled}
+        />
+      ))}
+      <p>Selected: <b>{selectedValue}</b></p>
+    </Box>
+  );
+};
+
+export default QuizSelectionGroup;
+`}
+/>
+
+---
+
+## ♿ Accessibility (A11y)
+
+This component ensures accessibility (WAI-ARIA) by:
+
+1.  **Wrapping the content in a `<label>` tag:** This ensures that clicking anywhere on the component activates the option.
+2.  **Using a Hidden Input:** The actual "radio" or "checkbox" behavior is managed with a native (visually hidden) `<input>` so that assistive technologies (screen readers) recognize it and allow keyboard interaction.
+3.  **Communicating States:** ARIA attributes, such as `aria-checked` and `disabled`, are dynamically configured to communicate the exact state of the component to the user.
