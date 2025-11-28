@@ -8,7 +8,8 @@ import {
   FALLBACK_INITIALS,
 } from './ProfileCard.constants';
 import {
-  StyledCard,
+  StyledOuterContainer,
+  StyledUserCard,
   StyledProfileContainer,
   StyledAvatar,
   StyledInfoContainer,
@@ -16,7 +17,7 @@ import {
   StyledUsername,
   StyledRole,
   StyledStatsContainer,
-  StyledStatItem,
+  StyledStatCard,
   StyledStatIcon,
   StyledStatContent,
   StyledStatValue,
@@ -30,20 +31,20 @@ const StatsItem: React.FC<StatsItemProps> = ({
   label,
   value,
   $variant,
+  $size,
   locale,
   'data-testid': dataTestId,
 }) => {
-  // Use user's locale for number formatting (respects browser/system locale)
   const formattedValue = typeof value === 'number' ? value.toLocaleString(locale) : value;
 
   return (
-    <StyledStatItem $variant={$variant} data-testid={dataTestId}>
+    <StyledStatCard $variant={$variant} $size={$size} data-testid={dataTestId}>
       <StyledStatIcon>{icon}</StyledStatIcon>
       <StyledStatContent $variant={$variant}>
         <StyledStatValue>{formattedValue}</StyledStatValue>
         <StyledStatLabel>{label}</StyledStatLabel>
       </StyledStatContent>
-    </StyledStatItem>
+    </StyledStatCard>
   );
 };
 
@@ -77,7 +78,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   'data-testid': dataTestId = 'profile-card',
   ...cardProps
 }) => {
-  // Strict validation for required props
   if (!name || !username) {
     throw new Error('ProfileCard: "name" and "username" are required props and cannot be empty.');
   }
@@ -85,7 +85,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   const DefaultIcon = DEFAULT_AVATAR_ICON;
   const initials = FALLBACK_INITIALS(name);
 
-  // Detect user's locale if not provided
   const userLocale = locale || (typeof navigator !== 'undefined' ? navigator.language : undefined);
 
   const formatRanking = (rank: number): string => {
@@ -94,12 +93,10 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
     const lastDigit = rank % 10;
     const lastTwoDigits = rank % 100;
 
-    // Special cases for 11, 12, 13 (always 'th')
     if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
       return `${rank}th`;
     }
 
-    // Regular cases based on last digit
     if (lastDigit === 1) return `${rank}st`;
     if (lastDigit === 2) return `${rank}nd`;
     if (lastDigit === 3) return `${rank}rd`;
@@ -108,7 +105,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
   };
 
   return (
-    <StyledCard
+    <StyledOuterContainer
       className={className}
       data-testid={dataTestId}
       $size={size}
@@ -117,42 +114,46 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       aria-label={`Profile card for ${name}`}
       {...cardProps}
     >
-      <StyledProfileContainer $size={size} $variant={variant}>
-        <StyledAvatar
-          src={avatarUrl}
-          alt={`${name}'s avatar`}
-          $size={size}
-          data-testid={`${dataTestId}-avatar`}
-        >
-          {!avatarUrl && initials && initials}
-          {!avatarUrl && !initials && <DefaultIcon />}
-        </StyledAvatar>
-
-        <StyledInfoContainer $size={size} $variant={variant}>
-          <StyledName variant="h6" $size={size} title={name} data-testid={`${dataTestId}-name`}>
-            {name}
-          </StyledName>
-          <StyledUsername
-            variant="body2"
+      {/* Card de Usuario (282×316px con borde) */}
+      <StyledUserCard $size={size} $variant={variant}>
+        <StyledProfileContainer $size={size} $variant={variant}>
+          <StyledAvatar
+            src={avatarUrl}
+            alt={`${name}'s avatar`}
             $size={size}
-            title={username}
-            data-testid={`${dataTestId}-username`}
+            data-testid={`${dataTestId}-avatar`}
           >
-            @{username}
-          </StyledUsername>
-          {role && (
-            <StyledRole
+            {!avatarUrl && initials && initials}
+            {!avatarUrl && !initials && <DefaultIcon />}
+          </StyledAvatar>
+
+          <StyledInfoContainer $size={size} $variant={variant}>
+            <StyledName variant="h6" $size={size} title={name} data-testid={`${dataTestId}-name`}>
+              {name}
+            </StyledName>
+            <StyledUsername
               variant="body2"
               $size={size}
-              title={role}
-              data-testid={`${dataTestId}-role`}
+              title={username}
+              data-testid={`${dataTestId}-username`}
             >
-              {role}
-            </StyledRole>
-          )}
-        </StyledInfoContainer>
-      </StyledProfileContainer>
+              @{username}
+            </StyledUsername>
+            {role && (
+              <StyledRole
+                variant="body2"
+                $size={size}
+                title={role}
+                data-testid={`${dataTestId}-role`}
+              >
+                {role}
+              </StyledRole>
+            )}
+          </StyledInfoContainer>
+        </StyledProfileContainer>
+      </StyledUserCard>
 
+      {/* Stats Container (685×166px) con 3 cards de 195×166px cada una */}
       {showStats && (
         <StyledStatsContainer
           $size={size}
@@ -166,6 +167,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             label={STATS_LABELS_FALLBACK.courses}
             value={stats.courses}
             $variant={variant}
+            $size={size}
             locale={userLocale}
             data-testid={`${dataTestId}-stat-courses`}
           />
@@ -174,6 +176,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             label={STATS_LABELS_FALLBACK.points}
             value={stats.points}
             $variant={variant}
+            $size={size}
             locale={userLocale}
             data-testid={`${dataTestId}-stat-points`}
           />
@@ -182,11 +185,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             label={STATS_LABELS_FALLBACK.ranking}
             value={formatRanking(stats.ranking)}
             $variant={variant}
+            $size={size}
             locale={userLocale}
             data-testid={`${dataTestId}-stat-ranking`}
           />
         </StyledStatsContainer>
       )}
-    </StyledCard>
+    </StyledOuterContainer>
   );
 };

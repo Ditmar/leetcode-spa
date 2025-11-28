@@ -48,9 +48,9 @@ export interface StatsItemProps {
   label: string;
   value: number | string;
   $variant: ProfileCardVariant;
+  $size: ProfileCardSize; // ✅ CRÍTICO: Agregado $size
   locale?: string;
   'data-testid'?: string;
 }
 
-// Alias for backward compatibility
 export type ProfileStats = ProfileStatsProps;
