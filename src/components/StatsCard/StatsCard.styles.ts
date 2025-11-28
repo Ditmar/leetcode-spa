@@ -2,17 +2,14 @@ import { styled, Card, Box, Typography } from '@mui/material';
 
 export const StyledCard = styled(Card)(({ theme }) => ({
   position: 'relative',
-  width: theme.spacing(37),
-  height: theme.spacing(19.75),
+  width: '296px',
+  height: '158px',
   boxShadow: theme.shadows[1],
-  borderRadius:
-    typeof theme.shape.borderRadius === 'number'
-      ? theme.shape.borderRadius * 1.5
-      : `calc(${theme.shape.borderRadius} * 1.5)`,
+  borderRadius: '12px',
   border: `1px solid ${theme.palette.divider}`,
-  backgroundColor: '#FAFAFABF',
+  background: 'rgba(250, 250, 250, 0.75)',
   padding: 0,
-  overflow: 'hidden',
+  overflow: 'visible',
   transition: theme.transitions.create(['box-shadow', 'transform'], {
     duration: theme.transitions.duration.short,
   }),
@@ -20,41 +17,45 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     boxShadow: theme.shadows[4],
   },
   [theme.breakpoints.down('md')]: {
-    width: theme.spacing(32),
-    height: theme.spacing(17),
+    width: '260px',
+    height: '140px',
   },
   [theme.breakpoints.down('sm')]: {
     width: '100%',
-    maxWidth: theme.spacing(28),
+    maxWidth: '280px',
     height: 'auto',
-    minHeight: theme.spacing(16),
+    minHeight: '120px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(1, 0),
   },
 }));
 
 export const IconBackground = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  width: theme.spacing(7.75),
-  height: theme.spacing(7.75),
-  left: theme.spacing(3.75),
-  top: theme.spacing(6),
-  backgroundColor: '#F8F6FF',
+  width: '62px',
+  height: '62px',
+  left: '30px',
+  top: '48px',
+  background: '#F8F6FF',
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   [theme.breakpoints.down('md')]: {
-    width: theme.spacing(6.5),
-    height: theme.spacing(6.5),
-    left: theme.spacing(3),
-    top: theme.spacing(4),
+    width: '54px',
+    height: '54px',
+    left: '20px',
+    top: '40px',
   },
   [theme.breakpoints.down('sm')]: {
-    width: theme.spacing(6),
-    height: theme.spacing(6),
-    left: theme.spacing(2.5),
-    top: theme.spacing(2.5),
     position: 'relative',
-    margin: `${theme.spacing(2)} auto ${theme.spacing(1)}`,
+    width: '50px',
+    height: '50px',
+    left: 'auto',
+    top: 'auto',
+    marginBottom: theme.spacing(1),
   },
 }));
 
@@ -62,15 +63,15 @@ export const IconWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '23.48px', // ← Tamaño EXACTO del lápiz
-  height: '29.17px', // ← Tamaño EXACTO del lápiz
+  width: '24px', // ← Cambiado para que coincida con el SVG
+  height: '30px', // ← Cambiado para que coincida con el SVG
   [theme.breakpoints.down('md')]: {
-    width: '18.78px', // ← 80% del original (23.48 * 0.8)
-    height: '23.34px', // ← 80% del original (29.17 * 0.8)
+    width: '21px', // ← Ajuste proporcional
+    height: '26px', // ← Ajuste proporcional
   },
   [theme.breakpoints.down('sm')]: {
-    width: '16.44px', // ← 70% del original (23.48 * 0.7)
-    height: '20.42px', // ← 70% del original (29.17 * 0.7)
+    width: '19px', // ← Ajuste proporcional
+    height: '24px', // ← Ajuste proporcional
   },
 }));
 
@@ -78,7 +79,7 @@ export const IconImage = styled('img')(({ theme }) => ({
   width: '100%',
   height: '100%',
   objectFit: 'contain',
-  color: '#B23DEB',
+  // REMOVER completamente el background - el gradiente ya está en el SVG
   [theme.breakpoints.down('sm')]: {
     maxWidth: '100%',
   },
@@ -86,15 +87,15 @@ export const IconImage = styled('img')(({ theme }) => ({
 
 export const ContentWrapper = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  left: theme.spacing(14.75),
-  top: theme.spacing(6),
+  left: '118px',
+  top: '48px',
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(0.5),
+  gap: '8px',
   [theme.breakpoints.down('md')]: {
-    left: theme.spacing(12),
-    top: theme.spacing(4),
-    gap: theme.spacing(0.75),
+    left: '100px',
+    top: '40px',
+    gap: '6px',
   },
   [theme.breakpoints.down('sm')]: {
     position: 'relative',
@@ -102,8 +103,8 @@ export const ContentWrapper = styled(Box)(({ theme }) => ({
     top: 'auto',
     alignItems: 'center',
     textAlign: 'center',
-    gap: theme.spacing(0.5),
-    padding: `0 ${theme.spacing(1)} ${theme.spacing(2)}`,
+    gap: '4px',
+    padding: theme.spacing(0, 1),
   },
 }));
 
@@ -131,7 +132,6 @@ export const ValueText = styled(Typography)(({ theme }) => ({
     lineHeight: '33px',
     width: 'auto',
     height: 'auto',
-    textAlign: 'center',
     justifyContent: 'center',
   },
 }));
@@ -160,7 +160,7 @@ export const LabelText = styled(Typography)(({ theme }) => ({
     lineHeight: '14.4px',
     width: 'auto',
     height: 'auto',
-    textAlign: 'center',
     justifyContent: 'center',
+    textAlign: 'center',
   },
 }));

@@ -1,4 +1,4 @@
-import { Assessment, Edit } from '@mui/icons-material';
+import { Edit } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
@@ -35,7 +35,6 @@ export const Default: Story = {
 
 export const OverallAverage: Story = {
   args: {
-    icon: <Assessment fontSize="large" />,
     value: '80%',
     label: 'Overall Average',
   },
@@ -93,4 +92,52 @@ export const NoIcon: Story = {
     value: '100',
     label: 'No Icon Example',
   },
+};
+
+export const AllPercentageCards: Story = {
+  render: () => (
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
+        gap: 3,
+        padding: 4,
+        backgroundColor: (theme) => theme.palette.background.default,
+        borderRadius: 2,
+        maxWidth: '1200px',
+      }}
+    >
+      <StatsCard value="80%" label="Overall Average" />
+      <StatsCard value="95%" label="Success Rate" />
+      <StatsCard value="87%" label="Completion Rate" />
+      <StatsCard value="92%" label="Accuracy" />
+      <StatsCard value="78%" label="Progress" />
+      <StatsCard value="85%" label="Efficiency" />
+    </Box>
+  ),
+};
+
+export const MixedCards: Story = {
+  render: () => (
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
+        gap: 2,
+        padding: 4,
+        backgroundColor: (theme) => theme.palette.background.default,
+        borderRadius: 2,
+        maxWidth: '1400px',
+      }}
+    >
+      <StatsCard value="32" label="Tests Written" />
+      <StatsCard value="80%" label="Overall Average" />
+      <StatsCard value="15" label="Projects" />
+      <StatsCard value="95%" label="Success Rate" />
+      <StatsCard value="42" label="Tasks Completed" />
+      <StatsCard value="87%" label="Completion Rate" />
+      <StatsCard value="128" label="Total Users" />
+      <StatsCard value="92%" label="Satisfaction" />
+    </Box>
+  ),
 };

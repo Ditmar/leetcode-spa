@@ -2,6 +2,7 @@ import { useTheme, useMediaQuery } from '@mui/material';
 import React from 'react';
 
 import editIcon from './assets/icons/edit-icon.svg?url';
+import percentIcon from './assets/icons/percent-icon.svg?url'; // ← Nueva importación
 import { DEFAULT_VALUE, DEFAULT_LABEL } from './StatsCard.constants';
 import {
   StyledCard,
@@ -24,7 +25,15 @@ export const StatsCard: React.FC<StatsCardProps> = (props) => {
   const valueId = React.useId();
   const labelId = React.useId();
 
-  const iconToUse = icon || <IconImage src={editIcon} alt={`${label} icon`} />;
+  // Determina qué icono usar basado en el label o value
+  const getDefaultIcon = () => {
+    if (label.toLowerCase().includes('average') || value.toString().includes('%')) {
+      return <IconImage src={percentIcon} alt={`${label} icon`} />;
+    }
+    return <IconImage src={editIcon} alt={`${label} icon`} />;
+  };
+
+  const iconToUse = icon || getDefaultIcon();
 
   return (
     <StyledCard
