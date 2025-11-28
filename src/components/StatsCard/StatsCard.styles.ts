@@ -63,15 +63,15 @@ export const IconWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '24px', // ← Cambiado para que coincida con el SVG
-  height: '30px', // ← Cambiado para que coincida con el SVG
+  width: '23.48px',
+  height: '29.17px',
   [theme.breakpoints.down('md')]: {
-    width: '21px', // ← Ajuste proporcional
-    height: '26px', // ← Ajuste proporcional
+    width: '21px',
+    height: '26px',
   },
   [theme.breakpoints.down('sm')]: {
-    width: '19px', // ← Ajuste proporcional
-    height: '24px', // ← Ajuste proporcional
+    width: '19px',
+    height: '24px',
   },
 }));
 
@@ -79,7 +79,6 @@ export const IconImage = styled('img')(({ theme }) => ({
   width: '100%',
   height: '100%',
   objectFit: 'contain',
-  // REMOVER completamente el background - el gradiente ya está en el SVG
   [theme.breakpoints.down('sm')]: {
     maxWidth: '100%',
   },
