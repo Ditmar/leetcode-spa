@@ -1,0 +1,182 @@
+# Config Manager
+
+Centralized configuration utility for managing application-wide settings with type-safe environment variable access.
+
+## Overview
+
+Provides typed access to environment variables with automatic fallbacks and validation. Works in both SSR (Astro) and client (React) environments.
+
+## Usage
+
+### Import Paths
+
+```typescript
+// From src/utils/
+import { getConfig } from './config';
+
+// From src/pages/
+import { getConfig } from '../utils/config';
+
+// From src/components/
+import { getConfig } from '../../utils/config';
+```
+
+### Basic Usage
+
+```typescript
+import { getConfig } from '../utils/config';
+
+const config = getConfig();
+console.log(config.defaultCacheTTL); // 300000
+```
+
+### In Astro Pages
+
+```astro
+---
+import { getConfig } from '../utils/config';
+const config = getConfig();
+---
+
+<div>Cache TTL: {config.defaultCacheTTL}ms</div>
+```
+
+### In React Components
+
+```tsx
+import { getCachedConfig } from '../../utils/config';
+
+export function MyComponent() {
+  const config = getCachedConfig();
+  return <div>{config.defaultCacheTTL}ms</div>;
+}
+```
+
+## Environment Variables
+
+### Current Variables
+
+- `VITE_DEFAULT_CACHE_TTL`: Default cache TTL in milliseconds (default: 300000)
+
+### Configuration
+
+Create `.env` file in project root:
+
+```bash
+VITE_DEFAULT_CACHE_TTL=600000
+```
+
+**Important**: Must be prefixed with `VITE_`
+
+### Invalid Values
+
+Invalid values log a warning in the **server terminal** (not browser console) and use defaults:
+
+```bash
+# Terminal output:
+Invalid number value: "invalid-value". Using fallback: 300000
+```
+
+## API
+
+### getConfig()
+
+Returns configuration object. Reads env vars on each call.
+
+```typescript
+const config = getConfig();
+```
+
+### getCachedConfig()
+
+Returns cached configuration (recommended for production).
+
+```typescript
+const config = getCachedConfig();
+```
+
+### buildConfig(envVars)
+
+For testing. Builds config from provided env vars.
+
+```typescript
+const config = buildConfig({ VITE_DEFAULT_CACHE_TTL: '450000' });
+```
+
+### resetConfigCache()
+
+Resets cache (useful for testing).
+
+```typescript
+resetConfigCache();
+```
+
+## Adding New Config Keys
+
+1. Update `config.types.ts`:
+
+```typescript
+export interface AppConfig {
+  defaultCacheTTL: number;
+  apiBaseUrl: string; // New key
+}
+```
+
+2. Update `config.ts`:
+
+```typescript
+const DEFAULT_CONFIG: AppConfig = {
+  defaultCacheTTL: 300000,
+  apiBaseUrl: 'https://api.example.com',
+};
+```
+
+3. Add to `.env`:
+
+```bash
+VITE_API_BASE_URL=https://api.production.com
+```
+
+4. Write tests:
+
+```typescript
+it('should parse API URL', () => {
+  const config = buildConfig({ VITE_API_BASE_URL: 'https://test.com' });
+  expect(config.apiBaseUrl).toBe('https://test.com');
+});
+```
+
+## Testing
+
+```bash
+yarn test src/utils/config.test.ts
+```
+
+Coverage includes:
+
+- Default values
+- Env var parsing
+- Invalid value handling
+- Type validation
+- Cache behavior
+
+## Best Practices
+
+- Use `getCachedConfig()` in production
+- Prefix all env vars with `VITE_`
+- Provide defaults for optional config
+- Use relative paths for imports
+- Check server terminal for warnings (not browser console)
+
+## Troubleshooting
+
+**Config not updating**: Restart dev server after changing `.env`
+
+**Import errors**: Use relative paths (`../utils/config` or `../../utils/config`)
+
+**Warnings not visible**: Check **server terminal** where `yarn dev` runs, not browser console (F12)
+
+## Related
+
+- [Vite Environment Variables](https://vitejs.dev/guide/env-and-mode.html)
+- [Astro Environment Variables](https://docs.astro.build/en/guides/environment-variables/)
