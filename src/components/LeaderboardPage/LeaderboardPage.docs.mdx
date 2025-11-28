@@ -1,0 +1,31 @@
+# LeaderboardPage
+
+Page component to display a user ranking. Implements:
+
+- Table view (desktop) and cards (mobile).
+- Highlight the current user.
+
+
+## Data shape
+
+```ts
+type LeaderboardUser = {
+  id: string;
+  rank: number;
+  avatarUrl?: string;
+  fullName: string;
+  username: string;
+  points: number;
+  testsPassed: number;
+  lastActiveAt?: string; // ISO date
+  category?: string;
+};
+```
+
+## Behavior
+
+- The page loads data from a mocked API (`mockData.fetchLeaderboard`).
+- While loading, it shows a spinner; in case of an error, it shows a message.
+- Recommended: decouple fetch into a real service for production.
+
+
