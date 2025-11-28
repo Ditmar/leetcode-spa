@@ -2,23 +2,23 @@ import { styled, Card, Box, Typography } from '@mui/material';
 
 export const StyledCard = styled(Card)(({ theme }) => ({
   position: 'relative',
-  width: '296px',
-  height: '158px',
+  width: theme.spacing(37), // 296px
+  height: theme.spacing(19.75), // 158px
   boxShadow: theme.shadows[1],
-  borderRadius: '12px',
+  borderRadius: theme.spacing(1.5), // 12px
   border: `1px solid ${theme.palette.divider}`,
   background: 'rgba(250, 250, 250, 0.75)',
   padding: 0,
   overflow: 'visible',
-  transition: theme.transitions.create(['box-shadow', 'transform'], {
+  transition: theme.transitions.create(['box-shadow'], {
     duration: theme.transitions.duration.short,
   }),
   '&:hover': {
     boxShadow: theme.shadows[4],
   },
   [theme.breakpoints.down('md')]: {
-    width: '260px',
-    height: '140px',
+    width: theme.spacing(32.5), // 260px
+    height: theme.spacing(17.5), // 140px
   },
   [theme.breakpoints.down('sm')]: {
     width: '203.69px',
@@ -34,20 +34,20 @@ export const StyledCard = styled(Card)(({ theme }) => ({
 
 export const IconBackground = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  width: '62px',
-  height: '62px',
-  left: '30px',
-  top: '48px',
+  width: theme.spacing(7.75), // 62px
+  height: theme.spacing(7.75), // 62px
+  left: theme.spacing(3.75), // 30px
+  top: theme.spacing(6), // 48px
   background: '#F8F6FF',
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   [theme.breakpoints.down('md')]: {
-    width: '54px',
-    height: '54px',
-    left: '20px',
-    top: '40px',
+    width: theme.spacing(6.75), // 54px
+    height: theme.spacing(6.75), // 54px
+    left: theme.spacing(2.5), // 20px
+    top: theme.spacing(5), // 40px
   },
   [theme.breakpoints.down('sm')]: {
     position: 'absolute',
@@ -63,8 +63,8 @@ export const IconWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '24px',
-  height: '30px',
+  width: '23.48px',
+  height: '29.17px',
   [theme.breakpoints.down('md')]: {
     width: '21px',
     height: '26px',
@@ -86,15 +86,15 @@ export const IconImage = styled('img')(({ theme }) => ({
 
 export const ContentWrapper = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  left: '118px',
-  top: '48px',
+  left: theme.spacing(14.75), // 118px
+  top: theme.spacing(6), // 48px
   display: 'flex',
   flexDirection: 'column',
-  gap: '8px',
+  gap: theme.spacing(1), // 8px
   [theme.breakpoints.down('md')]: {
-    left: '100px',
-    top: '40px',
-    gap: '6px',
+    left: theme.spacing(12.5), // 100px
+    top: theme.spacing(5), // 40px
+    gap: theme.spacing(0.75), // 6px
   },
   [theme.breakpoints.down('sm')]: {
     position: 'absolute',
@@ -104,7 +104,7 @@ export const ContentWrapper = styled(Box)(({ theme }) => ({
     top: '24.08px',
     alignItems: 'flex-start',
     textAlign: 'left',
-    gap: '4px',
+    gap: theme.spacing(0.5), // 4px
     padding: 0,
   },
 }));
