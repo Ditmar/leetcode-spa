@@ -2,10 +2,10 @@ import { styled, Card, Box, Typography } from '@mui/material';
 
 export const StyledCard = styled(Card)(({ theme }) => ({
   position: 'relative',
-  width: theme.spacing(37), // 296px
-  height: theme.spacing(19.75), // 158px
+  width: '296px',
+  height: '158px',
   boxShadow: theme.shadows[1],
-  borderRadius: theme.spacing(1.5), // 12px
+  borderRadius: '12px',
   border: `1px solid ${theme.palette.divider}`,
   background: 'rgba(250, 250, 250, 0.75)',
   padding: 0,
@@ -17,43 +17,38 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     boxShadow: theme.shadows[4],
   },
   [theme.breakpoints.down('md')]: {
-    width: theme.spacing(32.5), // 260px
-    height: theme.spacing(17.5), // 140px
+    width: '260px',
+    height: '140px',
   },
   [theme.breakpoints.down('sm')]: {
     width: '203.69px',
     height: '108.72px',
     borderRadius: '8.26px',
-    background: 'rgba(250, 250, 250, 0.75)',
-    display: 'block',
-    padding: 0,
   },
 }));
 
 export const IconBackground = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  width: theme.spacing(7.75), // 62px
-  height: theme.spacing(7.75), // 62px
-  left: theme.spacing(3.75), // 30px
-  top: theme.spacing(6), // 48px
+  width: '62px',
+  height: '62px',
+  left: '30px',
+  top: '48px',
   background: '#F8F6FF',
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   [theme.breakpoints.down('md')]: {
-    width: theme.spacing(6.75), // 54px
-    height: theme.spacing(6.75), // 54px
-    left: theme.spacing(2.5), // 20px
-    top: theme.spacing(5), // 40px
+    width: '54px',
+    height: '54px',
+    left: '20px',
+    top: '40px',
   },
   [theme.breakpoints.down('sm')]: {
-    position: 'absolute',
     width: '42.66px',
     height: '42.66px',
     left: '20.64px',
-    top: '33.03px', // ← Corregido para Tests Written
-    marginBottom: 0,
+    top: '33.03px',
   },
 }));
 
@@ -68,42 +63,33 @@ export const IconWrapper = styled(Box)(({ theme }) => ({
     height: '26px',
   },
   [theme.breakpoints.down('sm')]: {
-    width: '16.16px', // ← Corregido para Tests Written
-    height: '20.07px', // ← Corregido para Tests Written
+    width: '16.16px',
+    height: '20.07px',
   },
 }));
 
-export const IconImage = styled('img')(({ theme }) => ({
+export const IconImage = styled('img')({
   width: '100%',
   height: '100%',
   objectFit: 'contain',
-  [theme.breakpoints.down('sm')]: {
-    maxWidth: '100%',
-  },
-}));
+});
 
 export const ContentWrapper = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  left: theme.spacing(14.75), // 118px
-  top: theme.spacing(6), // 48px
+  left: '118px',
+  top: '48px',
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(1), // 8px
+  gap: '8px',
   [theme.breakpoints.down('md')]: {
-    left: theme.spacing(12.5), // 100px
-    top: theme.spacing(5), // 40px
-    gap: theme.spacing(0.75), // 6px
+    left: '100px',
+    top: '40px',
+    gap: '6px',
   },
   [theme.breakpoints.down('sm')]: {
-    position: 'absolute',
-    width: '65px', // ← Corregido para Tests Written
-    height: '38.84px', // ← Corregido para Tests Written
     left: '81.2px',
-    top: '33.03px', // ← Corregido para Tests Written
-    alignItems: 'flex-start',
-    textAlign: 'left',
-    gap: theme.spacing(0.5), // 4px
-    padding: 0,
+    top: '33.03px',
+    gap: '4px',
   },
 }));
 
@@ -120,6 +106,7 @@ export const ValueText = styled(Typography)(({ theme }) => ({
   padding: 0,
   display: 'flex',
   alignItems: 'center',
+  whiteSpace: 'nowrap',
   [theme.breakpoints.down('md')]: {
     fontSize: '24px',
     lineHeight: '36px',
@@ -127,15 +114,10 @@ export const ValueText = styled(Typography)(({ theme }) => ({
     height: '27px',
   },
   [theme.breakpoints.down('sm')]: {
-    fontFamily: "'Poppins', sans-serif",
-    fontStyle: 'normal',
-    fontWeight: 600,
     fontSize: '19.27px',
     lineHeight: '29px',
-    width: '36.47px', // ← Corregido para Tests Written
-    height: '21.33px', // ← Corregido para Tests Written
-    color: 'rgba(13, 13, 13, 0.8)',
-    justifyContent: 'flex-start',
+    width: '36.47px',
+    height: '21.33px',
   },
 }));
 
@@ -152,6 +134,7 @@ export const LabelText = styled(Typography)(({ theme }) => ({
   padding: 0,
   display: 'flex',
   alignItems: 'center',
+  whiteSpace: 'nowrap',
   [theme.breakpoints.down('md')]: {
     fontSize: '13px',
     lineHeight: '15.6px',
@@ -159,15 +142,18 @@ export const LabelText = styled(Typography)(({ theme }) => ({
     height: '15.6px',
   },
   [theme.breakpoints.down('sm')]: {
-    fontFamily: "'Syne', sans-serif",
-    fontStyle: 'normal',
-    fontWeight: 500,
     fontSize: '10.32px',
     lineHeight: '12px',
-    width: '84.64px', // ← Corregido para Tests Written
-    height: '12px', // ← Corregido para Tests Written
-    color: 'rgba(13, 13, 13, 0.5)',
-    justifyContent: 'flex-start',
-    textAlign: 'left',
+    width: '65px',
+    height: '12px',
+  },
+}));
+
+export const LongLabelText = styled(LabelText)(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    width: '84.64px',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 }));

@@ -35,7 +35,7 @@ export const Default: Story = {
 
 export const OverallAverage: Story = {
   args: {
-    value: '80%',
+    value: '%80',
     label: 'Overall Average',
   },
 };
@@ -61,7 +61,7 @@ export const MultipleCards: Story = {
       }}
     >
       <StatsCard value="32" label="Tests Written" />
-      <StatsCard value="80%" label="Overall Average" />
+      <StatsCard value="%80" label="Overall Average" />
     </Box>
   ),
 };
@@ -80,9 +80,9 @@ export const CardsInGrid: Story = {
       }}
     >
       <StatsCard value="32" label="Tests Written" />
-      <StatsCard value="80%" label="Overall Average" />
+      <StatsCard value="%80" label="Overall Average" />
       <StatsCard value="15" label="Projects" />
-      <StatsCard value="95%" label="Success Rate" />
+      <StatsCard value="%80" label="Success Rate" />
     </Box>
   ),
 };
