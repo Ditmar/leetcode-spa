@@ -62,51 +62,85 @@ declare module '@mui/material/Typography' {
 
 export const PROFILE_CARD_SPACING = {
   small: {
-    avatarSpacing: 6,
-    paddingUnits: 2,
-    infoGap: 0.5,
-    statsGap: 1.5,
-    statsPaddingTop: 2,
-    borderWidth: 1,
+    // Proporcional ~80% de medium
+    outerContainerWidth: 548, // 685 * 0.8
+    outerContainerHeight: 422, // 527 * 0.8
+    outerContainerPadding: 0, // Sin padding, invisible
+    userCardWidth: 226, // 282 * 0.8
+    userCardHeight: 253, // 316 * 0.8
+    userCardPadding: 2,
+    avatarSize: 96, // 120 * 0.8
+    avatarBorder: 2,
+    infoGap: 1,
+    textGap: 0.5,
+    userToStatsGap: 36, // 45 * 0.8 (gap entre usuario y stats)
+    statsContainerWidth: 548, // 685 * 0.8
+    statsContainerHeight: 133, // 166 * 0.8
+    statsGap: 31, // 39 * 0.8 (gap entre stat cards)
+    statCardWidth: 156, // 195 * 0.8
+    statCardHeight: 133, // 166 * 0.8
+    statPadding: 1.5,
   },
   medium: {
-    avatarSpacing: 8,
-    paddingUnits: 2.5,
-    infoGap: 0.5,
-    statsGap: 2,
-    statsPaddingTop: 2,
-    borderWidth: 1,
+    // DIMENSIONES EXACTAS DE FIGMA
+    outerContainerWidth: 685, // Container invisible total
+    outerContainerHeight: 527, // Container invisible total
+    outerContainerPadding: 0, // Sin padding en container externo
+    userCardWidth: 282, // Card de usuario
+    userCardHeight: 316, // Card de usuario
+    userCardPadding: 2.5, // Padding interno de la card usuario
+    avatarSize: 120, // Avatar 120×120px
+    avatarBorder: 3,
+    infoGap: 1.5,
+    textGap: 0.75,
+    userToStatsGap: 45, // GAP CRÍTICO: entre card usuario y stats
+    statsContainerWidth: 685, // Ancho total de stats
+    statsContainerHeight: 166, // Alto de stats
+    statsGap: 39, // GAP entre las 3 stat cards
+    statCardWidth: 195, // Ancho de cada stat card individual
+    statCardHeight: 166, // Alto de cada stat card
+    statPadding: 2,
   },
   large: {
-    avatarSpacing: 10,
-    paddingUnits: 3,
-    infoGap: 0.5,
-    statsGap: 2.5,
-    statsPaddingTop: 2,
-    borderWidth: 1,
+    // Proporcional ~120% de medium
+    outerContainerWidth: 822, // 685 * 1.2
+    outerContainerHeight: 632, // 527 * 1.2
+    outerContainerPadding: 0,
+    userCardWidth: 338, // 282 * 1.2
+    userCardHeight: 379, // 316 * 1.2
+    userCardPadding: 3,
+    avatarSize: 144, // 120 * 1.2
+    avatarBorder: 4,
+    infoGap: 2,
+    textGap: 1,
+    userToStatsGap: 54, // 45 * 1.2
+    statsContainerWidth: 822, // 685 * 1.2
+    statsContainerHeight: 199, // 166 * 1.2
+    statsGap: 47, // 39 * 1.2
+    statCardWidth: 234, // 195 * 1.2
+    statCardHeight: 199, // 166 * 1.2
+    statPadding: 2.5,
   },
 } as const;
 
 // ========================================
 // ProfileCard Component Typography Tokens
 // ========================================
-// All font sizes use rem units for scalability
-
 export const PROFILE_CARD_TYPOGRAPHY = {
   small: {
     nameSize: '1rem',
-    usernameSize: '0.875rem',
+    usernameSize: '0.8125rem',
     roleSize: '0.75rem',
   },
   medium: {
-    nameSize: '1.125rem',
+    nameSize: '1.25rem',
     usernameSize: '0.875rem',
-    roleSize: '0.8125rem',
+    roleSize: '0.875rem',
   },
   large: {
-    nameSize: '1.25rem',
+    nameSize: '1.5rem',
     usernameSize: '1rem',
-    roleSize: '0.875rem',
+    roleSize: '1rem',
   },
 } as const;
 

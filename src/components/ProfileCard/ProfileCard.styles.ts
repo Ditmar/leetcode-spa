@@ -11,38 +11,70 @@ import type {
   ProfileCardVariant,
 } from './ProfileCard.types';
 
-export const StyledCard = styled(Card, {
+// Container EXTERNO INVISIBLE (685×527px) - sin borde
+export const StyledOuterContainer = styled(Box, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<StyledProfileCardProps>(({ theme, $size }) => {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
-    padding: theme.spacing(spacingConfig.paddingUnits),
+    width: spacingConfig.outerContainerWidth,
+    height: spacingConfig.outerContainerHeight,
+    padding: spacingConfig.outerContainerPadding,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: theme.spacing(spacingConfig.userToStatsGap / 8), // Convertir px a spacing units
+    backgroundColor: 'transparent', // Invisible
+    border: 'none', // Sin borde
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      height: 'auto',
+      gap: theme.spacing(3),
+    },
+  };
+});
+
+// Card de USUARIO (282×316px) - CON borde y sombra
+export const StyledUserCard = styled(Card, {
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
+})<StyledProfileCardProps>(({ theme, $size }) => {
+  const spacingConfig = PROFILE_CARD_SPACING[$size];
+
+  return {
+    width: spacingConfig.userCardWidth,
+    height: spacingConfig.userCardHeight,
+    padding: theme.spacing(spacingConfig.userCardPadding),
     borderRadius: theme.spacing(2),
     boxShadow: theme.shadows[2],
     transition: theme.transitions.create(['box-shadow', 'transform'], {
       duration: theme.transitions.duration.short,
     }),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     '&:hover': {
       boxShadow: theme.shadows[4],
       transform: `translateY(-${theme.spacing(0.25)})`,
     },
     [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(2),
+      width: '100%',
+      height: 'auto',
     },
   };
 });
 
 export const StyledProfileContainer = styled(Box, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
-})<StyledProfileCardProps>(({ theme, $variant }) => {
+})<StyledProfileCardProps>(({ theme, $variant, $size }) => {
   const variantConfig = VARIANT_CONFIGS[$variant];
+  const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
     display: 'flex',
     flexDirection: variantConfig.direction,
     alignItems: 'center',
-    gap: theme.spacing(2),
+    gap: theme.spacing(spacingConfig.infoGap),
     width: '100%',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
@@ -51,39 +83,42 @@ export const StyledProfileContainer = styled(Box, {
   };
 });
 
+// Avatar - 120×120px exacto
 export const StyledAvatar = styled(Avatar, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ theme, $size }) => {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
-    width: theme.spacing(spacingConfig.avatarSpacing),
-    height: theme.spacing(spacingConfig.avatarSpacing),
+    width: spacingConfig.avatarSize,
+    height: spacingConfig.avatarSize,
     backgroundColor: theme.palette.primary.main,
-    fontSize: `calc(${theme.spacing(spacingConfig.avatarSpacing)} * 0.4)`,
+    fontSize: `calc(${spacingConfig.avatarSize}px * 0.4)`,
     fontWeight: theme.typography.fontWeightBold || 600,
-    border: `${theme.spacing(spacingConfig.borderWidth / 8)} solid ${theme.palette.background.paper}`,
+    border: `${spacingConfig.avatarBorder}px solid ${theme.palette.background.paper}`,
     boxShadow: theme.shadows[2],
     [theme.breakpoints.down('sm')]: {
-      width: theme.spacing(6),
-      height: theme.spacing(6),
-      fontSize: theme.spacing(2.4),
+      width: 80,
+      height: 80,
+      fontSize: 32,
     },
   };
 });
 
 export const StyledInfoContainer = styled(Box, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
-})<StyledProfileCardProps>(({ theme, $variant }) => {
+})<StyledProfileCardProps>(({ theme, $variant, $size }) => {
   const variantConfig = VARIANT_CONFIGS[$variant];
+  const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(0.5),
+    gap: theme.spacing(spacingConfig.textGap),
     textAlign: variantConfig.textAlign,
     flex: $variant === 'compact' ? 1 : 'initial',
     minWidth: 0,
+    width: '100%',
     [theme.breakpoints.down('sm')]: {
       textAlign: 'center',
     },
@@ -99,7 +134,7 @@ export const StyledName = styled(Typography, {
     fontSize: typographyConfig.nameSize,
     fontWeight: theme.typography.fontWeightBold || 600,
     color: theme.palette.text.primary,
-    lineHeight: theme.typography.body1.lineHeight,
+    lineHeight: 1.2,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -118,7 +153,7 @@ export const StyledUsername = styled(Typography, {
     fontSize: typographyConfig.usernameSize,
     fontWeight: theme.typography.fontWeightRegular || 400,
     color: theme.palette.grey[600],
-    lineHeight: theme.typography.body2.lineHeight,
+    lineHeight: 1.2,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -136,9 +171,8 @@ export const StyledRole = styled(Typography, {
   return {
     fontSize: typographyConfig.roleSize,
     fontWeight: theme.typography.fontWeightMedium || 500,
-    color: theme.palette.primary.main,
-    lineHeight: theme.typography.caption.lineHeight,
-    marginTop: theme.spacing(0.5),
+    color: theme.palette.grey[600],
+    lineHeight: 1.2,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -148,6 +182,7 @@ export const StyledRole = styled(Typography, {
   };
 });
 
+// Container de stats (685×166px) - SIN borde, solo agrupa las 3 cards
 export const StyledStatsContainer = styled(Box, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<StyledProfileCardProps>(({ theme, $size, $variant }) => {
@@ -157,61 +192,78 @@ export const StyledStatsContainer = styled(Box, {
   return {
     display: 'flex',
     flexDirection: variantConfig.statsDirection,
-    gap: theme.spacing(spacingConfig.statsGap),
-    marginTop: theme.spacing(spacingConfig.statsPaddingTop),
-    paddingTop: theme.spacing(spacingConfig.statsPaddingTop),
-    borderTop: `${theme.spacing(0.125)} solid ${theme.palette.divider}`,
-    justifyContent: $variant === 'expanded' ? 'space-between' : 'center',
-    flexWrap: 'wrap',
+    gap: theme.spacing(spacingConfig.statsGap / 8), // 39px convertido a spacing units
+    width: spacingConfig.statsContainerWidth,
+    height: spacingConfig.statsContainerHeight,
+    justifyContent: 'center',
     [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
-      gap: theme.spacing(1.5),
+      flexDirection: 'row',
+      width: '100%',
+      height: 'auto',
+      gap: theme.spacing(1),
     },
   };
 });
 
-export const StyledStatItem = styled(Box, {
+// Cada stat card individual (195×166px) - CON borde y sombra
+export const StyledStatCard = styled(Card, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
-})<{ $variant: ProfileCardVariant }>(({ theme, $variant }) => ({
-  display: 'flex',
-  flexDirection: $variant === 'expanded' ? 'row' : 'column',
-  alignItems: 'center',
-  gap: theme.spacing(1),
-  flex: $variant === 'expanded' ? '1 1 auto' : '0 0 auto',
-  justifyContent: $variant === 'expanded' ? 'space-between' : 'center',
-  padding: $variant === 'expanded' ? theme.spacing(1, 0) : 0,
-  [theme.breakpoints.down('sm')]: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-}));
+})<{ $variant: ProfileCardVariant; $size: ProfileCardSize }>(({ theme, $size }) => {
+  const spacingConfig = PROFILE_CARD_SPACING[$size];
+
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: spacingConfig.statCardWidth,
+    height: spacingConfig.statCardHeight,
+    padding: theme.spacing(spacingConfig.statPadding),
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: theme.spacing(2),
+    boxShadow: theme.shadows[2],
+    transition: theme.transitions.create(['box-shadow', 'transform'], {
+      duration: theme.transitions.duration.short,
+    }),
+    '&:hover': {
+      boxShadow: theme.shadows[4],
+      transform: 'translateY(-2px)',
+    },
+    [theme.breakpoints.down('sm')]: {
+      flex: 1,
+      width: 'auto',
+      minWidth: 100,
+      height: 120,
+      padding: theme.spacing(1.5),
+    },
+  };
+});
 
 export const StyledStatIcon = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   color: theme.palette.primary.main,
+  marginBottom: theme.spacing(1),
   '& svg': {
-    fontSize: theme.spacing(2.5),
+    fontSize: theme.spacing(3.5),
   },
 }));
 
 export const StyledStatContent = styled(Box, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
-})<{ $variant: ProfileCardVariant }>(({ theme, $variant }) => ({
+})<{ $variant: ProfileCardVariant }>(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: $variant === 'expanded' ? 'flex-end' : 'center',
-  gap: theme.spacing(0.25),
-  [theme.breakpoints.down('sm')]: {
-    alignItems: 'flex-end',
-  },
+  alignItems: 'center',
+  gap: theme.spacing(0.5),
+  textAlign: 'center',
+  width: '100%',
 }));
 
 export const StyledStatValue = styled(Typography)(({ theme }) => ({
-  fontSize: theme.typography.body1.fontSize,
-  fontWeight: theme.typography.fontWeightBold || 600,
+  fontSize: theme.typography.h5.fontSize,
+  fontWeight: theme.typography.fontWeightBold || 700,
   color: theme.palette.text.primary,
   lineHeight: 1,
 }));
@@ -219,7 +271,8 @@ export const StyledStatValue = styled(Typography)(({ theme }) => ({
 export const StyledStatLabel = styled(Typography)(({ theme }) => ({
   fontSize: theme.typography.caption.fontSize,
   fontWeight: theme.typography.fontWeightRegular || 400,
-  color: theme.palette.grey[500],
-  lineHeight: 1,
+  color: theme.palette.grey[600],
+  lineHeight: 1.2,
   textTransform: 'capitalize',
+  whiteSpace: 'nowrap',
 }));
