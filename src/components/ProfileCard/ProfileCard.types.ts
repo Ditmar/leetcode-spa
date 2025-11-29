@@ -1,5 +1,4 @@
 import type { CardProps } from '@mui/material/Card';
-import type { ReactNode } from 'react';
 
 export interface ProfileStatsProps {
   /** Number of courses enrolled */
@@ -44,11 +43,10 @@ export interface StyledProfileCardProps {
 }
 
 export interface StatsItemProps {
-  icon: ReactNode;
   label: string;
   value: number | string;
   $variant: ProfileCardVariant;
-  $size: ProfileCardSize; // ✅ CRÍTICO: Agregado $size
+  $size: ProfileCardSize;
   locale?: string;
   'data-testid'?: string;
 }

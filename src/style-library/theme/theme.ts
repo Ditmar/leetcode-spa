@@ -57,68 +57,62 @@ declare module '@mui/material/Typography' {
 // ========================================
 // ProfileCard Component Spacing Tokens
 // ========================================
-// All values are in spacing units (multiplied by base spacing: 8px)
-// Example: avatarSpacing: 6 = 6 * 8px = 48px
-
 export const PROFILE_CARD_SPACING = {
   small: {
-    // Proporcional ~80% de medium
-    outerContainerWidth: 548, // 685 * 0.8
-    outerContainerHeight: 422, // 527 * 0.8
-    outerContainerPadding: 0, // Sin padding, invisible
-    userCardWidth: 226, // 282 * 0.8
-    userCardHeight: 253, // 316 * 0.8
+    outerContainerWidth: 548,
+    outerContainerHeight: 422,
+    outerContainerPadding: 0,
+    userCardWidth: 226,
+    userCardHeight: 253,
     userCardPadding: 2,
-    avatarSize: 96, // 120 * 0.8
+    avatarSize: 96,
     avatarBorder: 2,
     infoGap: 1,
     textGap: 0.5,
-    userToStatsGap: 36, // 45 * 0.8 (gap entre usuario y stats)
-    statsContainerWidth: 548, // 685 * 0.8
-    statsContainerHeight: 133, // 166 * 0.8
-    statsGap: 31, // 39 * 0.8 (gap entre stat cards)
-    statCardWidth: 156, // 195 * 0.8
-    statCardHeight: 133, // 166 * 0.8
+    userToStatsGap: 36,
+    statsContainerWidth: 548,
+    statsContainerHeight: 133,
+    statsGap: 31,
+    statCardWidth: 156,
+    statCardHeight: 133,
     statPadding: 1.5,
   },
   medium: {
-    // DIMENSIONES EXACTAS DE FIGMA
-    outerContainerWidth: 685, // Container invisible total
-    outerContainerHeight: 527, // Container invisible total
-    outerContainerPadding: 0, // Sin padding en container externo
-    userCardWidth: 282, // Card de usuario
-    userCardHeight: 316, // Card de usuario
-    userCardPadding: 2.5, // Padding interno de la card usuario
-    avatarSize: 120, // Avatar 120×120px
+    outerContainerWidth: 685,
+    outerContainerHeight: 527,
+    outerContainerPadding: 0,
+    userCardWidth: 282,
+    userCardHeight: 316,
+    userCardPadding: 2.5,
+    avatarSize: 120,
     avatarBorder: 3,
     infoGap: 1.5,
     textGap: 0.75,
-    userToStatsGap: 45, // GAP CRÍTICO: entre card usuario y stats
-    statsContainerWidth: 685, // Ancho total de stats
-    statsContainerHeight: 166, // Alto de stats
-    statsGap: 39, // GAP entre las 3 stat cards
-    statCardWidth: 195, // Ancho de cada stat card individual
-    statCardHeight: 166, // Alto de cada stat card
+    userToStatsGap: 45,
+    statsContainerWidth: 685,
+    statsContainerHeight: 166,
+    statsGap: 39,
+    statCardWidth: 195,
+    statCardHeight: 166,
     statPadding: 2,
   },
   large: {
-    // Proporcional ~120% de medium
-    outerContainerWidth: 822, // 685 * 1.2
-    outerContainerHeight: 632, // 527 * 1.2
+    outerContainerWidth: 822,
+    outerContainerHeight: 632,
     outerContainerPadding: 0,
-    userCardWidth: 338, // 282 * 1.2
-    userCardHeight: 379, // 316 * 1.2
+    userCardWidth: 338,
+    userCardHeight: 379,
     userCardPadding: 3,
-    avatarSize: 144, // 120 * 1.2
+    avatarSize: 144,
     avatarBorder: 4,
     infoGap: 2,
     textGap: 1,
-    userToStatsGap: 54, // 45 * 1.2
-    statsContainerWidth: 822, // 685 * 1.2
-    statsContainerHeight: 199, // 166 * 1.2
-    statsGap: 47, // 39 * 1.2
-    statCardWidth: 234, // 195 * 1.2
-    statCardHeight: 199, // 166 * 1.2
+    userToStatsGap: 54,
+    statsContainerWidth: 822,
+    statsContainerHeight: 199,
+    statsGap: 47,
+    statCardWidth: 234,
+    statCardHeight: 199,
     statPadding: 2.5,
   },
 } as const;
@@ -126,29 +120,54 @@ export const PROFILE_CARD_SPACING = {
 // ========================================
 // ProfileCard Component Typography Tokens
 // ========================================
+// Tipografías EXACTAS de Figma:
+// - Stat Value: Syne SemiBold 48px (line-height 100%)
+// - Stat Label: Poppins Regular 16px (line-height 100%)
+
 export const PROFILE_CARD_TYPOGRAPHY = {
   small: {
     nameSize: '1rem',
     usernameSize: '0.8125rem',
     roleSize: '0.75rem',
+    statValueSize: '2.4rem', // 38.4px (48px * 0.8)
+    statValueWeight: 600,
+    statValueLineHeight: 1,
+    statValueFont: '"Syne", "Inter", "Roboto", sans-serif',
+    statLabelSize: '0.8rem', // 12.8px (16px * 0.8)
+    statLabelWeight: 400,
+    statLabelLineHeight: 1,
+    statLabelFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
   },
   medium: {
     nameSize: '1.25rem',
     usernameSize: '0.875rem',
     roleSize: '0.875rem',
+    statValueSize: '3rem', // 48px EXACTO de Figma
+    statValueWeight: 600, // SemiBold
+    statValueLineHeight: 1, // 100%
+    statValueFont: '"Syne", "Inter", "Roboto", sans-serif',
+    statLabelSize: '1rem', // 16px EXACTO de Figma
+    statLabelWeight: 400, // Regular
+    statLabelLineHeight: 1, // 100%
+    statLabelFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
   },
   large: {
     nameSize: '1.5rem',
     usernameSize: '1rem',
     roleSize: '1rem',
+    statValueSize: '3.6rem', // 57.6px (48px * 1.2)
+    statValueWeight: 600,
+    statValueLineHeight: 1,
+    statValueFont: '"Syne", "Inter", "Roboto", sans-serif',
+    statLabelSize: '1.2rem', // 19.2px (16px * 1.2)
+    statLabelWeight: 400,
+    statLabelLineHeight: 1,
+    statLabelFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
   },
 } as const;
 
 /**
  * PillTag Component Tokens
- * Dimensiones exactas desde Figma siguiendo la estructura:
- * - Rectangle (contenedor): dimensiones del chip completo
- * - Text (label): auto-ajustable dentro del contenedor
  */
 export const pillTagTokens = {
   colors: {

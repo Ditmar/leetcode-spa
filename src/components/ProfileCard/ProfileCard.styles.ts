@@ -24,9 +24,9 @@ export const StyledOuterContainer = styled(Box, {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: theme.spacing(spacingConfig.userToStatsGap / 8), // Convertir px a spacing units
-    backgroundColor: 'transparent', // Invisible
-    border: 'none', // Sin borde
+    gap: theme.spacing(spacingConfig.userToStatsGap / 8),
+    backgroundColor: 'transparent',
+    border: 'none',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
       height: 'auto',
@@ -83,7 +83,6 @@ export const StyledProfileContainer = styled(Box, {
   };
 });
 
-// Avatar - 120×120px exacto
 export const StyledAvatar = styled(Avatar, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ theme, $size }) => {
@@ -182,7 +181,7 @@ export const StyledRole = styled(Typography, {
   };
 });
 
-// Container de stats (685×166px) - SIN borde, solo agrupa las 3 cards
+// Container de stats (685×166px)
 export const StyledStatsContainer = styled(Box, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<StyledProfileCardProps>(({ theme, $size, $variant }) => {
@@ -191,8 +190,8 @@ export const StyledStatsContainer = styled(Box, {
 
   return {
     display: 'flex',
-    flexDirection: variantConfig.statsDirection,
-    gap: theme.spacing(spacingConfig.statsGap / 8), // 39px convertido a spacing units
+    flexDirection: variantConfig.statsDirection, // Siempre 'row' ahora
+    gap: theme.spacing(spacingConfig.statsGap / 8),
     width: spacingConfig.statsContainerWidth,
     height: spacingConfig.statsContainerHeight,
     justifyContent: 'center',
@@ -205,7 +204,7 @@ export const StyledStatsContainer = styled(Box, {
   };
 });
 
-// Cada stat card individual (195×166px) - CON borde y sombra
+// Cada stat card individual (195×166px)
 export const StyledStatCard = styled(Card, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $variant: ProfileCardVariant; $size: ProfileCardSize }>(({ theme, $size }) => {
@@ -239,40 +238,49 @@ export const StyledStatCard = styled(Card, {
   };
 });
 
-export const StyledStatIcon = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: theme.palette.primary.main,
-  marginBottom: theme.spacing(1),
-  '& svg': {
-    fontSize: theme.spacing(3.5),
-  },
-}));
-
+// Contenedor del contenido de stat (sin icono)
 export const StyledStatContent = styled(Box, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $variant: ProfileCardVariant }>(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: theme.spacing(0.5),
+  gap: theme.spacing(1),
   textAlign: 'center',
   width: '100%',
 }));
 
-export const StyledStatValue = styled(Typography)(({ theme }) => ({
-  fontSize: theme.typography.h5.fontSize,
-  fontWeight: theme.typography.fontWeightBold || 700,
-  color: theme.palette.text.primary,
-  lineHeight: 1,
-}));
+// Valor numérico: Syne SemiBold 48px
+export const StyledStatValue = styled(Typography, {
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
+})<{ $size: ProfileCardSize }>(({ theme, $size }) => {
+  const typographyConfig = PROFILE_CARD_TYPOGRAPHY[$size];
 
-export const StyledStatLabel = styled(Typography)(({ theme }) => ({
-  fontSize: theme.typography.caption.fontSize,
-  fontWeight: theme.typography.fontWeightRegular || 400,
-  color: theme.palette.grey[600],
-  lineHeight: 1.2,
-  textTransform: 'capitalize',
-  whiteSpace: 'nowrap',
-}));
+  return {
+    fontFamily: typographyConfig.statValueFont,
+    fontSize: typographyConfig.statValueSize,
+    fontWeight: typographyConfig.statValueWeight,
+    lineHeight: typographyConfig.statValueLineHeight,
+    color: theme.palette.text.primary,
+    letterSpacing: '0',
+    textAlign: 'center',
+  };
+});
+
+// Label: Poppins Regular 16px
+export const StyledStatLabel = styled(Typography, {
+  shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
+})<{ $size: ProfileCardSize }>(({ theme, $size }) => {
+  const typographyConfig = PROFILE_CARD_TYPOGRAPHY[$size];
+
+  return {
+    fontFamily: typographyConfig.statLabelFont,
+    fontSize: typographyConfig.statLabelSize,
+    fontWeight: typographyConfig.statLabelWeight,
+    lineHeight: typographyConfig.statLabelLineHeight,
+    color: theme.palette.grey[600],
+    letterSpacing: '0',
+    textAlign: 'center',
+    whiteSpace: 'nowrap',
+  };
+});
