@@ -31,6 +31,7 @@
     "date-fns": "4.1.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",
+    "react-i18next": "^16.3.5",
     "yaml": "2.4.2"
   },
   "engines": {
@@ -52,6 +53,7 @@
     "@types/prop-types": "15.7.15",
     "@types/react": "19.2.0",
     "@types/react-dom": "19.2.0",
+    "@types/react-i18next": "^8.1.0",
     "@typescript-eslint/eslint-plugin": "8.44.0",
     "@typescript-eslint/parser": "8.44.0",
     "@vitejs/plugin-react": "5.0.4",
