@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import {
   DEFAULT_PROPS,
-  STATS_ICONS,
   STATS_LABELS_FALLBACK,
   DEFAULT_AVATAR_ICON,
   FALLBACK_INITIALS,
@@ -18,7 +17,6 @@ import {
   StyledRole,
   StyledStatsContainer,
   StyledStatCard,
-  StyledStatIcon,
   StyledStatContent,
   StyledStatValue,
   StyledStatLabel,
@@ -27,7 +25,6 @@ import {
 import type { ProfileCardProps, StatsItemProps } from './ProfileCard.types';
 
 const StatsItem: React.FC<StatsItemProps> = ({
-  icon,
   label,
   value,
   $variant,
@@ -39,10 +36,9 @@ const StatsItem: React.FC<StatsItemProps> = ({
 
   return (
     <StyledStatCard $variant={$variant} $size={$size} data-testid={dataTestId}>
-      <StyledStatIcon>{icon}</StyledStatIcon>
       <StyledStatContent $variant={$variant}>
-        <StyledStatValue>{formattedValue}</StyledStatValue>
-        <StyledStatLabel>{label}</StyledStatLabel>
+        <StyledStatValue $size={$size}>{formattedValue}</StyledStatValue>
+        <StyledStatLabel $size={$size}>{label}</StyledStatLabel>
       </StyledStatContent>
     </StyledStatCard>
   );
@@ -153,7 +149,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         </StyledProfileContainer>
       </StyledUserCard>
 
-      {/* Stats Container (685×166px) con 3 cards de 195×166px cada una */}
+      {/* Stats Container (685×166px) - SIN ICONOS */}
       {showStats && (
         <StyledStatsContainer
           $size={size}
@@ -163,7 +159,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           aria-label="User statistics"
         >
           <StatsItem
-            icon={<STATS_ICONS.courses />}
             label={STATS_LABELS_FALLBACK.courses}
             value={stats.courses}
             $variant={variant}
@@ -172,7 +167,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             data-testid={`${dataTestId}-stat-courses`}
           />
           <StatsItem
-            icon={<STATS_ICONS.points />}
             label={STATS_LABELS_FALLBACK.points}
             value={stats.points}
             $variant={variant}
@@ -181,7 +175,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             data-testid={`${dataTestId}-stat-points`}
           />
           <StatsItem
-            icon={<STATS_ICONS.ranking />}
             label={STATS_LABELS_FALLBACK.ranking}
             value={formatRanking(stats.ranking)}
             $variant={variant}

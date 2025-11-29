@@ -21,17 +21,17 @@ export const VARIANT_CONFIGS = {
   default: {
     direction: 'column' as const,
     textAlign: 'center' as const,
-    statsDirection: 'row' as const,
+    statsDirection: 'row' as const, // Stats en fila horizontal
   },
   compact: {
     direction: 'row' as const,
     textAlign: 'left' as const,
-    statsDirection: 'row' as const,
+    statsDirection: 'row' as const, // Stats en fila horizontal
   },
   expanded: {
     direction: 'column' as const,
     textAlign: 'center' as const,
-    statsDirection: 'column' as const,
+    statsDirection: 'row' as const, // CRÍTICO: Stats en FILA, no columna
   },
 } as const;
 
@@ -57,9 +57,6 @@ export const STATS_ICONS = {
  *
  * TODO: Replace with actual i18n implementation
  * Usage example: t('profile.stats.courses')
- *
- * For now, these are fallback keys that should be replaced
- * with your i18n translation function calls
  */
 export const STATS_LABEL_KEYS = {
   courses: 'profile.stats.courses',
@@ -69,7 +66,6 @@ export const STATS_LABEL_KEYS = {
 
 /**
  * Temporary fallback labels until i18n is fully integrated
- * These should be removed once i18n system is in place
  */
 export const STATS_LABELS_FALLBACK = {
   courses: 'Courses Enrolled',
