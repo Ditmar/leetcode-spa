@@ -1,19 +1,11 @@
 import { Box, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const BACKGROUND = `
-  radial-gradient(30.1% 50.86% at 100% 100%, #FBFF49 0%, rgba(255, 81, 217, 0) 100%),
-  radial-gradient(58.68% 99.14% at 0% 0%, #8E49FF 0%, rgba(83, 214, 255, 0) 100%),
-  radial-gradient(33.55% 50.83% at 55.38% 89.56%, #8CBCFE 0%, rgba(221, 130, 255, 0) 100%),
-  radial-gradient(78.12% 89.33% at 78.13% 29.89%, #FFE4C4 0%, rgba(48, 83, 118, 0) 100%),
-  linear-gradient(0deg, #F5F5F5, #F5F5F5)
-`;
-
 export const LandingRoot = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
   width: '100%',
   boxSizing: 'border-box',
-  backgroundImage: BACKGROUND,
+  backgroundImage: theme.gradients?.background(theme.palette),
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
@@ -22,15 +14,15 @@ export const LandingRoot = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   paddingLeft: theme.spacing(6),
   [theme.breakpoints.down('md')]: {
-    padding: theme.spacing(3),
+    // padding: theme.spacing(2),
   },
 }));
 
 export const HeroGrid = styled('main')(({ theme }) => ({
   width: '100%',
-  maxWidth: 1400,
+  maxWidth: theme.breakpoints.values.lg,
   display: 'grid',
-  gridTemplateColumns: '1fr 520px',
+  gridTemplateColumns: `1fr ${theme.spacing(65)}`,
   alignItems: 'center',
   gap: theme.spacing(4),
   boxSizing: 'border-box',
@@ -53,31 +45,35 @@ export const HeroRight = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  minHeight: 480,
+  minHeight: theme.spacing(60),
   [theme.breakpoints.down('md')]: {
     minHeight: 360,
   },
 }));
 
-export const AvatarImage = styled('img')(({ theme }) => ({
-  maxWidth: 520,
-  width: '100%',
-  height: 'auto',
-  display: 'block',
-  borderRadius: 12,
-  objectFit: 'cover',
-  boxShadow: theme.shadows[4],
-  [theme.breakpoints.down('md')]: {
-    maxWidth: '100%',
-    borderRadius: 8,
-  },
-}));
+export const AvatarImage = styled('img')(({ theme }) => {
+  const baseRadius = parseInt(theme.shape.borderRadius, 10);
+
+  return {
+    maxWidth: theme.spacing(65),
+    width: '100%',
+    height: 'auto',
+    display: 'block',
+    borderRadius: baseRadius * 1.5,
+    objectFit: 'cover',
+    boxShadow: theme.shadows[4],
+    [theme.breakpoints.down('md')]: {
+      maxWidth: '100%',
+      borderRadius: baseRadius,
+    },
+  };
+});
 
 export const DecorativeSvgContainer = styled(Box)(({ theme }) => ({
   position: 'absolute',
   inset: 'auto 0 0 auto',
-  right: 32,
-  top: 24,
+  right: theme.spacing(4),
+  top: theme.spacing(3),
   pointerEvents: 'none',
   [theme.breakpoints.down('md')]: {
     right: 12,
@@ -89,9 +85,9 @@ export const PrimaryButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.common.white,
   padding: theme.spacing(1.5, 3),
-  borderRadius: 8,
-  fontWeight: 600,
-  fontSize: '1rem',
+  borderRadius: theme.shape.borderRadius,
+  fontWeight: theme.typography.fontWeightBold,
+  fontSize: theme.typography.button.fontSize,
   textTransform: 'none',
   boxShadow: 'none',
   '&:hover': {
@@ -99,10 +95,37 @@ export const PrimaryButton = styled(Button)(({ theme }) => ({
     boxShadow: theme.shadows[2],
   },
   '&:focus': {
-    boxShadow: `0 0 0 3px ${theme.palette.primary.light}`,
+    boxShadow: `0 0 0 ${theme.spacing(0.5)} ${theme.palette.primary.light}`,
   },
   [theme.breakpoints.down('md')]: {
     padding: theme.spacing(1.25, 2.5),
-    fontSize: '0.9rem',
+    fontSize: theme.typography.pxToRem(parseInt(theme.typography.button.fontSize) - 2),
   },
+}));
+
+export const HeaderContainer = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  padding: theme.spacing(3, 6),
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  zIndex: 10,
+  [theme.breakpoints.down('md')]: {
+    padding: theme.spacing(2, 3),
+  },
+}));
+
+export const LogoContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(2),
+}));
+
+export const LogoImage = styled('img')(({ theme }) => ({
+  height: theme.spacing(3.125),
+  width: 'auto',
+  cursor: 'pointer',
 }));

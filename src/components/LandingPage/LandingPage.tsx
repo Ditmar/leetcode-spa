@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme } from '@mui/material';
-import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Ellipse2 from '../../assets/Ellipse2.svg';
 import Ellipse3 from '../../assets/Ellipse3.svg';
@@ -14,92 +14,76 @@ import {
   HeroRight,
   AvatarImage,
   DecorativeSvgContainer,
+  HeaderContainer,
+  LogoContainer,
+  LogoImage,
 } from './LandingPage.styles';
+import '../../i18n';
 
 export const LandingPage = () => {
   const theme = useTheme();
-
-  const spacing = theme.spacing;
-  const breakpoints = theme.breakpoints;
+  const { t } = useTranslation();
 
   return (
-    <LandingRoot role="region" aria-label="Landing page LeetCode inspired">
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          padding: spacing(3, 6),
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          zIndex: 10,
-          [breakpoints.down('md')]: {
-            padding: spacing(2, 3),
-          },
-        }}
-      >
-        <Box display="flex" alignItems="center" gap={2}>
-          <Box
-            component="img"
-            src={LeetCodeLogo}
-            alt={`${LANDING_TEXTS.brand} logo`}
-            sx={{
-              height: 25,
-              width: 'auto',
-              cursor: 'pointer',
-            }}
-          />
-        </Box>
-      </Box>
+    <LandingRoot role="region" aria-label={t(LANDING_TEXTS.brand)}>
+      <HeaderContainer>
+        <LogoContainer>
+          <LogoImage src={LeetCodeLogo} alt={`${t(LANDING_TEXTS.brand)} logo`} />
+        </LogoContainer>
+      </HeaderContainer>
 
       <HeroGrid>
         <HeroLeft>
-          <header style={{ marginTop: spacing(10) }}>
+          <Box sx={{ marginTop: theme.spacing(10) }}>
             <Typography
               component="h1"
               sx={{
                 fontWeight: 700,
                 mb: 2,
                 fontFamily: theme.typography.fontFamily,
-                fontSize: { xs: '32px', sm: '48px', md: '60px' },
+                fontSize: {
+                  xs: theme.typography.h4.fontSize,
+                  sm: theme.typography.h3.fontSize,
+                  md: theme.typography.h2.fontSize,
+                },
                 lineHeight: 1,
                 textTransform: 'capitalize',
               }}
             >
-              {LANDING_TEXTS.headlinePart1.split(' ').map((word, index) => {
-                const gradient = index === 0 || index === 3;
-                return (
-                  <Box
-                    key={index}
-                    component="span"
-                    sx={{
-                      background: gradient
-                        ? 'linear-gradient(60deg, #B33DEB 13.4%, #DE8FFF 86.6%)'
-                        : undefined,
-                      WebkitBackgroundClip: gradient ? 'text' : undefined,
-                      WebkitTextFillColor: gradient ? 'transparent' : undefined,
-                      color: !gradient ? theme.palette.common.white : undefined,
-                      mr: spacing(1),
-                      display: 'inline-block',
-                    }}
-                  >
-                    {word}
-                  </Box>
-                );
-              })}
+              {t(LANDING_TEXTS.headlinePart1)
+                .split(' ')
+                .map((word: string, index: number) => {
+                  const gradient = index === 0 || index === 3;
+                  return (
+                    <Box
+                      key={index}
+                      component="span"
+                      sx={{
+                        background: gradient
+                          ? `linear-gradient(60deg, ${theme.palette.gradientStart.main} 13.4%, ${theme.palette.gradientEnd.main} 86.6%)`
+                          : undefined,
+                        WebkitBackgroundClip: gradient ? 'text' : undefined,
+                        WebkitTextFillColor: gradient ? 'transparent' : undefined,
+                        color: !gradient ? theme.palette.common.white : undefined,
+                        mr: 1,
+                        display: 'inline-block',
+                      }}
+                    >
+                      {word}
+                    </Box>
+                  );
+                })}
 
               <Box
                 component="span"
                 sx={{
                   display: 'block',
-                  background: 'linear-gradient(60deg, #B33DEB 13.4%, #DE8FFF 86.6%)',
+                  background: `linear-gradient(60deg, ${theme.palette.gradientStart.main} 13.4%, ${theme.palette.gradientEnd.main} 86.6%)`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                {LANDING_TEXTS.headlinePart2}
+                {t(LANDING_TEXTS.headlinePart2)}
               </Box>
             </Typography>
 
@@ -107,16 +91,19 @@ export const LandingPage = () => {
               component="p"
               sx={{
                 color: theme.palette.text.secondary,
-                mb: spacing(4),
+                mb: theme.spacing(4),
                 fontFamily: theme.typography.fontFamily,
                 fontWeight: 400,
-                fontSize: { xs: '16px', sm: '18px', md: '20px' },
-                maxWidth: 600,
+                fontSize: {
+                  xs: theme.typography.body2.fontSize,
+                  sm: theme.typography.body1.fontSize,
+                  md: theme.typography.h6.fontSize,
+                },
               }}
             >
-              {LANDING_TEXTS.description}
+              {t(LANDING_TEXTS.description)}
             </Typography>
-          </header>
+          </Box>
         </HeroLeft>
 
         <HeroRight
@@ -131,8 +118,8 @@ export const LandingPage = () => {
               position: 'absolute',
               top: '85%',
               left: '75%',
-              width: spacing(16),
-              height: spacing(16),
+              width: theme.spacing(16),
+              height: theme.spacing(16),
               opacity: 1,
               zIndex: 1,
             }}
@@ -145,6 +132,9 @@ export const LandingPage = () => {
                 height: '100%',
                 transform: 'rotate(0deg)',
               }}
+              aria-hidden="true"
+              role="presentation"
+              loading="lazy"
             />
           </DecorativeSvgContainer>
 
@@ -153,8 +143,8 @@ export const LandingPage = () => {
               position: 'absolute',
               top: '30%',
               left: '14.5%',
-              width: spacing(16),
-              height: spacing(16),
+              width: theme.spacing(16),
+              height: theme.spacing(16),
               opacity: 1,
               zIndex: 1,
             }}
@@ -167,13 +157,16 @@ export const LandingPage = () => {
                 height: '100%',
                 transform: 'rotate(0deg)',
               }}
+              aria-hidden="true"
+              role="presentation"
+              loading="lazy"
             />
           </DecorativeSvgContainer>
 
           <AvatarImage
             src={Avatar}
             alt="Persona leyendo"
-            style={{
+            sx={{
               width: '100%',
               height: '100%',
               opacity: 1,
