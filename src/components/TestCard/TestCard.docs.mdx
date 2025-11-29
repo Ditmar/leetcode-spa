@@ -11,9 +11,7 @@ This component uses `CardActionArea` internally to ensure keyboard accessibility
 
 ## 🌆 Vertical Example
 
-<TestCard
-  logo="https://i.postimg.cc/KckvLBVj/codigo.jpg"
-/>
+<TestCard logo="https://i.postimg.cc/KckvLBVj/codigo.jpg" />
 
 ---
 
@@ -60,23 +58,23 @@ Example showing two cards side by side with different images and descriptions.
 
 ## ⚙️ Main Props
 
-| Property      | Type                               | Description |
-|---------------|-----------------------------------|-------------|
-| `logo`        | `string \| ReactNode`             | Main image or React node displayed in the card. |
-| `title`       | `string`                           | Title displayed in overlay. |
-| `description` | `string`                           | Descriptive text shown in overlay. |
-| `orientation` | `'vertical' \| 'horizontal'`      | Layout orientation of the card. Defaults to `'vertical'`. |
+| Property      | Type                                         | Description                                                         |
+| ------------- | -------------------------------------------- | ------------------------------------------------------------------- |
+| `logo`        | `string \| ReactNode`                        | Main image or React node displayed in the card.                     |
+| `title`       | `string`                                     | Title displayed in overlay.                                         |
+| `description` | `string`                                     | Descriptive text shown in overlay.                                  |
+| `orientation` | `'vertical' \| 'horizontal'`                 | Layout orientation of the card. Defaults to `'vertical'`.           |
 | `onSelect`    | `React.MouseEventHandler<HTMLButtonElement>` | Function called when the card is clicked, receives the click event. |
-| `cardProps`   | `Omit<CardProps, 'onClick'>`       | Optional props to pass to the underlying MUI `Card` component. |
+| `cardProps`   | `Omit<CardProps, 'onClick'>`                 | Optional props to pass to the underlying MUI `Card` component.      |
 
 ---
 
 ## 💡 Usage Recommendations
 
-- Use images with similar proportions (ideally **202×285 px**) for consistent presentation.  
-- Avoid overly long titles or descriptions.  
-- Ideal for interactive panels, dashboards, or galleries.  
-- `onSelect` allows keyboard and mouse accessibility.  
+- Use images with similar proportions (ideally **202×285 px**) for consistent presentation.
+- Avoid overly long titles or descriptions.
+- Ideal for interactive panels, dashboards, or galleries.
+- `onSelect` allows keyboard and mouse accessibility.
 
 ---
 
@@ -94,3 +92,4 @@ export const Example = () => (
     onSelect={(event) => console.log('Card clicked!', event)}
   />
 );
+```

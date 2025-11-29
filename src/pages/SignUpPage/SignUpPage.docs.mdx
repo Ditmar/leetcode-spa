@@ -13,6 +13,7 @@ It is crucial to understand that this implementation of `SignUpPage` has been in
 The `SignUpPage` ticket has direct dependencies on three other shared UI components that belong to different tickets and, at the time of this development, **have not yet been integrated (merged) into the `master` branch**.
 
 These components are:
+
 1.  `Logo` (to display the company logo).
 2.  `FormInput` (for the email, username, and password fields).
 3.  `PrimaryButton` (for the registration button).
@@ -26,6 +27,7 @@ Instead, `SignUpPage.tsx` **defines local 'Fallback' (placeholder) versions** of
 ### What does this approach enable?
 
 This "skeleton" approach allows `SignUpPage` to be a complete and functional component in itself, enabling:
+
 1.  **Isolated Development:** Develop all state logic (`useState` for inputs) and validations (`handleSubmit`).
 2.  **Visual Testing:** Render the complete page in Storybook (`SignUpPage.stories.tsx`) to verify layout, responsiveness, and styles.
 3.  **Exact Positioning:** The styles in `SignUpPage.styles.ts` use the placeholders to absolutely position every element (inputs, button, logo, texts) based on the Figma coordinates.
@@ -57,21 +59,21 @@ When the real components (`Logo`, `FormInput`, `PrimaryButton`) become available
 
 ## ⚙️ Component Props (API)
 
-| Prop | Type | Description |
-| :--- | :--- | :--- |
-| `loading` | `boolean` | Shows loading spinner and disables the button. |
-| `buttonText` | `string` | Text for the registration button. |
-| `disabled` | `boolean` | Disables the button (independent of `loading`). |
-| `onSubmit` | `(data) => void` | Callback on form submission (only if validation passes). |
-| `loginText` | `string` | Text for the "Log In" link. |
-| `signupWithText` | `string` | Text displayed above the social auth icons. |
-| `showSocialIcons` | `boolean` | Shows or hides the social icons. |
-| `showLegalText` | `boolean` | Shows or hides the reCAPTCHA legal text. |
-| `googleLoginUrl` | `string` | Redirect URL for Google login. |
-| `githubLoginUrl` | `string` | Redirect URL for GitHub login. |
-| `facebookLoginUrl` | `string` | Redirect URL for Facebook login. |
-| `privacyPolicyUrl` | `string` | URL for the Privacy Policy. |
-| `termsOfServiceUrl` | `string` | URL for the Terms of Service. |
+| Prop                | Type             | Description                                              |
+| :------------------ | :--------------- | :------------------------------------------------------- |
+| `loading`           | `boolean`        | Shows loading spinner and disables the button.           |
+| `buttonText`        | `string`         | Text for the registration button.                        |
+| `disabled`          | `boolean`        | Disables the button (independent of `loading`).          |
+| `onSubmit`          | `(data) => void` | Callback on form submission (only if validation passes). |
+| `loginText`         | `string`         | Text for the "Log In" link.                              |
+| `signupWithText`    | `string`         | Text displayed above the social auth icons.              |
+| `showSocialIcons`   | `boolean`        | Shows or hides the social icons.                         |
+| `showLegalText`     | `boolean`        | Shows or hides the reCAPTCHA legal text.                 |
+| `googleLoginUrl`    | `string`         | Redirect URL for Google login.                           |
+| `githubLoginUrl`    | `string`         | Redirect URL for GitHub login.                           |
+| `facebookLoginUrl`  | `string`         | Redirect URL for Facebook login.                         |
+| `privacyPolicyUrl`  | `string`         | URL for the Privacy Policy.                              |
+| `termsOfServiceUrl` | `string`         | URL for the Terms of Service.                            |
 
 ---
 
@@ -79,6 +81,6 @@ When the real components (`Logo`, `FormInput`, `PrimaryButton`) become available
 
 - **Styling:** Styles are managed entirely with MUI (`sx`) via `SignUpPage.styles.ts`. The layout is **fully responsive** and scalable, using percentages (`percentW`, `percentH`) calculated from the exact Figma design dimensions (`GEOMETRY_PX`), adhering to the "no hardcoded px" guideline.
 
-- **Icon Handling (Assets):** The social icons (Google, GitHub, Facebook) are imported using Vite's `?url` suffix to get the asset URL. A `handleImgError` function is included as a *fallback* mechanism in case the primary URL fails, attempting to load the assets from alternative paths (e.g., `/assets/google.svg`).
+- **Icon Handling (Assets):** The social icons (Google, GitHub, Facebook) are imported using Vite's `?url` suffix to get the asset URL. A `handleImgError` function is included as a _fallback_ mechanism in case the primary URL fails, attempting to load the assets from alternative paths (e.g., `/assets/google.svg`).
 
 - **Testing:** The tests (`SignUpPage.test.tsx`) are configured to validate the component's **behavioral logic**. They simulate user input, trigger form submission, and verify that the correct validation error messages are displayed or that `onSubmit` is called appropriately, adhering to best practices.
