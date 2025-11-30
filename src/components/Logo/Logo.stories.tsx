@@ -50,13 +50,21 @@ const meta: Meta<typeof Logo> = {
 export default meta;
 type Story = StoryObj<typeof Logo>;
 
+export const Default: Story = {
+  args: {
+    orientation: 'horizontal',
+    width: 266,
+    height: 45,
+  },
+  name: 'Default',
+};
 export const Primary: Story = {
   args: {
     orientation: 'vertical',
     width: 192,
     height: 88,
   },
-  name: 'Vertical logo',
+  name: 'Vertical',
 };
 
 export const Horizontal: Story = {
@@ -65,5 +73,5 @@ export const Horizontal: Story = {
     width: 266,
     height: 45,
   },
-  name: 'Horizontal logo',
+  name: 'Horizontal',
 };
