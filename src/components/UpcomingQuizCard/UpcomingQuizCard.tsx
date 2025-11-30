@@ -1,5 +1,6 @@
 import { Typography, CardContent, Avatar } from '@mui/material';
 import React from 'react';
+
 import Calendar from './icon/Calendar.png';
 import { useUpcomingQuizCard } from './UpcomingQuizCard.hook';
 import {
@@ -9,6 +10,7 @@ import {
   StyleTitle,
   TypographyButton,
 } from './UpcomingQuizCard.styles';
+
 import type { UpcomingQuizCardProps } from './UpcomingQuizCard.types';
 
 export const UpcomingQuizCard: React.FC<UpcomingQuizCardProps> = ({
