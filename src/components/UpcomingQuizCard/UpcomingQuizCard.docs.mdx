@@ -7,11 +7,10 @@ It highlights the event date, provides a short description, and includes a clear
 
 ## ✨ Features
 
-- 📅 Displays a formatted event date with an icon for quick recognition.  
-- 📝 Optionally includes a brief description of the quiz or competition.  
-- 🚀 Includes a **“Register Now”** button that triggers a callback when clicked.  
-- 🎨 Fully customizable through MUI’s theme and `sx` prop.  
-
+- 📅 Displays a formatted event date with an icon for quick recognition.
+- 📝 Optionally includes a brief description of the quiz or competition.
+- 🚀 Includes a **“Register Now”** button that triggers a callback when clicked.
+- 🎨 Fully customizable through MUI’s theme and `sx` prop.
 
 ---
 
@@ -28,33 +27,60 @@ It highlights the event date, provides a short description, and includes a clear
   </thead>
   <tbody>
     <tr>
-      <td><strong><code>title</code></strong></td>
-      <td><code>string</code></td>
+      <td>
+        <strong>
+          <code>title</code>
+        </strong>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
       <td>✅</td>
       <td>Title of the quiz or competition.</td>
     </tr>
     <tr>
-      <td><strong><code>date</code></strong></td>
-      <td><code>string</code> | <code>Date</code></td>
+      <td>
+        <strong>
+          <code>date</code>
+        </strong>
+      </td>
+      <td>
+        <code>string</code> | <code>Date</code>
+      </td>
       <td>✅</td>
-      <td>Date of the upcoming event. Formatted using the default pattern defined in <code>UpcomingQuizCard.constants.ts</code>.</td>
+      <td>
+        Date of the upcoming event. Formatted using the default pattern defined in{' '}
+        <code>UpcomingQuizCard.constants.ts</code>.
+      </td>
     </tr>
     <tr>
-      <td><strong><code>description</code></strong></td>
-      <td><code>string</code></td>
+      <td>
+        <strong>
+          <code>description</code>
+        </strong>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
       <td>❌</td>
       <td>Additional text describing the event (optional).</td>
     </tr>
     <tr>
-      <td><strong><code>onRegister</code></strong></td>
-      <td><code>() =&gt; void</code></td>
+      <td>
+        <strong>
+          <code>onRegister</code>
+        </strong>
+      </td>
+      <td>
+        <code>() =&gt; void</code>
+      </td>
       <td>✅</td>
-      <td>Callback executed when the user clicks the <strong>Register Now</strong> button.</td>
+      <td>
+        Callback executed when the user clicks the <strong>Register Now</strong> button.
+      </td>
     </tr>
   </tbody>
 </table>
-
-
 
 ---
 
@@ -73,3 +99,4 @@ function Example() {
     />
   );
 }
+```
