@@ -1,7 +1,7 @@
 import { Typography, CardContent, Box } from '@mui/material';
 import React from 'react';
 
-import meta_calendar from '../../assets/9_Pragmatica_3D_Metal_Calendar.svg';
+import meta_calendar from '../../assets/pragmatica_3d_metal_calendar.svg';
 
 import { useUpcomingQuizCard } from './UpcomingQuizCard.hook';
 import {
