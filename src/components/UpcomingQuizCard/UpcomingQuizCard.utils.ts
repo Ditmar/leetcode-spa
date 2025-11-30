@@ -1,11 +1,7 @@
-import { format, type Locale } from 'date-fns';
+import { format, isValid } from 'date-fns';
 
-import { DEFAULT_DATE_FORMAT } from './UpcomingQuizCard.constants';
+export const formatDate = (date: Date): string => {
+  if (!isValid(date)) return '';
 
-export const formatDate = (
-  date: string | Date,
-  formatStr: string = DEFAULT_DATE_FORMAT,
-  locale?: Locale
-): string => {
-  return format(new Date(date), formatStr, { locale });
+  return format(date, 'do MMM, yyyy');
 };

@@ -1,11 +1,16 @@
-import { Typography, CardContent } from '@mui/material';
+import { Typography, CardContent, Box } from '@mui/material';
 import React from 'react';
 
-import { theme } from '../../style-library';
+import meta_calendar from '../../assets/9_Pragmatica_3D_Metal_Calendar.svg';
 
-import { CalendarIcon } from './icon/CalendarIcon';
 import { useUpcomingQuizCard } from './UpcomingQuizCard.hook';
-import { StyledCard, DateContainer, RegisterButton } from './UpcomingQuizCard.styles';
+import {
+  StyledCard,
+  DateContainer,
+  RegisterButton,
+  StyleTitle,
+  TypographyButton,
+} from './UpcomingQuizCard.styles';
 
 import type { UpcomingQuizCardProps } from './UpcomingQuizCard.types';
 
@@ -18,27 +23,33 @@ export const UpcomingQuizCard: React.FC<UpcomingQuizCardProps> = ({
 }) => {
   const { formattedDate } = useUpcomingQuizCard(date);
 
-  const getLocalDay = (dateValue: string | Date) => {
-    if (typeof dateValue === 'string') {
-      const [year, month, day] = dateValue.split('-').map(Number);
-      return new Date(Date.UTC(year, month - 1, day)).getUTCDate();
-    }
-    return dateValue.getUTCDate();
-  };
-
-  const day = getLocalDay(date);
-
   return (
     <StyledCard {...cardProps} data-testid="quiz-card">
       <CardContent>
-        <Typography variant="h6" gutterBottom>
-          {title}
-        </Typography>
+        <StyleTitle>{title}</StyleTitle>
 
         <DateContainer>
-          <CalendarIcon fontSize="large" sx={{ color: theme.palette.primary.main }} day={day} />
-
-          <Typography variant="subtitle1" color="text.secondary" data-testid="quiz-date">
+          <Box
+            component="img"
+            src={meta_calendar}
+            alt="Calendar Icon"
+            sx={{
+              width: 130,
+              height: 130,
+            }}
+          />
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            data-testid="quiz-date"
+            sx={(theme) => ({
+              fontFamily: theme.typography.fontFamily,
+              fontWeight: theme.typography.fontWeightBold,
+              fontSize: theme.typography.pxToRem(20),
+              lineHeight: '100%',
+              letterSpacing: '0',
+            })}
+          >
             {formattedDate}
           </Typography>
         </DateContainer>
@@ -50,7 +61,7 @@ export const UpcomingQuizCard: React.FC<UpcomingQuizCardProps> = ({
         )}
 
         <RegisterButton variant="contained" onClick={onRegister} data-testid="register-button">
-          Register Now
+          <TypographyButton>Register Now</TypographyButton>
         </RegisterButton>
       </CardContent>
     </StyledCard>

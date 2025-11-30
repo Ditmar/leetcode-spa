@@ -17,16 +17,16 @@ type Story = StoryObj<typeof UpcomingQuizCard>;
 
 export const Default: Story = {
   args: {
-    date: '2025-12-01',
-    title: 'Next React Quiz',
-    description: 'Test your knowledge about React fundamentals.',
+    date: '2023-08-12',
+    title: 'Upcoming Quiz Competition',
+    description: '',
   },
 };
 
 export const CustomDate: Story = {
   args: {
-    date: '2025-11-01',
-    title: 'Advanced TypeScript Challenge',
-    description: 'Push your TypeScript skills to the next level.',
+    date: '2023-08-12',
+    title: 'Upcoming Quiz Competition',
+    description: '',
   },
 };

@@ -1,4 +1,4 @@
-import { Card, Button, Box } from '@mui/material';
+import { Card, Button, Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const StyledCard = styled(Card)(({ theme }) => ({
@@ -16,14 +16,44 @@ export const DateContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
 }));
 
-export const RegisterButton = styled(Button)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-  background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+export const TypographyButton = styled(Typography)(({ theme }) => ({
+  fontFamily: 'Syne',
+  fontWeight: 500,
+  fontSize: theme.typography.pxToRem(13),
+  lineHeight: '100%',
+  letterSpacing: '0',
+  textAlign: 'center',
   color: theme.palette.primary.contrastText,
-  padding: theme.spacing(1, 4),
-  borderRadius: (theme.shape.borderRadius as number) * 2,
+}));
+export const RegisterButton = styled(Button)(({ theme }) => ({
+  width: theme.spacing(31.125),
+  height: theme.spacing(6.75),
+
+  borderRadius: theme.spacing(3.75),
+  opacity: 1,
+
+  paddingTop: theme.spacing(2.25),
+  paddingBottom: theme.spacing(2.25),
+  paddingLeft: theme.spacing(9.625),
+  paddingRight: theme.spacing(9.625),
+
+  gap: theme.spacing(1.25),
+
+  background: theme.palette.gradients.register,
+
   '&:hover': {
     opacity: 0.9,
-    background: `linear-gradient(90deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
+    background: theme.palette.gradients.registerHover,
   },
+}));
+
+export const StyleTitle = styled(Typography)(({ theme }) => ({
+  fontFamily: theme.typography.fontFamily || 'Syne',
+  fontWeight: theme.typography.fontWeightMedium,
+  fontSize: theme.typography.pxToRem(17),
+  lineHeight: theme.typography.body1.lineHeight,
+  letterSpacing: theme.typography.body1.letterSpacing,
+  textAlign: 'center',
+  color: theme.palette.grey[900] + 'CC',
+  marginBottom: theme.spacing(2),
 }));

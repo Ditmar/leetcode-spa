@@ -1,4 +1,4 @@
-import { parseISO, isDate } from 'date-fns';
+import { parseISO, isDate, isValid } from 'date-fns';
 import { useMemo } from 'react';
 
 import { formatDate } from './UpcomingQuizCard.utils';
@@ -13,10 +13,19 @@ export const useUpcomingQuizCard = (date: string | Date) => {
 };
 
 const normalizeDate = (date: string | Date): Date => {
-  if (isDate(date)) return date;
-  try {
-    return parseISO(date);
-  } catch {
-    return new Date(date);
+  if (isDate(date) && isValid(date)) return date as Date;
+
+  if (typeof date === 'string') {
+    try {
+      const parsed = parseISO(date);
+      if (isValid(parsed)) return parsed;
+    } catch {
+      return new Date(NaN);
+    }
+
+    const fallback = new Date(date);
+    if (isValid(fallback)) return fallback;
   }
+
+  return new Date(NaN);
 };
