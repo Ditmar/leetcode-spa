@@ -3,10 +3,8 @@ import { styled } from '@mui/material/styles';
 
 export const StyledCard = styled(Card)(({ theme }) => ({
   textAlign: 'center',
-  padding: theme.spacing(3),
-  borderRadius: theme.spacing(3),
-  boxShadow: theme.shadows[3],
-  backgroundColor: theme.palette.background.paper,
+  width: theme.spacing(52.75),
+  height: theme.spacing(38.375),
 }));
 
 export const DateContainer = styled(Box)(({ theme }) => ({
@@ -18,13 +16,12 @@ export const DateContainer = styled(Box)(({ theme }) => ({
 
 export const TypographyButton = styled(Typography)(({ theme }) => ({
   fontFamily: 'Syne',
-  fontWeight: 500,
-  fontSize: theme.typography.pxToRem(13),
-  lineHeight: '100%',
-  letterSpacing: '0',
-  textAlign: 'center',
-  color: theme.palette.primary.contrastText,
+  color: theme.palette.common.white,
+  textTransform: 'none',
+  fontWeight: theme.typography.fontWeightMedium,
+  fontSize: theme.typography.pxToRem(17),
 }));
+
 export const RegisterButton = styled(Button)(({ theme }) => ({
   width: theme.spacing(31.125),
   height: theme.spacing(6.75),
@@ -32,25 +29,24 @@ export const RegisterButton = styled(Button)(({ theme }) => ({
   borderRadius: theme.spacing(3.75),
   opacity: 1,
 
-  paddingTop: theme.spacing(2.25),
-  paddingBottom: theme.spacing(2.25),
-  paddingLeft: theme.spacing(9.625),
-  paddingRight: theme.spacing(9.625),
-
   gap: theme.spacing(1.25),
-
   background: 'linear-gradient(60deg, #B33DEB 13.4%, #DE8FFF 86.6%)',
 
   '&:hover': { opacity: 0.9, background: 'linear-gradient(60deg, #A030D9 13.4%, #D080F2 86.6%)' },
 }));
 
 export const StyleTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: theme.typography.fontFamily || 'Syne',
+  fontFamily: `Syne, ${theme.typography.fontFamily}`,
   fontWeight: theme.typography.fontWeightMedium,
   fontSize: theme.typography.pxToRem(17),
-  lineHeight: theme.typography.body1.lineHeight,
-  letterSpacing: theme.typography.body1.letterSpacing,
+
   textAlign: 'center',
   color: theme.palette.grey[900] + 'CC',
-  marginBottom: theme.spacing(2),
+  opacity: 1,
+
+  width: theme.spacing(28.75),
+  height: theme.spacing(2.5),
+
+  margin: `0 auto`,
+  display: 'block',
 }));
