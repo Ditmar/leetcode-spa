@@ -1,7 +1,7 @@
-import { Typography, CardContent, Box } from '@mui/material';
+import { Typography, CardContent, Avatar } from '@mui/material';
 import React from 'react';
 
-import meta_calendar from '../../assets/calendar.svg';
+import Calendar from '../../assets/calendar.svg';
 
 import { useUpcomingQuizCard } from './UpcomingQuizCard.hook';
 import {
@@ -29,13 +29,16 @@ export const UpcomingQuizCard: React.FC<UpcomingQuizCardProps> = ({
         <StyleTitle>{title}</StyleTitle>
 
         <DateContainer>
-          <Box
+          <Avatar
             component="img"
-            src={meta_calendar}
+            src={Calendar}
             alt="Calendar Icon"
             sx={{
               width: 130,
               height: 130,
+              borderRadius: 0,
+              margin: 0,
+              padding: 0,
             }}
           />
           <Typography
