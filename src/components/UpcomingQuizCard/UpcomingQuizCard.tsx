@@ -1,7 +1,7 @@
-import { Typography, CardContent, Box } from '@mui/material';
+import { Typography, CardContent } from '@mui/material';
 import React from 'react';
 
-import meta_calendar from '../../assets/pragmatica_3d_metal_calendar.svg';
+import { ReactComponent as CalendarIcon } from '../../assets/pragmatica_3d_metal_calendar.svg';
 
 import { useUpcomingQuizCard } from './UpcomingQuizCard.hook';
 import {
@@ -29,15 +29,8 @@ export const UpcomingQuizCard: React.FC<UpcomingQuizCardProps> = ({
         <StyleTitle>{title}</StyleTitle>
 
         <DateContainer>
-          <Box
-            component="img"
-            src={meta_calendar}
-            alt="Calendar Icon"
-            sx={{
-              width: 130,
-              height: 130,
-            }}
-          />
+          <CalendarIcon width={130} height={130} />
+
           <Typography
             variant="subtitle1"
             color="text.secondary"
