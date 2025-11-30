@@ -39,13 +39,10 @@ export const RegisterButton = styled(Button)(({ theme }) => ({
 
   gap: theme.spacing(1.25),
 
-
   background: 'linear-gradient(60deg, #B33DEB 13.4%, #DE8FFF 86.6%)',
 
-  '&:hover': { opacity: 0.9, background: 'linear-gradient(60deg, #A030D9 13.4%, #D080F2 86.6%)', },
+  '&:hover': { opacity: 0.9, background: 'linear-gradient(60deg, #A030D9 13.4%, #D080F2 86.6%)' },
 }));
-
-
 
 export const StyleTitle = styled(Typography)(({ theme }) => ({
   fontFamily: theme.typography.fontFamily || 'Syne',
@@ -57,4 +54,3 @@ export const StyleTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.grey[900] + 'CC',
   marginBottom: theme.spacing(2),
 }));
-
