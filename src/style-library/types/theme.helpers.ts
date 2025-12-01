@@ -336,7 +336,7 @@ export const sectionNavTokens: SectionNavTokens = {
 
 export const sectionNavDarkTokens: SectionNavTokens = {
   colors: {
-    background: '#0b1220',
+    background: 'rgba(30,30,30,1)',
     text: '#E6F0FF',
     gradientStart: '#8F3DEB',
     gradientEnd: '#C89BFF',
