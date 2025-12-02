@@ -7,9 +7,9 @@ type ButtonGradients = {
   primaryHover?: string;
 };
 
-const getGradients = (t: unknown): ButtonGradients => {
-  if (typeof t === 'object' && t !== null && 'gradients' in t) {
-    const maybe = (t as { gradients?: ButtonGradients }).gradients;
+const getGradients = (theme: unknown): ButtonGradients => {
+  if (typeof theme === 'object' && theme !== null && 'gradients' in theme) {
+    const maybe = (theme as { gradients?: ButtonGradients }).gradients;
     return maybe ?? {};
   }
   return {};
@@ -25,27 +25,22 @@ export const StyledButton = styled('button')<{
   const gradient = gradients.primary ?? 'linear-gradient(60deg, #B33DEB 13.4%, #DE8FFF 86.6%)';
   const gradientHover = gradients.primaryHover ?? gradient;
 
+  // Base styles
   const base: CSSObject = {
     position: 'relative',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     gap: theme.spacing(1.25),
-
-    // default desktop size
     height: 76,
     minWidth: 289,
     padding: '20px 40px',
-
-    // default shape
     borderRadius: 50,
-
     fontFamily: "'Syne', sans-serif",
     fontWeight: 400,
     fontSize: 30,
     lineHeight: '36px',
     textTransform: 'capitalize',
-
     border: 'none',
     cursor: $loading ? 'default' : 'pointer',
     transition: theme.transitions.create(['transform', 'background', 'box-shadow'], {
@@ -57,7 +52,6 @@ export const StyledButton = styled('button')<{
       cursor: 'not-allowed',
     },
 
-    // visible focus for accessibility
     '&:focus-visible': {
       outline: `2px solid ${theme.palette.primary.light}`,
       outlineOffset: 3,
@@ -80,10 +74,12 @@ export const StyledButton = styled('button')<{
       height: 56,
       padding: '12px 24px',
       fontSize: 18,
+      borderRadius: 30,
+      gap: theme.spacing(1),
     },
   };
 
-  // size overrides
+  // Size overrides
   const sizeStyles: Partial<Record<ButtonSize, CSSObject>> = {
     small: {
       height: 48,
@@ -107,21 +103,19 @@ export const StyledButton = styled('button')<{
 
   Object.assign(base, sizeStyles[$size]);
 
-  // shape
+  // Shape styles
   if ($shape === 'rounded') {
     base.borderRadius = 16;
   } else if ($shape === 'pill') {
     base.borderRadius = 50;
   }
 
-  // variants
+  // Variant styles for primary button
   if ($variant === 'primary') {
-    Object.assign<CSSObject, CSSObject>(base, {
+    Object.assign(base, {
       backgroundImage: gradient,
       color: theme.palette.common.white,
-      boxShadow: '0 16px 40px rgba(179, 61, 235, 0.25)',
 
-      // hover = lighter + lift
       '&:hover': $loading
         ? {}
         : {
@@ -129,7 +123,6 @@ export const StyledButton = styled('button')<{
             transform: 'translateY(-1px)',
           },
 
-      // active = slightly darker / less lift
       '&:active': $loading
         ? {}
         : {
@@ -137,23 +130,20 @@ export const StyledButton = styled('button')<{
             boxShadow: '0 8px 24px rgba(179, 61, 235, 0.35)',
           },
 
-      // disabled = dimmed
       '&:disabled': {
         backgroundImage: gradient,
-        opacity: 0.35,
+        opacity: 0.2,
         boxShadow: 'none',
         color: 'rgba(255,255,255,0.4)',
       },
     });
   } else {
-    const bg = theme.palette.background?.default ?? '#ffffff';
-
     Object.assign<CSSObject, CSSObject>(base, {
-      backgroundImage: `linear-gradient(${bg}, ${bg}), ${gradient}`,
+      backgroundColor: 'transparent',
       backgroundOrigin: 'border-box',
       backgroundClip: 'padding-box, border-box',
-      border: '2px solid transparent',
-      color: 'transparent',
+      border: '1.5px solid  #B33DEB',
+      borderImageSlice: 1,
 
       '& .btn-label': {
         backgroundImage: gradient,
@@ -165,7 +155,8 @@ export const StyledButton = styled('button')<{
       '&:hover': $loading
         ? {}
         : {
-            backgroundImage: `linear-gradient(${bg}, ${bg}), ${gradientHover}`,
+            backgroundImage: `linear-gradient(${gradientHover})`,
+            boxShadow: `0 0 0 2px ${gradientHover}`,
             transform: 'translateY(-1px)',
             '& .btn-label': {
               backgroundImage: gradientHover,
@@ -183,13 +174,13 @@ export const StyledButton = styled('button')<{
           },
 
       '&:disabled': {
-        opacity: 0.35,
+        opacity: 0.2,
         '& .btn-label': {
           backgroundImage: gradient,
           backgroundClip: 'text',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
-          opacity: 0.5,
+          opacity: 0.2,
         },
       },
     });
@@ -198,6 +189,7 @@ export const StyledButton = styled('button')<{
   return base;
 });
 
+// Loading spinner style
 export const LoadingSpinner = styled('span')(({ theme }) => ({
   position: 'absolute',
   insetInlineEnd: theme.spacing(1.5),

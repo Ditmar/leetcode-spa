@@ -39,13 +39,3 @@ export const Disabled: Story = {
     disabled: true,
   },
 };
-
-export const Loading: Story = {
-  args: {
-    children: 'Create Account',
-    variant: 'primary',
-    size: 'large',
-    shape: 'pill',
-    loading: true,
-  },
-};
