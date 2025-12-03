@@ -1,5 +1,5 @@
 import { Box, Typography, useTheme, Link, Button, IconButton, type Theme } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, type FormEvent } from 'react';
 
 import FacebookStatic from '../../assets/facebook.svg';
 import GithubStatic from '../../assets/github.svg';
@@ -34,6 +34,7 @@ type LogoFallbackProps = {
 type FormInputFallbackProps = {
   id: string;
   name: string;
+  label: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
@@ -41,7 +42,6 @@ type FormInputFallbackProps = {
   sx?: SxProps<Theme>;
   type?: string;
   autoComplete?: string;
-  'aria-label'?: string;
 };
 
 type PrimaryButtonFallbackProps = {
@@ -61,7 +61,7 @@ const Logo: React.FC<LogoFallbackProps> = (props) => (
   <Box
     data-testid="logo-fallback"
     role="img"
-    aria-label={props.alt || 'Logo Placeholder'}
+    aria-label={props.alt || 'Logo'}
     sx={{
       width: props.width,
       height: props.height,
@@ -72,7 +72,7 @@ const Logo: React.FC<LogoFallbackProps> = (props) => (
       color: 'text.secondary',
     }}
   >
-    <Typography variant="body2">Logo Placeholder</Typography>
+    <Typography variant="body2">Logo</Typography>
   </Box>
 );
 
@@ -86,7 +86,7 @@ const FormInput: React.FC<FormInputFallbackProps> = (props) => (
     value={props.value}
     onChange={props.onChange}
     aria-invalid={!!props.errorMessage}
-    aria-label={props['aria-label'] || props.placeholder}
+    aria-label={props.label}
     autoComplete={props.autoComplete}
     sx={(theme) => ({
       ...props.sx,
@@ -103,10 +103,9 @@ const FormInput: React.FC<FormInputFallbackProps> = (props) => (
 const PrimaryButton: React.FC<PrimaryButtonFallbackProps> = (props) => (
   <Button
     variant="contained"
-    type={props.type || 'button'}
+    type={props.type ?? 'button'}
     onClick={props.onClick}
     disabled={props.disabled || props.loading}
-    // AÑADIDA ESTA SOBREESCRITURA DE ESTILO
     sx={{ textTransform: 'none', ...props.sx }}
   >
     {props.loading ? '...' : props.children}
@@ -156,24 +155,29 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
   const validate = () => {
     const newErrors = { emailOrUsername: '', password: '' };
+    let isValid = true;
 
     if (!emailOrUsername) {
       newErrors.emailOrUsername = 'Email or Username is required.';
+      isValid = false;
     } else if (emailOrUsername.includes('@') && !EMAIL_REGEX.test(emailOrUsername)) {
       newErrors.emailOrUsername = 'Please enter a valid email address.';
+      isValid = false;
     }
 
     if (!password) {
       newErrors.password = 'Password is required.';
+      isValid = false;
     } else if (password.length < PASSWORD_MIN_LENGTH) {
       newErrors.password = `Password must be at least ${PASSWORD_MIN_LENGTH} characters long.`;
+      isValid = false;
     }
 
     setErrors(newErrors);
-    return !newErrors.emailOrUsername && !newErrors.password;
+    return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (validate()) {
@@ -185,7 +189,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
   return (
     <Box sx={getPageContainerStyles()}>
-      <Box component="form" onSubmit={handleSubmit} sx={getFormStyles(theme)}>
+      <Box component="form" onSubmit={handleSubmit} sx={getFormStyles(theme)} noValidate>
         <Box sx={getLogoStyles(theme)}>
           <Logo orientation="horizontal" width="100%" height="100%" alt="Logo" />
         </Box>
@@ -193,6 +197,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         <FormInput
           id="login-email-username"
           name="emailOrUsername"
+          label="Mail ID or Username"
           value={emailOrUsername}
           onChange={(e) => {
             setEmailOrUsername(e.target.value);
@@ -201,7 +206,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           placeholder="Mail Id"
           errorMessage={errors.emailOrUsername}
           sx={getInputStyles(GEOMETRY_PX.EMAIL_USERNAME_INPUT_TOP, theme)}
-          aria-label="Mail ID or Username"
+          autoComplete="username"
         />
         {errors.emailOrUsername && (
           <Typography
@@ -215,6 +220,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         <FormInput
           id="login-password"
           name="password"
+          label="Password"
           type="password"
           value={password}
           onChange={(e) => {
@@ -224,7 +230,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           placeholder="Password"
           errorMessage={errors.password}
           sx={getInputStyles(GEOMETRY_PX.PASSWORD_INPUT_TOP, theme)}
-          aria-label="Password"
           autoComplete="current-password"
         />
         {errors.password && (
