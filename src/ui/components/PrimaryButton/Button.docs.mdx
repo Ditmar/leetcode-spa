@@ -1,0 +1,40 @@
+import { Meta } from '@storybook/blocks';
+import * as PrimaryButton from './Button.stories';
+
+<Meta title="Components/PrimaryButton" of={PrimaryButton} />
+
+# PrimaryButton Component
+
+El componente **PrimaryButton** está diseñado para ofrecer botones estilizados con soporte para variantes y tamaños.
+
+## Estructura de Archivos
+
+- **PrimaryButton.tsx**: Contiene la implementación del componente.
+- **PrimaryButton.styles.ts**: Archivos con los estilos personalizados utilizando `styled-components` de Material-UI.
+- **PrimaryButton.constants.ts**: Definiciones de constantes y enumeraciones de variantes.
+- **PrimaryButton.test.tsx**: Pruebas unitarias del componente.
+- **PrimaryButton.stories.tsx**: Historias de Storybook para ver los diferentes estados y variantes del botón.
+
+## Propiedades
+
+El componente **PrimaryButton** acepta las siguientes propiedades:
+
+| Propiedad  | Tipo             | Descripción                                                           |
+|------------|------------------|-----------------------------------------------------------------------|
+| `$variant` | `ButtonVariant`  | Define el tipo de variante del botón (primario o secundario).         |
+| `$size`    | `ButtonSize`     | Define el tamaño del botón.                                           |
+| `$shape`   | `ButtonShape`    | Define la forma del botón (por ejemplo, redondeado).                   |
+| `$loading` | `boolean`        | Si es `true`, muestra un indicador de carga en el botón.               |
+
+## Estilos
+
+Los estilos del botón están definidos mediante `styled-components` de Material-UI. Los colores y los gradientes se toman del tema, lo que permite personalizar fácilmente los colores del botón.
+
+```typescript
+const getGradients = (theme: unknown): ButtonGradients => {
+  if (typeof theme === 'object' && theme !== null && 'gradients' in theme) {
+    const maybe = (theme as { gradients?: ButtonGradients }).gradients;
+    return maybe ?? {};
+  }
+  return {};
+};

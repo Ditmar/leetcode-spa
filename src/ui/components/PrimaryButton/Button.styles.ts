@@ -22,7 +22,7 @@ export const StyledButton = styled('button')<{
   $loading?: boolean;
 }>(({ theme, $variant, $size, $shape, $loading }) => {
   const gradients = getGradients(theme);
-  const gradient = gradients.primary ?? 'linear-gradient(60deg, #B33DEB 13.4%, #DE8FFF 86.6%)';
+  const gradient = gradients.primary ?? 'linear-gradient(60deg, #B23DEB 13.4%, #DE8FFF 86.6%)';
   const gradientHover = gradients.primaryHover ?? gradient;
 
   // Base styles
@@ -32,8 +32,8 @@ export const StyledButton = styled('button')<{
     alignItems: 'center',
     justifyContent: 'center',
     gap: theme.spacing(1.25),
-    height: 76,
-    minWidth: 289,
+    height: 36,
+    width: 289,
     padding: '20px 40px',
     borderRadius: 50,
     fontFamily: "'Syne', sans-serif",
@@ -48,6 +48,14 @@ export const StyledButton = styled('button')<{
     }),
     outline: 'none',
 
+    '& .btn-label': {
+      display: 'inline-block',
+      width: 209,
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+    },
+
     '&:disabled': {
       cursor: 'not-allowed',
     },
@@ -61,19 +69,17 @@ export const StyledButton = styled('button')<{
     // tablet
     [theme.breakpoints.down('md')]: {
       height: 64,
-      minWidth: 240,
+      width: 'auto',
       padding: '16px 32px',
       fontSize: 24,
     },
 
     // mobile
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      maxWidth: 320,
-      minWidth: 'auto',
+      width: 173.07,
       height: 56,
       padding: '12px 24px',
-      fontSize: 18,
+      fontSize: 16,
       borderRadius: 30,
       gap: theme.spacing(1),
     },
@@ -83,19 +89,19 @@ export const StyledButton = styled('button')<{
   const sizeStyles: Partial<Record<ButtonSize, CSSObject>> = {
     small: {
       height: 48,
-      minWidth: 160,
+      width: 'auto',
       padding: '12px 24px',
       fontSize: 18,
     },
     medium: {
       height: 60,
-      minWidth: 220,
+      width: 'auto',
       padding: '16px 32px',
       fontSize: 22,
     },
     large: {
       height: 76,
-      minWidth: 289,
+      width: 289,
       padding: '20px 40px',
       fontSize: 30,
     },
@@ -142,14 +148,16 @@ export const StyledButton = styled('button')<{
       backgroundColor: 'transparent',
       backgroundOrigin: 'border-box',
       backgroundClip: 'padding-box, border-box',
-      border: '1.5px solid  #B33DEB',
+      border: '1.5px solid  #B23DEB',
       borderImageSlice: 1,
+      width: 'auto',
 
       '& .btn-label': {
         backgroundImage: gradient,
         backgroundClip: 'text',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
+        width: 209,
       },
 
       '&:hover': $loading
