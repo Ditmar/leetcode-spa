@@ -1,102 +1,77 @@
-import type { AppConfig } from './config.types';
+import defaultConfig from '../config/default.json';
+import envMapping from '../config/env.json';
 
-/**
- * Default configuration values
- */
-const DEFAULT_CONFIG: AppConfig = {
-  defaultCacheTTL: 300000, // 5 minutes in milliseconds
+import { configSchema, type Config } from './config.schema';
+
+let envGetter = (key: string): string | undefined => {
+  const env = import.meta.env as Record<string, string | undefined>;
+  return env[key];
 };
 
-/**
- * Safely parse a string to number
- * @param value - String value to parse
- * @param fallback - Fallback value if parsing fails
- * @returns Parsed number or fallback
- */
-function parseNumber(value: string | undefined, fallback: number): number {
-  if (!value) return fallback;
-
-  const parsed = Number(value);
-
-  if (isNaN(parsed) || !isFinite(parsed)) {
-    // eslint-disable-next-line no-console
-    console.warn(`Invalid number value: "${value}". Using fallback: ${fallback}`);
-    return fallback;
-  }
-
-  return parsed;
+export function setEnvGetterForTesting(getter: (key: string) => string | undefined): void {
+  envGetter = getter;
 }
 
-/**
- * Environment variable reader (extracted for testability)
- * @internal
- */
-export function readEnvVars(): Record<string, string | undefined> {
-  return {
-    VITE_DEFAULT_CACHE_TTL: import.meta.env.VITE_DEFAULT_CACHE_TTL,
-  };
-}
+export function loadConfig(): unknown {
+  const config = { ...defaultConfig } as Record<string, unknown>;
+  const mapping = envMapping as Record<string, string>;
 
-/**
- * Build configuration from environment variables
- * @param envVars - Environment variables object
- * @returns Configuration object
- * @internal
- */
-export function buildConfig(envVars: Record<string, string | undefined>): AppConfig {
-  const config: AppConfig = {
-    defaultCacheTTL: parseNumber(envVars.VITE_DEFAULT_CACHE_TTL, DEFAULT_CONFIG.defaultCacheTTL),
-  };
+  Object.keys(mapping).forEach((key) => {
+    const envVarName = mapping[key];
+    if (!envVarName) return;
 
-  // Validation: Ensure TTL is positive
-  if (config.defaultCacheTTL <= 0) {
-    throw new Error('Configuration error: defaultCacheTTL must be a positive number');
-  }
+    const envValue = envGetter(envVarName);
+
+    if (envValue !== undefined && envValue !== '') {
+      const currentValue = config[key];
+
+      if (typeof currentValue === 'number') {
+        const parsed = Number(envValue);
+        if (!isNaN(parsed)) {
+          config[key] = parsed;
+        }
+      } else if (typeof currentValue === 'boolean') {
+        config[key] = envValue === 'true';
+      } else {
+        config[key] = envValue;
+      }
+    }
+  });
 
   return config;
 }
 
-/**
- * Get application configuration
- * Reads from environment variables with type-safe parsing
- * Falls back to sensible defaults when values are missing
- *
- * @returns Typed configuration object
- * @throws Error if required configuration is missing or invalid
- *
- * @example
- * ```ts
- * import { getConfig } from '@/utils/config';
- *
- * const config = getConfig();
- * console.log(config.defaultCacheTTL); // 300000 or custom value
- * ```
- */
-export function getConfig(): AppConfig {
-  return buildConfig(readEnvVars());
+export function validateConfig(rawConfig: unknown): Config {
+  const result = configSchema.safeParse(rawConfig);
+
+  if (!result.success) {
+    const errorMessages = result.error.issues
+      .map((e) => `${e.path.join('.')}: ${e.message}`)
+      .join(', ');
+    throw new Error(`Invalid configuration: ${errorMessages}`);
+  }
+
+  return result.data;
 }
 
-/**
- * Cached configuration instance
- * Avoids re-parsing environment variables on every call
- */
-let cachedConfig: AppConfig | null = null;
+let cachedConfig: Config | null = null;
 
-/**
- * Get cached configuration (recommended for production use)
- * @returns Cached configuration object
- */
-export function getCachedConfig(): AppConfig {
+export function getConfig(): Config {
   if (!cachedConfig) {
-    cachedConfig = getConfig();
+    const raw = loadConfig();
+    cachedConfig = validateConfig(raw);
   }
   return cachedConfig;
 }
 
-/**
- * Reset cached configuration (useful for testing)
- * @internal
- */
+export function getCachedConfig(): Config {
+  return getConfig();
+}
+
 export function resetConfigCache(): void {
   cachedConfig = null;
+  envGetter = (key: string): string | undefined => {
+    const env = import.meta.env as Record<string, string | undefined>;
+    return env[key];
+  };
 }
