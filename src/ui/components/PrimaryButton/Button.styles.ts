@@ -66,14 +66,6 @@ export const StyledButton = styled('button')<{
       boxShadow: '0 0 0 2px rgba(255,255,255,0.3)',
     },
 
-    // tablet
-    [theme.breakpoints.down('md')]: {
-      height: 64,
-      width: 'auto',
-      padding: '16px 32px',
-      fontSize: 24,
-    },
-
     // mobile
     [theme.breakpoints.down('sm')]: {
       width: 173.07,
@@ -151,6 +143,7 @@ export const StyledButton = styled('button')<{
       border: '1.5px solid  #B23DEB',
       borderImageSlice: 1,
       width: 'auto',
+      fontSize: 30,
 
       '& .btn-label': {
         backgroundImage: gradient,
