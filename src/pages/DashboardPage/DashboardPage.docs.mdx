@@ -1,0 +1,71 @@
+---
+title: DashboardPage
+---
+
+import DashboardPage from './DashboardPage';
+
+# DashboardPage
+
+El **DashboardPage** es el componente principal de la aplicación, mostrando la información del usuario, las pruebas recientes y estadísticas.  
+
+Este documento describe **qué componentes se integraron**, **qué faltan** y cómo usar el componente.
+
+---
+
+## Componentes Integrados
+
+| Componente | Función | Estado |
+|------------|---------|--------|
+| `Logo` | Muestra el logo de la aplicación | Integrado |
+| `AvatarMenu` | Menú del usuario con opciones como Perfil y Cerrar sesión | Integrado |
+| `TestCard` | Tarjetas de pruebas recientes con título, descripción y logo | Integrado |
+| `StatsCard` | Muestra estadísticas (ej. Overall Average, Tests Written) | Integrado |
+| `LeaderboardPage` | Sección de leaderboard mostrando rankings de usuarios | Integrado |
+| `ResponsiveContainer` | Maneja layout responsivo | Integrado |
+| `DashboardBackground`, `NoiseLayer`, `MaskLayer`, `Line15` | Capas visuales de fondo y efectos | Integrado |
+| Placeholders (`Frame71Placeholder`, `Frame39Placeholder`, etc.) | Estructura temporal para contenido futuro | Integrado |
+
+---
+
+## Componentes Faltantes / Pendientes de Integrar
+
+- Secciones reales de **estadísticas dinámicas** (actualmente se usan placeholders).  
+- Datos **reales del leaderboard** (por ahora se muestra vacío o con datos de prueba).  
+- Botones funcionales en placeholders (ej. `Frame53`, `Frame49`) que serán reemplazados por componentes finales.  
+- Animaciones o interacciones avanzadas que podrían reemplazar algunos placeholders.  
+
+---
+
+## Props
+
+| Prop           | Tipo                     | Descripción |
+|----------------|--------------------------|-------------|
+| `user`         | `{ id: string; name: string; avatarUrl: string }` | Información del usuario que se muestra en el dashboard |
+| `recentTests`  | `Array<{ id: string; title: string; description: string; logo: string; onSelect: () => void }>` | Lista de pruebas recientes |
+| `leaderboardData` | `Array<User>` (opcional) | Datos para mostrar en el leaderboard |
+
+---
+
+## Ejemplo de Uso
+
+```tsx
+import React from 'react';
+import { ThemeProvider, createTheme } from '@mui/material';
+import DashboardPage from './DashboardPage';
+
+const theme = createTheme();
+
+const user = {
+  id: '1',
+  name: 'Miguel',
+  avatarUrl: '/avatar.png',
+};
+
+const recentTests = [
+  { id: '1', title: 'Test 1', description: 'Desc 1', logo: '/logo1.png', onSelect: () => {} },
+  { id: '2', title: 'Test 2', description: 'Desc 2', logo: '/logo2.png', onSelect: () => {} },
+];
+
+<ThemeProvider theme={theme}>
+  <DashboardPage user={user} recentTests={recentTests} />
+</ThemeProvider>
