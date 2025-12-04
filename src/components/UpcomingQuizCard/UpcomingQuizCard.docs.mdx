@@ -1,0 +1,102 @@
+# 🧩 UpcomingQuizCard
+
+The **UpcomingQuizCard** component displays concise information about an upcoming quiz or competition.  
+It highlights the event date, provides a short description, and includes a clear call-to-action for registration.
+
+---
+
+## ✨ Features
+
+- 📅 Displays a formatted event date with an icon for quick recognition.
+- 📝 Optionally includes a brief description of the quiz or competition.
+- 🚀 Includes a **“Register Now”** button that triggers a callback when clicked.
+- 🎨 Fully customizable through MUI’s theme and `sx` prop.
+
+---
+
+## ⚙️ Props
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <strong>
+          <code>title</code>
+        </strong>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>✅</td>
+      <td>Title of the quiz or competition.</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <code>date</code>
+        </strong>
+      </td>
+      <td>
+        <code>string</code> | <code>Date</code>
+      </td>
+      <td>✅</td>
+      <td>
+        Date of the upcoming event. Formatted using the default pattern defined in{' '}
+        <code>UpcomingQuizCard.constants.ts</code>.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <code>description</code>
+        </strong>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>❌</td>
+      <td>Additional text describing the event (optional).</td>
+    </tr>
+    <tr>
+      <td>
+        <strong>
+          <code>onRegister</code>
+        </strong>
+      </td>
+      <td>
+        <code>() =&gt; void</code>
+      </td>
+      <td>✅</td>
+      <td>
+        Callback executed when the user clicks the <strong>Register Now</strong> button.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 🧱 Usage Example
+
+```tsx
+import { UpcomingQuizCard } from '@/components/UpcomingQuizCard';
+
+function Example() {
+  return (
+    <UpcomingQuizCard
+      title="Upcoming Quiz Competition"
+      date="2023-08-12"
+      description="Join our next exciting quiz and test your knowledge!"
+      onRegister={() => alert('Registered!')}
+    />
+  );
+}
+```
