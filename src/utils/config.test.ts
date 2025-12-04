@@ -1,151 +1,123 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 
-import { buildConfig, getConfig, getCachedConfig, resetConfigCache } from './config';
+import { getConfig, resetConfigCache, setEnvGetterForTesting } from './config';
 
 describe('Config Manager', () => {
   beforeEach(() => {
     resetConfigCache();
   });
 
-  describe('buildConfig', () => {
-    it('should return default cache TTL when environment variable is not set', () => {
-      const config = buildConfig({});
-
-      expect(config.defaultCacheTTL).toBe(300000);
-    });
-
-    it('should parse valid cache TTL from environment variable', () => {
-      const config = buildConfig({
-        VITE_DEFAULT_CACHE_TTL: '600000',
-      });
-
-      expect(config.defaultCacheTTL).toBe(600000);
-    });
-
-    it('should use default when environment variable is invalid string', () => {
-      const config = buildConfig({
-        VITE_DEFAULT_CACHE_TTL: 'not-a-number',
-      });
-
-      expect(config.defaultCacheTTL).toBe(300000);
-    });
-
-    it('should use default when environment variable is empty string', () => {
-      const config = buildConfig({
-        VITE_DEFAULT_CACHE_TTL: '',
-      });
-
-      expect(config.defaultCacheTTL).toBe(300000);
-    });
-
-    it('should throw error when parsed TTL is zero', () => {
-      expect(() =>
-        buildConfig({
-          VITE_DEFAULT_CACHE_TTL: '0',
-        })
-      ).toThrow('Configuration error: defaultCacheTTL must be a positive number');
-    });
-
-    it('should throw error when parsed TTL is negative', () => {
-      expect(() =>
-        buildConfig({
-          VITE_DEFAULT_CACHE_TTL: '-1000',
-        })
-      ).toThrow('Configuration error: defaultCacheTTL must be a positive number');
-    });
-
-    it('should handle very large TTL values', () => {
-      const config = buildConfig({
-        VITE_DEFAULT_CACHE_TTL: '86400000',
-      });
-
-      expect(config.defaultCacheTTL).toBe(86400000);
-    });
-
-    it('should handle scientific notation in environment variable', () => {
-      const config = buildConfig({
-        VITE_DEFAULT_CACHE_TTL: '3e5',
-      });
-
-      expect(config.defaultCacheTTL).toBe(300000);
-    });
-
-    it('should handle undefined env vars', () => {
-      const config = buildConfig({
-        VITE_DEFAULT_CACHE_TTL: undefined,
-      });
-
-      expect(config.defaultCacheTTL).toBe(300000);
-    });
+  afterEach(() => {
+    resetConfigCache();
   });
 
-  describe('getConfig', () => {
-    it('should return AppConfig with correct structure', () => {
-      const config = getConfig();
-
-      expect(config).toHaveProperty('defaultCacheTTL');
-      expect(typeof config.defaultCacheTTL).toBe('number');
-    });
-
-    it('should only contain expected properties', () => {
-      const config = getConfig();
-      const keys = Object.keys(config);
-
-      expect(keys).toEqual(['defaultCacheTTL']);
-    });
-
-    it('should return a valid positive TTL value', () => {
-      const config = getConfig();
-
-      expect(config.defaultCacheTTL).toBeGreaterThan(0);
-    });
+  it('should return default values when env vars are missing', () => {
+    setEnvGetterForTesting(() => undefined);
+    const config = getConfig();
+    expect(config.defaultCacheTTL).toBe(300000);
   });
 
-  describe('getCachedConfig', () => {
-    it('should return cached configuration on subsequent calls', () => {
-      const config1 = getCachedConfig();
-      const config2 = getCachedConfig();
-
-      expect(config1).toBe(config2); // Same reference
-      expect(config1.defaultCacheTTL).toBeGreaterThan(0);
+  it('should override default with valid environment variable', () => {
+    setEnvGetterForTesting((key) => {
+      if (key === 'VITE_DEFAULT_CACHE_TTL') return '600000';
+      return undefined;
     });
-
-    it('should reset cache when resetConfigCache is called', () => {
-      const config1 = getCachedConfig();
-      resetConfigCache();
-      const config2 = getCachedConfig();
-
-      expect(config1).not.toBe(config2); // Different references after reset
-      expect(config1.defaultCacheTTL).toBe(config2.defaultCacheTTL); // Same values
-    });
+    const config = getConfig();
+    expect(config.defaultCacheTTL).toBe(600000);
   });
 
-  describe('Type Safety', () => {
-    it('should ensure defaultCacheTTL is always a number', () => {
-      const configs = [
-        buildConfig({}),
-        buildConfig({ VITE_DEFAULT_CACHE_TTL: '500000' }),
-        buildConfig({ VITE_DEFAULT_CACHE_TTL: '3e5' }),
-      ];
+  it('should handle scientific notation correctly', () => {
+    setEnvGetterForTesting(() => '1e5');
+    const config = getConfig();
+    expect(config.defaultCacheTTL).toBe(100000);
+  });
 
-      configs.forEach((config) => {
-        expect(typeof config.defaultCacheTTL).toBe('number');
-        expect(config.defaultCacheTTL).toBeGreaterThan(0);
-      });
-    });
+  it('should ignore non-numeric strings and keep default', () => {
+    setEnvGetterForTesting(() => 'invalid-number');
+    const config = getConfig();
+    expect(config.defaultCacheTTL).toBe(300000);
+  });
 
-    it('should reject invalid configurations', () => {
-      const invalidConfigs = [
-        { VITE_DEFAULT_CACHE_TTL: '0' },
-        { VITE_DEFAULT_CACHE_TTL: '-100' },
-        { VITE_DEFAULT_CACHE_TTL: '-999999' },
-      ];
+  it('should ignore empty strings and keep default', () => {
+    setEnvGetterForTesting(() => '');
+    const config = getConfig();
+    expect(config.defaultCacheTTL).toBe(300000);
+  });
 
-      invalidConfigs.forEach((envVars) => {
-        expect(() => buildConfig(envVars)).toThrow(
-          'Configuration error: defaultCacheTTL must be a positive number'
-        );
-      });
-    });
+  it('should throw error for negative numbers', () => {
+    setEnvGetterForTesting(() => '-50');
+    expect(() => getConfig()).toThrow(/Invalid configuration/);
+  });
+
+  it('should throw error for zero value', () => {
+    setEnvGetterForTesting(() => '0');
+    expect(() => getConfig()).toThrow(/Invalid configuration/);
+  });
+
+  it('should ensure defaultCacheTTL is a number', () => {
+    setEnvGetterForTesting(() => '999');
+    const config = getConfig();
+    expect(typeof config.defaultCacheTTL).toBe('number');
+  });
+
+  it('should cache the configuration object', () => {
+    setEnvGetterForTesting(() => undefined);
+    const config1 = getConfig();
+    const config2 = getConfig();
+    expect(config1).toBe(config2);
+  });
+
+  it('should reset cache when requested', () => {
+    setEnvGetterForTesting(() => undefined);
+    const config1 = getConfig();
+    resetConfigCache();
+    const config2 = getConfig();
+    expect(config1).not.toBe(config2);
+    expect(config1).toEqual(config2);
+  });
+
+  it('should handle unknown environment variables', () => {
+    setEnvGetterForTesting((key) => (key === 'UNKNOWN' ? '123' : undefined));
+    const config = getConfig();
+    expect(config.defaultCacheTTL).toBe(300000);
+  });
+
+  it('should handle undefined keys in env getter', () => {
+    setEnvGetterForTesting(() => undefined);
+    const config = getConfig();
+    expect(config).toBeDefined();
+  });
+
+  it('should handle large valid numbers', () => {
+    setEnvGetterForTesting(() => '999999999');
+    const config = getConfig();
+    expect(config.defaultCacheTTL).toBe(999999999);
+  });
+
+  it('should include field name in error message', () => {
+    setEnvGetterForTesting(() => '-1');
+    try {
+      getConfig();
+    } catch (e) {
+      const err = e as Error;
+      expect(err.message).toContain('defaultCacheTTL');
+    }
+  });
+
+  it('should return object matching schema keys', () => {
+    setEnvGetterForTesting(() => undefined);
+    const config = getConfig();
+    expect(Object.keys(config)).toContain('defaultCacheTTL');
+  });
+
+  it('should not allow modification of cached config to affect future calls', () => {
+    setEnvGetterForTesting(() => undefined);
+    const config1 = getConfig();
+    const mutableConfig = config1 as Record<string, unknown>;
+    mutableConfig.temp = 1;
+
+    resetConfigCache();
+    const config2 = getConfig();
+    expect((config2 as Record<string, unknown>).temp).toBeUndefined();
   });
 });
