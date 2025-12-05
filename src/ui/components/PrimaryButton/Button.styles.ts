@@ -68,10 +68,10 @@ export const StyledButton = styled('button')<{
 
     // mobile
     [theme.breakpoints.down('sm')]: {
-      width: 173.07,
-      height: 56,
+      width: 131.26,
+      height: 34.13,
       padding: '12px 24px',
-      fontSize: 16,
+      fontSize: 11,
       borderRadius: 30,
       gap: theme.spacing(1),
     },
