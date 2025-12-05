@@ -17,6 +17,7 @@ const AnswerOptionComponent: FC<AnswerOptionProps> = ({ label, selected = false,
       color="primary"
       aria-pressed={selected} // ✅ comunica el estado seleccionado
       onClick={onClick}
+      role="option"
     >
       {label}
     </Button>

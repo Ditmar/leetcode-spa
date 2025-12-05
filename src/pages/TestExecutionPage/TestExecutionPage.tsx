@@ -26,6 +26,7 @@ const TestExecutionPage: React.FC<TestExecutionPageProps> = ({ testId }) => {
     handleTimeout,
   } = useTestExecution(testId);
 
+  // Eliminar `timerExpired`, la lógica del estado se deriva desde el hook
   const onTimerEnd = () => {
     handleTimeout();
   };
@@ -113,8 +114,7 @@ const TestExecutionPage: React.FC<TestExecutionPageProps> = ({ testId }) => {
         </Button>
       </Box>
 
-      {/* ❌ eliminar timerExpired */}
-      {/* ✅ usar estado centralizado */}
+      {/* Usar el estado centralizado para mostrar el mensaje de "Tiempo agotado" */}
       {state.status === 'expired' && (
         <Typography mt={2} color="error">
           ¡Tiempo agotado!

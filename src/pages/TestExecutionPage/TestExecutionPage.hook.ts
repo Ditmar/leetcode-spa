@@ -10,23 +10,16 @@ import type {
   UseTestExecutionResult,
 } from './TestExecutionPage.types';
 
-/**
- * Creates the initial state of the test.
- * If no test exists, it starts in "idle" mode.
- */
 function createInitialState(test?: TestDefinition): TestExecutionState {
   return {
     currentIndex: 0,
     answers: {},
     remainingSeconds: test?.totalDurationSeconds ?? 0,
-    status: test ? ('running' as TestStatus) : ('idle' as TestStatus),
+    status: (test ? 'running' : 'idle') as TestStatus,
     isSubmitting: false,
   };
 }
 
-/**
- * Mock function to simulate an API call with latency.
- */
 async function mockSaveAnswersToApi(): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 300));
 }
@@ -37,10 +30,6 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | undefined>(undefined);
 
-  /**
-   * Loads the test for the provided testId.
-   * If not found, clears previous state to avoid stale data.
-   */
   useEffect(() => {
     setIsLoading(true);
     setError(undefined);
@@ -49,11 +38,11 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
       const foundTest = MOCK_TESTS[testId];
 
       if (!foundTest) {
-        setError('Test not found');
+        setError('Test no encontrado');
         setIsLoading(false);
-        setTest(undefined);
-        setState(createInitialState());
-        return;
+        setTest(undefined); // 👈 limpiar test previo
+        setState(createInitialState()); // 👈 resetear el estado
+        return; // 👈 salir temprano
       }
 
       setTest(foundTest);
@@ -64,9 +53,6 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
     return () => clearTimeout(timeout);
   }, [testId]);
 
-  /**
-   * Returns the current question based on the state index.
-   */
   const currentQuestion: Question | undefined = useMemo(() => {
     if (!test) return undefined;
     return test.questions[state.currentIndex];
@@ -120,9 +106,6 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
     }));
   };
 
-  /**
-   * Submits the user's answers.
-   */
   const handleSubmit = async () => {
     if (!test) return;
 
@@ -133,7 +116,6 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
     setError(undefined);
 
     try {
-      // mock API call — no args needed for now
       await mockSaveAnswersToApi();
 
       setState((prev) => ({
