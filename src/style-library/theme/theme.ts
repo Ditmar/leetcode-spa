@@ -272,6 +272,13 @@ theme.components = {
         font-style: normal;
         font-display: swap;
       }
+        @font-face {
+        font-family: 'Poppins';
+        src: url(${PoppinsSemiBold}) format('woff2');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
     `,
   },
 };
