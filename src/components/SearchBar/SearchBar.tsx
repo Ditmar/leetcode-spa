@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material/styles';
 import React, { type FC } from 'react';
 
 import searchIcon from './assets/search-icon.svg';
@@ -9,9 +8,6 @@ import { SearchContainer, StyledInput, SearchIconButton } from './SearchBar.styl
 import type { SearchBarProps } from './SearchBar.types';
 
 export const SearchBar: FC<SearchBarProps> = (props) => {
-  const theme = useTheme();
-  const isMobile = theme.breakpoints.down('sm');
-
   const {
     placeholder = DEFAULT_PLACEHOLDER,
     inputOnChange,
