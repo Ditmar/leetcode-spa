@@ -28,13 +28,22 @@ export const LandingPage = () => {
     <LandingRoot role="region" aria-label={t(LANDING_TEXTS.brand)}>
       <HeaderContainer>
         <LogoContainer>
-          <LogoImage src={LeetCodeLogo} alt={`${t(LANDING_TEXTS.brand)} logo`} />
+          <LogoImage src={LeetCodeLogo} alt={`${t(LANDING_TEXTS.brand)} logo`} sx={{
+            [theme.breakpoints.down('sm')]: {
+              width: '10rem',
+            },
+          }} />
         </LogoContainer>
       </HeaderContainer>
 
       <HeroGrid>
         <HeroLeft>
-          <Box sx={{ marginTop: theme.spacing(10) }}>
+          <Box sx={{
+            marginTop: theme.spacing(10),
+            [theme.breakpoints.down('sm')]: {
+              marginTop: theme.spacing(10),
+            },
+          }}>
             <Typography
               component="h1"
               sx={{
@@ -113,6 +122,8 @@ export const LandingPage = () => {
             overflow: 'hidden',
           }}
         >
+
+
           <DecorativeSvgContainer
             sx={{
               position: 'absolute',
@@ -122,6 +133,13 @@ export const LandingPage = () => {
               height: theme.spacing(16),
               opacity: 1,
               zIndex: 1,
+              [theme.breakpoints.down('sm')]: {
+                position: 'absolute',
+                top: '84%',
+                left: '75%',
+                width: '79px',
+                height: '79px',
+              },
             }}
           >
             <img
@@ -147,6 +165,13 @@ export const LandingPage = () => {
               height: theme.spacing(16),
               opacity: 1,
               zIndex: 1,
+              [theme.breakpoints.down('sm')]: {
+                position: 'absolute',
+                top: '30%',
+                left: '10%',
+                width: '79px',
+                height: '79px',
+              },
             }}
           >
             <img
@@ -171,6 +196,12 @@ export const LandingPage = () => {
               height: '100%',
               opacity: 1,
               zIndex: 3,
+
+              [theme.breakpoints.down('sm')]: {
+                bottom: '0%',
+                position: 'absolute'
+              },
+
             }}
           />
         </HeroRight>

@@ -13,8 +13,9 @@ export const LandingRoot = styled(Box)(({ theme }) => ({
   alignItems: 'stretch',
   justifyContent: 'center',
   paddingLeft: theme.spacing(6),
-  [theme.breakpoints.down('md')]: {
-    // padding: theme.spacing(2),
+  [theme.breakpoints.down('sm')]: {
+    paddingLeft: theme.spacing(3),
+
   },
 }));
 
