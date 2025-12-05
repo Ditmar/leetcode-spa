@@ -36,7 +36,10 @@ export const SearchBar: FC<SearchBarProps> = (props) => {
   } = useSearchBar(hookProps);
 
   const combinedHandleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    handleInputChange(e);
+    // Type assertion para HTMLInputElement
+    const inputEvent = e as React.ChangeEvent<HTMLInputElement>;
+    handleInputChange(inputEvent);
+
     if (inputOnChange) {
       inputOnChange(e);
     }
