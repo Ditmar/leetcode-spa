@@ -3,35 +3,34 @@ import * as SearchBarStories from './SearchBar.stories';
 
 <Meta of={SearchBarStories} />
 
-# SearchBar
+# SearchBar Component
 
-A professional search bar component with debounce capabilities.
+A reusable and customizable search bar component built with Material-UI. Features debounced input handling, keyboard navigation support, and accessible design patterns.
 
-## Usage
+## Overview
+
+The SearchBar provides a user-friendly search interface with:
+- **Debounced search queries** to optimize performance
+- **Material-UI integration** with consistent styling
+- **Keyboard support** (Enter key triggers search)
+- **Accessibility features** including ARIA labels
+- **Customizable styling** via theme props
+- **Comprehensive testing** with user interaction coverage
+
+## Basic Usage
 
 ```tsx
 import { SearchBar } from './SearchBar';
 
 const MyComponent = () => {
   const handleSearch = (query: string) => {
-    console.log('Searching for:', query);
+    console.log('Search query:', query);
   };
 
-  return <SearchBar onSearch={handleSearch} />;
+  return (
+    <SearchBar 
+      onSearch={handleSearch}
+      placeholder="Search content..."
+    />
+  );
 };
-```
-
-## Props
-
-<Controls />
-
-## Stories
-
-### Default
-<Story of={SearchBarStories.Default} />
-
-### Focused
-<Story of={SearchBarStories.Focused} />
-
-### Controlled
-<Story of={SearchBarStories.Controlled} />
