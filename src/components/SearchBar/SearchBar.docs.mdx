@@ -1,0 +1,37 @@
+import { Meta, Primary, Controls, Story } from '@storybook/blocks';
+import * as SearchBarStories from './SearchBar.stories';
+
+<Meta of={SearchBarStories} />
+
+# SearchBar
+
+A professional search bar component with debounce capabilities.
+
+## Usage
+
+```tsx
+import { SearchBar } from './SearchBar';
+
+const MyComponent = () => {
+  const handleSearch = (query: string) => {
+    console.log('Searching for:', query);
+  };
+
+  return <SearchBar onSearch={handleSearch} />;
+};
+```
+
+## Props
+
+<Controls />
+
+## Stories
+
+### Default
+<Story of={SearchBarStories.Default} />
+
+### Focused
+<Story of={SearchBarStories.Focused} />
+
+### Controlled
+<Story of={SearchBarStories.Controlled} />
