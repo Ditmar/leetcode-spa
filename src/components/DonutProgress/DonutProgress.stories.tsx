@@ -83,7 +83,7 @@ export const PrimaryColor: Story = {
 export const SuccessColor: Story = {
   args: {
     percentage: 90,
-    color: 'success',
+    color: 'auto',
   },
 };
 
@@ -137,7 +137,7 @@ export const MultipleExamples: Story = {
       <DonutProgress percentage={28} color="auto" />
       <DonutProgress percentage={75} color="auto" />
       <DonutProgress percentage={50} color="primary" />
-      <DonutProgress percentage={90} color="success" />
+      <DonutProgress percentage={90} color="auto" />
     </>
   ),
 };

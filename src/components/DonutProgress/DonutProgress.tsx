@@ -21,6 +21,7 @@ export const DonutProgress = ({
   const offset = circumference - (safePercentage / 100) * circumference;
   const computedColor = useDonutColor(color, safePercentage);
   const trackColor = theme.palette.mode === 'dark' ? TRACK_COLOR.dark : TRACK_COLOR.light;
+
   return (
     <DonutContainer
       size={size}
@@ -56,7 +57,9 @@ export const DonutProgress = ({
           }}
         />
       </svg>
-      <DonutText aria-hidden="true">{Math.round(safePercentage)}%</DonutText>
+      <DonutText size={size} aria-hidden="true">
+        {Math.round(safePercentage)}%
+      </DonutText>
     </DonutContainer>
   );
 };
