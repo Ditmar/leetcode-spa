@@ -12,7 +12,7 @@ export const SearchContainer = styled(Box)(({ theme }) => ({
   boxSizing: 'border-box',
   border: `1px solid ${theme.palette.divider}`, // Optional: add border if needed for visibility on white
   '&:hover': {
-    background: '#F0F0F0', // Slight hover effect
+    background: '#F0F0F0',
   },
   transition: theme.transitions.create(['background-color', 'box-shadow']),
 }));
