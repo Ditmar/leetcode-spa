@@ -424,3 +424,20 @@ export function getPillTagDimensions(
 ) {
   return getPillTagTokens(theme).dimensions[variant][breakpoint];
 }
+export const DONUT_PROGRESS_COLORS = {
+  low: '#D21515',
+  medium: '#FB8C00',
+  high: '#0DD715',
+} as const;
+
+export const DONUT_PROGRESS_TYPOGRAPHY = {
+  fontFamily: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+  fontSizeScale: 0.21, // Factor de escala relativo al tamaño de la dona
+  fontWeight: 500,
+  color: '#FFFFFF',
+} as const;
+
+export const DONUT_PROGRESS_TRACK_COLOR = {
+  light: 'rgba(200, 200, 200, 0.3)',
+  dark: 'rgba(107, 104, 104, 0.3)',
+} as const;
