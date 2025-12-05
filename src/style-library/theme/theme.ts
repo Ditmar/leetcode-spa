@@ -27,12 +27,34 @@ declare module '@mui/material/styles' {
 
   interface Palette {
     backgroundQuestion: string;
+
+    customAccent1: { main: string };
+    customAccent2: { main: string };
+    customAccent3: { main: string };
+    customAccent4: { main: string };
+    gradientStart: { main: string };
+    gradientEnd: { main: string };
+
+    neutralBg: { main: string };
   }
 
   interface PaletteOptions {
     backgroundQuestion?: string;
+
+    customAccent1?: { main: string };
+    customAccent2?: { main: string };
+    customAccent3?: { main: string };
+    customAccent4?: { main: string };
+    gradientStart?: { main: string };
+    gradientEnd?: { main: string };
+
+    neutralBg?: { main: string };
   }
   interface Theme {
+    gradients?: {
+      background: (palette: Palette) => string;
+    };
+
     consoleIO?: {
       dimensions: {
         containerWidth: number;
@@ -191,12 +213,31 @@ theme.typography = {
 
 theme.palette = {
   ...theme.palette,
+  customAccent1: { main: '#FBFF49' },
+  customAccent2: { main: '#8E49FF' },
+  customAccent3: { main: '#8CBCFE' },
+  customAccent4: { main: '#FFE4C4' },
+  gradientStart: { main: '#B23DEB' },
+  gradientEnd: { main: '#DE8FFF' },
+
+  neutralBg: { main: '#F5F5F5' },
+
   text: {
     primary: '#000000',
     secondary: '#4F4F4F',
     disabled: '',
   },
   backgroundQuestion: '#F1F3F9',
+};
+
+theme.gradients = {
+  background: (palette) => `
+    radial-gradient(30.1% 50.86% at 100% 100%, ${palette.customAccent1.main} 0%, ${palette.primary.light}00 100%),
+    radial-gradient(58.68% 99.14% at 0% 0%, ${palette.customAccent2.main} 0%, ${palette.secondary.light}00 100%),
+    radial-gradient(33.55% 50.83% at 55.38% 89.56%, ${palette.customAccent3.main} 0%, ${palette.info.light}00 100%),
+    radial-gradient(78.12% 89.33% at 78.13% 29.89%, ${palette.customAccent4.main} 0%, ${palette.warning.light}00 100%),
+    linear-gradient(0deg, ${palette.neutralBg.main}, ${palette.neutralBg.main})
+  `,
 };
 
 theme.components = {
