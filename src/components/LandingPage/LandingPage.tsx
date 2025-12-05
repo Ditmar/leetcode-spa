@@ -28,22 +28,28 @@ export const LandingPage = () => {
     <LandingRoot role="region" aria-label={t(LANDING_TEXTS.brand)}>
       <HeaderContainer>
         <LogoContainer>
-          <LogoImage src={LeetCodeLogo} alt={`${t(LANDING_TEXTS.brand)} logo`} sx={{
-            [theme.breakpoints.down('sm')]: {
-              width: '10rem',
-            },
-          }} />
+          <LogoImage
+            src={LeetCodeLogo}
+            alt={`${t(LANDING_TEXTS.brand)} logo`}
+            sx={{
+              [theme.breakpoints.down('sm')]: {
+                width: '10rem',
+              },
+            }}
+          />
         </LogoContainer>
       </HeaderContainer>
 
       <HeroGrid>
         <HeroLeft>
-          <Box sx={{
-            marginTop: theme.spacing(10),
-            [theme.breakpoints.down('sm')]: {
+          <Box
+            sx={{
               marginTop: theme.spacing(10),
-            },
-          }}>
+              [theme.breakpoints.down('sm')]: {
+                marginTop: theme.spacing(10),
+              },
+            }}
+          >
             <Typography
               component="h1"
               sx={{
@@ -122,8 +128,6 @@ export const LandingPage = () => {
             overflow: 'hidden',
           }}
         >
-
-
           <DecorativeSvgContainer
             sx={{
               position: 'absolute',
@@ -199,9 +203,8 @@ export const LandingPage = () => {
 
               [theme.breakpoints.down('sm')]: {
                 bottom: '0%',
-                position: 'absolute'
+                position: 'absolute',
               },
-
             }}
           />
         </HeroRight>
