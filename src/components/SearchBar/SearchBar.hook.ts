@@ -1,6 +1,8 @@
-import { useState, useEffect, useCallback, type ChangeEvent, type KeyboardEvent } from 'react';
-import type { SearchBarProps } from './SearchBar.types';
+import { useState, useEffect, type ChangeEvent, type KeyboardEvent } from 'react';
+
 import { DEBOUNCE_DELAY } from './SearchBar.constants';
+
+import type { SearchBarProps } from './SearchBar.types';
 
 export const useSearchBar = (props: SearchBarProps) => {
   const {
@@ -8,7 +10,7 @@ export const useSearchBar = (props: SearchBarProps) => {
     defaultValue,
     onSearch,
     debounceDelay = DEBOUNCE_DELAY,
-    onChange
+    onChange,
   } = props;
 
   const isControlled = controlledValue !== undefined;
@@ -50,7 +52,9 @@ export const useSearchBar = (props: SearchBarProps) => {
     }
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement | HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleKeyDown = (
+    e: KeyboardEvent<HTMLDivElement | HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     if (e.key === 'Enter') {
       if (onSearch) {
         onSearch(internalValue);
@@ -68,6 +72,6 @@ export const useSearchBar = (props: SearchBarProps) => {
     value: isControlled ? controlledValue : internalValue,
     handleInputChange,
     handleKeyDown,
-    handleButtonClick
+    handleButtonClick,
   };
 };

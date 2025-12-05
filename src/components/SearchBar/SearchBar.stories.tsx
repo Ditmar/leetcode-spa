@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+
 import { SearchBar } from './SearchBar';
-import { action } from '@storybook/addon-actions';
 import { DEFAULT_PLACEHOLDER } from './SearchBar.constants';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof SearchBar> = {
     title: 'Components/SearchBar',
@@ -40,10 +41,7 @@ export const Controlled: Story = {
                 {...args}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                onSearch={(val) => {
-                    action('searched')(val);
-                    console.log('Search triggered:', val);
-                }}
+                onSearch={args.onSearch}
             />
         );
     },
