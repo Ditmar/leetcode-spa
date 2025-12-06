@@ -111,8 +111,8 @@ const meta = {
     showStats: true,
     stats: {
       courses: 12,
-      points: 3450,
-      ranking: 23,
+      points: 850,
+      ranking: 135,
     },
   },
   tags: ['autodocs'],
@@ -132,7 +132,7 @@ export const Playground: Story = {
     showStats: true,
     stats: {
       courses: 12,
-      points: 3450,
+      points: 850,
       ranking: 23,
     },
   },
@@ -146,8 +146,8 @@ export const Default: Story = {
     avatarUrl: 'https://i.pravatar.cc/150?img=5',
     stats: {
       courses: 8,
-      points: 2150,
-      ranking: 42,
+      points: 850,
+      ranking: 125,
     },
   },
 };

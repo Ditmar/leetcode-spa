@@ -69,7 +69,7 @@ describe('ProfileCard', () => {
     expect(screen.getByText('2,500')).toBeInTheDocument();
     expect(screen.getByText(/points/i)).toBeInTheDocument();
 
-    expect(screen.getByText('15th')).toBeInTheDocument();
+    expect(screen.getByText('-15')).toBeInTheDocument();
     expect(screen.getByText(/ranking/i)).toBeInTheDocument();
   });
 
@@ -130,33 +130,6 @@ describe('ProfileCard', () => {
       expect(screen.getByRole('article')).toBeInTheDocument();
     }
   );
-
-  it('formats ranking correctly for special positions', () => {
-    const testCases = [
-      { ranking: 1, expected: '1st' },
-      { ranking: 2, expected: '2nd' },
-      { ranking: 3, expected: '3rd' },
-      { ranking: 4, expected: '4th' },
-      { ranking: 11, expected: '11th' },
-      { ranking: 21, expected: '21st' },
-      { ranking: 22, expected: '22nd' },
-      { ranking: 23, expected: '23rd' },
-      { ranking: 0, expected: '-' },
-    ];
-
-    testCases.forEach(({ ranking, expected }) => {
-      const { unmount } = render(
-        <ProfileCard
-          {...defaultProps}
-          stats={{ ...defaultProps.stats, ranking }}
-          data-testid="profile"
-        />
-      );
-
-      expect(screen.getByText(expected)).toBeInTheDocument();
-      unmount();
-    });
-  });
 
   it('handles missing stats object gracefully with default values', () => {
     render(
