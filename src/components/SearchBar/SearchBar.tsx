@@ -1,21 +1,30 @@
-import React, { type FC } from 'react';
+import { useTheme } from '@mui/material/styles';
+import React, { type FC, memo } from 'react';
 
 import searchIcon from './assets/search-icon.svg';
-import { DEFAULT_PLACEHOLDER } from './SearchBar.constants';
+import {
+  DEFAULT_PLACEHOLDER,
+  DEFAULT_BUTTON_ARIA_LABEL,
+  DEFAULT_INPUT_ARIA_LABEL,
+} from './SearchBar.constants';
 import { useSearchBar } from './SearchBar.hook';
 import { SearchContainer, StyledInput, SearchIconButton } from './SearchBar.styles';
 
-import type { SearchBarProps } from './SearchBar.types';
+import type { PropsSearchBar } from './SearchBar.types';
 
-export const SearchBar: FC<SearchBarProps> = (props) => {
+const SearchBarComponent: FC<PropsSearchBar> = (props) => {
+  const theme = useTheme();
+
   const {
     placeholder = DEFAULT_PLACEHOLDER,
-    inputOnChange,
     onSearch,
     debounceDelay,
     value,
     defaultValue,
     onChange,
+    autoSearch = false,
+    buttonAriaLabel = DEFAULT_BUTTON_ARIA_LABEL,
+    inputAriaLabel = DEFAULT_INPUT_ARIA_LABEL,
     disabled,
     ...otherProps
   } = props;
@@ -26,6 +35,7 @@ export const SearchBar: FC<SearchBarProps> = (props) => {
     value,
     defaultValue,
     onChange,
+    autoSearch,
   };
 
   const {
@@ -35,33 +45,33 @@ export const SearchBar: FC<SearchBarProps> = (props) => {
     handleButtonClick,
   } = useSearchBar(hookProps);
 
-  const combinedHandleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    // Type assertion para HTMLInputElement
-    const inputEvent = e as React.ChangeEvent<HTMLInputElement>;
-    handleInputChange(inputEvent);
-
-    if (inputOnChange) {
-      inputOnChange(e);
-    }
-  };
-
   return (
     <SearchContainer data-testid="search-bar-container">
       <SearchIconButton
         onClick={handleButtonClick}
-        aria-label="search"
+        aria-label={buttonAriaLabel}
         data-testid="search-button"
         disabled={disabled}
+        size="small"
       >
-        <img src={searchIcon} alt="Search" data-testid="search-icon" />
+        <img
+          src={searchIcon}
+          alt=""
+          aria-hidden="true"
+          data-testid="search-icon"
+          style={{
+            width: theme.spacing(2.5),
+            height: theme.spacing(2.5),
+          }}
+        />
       </SearchIconButton>
       <StyledInput
         value={inputValue}
-        onChange={combinedHandleChange}
+        onChange={handleInputChange}
         placeholder={placeholder}
         variant="standard"
         inputProps={{
-          'aria-label': 'Search content',
+          'aria-label': inputAriaLabel,
           'data-testid': 'search-input',
           onKeyDown: handleKeyDown,
         }}
@@ -71,3 +81,5 @@ export const SearchBar: FC<SearchBarProps> = (props) => {
     </SearchContainer>
   );
 };
+
+export const SearchBar = memo(SearchBarComponent);

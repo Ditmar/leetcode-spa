@@ -1,75 +1,81 @@
-import { useState, useEffect, type ChangeEvent, type KeyboardEvent } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { DEBOUNCE_DELAY } from './SearchBar.constants';
 
-import type { SearchBarProps } from './SearchBar.types';
+import type { PropsSearchBar } from './SearchBar.types';
 
-export const useSearchBar = (props: SearchBarProps) => {
+export const useSearchBar = (props: PropsSearchBar) => {
   const {
     value: controlledValue,
-    defaultValue,
+    defaultValue = '',
     onSearch,
     debounceDelay = DEBOUNCE_DELAY,
     onChange,
+    autoSearch = false,
   } = props;
 
   const isControlled = controlledValue !== undefined;
-  const [internalValue, setInternalValue] = useState(defaultValue || '');
+  const [internalValue, setInternalValue] = useState<string>(defaultValue);
 
-  // Sync internal state with controlled value
+  const currentValue = useMemo(
+    () => (isControlled ? (controlledValue ?? '') : internalValue),
+    [isControlled, controlledValue, internalValue]
+  );
+
   useEffect(() => {
-    if (isControlled) {
+    if (isControlled && controlledValue !== undefined) {
       setInternalValue(controlledValue);
     }
   }, [controlledValue, isControlled]);
 
-  // Debounce logic
   useEffect(() => {
+    if (!autoSearch || !onSearch) {
+      return;
+    }
+
     const handler = setTimeout(() => {
-      // Only trigger search if not controlled or if explicit requirement
-      // Usually debounce is for auto-search on type.
-      // Requirement says "debounce... onSearch seguro".
-      // If we want auto-search on type:
-      if (onSearch && internalValue) {
-        // onSearch(internalValue); // Uncomment if auto-search is desired
+      if (currentValue.trim() !== '') {
+        onSearch(currentValue);
       }
     }, debounceDelay);
 
     return () => {
       clearTimeout(handler);
     };
-  }, [internalValue, debounceDelay, onSearch]);
+  }, [currentValue, debounceDelay, onSearch, autoSearch]);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const newValue = e.target.value;
 
-    if (!isControlled) {
-      setInternalValue(newValue);
-    }
-
-    if (onChange) {
-      onChange(e);
-    }
-  };
-
-  const handleKeyDown = (
-    e: KeyboardEvent<HTMLDivElement | HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    if (e.key === 'Enter') {
-      if (onSearch) {
-        onSearch(internalValue);
+      if (!isControlled) {
+        setInternalValue(newValue);
       }
-    }
-  };
 
-  const handleButtonClick = () => {
+      if (onChange) {
+        onChange(e);
+      }
+    },
+    [isControlled, onChange]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement | HTMLInputElement | HTMLTextAreaElement>) => {
+      if (e.key === 'Enter' && onSearch) {
+        onSearch(currentValue);
+      }
+    },
+    [onSearch, currentValue]
+  );
+
+  const handleButtonClick = useCallback(() => {
     if (onSearch) {
-      onSearch(internalValue);
+      onSearch(currentValue);
     }
-  };
+  }, [onSearch, currentValue]);
 
   return {
-    value: isControlled ? controlledValue : internalValue,
+    value: currentValue,
     handleInputChange,
     handleKeyDown,
     handleButtonClick,
