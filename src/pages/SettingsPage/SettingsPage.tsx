@@ -1,19 +1,25 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
+  ThemeProvider,
+  createTheme,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
   Switch,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ThemeProvider,
-  createTheme,
+  Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { LANGUAGE_OPTIONS, SETTINGS_LABELS, ACCESSIBILITY_IDS } from './SettingsPage.constants';
+import {
+  LANGUAGE_OPTIONS,
+  SETTINGS_LABELS,
+  ACCESSIBILITY_IDS,
+  SETTINGS_TEST_IDS,
+} from './SettingsPage.constants';
 import { useSettingsPage } from './SettingsPage.hook';
 import {
   StyledSettingsContainer,
@@ -28,245 +34,230 @@ import {
 
 import type { SettingsPageProps } from './SettingsPage.types';
 
-export const SettingsPage: React.FC<SettingsPageProps> = ({ forceMobile }) => {
+export const SettingsPage: React.FC<SettingsPageProps> = React.memo(({ forceMobile }) => {
   const { preferences, isLoading, toggleTheme, setNotifications, setLanguage, setPrivacySetting } =
-    useSettingsPage();
+    useSettingsPage({ forceMobile });
+  const muiTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: preferences.theme,
+        },
+      }),
+    [preferences.theme]
+  );
 
-  if (isLoading) return <div>Loading...</div>;
-  const muiTheme = createTheme({
-    palette: {
-      mode: preferences.theme,
-    },
-  });
+  const t = SETTINGS_LABELS[preferences.language];
+  const isMobileView = forceMobile ?? false;
 
-  const isMobile = forceMobile ?? window.innerWidth < 600;
-
-  const labels = SETTINGS_LABELS[preferences.language];
-
-  const renderThemeSection = () => (
-    <SectionCard>
-      <SectionTitle>{labels.sectionTheme}</SectionTitle>
-      <OptionGroup>
-        <OptionRow>
-          <OptionDescription>{labels.theme}</OptionDescription>
+  const PrivacySwitches = () => (
+    <>
+      {(Object.keys(preferences.privacy) as Array<keyof typeof preferences.privacy>).map((key) => (
+        <OptionRow key={key}>
+          <div>
+            <Typography variant="body1" fontWeight="medium">
+              {
+                t[
+                  key === 'publicProfile'
+                    ? 'privacyPublicProfile'
+                    : key === 'shareActivity'
+                      ? 'privacyShareActivity'
+                      : 'privacySaveHistory'
+                ]
+              }
+            </Typography>
+            <OptionDescription>
+              {key === 'publicProfile' && 'Tu perfil será visible para otros usuarios'}
+              {key === 'shareActivity' && 'Tu actividad aparecerá en el feed público'}
+              {key === 'saveHistory' && 'Guardamos tu historial de navegación'}
+            </OptionDescription>
+          </div>
           <Switch
-            id={ACCESSIBILITY_IDS.themeSwitch}
-            checked={preferences.theme === 'dark'}
-            onChange={toggleTheme}
-            inputProps={{ 'aria-label': labels.theme }}
+            checked={preferences.privacy[key]}
+            onChange={(e) => setPrivacySetting(key, e.target.checked)}
+            inputProps={{
+              'aria-label':
+                t[
+                  key === 'publicProfile'
+                    ? 'privacyPublicProfile'
+                    : key === 'shareActivity'
+                      ? 'privacyShareActivity'
+                      : 'privacySaveHistory'
+                ],
+            }}
+            id={
+              ACCESSIBILITY_IDS[
+                key === 'publicProfile'
+                  ? 'privacyPublicProfile'
+                  : key === 'shareActivity'
+                    ? 'privacyShareActivity'
+                    : 'privacySaveHistory'
+              ]
+            }
           />
         </OptionRow>
-      </OptionGroup>
-    </SectionCard>
+      ))}
+    </>
   );
 
-  const renderNotificationsSection = () => (
-    <SectionCard>
-      <SectionTitle>{labels.sectionNotifications}</SectionTitle>
-      <OptionGroup>
-        <OptionRow>
-          <OptionDescription>{labels.notifications}</OptionDescription>
-          <Switch
-            id={ACCESSIBILITY_IDS.notificationsSwitch}
-            checked={preferences.notifications}
-            onChange={(e) => setNotifications(e.target.checked)}
-            inputProps={{ 'aria-label': labels.notifications }}
-          />
-        </OptionRow>
-      </OptionGroup>
-    </SectionCard>
-  );
-
-  const renderLanguageSection = () => (
-    <SectionCard>
-      <SectionTitle>{labels.sectionLanguage}</SectionTitle>
-      <OptionGroup>
-        <OptionRow>
-          <FormControl fullWidth>
-            <InputLabel id="language-select-label">{labels.language}</InputLabel>
-            <Select
-              labelId="language-select-label"
-              id={ACCESSIBILITY_IDS.languageSelect}
-              value={preferences.language}
-              onChange={(e) => setLanguage(e.target.value)}
-            >
-              {LANGUAGE_OPTIONS.map((lang) => (
-                <MenuItem key={lang.value} value={lang.value}>
-                  {lang.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </OptionRow>
-      </OptionGroup>
-    </SectionCard>
-  );
-
-  const renderPrivacySection = () => {
-    const PRIVACY_LABELS: Record<keyof typeof preferences.privacy, string> = {
-      publicProfile: labels.privacyPublicProfile,
-      shareActivity: labels.privacyShareActivity,
-      saveHistory: labels.privacySaveHistory,
-    };
-
-    const PRIVACY_IDS: Record<keyof typeof preferences.privacy, string> = {
-      publicProfile: ACCESSIBILITY_IDS.privacyPublicProfile,
-      shareActivity: ACCESSIBILITY_IDS.privacyShareActivity,
-      saveHistory: ACCESSIBILITY_IDS.privacySaveHistory,
-    };
-
+  if (isLoading) {
     return (
-      <SectionCard>
-        <SectionTitle>{labels.sectionPrivacy}</SectionTitle>
-        <PrivacyBox>
-          {(Object.keys(preferences.privacy) as Array<keyof typeof preferences.privacy>).map(
-            (key) => (
-              <OptionRow key={key}>
-                <OptionDescription>{PRIVACY_LABELS[key]}</OptionDescription>
-                <Switch
-                  checked={preferences.privacy[key]}
-                  onChange={(e) => setPrivacySetting(key, e.target.checked)}
-                  inputProps={{ 'aria-label': PRIVACY_LABELS[key] }}
-                  id={PRIVACY_IDS[key]}
-                />
-              </OptionRow>
-            ),
-          )}
-        </PrivacyBox>
-      </SectionCard>
-    );
-  };
-
-  if (isMobile) {
-    const renderThemeContent = () => (
-      <OptionGroup>
-        <OptionRow>
-          <OptionDescription>{labels.theme}</OptionDescription>
-          <Switch
-            id={ACCESSIBILITY_IDS.themeSwitch}
-            checked={preferences.theme === 'dark'}
-            onChange={toggleTheme}
-            inputProps={{ 'aria-label': labels.theme }}
-          />
-        </OptionRow>
-      </OptionGroup>
-    );
-
-    const renderNotificationsContent = () => (
-      <OptionGroup>
-        <OptionRow>
-          <OptionDescription>{labels.notifications}</OptionDescription>
-          <Switch
-            id={ACCESSIBILITY_IDS.notificationsSwitch}
-            checked={preferences.notifications}
-            onChange={(e) => setNotifications(e.target.checked)}
-            inputProps={{ 'aria-label': labels.notifications }}
-          />
-        </OptionRow>
-      </OptionGroup>
-    );
-
-    const renderLanguageContent = () => (
-      <OptionGroup>
-        <OptionRow>
-          <FormControl fullWidth>
-            <InputLabel id="language-select-label">{labels.language}</InputLabel>
-            <Select
-              labelId="language-select-label"
-              id={ACCESSIBILITY_IDS.languageSelect}
-              value={preferences.language}
-              onChange={(e) => setLanguage(e.target.value)}
-            >
-              {LANGUAGE_OPTIONS.map((lang) => (
-                <MenuItem key={lang.value} value={lang.value}>
-                  {lang.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </OptionRow>
-      </OptionGroup>
-    );
-
-    const renderPrivacyContent = () => {
-      const PRIVACY_LABELS: Record<keyof typeof preferences.privacy, string> = {
-        publicProfile: labels.privacyPublicProfile,
-        shareActivity: labels.privacyShareActivity,
-        saveHistory: labels.privacySaveHistory,
-      };
-
-      const PRIVACY_IDS: Record<keyof typeof preferences.privacy, string> = {
-        publicProfile: ACCESSIBILITY_IDS.privacyPublicProfile,
-        shareActivity: ACCESSIBILITY_IDS.privacyShareActivity,
-        saveHistory: ACCESSIBILITY_IDS.privacySaveHistory,
-      };
-
-      return (
-        <PrivacyBox>
-          {(Object.keys(preferences.privacy) as Array<keyof typeof preferences.privacy>).map(
-            (key) => (
-              <OptionRow key={key}>
-                <OptionDescription>{PRIVACY_LABELS[key]}</OptionDescription>
-                <Switch
-                  checked={preferences.privacy[key]}
-                  onChange={(e) => setPrivacySetting(key, e.target.checked)}
-                  inputProps={{ 'aria-label': PRIVACY_LABELS[key] }}
-                  id={PRIVACY_IDS[key]}
-                />
-              </OptionRow>
-            ),
-          )}
-        </PrivacyBox>
-      );
-    };
-
-    return (
-      <ThemeProvider theme={muiTheme}>
-        <StyledSettingsContainer>
-          <SettingsLayout>
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                {labels.sectionTheme}
-              </AccordionSummary>
-              <AccordionDetails>{renderThemeContent()}</AccordionDetails>
-            </Accordion>
-
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                {labels.sectionNotifications}
-              </AccordionSummary>
-              <AccordionDetails>{renderNotificationsContent()}</AccordionDetails>
-            </Accordion>
-
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                {labels.sectionLanguage}
-              </AccordionSummary>
-              <AccordionDetails>{renderLanguageContent()}</AccordionDetails>
-            </Accordion>
-
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                {labels.sectionPrivacy}
-              </AccordionSummary>
-              <AccordionDetails>{renderPrivacyContent()}</AccordionDetails>
-            </Accordion>
-          </SettingsLayout>
-        </StyledSettingsContainer>
-      </ThemeProvider>
+      <StyledSettingsContainer data-testid={SETTINGS_TEST_IDS.container}>
+        <Typography variant="h6" textAlign="center">
+          Cargando preferencias...
+        </Typography>
+      </StyledSettingsContainer>
     );
   }
 
+  const DesktopLayout = () => (
+    <>
+      <SectionCard data-testid={SETTINGS_TEST_IDS.themeSection}>
+        <SectionTitle>{t.sectionTheme}</SectionTitle>
+        <OptionGroup>
+          <OptionRow>
+            <OptionDescription>{t.theme}</OptionDescription>
+            <Switch
+              checked={preferences.theme === 'dark'}
+              onChange={toggleTheme}
+              inputProps={{ 'aria-label': t.theme }}
+              id={ACCESSIBILITY_IDS.themeSwitch}
+            />
+          </OptionRow>
+        </OptionGroup>
+      </SectionCard>
+
+      <SectionCard data-testid={SETTINGS_TEST_IDS.notificationsSection}>
+        <SectionTitle>{t.sectionNotifications}</SectionTitle>
+        <OptionGroup>
+          <OptionRow>
+            <OptionDescription>{t.notifications}</OptionDescription>
+            <Switch
+              checked={preferences.notifications}
+              onChange={(e) => setNotifications(e.target.checked)}
+              inputProps={{ 'aria-label': t.notifications }}
+              id={ACCESSIBILITY_IDS.notificationsSwitch}
+            />
+          </OptionRow>
+        </OptionGroup>
+      </SectionCard>
+
+      <SectionCard data-testid={SETTINGS_TEST_IDS.languageSection}>
+        <SectionTitle>{t.sectionLanguage}</SectionTitle>
+        <OptionGroup>
+          <OptionRow>
+            <FormControl fullWidth>
+              <InputLabel id="language-select-label">{t.language}</InputLabel>
+              <Select
+                labelId="language-select-label"
+                id={ACCESSIBILITY_IDS.languageSelect}
+                value={preferences.language}
+                label={t.language}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={(e) => setLanguage(e.target.value as any)}
+              >
+                {LANGUAGE_OPTIONS.map(({ value, label }) => (
+                  <MenuItem key={value} value={value}>
+                    {label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </OptionRow>
+        </OptionGroup>
+      </SectionCard>
+
+      <SectionCard data-testid={SETTINGS_TEST_IDS.privacySection}>
+        <SectionTitle>{t.sectionPrivacy}</SectionTitle>
+        <PrivacyBox>
+          <PrivacySwitches />
+        </PrivacyBox>
+      </SectionCard>
+    </>
+  );
+
+  const MobileLayout = () => (
+    <>
+      <Accordion defaultExpanded>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <SectionTitle>{t.sectionTheme}</SectionTitle>
+        </AccordionSummary>
+        <AccordionDetails>
+          <OptionRow>
+            <OptionDescription>{t.theme}</OptionDescription>
+            <Switch
+              checked={preferences.theme === 'dark'}
+              onChange={toggleTheme}
+              inputProps={{ 'aria-label': t.theme }}
+              id={ACCESSIBILITY_IDS.themeSwitch}
+            />
+          </OptionRow>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <SectionTitle>{t.sectionNotifications}</SectionTitle>
+        </AccordionSummary>
+        <AccordionDetails>
+          <OptionRow>
+            <OptionDescription>{t.notifications}</OptionDescription>
+            <Switch
+              checked={preferences.notifications}
+              onChange={(e) => setNotifications(e.target.checked)}
+              inputProps={{ 'aria-label': t.notifications }}
+              id={ACCESSIBILITY_IDS.notificationsSwitch}
+            />
+          </OptionRow>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <SectionTitle>{t.sectionLanguage}</SectionTitle>
+        </AccordionSummary>
+        <AccordionDetails>
+          <FormControl fullWidth>
+            <InputLabel id="mobile-language-select-label">{t.language}</InputLabel>
+            <Select
+              labelId="mobile-language-select-label"
+              value={preferences.language}
+              label={t.language}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onChange={(e) => setLanguage(e.target.value as any)}
+            >
+              {LANGUAGE_OPTIONS.map(({ value, label }) => (
+                <MenuItem key={value} value={value}>
+                  {label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <SectionTitle>{t.sectionPrivacy}</SectionTitle>
+        </AccordionSummary>
+        <AccordionDetails>
+          <PrivacyBox>
+            <PrivacySwitches />
+          </PrivacyBox>
+        </AccordionDetails>
+      </Accordion>
+    </>
+  );
+
   return (
     <ThemeProvider theme={muiTheme}>
-      <StyledSettingsContainer>
-        <SettingsLayout>
-          {renderThemeSection()}
-          {renderNotificationsSection()}
-          {renderLanguageSection()}
-          {renderPrivacySection()}
+      <StyledSettingsContainer forceMobile={isMobileView} data-testid={SETTINGS_TEST_IDS.container}>
+        <SettingsLayout direction="column" spacing={4}>
+          {isMobileView ? <MobileLayout /> : <DesktopLayout />}
         </SettingsLayout>
       </StyledSettingsContainer>
     </ThemeProvider>
   );
-};
+});
+
+SettingsPage.displayName = 'SettingsPage';

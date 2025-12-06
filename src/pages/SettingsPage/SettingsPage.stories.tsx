@@ -1,37 +1,62 @@
+import { ThemeProvider, createTheme } from '@mui/material';
+
 import { SettingsPage } from './SettingsPage';
 
-import type { UserPreferences, SettingsPageProps } from './SettingsPage.types';
+import type { SettingsPageProps } from './SettingsPage.types';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<SettingsPageProps> = {
-  title: 'Pages/SettingsPage',
+const meta: Meta<typeof SettingsPage> = {
+  title: 'Pages/Settings',
   component: SettingsPage,
-  parameters: { layout: 'fullscreen' },
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <ThemeProvider theme={createTheme()}>
+        <div className="min-h-screen bg-gray-50 p-4">
+          <Story />
+        </div>
+      </ThemeProvider>
+    ),
+  ],
+  argTypes: {
+    forceMobile: {
+      control: 'boolean',
+    },
+    initialPreferences: {
+      control: 'object',
+    },
+  },
 };
 
 export default meta;
 
-type Story = StoryObj<SettingsPageProps>;
+type Story = StoryObj<typeof meta>;
 
-const preferencesLight: Partial<UserPreferences> = {
+const lightEn: SettingsPageProps['initialPreferences'] = {
   theme: 'light',
-  notifications: true,
   language: 'en',
+  notifications: true,
   privacy: { publicProfile: true, shareActivity: true, saveHistory: true },
 };
 
-const preferencesDark: Partial<UserPreferences> = {
-  theme: 'dark',
-  notifications: false,
-  language: 'es',
-  privacy: { publicProfile: false, shareActivity: true, saveHistory: false },
+export const Desktop: Story = {
+  args: {
+    initialPreferences: lightEn,
+    forceMobile: false,
+  },
+  parameters: {
+    viewport: { defaultViewport: 'desktop' },
+  },
 };
 
-export const ComputerView: Story = {
-  args: { initialPreferences: preferencesLight, forceMobile: false, readOnly: true },
+export const Mobile: Story = {
+  args: {
+    initialPreferences: lightEn,
+    forceMobile: true,
+  },
+  parameters: {
+    viewport: { defaultViewport: 'mobile' },
+  },
 };
-
-export const MobileView: Story = {
-  args: { initialPreferences: preferencesDark, forceMobile: true, readOnly: true },
-};
-
