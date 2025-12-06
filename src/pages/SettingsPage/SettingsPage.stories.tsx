@@ -6,7 +6,7 @@ import type { SettingsPageProps } from './SettingsPage.types';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof SettingsPage> = {
-  title: 'Pages/Settings',
+  title: 'Pages/SettingsPage',
   component: SettingsPage,
   parameters: {
     layout: 'fullscreen',
