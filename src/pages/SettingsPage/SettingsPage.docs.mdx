@@ -1,0 +1,91 @@
+import { Meta, Canvas } from '@storybook/blocks';
+import * as SettingsStories from './SettingsPage.stories';
+
+<Meta title="Pages/SettingsPage" />
+
+# Settings Page
+
+User settings page that allows customization of:
+
+- Theme (light/dark)
+- Notifications
+- Language (English / Spanish)
+- Privacy settings
+
+The page is fully responsive: on small screens it uses collapsible accordions, while on desktop it displays clean cards.
+
+---
+
+## Key Features
+
+- Automatic persistence in `localStorage` using a versioned key (`app-user-preferences-v1`)
+- Full internationalization (i18n) support from day one
+- Theme applied globally via `class="dark"` and `data-theme` on `<html>`
+- Debounced saving (300ms) to prevent excessive writes
+- Migration-ready for future preference schema changes
+- Complete accessibility (ARIA labels, semantic IDs)
+- Full test coverage (unit, RTL, Storybook)
+- Performance optimized with `React.memo`, `useMemo`, and `useCallback`
+
+---
+
+## Usage
+
+```tsx
+import { SettingsPage } from '@/pages/SettingsPage';
+
+function App() {
+  return <SettingsPage />;
+}
+```
+### Available Props
+
+| Prop                  | Type                              | Description                                              | Default  |
+|-----------------------|-----------------------------------|-----------------------------------------------------------|----------|
+| `initialPreferences`  | `Partial<UserPreferences>`        | Initial values (useful for testing, SSR, or previews)     | —        |
+| `forceMobile`         | `boolean`                         | Forces mobile layout (great for Storybook and testing)    | `false`  |
+
+### View
+
+<Canvas of={SettingsStories.Desktop} />
+
+### Supported Languages
+
+| Code | Language | Labels Available |
+|------|----------|------------------|
+| `en` | English  | All              |
+| `es` | Spanish  | All              |
+
+> To add a new language, simply extend the `SETTINGS_LABELS` object in `SettingsPage.constants.ts`.
+
+### Accessibility (a11y)
+
+All interactive controls include:
+
+- Unique `id` from `ACCESSIBILITY_IDS`
+- Translated `aria-label` based on current language
+- Proper semantic roles for switches and selects
+- High contrast guaranteed in both light and dark modes
+
+### Testing
+
+- Unit tests for the `useSettingsPage` hook
+- Component rendering and interaction tests with React Testing Library
+- Deterministic, safe mocks using Vitest
+- `data-testid` attributes on all major sections
+
+**Available test IDs**
+
+```ts
+SETTINGS_TEST_IDS.container           → Main page container
+SETTINGS_TEST_IDS.themeSection        → Theme section
+SETTINGS_TEST_IDS.notificationsSection → Notifications section
+SETTINGS_TEST_IDS.languageSection     → Language selector
+SETTINGS_TEST_IDS.privacySection      → Privacy settings
+```
+### Implementation Notes
+
+- Theme is synced directly to `<html>` → works instantly with Tailwind’s `dark:` variant
+- Component wrapped in `React.memo` to prevent unnecessary re-renders
+- MUI theme created with `useMemo` to avoid recreation on every render
+- `useSettingsPage` hook is pure and side-effect-contained, making it extremely testable and maintainable
