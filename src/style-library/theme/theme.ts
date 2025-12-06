@@ -16,6 +16,7 @@ declare module '@mui/material/styles' {
     subtitle: CSSProperties;
     question: CSSProperties;
     option: CSSProperties;
+    input: CSSProperties; // AGREGADO PARA SEARCHBAR
   }
 
   interface TypographyVariantsOptions {
@@ -23,6 +24,7 @@ declare module '@mui/material/styles' {
     subtitle?: CSSProperties;
     question?: CSSProperties;
     option?: CSSProperties;
+    input?: CSSProperties; // AGREGADO PARA SEARCHBAR
   }
 
   interface Palette {
@@ -52,6 +54,7 @@ declare module '@mui/material/Typography' {
     subtitle: true;
     question: true;
     option: true;
+    input: true; // AGREGADO PARA SEARCHBAR
   }
 }
 
@@ -143,8 +146,43 @@ theme.components = {
     styleOverrides: `
       @font-face {
         font-family: 'Syne';
+        src: url(${SyneRegular}) format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Syne';
+        src: url(${SyneSemiBold}) format('woff2');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Syne';
         src: url(${Syne700}) format('woff2');
         font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Montserrat';
+        src: url(${MontserratSemiBold}) format('woff2');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Montserrat';
+        src: url(${MontserratLight}) format('woff2');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Montserrat';
+        src: url(${MontserratRegular}) format('woff2');
+        font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
@@ -180,13 +218,19 @@ theme.typography = {
     lineHeight: 1.3,
     textTransform: 'capitalize',
   },
-
   option: {
     fontFamily: '"Syne","Montserrat","Inter","Roboto","Helvetica","Arial",sans-serif',
     fontWeight: 500,
     fontSize: '1.19rem',
     lineHeight: 1.2,
   },
+  input: {
+    fontFamily: '"Syne","Montserrat","Inter","Roboto","Helvetica","Arial",sans-serif',
+    fontWeight: 500,
+    fontSize: '1rem',
+    lineHeight: '19px',
+    color: 'rgba(0, 0, 0, 0.5)',
+  }, // AGREGADO PARA SEARCHBAR
 };
 
 theme.palette = {
@@ -197,49 +241,6 @@ theme.palette = {
     disabled: '',
   },
   backgroundQuestion: '#F1F3F9',
-};
-
-theme.components = {
-  ...theme.components,
-  MuiCssBaseline: {
-    styleOverrides: `
-      @font-face {
-        font-family: 'Syne';
-        src: url(${SyneRegular}) format('woff2');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Syne';
-        src: url(${SyneSemiBold}) format('woff2');
-        font-weight: 600;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Montserrat';
-        src: url(${MontserratSemiBold}) format('woff2');
-        font-weight: 600;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Montserrat';
-        src: url(${MontserratLight}) format('woff2');
-        font-weight: 300;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'Montserrat';
-        src: url(${MontserratRegular}) format('woff2');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-    `,
-  },
 };
 theme.consoleIO = {
   dimensions: {
