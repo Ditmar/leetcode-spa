@@ -27,28 +27,55 @@ export const StyledFormInput = styled(TextField, {
         borderWidth: 1,
       },
     },
+    '& .MuiFilledInput-root': {
+      borderRadius: `${config.borderRadius}px`,
+      backgroundColor: theme.palette.action.selected,
+      '&:before, &:after': {
+        display: 'none',
+      },
+    },
+  });
+
+  // Function for eye icon sizes
+  const getIconStyles = (size: 'small' | 'medium' | 'large') => ({
+    '& .MuiIconButton-root': {
+      width: `${formInputTokens.eye.size[size].width}px !important`,
+      height: `${formInputTokens.eye.size[size].height}px !important`,
+      padding: `${formInputTokens.eye.padding[size]}px !important`,
+      '& .MuiSvgIcon-root': {
+        width: `${formInputTokens.eye.size[size].width}px !important`,
+        height: `${formInputTokens.eye.size[size].height}px !important`,
+      },
+    },
   });
 
   return {
-    // Base style: medium
+    // Base style for input: medium
     ...getSizeStyles(SIZE_CONFIGS.medium),
+    // Base styles for eye icon: medium
+    ...getIconStyles('medium'),
     // For Mobile
     [theme.breakpoints.down('sm')]: {
       ...getSizeStyles(SIZE_CONFIGS.small),
+      ...getIconStyles('small'),
     },
     // For tablet
     [theme.breakpoints.between('sm', 'md')]: {
       ...getSizeStyles(SIZE_CONFIGS.medium),
+      ...getIconStyles('medium'),
     },
     // For desktop
     [theme.breakpoints.up('md')]: {
       ...getSizeStyles(SIZE_CONFIGS.large),
+      ...getIconStyles('large'),
     },
 
     '& .MuiInputBase-root, & .MuiInputLabel-root, & .MuiInputBase-input, & .MuiFormHelperText-root':
       {
-        fontFamily: theme.typography.option.fontFamily,
-        fontWeight: theme.typography.option.fontWeight,
+        fontFamily: formInputTokens.typography.fontFamily,
+        fontWeight: formInputTokens.typography.fontWeight,
+        lineHeight: formInputTokens.typography.lineHeight,
+        letterSpacing: formInputTokens.typography.letterSpacing,
       },
 
     '& .MuiInputLabel-root': {
@@ -56,7 +83,6 @@ export const StyledFormInput = styled(TextField, {
       top: '50%',
       left: `${SIZE_CONFIGS.medium.padding[1]}px`,
       transform: 'translateY(-50%)',
-      //color: theme.palette.divider,
       color: $error ? theme.palette.error.main : formInputTokens.colors.label,
       [theme.breakpoints.down('sm')]: {
         left: `${SIZE_CONFIGS.small.padding[1]}px`,
@@ -97,7 +123,7 @@ export const StyledFormInput = styled(TextField, {
         borderColor: $error ? theme.palette.error.main : formInputTokens.colors.defaultBorder,
       },
       '&:hover fieldset': {
-        borderColor: $error ? theme.palette.error.main : formInputTokens.colors.focusBorder,
+        borderColor: $error ? theme.palette.error.main : formInputTokens.colors.defaultBorder,
       },
       '&.Mui-focused fieldset': {
         borderColor: formInputTokens.colors.focusBorder,
@@ -128,6 +154,7 @@ export const StyledFormInput = styled(TextField, {
       },
     },
 
+    // Cofig for eye icon
     '& .MuiInputAdornment-root': {
       marginRight: theme.spacing(2),
     },
@@ -136,32 +163,6 @@ export const StyledFormInput = styled(TextField, {
       backgroundColor: 'transparent',
       borderRadius: '50%',
       color: formInputTokens.colors.eye.icon,
-      // Base size (medium)
-      width: `${formInputTokens.eye.size.medium.width}px !important`,
-      height: `${formInputTokens.eye.size.medium.height}px !important`,
-      padding: `${formInputTokens.eye.padding.medium}px !important`,
-      // Small size
-      [theme.breakpoints.down('sm')]: {
-        width: `${formInputTokens.eye.size.small.width}px !important`,
-        height: `${formInputTokens.eye.size.small.height}px !important`,
-        padding: `${formInputTokens.eye.padding.small}px !important`,
-      },
-      // Medium size
-      [theme.breakpoints.between('sm', 'md')]: {
-        width: formInputTokens.eye.size.medium.width,
-        height: formInputTokens.eye.size.medium.height,
-        padding: formInputTokens.eye.padding.medium,
-      },
-      // Large size
-      [theme.breakpoints.up('md')]: {
-        width: `${formInputTokens.eye.size.large.width}px !important`,
-        height: `${formInputTokens.eye.size.large.height}px !important`,
-        padding: `${formInputTokens.eye.padding.large}px !important`,
-      },
-
-      '& .MuiSvgIcon-root': {
-        fontSize: 'inherit !important',
-      },
 
       '&:hover': {
         backgroundColor: 'transparent',
@@ -173,10 +174,6 @@ export const StyledFormInput = styled(TextField, {
         color: formInputTokens.colors.eye.disabled,
         opacity: 0.6,
       },
-    },
-
-    '& .MuiSvgIcon-root': {
-      fontSize: 'inherit !important',
     },
   };
 });

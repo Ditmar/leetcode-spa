@@ -132,6 +132,12 @@ export const pillTagTokens = {
  * - focusBorder: Used for input border on focus state
  */
 export const formInputTokens = {
+  typography: {
+    fontFamily: 'Syne',
+    fontWeight: 500,
+    lineHeight: 1,
+    letterSpacing: '0',
+  },
   colors: {
     focusBorder: '#B23DEA',
     defaultBorder: '#C4C4C4',
@@ -150,9 +156,9 @@ export const formInputTokens = {
       large: { width: 21.93, height: 21.93 },
     },
     padding: {
-      small: 18,
-      medium: 20,
-      large: 24,
+      small: 10,
+      medium: 14,
+      large: 18,
     },
   },
 } as const;

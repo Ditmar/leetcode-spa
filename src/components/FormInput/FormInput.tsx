@@ -30,6 +30,8 @@ export const FormInput: React.FC<FormInputProps> = ({
 
   const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
+  const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
+
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     if (onFocus) onFocus(event);
   };
@@ -48,7 +50,7 @@ export const FormInput: React.FC<FormInputProps> = ({
     <StyledFormInput
       variant={variant}
       size={size}
-      type={type}
+      type={inputType}
       label={label}
       placeholder={placeholder}
       value={value}
@@ -71,6 +73,7 @@ export const FormInput: React.FC<FormInputProps> = ({
               onClick={handleTogglePassword}
               edge="end"
               disabled={disabled}
+              size="small"
             >
               {showPassword ? (
                 <VisibilityOffOutlinedIcon

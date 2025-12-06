@@ -60,8 +60,8 @@ export const Default: Story = {
 export const Filled: Story = {
   args: {
     variant: 'filled',
-    label: 'Password',
-    placeholder: 'Enter your password',
+    label: 'Username',
+    placeholder: 'Enter your username',
   },
 };
 
