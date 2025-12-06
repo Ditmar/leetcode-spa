@@ -47,10 +47,11 @@ export const StyledButton = styled('button')<{
       duration: theme.transitions.duration.shortest,
     }),
     outline: 'none',
+    whiteSpace: 'nowrap',
 
     '& .btn-label': {
       display: 'inline-block',
-      width: 209,
+      maxWidth: '100%',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
@@ -68,7 +69,8 @@ export const StyledButton = styled('button')<{
 
     // mobile
     [theme.breakpoints.down('sm')]: {
-      width: 131.26,
+      minWidth: 131.26,
+      width: 'auto',
       height: 34.13,
       padding: '12px 18px',
       fontSize: 13.6,
@@ -137,34 +139,29 @@ export const StyledButton = styled('button')<{
       },
     });
   } else {
+    // OUTLINE
     Object.assign<CSSObject, CSSObject>(base, {
       backgroundColor: 'transparent',
       backgroundOrigin: 'border-box',
       backgroundClip: 'padding-box, border-box',
-      border: '1.5px solid  #B23DEB',
+      border: '1.5px solid #B23DEB',
       borderImageSlice: 1,
-      width: 'auto',
-      fontSize: 30,
+      padding: '20px 40px',
 
       '& .btn-label': {
         backgroundImage: gradient,
         backgroundClip: 'text',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
-        width: 209,
       },
 
       '&:hover': $loading
         ? {}
         : {
-            backgroundImage: `linear-gradient(${gradientHover})`,
-            boxShadow: `0 0 0 2px ${gradientHover}`,
+            boxShadow: '0 0 0 2px rgba(178, 61, 235, 0.35)',
             transform: 'translateY(-1px)',
             '& .btn-label': {
               backgroundImage: gradientHover,
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
             },
           },
 
@@ -178,10 +175,6 @@ export const StyledButton = styled('button')<{
       '&:disabled': {
         opacity: 0.2,
         '& .btn-label': {
-          backgroundImage: gradient,
-          backgroundClip: 'text',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
           opacity: 0.2,
         },
       },
