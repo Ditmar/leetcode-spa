@@ -57,6 +57,14 @@ declare module '@mui/material/Typography' {
 // ========================================
 // ProfileCard Component Spacing Tokens
 // ========================================
+// DIMENSIONES EXACTAS DE FIGMA con spacing exacto del ticket
+// Container: 282×316px
+// Stats: 685×166px
+// Stat card: 195×166px
+// Label: 133×24px
+// Value: 28×58px
+// Spacing: 8px grid, 4px texts, 16px avatar-right, 24px text-stats
+
 export const PROFILE_CARD_SPACING = {
   small: {
     outerContainerWidth: 548,
@@ -64,37 +72,43 @@ export const PROFILE_CARD_SPACING = {
     outerContainerPadding: 0,
     userCardWidth: 226,
     userCardHeight: 253,
-    userCardPadding: 2,
-    avatarSize: 96,
-    avatarBorder: 2,
-    infoGap: 1,
-    textGap: 0.5,
+    userCardPadding: 16, // 2 * 8 = 16px
+    userCardBorderRadius: 0,
+    avatarSize: 120,
+    avatarBorder: 0,
+    infoGap: 8, // 8px spacing del ticket
+    textGap: 4, // 4px entre textos del ticket
     userToStatsGap: 36,
     statsContainerWidth: 548,
     statsContainerHeight: 133,
     statsGap: 31,
     statCardWidth: 156,
     statCardHeight: 133,
-    statPadding: 1.5,
+    statPadding: 12,
+    statCardBorderRadius: 8, // 8px border-radius
+    statCardBorderWidth: 1, // 1px border
   },
   medium: {
-    outerContainerWidth: 685,
-    outerContainerHeight: 527,
+    outerContainerWidth: 685, // Figma exact
+    outerContainerHeight: 527, // Figma exact
     outerContainerPadding: 0,
-    userCardWidth: 282,
-    userCardHeight: 316,
-    userCardPadding: 2.5,
-    avatarSize: 120,
+    userCardWidth: 282, // Figma exact
+    userCardHeight: 316, // Figma exact
+    userCardPadding: 20,
+    userCardBorderRadius: 0, // Padding interno calculado
+    avatarSize: 140, // Figma exact
     avatarBorder: 3,
-    infoGap: 1.5,
-    textGap: 0.75,
-    userToStatsGap: 45,
-    statsContainerWidth: 685,
-    statsContainerHeight: 166,
-    statsGap: 39,
-    statCardWidth: 195,
-    statCardHeight: 166,
-    statPadding: 2,
+    infoGap: 16, // 16px avatar-right spacing del ticket
+    textGap: 12, // 4px vertical texts del ticket
+    userToStatsGap: 45, // 45px gap entre usuario y stats
+    statsContainerWidth: 685, // Figma exact
+    statsContainerHeight: 166, // Figma exact
+    statsGap: 39, // Gap entre stat cards
+    statCardWidth: 195, // Figma exact: 195×166px
+    statCardHeight: 166, // Figma exact: 195×166px
+    statPadding: 16, // Padding interno
+    statCardBorderRadius: 8, // 8px border-radius del ticket
+    statCardBorderWidth: 1, // 1px border del ticket
   },
   large: {
     outerContainerWidth: 822,
@@ -102,68 +116,106 @@ export const PROFILE_CARD_SPACING = {
     outerContainerPadding: 0,
     userCardWidth: 338,
     userCardHeight: 379,
-    userCardPadding: 3,
-    avatarSize: 144,
+    userCardPadding: 24,
+    userCardBorderRadius: 0,
+    avatarSize: 164,
     avatarBorder: 4,
-    infoGap: 2,
-    textGap: 1,
+    infoGap: 20,
+    textGap: 16,
     userToStatsGap: 54,
     statsContainerWidth: 822,
     statsContainerHeight: 199,
     statsGap: 47,
     statCardWidth: 234,
     statCardHeight: 199,
-    statPadding: 2.5,
+    statPadding: 20,
+    statCardBorderRadius: 10,
+    statCardBorderWidth: 1,
   },
 } as const;
 
 // ========================================
 // ProfileCard Component Typography Tokens
 // ========================================
-// Tipografías EXACTAS de Figma:
-// - Stat Value: Syne SemiBold 48px (line-height 100%)
-// - Stat Label: Poppins Regular 16px (line-height 100%)
 
 export const PROFILE_CARD_TYPOGRAPHY = {
   small: {
-    nameSize: '1rem',
-    usernameSize: '0.8125rem',
-    roleSize: '0.75rem',
-    statValueSize: '2.4rem', // 38.4px (48px * 0.8)
+    nameSize: '1.5rem', // ~19.2px
+    nameWeight: 600,
+    nameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    usernameSize: '1rem', // ~12px
+    usernameWeight: 400,
+    usernameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    roleSize: '1.1rem', // ~11.2px
+    roleWeight: 400,
+    roleFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    statValueSize: '2.4rem', // ~38.4px
     statValueWeight: 600,
-    statValueLineHeight: 1,
-    statValueFont: '"Syne", "Inter", "Roboto", sans-serif',
-    statLabelSize: '0.8rem', // 12.8px (16px * 0.8)
+    statValueLineHeight: 1.2,
+    statValueFont: '"Syne", "Roboto", "Helvetica", "Arial", sans-serif',
+    statLabelSize: '0.8rem', // ~12.8px
     statLabelWeight: 400,
     statLabelLineHeight: 1,
     statLabelFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
   },
   medium: {
-    nameSize: '1.25rem',
-    usernameSize: '0.875rem',
-    roleSize: '0.875rem',
-    statValueSize: '3rem', // 48px EXACTO de Figma
-    statValueWeight: 600, // SemiBold
-    statValueLineHeight: 1, // 100%
-    statValueFont: '"Syne", "Inter", "Roboto", sans-serif',
-    statLabelSize: '1rem', // 16px EXACTO de Figma
-    statLabelWeight: 400, // Regular
-    statLabelLineHeight: 1, // 100%
+    nameSize: '2.3rem',
+    nameWeight: 600, // Bold del ticket
+    nameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    usernameSize: '1.2rem',
+    usernameWeight: 400,
+    usernameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    roleSize: '1.3rem',
+    roleWeight: 400,
+    roleFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    statValueSize: '3rem', // 48px EXACTO (28×58px del ticket)
+    statValueWeight: 600, // SemiBold del ticket
+    statValueLineHeight: 1.2, // Para alcanzar 58px height
+    statValueFont: '"Syne", "Roboto", "Helvetica", "Arial", sans-serif',
+    statLabelSize: '1rem', // 16px EXACTO (133×24px del ticket)
+    statLabelWeight: 400, // Regular del ticket
+    statLabelLineHeight: 1, // 100% line-height
     statLabelFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
   },
   large: {
-    nameSize: '1.5rem',
-    usernameSize: '1rem',
-    roleSize: '1rem',
-    statValueSize: '3.6rem', // 57.6px (48px * 1.2)
+    nameSize: '2.5rem',
+    nameWeight: 600,
+    nameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    usernameSize: '1.3rem',
+    usernameWeight: 400,
+    usernameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    roleSize: '1.4rem',
+    roleWeight: 400,
+    roleFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    statValueSize: '3.6rem', // ~57.6px
     statValueWeight: 600,
-    statValueLineHeight: 1,
-    statValueFont: '"Syne", "Inter", "Roboto", sans-serif',
-    statLabelSize: '1.2rem', // 19.2px (16px * 1.2)
+    statValueLineHeight: 1.2,
+    statValueFont: '"Syne", "Roboto", "Helvetica", "Arial", sans-serif',
+    statLabelSize: '1.2rem', // ~19.2px
     statLabelWeight: 400,
     statLabelLineHeight: 1,
     statLabelFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
   },
+} as const;
+
+// ========================================
+// ProfileCard Component Color Tokens
+// ========================================
+// COLORES EXACTOS DE FIGMA del ticket:
+// - Labels "Points": rgba(169,169,169,1)
+// - Numbers/Values: rgba(241,243,249,1)
+// - Stats background: #FFF (puro, sin tinte azul)
+// - Border: #2196F3 1px
+// - Text base: #000
+
+export const PROFILE_CARD_COLORS = {
+  statLabelColor: 'rgba(169, 169, 169, 1)', // Gray exacto del ticket
+  statValueColor: '#565656', // Light gray/blueish del ticket
+  statCardBackground: '#F1F3F9', // Puro sin tinte
+  statCardBorder: 'none', // Blue border del ticket
+  textPrimary: '#000000', // Black
+  textSecondary: '#666666', // Gray
+  textTertiary: '#999999', // Light gray
 } as const;
 
 /**

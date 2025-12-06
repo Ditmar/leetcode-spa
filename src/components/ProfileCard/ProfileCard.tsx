@@ -45,8 +45,6 @@ const StatsItem: React.FC<StatsItemProps> = ({
 };
 
 /**
- * Profile card component for displaying user information and statistics
- *
  * @component
  * @example
  * ```tsx
@@ -85,19 +83,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
   const formatRanking = (rank: number): string => {
     if (rank === 0) return '-';
-
-    const lastDigit = rank % 10;
-    const lastTwoDigits = rank % 100;
-
-    if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
-      return `${rank}th`;
-    }
-
-    if (lastDigit === 1) return `${rank}st`;
-    if (lastDigit === 2) return `${rank}nd`;
-    if (lastDigit === 3) return `${rank}rd`;
-
-    return `${rank}th`;
+    return `-${rank}`;
   };
 
   return (
@@ -110,7 +96,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       aria-label={`Profile card for ${name}`}
       {...cardProps}
     >
-      {/* Card de Usuario (282×316px con borde) */}
+      {/* User Card: 282×316px (Figma exact) */}
       <StyledUserCard $size={size} $variant={variant}>
         <StyledProfileContainer $size={size} $variant={variant}>
           <StyledAvatar
@@ -149,7 +135,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         </StyledProfileContainer>
       </StyledUserCard>
 
-      {/* Stats Container (685×166px) - SIN ICONOS */}
+      {/* Stats Container: 685×166px with 3 cards of 195×166px each */}
       {showStats && (
         <StyledStatsContainer
           $size={size}
