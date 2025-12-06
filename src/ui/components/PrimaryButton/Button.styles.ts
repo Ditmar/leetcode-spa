@@ -70,10 +70,11 @@ export const StyledButton = styled('button')<{
     [theme.breakpoints.down('sm')]: {
       width: 131.26,
       height: 34.13,
-      padding: '12px 24px',
-      fontSize: 11,
+      padding: '12px 18px',
+      fontSize: 13.6,
       borderRadius: 30,
       gap: theme.spacing(1),
+      fontFamily: 'Syne',
     },
   };
 
