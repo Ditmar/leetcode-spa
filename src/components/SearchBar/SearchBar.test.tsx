@@ -1,5 +1,5 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
@@ -65,38 +65,35 @@ describe('SearchBar', () => {
     expect(onSearch).toHaveBeenCalledTimes(1);
   });
 
-  it('auto-searches when typing with autoSearch enabled', async () => {
+  it('auto-searches when typing with autoSearch enabled', () => {
     vi.useFakeTimers();
-    const user = userEvent.setup({ delay: null });
     const onSearch = vi.fn();
 
     renderWithTheme(<SearchBar onSearch={onSearch} autoSearch debounceDelay={300} />);
 
     const input = screen.getByRole('textbox');
-    await user.type(input, 'test');
+
+    fireEvent.change(input, { target: { value: 'test' } });
 
     expect(onSearch).not.toHaveBeenCalled();
 
     vi.advanceTimersByTime(300);
     expect(onSearch).toHaveBeenCalledWith('test');
-
-    vi.useRealTimers();
+    expect(onSearch).toHaveBeenCalledTimes(1);
   });
 
-  it('does not auto-search when autoSearch is false', async () => {
+  it('does not auto-search when autoSearch is false', () => {
     vi.useFakeTimers();
-    const user = userEvent.setup({ delay: null });
     const onSearch = vi.fn();
 
     renderWithTheme(<SearchBar onSearch={onSearch} autoSearch={false} debounceDelay={300} />);
 
     const input = screen.getByRole('textbox');
-    await user.type(input, 'test');
+
+    fireEvent.change(input, { target: { value: 'test' } });
 
     vi.advanceTimersByTime(300);
     expect(onSearch).not.toHaveBeenCalled();
-
-    vi.useRealTimers();
   });
 
   it('renders disabled state correctly', () => {

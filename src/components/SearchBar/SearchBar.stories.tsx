@@ -22,7 +22,7 @@ const meta: Meta<typeof SearchBar> = {
   },
 };
 
-export default meta;
+export default meta; //storybook lo requiere
 
 type Story = StoryObj<typeof SearchBar>;
 
