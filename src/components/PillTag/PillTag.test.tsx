@@ -5,7 +5,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
-import theme from '../../style-library/theme/theme';
+import { theme } from '../../style-library/theme/theme';
 
 import { PillTag } from './PillTag';
 
