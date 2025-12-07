@@ -153,7 +153,7 @@ export const formInputTokens = {
     size: {
       small: { width: 15.34, height: 15.16 },
       medium: { width: 18.5, height: 18.5 },
-      large: { width: 21.93, height: 21.93 },
+      large: { width: 19.64, height: 15.99 },
     },
     padding: {
       small: 10,
