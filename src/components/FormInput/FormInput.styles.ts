@@ -39,12 +39,12 @@ export const StyledFormInput = styled(TextField, {
   // Function for eye icon sizes
   const getIconStyles = (size: 'small' | 'medium' | 'large') => ({
     '& .MuiIconButton-root': {
-      width: `${formInputTokens.eye.size[size].width}px !important`,
-      height: `${formInputTokens.eye.size[size].height}px !important`,
+      width: `${formInputTokens.eye.sizeBox[size].width}px !important`,
+      height: `${formInputTokens.eye.sizeBox[size].height}px !important`,
       padding: `${formInputTokens.eye.padding[size]}px !important`,
       '& .MuiSvgIcon-root': {
-        width: `${formInputTokens.eye.size[size].width}px !important`,
-        height: `${formInputTokens.eye.size[size].height}px !important`,
+        width: `${formInputTokens.eye.sizeEye[size].width}px !important`,
+        height: `${formInputTokens.eye.sizeEye[size].height}px !important`,
       },
     },
   });

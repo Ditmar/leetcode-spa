@@ -150,15 +150,20 @@ export const formInputTokens = {
     },
   },
   eye: {
-    size: {
+    sizeBox: {
       small: { width: 15.34, height: 15.16 },
       medium: { width: 18.5, height: 18.5 },
+      large: { width: 21.93, height: 21.93 },
+    },
+    sizeEye: {
+      small: { width: 13.74, height: 11.06 },
+      medium: { width: 16.6, height: 13.55 },
       large: { width: 19.64, height: 15.99 },
     },
     padding: {
-      small: 10,
-      medium: 14,
-      large: 18,
+      small: 0,
+      medium: 0,
+      large: 0,
     },
   },
 } as const;
