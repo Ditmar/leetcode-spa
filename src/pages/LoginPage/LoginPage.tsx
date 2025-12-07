@@ -1,9 +1,10 @@
-import { Box, Typography, useTheme, Link, Button, IconButton, type Theme } from '@mui/material';
-import React, { useState, type FormEvent } from 'react';
+import { Box, Typography, useTheme, Link, Button, IconButton } from '@mui/material';
+import React, { useState } from 'react';
 
 import FacebookStatic from '../../assets/facebook.svg';
 import GithubStatic from '../../assets/github.svg';
 import GoogleStatic from '../../assets/google.svg';
+import { Logo } from '../../components/Logo/Logo';
 
 import {
   getPageContainerStyles,
@@ -22,14 +23,13 @@ import {
 } from './LoginPage.styles';
 
 import type { LoginPageProps } from './LoginPage.types';
-import type { SxProps } from '@mui/material/styles';
+import type { Theme } from '@mui/material';
+import type { SxProps } from '@mui/system';
+import type { FormEvent } from 'react';
 
-type LogoFallbackProps = {
-  orientation?: string;
-  width?: string | number;
-  height?: string | number;
-  alt?: string;
-};
+const FacebookIcon: string | undefined = FacebookStatic ?? undefined;
+const GithubIcon: string | undefined = GithubStatic ?? undefined;
+const GoogleIcon: string | undefined = GoogleStatic ?? undefined;
 
 type FormInputFallbackProps = {
   id: string;
@@ -53,28 +53,22 @@ type PrimaryButtonFallbackProps = {
   type?: 'button' | 'submit' | 'reset';
 };
 
-const FacebookIcon: string | undefined = FacebookStatic ?? undefined;
-const GithubIcon: string | undefined = GithubStatic ?? undefined;
-const GoogleIcon: string | undefined = GoogleStatic ?? undefined;
-
-const Logo: React.FC<LogoFallbackProps> = (props) => (
-  <Box
-    data-testid="logo-fallback"
-    role="img"
-    aria-label={props.alt || 'Logo'}
-    sx={{
-      width: props.width,
-      height: props.height,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      border: '1px solid currentColor',
-      color: 'text.secondary',
-    }}
-  >
-    <Typography variant="body2">Logo</Typography>
-  </Box>
-);
+// FALLBACK COMPONENTS (SKELETON IMPLEMENTATION)
+// -----------------------------------------------------------------------------
+// The following components (`FormInput`, `PrimaryButton`) are local fallbacks.
+// They are implemented as simple, semantic wrappers to stand in for shared
+// components that are not yet available in the `master` branch.
+//
+// WHY: The original skeleton implementation used non-semantic `<div>`s, which
+// caused critical accessibility issues (unusable with keyboards, invisible to
+// screen readers) that were flagged during code review. This version uses a
+// basic `input` and MUI `Button` to ensure the page is accessible and testable.
+//
+// HOW TO REPLACE: Once the real `FormInput` and `PrimaryButton` components are
+// merged into `master`, these local fallbacks should be deleted, and the
+// real components should be imported from the project's component library.
+// The props and logic in `SignUpPage` are already set up to work with them.
+// -----------------------------------------------------------------------------
 
 const FormInput: React.FC<FormInputFallbackProps> = (props) => (
   <Box
@@ -103,21 +97,23 @@ const FormInput: React.FC<FormInputFallbackProps> = (props) => (
 const PrimaryButton: React.FC<PrimaryButtonFallbackProps> = (props) => (
   <Button
     variant="contained"
-    type={props.type ?? 'button'}
     onClick={props.onClick}
     disabled={props.disabled || props.loading}
-    sx={{ textTransform: 'none', ...props.sx }}
+    sx={{
+      textTransform: 'none',
+      ...props.sx,
+    }}
   >
     {props.loading ? '...' : props.children}
   </Button>
 );
 
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const PASSWORD_MIN_LENGTH = 6;
 
 export const LoginPage: React.FC<LoginPageProps> = ({
   loading = false,
-  buttonText = 'Login',
+  buttonText = 'LogIn',
   disabled = false,
   onSubmit = () => undefined,
   forgotPasswordText = 'Forget Password ?',
@@ -153,45 +149,39 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     }
   };
 
-  const validate = () => {
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
     const newErrors = { emailOrUsername: '', password: '' };
-    let isValid = true;
 
     if (!emailOrUsername) {
-      newErrors.emailOrUsername = 'Email or Username is required.';
-      isValid = false;
-    } else if (emailOrUsername.includes('@') && !EMAIL_REGEX.test(emailOrUsername)) {
+      newErrors.emailOrUsername = 'Email is required.';
+    } else if (!EMAIL_REGEX.test(emailOrUsername)) {
       newErrors.emailOrUsername = 'Please enter a valid email address.';
-      isValid = false;
     }
 
     if (!password) {
       newErrors.password = 'Password is required.';
-      isValid = false;
     } else if (password.length < PASSWORD_MIN_LENGTH) {
       newErrors.password = `Password must be at least ${PASSWORD_MIN_LENGTH} characters long.`;
-      isValid = false;
+    }
+
+    if (newErrors.emailOrUsername || newErrors.password) {
+      setErrors(newErrors);
+      return;
     }
 
     setErrors(newErrors);
-    return isValid;
+    onSubmit({ emailOrUsername, password });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (validate()) {
-      onSubmit({ emailOrUsername, password });
-    }
-  };
-
-  const isDisabled = disabled || loading;
+  const isDisabled = disabled || loading || !!errors.emailOrUsername || !!errors.password;
 
   return (
-    <Box sx={getPageContainerStyles()}>
+    <Box sx={getPageContainerStyles(theme)}>
       <Box component="form" onSubmit={handleSubmit} sx={getFormStyles(theme)} noValidate>
         <Box sx={getLogoStyles(theme)}>
-          <Logo orientation="horizontal" width="100%" height="100%" alt="Logo" />
+          <Logo orientation="horizontal" width="100%" height="100%" alt="Logo de la aplicación" />
         </Box>
 
         <FormInput
@@ -201,7 +191,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           value={emailOrUsername}
           onChange={(e) => {
             setEmailOrUsername(e.target.value);
-            setErrors((prev) => ({ ...prev, emailOrUsername: '' }));
+            setErrors({ ...errors, emailOrUsername: '' });
           }}
           placeholder="Mail Id"
           errorMessage={errors.emailOrUsername}
@@ -225,7 +215,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
-            setErrors((prev) => ({ ...prev, password: '' }));
+            setErrors({ ...errors, password: '' });
           }}
           placeholder="Password"
           errorMessage={errors.password}
@@ -243,18 +233,20 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
         <PrimaryButton
           type="submit"
+          onClick={handleSubmit}
+          loading={loading}
+          disabled={isDisabled}
           sx={{
             ...getButtonStyles(theme),
-            backgroundColor: theme.palette.common.black,
             '&:hover': {
-              backgroundColor: theme.palette.action.hover,
+              background: `linear-gradient(90deg, ${theme.palette.link.purple} 5%, #E83FEE 95%)`,
+              opacity: 0.9,
             },
             '&.Mui-disabled': {
               backgroundColor: theme.palette.grey[500],
+              color: theme.palette.common.white,
             },
           }}
-          loading={loading}
-          disabled={isDisabled || !!errors.emailOrUsername || !!errors.password}
         >
           {buttonText}
         </PrimaryButton>

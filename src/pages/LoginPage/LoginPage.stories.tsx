@@ -10,6 +10,17 @@ import { LoginPage } from './LoginPage';
 import type { LoginPageProps } from './LoginPage.types';
 import type { Meta, StoryObj } from '@storybook/react';
 
+// prettier-ignore
+type LoginCredentials = NonNullable<LoginPageProps['onSubmit']> extends (credentials: infer T) => void ? T : never;
+
+const mockSuccessfulLogin = async (credentials: LoginCredentials) => {
+  // eslint-disable-next-line prettier/prettier
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  // eslint-disable-next-line no-console
+  console.log('Login successful for:', credentials.emailOrUsername);
+  return { success: true };
+};
+
 const meta: Meta<LoginPageProps> = {
   title: 'Pages/LoginPage',
   component: LoginPage,
@@ -104,7 +115,18 @@ export default meta;
 
 type Story = StoryObj<LoginPageProps>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    onSubmit: async (credentials) => {
+      const response = await mockSuccessfulLogin(credentials);
+
+      if (response.success) {
+        alert(`✅ Successful login for ${credentials.emailOrUsername}. Redirection Simulation.`);
+      }
+    },
+    loading: false,
+  },
+};
 
 export const Loading: Story = {
   args: {

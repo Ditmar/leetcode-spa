@@ -5,7 +5,7 @@ export const GEOMETRY_PX = {
   PAGE_HEIGHT: 761,
   PAGE_BORDER_RADIUS: 36.55,
 
-  LOGO_TOP: 60.53,
+  LOGO_TOP: 78.53,
   EMAIL_USERNAME_INPUT_TOP: 161.46,
   PASSWORD_INPUT_TOP: 264.68,
 
@@ -22,10 +22,10 @@ export const GEOMETRY_PX = {
   INPUT_WIDTH: 411.09,
   INPUT_HEIGHT: 81.31,
   BUTTON_HEIGHT: 62.53,
-  LOGO_WIDTH: 266.13,
-  LOGO_HEIGHT: 45.67,
+  LOGO_WIDTH: 266.14,
+  LOGO_HEIGHT: 45.68,
   LOGO_LEFT: 111.45,
-  ICON_SIZE: 55,
+  ICON_SIZE: 70,
   ICON_SEPARATION: 54,
   GOOGLE_POS_X: 107.88,
   LEGAL_TEXT_WIDTH: 405.63,
@@ -71,10 +71,14 @@ const getAbsoluteElementBase = (
   color: theme.palette.text.secondary,
 });
 
-export const getPageContainerStyles = (): SxProps<Theme> => ({
+export const getPageContainerStyles = (theme: Theme): SxProps<Theme> => ({
   position: 'relative',
   width: '100%',
-  maxWidth: GEOMETRY_PX.PAGE_WIDTH,
+  [theme.breakpoints.up('md')]: {
+    maxWidth: '450px',
+    padding: '48px',
+    margin: '40px auto',
+  },
   aspectRatio: `${GEOMETRY_PX.PAGE_WIDTH} / ${GEOMETRY_PX.PAGE_HEIGHT}`,
   height: 'auto',
   margin: 'auto',
@@ -83,7 +87,7 @@ export const getPageContainerStyles = (): SxProps<Theme> => ({
 });
 
 export const getFormStyles = (theme: Theme): SxProps<Theme> => ({
-  position: 'absolute',
+  position: 'relative',
   width: '100%',
   height: '100%',
   zIndex: 1,
@@ -103,7 +107,6 @@ export const getLogoStyles = (theme: Theme): SxProps<Theme> => ({
     GEOMETRY_PX.LOGO_HEIGHT,
     theme
   ),
-  backgroundColor: theme.palette.grey[200],
 });
 
 export const getInputStyles = (topPx: number, theme: Theme): SxProps<Theme> => ({
@@ -115,11 +118,10 @@ export const getInputStyles = (topPx: number, theme: Theme): SxProps<Theme> => (
     theme
   ),
 
-  color: theme.palette.common.black,
-  backgroundColor: theme.palette.common.white,
   borderRadius: theme.typography.pxToRem(BORDER_RADIUS_RAW),
   border: `${BORDER_SIZE_PX}px solid ${theme.palette.grey[300]}`,
   caretColor: theme.palette.link.purple,
+  fontFamily: theme.typography.fontFamily,
 
   ...fontVw(INPUT_FONT_SIZE_RAW, theme),
 
@@ -147,7 +149,7 @@ export const getButtonStyles = (theme: Theme): SxProps<Theme> => ({
     GEOMETRY_PX.BUTTON_HEIGHT,
     theme
   ),
-  backgroundColor: theme.palette.grey[500],
+  background: `linear-gradient(90deg, ${theme.palette.link.purple} 0%, #E83FEE 100%)`,
   color: theme.palette.common.white,
   cursor: 'pointer',
   zIndex: 2,

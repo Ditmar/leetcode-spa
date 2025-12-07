@@ -38,7 +38,7 @@ export const loginTheme = createTheme(baseTheme, {
       secondary: '#BCBCBC',
     },
     custom: {
-      inputFocus: '#CCCCCC',
+      inputFocus: '#F2F2F2',
       inputBorderFocus: '#B23DEA',
     },
     grey: {

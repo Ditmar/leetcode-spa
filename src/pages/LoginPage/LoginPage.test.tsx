@@ -22,7 +22,7 @@ describe('LoginPage', () => {
     renderComponent();
     expect(screen.getByPlaceholderText('Mail Id')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /LogIn/i })).toBeInTheDocument();
   });
 
   it('renders forgot password link and social icons', () => {
@@ -36,7 +36,7 @@ describe('LoginPage', () => {
 
   it('shows validation errors for empty input fields', async () => {
     renderComponent();
-    const loginButton = screen.getByRole('button', { name: /login/i });
+    const loginButton = screen.getByRole('button', { name: /LogIn/i });
 
     fireEvent.click(loginButton);
 
@@ -50,7 +50,7 @@ describe('LoginPage', () => {
 
     const emailInput = screen.getByPlaceholderText('Mail Id');
     const passwordInput = screen.getByPlaceholderText('Password');
-    const loginButton = screen.getByRole('button', { name: /login/i });
+    const loginButton = screen.getByRole('button', { name: /LogIn/i });
 
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
