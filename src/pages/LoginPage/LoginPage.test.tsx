@@ -40,7 +40,7 @@ describe('LoginPage', () => {
 
     fireEvent.click(loginButton);
 
-    expect(await screen.findByText('Email or Username is required.')).toBeInTheDocument();
+    expect(await screen.findByText('Email is required.')).toBeInTheDocument();
     expect(await screen.findByText('Password is required.')).toBeInTheDocument();
   });
 
