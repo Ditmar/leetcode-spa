@@ -12,21 +12,24 @@ export const GEOMETRY_PX = {
   EMAIL_USERNAME_ERROR_TOP: 245,
   PASSWORD_ERROR_TOP: 348.27,
 
-  BUTTON_TOP: 385.65,
-  NAVIGATION_LINKS_TOP: 470.61,
-  OR_YOU_CAN_TOP: 524.51,
-  ICONS_TOP: 562.88,
+  BUTTON_TOP: 370.65,
+  NAVIGATION_LINKS_TOP: 454.61,
+  OR_YOU_CAN_TOP: 505.51,
+  ICONS_TOP: 552.88,
   LEGAL_TEXT_TOP: 643.27,
 
   INPUT_LEFT: 41.11,
-  INPUT_WIDTH: 411.09,
-  INPUT_HEIGHT: 81.31,
+  INPUT_WIDTH: 411.11,
+  INPUT_HEIGHT: 83.31,
+  INPUT_PADDING_LEFT_PX: 25,
+  INPUT_BORDER_RADIUS_PX: 12.79,
   BUTTON_HEIGHT: 62.53,
+  BUTTON_BORDER_RADIUS_PX: 45.68,
   LOGO_WIDTH: 266.14,
   LOGO_HEIGHT: 45.68,
   LOGO_LEFT: 111.45,
-  ICON_SIZE: 70,
-  ICON_SEPARATION: 54,
+  ICON_SIZE: 58,
+  ICON_SEPARATION: 40,
   GOOGLE_POS_X: 107.88,
   LEGAL_TEXT_WIDTH: 405.63,
 };
@@ -34,9 +37,9 @@ export const GEOMETRY_PX = {
 const INPUT_FONT_SIZE_RAW = 18.27;
 const ERROR_FONT_SIZE_RAW = 12;
 const BASE_FONT_SIZE_RAW = 16.44;
+const BUTTON_FONT_SIZE_RAW = 21.93;
 const SMALL_TEXT_FONT_SIZE_RAW = 14.62;
-const BORDER_RADIUS_RAW = 1.33;
-const BORDER_SIZE_PX = 2.43;
+const BORDER_SIZE_PX = 0.91;
 
 const percentW = (px: number): string => (px / GEOMETRY_PX.PAGE_WIDTH) * 100 + '%';
 const percentH = (px: number): string => (px / GEOMETRY_PX.PAGE_HEIGHT) * 100 + '%';
@@ -75,7 +78,7 @@ export const getPageContainerStyles = (theme: Theme): SxProps<Theme> => ({
   position: 'relative',
   width: '100%',
   [theme.breakpoints.up('md')]: {
-    maxWidth: '450px',
+    maxWidth: `${GEOMETRY_PX.PAGE_WIDTH}px`,
     padding: '48px',
     margin: '40px auto',
   },
@@ -87,7 +90,7 @@ export const getPageContainerStyles = (theme: Theme): SxProps<Theme> => ({
 });
 
 export const getFormStyles = (theme: Theme): SxProps<Theme> => ({
-  position: 'relative',
+  position: 'absolute',
   width: '100%',
   height: '100%',
   zIndex: 1,
@@ -118,7 +121,9 @@ export const getInputStyles = (topPx: number, theme: Theme): SxProps<Theme> => (
     theme
   ),
 
-  borderRadius: theme.typography.pxToRem(BORDER_RADIUS_RAW),
+  borderRadius: theme.typography.pxToRem(GEOMETRY_PX.INPUT_BORDER_RADIUS_PX),
+  paddingLeft: percentW(GEOMETRY_PX.INPUT_PADDING_LEFT_PX),
+
   border: `${BORDER_SIZE_PX}px solid ${theme.palette.grey[300]}`,
   caretColor: theme.palette.link.purple,
   fontFamily: theme.typography.fontFamily,
@@ -150,12 +155,12 @@ export const getButtonStyles = (theme: Theme): SxProps<Theme> => ({
     theme
   ),
   background: `linear-gradient(90deg, ${theme.palette.link.purple} 0%, #E83FEE 100%)`,
+  borderRadius: theme.typography.pxToRem(GEOMETRY_PX.BUTTON_BORDER_RADIUS_PX),
   color: theme.palette.common.white,
   cursor: 'pointer',
+  fontFamily: theme.typography.fontFamily,
   zIndex: 2,
-  ...fontVw(BASE_FONT_SIZE_RAW, theme),
-
-  borderRadius: theme.typography.pxToRem(40),
+  ...fontVw(BUTTON_FONT_SIZE_RAW, theme),
 });
 
 export const forgotPasswordLinkStyles = (theme: Theme): SxProps<Theme> => ({
