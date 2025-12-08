@@ -1,6 +1,11 @@
-import { ThemeProvider, useMediaQuery, Stack, Box } from '@mui/material';
-import React from 'react';
+import { ThemeProvider, useMediaQuery, Box } from '@mui/material';
+import React, { useState } from 'react';
 
+import busonSvg from '../../assets/buson.svg?url';
+import menuIcon from '../../assets/butons.png?url';
+import derecha from '../../assets/derecha.png?url';
+import Group49Img from '../../assets/Group49.png?url';
+import izquierda from '../../assets/izquierda.png?url';
 import { AvatarMenu } from '../../components/AvatarMenu/AvatarMenu';
 import { LeaderboardPage } from '../../components/LeaderboardPage/LeaderboardPage';
 import { Logo } from '../../components/Logo/Logo';
@@ -24,12 +29,67 @@ import {
   Right3Icon,
   Right2Icon,
   Frame61Placeholder,
+  Frame66Container,
+  Frame39Placeholder,
   LeaderboardContainer,
   ResponsiveContainer,
+  MobileMenuButton,
+  MobileDrawer,
+  Group13,
+  AvatarContainer,
+  Group16,
+  NotificationText,
 } from './DashboardPage.styles';
 
 const DashboardPage: React.FC = () => {
   const isMobile = useMediaQuery('(max-width:768px)');
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
+
+  const navigationItems = [
+    { label: 'Tests', href: '/all-tests' },
+    { label: 'Dashboard' },
+    { label: 'Courses' },
+    { label: 'Profile' },
+    { label: 'Leaderboard' },
+    { label: 'Dark Mode' },
+    { label: 'Settings' },
+    { label: 'Log Out' },
+  ];
+
+  const renderNavigationLinks = (isMobileView: boolean) => (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 2,
+        width: '100%',
+        padding: 2,
+      }}
+    >
+      {navigationItems.map((item) => (
+        <a
+          key={item.label}
+          href={item.href || '#'}
+          style={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+            color: '#000',
+            fontWeight: 'bold',
+            fontSize: isMobileView ? 16 : 20,
+            width: '100%',
+            textAlign: 'center',
+            padding: '8px 0',
+            borderRadius: '8px',
+            backgroundColor: '#C2F9F9',
+          }}
+        >
+          {item.label}
+        </a>
+      ))}
+    </Box>
+  );
 
   return (
     <DashboardBackground>
@@ -38,19 +98,76 @@ const DashboardPage: React.FC = () => {
       <Line15 />
 
       <ResponsiveContainer isMobile={isMobile}>
-        {/* Logo */}
         <Box mb={3} className="logo">
-          <Logo orientation="vertical" width={192} height={88} />
+          <Logo orientation="vertical" width={isMobile ? 71 : 192} height={isMobile ? 56 : 88} />
         </Box>
 
-        <Frame71Placeholder>{/* Componente adicional si quieres */}</Frame71Placeholder>
+        {!isMobile && (
+          <Frame71Placeholder isMobile={isMobile}>
+            {renderNavigationLinks(false)}
+          </Frame71Placeholder>
+        )}
 
-        {/* Welcome y Avatar */}
+        {isMobile && (
+          <MobileMenuButton
+            isMobile={isMobile}
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open Dashboard Navigation"
+          >
+            <img src={menuIcon} alt="Menu" width={36} height={36} />
+          </MobileMenuButton>
+        )}
+
+        {isMobile && (
+          <MobileDrawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+            <Box p={2}>
+              <h3>Dashboard Navigation</h3>
+              {renderNavigationLinks(true)}
+              <button onClick={() => setDrawerOpen(false)}>Close Menu</button>
+            </Box>
+          </MobileDrawer>
+        )}
+
         <Group59Container>
-          <WelcomeMessage>Welcome Miguel!</WelcomeMessage>
-          <Group53Placeholder>{/* Componente adicional */}</Group53Placeholder>
-          <Group49Placeholder>{/* Componente adicional */}</Group49Placeholder>
-          <div className="avatar">
+          <Group13 isMobile={isMobile}>
+            <WelcomeMessage>Welcome Miguel!</WelcomeMessage>
+            <ProfileSubtitle>Here is your Profile Dashboard</ProfileSubtitle>
+          </Group13>
+
+          {!isMobile && (
+            <Box position="relative">
+              <Group49Placeholder
+                src={Group49Img}
+                alt="notification"
+                onClick={() => setNotificationOpen((prev) => !prev)}
+                style={{ cursor: 'pointer' }}
+              />
+              {notificationOpen && (
+                <Group16>
+                  <NotificationText>You have 12 new action items!</NotificationText>
+                </Group16>
+              )}
+            </Box>
+          )}
+
+          <Group53Placeholder isMobile={isMobile}>
+            <input
+              type="text"
+              placeholder="Search..."
+              style={{
+                flex: 1,
+                border: 'none',
+                outline: 'none',
+                background: 'transparent',
+                fontSize: isMobile ? 14 : 16,
+              }}
+            />
+            <span style={{ marginLeft: 8, cursor: 'pointer', fontSize: isMobile ? 16 : 18 }}>
+              🔍
+            </span>
+          </Group53Placeholder>
+
+          <AvatarContainer isMobile={isMobile}>
             <AvatarMenu
               avatarUrl="https://i.ibb.co/mV26g4B7/b2cc1d5a59644f92c2391dcdd5cde3c11e4770fe.jpg"
               username="Miguel Maquera"
@@ -59,50 +176,51 @@ const DashboardPage: React.FC = () => {
                 { label: 'Log Out', onClick: () => {} },
               ]}
             />
-          </div>
+          </AvatarContainer>
         </Group59Container>
 
-        <ProfileSubtitle>Here is your Profile Dashboard</ProfileSubtitle>
+        <HiconContainer>
+          <img src={busonSvg} alt="icon" width={24} height={24} />
+        </HiconContainer>
 
-        <HiconContainer>{/* Componente adicional */}</HiconContainer>
-
-        {/* Recent Tests */}
         <RecentTestsText>Recent Tests</RecentTestsText>
-        <Box sx={{ overflowX: 'auto' }}>
-          <Stack direction="row" spacing={2} sx={{ pb: 2 }}>
-            <TestCard
-              title="C Programing"
-              description="Resumen"
-              logo="https://i.postimg.cc/hvF0fprz/Frame-66.png"
-              onSelect={() => {}}
-            />
-            <TestCard
-              title="Python Programing"
-              description="Resumen"
-              logo="https://i.postimg.cc/RZTp25TL/95454cf4b64dabec0eeee53306359326ebee8e6c.jpg"
-              onSelect={() => {}}
-            />
-            {/* Más TestCards si quieres */}
-          </Stack>
+        <Right2Icon src={derecha} $isMobile={isMobile} alt="Next Test" />
+        <Right3Icon src={izquierda} $isMobile={isMobile} alt="Previous Test" />
+
+        <Frame66Container isMobile={isMobile}>
+          <TestCard
+            title="C Programing"
+            description="Resumen"
+            logo="https://i.postimg.cc/hvF0fprz/Frame-66.png"
+            onSelect={() => {}}
+          />
+          <TestCard
+            title="Python Programing"
+            description="Resumen"
+            logo="https://i.postimg.cc/RZTp25TL/95454cf4b64dabec0eeee53306359326ebee8e6c.jpg"
+            onSelect={() => {}}
+          />
+        </Frame66Container>
+
+        <Frame39Placeholder />
+
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 606,
+            left: 914,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+          }}
+        >
+          <StatsCard value="32" label="Tests Written" />
+          <StatsCard value="%80" label="Overall Average" />
         </Box>
 
-        <Right3Icon>{/* Componente adicional */}</Right3Icon>
-        <Right2Icon>{/* Componente adicional */}</Right2Icon>
+        <Frame61Placeholder />
 
-        {/* StatsCards responsive */}
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mt={2}>
-          <Box>
-            <StatsCard value="32" label="Tests Written" />
-          </Box>
-          <Box>
-            <StatsCard value="%80" label="Overall Average" />
-          </Box>
-        </Stack>
-
-        <Frame61Placeholder>{/* Componente adicional */}</Frame61Placeholder>
-
-        {/* Leaderboard */}
-        <LeaderboardContainer>
+        <LeaderboardContainer isMobile={isMobile}>
           <ThemeProvider theme={theme}>
             <LeaderboardPage />
           </ThemeProvider>

@@ -1,38 +1,73 @@
-// src/pages/DashboardPage/DashboardPage.test.tsx
-
-/* 
-// FALTA: pruebas unitarias reales para DashboardPage
-// Ejemplos de cosas a testear cuando tengas soporte de Vitest/Jest:
-
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import { ThemeProvider, createTheme } from "@mui/material";
-import DashboardPage from "./DashboardPage";
-
-const theme = createTheme();
-
-render(
-    <ThemeProvider theme={theme}>
-        <DashboardPage />
-    </ThemeProvider>
-);
-
-const welcomeMessage = screen.getByText(/Welcome Miguel!/i);
-if (!welcomeMessage) throw new Error("No se renderizó el mensaje de bienvenida");
-*/
-import { describe, it, expect } from 'vitest';
+import { ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
+
+import { theme } from '../../style-library';
+
 import DashboardPage from './DashboardPage';
 
-describe('DashboardPage', () => {
-    it('renders the welcome message', () => {
-        render(<DashboardPage />);
-        expect(screen.getByText(/Welcome Miguel/i)).toBeInTheDocument();
-    });
+// Mocks de componentes pesados
+vi.mock('../../components/LeaderboardPage/LeaderboardPage', () => ({
+  LeaderboardPage: () => <div>Mock Leaderboard</div>,
+}));
 
-    it('renders recent tests cards', () => {
-        render(<DashboardPage />);
-        expect(screen.getByText(/C Programing/i)).toBeInTheDocument();
-        expect(screen.getByText(/Python Programing/i)).toBeInTheDocument();
-    });
+vi.mock('../../components/AvatarMenu/AvatarMenu', () => ({
+  AvatarMenu: () => <div>Mock AvatarMenu</div>,
+}));
+
+vi.mock('../../components/Logo/Logo', () => ({
+  Logo: () => <div>Mock Logo</div>,
+}));
+
+vi.mock('../../components/StatsCard/StatsCard', () => ({
+  StatsCard: (props: { label: string; value: string | number }) => (
+    <div>
+      Mock StatsCard {props.label} {props.value}
+    </div>
+  ),
+}));
+
+vi.mock('../../components/TestCard/TestCard', () => ({
+  TestCard: (props: { title: string }) => <div>Mock TestCard {props.title}</div>,
+}));
+
+// Mock de matchMedia para useMediaQuery
+const mockMatchMedia = (matches: boolean) => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query: string) => ({
+      matches,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }),
+  });
+};
+
+describe('DashboardPage', () => {
+  it('renders without crashing (desktop)', () => {
+    mockMatchMedia(false); // Desktop
+    render(
+      <ThemeProvider theme={theme}>
+        <DashboardPage />
+      </ThemeProvider>
+    );
+    expect(screen.getByText(/welcome/i)).toBeInTheDocument();
+    expect(screen.getByText(/Mock Leaderboard/i)).toBeInTheDocument();
+  });
+
+  it('renders correctly in mobile view', () => {
+    mockMatchMedia(true); // Mobile
+    render(
+      <ThemeProvider theme={theme}>
+        <DashboardPage />
+      </ThemeProvider>
+    );
+    expect(screen.getByText(/welcome/i)).toBeInTheDocument();
+    expect(screen.getByText(/Mock Leaderboard/i)).toBeInTheDocument();
+  });
 });

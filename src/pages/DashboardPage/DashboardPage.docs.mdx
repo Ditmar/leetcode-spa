@@ -6,9 +6,9 @@ import DashboardPage from './DashboardPage';
 
 # DashboardPage
 
-El **DashboardPage** es el componente principal de la aplicación, mostrando la información del usuario, las pruebas recientes y estadísticas.  
+El **DashboardPage** es el componente principal de la aplicación, mostrando información del usuario, pruebas recientes, estadísticas y leaderboard.  
 
-Este documento describe **qué componentes se integraron**, **qué faltan** y cómo usar el componente.
+Este documento describe **qué componentes se integraron**, **qué placeholders se usan**, y cómo se comporta en **desktop y mobile**.
 
 ---
 
@@ -18,54 +18,49 @@ Este documento describe **qué componentes se integraron**, **qué faltan** y c�
 |------------|---------|--------|
 | `Logo` | Muestra el logo de la aplicación | Integrado |
 | `AvatarMenu` | Menú del usuario con opciones como Perfil y Cerrar sesión | Integrado |
-| `TestCard` | Tarjetas de pruebas recientes con título, descripción y logo | Integrado |
-| `StatsCard` | Muestra estadísticas (ej. Overall Average, Tests Written) | Integrado |
-| `LeaderboardPage` | Sección de leaderboard mostrando rankings de usuarios | Integrado |
+| `TestCard` | Tarjetas de pruebas recientes con título, descripción y logo | Integrado (mock en tests) |
+| `StatsCard` | Muestra estadísticas (ej. Overall Average, Tests Written) | Integrado (mock en tests) |
+| `LeaderboardPage` | Sección de leaderboard mostrando rankings de usuarios | Integrado (mock en tests) |
 | `ResponsiveContainer` | Maneja layout responsivo | Integrado |
 | `DashboardBackground`, `NoiseLayer`, `MaskLayer`, `Line15` | Capas visuales de fondo y efectos | Integrado |
-| Placeholders (`Frame71Placeholder`, `Frame39Placeholder`, etc.) | Estructura temporal para contenido futuro | Integrado |
+| Placeholders (`Frame71Placeholder`, `Frame39Placeholder`, `Frame61Placeholder`, etc.) | Estructura temporal para contenido futuro o layout | Integrado |
+
+---
+
+## Comportamiento Responsive
+
+- En **desktop**, se muestran todos los placeholders, AvatarMenu y LeaderboardPage en su posición normal.  
+- En **mobile**, algunos elementos como `Line15` o `AvatarContainer` desaparecen, y el layout se centra automáticamente usando transformaciones y anchos relativos.  
+- El menú lateral se reemplaza por un **Drawer** en móvil que despliega el contenido de navegación.
 
 ---
 
 ## Componentes Faltantes / Pendientes de Integrar
 
-- Secciones reales de **estadísticas dinámicas** (actualmente se usan placeholders).  
-- Datos **reales del leaderboard** (por ahora se muestra vacío o con datos de prueba).  
-- Botones funcionales en placeholders (ej. `Frame53`, `Frame49`) que serán reemplazados por componentes finales.  
-- Animaciones o interacciones avanzadas que podrían reemplazar algunos placeholders.  
+- Datos reales para **estadísticas** (actualmente se usan placeholders y mocks).  
+- Datos reales del **leaderboard** (por ahora mockeado).  
+- Interacciones en algunos placeholders que reemplazarán los elementos actuales (`Frame53`, `Frame49`, etc.).  
+- Animaciones o microinteracciones que mejoren la experiencia de usuario.  
 
 ---
 
 ## Props
 
-| Prop           | Tipo                     | Descripción |
-|----------------|--------------------------|-------------|
-| `user`         | `{ id: string; name: string; avatarUrl: string }` | Información del usuario que se muestra en el dashboard |
-| `recentTests`  | `Array<{ id: string; title: string; description: string; logo: string; onSelect: () => void }>` | Lista de pruebas recientes |
-| `leaderboardData` | `Array<User>` (opcional) | Datos para mostrar en el leaderboard |
+Actualmente, el Dashboard no recibe props externas, ya que toda la información se gestiona internamente o con mocks para pruebas.  
+
+Si en el futuro se desea parametrizar:
+
+| Prop | Tipo | Descripción |
+|------|------|-------------|
+| `currentUser` | `{ id: string; fullName: string; avatarUrl?: string }` | Información del usuario actual |
+| `tests` | `Array<{ title: string; description: string; logo: string; onSelect: () => void }>` | Lista de pruebas recientes |
+| `leaderboardData` | `Array<User>` | Datos para mostrar en el leaderboard |
 
 ---
 
-## Ejemplo de Uso
+## Tests
 
-```tsx
-import React from 'react';
-import { ThemeProvider, createTheme } from '@mui/material';
-import DashboardPage from './DashboardPage';
+- Se usan **mocks** para componentes pesados (`LeaderboardPage`, `AvatarMenu`, `Logo`, `StatsCard`, `TestCard`) para que los tests de renderizado sean rápidos y estables.  
+- Se prueba que el Dashboard renderice **correctamente en desktop y mobile**.  
+- Se valida la presencia de elementos clave como el mensaje de bienvenida y el leaderboard.  
 
-const theme = createTheme();
-
-const user = {
-  id: '1',
-  name: 'Miguel',
-  avatarUrl: '/avatar.png',
-};
-
-const recentTests = [
-  { id: '1', title: 'Test 1', description: 'Desc 1', logo: '/logo1.png', onSelect: () => {} },
-  { id: '2', title: 'Test 2', description: 'Desc 2', logo: '/logo2.png', onSelect: () => {} },
-];
-
-<ThemeProvider theme={theme}>
-  <DashboardPage user={user} recentTests={recentTests} />
-</ThemeProvider>
