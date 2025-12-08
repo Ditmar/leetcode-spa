@@ -53,4 +53,4 @@ export const MenuBadge: React.FC<MenuBadgeProps> = ({ label, variant = 'primaryT
   );
 };
 
-export default MenuBadge;
+export default MenuBadge
