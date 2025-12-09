@@ -1,9 +1,8 @@
-import { ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
+import { ThemeProvider } from '@mui/material';
 
 import { theme } from '../../style-library';
-
 import DashboardPage from './DashboardPage';
 
 // Mocks de componentes pesados
@@ -39,10 +38,10 @@ const mockMatchMedia = (matches: boolean) => {
       matches,
       media: query,
       onchange: null,
-      addListener: () => {},
-      removeListener: () => {},
-      addEventListener: () => {},
-      removeEventListener: () => {},
+      addListener: () => { },
+      removeListener: () => { },
+      addEventListener: () => { },
+      removeEventListener: () => { },
       dispatchEvent: () => false,
     }),
   });
