@@ -110,7 +110,7 @@ const meta = {
     variant: 'default',
     showStats: true,
     stats: {
-      courses: 12,
+      courses: 3,
       points: 850,
       ranking: 135,
     },
@@ -131,7 +131,7 @@ export const Playground: Story = {
     variant: 'default',
     showStats: true,
     stats: {
-      courses: 12,
+      courses: 3,
       points: 850,
       ranking: 23,
     },

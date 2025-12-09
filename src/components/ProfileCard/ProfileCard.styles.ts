@@ -22,10 +22,12 @@ export const StyledOuterContainer = styled(Box, {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
-    width: `${spacingConfig.outerContainerWidth}px`, // Dimensión fija en px
+    width: '100%',
+    maxWidth: `${spacingConfig.outerContainerWidth}px`,
     height: `${spacingConfig.outerContainerHeight}px`, // Dimensión fija en px
     padding: spacingConfig.outerContainerPadding,
     display: 'flex',
+    margin: '0 auto',
     flexDirection: 'column',
     alignItems: 'center',
     gap: `${spacingConfig.userToStatsGap}px`, // Gap exacto en px
@@ -33,11 +35,20 @@ export const StyledOuterContainer = styled(Box, {
     border: 'none',
     flexShrink: 0, // No expandir ni contraer
     boxSizing: 'border-box',
-    '@media (max-width: 600px)': {
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       width: '100%',
+      maxWidth: '100%',
       height: 'auto',
       gap: '24px',
     },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        maxWidth: '90%',
+        height: 'auto',
+        gap: '32px',
+      },
   };
 });
 
@@ -49,7 +60,8 @@ export const StyledUserCard = styled(Card, {
 
   return {
     backgroundColor: PROFILE_CARD_COLORS.statCardBackground,
-    width: `${spacingConfig.userCardWidth}px`, // Dimensión fija en px
+    width: '100%',
+    maxWidth: `${spacingConfig.userCardWidth}px`, // Dimensión fija en px
     height: `${spacingConfig.userCardHeight}px`, // Dimensión fija en px
     padding: `${spacingConfig.userCardPadding}px`,
     borderRadius: `${spacingConfig.userCardBorderRadius}px`,
@@ -57,19 +69,30 @@ export const StyledUserCard = styled(Card, {
     transition: theme.transitions.create(['box-shadow', 'transform'], {
       duration: theme.transitions.duration.short,
     }),
-    display: 'flex',
+    display: 'block',
     flexDirection: 'column',
     alignItems: 'center',
+    textOverflow: 'ellipsis',
     flexShrink: 0,
     boxSizing: 'border-box',
     '&:hover': {
       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)',
       transform: 'translateY(-2px)',
     },
-    '@media (max-width: 600px)': {
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       width: '100%',
+      maxWidth: '100%',
       height: 'auto',
+      padding: '16px',
     },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        maxWidth: '95%',
+        height: 'auto',
+        minHeight: '280px',
+      },
   };
 });
 
@@ -84,10 +107,19 @@ export const StyledProfileContainer = styled(Box, {
     flexDirection: variantConfig.direction,
     alignItems: 'center',
     gap: `${spacingConfig.infoGap}px`,
-    '@media (max-width: 600px)': {
-      flexDirection: 'column',
-      gap: '12px',
-    },
+    // MOBILE: < 768px
+    ...($variant === 'compact' && {
+      [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
+      },
+    }),
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        gap: `${Math.floor(spacingConfig.infoGap * 0.8)}px`,
+      },
   };
 });
 
@@ -105,11 +137,19 @@ export const StyledAvatar = styled(Avatar, {
     border: `${spacingConfig.avatarBorder}px solid ${theme.palette.background.paper}`,
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
     flexShrink: 0,
-    '@media (max-width: 600px)': {
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       width: '80px',
       height: '80px',
       fontSize: '32px',
     },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        width: `${Math.floor(spacingConfig.avatarSize * 0.9)}px`,
+        height: `${Math.floor(spacingConfig.avatarSize * 0.9)}px`,
+        fontSize: `calc(${Math.floor(spacingConfig.avatarSize * 0.9)}px * 0.4)`,
+      },
   };
 });
 
@@ -127,9 +167,15 @@ export const StyledInfoContainer = styled(Box, {
     flex: $variant === 'compact' ? 1 : 'initial',
     minWidth: 0,
     width: '100%',
-    '@media (max-width: 600px)': {
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       textAlign: 'center',
     },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        textAlign: 'center',
+      },
   };
 });
 
@@ -137,6 +183,7 @@ export const StyledName = styled(Typography, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ $size }) => {
   const typographyConfig = PROFILE_CARD_TYPOGRAPHY[$size];
+  const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
     fontFamily: typographyConfig.nameFont, // Poppins del ticket
@@ -147,9 +194,16 @@ export const StyledName = styled(Typography, {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    '@media (max-width: 600px)': {
+    display: 'block',
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       fontSize: '1.125rem',
     },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        fontSize: '1.25rem',
+      },
   };
 });
 
@@ -157,6 +211,7 @@ export const StyledUsername = styled(Typography, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ $size }) => {
   const typographyConfig = PROFILE_CARD_TYPOGRAPHY[$size];
+  const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
     fontFamily: typographyConfig.usernameFont, // Poppins
@@ -167,9 +222,16 @@ export const StyledUsername = styled(Typography, {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    '@media (max-width: 600px)': {
+    display: 'block',
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       fontSize: '0.875rem',
     },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        fontSize: '0.9rem',
+      },
   };
 });
 
@@ -177,6 +239,7 @@ export const StyledRole = styled(Typography, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ $size }) => {
   const typographyConfig = PROFILE_CARD_TYPOGRAPHY[$size];
+  const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
     fontFamily: typographyConfig.roleFont, // Poppins
@@ -187,9 +250,16 @@ export const StyledRole = styled(Typography, {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    '@media (max-width: 600px)': {
+    display: 'block',
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       fontSize: '0.75rem',
     },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        fontSize: '0.8rem',
+      },
   };
 });
 
@@ -204,17 +274,27 @@ export const StyledStatsContainer = styled(Box, {
     display: 'flex',
     flexDirection: variantConfig.statsDirection,
     gap: `${spacingConfig.statsGap}px`,
-    width: `${spacingConfig.statsContainerWidth}px`,
+    width: '100%',
+    maxWidth: `${spacingConfig.statsContainerWidth}px`,
     height: `${spacingConfig.statsContainerHeight}px`,
     justifyContent: 'center',
     flexShrink: 0,
     boxSizing: 'border-box',
-    '@media (max-width: 600px)': {
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       flexDirection: 'row',
       width: '100%',
+      maxWidth: '100%',
       height: 'auto',
       gap: '8px',
+      flexWrap: 'wrap',
     },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        maxWidth: '95%',
+        gap: `${Math.floor(spacingConfig.statsGap * 0.7)}px`,
+      },
   };
 });
 
@@ -243,13 +323,22 @@ export const StyledStatCard = styled(Card, {
       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)',
       transform: 'translateY(-2px)',
     },
-    '@media (max-width: 600px)': {
-      flex: 1,
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
+      flex: '1 1 calc(33.333% - 8px)', // ← 3 columnas con gap
       width: 'auto',
-      minWidth: '100px',
+      minWidth: '90px',
+      maxWidth: '120px',
       height: '120px',
       padding: '12px',
     },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        width: `${Math.floor(spacingConfig.statCardWidth * 0.85)}px`,
+        height: `${Math.floor(spacingConfig.statCardHeight * 0.85)}px`,
+        padding: `${Math.floor(spacingConfig.statPadding * 0.8)}px`,
+      },
   };
 });
 
@@ -268,15 +357,25 @@ export const StyledStatValue = styled(Typography, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ $size }) => {
   const typographyConfig = PROFILE_CARD_TYPOGRAPHY[$size];
+  const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
     fontFamily: typographyConfig.statValueFont, // Syne
     fontSize: typographyConfig.statValueSize, // 48px (3rem)
     fontWeight: typographyConfig.statValueWeight, // 600 semibold
     lineHeight: typographyConfig.statValueLineHeight, // 1.2 para 58px height
-    color: PROFILE_CARD_COLORS.statValueColor, // rgba(241,243,249,1) EXACTO
+    color: PROFILE_CARD_COLORS.statValueColor,
     letterSpacing: '0',
     textAlign: 'center',
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
+      fontSize: '1.5rem',
+    },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        fontSize: '2.25rem',
+      },
   };
 });
 
@@ -285,15 +384,26 @@ export const StyledStatLabel = styled(Typography, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ $size }) => {
   const typographyConfig = PROFILE_CARD_TYPOGRAPHY[$size];
+  const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
     fontFamily: typographyConfig.statLabelFont, // Poppins
     fontSize: typographyConfig.statLabelSize, // 16px (1rem)
     fontWeight: typographyConfig.statLabelWeight, // 400 regular
+    padding: typographyConfig.statLabelPadding,
     lineHeight: typographyConfig.statLabelLineHeight, // 1 (100%)
     color: PROFILE_CARD_COLORS.statLabelColor, // rgba(169,169,169,1) EXACTO
     letterSpacing: '0',
     textAlign: 'center',
     whiteSpace: 'nowrap',
+    // MOBILE: < 768px
+    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
+      fontSize: '0.75rem',
+    },
+    // TABLET: 768px - 1023px
+    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
+      {
+        fontSize: '0.875rem',
+      },
   };
 });

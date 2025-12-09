@@ -24,9 +24,9 @@ export const VARIANT_CONFIGS = {
     statsDirection: 'row' as const, // Stats en fila horizontal
   },
   compact: {
-    direction: 'row' as const,
-    textAlign: 'left' as const,
-    statsDirection: 'row' as const, // Stats en fila horizontal
+    direction: 'column' as const,
+    textAlign: 'center' as const,
+    statsDirection: 'row' as const,
   },
   expanded: {
     direction: 'column' as const,
