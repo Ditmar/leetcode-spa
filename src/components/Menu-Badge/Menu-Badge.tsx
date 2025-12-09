@@ -24,8 +24,8 @@ export const MenuBadge: React.FC<MenuBadgeProps> = ({ label, variant = 'primaryT
             {isSecondary ? (
               <Box
                 component="img"
-                src={gradientIcon.src}
-                alt="MenuBadge gradient"
+                src={gradientIcon}
+                alt="menu badge"
                 sx={{
                   width: '24px',
                   height: '24px',
@@ -35,8 +35,8 @@ export const MenuBadge: React.FC<MenuBadgeProps> = ({ label, variant = 'primaryT
             ) : (
               <Box
                 component="img"
-                src={darkIcon.src}
-                alt="MenuBadge dark"
+                src={darkIcon}
+                alt="menu badge"
                 sx={{
                   width: '24px',
                   height: '24px',
