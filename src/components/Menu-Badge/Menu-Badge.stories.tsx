@@ -34,9 +34,5 @@ export const SecondaryText: Story = {
     label: 'Dashboard',
     variant: 'secondaryText',
   },
-<<<<<<< HEAD
 
 };
-=======
-};
->>>>>>> 5a06744 (fix: code fixes)
