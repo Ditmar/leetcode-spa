@@ -5,6 +5,8 @@ import {
   PROFILE_CARD_SPACING,
   PROFILE_CARD_TYPOGRAPHY,
   PROFILE_CARD_COLORS,
+  PROFILE_CARD_SHADOWS,
+  PROFILE_CARD_TRANSITIONS,
 } from '../../style-library/theme/theme';
 
 import { VARIANT_CONFIGS } from './ProfileCard.constants';
@@ -24,50 +26,53 @@ export const StyledOuterContainer = styled(Box, {
   return {
     width: '100%',
     maxWidth: `${spacingConfig.outerContainerWidth}px`,
-    height: `${spacingConfig.outerContainerHeight}px`, // Dimensión fija en px
+    height: `${spacingConfig.outerContainerHeight}px`,
     padding: spacingConfig.outerContainerPadding,
     display: 'flex',
     margin: '0 auto',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: `${spacingConfig.userToStatsGap}px`, // Gap exacto en px
+    gap: `${spacingConfig.userToStatsGap}px`,
     backgroundColor: 'transparent',
     border: 'none',
-    flexShrink: 0, // No expandir ni contraer
+    flexShrink: 0,
     boxSizing: 'border-box',
-    // MOBILE: < 768px
+    // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       width: '100%',
       maxWidth: '100%',
       height: 'auto',
-      gap: '24px',
+      gap: `${spacingConfig.mobile.gap}px`,
     },
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        maxWidth: '90%',
+        maxWidth: `${spacingConfig.tablet.maxWidthPercent}%`,
         height: 'auto',
-        gap: '32px',
+        gap: `${spacingConfig.tablet.gap}px`,
       },
   };
 });
 
-// Card de USUARIO (282×316px) - Dimensiones FIJAS
+// Card de USUARIO (282×316px)
 export const StyledUserCard = styled(Card, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<StyledProfileCardProps>(({ theme, $size }) => {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
+  const shadowConfig = PROFILE_CARD_SHADOWS;
+  const transitionConfig = PROFILE_CARD_TRANSITIONS;
 
   return {
-    backgroundColor: PROFILE_CARD_COLORS.statCardBackground,
+    backgroundColor: PROFILE_CARD_COLORS.userCardBackground,
     width: '100%',
-    maxWidth: `${spacingConfig.userCardWidth}px`, // Dimensión fija en px
-    height: `${spacingConfig.userCardHeight}px`, // Dimensión fija en px
+    maxWidth: `${spacingConfig.userCardWidth}px`,
+    height: `${spacingConfig.userCardHeight}px`,
     padding: `${spacingConfig.userCardPadding}px`,
     borderRadius: `${spacingConfig.userCardBorderRadius}px`,
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Shadow exacto del ticket
-    transition: theme.transitions.create(['box-shadow', 'transform'], {
-      duration: theme.transitions.duration.short,
+    boxShadow: shadowConfig.card.default,
+    transition: theme.transitions.create([...transitionConfig.properties], {
+      duration: transitionConfig.duration,
+      easing: transitionConfig.easing,
     }),
     display: 'block',
     flexDirection: 'column',
@@ -76,22 +81,22 @@ export const StyledUserCard = styled(Card, {
     flexShrink: 0,
     boxSizing: 'border-box',
     '&:hover': {
-      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)',
-      transform: 'translateY(-2px)',
+      boxShadow: shadowConfig.card.hover,
+      transform: `translateY(${transitionConfig.hover.translateY})`,
     },
-    // MOBILE: < 768px
+    // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       width: '100%',
       maxWidth: '100%',
       height: 'auto',
-      padding: '16px',
+      padding: `${spacingConfig.mobile.userCardPadding}px`,
     },
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        maxWidth: '95%',
+        maxWidth: `${spacingConfig.tablet.maxWidthPercent}%`,
         height: 'auto',
-        minHeight: '280px',
+        minHeight: `${spacingConfig.tablet.userCardMinHeight}px`,
       },
   };
 });
@@ -107,7 +112,8 @@ export const StyledProfileContainer = styled(Box, {
     flexDirection: variantConfig.direction,
     alignItems: 'center',
     gap: `${spacingConfig.infoGap}px`,
-    // MOBILE: < 768px
+    width: '100%',
+    // Compact variant responsive
     ...($variant === 'compact' && {
       [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
         flexDirection: 'column',
@@ -115,40 +121,41 @@ export const StyledProfileContainer = styled(Box, {
         textAlign: 'center',
       },
     }),
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        gap: `${Math.floor(spacingConfig.infoGap * 0.8)}px`,
+        gap: `${Math.floor(spacingConfig.infoGap * spacingConfig.tablet.infoGapMultiplier)}px`,
       },
   };
 });
 
 export const StyledAvatar = styled(Avatar, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
-})<{ $size: ProfileCardSize }>(({ theme, $size }) => {
+})<{ $size: ProfileCardSize }>(({ $size }) => {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
+  const shadowConfig = PROFILE_CARD_SHADOWS;
 
   return {
     width: `${spacingConfig.avatarSize}px`,
     height: `${spacingConfig.avatarSize}px`,
-    backgroundColor: 'blue',
+    backgroundColor: PROFILE_CARD_COLORS.avatarBackground,
     fontSize: `calc(${spacingConfig.avatarSize}px * 0.4)`,
     fontWeight: 600,
-    border: `${spacingConfig.avatarBorder}px solid ${theme.palette.background.paper}`,
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    border: `${spacingConfig.avatarBorder}px solid #FFFFFF`,
+    boxShadow: shadowConfig.avatar,
     flexShrink: 0,
-    // MOBILE: < 768px
+    // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
-      width: '80px',
-      height: '80px',
-      fontSize: '32px',
+      width: `${spacingConfig.mobile.avatarSize}px`,
+      height: `${spacingConfig.mobile.avatarSize}px`,
+      fontSize: `calc(${spacingConfig.mobile.avatarSize}px * 0.4)`,
     },
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        width: `${Math.floor(spacingConfig.avatarSize * 0.9)}px`,
-        height: `${Math.floor(spacingConfig.avatarSize * 0.9)}px`,
-        fontSize: `calc(${Math.floor(spacingConfig.avatarSize * 0.9)}px * 0.4)`,
+        width: `${Math.floor(spacingConfig.avatarSize * spacingConfig.tablet.avatarSizeMultiplier)}px`,
+        height: `${Math.floor(spacingConfig.avatarSize * spacingConfig.tablet.avatarSizeMultiplier)}px`,
+        fontSize: `calc(${Math.floor(spacingConfig.avatarSize * spacingConfig.tablet.avatarSizeMultiplier)}px * 0.4)`,
       },
   };
 });
@@ -162,20 +169,15 @@ export const StyledInfoContainer = styled(Box, {
   return {
     display: 'flex',
     flexDirection: 'column',
-    gap: `${spacingConfig.textGap}px`, // 4px vertical texts del ticket
+    gap: `${spacingConfig.textGap}px`,
     textAlign: variantConfig.textAlign,
     flex: $variant === 'compact' ? 1 : 'initial',
     minWidth: 0,
     width: '100%',
-    // MOBILE: < 768px
-    [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
+    // MOBILE & TABLET
+    [`@media (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]: {
       textAlign: 'center',
     },
-    // TABLET: 768px - 1023px
-    [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
-      {
-        textAlign: 'center',
-      },
   };
 });
 
@@ -186,23 +188,23 @@ export const StyledName = styled(Typography, {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
-    fontFamily: typographyConfig.nameFont, // Poppins del ticket
-    fontSize: typographyConfig.nameSize, // 24px (1.5rem)
-    fontWeight: typographyConfig.nameWeight, // 600 bold
+    fontFamily: typographyConfig.nameFont,
+    fontSize: typographyConfig.nameSize,
+    fontWeight: typographyConfig.nameWeight,
     color: PROFILE_CARD_COLORS.textPrimary,
-    lineHeight: 1.2, // Para alcanzar 48×24px
+    lineHeight: 1.2,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     display: 'block',
-    // MOBILE: < 768px
+    // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
-      fontSize: '1.125rem',
+      fontSize: typographyConfig.mobile.nameSize,
     },
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        fontSize: '1.25rem',
+        fontSize: typographyConfig.tablet.nameSize,
       },
   };
 });
@@ -214,23 +216,23 @@ export const StyledUsername = styled(Typography, {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
-    fontFamily: typographyConfig.usernameFont, // Poppins
+    fontFamily: typographyConfig.usernameFont,
     fontSize: typographyConfig.usernameSize,
-    fontWeight: typographyConfig.usernameWeight, // 400
-    color: PROFILE_CARD_COLORS.textSecondary, // #666
+    fontWeight: typographyConfig.usernameWeight,
+    color: PROFILE_CARD_COLORS.textSecondary,
     lineHeight: 1.2,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     display: 'block',
-    // MOBILE: < 768px
+    // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
-      fontSize: '0.875rem',
+      fontSize: typographyConfig.mobile.usernameSize,
     },
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        fontSize: '0.9rem',
+        fontSize: typographyConfig.tablet.usernameSize,
       },
   };
 });
@@ -242,28 +244,28 @@ export const StyledRole = styled(Typography, {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
-    fontFamily: typographyConfig.roleFont, // Poppins
+    fontFamily: typographyConfig.roleFont,
     fontSize: typographyConfig.roleSize,
-    fontWeight: typographyConfig.roleWeight, // 400
+    fontWeight: typographyConfig.roleWeight,
     color: PROFILE_CARD_COLORS.textSecondary,
     lineHeight: 1.2,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     display: 'block',
-    // MOBILE: < 768px
+    // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
-      fontSize: '0.75rem',
+      fontSize: typographyConfig.mobile.roleSize,
     },
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        fontSize: '0.8rem',
+        fontSize: typographyConfig.tablet.roleSize,
       },
   };
 });
 
-// Container de stats (685×166px) - Dimensión FIJA
+// Container de stats (685×166px)
 export const StyledStatsContainer = styled(Box, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<StyledProfileCardProps>(({ $size, $variant }) => {
@@ -274,26 +276,25 @@ export const StyledStatsContainer = styled(Box, {
     display: 'flex',
     flexDirection: variantConfig.statsDirection,
     gap: `${spacingConfig.statsGap}px`,
-    width: '100%',
-    maxWidth: `${spacingConfig.statsContainerWidth}px`,
+    width: `${spacingConfig.statsContainerWidth}px`,
     height: `${spacingConfig.statsContainerHeight}px`,
     justifyContent: 'center',
     flexShrink: 0,
     boxSizing: 'border-box',
-    // MOBILE: < 768px
+    // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       flexDirection: 'row',
       width: '100%',
       maxWidth: '100%',
       height: 'auto',
-      gap: '8px',
+      gap: `${spacingConfig.mobile.statsGap}px`,
       flexWrap: 'wrap',
     },
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        maxWidth: '95%',
-        gap: `${Math.floor(spacingConfig.statsGap * 0.7)}px`,
+        maxWidth: `${spacingConfig.tablet.maxWidthPercent}%`,
+        gap: `${Math.floor(spacingConfig.statsGap * spacingConfig.tablet.statsGapMultiplier)}px`,
       },
   };
 });
@@ -303,6 +304,8 @@ export const StyledStatCard = styled(Card, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $variant: ProfileCardVariant; $size: ProfileCardSize }>(({ $size }) => {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
+  const shadowConfig = PROFILE_CARD_SHADOWS;
+  const transitionConfig = PROFILE_CARD_TRANSITIONS;
 
   return {
     display: 'flex',
@@ -313,31 +316,31 @@ export const StyledStatCard = styled(Card, {
     height: `${spacingConfig.statCardHeight}px`,
     padding: `${spacingConfig.statPadding}px`,
     backgroundColor: PROFILE_CARD_COLORS.statCardBackground,
-    border: `${spacingConfig.statCardBorderWidth}px solid ${PROFILE_CARD_COLORS.statCardBorder}`,
+    border: PROFILE_CARD_COLORS.statCardBorder,
     borderRadius: `${spacingConfig.statCardBorderRadius}px`,
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-    transition: 'box-shadow 200ms ease-in-out, transform 200ms ease-in-out',
+    boxShadow: shadowConfig.card.default,
+    transition: `box-shadow ${transitionConfig.duration} ${transitionConfig.easing}, transform ${transitionConfig.duration} ${transitionConfig.easing}`,
     flexShrink: 0,
     boxSizing: 'border-box',
     '&:hover': {
-      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)',
-      transform: 'translateY(-2px)',
+      boxShadow: shadowConfig.card.hover,
+      transform: `translateY(${transitionConfig.hover.translateY})`,
     },
-    // MOBILE: < 768px
+    // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
-      flex: '1 1 calc(33.333% - 8px)', // ← 3 columnas con gap
+      flex: '1 1 calc(33.333% - 8px)',
       width: 'auto',
-      minWidth: '90px',
-      maxWidth: '120px',
-      height: '120px',
-      padding: '12px',
+      minWidth: `${spacingConfig.mobile.statMinWidth}px`,
+      maxWidth: `${spacingConfig.mobile.statMaxWidth}px`,
+      height: `${spacingConfig.mobile.statHeight}px`,
+      padding: `${spacingConfig.mobile.statPadding}px`,
     },
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        width: `${Math.floor(spacingConfig.statCardWidth * 0.85)}px`,
-        height: `${Math.floor(spacingConfig.statCardHeight * 0.85)}px`,
-        padding: `${Math.floor(spacingConfig.statPadding * 0.8)}px`,
+        width: `${Math.floor(spacingConfig.statCardWidth * spacingConfig.tablet.statWidthMultiplier)}px`,
+        height: `${Math.floor(spacingConfig.statCardHeight * spacingConfig.tablet.statHeightMultiplier)}px`,
+        padding: `${Math.floor(spacingConfig.statPadding * spacingConfig.tablet.statPaddingMultiplier)}px`,
       },
   };
 });
@@ -360,26 +363,25 @@ export const StyledStatValue = styled(Typography, {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
-    fontFamily: typographyConfig.statValueFont, // Syne
-    fontSize: typographyConfig.statValueSize, // 48px (3rem)
-    fontWeight: typographyConfig.statValueWeight, // 600 semibold
-    lineHeight: typographyConfig.statValueLineHeight, // 1.2 para 58px height
+    fontFamily: typographyConfig.statValueFont,
+    fontSize: typographyConfig.statValueSize,
+    fontWeight: typographyConfig.statValueWeight,
+    lineHeight: typographyConfig.statValueLineHeight,
     color: PROFILE_CARD_COLORS.statValueColor,
     letterSpacing: '0',
     textAlign: 'center',
-    // MOBILE: < 768px
+    // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
-      fontSize: '1.5rem',
+      fontSize: typographyConfig.mobile.statValueSize,
     },
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        fontSize: '2.25rem',
+        fontSize: typographyConfig.tablet.statValueSize,
       },
   };
 });
 
-// Label: 133×24px rgba(169,169,169,1) Poppins 16px 400
 export const StyledStatLabel = styled(Typography, {
   shouldForwardProp: (prop) => prop.toString().indexOf('$') !== 0,
 })<{ $size: ProfileCardSize }>(({ $size }) => {
@@ -387,23 +389,23 @@ export const StyledStatLabel = styled(Typography, {
   const spacingConfig = PROFILE_CARD_SPACING[$size];
 
   return {
-    fontFamily: typographyConfig.statLabelFont, // Poppins
-    fontSize: typographyConfig.statLabelSize, // 16px (1rem)
-    fontWeight: typographyConfig.statLabelWeight, // 400 regular
+    fontFamily: typographyConfig.statLabelFont,
+    fontSize: typographyConfig.statLabelSize,
+    fontWeight: typographyConfig.statLabelWeight,
     padding: typographyConfig.statLabelPadding,
-    lineHeight: typographyConfig.statLabelLineHeight, // 1 (100%)
-    color: PROFILE_CARD_COLORS.statLabelColor, // rgba(169,169,169,1) EXACTO
+    lineHeight: typographyConfig.statLabelLineHeight,
+    color: PROFILE_CARD_COLORS.statLabelColor,
     letterSpacing: '0',
     textAlign: 'center',
     whiteSpace: 'nowrap',
-    // MOBILE: < 768px
+    // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
-      fontSize: '0.75rem',
+      fontSize: typographyConfig.mobile.statLabelSize,
     },
-    // TABLET: 768px - 1023px
+    // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        fontSize: '0.875rem',
+        fontSize: typographyConfig.tablet.statLabelSize,
       },
   };
 });

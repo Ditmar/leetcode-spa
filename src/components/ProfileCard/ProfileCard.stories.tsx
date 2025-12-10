@@ -1,5 +1,3 @@
-import { Box } from '@mui/material';
-
 import { ProfileCard } from './ProfileCard';
 import { PROFILE_CARD_SIZES, PROFILE_CARD_VARIANTS } from './ProfileCard.constants';
 
@@ -194,16 +192,6 @@ export const NoRole: Story = {
   },
 };
 
-export const NoStats: Story = {
-  args: {
-    name: 'Robert Wilson',
-    username: 'rwilson',
-    role: 'Backend Engineer',
-    avatarUrl: 'https://i.pravatar.cc/150?img=12',
-    showStats: false,
-  },
-};
-
 export const SmallSize: Story = {
   args: {
     size: 'small',
@@ -275,100 +263,5 @@ export const NewUser: Story = {
       points: 0,
       ranking: 0,
     },
-  },
-};
-
-export const Gallery: Story = {
-  render: () => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, padding: 2 }}>
-      <Box>
-        <h3>Size Variations</h3>
-        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-          <ProfileCard
-            size="small"
-            name="Small Card"
-            username="smalluser"
-            role="Developer"
-            avatarUrl="https://i.pravatar.cc/150?img=1"
-            stats={{ courses: 5, points: 1500, ranking: 45 }}
-          />
-          <ProfileCard
-            size="medium"
-            name="Medium Card"
-            username="mediumuser"
-            role="Designer"
-            avatarUrl="https://i.pravatar.cc/150?img=2"
-            stats={{ courses: 8, points: 2400, ranking: 23 }}
-          />
-          <ProfileCard
-            size="large"
-            name="Large Card"
-            username="largeuser"
-            role="Manager"
-            avatarUrl="https://i.pravatar.cc/150?img=3"
-            stats={{ courses: 12, points: 3600, ranking: 10 }}
-          />
-        </Box>
-      </Box>
-
-      <Box>
-        <h3>Variant Styles</h3>
-        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-          <ProfileCard
-            variant="default"
-            name="Default Layout"
-            username="defaultuser"
-            role="Engineer"
-            avatarUrl="https://i.pravatar.cc/150?img=4"
-            stats={{ courses: 7, points: 2100, ranking: 34 }}
-          />
-          <ProfileCard
-            variant="compact"
-            name="Compact Layout"
-            username="compactuser"
-            role="Analyst"
-            avatarUrl="https://i.pravatar.cc/150?img=5"
-            stats={{ courses: 10, points: 3000, ranking: 18 }}
-          />
-          <ProfileCard
-            variant="expanded"
-            name="Expanded Layout"
-            username="expandeduser"
-            role="Architect"
-            avatarUrl="https://i.pravatar.cc/150?img=6"
-            stats={{ courses: 15, points: 4500, ranking: 5 }}
-          />
-        </Box>
-      </Box>
-
-      <Box>
-        <h3>Edge Cases</h3>
-        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-          <ProfileCard
-            name="No Avatar User"
-            username="noavatar"
-            role="Tester"
-            stats={{ courses: 3, points: 900, ranking: 123 }}
-          />
-          <ProfileCard
-            name="Very Long Name That Should Be Truncated"
-            username="verylongusernamethatshouldalsobetruncated"
-            role="Senior Principal Staff Engineer"
-            avatarUrl="https://i.pravatar.cc/150?img=7"
-            stats={{ courses: 20, points: 6000, ranking: 2 }}
-          />
-          <ProfileCard
-            name="No Stats User"
-            username="nostats"
-            role="Intern"
-            avatarUrl="https://i.pravatar.cc/150?img=8"
-            showStats={false}
-          />
-        </Box>
-      </Box>
-    </Box>
-  ),
-  parameters: {
-    controls: { disable: true },
   },
 };
