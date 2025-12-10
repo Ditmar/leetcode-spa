@@ -1,11 +1,12 @@
 import { Drawer, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export const DashboardBackground = styled('div')(() => ({
-  width: '111%',
-  minHeight: '262vh',
+export const DashboardBackground = styled('div')(({ theme }) => ({
+  width: '100%',
+  minHeight: '100vh',
   position: 'relative',
-  overflow: 'auto',
+  overflowX: 'hidden',
+  overflowY: 'auto',
   backgroundColor: '#F5F5F5',
   backgroundImage: `
     radial-gradient(30.1% 50.86% at 100% 100%, #9949FF 0%, rgba(255,81,217,0) 100%),
@@ -15,14 +16,23 @@ export const DashboardBackground = styled('div')(() => ({
   `,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
+  backgroundPosition: 'center top',
   zIndex: 0,
+  [theme.breakpoints.down('sm')]: {
+    maxWidth: '100%',
+    padding: '0 5%',
+    minHeight: '100vh',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center top',
+  },
 }));
 
 export const ResponsiveContainer = styled('div')<{ isMobile: boolean }>(({ isMobile }) => ({
   position: 'relative',
   zIndex: 2,
   padding: isMobile ? '10px' : undefined,
-
   '.logo': {
     position: isMobile ? 'relative' : 'absolute',
     top: isMobile ? '32px' : '84px',
@@ -114,10 +124,8 @@ export const Group13 = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => (
 export const WelcomeMessage = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
   fontFamily: 'Syne, sans-serif',
   fontWeight: 700,
-  fontStyle: 'normal',
-  fontSize: isMobile ? '40px' : '40px',
+  fontSize: '40px',
   lineHeight: '100%',
-  letterSpacing: '0%',
   textAlign: isMobile ? 'center' : 'left',
 }));
 
@@ -172,7 +180,6 @@ export const NotificationText = styled('div')(() => ({
   fontFamily: 'Poppins, sans-serif',
   fontWeight: 500,
   fontSize: '12px',
-  lineHeight: '100%',
   color: 'white',
   textAlign: 'center',
 }));
@@ -250,7 +257,7 @@ export const Frame66Container = styled('div')<{ isMobile?: boolean }>(({ isMobil
 
 export const Frame39Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
   position: 'absolute',
-  top: isMobile ? '580px' : '606px',
+  top: isMobile ? '1380px' : '606px',
   left: isMobile ? '5%' : '435px',
   width: isMobile ? '90%' : '422px',
   height: isMobile ? '200px' : '307px',
@@ -258,6 +265,17 @@ export const Frame39Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMob
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+}));
+
+export const DonutsWrapper = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+  position: 'absolute',
+  top: isMobile ? '580px' : '517px',
+  left: isMobile ? '70%' : '570px',
+  transform: isMobile ? 'translateX(-50%)' : 'none',
+  display: 'flex',
+  flexDirection: 'row',
+  gap: isMobile ? '175px' : '190px',
+  zIndex: 199,
 }));
 
 export const RightColumnContainer = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
@@ -283,16 +301,16 @@ export const Frame61Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMob
   justifyContent: 'center',
 }));
 
-export const LeaderboardContainer = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
-  position: isMobile ? 'relative' : 'absolute',
-  top: isMobile ? '510px' : '217px',
-  left: isMobile ? '50%' : '912px',
-  transform: isMobile ? 'translateX(-50%)' : 'none',
-  width: isMobile ? '90%' : '498px',
-  height: isMobile ? '250px' : '361px',
+export const LeaderboardContainer = styled('div')<{ $isMobile?: boolean }>(({ $isMobile }) => ({
+  position: $isMobile ? 'relative' : 'absolute',
+  top: $isMobile ? '510px' : '217px',
+  left: $isMobile ? '50%' : '912px',
+  transform: $isMobile ? 'translateX(-50%)' : 'none',
+  width: $isMobile ? '90%' : '498px',
+  height: $isMobile ? '250px' : '361px',
   borderRadius: '12px',
   backgroundColor: 'rgba(253, 255, 255, 0.91)',
-  padding: isMobile ? '16px' : '0px',
+  padding: $isMobile ? '16px' : '0px',
   boxSizing: 'border-box',
   overflow: 'hidden',
 }));

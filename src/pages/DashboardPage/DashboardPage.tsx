@@ -7,10 +7,12 @@ import derecha from '../../assets/derecha.png?url';
 import Group49Img from '../../assets/Group49.png?url';
 import izquierda from '../../assets/izquierda.png?url';
 import { AvatarMenu } from '../../components/AvatarMenu/AvatarMenu';
+import { DonutProgress } from '../../components/DonutProgress/DonutProgress';
 import { LeaderboardPage } from '../../components/LeaderboardPage/LeaderboardPage';
 import { Logo } from '../../components/Logo/Logo';
 import { StatsCard } from '../../components/StatsCard/StatsCard';
 import { TestCard } from '../../components/TestCard/TestCard';
+import { UpcomingQuizCard } from '../../components/UpcomingQuizCard/UpcomingQuizCard';
 import { theme } from '../../style-library';
 
 import {
@@ -39,13 +41,14 @@ import {
   AvatarContainer,
   Group16,
   NotificationText,
+  DonutsWrapper,
 } from './DashboardPage.styles';
 
 const DashboardPage: React.FC = () => {
   const isMobile = useMediaQuery('(max-width:768px)');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
-
+  //de prueba
   const navigationItems = [
     { label: 'Tests', href: '/all-tests' },
     { label: 'Dashboard' },
@@ -172,8 +175,8 @@ const DashboardPage: React.FC = () => {
               avatarUrl="https://i.ibb.co/mV26g4B7/b2cc1d5a59644f92c2391dcdd5cde3c11e4770fe.jpg"
               username="Miguel Maquera"
               menuItems={[
-                { label: 'Profile', onClick: () => {} },
-                { label: 'Log Out', onClick: () => {} },
+                { label: 'Profile', onClick: () => (window.location.href = '/profile') },
+                { label: 'Log Out', onClick: () => (window.location.href = '/login') },
               ]}
             />
           </AvatarContainer>
@@ -192,17 +195,29 @@ const DashboardPage: React.FC = () => {
             title="C Programing"
             description="Resumen"
             logo="https://i.postimg.cc/hvF0fprz/Frame-66.png"
-            onSelect={() => {}}
+            onSelect={() => (window.location.href = 'gg')}
           />
           <TestCard
             title="Python Programing"
             description="Resumen"
             logo="https://i.postimg.cc/RZTp25TL/95454cf4b64dabec0eeee53306359326ebee8e6c.jpg"
-            onSelect={() => {}}
+            onSelect={() => (window.location.href = 'gg')}
           />
         </Frame66Container>
 
-        <Frame39Placeholder />
+        <DonutsWrapper isMobile={isMobile}>
+          <DonutProgress percentage={75} size={40} strokeWidth={4} />
+          <DonutProgress percentage={45} size={40} strokeWidth={4} />
+        </DonutsWrapper>
+
+        <Frame39Placeholder isMobile={isMobile}>
+          <UpcomingQuizCard
+            title="Next Quiz: Math"
+            date={new Date('2025-12-15')}
+            description="Prepare for the upcoming quiz in math!"
+            onRegister={() => {}}
+          />
+        </Frame39Placeholder>
 
         <Box
           sx={{
@@ -218,13 +233,13 @@ const DashboardPage: React.FC = () => {
           <StatsCard value="%80" label="Overall Average" />
         </Box>
 
-        <Frame61Placeholder />
-
-        <LeaderboardContainer isMobile={isMobile}>
+        <LeaderboardContainer $isMobile={isMobile}>
           <ThemeProvider theme={theme}>
             <LeaderboardPage />
           </ThemeProvider>
         </LeaderboardContainer>
+
+        <Frame61Placeholder />
       </ResponsiveContainer>
     </DashboardBackground>
   );
