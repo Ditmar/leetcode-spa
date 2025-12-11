@@ -40,7 +40,7 @@ export function useTestExecution(testId: string): UseTestExecutionResult {
       if (!foundTest) {
         setError('Test no encontrado');
         setIsLoading(false);
-        setTest(undefined); 
+        setTest(undefined);
         setState(createInitialState());
         return;
       }
