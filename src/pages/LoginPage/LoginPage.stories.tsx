@@ -90,7 +90,7 @@ const meta: Meta<LoginPageProps> = {
     disabled: false,
     onSubmit: () => {},
 
-    forgotPasswordText: 'Forget Password?',
+    forgotPasswordText: 'Forget Password ?',
     signUpText: 'Sign Up',
     orYouCanText: 'Or you can Signup with',
 

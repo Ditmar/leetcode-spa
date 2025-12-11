@@ -178,7 +178,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   const isDisabled = disabled || loading || !!errors.emailOrUsername || !!errors.password;
 
   return (
-    <Box sx={getPageContainerStyles(theme)}>
+    <Box sx={getPageContainerStyles}>
       <Box component="form" onSubmit={handleSubmit} sx={getFormStyles(theme)} noValidate>
         <Box sx={getLogoStyles(theme)}>
           <Logo orientation="horizontal" width="100%" height="100%" alt="Logo de la aplicación" />

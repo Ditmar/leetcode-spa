@@ -1,9 +1,9 @@
 import { type Theme, type SxProps } from '@mui/material';
 
 export const GEOMETRY_PX = {
-  PAGE_WIDTH: 488.76,
-  PAGE_HEIGHT: 761,
-  PAGE_BORDER_RADIUS: 36.55,
+  PAGE_WIDTH: 488.77,
+  PAGE_HEIGHT: 761.02,
+  PAGE_BORDER_RADIUS: 36.54,
 
   LOGO_TOP: 78.53,
   EMAIL_USERNAME_INPUT_TOP: 161.46,
@@ -13,36 +13,43 @@ export const GEOMETRY_PX = {
   PASSWORD_ERROR_TOP: 348.27,
 
   BUTTON_TOP: 370.65,
-  NAVIGATION_LINKS_TOP: 454.61,
-  OR_YOU_CAN_TOP: 505.51,
-  ICONS_TOP: 552.88,
+  NAVIGATION_LINKS_TOP: 473.61,
+  OR_YOU_CAN_TOP: 520.51,
+  ICONS_TOP: 557.88,
   LEGAL_TEXT_TOP: 643.27,
 
-  INPUT_LEFT: 41.11,
-  INPUT_WIDTH: 411.11,
-  INPUT_HEIGHT: 83.31,
+  INPUT_LEFT: 24.11,
+  INPUT_WIDTH: 437.12,
+  INPUT_HEIGHT: 83.32,
   INPUT_PADDING_LEFT_PX: 25,
   INPUT_BORDER_RADIUS_PX: 12.79,
-  BUTTON_HEIGHT: 62.53,
+  BUTTON_LEFT: 23,
+  BUTTON_WIDTH: 443.12,
+  BUTTON_HEIGHT: 74.55,
   BUTTON_BORDER_RADIUS_PX: 45.68,
-  LOGO_WIDTH: 266.14,
+  LOGO_WIDTH: 266.15,
   LOGO_HEIGHT: 45.68,
   LOGO_LEFT: 111.45,
+  NAVIGATION_LINK_HEIGHT: 20.01,
+  OR_YOU_CAN_EIGHT: 18.01,
   ICON_SIZE: 58,
-  ICON_SEPARATION: 40,
+  ICON_SEPARATION: 45,
   GOOGLE_POS_X: 107.88,
+  LEGAL_LEFT: 43.11,
   LEGAL_TEXT_WIDTH: 405.63,
+  LEGAL_TEXT_HEIGHT: 35.01,
 };
 
 const INPUT_FONT_SIZE_RAW = 18.27;
 const ERROR_FONT_SIZE_RAW = 12;
-const BASE_FONT_SIZE_RAW = 16.44;
+const BASE_FONT_SIZE_RAW = 18.02;
 const BUTTON_FONT_SIZE_RAW = 21.93;
-const SMALL_TEXT_FONT_SIZE_RAW = 14.62;
+const SMALL_TEXT_FONT_SIZE_RAW = 15.78;
 const BORDER_SIZE_PX = 0.91;
 
 const percentW = (px: number): string => (px / GEOMETRY_PX.PAGE_WIDTH) * 100 + '%';
 const percentH = (px: number): string => (px / GEOMETRY_PX.PAGE_HEIGHT) * 100 + '%';
+const gradientColor = 'linear-gradient(to right, rgba(178, 61, 235, 1), rgba(222, 143, 255, 1))';
 
 const fontVw = (px: number, theme: Theme) => {
   const capPx = px;
@@ -74,14 +81,10 @@ const getAbsoluteElementBase = (
   color: theme.palette.text.secondary,
 });
 
-export const getPageContainerStyles = (theme: Theme): SxProps<Theme> => ({
+export const getPageContainerStyles = () => ({
   position: 'relative',
   width: '100%',
-  [theme.breakpoints.up('md')]: {
-    maxWidth: `${GEOMETRY_PX.PAGE_WIDTH}px`,
-    padding: '48px',
-    margin: '40px auto',
-  },
+  maxWidth: GEOMETRY_PX.PAGE_WIDTH,
   aspectRatio: `${GEOMETRY_PX.PAGE_WIDTH} / ${GEOMETRY_PX.PAGE_HEIGHT}`,
   height: 'auto',
   margin: 'auto',
@@ -149,12 +152,12 @@ export const getInputStyles = (topPx: number, theme: Theme): SxProps<Theme> => (
 export const getButtonStyles = (theme: Theme): SxProps<Theme> => ({
   ...getAbsoluteElementBase(
     GEOMETRY_PX.BUTTON_TOP,
-    GEOMETRY_PX.INPUT_LEFT,
-    GEOMETRY_PX.INPUT_WIDTH,
+    GEOMETRY_PX.BUTTON_LEFT,
+    GEOMETRY_PX.BUTTON_WIDTH,
     GEOMETRY_PX.BUTTON_HEIGHT,
     theme
   ),
-  background: `linear-gradient(90deg, ${theme.palette.link.purple} 0%, #E83FEE 100%)`,
+  background: gradientColor,
   borderRadius: theme.typography.pxToRem(GEOMETRY_PX.BUTTON_BORDER_RADIUS_PX),
   color: theme.palette.common.white,
   cursor: 'pointer',
@@ -167,6 +170,7 @@ export const forgotPasswordLinkStyles = (theme: Theme): SxProps<Theme> => ({
   position: 'absolute',
   left: percentW(GEOMETRY_PX.INPUT_LEFT),
   top: percentH(GEOMETRY_PX.NAVIGATION_LINKS_TOP),
+  height: percentH(GEOMETRY_PX.NAVIGATION_LINK_HEIGHT),
   fontFamily: theme.typography.fontFamily,
   color: theme.palette.text.secondary,
   zIndex: 1,
@@ -179,6 +183,7 @@ export const signUpLinkStyles = (theme: Theme): SxProps<Theme> => ({
   position: 'absolute',
   right: percentW(GEOMETRY_PX.INPUT_LEFT),
   top: percentH(GEOMETRY_PX.NAVIGATION_LINKS_TOP),
+  height: percentH(GEOMETRY_PX.NAVIGATION_LINK_HEIGHT),
   fontFamily: theme.typography.fontFamily,
   color: theme.palette.link.purple,
   cursor: 'pointer',
@@ -193,9 +198,10 @@ export const signUpLinkStyles = (theme: Theme): SxProps<Theme> => ({
 
 export const orYouCanTextStyles = (theme: Theme): SxProps<Theme> => ({
   position: 'absolute',
-  left: '50%',
+  left: '48%',
   transform: 'translateX(-50%)',
   top: percentH(GEOMETRY_PX.OR_YOU_CAN_TOP),
+  height: percentH(GEOMETRY_PX.NAVIGATION_LINK_HEIGHT),
   fontFamily: theme.typography.fontFamily,
   color: theme.palette.text.secondary,
   whiteSpace: 'nowrap',
@@ -231,9 +237,10 @@ export const getErrorTextStyles = (topPx: number, theme: Theme): SxProps<Theme> 
 
 export const legalTextStyles = (theme: Theme): SxProps<Theme> => ({
   position: 'absolute',
-  left: percentW(GEOMETRY_PX.INPUT_LEFT),
+  left: percentW(GEOMETRY_PX.LEGAL_LEFT),
   top: percentH(GEOMETRY_PX.LEGAL_TEXT_TOP),
   width: percentW(GEOMETRY_PX.LEGAL_TEXT_WIDTH),
+  height: percentH(GEOMETRY_PX.LEGAL_TEXT_HEIGHT),
   fontFamily: theme.typography.fontFamily,
   lineHeight: 1.2,
   textAlign: 'center',
