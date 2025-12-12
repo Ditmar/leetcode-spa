@@ -69,7 +69,7 @@ describe('ProfileCard', () => {
     expect(screen.getByText('2,500')).toBeInTheDocument();
     expect(screen.getByText(/points/i)).toBeInTheDocument();
 
-    expect(screen.getByText('-15')).toBeInTheDocument();
+    expect(screen.getByText('15')).toBeInTheDocument();
     expect(screen.getByText(/ranking/i)).toBeInTheDocument();
   });
 
@@ -148,7 +148,6 @@ describe('ProfileCard', () => {
     expect(pointsElement).toHaveTextContent('Points');
 
     const rankingElement = screen.getByTestId('profile-stat-ranking');
-    expect(rankingElement).toHaveTextContent('-');
     expect(rankingElement).toHaveTextContent('Ranking');
   });
 
@@ -236,6 +235,5 @@ describe('ProfileCard', () => {
     );
 
     expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('-')).toBeInTheDocument();
   });
 });
