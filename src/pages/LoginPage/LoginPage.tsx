@@ -1,10 +1,11 @@
-import { Box, Typography, useTheme, Link, Button, IconButton } from '@mui/material';
+import { Box, Typography, useTheme, Link, IconButton } from '@mui/material';
 import React, { useState } from 'react';
 
 import FacebookStatic from '../../assets/facebook.svg';
 import GithubStatic from '../../assets/github.svg';
 import GoogleStatic from '../../assets/google.svg';
 import { Logo } from '../../components/Logo/Logo';
+import { PrimaryButton } from '../../ui/components/PrimaryButton/Button';
 
 import {
   getPageContainerStyles,
@@ -42,15 +43,6 @@ type FormInputFallbackProps = {
   sx?: SxProps<Theme>;
   type?: string;
   autoComplete?: string;
-};
-
-type PrimaryButtonFallbackProps = {
-  children?: React.ReactNode;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  disabled?: boolean;
-  loading?: boolean;
-  sx?: SxProps<Theme>;
-  type?: 'button' | 'submit' | 'reset';
 };
 
 // FALLBACK COMPONENTS (SKELETON IMPLEMENTATION)
@@ -92,20 +84,6 @@ const FormInput: React.FC<FormInputFallbackProps> = (props) => (
       }),
     })}
   />
-);
-
-const PrimaryButton: React.FC<PrimaryButtonFallbackProps> = (props) => (
-  <Button
-    variant="contained"
-    onClick={props.onClick}
-    disabled={props.disabled || props.loading}
-    sx={{
-      textTransform: 'none',
-      ...props.sx,
-    }}
-  >
-    {props.loading ? '...' : props.children}
-  </Button>
 );
 
 const EMAIL_REGEX =
@@ -237,17 +215,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           onClick={handleSubmit}
           loading={loading}
           disabled={isDisabled}
-          sx={{
-            ...getButtonStyles(theme),
-            '&:hover': {
-              background: `linear-gradient(90deg, ${theme.palette.link.purple} 5%, #E83FEE 95%)`,
-              opacity: 0.9,
-            },
-            '&.Mui-disabled': {
-              backgroundColor: theme.palette.grey[500],
-              color: theme.palette.common.white,
-            },
-          }}
+          sx={getButtonStyles(theme)}
         >
           {buttonText}
         </PrimaryButton>

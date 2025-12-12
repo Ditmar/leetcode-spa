@@ -12,7 +12,7 @@ export const GEOMETRY_PX = {
   EMAIL_USERNAME_ERROR_TOP: 245,
   PASSWORD_ERROR_TOP: 348.27,
 
-  BUTTON_TOP: 370.65,
+  BUTTON_TOP: 373.65,
   NAVIGATION_LINKS_TOP: 473.61,
   OR_YOU_CAN_TOP: 520.51,
   ICONS_TOP: 557.88,
@@ -23,10 +23,9 @@ export const GEOMETRY_PX = {
   INPUT_HEIGHT: 83.32,
   INPUT_PADDING_LEFT_PX: 25,
   INPUT_BORDER_RADIUS_PX: 12.79,
-  BUTTON_LEFT: 23,
-  BUTTON_WIDTH: 443.12,
-  BUTTON_HEIGHT: 74.55,
-  BUTTON_BORDER_RADIUS_PX: 45.68,
+  BUTTON_LEFT: 19,
+  BUTTON_WIDTH: 447,
+  BUTTON_HEIGHT: 65.55,
   LOGO_WIDTH: 266.15,
   LOGO_HEIGHT: 45.68,
   LOGO_LEFT: 111.45,
@@ -43,13 +42,11 @@ export const GEOMETRY_PX = {
 const INPUT_FONT_SIZE_RAW = 18.27;
 const ERROR_FONT_SIZE_RAW = 12;
 const BASE_FONT_SIZE_RAW = 18.02;
-const BUTTON_FONT_SIZE_RAW = 21.93;
 const SMALL_TEXT_FONT_SIZE_RAW = 15.78;
 const BORDER_SIZE_PX = 0.91;
 
 const percentW = (px: number): string => (px / GEOMETRY_PX.PAGE_WIDTH) * 100 + '%';
 const percentH = (px: number): string => (px / GEOMETRY_PX.PAGE_HEIGHT) * 100 + '%';
-const gradientColor = 'linear-gradient(to right, rgba(178, 61, 235, 1), rgba(222, 143, 255, 1))';
 
 const fontVw = (px: number, theme: Theme) => {
   const capPx = px;
@@ -72,13 +69,12 @@ const getAbsoluteElementBase = (
   position: 'absolute',
   left: percentW(leftPx),
   top: percentH(topPx),
-  width: percentW(widthPx),
-  height: percentH(heightPx),
+  width: `${percentW(widthPx)} !important`,
+  height: `${percentH(heightPx)} !important`,
   zIndex: zIndex,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: theme.palette.text.secondary,
 });
 
 export const getPageContainerStyles = () => ({
@@ -157,13 +153,8 @@ export const getButtonStyles = (theme: Theme): SxProps<Theme> => ({
     GEOMETRY_PX.BUTTON_HEIGHT,
     theme
   ),
-  background: gradientColor,
-  borderRadius: theme.typography.pxToRem(GEOMETRY_PX.BUTTON_BORDER_RADIUS_PX),
-  color: theme.palette.common.white,
-  cursor: 'pointer',
-  fontFamily: theme.typography.fontFamily,
+
   zIndex: 2,
-  ...fontVw(BUTTON_FONT_SIZE_RAW, theme),
 });
 
 export const forgotPasswordLinkStyles = (theme: Theme): SxProps<Theme> => ({
