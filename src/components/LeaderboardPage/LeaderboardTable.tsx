@@ -2,9 +2,9 @@ import { Table, TableBody, TableCell, TableRow, Typography, Box } from '@mui/mat
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
 
-import ranking_1 from '../../assets/special1.png';
-import ranking_2 from '../../assets/special2.png';
-import ranking_3 from '../../assets/special3.png';
+import ranking_1 from '../../assets/special1.png?url';
+import ranking_2 from '../../assets/special2.png?url';
+import ranking_3 from '../../assets/special3.png?url';
 
 import { CustomAvatar, SyneTypography } from './LeaderboardPage.styles';
 

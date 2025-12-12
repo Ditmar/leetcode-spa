@@ -1,7 +1,7 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import gifBg from '../../assets/image.gif';
+import gifBg from '../../assets/image.gif?url';
 
 export const PageWrap = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),

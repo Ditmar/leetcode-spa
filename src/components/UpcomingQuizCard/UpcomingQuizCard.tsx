@@ -1,7 +1,7 @@
 import { Typography, Avatar } from '@mui/material';
 import React from 'react';
 
-import Calendar from './icon/Calendar.png';
+import Calendar from './icon/Calendar.png?url';
 import { useUpcomingQuizCard } from './UpcomingQuizCard.hook';
 import {
   StyledCard,

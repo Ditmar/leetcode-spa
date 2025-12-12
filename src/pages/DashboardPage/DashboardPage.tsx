@@ -10,6 +10,7 @@ import { AvatarMenu } from '../../components/AvatarMenu/AvatarMenu';
 import { DonutProgress } from '../../components/DonutProgress/DonutProgress';
 import { LeaderboardPage } from '../../components/LeaderboardPage/LeaderboardPage';
 import { Logo } from '../../components/Logo/Logo';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
 import { StatsCard } from '../../components/StatsCard/StatsCard';
 import { TestCard } from '../../components/TestCard/TestCard';
 import { UpcomingQuizCard } from '../../components/UpcomingQuizCard/UpcomingQuizCard';
@@ -42,6 +43,7 @@ import {
   Group16,
   NotificationText,
   DonutsWrapper,
+  StatsColumn,
 } from './DashboardPage.styles';
 
 const DashboardPage: React.FC = () => {
@@ -154,20 +156,7 @@ const DashboardPage: React.FC = () => {
           )}
 
           <Group53Placeholder isMobile={isMobile}>
-            <input
-              type="text"
-              placeholder="Search..."
-              style={{
-                flex: 1,
-                border: 'none',
-                outline: 'none',
-                background: 'transparent',
-                fontSize: isMobile ? 14 : 16,
-              }}
-            />
-            <span style={{ marginLeft: 8, cursor: 'pointer', fontSize: isMobile ? 16 : 18 }}>
-              🔍
-            </span>
+            <SearchBar placeholder="Search..." debounceDelay={300} autoSearch />
           </Group53Placeholder>
 
           <AvatarContainer isMobile={isMobile}>
@@ -219,19 +208,10 @@ const DashboardPage: React.FC = () => {
           />
         </Frame39Placeholder>
 
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 606,
-            left: 914,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-          }}
-        >
+        <StatsColumn isMobile={isMobile}>
           <StatsCard value="32" label="Tests Written" />
           <StatsCard value="%80" label="Overall Average" />
-        </Box>
+        </StatsColumn>
 
         <LeaderboardContainer $isMobile={isMobile}>
           <ThemeProvider theme={theme}>

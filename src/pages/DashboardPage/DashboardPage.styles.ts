@@ -124,7 +124,7 @@ export const Group13 = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => (
 export const WelcomeMessage = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
   fontFamily: 'Syne, sans-serif',
   fontWeight: 700,
-  fontSize: '40px',
+  fontSize: '35px',
   lineHeight: '100%',
   textAlign: isMobile ? 'center' : 'left',
 }));
@@ -144,12 +144,16 @@ export const Group53Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMob
   left: isMobile ? '0px' : '929px',
   width: isMobile ? '342px' : '324px',
   height: '67px',
-  backgroundColor: 'rgba(200,180,250,0.3)',
   display: 'flex',
   alignItems: 'center',
   padding: '0 12px',
   borderRadius: '12px',
   boxSizing: 'border-box',
+
+  // 👇 necesario para que SearchBar se adapte
+  '& > *': {
+    flex: 1,
+  },
 }));
 
 export const Group49Placeholder = styled('img')(() => ({
@@ -257,7 +261,7 @@ export const Frame66Container = styled('div')<{ isMobile?: boolean }>(({ isMobil
 
 export const Frame39Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
   position: 'absolute',
-  top: isMobile ? '1380px' : '606px',
+  top: isMobile ? '1280px' : '606px',
   left: isMobile ? '5%' : '435px',
   width: isMobile ? '90%' : '422px',
   height: isMobile ? '200px' : '307px',
@@ -265,6 +269,17 @@ export const Frame39Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMob
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+}));
+//el porcnetual y tectual
+export const StatsColumn = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+  position: isMobile ? 'relative' : 'absolute',
+  top: isMobile ? '750px' : '606px',
+  left: isMobile ? 'auto' : '914px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '16px',
+  width: isMobile ? '90%' : 'auto',
+  margin: isMobile ? '20px auto' : '0',
 }));
 
 export const DonutsWrapper = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
@@ -303,13 +318,13 @@ export const Frame61Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMob
 
 export const LeaderboardContainer = styled('div')<{ $isMobile?: boolean }>(({ $isMobile }) => ({
   position: $isMobile ? 'relative' : 'absolute',
-  top: $isMobile ? '510px' : '217px',
-  left: $isMobile ? '50%' : '912px',
+  top: $isMobile ? '210px' : '217px',
+  left: $isMobile ? '55%' : '912px',
   transform: $isMobile ? 'translateX(-50%)' : 'none',
-  width: $isMobile ? '90%' : '498px',
+  width: $isMobile ? '388px' : '498px',
   height: $isMobile ? '250px' : '361px',
   borderRadius: '12px',
-  backgroundColor: 'rgba(253, 255, 255, 0.91)',
+  backgroundColor: 'rgba(255, 255, 255, 0.91)',
   padding: $isMobile ? '16px' : '0px',
   boxSizing: 'border-box',
   overflow: 'hidden',

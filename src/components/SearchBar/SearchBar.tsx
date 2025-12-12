@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles';
 import React, { type FC, memo } from 'react';
 
-import searchIcon from './assets/search-icon.svg';
+import searchIcon from './assets/search-icon.svg?url';
 import {
   DEFAULT_PLACEHOLDER,
   DEFAULT_BUTTON_ARIA_LABEL,
