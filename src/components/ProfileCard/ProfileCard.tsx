@@ -81,11 +81,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
   const userLocale = locale || (typeof navigator !== 'undefined' ? navigator.language : undefined);
 
-  const formatRanking = (rank: number): string => {
-    if (rank === 0) return '-';
-    return `-${rank}`;
-  };
-
   return (
     <StyledOuterContainer
       className={className}
@@ -162,7 +157,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           />
           <StatsItem
             label={STATS_LABELS_FALLBACK.ranking}
-            value={formatRanking(stats.ranking)}
+            value={stats.ranking}
             $variant={variant}
             $size={size}
             locale={userLocale}

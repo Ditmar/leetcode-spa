@@ -139,17 +139,17 @@ export const PROFILE_CARD_SPACING = {
     mobileBreakpoint: 768,
     tabletBreakpoint: 1024,
     mobile: {
-      outerContainerWidth: 350, // ← Ancho fijo para mobile
-      userCardWidth: 200, // ← Ancho fijo user card mobile
-      userCardHeight: 220, // ← Alto fijo user card mobile
+      outerContainerWidth: 280, // ← Ancho fijo para mobile
+      userCardWidth: 180, // ← Ancho fijo user card mobile
+      userCardHeight: 200, // ← Alto fijo user card mobile
       userCardPadding: 16,
       avatarSize: 80,
       gap: 24,
-      statsContainerWidth: 350, // ← Ancho fijo stats mobile
+      statsContainerWidth: 280, // ← Ancho fijo stats mobile
       statsGap: 8,
-      statMinWidth: 100,
-      statMaxWidth: 110,
-      statHeight: 110,
+      statMinWidth: 50,
+      statMaxWidth: 100,
+      statHeight: 90,
       statPadding: 12,
     },
     tablet: {
@@ -270,13 +270,13 @@ export const PROFILE_CARD_TYPOGRAPHY = {
     roleSize: '1.3rem',
     roleWeight: 400,
     roleFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
-    statValueSize: '48px',
+    statValueSize: '48.3px',
     statValueWeight: 600,
     statValueLineHeight: 1.2,
     statValueFont: '"Syne", "Roboto", "Helvetica", "Arial", sans-serif',
-    statLabelSize: '16.3px',
+    statLabelSize: '17.3px',
     statLabelWeight: 400,
-    statLabelPadding: '4px',
+    statLabelPadding: '3.5px 0px',
     statLabelLineHeight: 1,
     statLabelFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
     // Responsive typography
@@ -285,7 +285,7 @@ export const PROFILE_CARD_TYPOGRAPHY = {
       usernameSize: '0.875rem',
       roleSize: '0.75rem',
       statValueSize: '1.5rem',
-      statLabelSize: '0.75rem',
+      statLabelSize: '0.6rem',
     },
     tablet: {
       nameSize: '1.25rem',
@@ -336,7 +336,7 @@ export const PROFILE_CARD_TYPOGRAPHY = {
 // ProfileCard Component Color Tokens
 // ========================================
 export const PROFILE_CARD_COLORS = {
-  statLabelColor: 'rgb(117,117,117)',
+  statLabelColor: 'rgba(169, 169, 169, 1)',
   statValueColor: '#565656ff',
   statCardBackground: '#F1F3F9',
   statCardBorder: 'none',

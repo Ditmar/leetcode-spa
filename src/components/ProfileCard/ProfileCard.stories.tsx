@@ -110,7 +110,7 @@ const meta = {
     stats: {
       courses: 3,
       points: 850,
-      ranking: 135,
+      ranking: -135,
     },
   },
   tags: ['autodocs'],
@@ -131,7 +131,7 @@ export const Playground: Story = {
     stats: {
       courses: 3,
       points: 850,
-      ranking: 23,
+      ranking: -23,
     },
   },
 };
@@ -143,9 +143,9 @@ export const Default: Story = {
     role: 'Product Designer',
     avatarUrl: 'https://i.pravatar.cc/150?img=5',
     stats: {
-      courses: 8,
+      courses: 3,
       points: 850,
-      ranking: 125,
+      ranking: -124,
     },
   },
 };
@@ -159,7 +159,7 @@ export const NoAvatar: Story = {
     stats: {
       courses: 15,
       points: 4200,
-      ranking: 7,
+      ranking: -7,
     },
   },
 };
@@ -173,7 +173,7 @@ export const LongName: Story = {
     stats: {
       courses: 25,
       points: 8950,
-      ranking: 1,
+      ranking: -1,
     },
   },
 };
@@ -187,7 +187,7 @@ export const NoRole: Story = {
     stats: {
       courses: 5,
       points: 1200,
-      ranking: 156,
+      ranking: -156,
     },
   },
 };
@@ -202,7 +202,7 @@ export const SmallSize: Story = {
     stats: {
       courses: 6,
       points: 1800,
-      ranking: 89,
+      ranking: -89,
     },
   },
 };
@@ -217,7 +217,7 @@ export const LargeSize: Story = {
     stats: {
       courses: 10,
       points: 3000,
-      ranking: 34,
+      ranking: -34,
     },
   },
 };
@@ -232,7 +232,7 @@ export const CompactVariant: Story = {
     stats: {
       courses: 9,
       points: 2700,
-      ranking: 56,
+      ranking: -56,
     },
   },
 };
@@ -247,7 +247,7 @@ export const ExpandedVariant: Story = {
     stats: {
       courses: 14,
       points: 4100,
-      ranking: 12,
+      ranking: -12,
     },
   },
 };
