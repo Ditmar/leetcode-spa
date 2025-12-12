@@ -39,16 +39,19 @@ export const StyledOuterContainer = styled(Box, {
     boxSizing: 'border-box',
     // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
-      width: '100%',
-      maxWidth: '100%',
+      width: `${spacingConfig.mobile.outerContainerWidth}px`, // ← Valor fijo 350px
+      maxWidth: `${spacingConfig.mobile.outerContainerWidth}px`,
       height: 'auto',
+      margin: '0 auto', // ← Centrado
+      padding: 0,
       gap: `${spacingConfig.mobile.gap}px`,
     },
-    // TABLET
+    // TABLET - Valores FIJOS (mantener desktop)
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        maxWidth: `${spacingConfig.tablet.maxWidthPercent}%`,
-        height: 'auto',
+        width: `${spacingConfig.tablet.outerContainerWidth}px`, // ← Valor fijo 685px
+        maxWidth: `${spacingConfig.tablet.outerContainerWidth}px`,
+        height: `${spacingConfig.outerContainerHeight}px`,
         gap: `${spacingConfig.tablet.gap}px`,
       },
   };
@@ -86,17 +89,18 @@ export const StyledUserCard = styled(Card, {
     },
     // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
-      width: '100%',
-      maxWidth: '100%',
-      height: 'auto',
+      width: `${spacingConfig.mobile.userCardWidth}px`, // ← Valor fijo 320px
+      maxWidth: `${spacingConfig.mobile.userCardWidth}px`,
+      height: `${spacingConfig.mobile.userCardHeight}px`, // ← Valor fijo 280px
       padding: `${spacingConfig.mobile.userCardPadding}px`,
     },
-    // TABLET
+    // TABLET - Valores FIJOS (mantener desktop)
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        maxWidth: `${spacingConfig.tablet.maxWidthPercent}%`,
-        height: 'auto',
-        minHeight: `${spacingConfig.tablet.userCardMinHeight}px`,
+        width: `${spacingConfig.tablet.userCardWidth}px`, // ← Valor fijo 282px
+        maxWidth: `${spacingConfig.tablet.userCardWidth}px`,
+        height: `${spacingConfig.tablet.userCardHeight}px`, // ← Valor fijo 316px
+        padding: `${spacingConfig.tablet.userCardPadding}px`,
       },
   };
 });
@@ -124,7 +128,7 @@ export const StyledProfileContainer = styled(Box, {
     // TABLET
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        gap: `${Math.floor(spacingConfig.infoGap * spacingConfig.tablet.infoGapMultiplier)}px`,
+        gap: `${spacingConfig.tablet.gap}px`,
       },
   };
 });
@@ -146,16 +150,16 @@ export const StyledAvatar = styled(Avatar, {
     flexShrink: 0,
     // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
-      width: `${spacingConfig.mobile.avatarSize}px`,
+      width: `${spacingConfig.mobile.avatarSize}px`, // ← Valor fijo 80px
       height: `${spacingConfig.mobile.avatarSize}px`,
       fontSize: `calc(${spacingConfig.mobile.avatarSize}px * 0.4)`,
     },
-    // TABLET
+    // TABLET - Valor FIJO
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        width: `${Math.floor(spacingConfig.avatarSize * spacingConfig.tablet.avatarSizeMultiplier)}px`,
-        height: `${Math.floor(spacingConfig.avatarSize * spacingConfig.tablet.avatarSizeMultiplier)}px`,
-        fontSize: `calc(${Math.floor(spacingConfig.avatarSize * spacingConfig.tablet.avatarSizeMultiplier)}px * 0.4)`,
+        width: `${spacingConfig.tablet.avatarSize}px`, // ← Valor fijo según size
+        height: `${spacingConfig.tablet.avatarSize}px`,
+        fontSize: `calc(${spacingConfig.tablet.avatarSize}px * 0.4)`,
       },
   };
 });
@@ -284,17 +288,17 @@ export const StyledStatsContainer = styled(Box, {
     // MOBILE
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       flexDirection: 'row',
-      width: '100%',
-      maxWidth: '100%',
+      width: `${spacingConfig.mobile.statsContainerWidth}px`, // ← Valor fijo 350px
       height: 'auto',
       gap: `${spacingConfig.mobile.statsGap}px`,
       flexWrap: 'wrap',
     },
-    // TABLET
+    // TABLET - Valores FIJOS (mantener desktop)
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        maxWidth: `${spacingConfig.tablet.maxWidthPercent}%`,
-        gap: `${Math.floor(spacingConfig.statsGap * spacingConfig.tablet.statsGapMultiplier)}px`,
+        width: `${spacingConfig.tablet.statsContainerWidth}px`, // ← Valor fijo 685px
+        height: `${spacingConfig.tablet.statsContainerHeight}px`, // ← Valor fijo 166px
+        gap: `${spacingConfig.tablet.statsGap}px`,
       },
   };
 });
@@ -330,17 +334,17 @@ export const StyledStatCard = styled(Card, {
     [`@media (max-width: ${spacingConfig.mobileBreakpoint - 1}px)`]: {
       flex: '1 1 calc(33.333% - 8px)',
       width: 'auto',
-      minWidth: `${spacingConfig.mobile.statMinWidth}px`,
-      maxWidth: `${spacingConfig.mobile.statMaxWidth}px`,
-      height: `${spacingConfig.mobile.statHeight}px`,
+      minWidth: `${spacingConfig.mobile.statMinWidth}px`, // ← Valor fijo 100px
+      maxWidth: `${spacingConfig.mobile.statMaxWidth}px`, // ← Valor fijo 110px
+      height: `${spacingConfig.mobile.statHeight}px`, // ← Valor fijo 110px
       padding: `${spacingConfig.mobile.statPadding}px`,
     },
-    // TABLET
+    // TABLET - Valores FIJOS (mantener desktop)
     [`@media (min-width: ${spacingConfig.mobileBreakpoint}px) and (max-width: ${spacingConfig.tabletBreakpoint - 1}px)`]:
       {
-        width: `${Math.floor(spacingConfig.statCardWidth * spacingConfig.tablet.statWidthMultiplier)}px`,
-        height: `${Math.floor(spacingConfig.statCardHeight * spacingConfig.tablet.statHeightMultiplier)}px`,
-        padding: `${Math.floor(spacingConfig.statPadding * spacingConfig.tablet.statPaddingMultiplier)}px`,
+        width: `${spacingConfig.tablet.statCardWidth}px`, // ← Valor fijo 195px
+        height: `${spacingConfig.tablet.statCardHeight}px`, // ← Valor fijo 166px
+        padding: `${spacingConfig.tablet.statPadding}px`,
       },
   };
 });
