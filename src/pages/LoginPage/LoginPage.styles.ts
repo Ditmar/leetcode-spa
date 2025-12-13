@@ -30,6 +30,7 @@ export const GEOMETRY_PX = {
   LOGO_HEIGHT: 45.68,
   LOGO_LEFT: 111.45,
   NAVIGATION_LINK_HEIGHT: 20.01,
+  SIGN_RIGHT: 46,
   OR_YOU_CAN_EIGHT: 18.01,
   ICON_SIZE: 58,
   ICON_SEPARATION: 45,
@@ -172,7 +173,7 @@ export const forgotPasswordLinkStyles = (theme: Theme): SxProps<Theme> => ({
 
 export const signUpLinkStyles = (theme: Theme): SxProps<Theme> => ({
   position: 'absolute',
-  right: percentW(GEOMETRY_PX.INPUT_LEFT),
+  right: percentW(GEOMETRY_PX.SIGN_RIGHT),
   top: percentH(GEOMETRY_PX.NAVIGATION_LINKS_TOP),
   height: percentH(GEOMETRY_PX.NAVIGATION_LINK_HEIGHT),
   fontFamily: theme.typography.fontFamily,
@@ -192,7 +193,7 @@ export const orYouCanTextStyles = (theme: Theme): SxProps<Theme> => ({
   left: '48%',
   transform: 'translateX(-50%)',
   top: percentH(GEOMETRY_PX.OR_YOU_CAN_TOP),
-  height: percentH(GEOMETRY_PX.NAVIGATION_LINK_HEIGHT),
+  height: percentH(GEOMETRY_PX.OR_YOU_CAN_EIGHT),
   fontFamily: theme.typography.fontFamily,
   color: theme.palette.text.secondary,
   whiteSpace: 'nowrap',
