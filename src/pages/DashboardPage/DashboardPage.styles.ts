@@ -1,4 +1,4 @@
-import { Drawer, IconButton } from '@mui/material';
+import { Drawer, IconButton, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const DashboardBackground = styled('div')(({ theme }) => ({
@@ -150,7 +150,6 @@ export const Group53Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMob
   borderRadius: '12px',
   boxSizing: 'border-box',
 
-  // 👇 necesario para que SearchBar se adapte
   '& > *': {
     flex: 1,
   },
@@ -316,19 +315,22 @@ export const Frame61Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMob
   justifyContent: 'center',
 }));
 
-export const LeaderboardContainer = styled('div')<{ $isMobile?: boolean }>(({ $isMobile }) => ({
-  position: $isMobile ? 'relative' : 'absolute',
-  top: $isMobile ? '210px' : '217px',
-  left: $isMobile ? '55%' : '912px',
-  transform: $isMobile ? 'translateX(-50%)' : 'none',
-  width: $isMobile ? '388px' : '498px',
-  height: $isMobile ? '250px' : '361px',
-  borderRadius: '12px',
-  backgroundColor: 'rgba(255, 255, 255, 0.91)',
-  padding: $isMobile ? '16px' : '0px',
-  boxSizing: 'border-box',
-  overflow: 'hidden',
-}));
+export const LeaderboardContainer = styled(Box)<{ $isMobile?: boolean }>(
+  ({ $isMobile, theme }) => ({
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing($isMobile ? 2 : 0),
+    boxSizing: 'border-box',
+    overflow: 'hidden',
+    width: $isMobile ? '90%' : 498,
+    height: $isMobile ? 250 : 361,
+    marginTop: $isMobile ? theme.spacing(28) : theme.spacing(15),
+    marginLeft: $isMobile ? 'auto' : theme.spacing(114),
+    marginRight: $isMobile ? 'auto' : undefined,
+    position: 'relative',
+    transform: $isMobile ? 'translateX(0)' : 'none',
+  })
+);
 
 export const MobileMenuButton = styled(IconButton)<{ isMobile: boolean }>(({ isMobile }) => ({
   position: 'absolute',

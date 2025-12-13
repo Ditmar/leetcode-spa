@@ -50,7 +50,9 @@ const DashboardPage: React.FC = () => {
   const isMobile = useMediaQuery('(max-width:768px)');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
-  //de prueba
+  const user = { name: 'miguel' }; //  mock temporal del usuario
+
+  //de prueba solo temporal
   const navigationItems = [
     { label: 'Tests', href: '/all-tests' },
     { label: 'Dashboard' },
@@ -135,7 +137,7 @@ const DashboardPage: React.FC = () => {
 
         <Group59Container>
           <Group13 isMobile={isMobile}>
-            <WelcomeMessage>Welcome Miguel!</WelcomeMessage>
+            <WelcomeMessage>Welcome {user.name}!</WelcomeMessage>
             <ProfileSubtitle>Here is your Profile Dashboard</ProfileSubtitle>
           </Group13>
 
@@ -204,7 +206,7 @@ const DashboardPage: React.FC = () => {
             title="Next Quiz: Math"
             date={new Date('2025-12-15')}
             description="Prepare for the upcoming quiz in math!"
-            onRegister={() => {}}
+            onRegister={() => (window.location.href = '/upcoming-contest/1')}
           />
         </Frame39Placeholder>
 
@@ -215,8 +217,23 @@ const DashboardPage: React.FC = () => {
 
         <LeaderboardContainer $isMobile={isMobile}>
           <ThemeProvider theme={theme}>
+            {/* Widget de ranking reutilizando LeaderboardPage */}
             <LeaderboardPage />
           </ThemeProvider>
+
+          {/* Enlace a la página completa de clasificación */}
+          <Box mt={2} textAlign="center">
+            <a
+              href="/leaderboard"
+              style={{
+                textDecoration: 'none',
+                fontWeight: 'bold',
+                color: '#7544FF',
+              }}
+            >
+              View Full Leaderboard
+            </a>
+          </Box>
         </LeaderboardContainer>
 
         <Frame61Placeholder />
