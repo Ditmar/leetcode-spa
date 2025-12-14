@@ -1,0 +1,42 @@
+## MenuBadge
+
+The MenuBadge component displays a visual label for menus, combining an icon and text. It supports two styles: primary text with a dark icon (primaryText) and gradient text with a gradient icon (secondaryText), following the Figma design specifications.
+
+Features
+Horizontally aligned icon and text.
+Fixed sizes per design:
+PrimaryText icon: 24px × 24px
+SecondaryText icon: 19.5px × 19.5px
+Text: Syne, 500, 18px, lineHeight: 1
+Gradient in secondaryText: #B23DEB → #DE8FFF (defined in pillTagTokens).
+Fixed separation between icon and text: 12px.
+Accessibility: role="menuitem", alt on icons.
+Uses labels by default if no label is passed.
+
+## Props
+
+label (string, optional): Text to display.
+
+If not passed, uses 'Dashboard' (default value in both variants).
+variant ('primaryText' | 'secondaryText', optional): Badge style.
+Default value: 'primaryText'.
+
+⚠️ The size prop exists for compatibility, but does not affect the icon size (it is fixed by design).
+
+## Accessibility
+
+Container with role="menuitem" for semantic context.
+Icons with descriptive alt attribute ("MenuBadge dark" / "MenuBadge gradient").
+WCAG AA color contrast compliant.
+
+## Usage example
+
+import MenuBadge from './Menu-Badge';
+
+// Primary style (default)
+
+<MenuBadge label="Dashboard" />
+
+// Secondary style (with gradient)
+
+<MenuBadge variant="secondaryText" label="Analytics" />
