@@ -129,6 +129,48 @@ export const pillTagTokens = {
   },
 } as const;
 
+/**
+ * FormInput Component Tokens
+ * Colors for input states, sourced from Figma:
+ * - focusBorder: Used for input border on focus state
+ */
+export const formInputTokens = {
+  typography: {
+    fontFamily: 'Syne',
+    fontWeight: 500,
+    lineHeight: 1,
+    letterSpacing: '0',
+  },
+  colors: {
+    focusBorder: '#B23DEA',
+    defaultBorder: '#C4C4C4',
+    placeholder: '#CCCCCC',
+    label: '#BCBCBC',
+    eye: {
+      icon: '#BCBCBC',
+      hover: '#A0A0A0',
+      disabled: '#E0E0E0',
+    },
+  },
+  eye: {
+    sizeBox: {
+      small: { width: 15.34, height: 15.16 },
+      medium: { width: 18.5, height: 18.5 },
+      large: { width: 21.93, height: 21.93 },
+    },
+    sizeEye: {
+      small: { width: 13.74, height: 11.06 },
+      medium: { width: 16.6, height: 13.55 },
+      large: { width: 19.64, height: 15.99 },
+    },
+    padding: {
+      small: 0,
+      medium: 0,
+      large: 0,
+    },
+  },
+} as const;
+
 const themeConfig: ThemeConfig = {
   mode: 'light',
   primaryColor: '#1976d2',
