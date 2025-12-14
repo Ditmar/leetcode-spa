@@ -9,7 +9,6 @@ import { createCustomTheme } from '../types/theme.helpers';
 import type { ThemeConfig } from '../types/theme.types';
 import type { CSSProperties } from 'react';
 
-// Extend MUI typings to accept custom typography variants "question" and "option"
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     title: CSSProperties;
@@ -57,6 +56,319 @@ declare module '@mui/material/Typography' {
     input: true; // AGREGADO PARA SEARCHBAR
   }
 }
+
+// ========================================
+// ProfileCard Component Spacing Tokens
+// ========================================
+export const PROFILE_CARD_SPACING = {
+  small: {
+    // DIMENSIONES FIJAS - NO CAMBIAN (igual que medium)
+    outerContainerWidth: 685, // ← MISMO que medium
+    outerContainerHeight: 527, // ← MISMO que medium
+    outerContainerPadding: 0,
+    userCardWidth: 282, // ← MISMO que medium
+    userCardHeight: 316, // ← MISMO que medium
+    userCardPadding: 20,
+    userCardBorderRadius: 0,
+    avatarSize: 100, // ← Solo cambia el avatar (más pequeño)
+    avatarBorder: 2,
+    infoGap: 12,
+    textGap: 8,
+    userToStatsGap: 45,
+    statsContainerWidth: 685, // ← MISMO que medium
+    statsContainerHeight: 166, // ← MISMO que medium
+    statsGap: 39,
+    statCardWidth: 195, // ← MISMO que medium
+    statCardHeight: 166, // ← MISMO que medium
+    statPadding: 14,
+    statCardBorderRadius: 8,
+    statCardBorderWidth: 1,
+    mobileBreakpoint: 768,
+    tabletBreakpoint: 1024,
+    mobile: {
+      outerContainerWidth: 350, // ← Ancho fijo para mobile
+      userCardWidth: 200, // ← Ancho fijo user card mobile
+      userCardHeight: 220, // ← Alto fijo user card mobile
+      userCardPadding: 16,
+      avatarSize: 80,
+      gap: 24,
+      statsContainerWidth: 350, // ← Ancho fijo stats mobile
+      statsGap: 8,
+      statMinWidth: 100,
+      statMaxWidth: 110,
+      statHeight: 110,
+      statPadding: 12,
+    },
+    tablet: {
+      outerContainerWidth: 685, // ← Mantener tamaño desktop
+      userCardWidth: 282, // ← Mantener tamaño desktop
+      userCardHeight: 316, // ← Mantener tamaño desktop
+      userCardPadding: 20,
+      avatarSize: 110,
+      gap: 45,
+      statsContainerWidth: 685, // ← Mantener tamaño desktop
+      statsContainerHeight: 166,
+      statsGap: 39,
+      statCardWidth: 195,
+      statCardHeight: 166,
+      statPadding: 16,
+    },
+  },
+  medium: {
+    // BASE - DIMENSIONES EXACTAS DE FIGMA
+    outerContainerWidth: 685,
+    outerContainerHeight: 527,
+    outerContainerPadding: 0,
+    userCardWidth: 282,
+    userCardHeight: 316,
+    userCardPadding: 20,
+    userCardBorderRadius: 0,
+    avatarSize: 140,
+    avatarBorder: 3,
+    infoGap: 16,
+    textGap: 12,
+    userToStatsGap: 45,
+    statsContainerWidth: 685,
+    statsContainerHeight: 166,
+    statsGap: 39,
+    statCardWidth: 195,
+    statCardHeight: 166,
+    statPadding: 16,
+    statCardBorderRadius: 8,
+    statCardBorderWidth: 1,
+    mobileBreakpoint: 768,
+    tabletBreakpoint: 1024,
+    mobile: {
+      outerContainerWidth: 280, // ← Ancho fijo para mobile
+      userCardWidth: 180, // ← Ancho fijo user card mobile
+      userCardHeight: 200, // ← Alto fijo user card mobile
+      userCardPadding: 16,
+      avatarSize: 80,
+      gap: 24,
+      statsContainerWidth: 280, // ← Ancho fijo stats mobile
+      statsGap: 8,
+      statMinWidth: 50,
+      statMaxWidth: 100,
+      statHeight: 90,
+      statPadding: 12,
+    },
+    tablet: {
+      outerContainerWidth: 685, // ← Mantener tamaño desktop
+      userCardWidth: 282, // ← Mantener tamaño desktop
+      userCardHeight: 316, // ← Mantener tamaño desktop
+      userCardPadding: 20,
+      avatarSize: 130,
+      gap: 45,
+      statsContainerWidth: 685, // ← Mantener tamaño desktop
+      statsContainerHeight: 166,
+      statsGap: 39,
+      statCardWidth: 195,
+      statCardHeight: 166,
+      statPadding: 16,
+    },
+  },
+  large: {
+    outerContainerWidth: 685, // ← MISMO que medium
+    outerContainerHeight: 527, // ← MISMO que medium
+    outerContainerPadding: 0,
+    userCardWidth: 282, // ← MISMO que medium
+    userCardHeight: 316, // ← MISMO que medium
+    userCardPadding: 20,
+    userCardBorderRadius: 0,
+    avatarSize: 145,
+    avatarBorder: 4,
+    infoGap: 20,
+    textGap: 16,
+    userToStatsGap: 45,
+    statsContainerWidth: 685,
+    statsContainerHeight: 166,
+    statsGap: 39,
+    statCardWidth: 195,
+    statCardHeight: 166,
+    statPadding: 18,
+    statCardBorderRadius: 8,
+    statCardBorderWidth: 1,
+    mobileBreakpoint: 768,
+    tabletBreakpoint: 1024,
+    mobile: {
+      outerContainerWidth: 350, // ← Ancho fijo para mobile
+      userCardWidth: 200, // ← Ancho fijo user card mobile
+      userCardHeight: 220,
+      userCardPadding: 16,
+      avatarSize: 80,
+      gap: 24,
+      statsContainerWidth: 350, // ← Ancho fijo stats mobile
+      statsGap: 8,
+      statMinWidth: 100,
+      statMaxWidth: 110,
+      statHeight: 110,
+      statPadding: 12,
+    },
+    tablet: {
+      outerContainerWidth: 685, // ← Mantener tamaño desktop
+      userCardWidth: 282, // ← Mantener tamaño desktop
+      userCardHeight: 316, // ← Mantener tamaño desktop
+      userCardPadding: 20,
+      avatarSize: 160,
+      gap: 45,
+      statsContainerWidth: 685, // ← Mantener tamaño desktop
+      statsContainerHeight: 166,
+      statsGap: 39,
+      statCardWidth: 195,
+      statCardHeight: 166,
+      statPadding: 18,
+    },
+  },
+} as const;
+
+// ========================================
+// ProfileCard Component Typography Tokens
+// ========================================
+export const PROFILE_CARD_TYPOGRAPHY = {
+  small: {
+    nameSize: '1.5rem',
+    nameWeight: 600,
+    nameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    usernameSize: '1rem',
+    usernameWeight: 400,
+    usernameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    roleSize: '1.1rem',
+    roleWeight: 400,
+    roleFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    statValueSize: '2.4rem',
+    statValueWeight: 600,
+    statValueLineHeight: 1.2,
+    statValueFont: '"Syne", "Roboto", "Helvetica", "Arial", sans-serif',
+    statLabelSize: '0.8rem',
+    statLabelWeight: 400,
+    statLabelPadding: '4px',
+    statLabelLineHeight: 1,
+    statLabelFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    // Responsive typography
+    mobile: {
+      nameSize: '1.125rem',
+      usernameSize: '0.875rem',
+      roleSize: '0.75rem',
+      statValueSize: '1.5rem',
+      statLabelSize: '0.75rem',
+    },
+    tablet: {
+      nameSize: '1.25rem',
+      usernameSize: '0.9rem',
+      roleSize: '0.8rem',
+      statValueSize: '2.25rem',
+      statLabelSize: '0.875rem',
+    },
+  },
+  medium: {
+    nameSize: '2.3rem',
+    nameWeight: 600,
+    nameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    usernameSize: '1.2rem',
+    usernameWeight: 400,
+    usernameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    roleSize: '1.3rem',
+    roleWeight: 400,
+    roleFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    statValueSize: '48.3px',
+    statValueWeight: 600,
+    statValueLineHeight: 1.2,
+    statValueFont: '"Syne", "Roboto", "Helvetica", "Arial", sans-serif',
+    statLabelSize: '17.3px',
+    statLabelWeight: 400,
+    statLabelPadding: '3.5px 0px',
+    statLabelLineHeight: 1,
+    statLabelFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    // Responsive typography
+    mobile: {
+      nameSize: '1.125rem',
+      usernameSize: '0.875rem',
+      roleSize: '0.75rem',
+      statValueSize: '1.5rem',
+      statLabelSize: '0.6rem',
+    },
+    tablet: {
+      nameSize: '1.25rem',
+      usernameSize: '0.9rem',
+      roleSize: '0.8rem',
+      statValueSize: '2.25rem',
+      statLabelSize: '0.875rem',
+    },
+  },
+  large: {
+    nameSize: '2.2rem',
+    nameWeight: 600,
+    nameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    usernameSize: '1.3rem',
+    usernameWeight: 400,
+    usernameFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    roleSize: '1.4rem',
+    roleWeight: 400,
+    roleFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    statValueSize: '3.6rem',
+    statValueWeight: 600,
+    statValueLineHeight: 1.2,
+    statValueFont: '"Syne", "Roboto", "Helvetica", "Arial", sans-serif',
+    statLabelSize: '1.2rem',
+    statLabelWeight: 400,
+    statLabelPadding: '4px',
+    statLabelLineHeight: 1,
+    statLabelFont: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+    // Responsive typography
+    mobile: {
+      nameSize: '1.125rem',
+      usernameSize: '0.875rem',
+      roleSize: '0.75rem',
+      statValueSize: '1.5rem',
+      statLabelSize: '0.75rem',
+    },
+    tablet: {
+      nameSize: '1.25rem',
+      usernameSize: '0.9rem',
+      roleSize: '0.8rem',
+      statValueSize: '2.25rem',
+      statLabelSize: '0.875rem',
+    },
+  },
+} as const;
+
+// ========================================
+// ProfileCard Component Color Tokens
+// ========================================
+export const PROFILE_CARD_COLORS = {
+  statLabelColor: 'rgba(169, 169, 169, 1)',
+  statValueColor: '#565656ff',
+  statCardBackground: '#F1F3F9',
+  statCardBorder: 'none',
+  userCardBackground: '#F1F3F9',
+  avatarBackground: 'blue',
+  textPrimary: '#0a0a0aff',
+  textSecondary: '#666666',
+  textTertiary: '#999999',
+} as const;
+
+// ========================================
+// ProfileCard Component Shadow Tokens
+// ========================================
+export const PROFILE_CARD_SHADOWS = {
+  card: {
+    default: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    hover: '0px 4px 8px rgba(0, 0, 0, 0.15)',
+  },
+  avatar: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+} as const;
+
+// ========================================
+// ProfileCard Component Transition Tokens
+// ========================================
+export const PROFILE_CARD_TRANSITIONS = {
+  duration: '200ms',
+  easing: 'ease-in-out',
+  properties: ['box-shadow', 'transform'],
+  hover: {
+    translateY: '-2px',
+  },
+} as const;
 
 /**
  * PillTag Component Tokens
