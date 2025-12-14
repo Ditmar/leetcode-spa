@@ -72,5 +72,4 @@ export const LabelText = styled('span', {
     minWidth: typographyTokens.menuBadge.minWidth,
     minHeight: typographyTokens.menuBadge.minHeight,
   };
-
 });
