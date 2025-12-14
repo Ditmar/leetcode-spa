@@ -9,6 +9,7 @@ import type {
   CustomBreakpoints,
   ComponentTokens,
   PillTagTokens,
+  SectionNavTokens,
 } from './theme.types';
 import type { Theme, ThemeOptions } from '@mui/material/styles';
 
@@ -295,7 +296,83 @@ export const pillTagTokens: PillTagTokens = {
   },
 };
 
-export const componentTokens: ComponentTokens = { pillTag: pillTagTokens };
+// ==========================================
+// COMPONENT TOKENS - SECTIONNAV
+// ==========================================
+
+export const sectionNavTokens: SectionNavTokens = {
+  colors: {
+    background: '#323232',
+    text: '#FFFFFF',
+    gradientStart: '#B33DEB',
+    gradientEnd: '#DE8FFF',
+    hoverBackground: '#dc93ff',
+  },
+  typography: {
+    titleFontSize: {
+      desktop: '24px',
+      tablet: '20px',
+      mobile: '14px',
+    },
+    itemFontSize: {
+      desktop: '20px',
+      tablet: '16px',
+      mobile: '12px',
+    },
+  },
+  dimensions: {
+    navWidth: {
+      desktop: 234,
+      tablet: 180,
+      mobile: 120,
+    },
+    itemHeight: {
+      desktop: 81.33,
+      tablet: 64,
+      mobile: 40,
+    },
+  },
+};
+
+export const sectionNavDarkTokens: SectionNavTokens = {
+  colors: {
+    background: 'rgba(30,30,30,1)',
+    text: '#E6F0FF',
+    gradientStart: '#8F3DEB',
+    gradientEnd: '#C89BFF',
+    hoverBackground: 'rgba(230,240,255,0.06)',
+  },
+  typography: {
+    titleFontSize: {
+      desktop: '24px',
+      tablet: '20px',
+      mobile: '14px',
+    },
+    itemFontSize: {
+      desktop: '20px',
+      tablet: '16px',
+      mobile: '12px',
+    },
+  },
+  dimensions: {
+    navWidth: {
+      desktop: 234,
+      tablet: 180,
+      mobile: 120,
+    },
+    itemHeight: {
+      desktop: 81.33,
+      tablet: 64,
+      mobile: 40,
+    },
+  },
+};
+
+export const componentTokens: ComponentTokens = {
+  pillTag: pillTagTokens,
+  sectionNav: sectionNavTokens,
+  sectionNavDark: sectionNavDarkTokens,
+};
 
 // ==========================================
 // THEME CREATORS
@@ -415,6 +492,14 @@ export function createCustomTheme(config: Partial<ThemeConfig> = {}): ExtendedTh
 
 export function getPillTagTokens(theme: ExtendedTheme): PillTagTokens {
   return theme.componentTokens?.pillTag || pillTagTokens;
+}
+
+export function getSectionNavTokens(theme: ExtendedTheme): SectionNavTokens {
+  // Return dark tokens when the theme is in dark mode. Keep current tokens as default.
+  if (theme?.palette?.mode === 'dark') {
+    return theme.componentTokens?.sectionNavDark || sectionNavDarkTokens;
+  }
+  return theme.componentTokens?.sectionNav || sectionNavTokens;
 }
 
 export function getPillTagDimensions(
