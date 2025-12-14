@@ -1,0 +1,23 @@
+import{z as b,A as v,B as F,r as h,j as e}from"./iframe-Bex_yTzc.js";import{s}from"./styled-05_8ymuP.js";import"./preload-helper-PPVm8Dsz.js";const{global:E}=__STORYBOOK_MODULE_GLOBAL__,{composeConfigs:_,setDefaultProjectAnnotations:R,setProjectAnnotations:A,composeStory:I,composeStories:W}=__STORYBOOK_MODULE_PREVIEW_API__;var{window:m}=E;m&&(m.STORYBOOK_ENV="react");_([b,v,{renderToCanvas:async(r,t)=>{if(r.storyContext.testingLibraryRender==null)return F(r,t);let{storyContext:{context:n,unboundStoryFn:d,testingLibraryRender:a}}=r,{unmount:c}=a(h.createElement(d,{...n}),{container:n.canvasElement});return c}}]);const B=s("div")({display:"inline-block",border:"0.125rem dashed #B23DEB",borderRadius:"1.25rem",padding:"2rem 2.5rem",background:"#272436",boxSizing:"border-box",minWidth:"20rem"}),w=s("label",{shouldForwardProp:r=>!["selected","disabled","size"].includes(r)})(({selected:r,disabled:t})=>{let n;return t?n="#4F4F4F":r?n=void 0:n="#B23DEB",{display:"flex",alignItems:"center",gap:"1rem",cursor:t?"not-allowed":"pointer",opacity:t?.6:1,fontWeight:r?700:500,fontSize:"2rem",fontFamily:"'Syne', sans-serif",color:n}}),j=s("span")(({selected:r,disabled:t})=>t?{color:"#4F4F4F"}:r?{background:"linear-gradient(90deg, #B23DEB 0%, #DE8FFF 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}:{color:"#B23DEB"}),C=s("span")({marginRight:"0.1rem",display:"flex",alignItems:"center"}),S=s("input")({border:0,clip:"rect(0 0 0 0)",height:"1px",margin:"-1px",overflow:"hidden",padding:0,position:"absolute",whiteSpace:"nowrap",width:"1px"}),g=["#B23DEB","#DE8FFF"],D="#4F4F4F",O="#B23DEB";function f({label:r,value:t,selected:n,onChange:d,disabled:a=!1,size:c="medium",className:x}){const p=h.useId(),y=()=>n?e.jsxs("svg",{width:64,height:64,viewBox:"0 0 64 64",fill:"none","aria-hidden":!0,children:[e.jsx("defs",{children:e.jsxs("linearGradient",{id:`paint0linear-${p}`,x1:"0",y1:"0",x2:"64",y2:"64",gradientUnits:"userSpaceOnUse",children:[e.jsx("stop",{offset:"0%",stopColor:g[0]}),e.jsx("stop",{offset:"100%",stopColor:g[1]})]})}),e.jsx("circle",{cx:"32",cy:"32",r:"28",fill:`url(#paint0linear-${p})`}),e.jsx("path",{d:"M22 34L30 42L42 26",stroke:"white",strokeWidth:"4",strokeLinecap:"round",strokeLinejoin:"round"})]}):a?e.jsx("svg",{width:64,height:64,viewBox:"0 0 64 64",fill:"none","aria-hidden":!0,children:e.jsx("circle",{cx:"32",cy:"32",r:"28",fill:"none",stroke:D,strokeWidth:"4"})}):e.jsx("svg",{width:64,height:64,viewBox:"0 0 64 64",fill:"none","aria-hidden":!0,children:e.jsx("circle",{cx:"32",cy:"32",r:"28",fill:"none",stroke:O,strokeWidth:"4"})});return e.jsx(B,{className:x,children:e.jsxs(w,{selected:n,disabled:a,size:c,children:[e.jsx(S,{type:"radio",checked:n,onChange:()=>{d(t)},value:t,disabled:a,"aria-label":r}),e.jsx(C,{children:y()}),e.jsx(j,{selected:n,disabled:a,children:r})]})})}f.__docgenInfo={description:"",methods:[],displayName:"AnswerOption",props:{label:{required:!0,tsType:{name:"string"},description:""},value:{required:!0,tsType:{name:"string"},description:""},selected:{required:!0,tsType:{name:"boolean"},description:""},onChange:{required:!0,tsType:{name:"signature",type:"function",raw:"(value: string) => void",signature:{arguments:[{type:{name:"string"},name:"value"}],return:{name:"void"}}},description:""},disabled:{required:!1,tsType:{name:"boolean"},description:"",defaultValue:{value:"false",computed:!1}},size:{required:!1,tsType:{name:"union",raw:"'small' | 'medium'",elements:[{name:"literal",value:"'small'"},{name:"literal",value:"'medium'"}]},description:"",defaultValue:{value:"'medium'",computed:!1}},className:{required:!1,tsType:{name:"string"},description:""}}};const q={title:"Forms/AnswerOption",component:f,tags:["autodocs"]},u=()=>{},o={args:{label:"Female",value:"female",selected:!0,onChange:u}},i={args:{label:"Female",value:"female",selected:!1,onChange:u}},l={args:{label:"Female",value:"female",selected:!1,disabled:!0,onChange:u}};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
+  args: {
+    label: 'Female',
+    value: 'female',
+    selected: true,
+    onChange: handleChange
+  }
+}`,...o.parameters?.docs?.source}}};i.parameters={...i.parameters,docs:{...i.parameters?.docs,source:{originalSource:`{
+  args: {
+    label: 'Female',
+    value: 'female',
+    selected: false,
+    onChange: handleChange
+  }
+}`,...i.parameters?.docs?.source}}};l.parameters={...l.parameters,docs:{...l.parameters?.docs,source:{originalSource:`{
+  args: {
+    label: 'Female',
+    value: 'female',
+    selected: false,
+    disabled: true,
+    onChange: handleChange
+  }
+}`,...l.parameters?.docs?.source}}};const U=["Selected","Unselected","Disabled"];export{l as Disabled,o as Selected,i as Unselected,U as __namedExportsOrder,q as default};
