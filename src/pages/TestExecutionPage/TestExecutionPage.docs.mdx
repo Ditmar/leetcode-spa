@@ -1,0 +1,63 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as TestExecutionPageStories from './TestExecutionPage.stories';
+
+<Meta of={TestExecutionPageStories} title="Pages/TestExecutionPage" />
+
+# TestExecutionPage
+
+`TestExecutionPage` permite a los usuarios ejecutar un test tipo *LeetCode* con:
+
+- Preguntas de opción múltiple.
+- Preguntas de programación con editor de código.
+- Temporizador global del test.
+- Navegación entre preguntas.
+- Envío de respuestas a una API (mock).
+
+## Props
+
+### `testId: string` _(requerido)_
+
+Identificador del test a ejecutar.  
+En este ejemplo se usa un mock almacenado en `TestExecutionPage.constants.ts`, pero en un escenario real se puede reemplazar por una llamada a API que obtenga la configuración del test desde el backend.
+
+### `onSubmitted?: (testId: string) => void`
+
+Callback opcional que se ejecuta cuando el test se envía correctamente.  
+Puede usarse para navegación (por ejemplo, redirigir a un resumen de resultados) o para tracking (analytics).
+
+Si no se define, el envío se realiza pero no se ejecuta ninguna acción adicional.
+
+## Composición
+
+La página se construye a partir de los siguientes componentes:
+
+- `NavigationSidebar` para la navegación lateral entre preguntas.
+- `DonutProgress` para mostrar el avance del test.
+- `CountdownTimer` para mostrar el tiempo restante.
+- `AnswerOption` para las respuestas de opción múltiple.
+- `ConsoleIO` (o un editor equivalente) para las preguntas de programación.
+
+Las decisiones de diseño siguen las convenciones CDD del proyecto:
+
+- Estilos con MUI (`styled` y `sx`).
+- Tipado estricto con TypeScript.
+- Layout responsivo adaptado a mobile y desktop.
+
+## Accesibilidad
+
+- Las opciones de respuesta usan `AnswerOption`, que expone atributos ARIA (por ejemplo `aria-pressed` o `aria-checked`) para comunicar el estado seleccionado a lectores de pantalla.
+- La navegación entre preguntas y el temporizador son accesibles mediante teclado.
+
+## Ejemplos
+
+### Test completo (opción múltiple + código)
+
+<Canvas>
+  <Story id="pages-testexecutionpage--multiple-choice-and-code" />
+</Canvas>
+
+### Vista móvil
+
+<Canvas>
+  <Story id="pages-testexecutionpage--mobile-view" />
+</Canvas>
