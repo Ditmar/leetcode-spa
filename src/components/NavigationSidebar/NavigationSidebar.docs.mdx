@@ -1,0 +1,73 @@
+# NavigationSidebar
+
+The `NavigationSidebar` component renders the vertical navigation used across the dashboard layout. It includes the vertical `Logo`, a list of navigation items (icon + label) and supports highlighting the active route with a gradient for both icon and label.
+
+## Responsibilities
+
+- Render a vertical sidebar with configurable `items`.
+- Expose `onNavigate` so parent can handle routing.
+- Support `currentPath` to control which item is active.
+
+## Props
+
+Manual Props
+
+<table>
+	<thead>
+		<tr>
+			<th>Prop</th>
+			<th>Type</th>
+			<th>Required</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>items</td>
+			<td><code>NavItem[]</code></td>
+			<td>No</td>
+			<td>Array of navigation items: <code>{`{ label, route, iconSvg? }`}</code>. Defaults provided by the component.</td>
+		</tr>
+		<tr>
+			<td>currentPath</td>
+			<td><code>string</code></td>
+			<td>No</td>
+			<td>Current active route. If omitted, the component will default to <code>/dashboard</code> or infer from <code>window.location.pathname</code>.</td>
+		</tr>
+		<tr>
+			<td>onNavigate</td>
+			<td><code>(route: string) =&gt; void</code></td>
+			<td>No</td>
+			<td>Callback fired when an item is clicked. Receives the target route.</td>
+		</tr>
+		<tr>
+			<td>width</td>
+			<td><code>number | string</code></td>
+			<td>No</td>
+			<td>Sidebar width (e.g. <code>80</code> or <code>'80px'</code>).</td>
+		</tr>
+	</tbody>
+</table>
+
+## Accessibility
+
+- Items are keyboard-focusable via `ListItemButton`.
+- Use proper `aria-label` on Logo or top container when needed.
+
+## Usage
+
+```tsx
+import NavigationSidebar from 'src/components/NavigationSidebar/NavigationSidebar';
+
+<NavigationSidebar
+	onNavigate={(r) =&gt; navigate(r)}
+	currentPath="/dashboard"
+/>
+```
+
+## Included Stories
+
+<a href="?/iframe.html?globals=&id=components-navigationsidebar--default&viewMode=story">Default</a>
+<br />
+<a href="?/iframe.html?globals=&id=components-navigationsidebar--active-tests&viewMode=story">ActiveTests</a>
+
