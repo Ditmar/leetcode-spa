@@ -1,0 +1,77 @@
+# TestDetailPage
+
+The `TestDetailPage` component shows detailed information for a selected test and provides the primary action to start that test. It is intended to be a page-level component used inside the app layout (including navigation and other chrome).
+
+---
+
+## ⚠️ Integration note: placeholder components used for scaffold
+
+This implementation intentionally renders local placeholders for a few design-system building blocks that may be implemented elsewhere in the codebase (for example: `PillTag`, `MetricBadge`, and the project's `NavigationSidebar`). The page is built as a **complete scaffold** so it can be used in Storybook, unit tests and visual regression testing without requiring the full product integration.
+
+When the real shared components become available, integration is a matter of removing the local placeholders and importing the real components.
+
+---
+
+## 🎯 Purpose
+
+- Display test metadata (title, subtitle, duration, certificates) and a prominent **Start Test** action.
+- Provide contextual notices and preparatory recommendations for the test taker (environment, resources, timing).
+- Support loading / error states and be fully usable in Storybook for visual testing.
+
+---
+
+## ✨ Features
+
+- Title + subtitle area with logo and Start button.
+- Certificate pill explaining certificate eligibility.
+- Metric area and notices area with icon + text rows.
+- Responsive layout: items stack on smaller viewports and maintain visual parity with the design system.
+- Simple placeholder components used for missing shared UI pieces so the page remains functional in isolation.
+
+---
+
+## ⚙️ Component Props (API)
+
+| Prop       | Type                        | Description |
+| :--------- | :-------------------------- | :---------- |
+| `testId`   | `string`                    | Id of the test to load (optional in stories/tests). |
+| `onStart`  | `(testId: string) => void`  | Optional callback executed when the Start button is clicked. If omitted, the page navigates to `/tests/{testId}/run` by setting `window.location.href`.
+| `loading`  | `boolean`                   | Override loading state (useful in stories or tests). |
+| `error`    | `string \u007F null`        | Override error state (useful for testing error UI). |
+
+---
+
+## 🧩 Behavior and usage notes
+
+- If `loading` is true the page shows a centered spinner and hides content placeholder areas.
+- If `error` is set the page displays a simple alert-style placeholder with the error message.
+- The component uses a local hook (`useTestDetail`) that currently fetches data from local mock data (`TestDetailPage.data.ts`). In production this hook should be replaced or extended to call the real API.
+
+---
+
+## 🛠 Implementation details
+
+- **Styling**: The component is styled with MUI and `styled()` helpers. The page sets a top-level font-family where appropriate (the Story uses the `Syne` font in the project assets). Spacing and responsive breakpoints follow theme tokens.
+- **Assets**: The page loads small PNG/SVG assets from `src/pages/TestDetailPage/assets/` (icons for notices and an optional inline logo) using Vite-compatible `new URL('./assets/..', import.meta.url).href` imports to ensure Storybook and the dev server can resolve them.
+- **Placeholders**: The Certificate pill, MetricBadge, PillTag and Navigation box are intentionally simplified placeholders. They are present so Storybook shows the final layout — replace them with real components once available.
+- **Accessibility**: Placeholders use semantic elements where appropriate to avoid harming automated accessibility checks; e.g., interactive placeholders are `<button>` or MUI `Button` equivalents.
+
+---
+
+## 🧪 Testing & Storybook
+
+- The page ships with stories in `TestDetailPage.stories.tsx` (Default, Loading, ErrorState, MobilePreview) so you can view and snapshot-test the different states.
+- Unit tests (`TestDetailPage.test.tsx`) exercise key behaviors: rendering the page, showing loading/error states and calling `onStart` when provided.
+
+---
+
+## 📌 Integration checklist (when replacing placeholders)
+
+1. Replace local `PillTag` placeholder with the design-system `PillTag` import.
+2. Replace `MetricBadge` placeholder with the shared `MetricBadge` and pass the real metrics data.
+3. Replace the `NavigationSidebar` placeholder with the application navigation component.
+4. Remove the inline logo fallback and point the `TestHeader`/logo import to the official shared asset (avoid duplicating large SVGs; prefer the flattened PNG/SVG that the design system exports).
+
+---
+
+If you want, I can also convert this MDX to include an embedded `<Meta of={...} />` referencing `TestDetailPage.stories.tsx` so the docs page shows the interactive Canvas with the stories — tell me if you want that and I'll add it.
