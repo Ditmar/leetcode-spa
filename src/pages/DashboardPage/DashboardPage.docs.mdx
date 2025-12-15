@@ -1,0 +1,39 @@
+# Dashboard Page
+
+The **DashboardPage** is the main component of the application, displaying user information, recent tests, statistics, and the leaderboard.
+
+## Integrated Components
+
+- **Logo**: Displays the application's logo.
+- **AvatarMenu**: User menu with avatar and options such as Profile and Log Out.
+- **SearchBar**: Search bar with debounce functionality.
+- **TestCard**: Card that shows information about each test.
+- **UpcomingQuizCard**: Card showing upcoming quizzes.
+- **StatsCard**: Displays statistics like number of tests taken and overall average.
+- **DonutProgress**: Circular progress chart representing percentages.
+- **LeaderboardPage**: Leaderboard table (mocked for testing purposes).
+
+## Navigation
+
+The dashboard includes a sidebar on desktop and a drawer menu on mobile, allowing access to:
+
+- Tests
+- Dashboard
+- Courses
+- Profile
+- Leaderboard
+- Dark Mode
+- Settings
+- Log Out
+
+## Responsive Design
+
+The layout adapts to mobile screens using `useMediaQuery` and `theme.breakpoints`. Many components use the `isMobile` prop to adjust styles such as position, size, and alignment.
+
+## Tests
+
+During development, heavy components like **LeaderboardPage** have been mocked, and test data has been used for cards and statistics. It's recommended to update the tests and mocks when integrating with the real backend.
+
+## Notifications
+
+A notification icon is displayed on desktop. Clicking it shows a notice with the number of pending user actions.

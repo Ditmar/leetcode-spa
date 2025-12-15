@@ -1,7 +1,7 @@
 import { Avatar, Box, CircularProgress, useMediaQuery, type Theme } from '@mui/material';
 import React from 'react';
 
-import Award1 from '../../assets/Award1.svg';
+import Award1 from '../../assets/Award1.svg?url'; // ✅ agrega ?url
 import { theme } from '../../style-library';
 
 import { useLeaderboardPage } from './LeaderboardPage.hook';
