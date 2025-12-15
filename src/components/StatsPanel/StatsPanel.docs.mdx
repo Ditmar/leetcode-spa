@@ -1,0 +1,89 @@
+# 📊 StatsPanel
+
+The **StatsPanel** component provides a concise summary of test statistics such as total, passed, failed, and waiting results.  
+It presents the data visually with icons and colors to deliver an instant understanding of test performance and progress.
+
+---
+
+## 🎯 Purpose
+
+The **StatsPanel** offers a clear and consistent way to display aggregated statistics in dashboards or evaluation panels.  
+It is built with **Material UI (MUI)** and designed following the **Component-Driven Development (CDD)** approach.
+
+**Core principles:**
+- ✅ Clear visual distinction between statistics.  
+- 🔁 Reusable and easy to theme.  
+- ♿ Accessible and screen-reader friendly.  
+- 🧩 Fully typed with TypeScript for safety and maintainability.
+
+---
+
+## ⚙️ Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `totalTests` | `number` | Total number of tests. |
+| `passed` | `number` | Number of tests that passed successfully. |
+| `failed` | `number` | Number of tests that failed. |
+| `waiting` | `number` | Number of tests pending or in progress. |
+
+> ⚠️ All props are required and must be numeric values.
+
+---
+
+## 🧱 Structure
+
+The component is modular and easy to maintain:
+
+- **StatsPanel.tsx** — Core component logic and rendering.  
+- **StatsPanel.hook.ts** — Handles internal data calculations.  
+- **StatsPanel.styles.ts** — Contains all style definitions.  
+- **StatsPanel.types.ts** — Strict TypeScript typing.  
+- **StatsPanel.constants.ts** — Icons, labels, and color mappings.  
+- **StatsPanel.stories.tsx** — Storybook stories and demos.
+
+---
+
+## 🎨 Design
+
+Each statistic card includes:
+- An **icon** (custom SVG or MUI icon).  
+- A **number** showing the value.  
+- A **label** describing the metric.  
+
+**Visual highlights:**
+- Distinct colors for each category (passed, failed, waiting).  
+- Modern, responsive card layout.  
+- Matches your MUI theme for brand consistency.  
+
+---
+
+## 🧩 Custom Icons
+
+You can use **custom SVG icons** exported from Figma or any design tool.  
+Simply add them to your assets folder and assign them to each statistic.  
+They will automatically adapt to MUI’s color and size settings for a consistent look.
+
+---
+
+## 💡 Example
+
+A typical `StatsPanel` might show:
+- ✅ 45 Passed  
+- ❌ 10 Failed  
+- ⏳ 5 Waiting  
+
+This gives users a quick and intuitive overview of overall performance.
+
+---
+
+## 🧠 Best Practices
+
+- Keep icon styles consistent.  
+- Use semantic colors (green for success, red for error, yellow for waiting).  
+- Maintain high contrast for accessibility.  
+- Ensure responsiveness across screen sizes.  
+
+---
+
+✨ *Built with Material UI and TypeScript for clarity, elegance, and performance.*
