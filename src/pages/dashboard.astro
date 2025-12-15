@@ -1,10 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import DashboardPage from './DashboardPage/DashboardPage.tsx';
+import DashboardPage from './DashboardPage/DashboardPage'; // Import sin extensión .tsx para consistencia con otros imports
 ---
 
 <Layout>
   <main>
+    <!-- Usamos client:load intencionalmente para cargar el componente en el cliente en cada carga de página -->
     <DashboardPage client:load />
   </main>
 </Layout>
+

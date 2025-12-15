@@ -1,6 +1,8 @@
 import { Drawer, IconButton, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+import { dashboardBackgroundImage } from './DashboardPage.constants';
+
 export const DashboardBackground = styled('div')(({ theme }) => ({
   width: '100%',
   minHeight: '100vh',
@@ -8,12 +10,7 @@ export const DashboardBackground = styled('div')(({ theme }) => ({
   overflowX: 'hidden',
   overflowY: 'auto',
   backgroundColor: '#F5F5F5',
-  backgroundImage: `
-    radial-gradient(30.1% 50.86% at 100% 100%, #9949FF 0%, rgba(255,81,217,0) 100%),
-    radial-gradient(58.68% 99.14% at 0% 0%, #C2F9F9 0%, rgba(83,214,255,0) 100%),
-    radial-gradient(33.55% 50.83% at 55.38% 89.56%, #8CBCFE 0%, rgba(221,130,255,0) 100%),
-    radial-gradient(27.33% 40.65% at 78.12% 29.89%, #F5FF7F 0%, rgba(48,83,118,0) 100%)
-  `,
+  backgroundImage: dashboardBackgroundImage,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
   backgroundPosition: 'center top',
@@ -29,24 +26,40 @@ export const DashboardBackground = styled('div')(({ theme }) => ({
   },
 }));
 
-export const ResponsiveContainer = styled('div')<{ isMobile: boolean }>(({ isMobile }) => ({
+export const ResponsiveContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   zIndex: 2,
-  padding: isMobile ? '10px' : undefined,
+  padding: '0',
+  [theme.breakpoints.down('sm')]: { padding: '10px' },
   '.logo': {
-    position: isMobile ? 'relative' : 'absolute',
-    top: isMobile ? '32px' : '84px',
-    left: isMobile ? '24px' : '71px',
-    width: isMobile ? '71px' : '192px',
-    height: isMobile ? '56px' : '88px',
-    marginBottom: isMobile ? '20px' : '0',
+    position: 'absolute',
+    top: '84px',
+    left: '71px',
+    width: '192px',
+    height: '88px',
+    marginBottom: '0',
+    [theme.breakpoints.down('sm')]: {
+      position: 'relative',
+      top: '32px',
+      left: '24px',
+      width: '71px',
+      height: '56px',
+      marginBottom: '20px',
+    },
   },
   '.avatar': {
-    position: isMobile ? 'relative' : 'absolute',
-    top: isMobile ? '10px' : '101px',
-    left: isMobile ? '50%' : '1341px',
-    transform: isMobile ? 'translateX(-50%)' : 'none',
-    marginBottom: isMobile ? '20px' : '0',
+    position: 'absolute',
+    top: '101px',
+    left: '1341px',
+    transform: 'none',
+    marginBottom: '0',
+    [theme.breakpoints.down('sm')]: {
+      position: 'relative',
+      top: '10px',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      marginBottom: '20px',
+    },
   },
 }));
 
@@ -80,78 +93,99 @@ export const Line15 = styled('div')(({ theme }) => ({
   width: '1px',
   height: '982px',
   backgroundColor: 'rgba(194,194,194,1)',
-  [theme.breakpoints.down('sm')]: {
-    display: 'none',
-  },
+  [theme.breakpoints.down('sm')]: { display: 'none' },
 }));
 
-export const Frame71Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const Frame71Placeholder = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: isMobile ? '180px' : '237px',
-  left: isMobile ? '50%' : '96px',
-  transform: isMobile ? 'translateX(-50%)' : 'none',
+  top: '237px',
+  left: '96px',
+  transform: 'none',
   width: '163px',
   height: '616px',
   backgroundColor: 'rgba(180, 180, 250, 0.3)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  [theme.breakpoints.down('sm')]: {
+    top: '180px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+  },
 }));
-
-export const Group59Container = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
-  width: isMobile ? '90%' : '979px',
-  height: isMobile ? 'auto' : '85px',
+export const Group59Container = styled('div')(({ theme }) => ({
+  width: '979px',
+  height: '85px',
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
   zIndex: 2,
-  margin: isMobile ? '20px auto 0 auto' : '0',
+  margin: '0',
+  [theme.breakpoints.down('sm')]: {
+    width: '90%',
+    height: 'auto',
+    margin: '20px auto 0 auto',
+  },
 }));
 
-export const Group13 = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const Group13 = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: isMobile ? '29px' : '92px',
-  left: isMobile ? '20px' : '433px',
-  width: isMobile ? '342px' : '366px',
-  height: isMobile ? '78.87px' : '85px',
+  top: '92px',
+  left: '433px',
+  width: '366px',
+  height: '85px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'flex-start',
+  [theme.breakpoints.down('sm')]: {
+    top: '29px',
+    left: '20px',
+    width: '342px',
+    height: '78.87px',
+  },
 }));
 
-export const WelcomeMessage = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const WelcomeMessage = styled('div')(({ theme }) => ({
   fontFamily: 'Syne, sans-serif',
   fontWeight: 700,
   fontSize: '35px',
   lineHeight: '100%',
-  textAlign: isMobile ? 'center' : 'left',
+  textAlign: 'left',
+  [theme.breakpoints.down('sm')]: { textAlign: 'center' },
 }));
 
-export const ProfileSubtitle = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const ProfileSubtitle = styled('div')(({ theme }) => ({
   fontFamily: 'Syne, sans-serif',
-  fontSize: isMobile ? '16px' : '18px',
+  fontSize: '18px',
   fontWeight: 400,
   color: 'rgba(13,13,13,0.5)',
   marginTop: '4px',
-  textAlign: isMobile ? 'center' : 'left',
+  textAlign: 'left',
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '16px',
+    textAlign: 'center',
+  },
 }));
 
-export const Group53Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const Group53Placeholder = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: isMobile ? '131.87px' : '110px',
-  left: isMobile ? '0px' : '929px',
-  width: isMobile ? '342px' : '324px',
+  top: '110px',
+  left: '929px',
+  width: '324px',
   height: '67px',
   display: 'flex',
   alignItems: 'center',
   padding: '0 12px',
   borderRadius: '12px',
   boxSizing: 'border-box',
-
-  '& > *': {
-    flex: 1,
+  '& > *': { flex: 1 },
+  [theme.breakpoints.down('sm')]: {
+    top: '131.87px',
+    left: '0px',
+    width: '342px',
+    height: '67px',
   },
 }));
 
@@ -164,12 +198,12 @@ export const Group49Placeholder = styled('img')(() => ({
   zIndex: 5,
 }));
 
-export const Group16 = styled('div')<{ $isMobile?: boolean }>(({ $isMobile }) => ({
+export const Group16 = styled('div')(({ theme }) => ({
   position: 'absolute',
-  width: $isMobile ? '90%' : '211px',
+  width: '211px',
   height: '31px',
-  top: $isMobile ? '180px' : '109px',
-  left: $isMobile ? '24px' : '1077px',
+  top: '109px',
+  left: '1077px',
   borderRadius: '8px',
   background: 'rgba(116, 121, 255, 1)',
   boxShadow: '0px 4px 4px rgba(0,0,0,0.05), 0px 0px 2px rgba(0,0,0,0.06)',
@@ -177,6 +211,11 @@ export const Group16 = styled('div')<{ $isMobile?: boolean }>(({ $isMobile }) =>
   alignItems: 'center',
   justifyContent: 'center',
   zIndex: 10,
+  [theme.breakpoints.down('sm')]: {
+    width: '90%',
+    top: '180px',
+    left: '24px',
+  },
 }));
 
 export const NotificationText = styled('div')(() => ({
@@ -187,16 +226,23 @@ export const NotificationText = styled('div')(() => ({
   textAlign: 'center',
 }));
 
-export const AvatarContainer = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const AvatarContainer = styled('div')(({ theme }) => ({
   position: 'absolute',
   top: '120px',
-  left: isMobile ? 'auto' : '1341px',
-  right: isMobile ? '10px' : 'auto',
-  width: isMobile ? 45 : 71,
-  height: isMobile ? 40 : 46,
-  display: isMobile ? 'none' : 'flex',
+  left: '1341px',
+  right: 'auto',
+  width: '71px',
+  height: '46px',
+  display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  [theme.breakpoints.down('sm')]: {
+    left: 'auto',
+    right: '10px',
+    width: '45px',
+    height: '40px',
+    display: 'none',
+  },
 }));
 
 export const HiconContainer = styled('div')(({ theme }) => ({
@@ -226,117 +272,177 @@ export const RecentTestsText = styled('div')(({ theme }) => ({
     fontSize: '16px',
   },
 }));
-
-export const Right2Icon = styled('img')<{ $isMobile?: boolean }>(({ $isMobile }) => ({
+export const Right2Icon = styled('img')(({ theme }) => ({
   position: 'absolute',
-  top: $isMobile ? '310px' : '250px',
-  left: $isMobile ? '90%' : '833px',
+  top: '250px',
+  left: '833px',
   width: '24px',
   height: '24px',
   cursor: 'pointer',
+  [theme.breakpoints.down('sm')]: {
+    top: '310px',
+    left: '90%',
+  },
 }));
 
-export const Right3Icon = styled('img')<{ $isMobile?: boolean }>(({ $isMobile }) => ({
+export const Right3Icon = styled('img')(({ theme }) => ({
   position: 'absolute',
-  top: $isMobile ? '310px' : '250px',
-  left: $isMobile ? '80%' : '793px',
+  top: '250px',
+  left: '793px',
   width: '24px',
   height: '24px',
   cursor: 'pointer',
+  [theme.breakpoints.down('sm')]: {
+    top: '310px',
+    left: '80%',
+  },
 }));
 
-export const Frame66Container = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const Frame66Container = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: isMobile ? '350px' : '290px',
-  left: isMobile ? '55%' : '433px',
-  transform: isMobile ? 'translateX(-50%)' : 'none',
+  top: '290px',
+  left: '433px',
+  transform: 'none',
   display: 'flex',
   flexDirection: 'row',
   gap: '20px',
-  width: isMobile ? '90%' : 'auto',
-  overflowX: isMobile ? 'auto' : 'visible',
-  paddingBottom: isMobile ? '10px' : '0',
+  width: 'auto',
+  overflowX: 'visible',
+  paddingBottom: '0',
+  [theme.breakpoints.down('sm')]: {
+    top: '350px',
+    left: '55%',
+    transform: 'translateX(-50%)',
+    width: '90%',
+    overflowX: 'auto',
+    paddingBottom: '10px',
+  },
 }));
 
-export const Frame39Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const Frame39Placeholder = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: isMobile ? '1280px' : '606px',
-  left: isMobile ? '5%' : '435px',
-  width: isMobile ? '90%' : '422px',
-  height: isMobile ? '200px' : '307px',
+  top: '606px',
+  left: '435px',
+  width: '422px',
+  height: '307px',
   backgroundColor: 'rgba(200,180,250,0.3)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  [theme.breakpoints.down('sm')]: {
+    top: '1280px',
+    left: '5%',
+    width: '90%',
+    height: '200px',
+  },
 }));
-//el porcnetual y tectual
-export const StatsColumn = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
-  position: isMobile ? 'relative' : 'absolute',
-  top: isMobile ? '750px' : '606px',
-  left: isMobile ? 'auto' : '914px',
+
+export const StatsColumn = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '606px',
+  left: '914px',
   display: 'flex',
   flexDirection: 'column',
   gap: '16px',
-  width: isMobile ? '90%' : 'auto',
-  margin: isMobile ? '20px auto' : '0',
+  width: 'auto',
+  margin: '0',
+  [theme.breakpoints.down('sm')]: {
+    position: 'relative',
+    top: '850px',
+    left: 'auto',
+    width: '90%',
+    margin: '20px auto',
+  },
 }));
 
-export const DonutsWrapper = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const DonutsWrapper = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: isMobile ? '580px' : '517px',
-  left: isMobile ? '70%' : '570px',
-  transform: isMobile ? 'translateX(-50%)' : 'none',
+  top: '517px',
+  left: '570px',
+  transform: 'none',
   display: 'flex',
   flexDirection: 'row',
-  gap: isMobile ? '175px' : '190px',
-  zIndex: 199,
+  gap: '190px',
+  width: 'auto',
+  overflowX: 'visible',
+  zIndex: theme.zIndex.appBar,
+  [theme.breakpoints.down('sm')]: {
+    top: '580px',
+    left: '81%',
+    transform: 'translateX(-50%)',
+    gap: '180px',
+    width: '90%',
+    overflowX: 'auto',
+  },
 }));
 
-export const RightColumnContainer = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const RightColumnContainer = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: isMobile ? '580px' : '590px',
-  left: isMobile ? '50%' : '914px',
-  transform: isMobile ? 'translateX(-50%)' : 'none',
+  top: '590px',
+  left: '914px',
+  transform: 'none',
   display: 'flex',
   flexDirection: 'column',
   gap: '0px',
-  width: isMobile ? '90%' : '296px',
+  width: '296px',
+  [theme.breakpoints.down('sm')]: {
+    top: '580px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: '90%',
+  },
 }));
 
-export const Frame61Placeholder = styled('div')<{ isMobile?: boolean }>(({ isMobile }) => ({
+export const Frame61Placeholder = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: isMobile ? '820px' : '606px',
-  left: isMobile ? '5%' : '1224px',
-  width: isMobile ? '90%' : '187px',
-  height: isMobile ? '200px' : '307px',
+  top: '606px',
+  left: '1224px',
+  width: '187px',
+  height: '307px',
   backgroundColor: 'rgba(200, 180, 250, 0.3)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  [theme.breakpoints.down('sm')]: {
+    top: '820px',
+    left: '5%',
+    width: '90%',
+    height: '200px',
+  },
 }));
 
-export const LeaderboardContainer = styled(Box)<{ $isMobile?: boolean }>(
-  ({ $isMobile, theme }) => ({
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing($isMobile ? 2 : 0),
-    boxSizing: 'border-box',
-    overflow: 'hidden',
-    width: $isMobile ? '90%' : 498,
-    height: $isMobile ? 250 : 361,
-    marginTop: $isMobile ? theme.spacing(28) : theme.spacing(15),
-    marginLeft: $isMobile ? 'auto' : theme.spacing(114),
-    marginRight: $isMobile ? 'auto' : undefined,
-    position: 'relative',
-    transform: $isMobile ? 'translateX(0)' : 'none',
-  })
-);
+export const LeaderboardContainer = styled(Box)(({ theme }) => ({
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  boxSizing: 'border-box',
+  display: 'flex',
+  flexDirection: 'column',
+  height: 380,
+  justifyContent: 'center',
+  marginLeft: 900,
+  marginTop: 132,
+  overflow: 'hidden',
+  padding: 16,
+  position: 'relative',
+  width: 520,
 
-export const MobileMenuButton = styled(IconButton)<{ isMobile: boolean }>(({ isMobile }) => ({
+  [theme.breakpoints.down('sm')]: {
+    height: 255,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 330,
+    width: '110%',
+  },
+}));
+
+export const MobileMenuButton = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
-  top: isMobile ? 50 : 101,
-  right: isMobile ? 10 : undefined,
+  top: 101,
   zIndex: 10,
+  [theme.breakpoints.down('sm')]: {
+    top: 50,
+    right: 10,
+  },
 }));
 
 export const MobileDrawer = styled(Drawer)(() => ({

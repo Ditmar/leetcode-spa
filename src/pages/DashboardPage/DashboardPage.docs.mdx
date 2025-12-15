@@ -1,66 +1,39 @@
----
-title: DashboardPage
----
+# Dashboard Page
 
-import DashboardPage from './DashboardPage';
+The **DashboardPage** is the main component of the application, displaying user information, recent tests, statistics, and the leaderboard.
 
-# DashboardPage
+## Integrated Components
 
-El **DashboardPage** es el componente principal de la aplicación, mostrando información del usuario, pruebas recientes, estadísticas y leaderboard.  
+- **Logo**: Displays the application's logo.
+- **AvatarMenu**: User menu with avatar and options such as Profile and Log Out.
+- **SearchBar**: Search bar with debounce functionality.
+- **TestCard**: Card that shows information about each test.
+- **UpcomingQuizCard**: Card showing upcoming quizzes.
+- **StatsCard**: Displays statistics like number of tests taken and overall average.
+- **DonutProgress**: Circular progress chart representing percentages.
+- **LeaderboardPage**: Leaderboard table (mocked for testing purposes).
 
-Este documento describe **qué componentes se integraron**, **qué placeholders se usan**, y cómo se comporta en **desktop y mobile**.
+## Navigation
 
----
+The dashboard includes a sidebar on desktop and a drawer menu on mobile, allowing access to:
 
-## Componentes Integrados
+- Tests
+- Dashboard
+- Courses
+- Profile
+- Leaderboard
+- Dark Mode
+- Settings
+- Log Out
 
-| Componente | Función | Estado |
-|------------|---------|--------|
-| `Logo` | Muestra el logo de la aplicación | Integrado |
-| `AvatarMenu` | Menú del usuario con opciones como Perfil y Cerrar sesión | Integrado |
-| `TestCard` | Tarjetas de pruebas recientes con título, descripción y logo | Integrado (mock en tests) |
-| `StatsCard` | Muestra estadísticas (ej. Overall Average, Tests Written) | Integrado (mock en tests) |
-| `LeaderboardPage` | Sección de leaderboard mostrando rankings de usuarios | Integrado (mock en tests) |
-| `ResponsiveContainer` | Maneja layout responsivo | Integrado |
-| `DashboardBackground`, `NoiseLayer`, `MaskLayer`, `Line15` | Capas visuales de fondo y efectos | Integrado |
-| Placeholders (`Frame71Placeholder`, `Frame39Placeholder`, `Frame61Placeholder`, etc.) | Estructura temporal para contenido futuro o layout | Integrado |
+## Responsive Design
 
----
-
-## Comportamiento Responsive
-
-- En **desktop**, se muestran todos los placeholders, AvatarMenu y LeaderboardPage en su posición normal.  
-- En **mobile**, algunos elementos como `Line15` o `AvatarContainer` desaparecen, y el layout se centra automáticamente usando transformaciones y anchos relativos.  
-- El menú lateral se reemplaza por un **Drawer** en móvil que despliega el contenido de navegación.
-
----
-
-## Componentes Faltantes / Pendientes de Integrar
-
-- Datos reales para **estadísticas** (actualmente se usan placeholders y mocks).  
-- Datos reales del **leaderboard** (por ahora mockeado).  
-- Interacciones en algunos placeholders que reemplazarán los elementos actuales (`Frame53`, `Frame49`, etc.).  
-- Animaciones o microinteracciones que mejoren la experiencia de usuario.  
-
----
-
-## Props
-
-Actualmente, el Dashboard no recibe props externas, ya que toda la información se gestiona internamente o con mocks para pruebas.  
-
-Si en el futuro se desea parametrizar:
-
-| Prop | Tipo | Descripción |
-|------|------|-------------|
-| `currentUser` | `{ id: string; fullName: string; avatarUrl?: string }` | Información del usuario actual |
-| `tests` | `Array<{ title: string; description: string; logo: string; onSelect: () => void }>` | Lista de pruebas recientes |
-| `leaderboardData` | `Array<User>` | Datos para mostrar en el leaderboard |
-
----
+The layout adapts to mobile screens using `useMediaQuery` and `theme.breakpoints`. Many components use the `isMobile` prop to adjust styles such as position, size, and alignment.
 
 ## Tests
 
-- Se usan **mocks** para componentes pesados (`LeaderboardPage`, `AvatarMenu`, `Logo`, `StatsCard`, `TestCard`) para que los tests de renderizado sean rápidos y estables.  
-- Se prueba que el Dashboard renderice **correctamente en desktop y mobile**.  
-- Se valida la presencia de elementos clave como el mensaje de bienvenida y el leaderboard.  
+During development, heavy components like **LeaderboardPage** have been mocked, and test data has been used for cards and statistics. It's recommended to update the tests and mocks when integrating with the real backend.
 
+## Notifications
+
+A notification icon is displayed on desktop. Clicking it shows a notice with the number of pending user actions.

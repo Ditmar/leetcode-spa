@@ -1,22 +1,25 @@
-import type { LeaderboardUser } from '../../components/LeaderboardPage/LeaderboardPage.types';
-
 export type DashboardProps = {
-  currentUser?: {
+  currentUser: {
     id: string;
     fullName: string;
     avatarUrl?: string;
   };
 };
 
-export type ResponsiveProps = {
-  isMobile: boolean;
+export type DashboardLeaderboardUser = {
+  id: string;
+  fullName: string;
+  avatarUrl?: string;
 };
 
-export type TestCardData = {
-  title: string;
-  description: string;
-  logo: string;
-  onSelect: () => void;
+export type DashboardLeaderboard = {
+  users: DashboardLeaderboardUser[];
+  loading: boolean;
+  error: string | null;
+};
+
+export type ResponsiveProps = {
+  isMobile: boolean;
 };
 
 export type StatsCardData = {
@@ -24,10 +27,11 @@ export type StatsCardData = {
   label: string;
 };
 
-export type DashboardLeaderboard = {
-  users: LeaderboardUser[];
-  loading: boolean;
-  error: string | null;
+export type TestCardData = {
+  title: string;
+  description: string;
+  logo: string;
+  onSelect: () => void;
 };
 
 export type UseDashboardHook = {

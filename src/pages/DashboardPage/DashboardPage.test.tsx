@@ -1,18 +1,17 @@
 import { ThemeProvider } from '@mui/material';
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { theme } from '../../style-library';
 
 import DashboardPage from './DashboardPage';
 
-// Mocks de componentes
-vi.mock('../../components/LeaderboardPage/LeaderboardPage', () => ({
-  LeaderboardPage: () => <div>Mock Leaderboard</div>,
-}));
-
 vi.mock('../../components/AvatarMenu/AvatarMenu', () => ({
   AvatarMenu: () => <div>Mock AvatarMenu</div>,
+}));
+
+vi.mock('../../components/LeaderboardPage/LeaderboardPage', () => ({
+  LeaderboardPage: () => <div>Mock Leaderboard</div>,
 }));
 
 vi.mock('../../components/Logo/Logo', () => ({
@@ -31,16 +30,12 @@ vi.mock('../../components/TestCard/TestCard', () => ({
   TestCard: ({ title }: { title: string }) => <div>Mock TestCard {title}</div>,
 }));
 
-// Guardar original para restaurar
-let originalMatchMedia: typeof window.matchMedia;
-
-beforeAll(() => {
-  originalMatchMedia = window.matchMedia;
+afterEach(() => {
+  vi.restoreAllMocks();
 });
 
-// Mock global de useMediaQuery
 const mockUseMediaQuery = (matches: boolean) => {
-  window.matchMedia = vi.fn().mockImplementation(() => ({
+  vi.spyOn(window, 'matchMedia').mockImplementation(() => ({
     matches,
     media: '',
     onchange: null,
@@ -52,16 +47,18 @@ const mockUseMediaQuery = (matches: boolean) => {
   }));
 };
 
-afterAll(() => {
-  window.matchMedia = originalMatchMedia;
-});
-
-// Render de DashboardPage con ThemeProvider
 const renderDashboard = (isMobile: boolean) => {
   mockUseMediaQuery(isMobile);
+
   return render(
     <ThemeProvider theme={theme}>
-      <DashboardPage />
+      <DashboardPage
+        currentUser={{
+          id: '1',
+          fullName: 'Miguel Maquera',
+          avatarUrl: 'https://i.ibb.co/mV26g4B7/b2cc1d5a59644f92c2391dcdd5cde3c11e4770fe.jpg',
+        }}
+      />
     </ThemeProvider>
   );
 };
@@ -74,7 +71,6 @@ describe('DashboardPage', () => {
     expect(screen.getByText(/Mock Leaderboard/i)).toBeInTheDocument();
     expect(screen.getByText(/Mock AvatarMenu/i)).toBeInTheDocument();
     expect(screen.getByText(/Mock Logo/i)).toBeInTheDocument();
-
     expect(screen.getAllByText(/Mock StatsCard/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Mock TestCard/i).length).toBeGreaterThan(0);
   });
@@ -86,7 +82,6 @@ describe('DashboardPage', () => {
     expect(screen.getByText(/Mock Leaderboard/i)).toBeInTheDocument();
     expect(screen.getByText(/Mock AvatarMenu/i)).toBeInTheDocument();
     expect(screen.getByText(/Mock Logo/i)).toBeInTheDocument();
-
     expect(screen.getAllByText(/Mock StatsCard/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Mock TestCard/i).length).toBeGreaterThan(0);
   });
