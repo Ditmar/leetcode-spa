@@ -1,0 +1,33 @@
+---
+title: LandingPage
+sidebar_position: 1
+---
+
+# LandingPage
+
+The **LandingPage** is the main landing page of the site (route `/`). It is built with Material UI using `Grid`, `Box`, and `styled()` to respect theme tokens and ensure responsiveness.
+
+## Architecture and Responsibilities
+
+- `LandingPage.tsx` — Main component. Contains:
+  - Navigation bar (links: `Practice`, `Explore`, `Login`, `Sign Up`)
+  - Hero section with headline, description, and CTA `Create Account`
+  - Example SearchBar
+  - Visual area (avatar + container for decorative SVG)
+
+- `LandingPage.styles.ts` — Styles using `styled()` for:
+  - `LandingRoot` (background with radial-gradient and linear-gradient as provided)
+  - `HeroGrid`, `HeroLeft`, `HeroRight`, `AvatarImage`, `DecorativeSvgContainer`
+
+- `LandingPage.types.ts` — Props typings (`avatarSrc`, `decorativeSvgSrc`, `compact`).
+
+- `LandingPage.test.tsx` — Unit tests that ensure:
+  - Basic rendering
+  - Integration with `react-router-dom` and navigation to `/signup` and `/login`
+
+## Usage
+
+```tsx
+import LandingPage from 'src/components/LandingPage/LandingPage';
+
+<LandingPage />

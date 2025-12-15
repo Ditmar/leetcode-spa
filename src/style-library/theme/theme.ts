@@ -28,12 +28,34 @@ declare module '@mui/material/styles' {
 
   interface Palette {
     backgroundQuestion: string;
+
+    customAccent1: { main: string };
+    customAccent2: { main: string };
+    customAccent3: { main: string };
+    customAccent4: { main: string };
+    gradientStart: { main: string };
+    gradientEnd: { main: string };
+
+    neutralBg: { main: string };
   }
 
   interface PaletteOptions {
     backgroundQuestion?: string;
+
+    customAccent1?: { main: string };
+    customAccent2?: { main: string };
+    customAccent3?: { main: string };
+    customAccent4?: { main: string };
+    gradientStart?: { main: string };
+    gradientEnd?: { main: string };
+
+    neutralBg?: { main: string };
   }
   interface Theme {
+    gradients?: {
+      background: (palette: Palette) => string;
+    };
+
     consoleIO?: {
       dimensions: {
         containerWidth: number;
@@ -589,6 +611,15 @@ theme.typography = {
 
 theme.palette = {
   ...theme.palette,
+  customAccent1: { main: '#FBFF49' },
+  customAccent2: { main: '#8E49FF' },
+  customAccent3: { main: '#8CBCFE' },
+  customAccent4: { main: '#FFE4C4' },
+  gradientStart: { main: '#B23DEB' },
+  gradientEnd: { main: '#DE8FFF' },
+
+  neutralBg: { main: '#F5F5F5' },
+
   text: {
     primary: '#000000',
     secondary: '#4F4F4F',
