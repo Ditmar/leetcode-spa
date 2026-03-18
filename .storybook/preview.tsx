@@ -1,4 +1,5 @@
 import '../src/assets/fonts/syne.css';
+import '../src/style-library/theme/colors.css';
 
 import { FC } from 'react';
 
