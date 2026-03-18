@@ -1,0 +1,1 @@
+import{a as r}from"./iframe-pFF5mA5_.js";function p(t){const{theme:o,name:e,props:n}=t;return!o||!o.components||!o.components[e]||!o.components[e].defaultProps?n:r(o.components[e].defaultProps,n)}export{p as g};
