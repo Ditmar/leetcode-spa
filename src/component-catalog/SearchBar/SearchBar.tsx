@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles';
 import React, { type FC, memo } from 'react';
 
-import searchIcon from './assets/search-icon.svg';
+import searchIconImport from './assets/search-icon.svg';
 import {
   DEFAULT_PLACEHOLDER,
   DEFAULT_BUTTON_ARIA_LABEL,
@@ -14,6 +14,12 @@ import type { PropsSearchBar } from './SearchBar.types';
 
 const SearchBarComponent: FC<PropsSearchBar> = (props) => {
   const theme = useTheme();
+
+  // Astro 5 SVG imports return a factory function + ImageMetadata; extract the URL.
+  const searchIconSrc =
+    typeof searchIconImport === 'string'
+      ? searchIconImport
+      : (searchIconImport as unknown as { src: string }).src;
 
   const {
     placeholder = DEFAULT_PLACEHOLDER,
@@ -55,7 +61,7 @@ const SearchBarComponent: FC<PropsSearchBar> = (props) => {
         size="small"
       >
         <img
-          src={searchIcon}
+          src={searchIconSrc}
           alt=""
           aria-hidden="true"
           data-testid="search-icon"

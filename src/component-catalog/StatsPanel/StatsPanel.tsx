@@ -28,12 +28,21 @@ export const StatsPanel = ({ totalTests, passed, failed, waiting }: StatsPanelPr
         const textPos = { top, left: iconPos.left + ICON_SIZE + H_GAP };
         const Icon = stat.icon;
 
+        // Astro 5 SVG imports return a factory function with ImageMetadata attached.
+        // Extract the URL from `.src` when present; otherwise treat as a React component.
+        const iconSrc =
+          typeof Icon === 'string'
+            ? Icon
+            : typeof Icon === 'function' && 'src' in Icon
+              ? (Icon as unknown as { src: string }).src
+              : undefined;
+
         return (
           <React.Fragment key={stat.id}>
             <IconWrapper top={iconPos.top} left={iconPos.left}>
               <InnerIconBox>
-                {typeof Icon === 'string' ? (
-                  <IconImg src={Icon} />
+                {iconSrc ? (
+                  <IconImg src={iconSrc} />
                 ) : (
                   <span style={{ display: 'inline-flex', width: '100%', height: '100%' }}>
                     {/* @ts-expect-error TS ignores icon component type */}
