@@ -1,10 +1,10 @@
 import MontserratLight from '../../assets/fonts/Montserrat-Light.woff2';
 import MontserratRegular from '../../assets/fonts/Montserrat-Regular.woff2';
+import MontserratSemiBold from '../../assets/fonts/Montserrat-SemiBold.woff2';
+import PoppinsSemiBold from '../../assets/fonts/Poppins-SemiBold.woff2';
 import Syne700 from '../../assets/fonts/Syne-700.woff2';
-import MontserratSemiBold from '../../components/MCQQuestion/assets/fonts/Montserrat-SemiBold.woff2';
-import SyneRegular from '../../components/MCQQuestion/assets/fonts/Syne-Regular.woff2';
-import PoppinsSemiBold from '../../components/StatsPanel/assets/fonts/Poppins-SemiBold.woff2';
-import SyneSemiBold from '../../components/TestHeader/assets/fonts/Syne-SemiBold.woff2';
+import SyneRegular from '../../assets/fonts/Syne-Regular.woff2';
+import SyneSemiBold from '../../assets/fonts/Syne-SemiBold.woff2';
 import { createCustomTheme } from '../types/theme.helpers';
 
 import type { ThemeConfig } from '../types/theme.types';
@@ -16,7 +16,7 @@ declare module '@mui/material/styles' {
     subtitle: CSSProperties;
     question: CSSProperties;
     option: CSSProperties;
-    input: CSSProperties; // AGREGADO PARA SEARCHBAR
+    input: CSSProperties;
     numbers: CSSProperties;
     texts: CSSProperties;
   }
@@ -26,7 +26,7 @@ declare module '@mui/material/styles' {
     subtitle?: CSSProperties;
     question?: CSSProperties;
     option?: CSSProperties;
-    input?: CSSProperties; // AGREGADO PARA SEARCHBAR
+    input?: CSSProperties;
     numbers?: CSSProperties;
     texts?: CSSProperties;
   }
