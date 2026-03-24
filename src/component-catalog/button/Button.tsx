@@ -1,6 +1,6 @@
 import { StyledButton } from './Button.styles';
 import { type ButtonProps } from './Button.types';
-export function Button(props: ButtonProps) {
+const Button = (props: ButtonProps) => {
   const {
     children,
     variant = 'contained',
@@ -11,6 +11,7 @@ export function Button(props: ButtonProps) {
   } = props;
   return (
     <StyledButton
+      data-testid="button"
       variant={variant}
       size={size}
       disabled={disabled}
@@ -20,4 +21,6 @@ export function Button(props: ButtonProps) {
       {children}
     </StyledButton>
   );
-}
+};
+
+export { Button };
