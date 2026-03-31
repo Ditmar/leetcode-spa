@@ -22,4 +22,9 @@ describe('Button', () => {
     const buttonElement = getByTestId('button');
     expect(buttonElement).toHaveClass('MuiButton-sizeLarge');
   });
+  it('renders the button with the correct color', () => {
+    const { getByTestId } = render(<Button variant="text">Click Me</Button>);
+    const buttonElement = getByTestId('button');
+    expect(buttonElement).toHaveClass('MuiButton-text');
+  });
 });
