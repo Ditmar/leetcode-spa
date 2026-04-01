@@ -1,0 +1,21 @@
+import { Meta, Canvas, Story } from '@storybook/blocks';
+import * as BreadcrumbStories from './Breadcrumb.stories';
+
+<Meta of={BreadcrumbStories} />
+
+# Breadcrumb
+
+Displays the current navigation hierarchy.
+
+## Features
+
+- Responsive collapse
+- Custom separator
+- Expand interaction
+- Accessible (ARIA compliant)
+
+## Example
+
+<Canvas>
+  <Story of={BreadcrumbStories.Default} />
+</Canvas>
