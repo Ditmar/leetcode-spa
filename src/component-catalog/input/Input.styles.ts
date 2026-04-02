@@ -54,7 +54,7 @@ export const StyledInput = styled(TextField)(({ theme }) => ({
     '&:before': {
       borderBottomColor: 'var(--border)',
     },
-    '&:hover:not(.Mui-disabled, .Mui.error):before': {
+    '&:hover:not(.Mui-disabled, .Mui-error):before': {
       borderBottomColor: 'var(--ring)',
     },
     '&:after': {

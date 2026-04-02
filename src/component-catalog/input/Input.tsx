@@ -37,12 +37,9 @@ export function Input(props: InputProps) {
 
   const [count, setCount] = useState(getCharacterCount((value ?? defaultValue) as string));
 
-  const resolvedType =
-    type === 'password' ? (showPassword ? 'text' : 'password') : type;
+  const resolvedType = type === 'password' ? (showPassword ? 'text' : 'password') : type;
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setCount(event.target.value.length);
     onChange?.(event);
   };
@@ -60,9 +57,7 @@ export function Input(props: InputProps) {
       <Typography variant="caption">{helperText}</Typography>
 
       {(showCharacterCount || maxLength) && (
-        <Typography variant="caption">
-          {maxLength ? `${count}/${maxLength}` : count}
-        </Typography>
+        <Typography variant="caption">{maxLength ? `${count}/${maxLength}` : count}</Typography>
       )}
     </Box>
   ) : null;
