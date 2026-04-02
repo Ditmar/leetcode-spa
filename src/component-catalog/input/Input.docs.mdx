@@ -1,0 +1,192 @@
+import { Meta, Canvas, Controls, Story } from '@storybook/blocks';
+import * as InputStories from './Input.stories';
+
+<Meta of={InputStories} />
+
+# Input Ticket Implementation Guide
+
+This document explains how the **Input** ticket was implemented using **Material UI** and following the required **CDD structure**.
+
+The goal of this ticket was to build a reusable input component based on **MUI TextField** that could be used as the main text field across forms, while also supporting responsiveness, accessibility, mobile keyboard behavior, and common form features.
+---
+## 1. Component goal
+
+The component was created to serve as the standard text input element in the component catalog.
+
+The implementation needed to support:
+
+- multiple variants
+- multiple input types
+- adornments
+- helper text
+- password visibility toggle
+- optional character count
+- responsive behavior
+- accessibility support
+- mobile-friendly keyboard behavior
+
+The component was also designed to stay reusable and consistent with the project design tokens.
+---
+## 2. File structure used
+
+The ticket was organized using the required file structure.
+
+### `Input.tsx`
+This file contains the main component logic.  
+It handles the rendering of the MUI `TextField`, the password toggle behavior, the helper text rendering, and the character count behavior.
+
+### `Input.types.ts`
+This file defines the TypeScript props used by the component.  
+It extends the MUI `TextField` props and adds custom props such as adornments, character count, supported input types, and read-only support.
+
+### `Input.constants.ts`
+This file stores the supported input types and the `inputMode` mapping used for mobile keyboards.
+
+### `Input.hook.ts`
+This file contains the password toggle logic.  
+The visibility state was separated into its own hook to keep the main component cleaner.
+
+### `Input.styles.ts`
+This file contains the component styles using **MUI styled()**.  
+The styles were separated from the logic to keep the implementation easier to read and maintain.
+
+### `Input.utils.ts`
+This file contains the helper function used to calculate character count.
+
+### `Input.test.tsx`
+This file contains the unit tests for the component behavior.
+
+### `Input.stories.tsx`
+This file contains the Storybook story used to visualize the component.
+---
+## 3. Base implementation
+
+The component was built on top of **Material UI TextField** because the ticket required MUI as the foundation.
+
+Using `TextField` made it possible to keep the component accessible and compatible with standard form behavior while extending it with the requested features.
+
+The component was wrapped in a custom styled version called `StyledInput`, so the final result could match the project tokens and visual requirements.
+---
+## 4. Types and props
+
+The component props were defined in `Input.types.ts`.
+
+The implementation extends the standard MUI `TextField` props and adds custom properties for:
+
+- `type`
+- `variant`
+- `startAdornment`
+- `endAdornment`
+- `maxLength`
+- `showCharacterCount`
+- `readOnly`
+
+This keeps the component flexible while still controlling the accepted input behavior required by the ticket.
+---
+## 5. Supported input types
+
+The component supports the following input types:
+
+- `text`
+- `email`
+- `password`
+- `number`
+- `tel`
+- `url`
+- `search`
+
+These types were defined in `Input.constants.ts`.
+
+They were also connected to an `inputMode` mapping so that mobile devices can show the correct software keyboard depending on the input type.
+
+This was an important part of the implementation because mobile keyboard compatibility was explicitly required.
+---
+## 6. Password toggle implementation
+
+For password inputs, a visibility toggle was added using an end adornment with an icon button.
+
+The password visibility state was managed in `Input.hook.ts`.
+
+This decision helped keep the logic isolated and made the main component easier to maintain.
+
+When the input type is `password`, the component switches between:
+
+- `password`
+- `text`
+
+depending on the visibility state.
+---
+## 7. Adornments
+
+The component supports both start and end adornments.
+
+This was implemented using MUI `InputAdornment`.
+
+The purpose of this feature was to allow icons or extra visual content inside the input field while preserving the structure of the MUI input.
+
+This is especially useful for fields such as search inputs or password fields.
+---
+## 8. Helper text and character count
+
+The helper text logic was added inside `Input.tsx`.
+
+When helper text is provided, it is displayed below the input.
+
+When `maxLength` or `showCharacterCount` is provided, the component also displays a character count.
+
+This allows the component to handle more common form scenarios without requiring extra layout logic outside of the field.
+
+The character count value is calculated with a helper function stored in `Input.utils.ts`.
+---
+## 9. Styling decisions
+
+All styling was implemented in `Input.styles.ts` using **MUI styled()**.
+
+No external CSS file was used.
+
+The styling relies on the project design tokens, including values such as:
+
+- `--input-background`
+- `--foreground`
+- `--muted-foreground`
+- `--border`
+- `--ring`
+- `--destructive`
+- `--radius-md`
+
+This decision keeps the component visually aligned with the rest of the project and avoids isolated styling rules.
+---
+## 10. Responsive behavior
+
+The input component itself was implemented with full-width behavior so it can adapt to its container.
+
+The responsive layout was demonstrated in Storybook using a single showcase story.
+
+That story was structured to display the component in different common form states while still adapting across small and large screen sizes.
+
+This helped verify the behavior requested in the ticket for responsive widths.
+---
+## 11. Accessibility considerations
+
+Accessibility was considered during the implementation.
+
+The component keeps the base accessibility behavior provided by MUI `TextField` and also includes an accessible `aria-label` for the password visibility button.
+
+The implementation also passes `aria-invalid` and `aria-describedby` to the input element when needed.
+
+This was important because the ticket explicitly mentioned accessibility checks.
+---
+## 12. Testing approach
+
+The component includes tests in `Input.test.tsx`.
+
+The tests were added to cover the most important behaviors:
+
+- rendering
+- adornment rendering
+- password visibility toggle
+- error state
+- character count behavior
+- read-only behavior
+
+These tests help confirm that the component works as expected and reduce the risk of breaking the main features later.
