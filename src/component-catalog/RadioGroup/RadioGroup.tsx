@@ -18,7 +18,7 @@ import {
 } from './RadioGroup.styles';
 import type { CustomRadioGroupProps } from './RadioGroup.types';
 
-const CustomRadioIcon = (<span style={customIconStyles} aria-hidden='true' />);
+const CustomRadioIcon = <span style={customIconStyles} aria-hidden='true' />;
 
 const CustomRadioCheckedIcon = (
   <span style={customCheckedIconStyles} aria-hidden="true">
@@ -51,7 +51,8 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
           <FormControlLabel
             key={option.value}
             value={option.value}
-            control={<Radio icon={CustomRadioIcon} checkedIcon={CustomRadioCheckedIcon}/> } 
+            control={
+            <Radio icon={CustomRadioIcon} checkedIcon={CustomRadioCheckedIcon}/> } 
             label={option.label}
             disabled={option.disabled}
             sx={radioOptionStyles}
@@ -59,8 +60,8 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
         ))}
       </MuiRadioGroup>
       
-      {helperText && (<FormHelperText>{helperText}</FormHelperText>
-      )}
+      {helperText && <FormHelperText>{helperText}</FormHelperText>
+}
     </FormControl>
   );
 };
