@@ -10,7 +10,6 @@ export const radioOptionStyles: SxProps<Theme> = {
   },
 };
 
-
 export const formControlStyles: SxProps<Theme> = {
   display: 'flex',
   width: '100%',
@@ -31,7 +30,7 @@ export const formLabelStyles: SxProps<Theme> = {
 };
 
 export const radioGroupStyles = (
-  direction: 'row' | 'column'
+direction: 'row' | 'column'
 ): SxProps<Theme> => ({
   flexDirection: {
     xs: 'column',

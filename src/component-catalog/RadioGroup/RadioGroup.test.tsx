@@ -42,7 +42,7 @@ describe('RadioGroup', () => {
 
   it('shows error styles when error prop is true', () => {
     const { container } = render(
-      <RadioGroup error helperText='Something went wrong' options={options} />
+      <RadioGroup error helperText="Something went wrong" options={options} />
     );
 
     expect(container.querySelector('.Mui-error')).toBeTruthy();
@@ -50,7 +50,7 @@ describe('RadioGroup', () => {
 
   it('forwards aria-required to the radiogroup', () => {
     const { getByRole } = render(
-      <RadioGroup required options={options} label='Pick one' />
+    <RadioGroup required options={options} label='Pick one' />
     );
 
     expect(getByRole('radiogroup').getAttribute('aria-required')).toBe('true');

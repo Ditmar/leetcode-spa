@@ -9,8 +9,7 @@ interface UseRadioGroupReturn {
   reset: () => void;
 }
 export const useRadioGroup = ({
-  defaultValue = '',
-  
+  defaultValue = '', 
 }: UseRadioGroupOptions = {}): UseRadioGroupReturn => {
   const [value, setValue] = useState<string>(defaultValue);
 
