@@ -1,13 +1,6 @@
 export type InputVariants = 'outlined' | 'filled' | 'standard';
 
-export type InputTypes =
-  | 'text'
-  | 'email'
-  | 'password'
-  | 'number'
-  | 'tel'
-  | 'url'
-  | 'search';
+export type InputTypes = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
 
 export const inputModeByType: Record<
   InputTypes,
