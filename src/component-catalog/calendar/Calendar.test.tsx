@@ -1,10 +1,12 @@
-import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
 import dayjs from 'dayjs';
+import React from 'react';
+import { describe, it, expect, vi } from 'vitest';
 
 import { Calendar } from './Calendar';
+
+import type { UserEvent } from '@testing-library/user-event';
 
 const REF = dayjs('2025-04-15');
 
@@ -16,7 +18,7 @@ const getDay = (day: number) => {
     .find((el) => el.textContent === String(day));
 };
 
-const clickDay = async (user: any, day: number) => {
+const clickDay = async (user: UserEvent, day: number) => {
   const cell = getDay(day);
   if (!cell) throw new Error(`Day ${day} not found`);
   await user.click(cell);

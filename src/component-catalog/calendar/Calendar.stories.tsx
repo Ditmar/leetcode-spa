@@ -1,7 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import dayjs from 'dayjs';
 
 import { Calendar } from './Calendar';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'component-catalog/Calendar',

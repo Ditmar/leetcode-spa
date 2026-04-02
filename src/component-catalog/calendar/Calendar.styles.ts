@@ -1,7 +1,8 @@
+import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
-import Box from '@mui/material/Box';
+
 import { dayStateStyles } from './Calendar.constants';
 
 export const CalendarWrapper = styled(Box)(() => ({
@@ -59,7 +60,7 @@ export interface StyledPickersDayProps {
 export const StyledPickersDay = styled(PickersDay, {
   shouldForwardProp: (prop) =>
     !['isRangeStart', 'isRangeEnd', 'isInRange', 'isMultiSelected'].includes(prop as string),
-})<StyledPickersDayProps>(({ isRangeStart, isRangeEnd, isInRange, isMultiSelected }) => ({
+})<StyledPickersDayProps>(({ isRangeStart, isRangeEnd, isInRange }) => ({
   width: '100%',
   ...dayStateStyles.default,
   '&&.Mui-selected': {
