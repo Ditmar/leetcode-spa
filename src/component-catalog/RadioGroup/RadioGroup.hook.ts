@@ -15,11 +15,10 @@ export const useRadioGroup = ({
 }: UseRadioGroupOptions = {}): UseRadioGroupReturn => {
   const [value, setValue] = useState<string>(defaultValue);
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
-    setValue(event.target.value);
+const onChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
+  setValue(event.target.value);
   };
 
   const reset = () => setValue(defaultValue);
-  
   return { value, onChange, reset };
 };
