@@ -6,8 +6,9 @@ import { useId, useState, type ChangeEvent } from 'react';
 import { inputModeByType } from './Input.constants';
 import { usePasswordToggle } from './Input.hook';
 import { StyledInput } from './Input.styles';
-import type { InputProps } from './Input.types';
 import { getCharacterCount } from './Input.utils';
+
+import type { InputProps } from './Input.types';
 
 export function Input(props: InputProps) {
   const {
@@ -34,9 +35,7 @@ export function Input(props: InputProps) {
 
   const { showPassword, togglePassword } = usePasswordToggle();
 
-  const [count, setCount] = useState(
-    getCharacterCount((value ?? defaultValue) as string),
-  );
+  const [count, setCount] = useState(getCharacterCount((value ?? defaultValue) as string));
 
   const resolvedType =
     type === 'password' ? (showPassword ? 'text' : 'password') : type;
