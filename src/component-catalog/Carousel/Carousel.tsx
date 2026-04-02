@@ -47,14 +47,24 @@ const Carousel = ({
 
       <IconButton
         onClick={prev}
-        sx={{ position: "absolute", left: 10, top: "50%" }}
+        sx={{
+  position: "absolute",
+  left: "1rem",
+  top: "50%",
+  transform: "translateY(-50%)",
+}}
       >
         <ArrowBackIosNewIcon />
       </IconButton>
 
       <IconButton
         onClick={next}
-        sx={{ position: "absolute", right: 10, top: "50%" }}
+        sx={{
+  position: "absolute",
+  right: "1rem",
+  top: "50%",
+  transform: "translateY(-50%)",
+}}
       >
         <ArrowForwardIosIcon />
       </IconButton>

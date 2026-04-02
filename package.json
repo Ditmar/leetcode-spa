@@ -30,18 +30,28 @@
     "@mui/icons-material": "7.3.4",
 =======
     "@emotion/styled": "^11.14.1",
+<<<<<<< HEAD
     "@mui/icons-material": "^7.3.9",
 >>>>>>> b2fdc03b (LAB3)
     "@mui/material": "7.3.4",
+=======
+    "@mui/icons-material": "^7.3.4",
+    "@mui/material": "^7.3.4",
+>>>>>>> e0e39bfa (fix: resolve merge conflict in index.astro)
     "@mui/x-date-pickers": "8.27.2",
     "@mui/x-charts": "8.28.2",
     "astro": "5.13.9",
     "date-fns": "4.1.0",
     "dayjs": "1.11.20",
     "i18next": "^25.7.2",
+<<<<<<< HEAD
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "react-hook-form": "7.72.0",
+=======
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+>>>>>>> e0e39bfa (fix: resolve merge conflict in index.astro)
     "react-i18next": "^16.3.5",
     "yaml": "2.4.2",
     "zod": "^4.1.13"
@@ -63,9 +73,15 @@
     "@testing-library/user-event": "14.6.1",
     "@types/parse-json": "7.0.0",
     "@types/prop-types": "15.7.15",
+<<<<<<< HEAD
     "@types/react": "19.2.0",
     "@types/react-dom": "19.2.0",
     "@types/react-i18next": "^8.1.0",
+=======
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@types/testing-library__jest-dom": "^6.0.0",
+>>>>>>> e0e39bfa (fix: resolve merge conflict in index.astro)
     "@typescript-eslint/eslint-plugin": "8.44.0",
     "@typescript-eslint/parser": "8.44.0",
     "@vitejs/plugin-react": "5.0.4",
