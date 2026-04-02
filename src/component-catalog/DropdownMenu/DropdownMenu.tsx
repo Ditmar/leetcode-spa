@@ -1,14 +1,5 @@
-
-
-import {
-  cloneElement,
-  isValidElement,
-  useEffect,
-  useId,
-  useMemo,
-  useState,
-} from "react";
-import type { ReactElement } from "react";
+import { cloneElement, isValidElement, useEffect, useId, useMemo, useState } from 'react';
+import type { ReactElement } from 'react';
 import {
   Box,
   Divider,
@@ -17,14 +8,14 @@ import {
   Menu,
   MenuItem,
   Typography,
-} from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+} from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
-import { ARIA_ROLES, DROPDOWN_ITEM_TYPES } from "./DropdownMenu.constants";
-import useDropdownMenu from "./DropdownMenu.hook";
+import { ARIA_ROLES, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
+import useDropdownMenu from './DropdownMenu.hook';
 import {
   dropdownDividerSx,
   dropdownIndicatorSx,
@@ -36,12 +27,8 @@ import {
   dropdownPlaceholderIconSx,
   dropdownShortcutSx,
   dropdownSubmenuPaperSx,
-} from "./DropdownMenu.styles";
-import type {
-  DropdownGroup,
-  DropdownItem,
-  DropdownMenuProps,
-} from "./DropdownMenu.types";
+} from './DropdownMenu.styles';
+import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
 import {
   getAriaChecked,
   getMenuItemRole,
@@ -51,7 +38,7 @@ import {
   normalizeGroups,
   selectRadioItemInGroups,
   toggleCheckboxItemInGroups,
-} from "./DropdownMenu.utils";
+} from './DropdownMenu.utils';
 
 const renderItemIndicator = (item: DropdownItem) => {
   if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
@@ -76,7 +63,7 @@ const renderItemIndicator = (item: DropdownItem) => {
 const renderLeadingVisual = (
   item: DropdownItem,
   submenuItem: boolean,
-  indicator: ReturnType<typeof renderItemIndicator>,
+  indicator: ReturnType<typeof renderItemIndicator>
 ) => {
   if (isSelectableItem(item)) {
     return indicator ?? <Box sx={dropdownPlaceholderIconSx} />;
@@ -98,10 +85,7 @@ const DropdownMenu = ({
   mobileFullWidth = false,
 }: DropdownMenuProps) => {
   const menuId = useId();
-  const normalizedGroups = useMemo(
-    () => normalizeGroups(groups, items),
-    [groups, items],
-  );
+  const normalizedGroups = useMemo(() => normalizeGroups(groups, items), [groups, items]);
 
   const [menuGroups, setMenuGroups] = useState<DropdownGroup[]>(normalizedGroups);
 
@@ -128,24 +112,17 @@ const DropdownMenu = ({
     if (isSubmenuItem(item)) return;
 
     if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
-      setMenuGroups((prevGroups) =>
-        toggleCheckboxItemInGroups(prevGroups, item.id),
-      );
+      setMenuGroups((prevGroups) => toggleCheckboxItemInGroups(prevGroups, item.id));
     }
 
     if (item.type === DROPDOWN_ITEM_TYPES.RADIO) {
-      setMenuGroups((prevGroups) =>
-        selectRadioItemInGroups(prevGroups, item.id, item.name),
-      );
+      setMenuGroups((prevGroups) => selectRadioItemInGroups(prevGroups, item.id, item.name));
     }
 
     item.onClick?.();
     onItemSelect?.(item);
 
-    if (
-      item.type !== DROPDOWN_ITEM_TYPES.CHECKBOX &&
-      item.type !== DROPDOWN_ITEM_TYPES.RADIO
-    ) {
+    if (item.type !== DROPDOWN_ITEM_TYPES.CHECKBOX && item.type !== DROPDOWN_ITEM_TYPES.RADIO) {
       handleCloseMenu();
     }
   };
@@ -154,24 +131,17 @@ const DropdownMenu = ({
     if (item.disabled) return;
 
     if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
-      setMenuGroups((prevGroups) =>
-        toggleCheckboxItemInGroups(prevGroups, item.id),
-      );
+      setMenuGroups((prevGroups) => toggleCheckboxItemInGroups(prevGroups, item.id));
     }
 
     if (item.type === DROPDOWN_ITEM_TYPES.RADIO) {
-      setMenuGroups((prevGroups) =>
-        selectRadioItemInGroups(prevGroups, item.id, item.name),
-      );
+      setMenuGroups((prevGroups) => selectRadioItemInGroups(prevGroups, item.id, item.name));
     }
 
     item.onClick?.();
     onItemSelect?.(item);
 
-    if (
-      item.type !== DROPDOWN_ITEM_TYPES.CHECKBOX &&
-      item.type !== DROPDOWN_ITEM_TYPES.RADIO
-    ) {
+    if (item.type !== DROPDOWN_ITEM_TYPES.CHECKBOX && item.type !== DROPDOWN_ITEM_TYPES.RADIO) {
       handleCloseMenu();
     }
   };
@@ -179,22 +149,22 @@ const DropdownMenu = ({
   const enhancedTrigger = isValidElement(trigger)
     ? cloneElement(trigger as ReactElement<any>, {
         onClick: handleOpenMenu,
-        "aria-haspopup": ARIA_ROLES.MENU,
-        "aria-expanded": open ? "true" : "false",
-        "aria-controls": open ? menuId : undefined,
+        'aria-haspopup': ARIA_ROLES.MENU,
+        'aria-expanded': open ? 'true' : 'false',
+        'aria-controls': open ? menuId : undefined,
         disabled,
       })
     : trigger;
 
   const submenuAnchorOrigin =
-    submenuDirection === "left"
-      ? { vertical: "top" as const, horizontal: "left" as const }
-      : { vertical: "top" as const, horizontal: "right" as const };
+    submenuDirection === 'left'
+      ? { vertical: 'top' as const, horizontal: 'left' as const }
+      : { vertical: 'top' as const, horizontal: 'right' as const };
 
   const submenuTransformOrigin =
-    submenuDirection === "left"
-      ? { vertical: "top" as const, horizontal: "right" as const }
-      : { vertical: "top" as const, horizontal: "left" as const };
+    submenuDirection === 'left'
+      ? { vertical: 'top' as const, horizontal: 'right' as const }
+      : { vertical: 'top' as const, horizontal: 'left' as const };
 
   return (
     <>
@@ -207,8 +177,8 @@ const DropdownMenu = ({
         onClose={handleCloseMenu}
         keepMounted
         marginThreshold={16}
-        transformOrigin={{ vertical: "top", horizontal: "left" }}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         slotProps={{
           paper: {
             elevation: 3,
@@ -216,7 +186,7 @@ const DropdownMenu = ({
           },
           list: {
             role: ARIA_ROLES.MENU,
-            "aria-label": "Dropdown menu",
+            'aria-label': 'Dropdown menu',
             sx: dropdownMenuListSx,
           },
         }}
@@ -253,11 +223,7 @@ const DropdownMenu = ({
                   aria-checked={getAriaChecked(item)}
                   aria-haspopup={submenuItem ? ARIA_ROLES.MENU : undefined}
                   aria-expanded={
-                    submenuItem
-                      ? activeSubmenuParentId === item.id
-                        ? "true"
-                        : "false"
-                      : undefined
+                    submenuItem ? (activeSubmenuParentId === item.id ? 'true' : 'false') : undefined
                   }
                   sx={dropdownMenuItemSx}
                 >
@@ -288,9 +254,7 @@ const DropdownMenu = ({
               );
             })}
 
-            {groupIndex < menuGroups.length - 1 && (
-              <Divider sx={dropdownDividerSx} />
-            )}
+            {groupIndex < menuGroups.length - 1 && <Divider sx={dropdownDividerSx} />}
           </Box>
         ))}
       </Menu>
@@ -309,7 +273,7 @@ const DropdownMenu = ({
           },
           list: {
             role: ARIA_ROLES.MENU,
-            "aria-label": "Nested dropdown submenu",
+            'aria-label': 'Nested dropdown submenu',
             sx: dropdownMenuListSx,
           },
         }}

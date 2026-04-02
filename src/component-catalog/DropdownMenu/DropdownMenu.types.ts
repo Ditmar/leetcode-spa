@@ -1,7 +1,5 @@
-
-
-import type { ReactNode } from "react";
-import type { DropdownItemType } from "./DropdownMenu.constants";
+import type { ReactNode } from 'react';
+import type { DropdownItemType } from './DropdownMenu.constants';
 
 /**
  * Base structure for any dropdown item.

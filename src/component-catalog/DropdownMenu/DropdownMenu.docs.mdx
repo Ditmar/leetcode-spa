@@ -1,5 +1,5 @@
-import { Meta, Canvas } from "@storybook/blocks";
-import * as DropdownMenuStories from "./DropdownMenu.stories";
+import { Meta, Canvas } from '@storybook/blocks';
+import * as DropdownMenuStories from './DropdownMenu.stories';
 
 <Meta of={DropdownMenuStories} />
 
@@ -315,43 +315,39 @@ Main fidelity goals:
 A simplified example:
 
 ```tsx
-import Button from "@mui/material/Button";
-import DropdownMenu from "./DropdownMenu";
+import Button from '@mui/material/Button';
+import DropdownMenu from './DropdownMenu';
 
 const items = [
   {
-    id: "edit",
-    label: "Edit",
+    id: 'edit',
+    label: 'Edit',
   },
   {
-    id: "show-lines",
-    label: "Show line numbers",
-    type: "checkbox",
+    id: 'show-lines',
+    label: 'Show line numbers',
+    type: 'checkbox',
     checked: true,
   },
   {
-    id: "sort-name",
-    label: "Sort by name",
-    type: "radio",
-    name: "sort",
+    id: 'sort-name',
+    label: 'Sort by name',
+    type: 'radio',
+    name: 'sort',
     checked: true,
   },
   {
-    id: "settings",
-    label: "Settings",
-    type: "submenu",
+    id: 'settings',
+    label: 'Settings',
+    type: 'submenu',
     children: [
-      { id: "profile", label: "Profile" },
-      { id: "security", label: "Security" },
+      { id: 'profile', label: 'Profile' },
+      { id: 'security', label: 'Security' },
     ],
   },
 ];
 
 export default function Example() {
-  return (
-    <DropdownMenu
-      trigger={<Button variant="outlined">Dropdown Menu</Button>}
-      items={items}
-    />
-  );
+  return <DropdownMenu trigger={<Button variant="outlined">Dropdown Menu</Button>} items={items} />;
 }
+```

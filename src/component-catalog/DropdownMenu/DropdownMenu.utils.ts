@@ -1,11 +1,5 @@
-
-
-import {
-  ARIA_ROLES,
-  DEFAULT_GROUP_ID,
-  DROPDOWN_ITEM_TYPES,
-} from "./DropdownMenu.constants";
-import type { DropdownGroup, DropdownItem } from "./DropdownMenu.types";
+import { ARIA_ROLES, DEFAULT_GROUP_ID, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
+import type { DropdownGroup, DropdownItem } from './DropdownMenu.types';
 
 /**
  * Normalizes menu data so the component can always render groups.
@@ -14,7 +8,7 @@ import type { DropdownGroup, DropdownItem } from "./DropdownMenu.types";
  */
 export const normalizeGroups = (
   groups?: DropdownGroup[],
-  items?: DropdownItem[],
+  items?: DropdownItem[]
 ): DropdownGroup[] => {
   if (groups && groups.length > 0) {
     return groups;
@@ -37,8 +31,7 @@ export const normalizeGroups = (
  */
 export const isSubmenuItem = (item: DropdownItem): boolean => {
   return (
-    item.type === DROPDOWN_ITEM_TYPES.SUBMENU ||
-    Boolean(item.children && item.children.length > 0)
+    item.type === DROPDOWN_ITEM_TYPES.SUBMENU || Boolean(item.children && item.children.length > 0)
   );
 };
 
@@ -53,7 +46,7 @@ export const isSeparatorItem = (item: DropdownItem): boolean => {
  * Returns the correct ARIA role based on item type.
  */
 export const getMenuItemRole = (
-  item: DropdownItem,
+  item: DropdownItem
 ):
   | typeof ARIA_ROLES.MENU_ITEM
   | typeof ARIA_ROLES.MENU_ITEM_CHECKBOX
@@ -73,10 +66,7 @@ export const getMenuItemRole = (
  * Returns whether aria-checked should be set for the item.
  */
 export const getAriaChecked = (item: DropdownItem): boolean | undefined => {
-  if (
-    item.type === DROPDOWN_ITEM_TYPES.CHECKBOX ||
-    item.type === DROPDOWN_ITEM_TYPES.RADIO
-  ) {
+  if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX || item.type === DROPDOWN_ITEM_TYPES.RADIO) {
     return Boolean(item.checked);
   }
 
@@ -87,15 +77,12 @@ export const getAriaChecked = (item: DropdownItem): boolean | undefined => {
  * Returns whether a radio or checkbox item is interactive as a selection item.
  */
 export const isSelectableItem = (item: DropdownItem): boolean => {
-  return (
-    item.type === DROPDOWN_ITEM_TYPES.CHECKBOX ||
-    item.type === DROPDOWN_ITEM_TYPES.RADIO
-  );
+  return item.type === DROPDOWN_ITEM_TYPES.CHECKBOX || item.type === DROPDOWN_ITEM_TYPES.RADIO;
 };
 
 const updateItemsRecursively = (
   items: DropdownItem[],
-  updater: (item: DropdownItem) => DropdownItem,
+  updater: (item: DropdownItem) => DropdownItem
 ): DropdownItem[] => {
   return items.map((item) => {
     const updatedItem = updater(item);
@@ -116,15 +103,12 @@ const updateItemsRecursively = (
  */
 export const toggleCheckboxItemInGroups = (
   groups: DropdownGroup[],
-  itemId: string,
+  itemId: string
 ): DropdownGroup[] => {
   return groups.map((group) => ({
     ...group,
     items: updateItemsRecursively(group.items, (item) => {
-      if (
-        item.id === itemId &&
-        item.type === DROPDOWN_ITEM_TYPES.CHECKBOX
-      ) {
+      if (item.id === itemId && item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
         return {
           ...item,
           checked: !Boolean(item.checked),
@@ -142,7 +126,7 @@ export const toggleCheckboxItemInGroups = (
 export const selectRadioItemInGroups = (
   groups: DropdownGroup[],
   itemId: string,
-  radioGroupName?: string,
+  radioGroupName?: string
 ): DropdownGroup[] => {
   if (!radioGroupName) {
     return groups;
