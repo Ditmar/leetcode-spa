@@ -49,9 +49,7 @@ describe('RadioGroup', () => {
   });
 
   it('forwards aria-required to the radiogroup', () => {
-    const { getByRole } = render(
-    <RadioGroup required options={options} label="Pick one" />
-    );
+    const { getByRole } = render(<RadioGroup required options={options} label="Pick one" />);
 
     expect(getByRole('radiogroup').getAttribute('aria-required')).toBe('true');
   });
