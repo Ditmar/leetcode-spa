@@ -1,0 +1,94 @@
+import { Meta, Primary, Controls, Story } from "@storybook/blocks";
+import * as RadioGroupStories from "./RadioGroup.stories";
+
+<Meta of={RadioGroupStories} />
+
+# RadioGroup
+
+The `RadioGroup` component lets users select a single option from a list. Built on top of MUI's `RadioGroup`, it adds responsive layout switching, group-level disable, required state, and custom Figma-spec radio icons.
+
+---
+
+## Usage
+
+```tsx
+import { RadioGroup } from "./RadioGroup";
+
+const options = [
+  { label: "Option One", value: "1" },
+  { label: "Option Two", value: "2" },
+];
+
+<RadioGroup
+  label="Pick an option"
+  options={options}
+  direction="column"
+/>
+```
+
+---
+
+## Controlled usage
+
+```tsx
+import { RadioGroup } from "./RadioGroup";
+import { useRadioGroup } from "./RadioGroup.hook";
+
+export const ControlledExample = () => {
+  const { value, onChange } = useRadioGroup({ defaultValue: "1" });
+
+  return (
+    <RadioGroup
+      label="Controlled group"
+      options={[
+        { label: "Option One", value: "1" },
+        { label: "Option Two", value: "2" },
+      ]}
+      value={value}
+      onChange={onChange}
+    />
+  );
+};
+```
+
+---
+
+## Default story
+
+<Primary />
+<Controls />
+
+---
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `options` | `Option[]` | — | Array of radio options to render |
+| `label` | `string` | — | Group label rendered as `FormLabel` |
+| `helperText` | `string` | — | Helper text below the group |
+| `error` | `boolean` | `false` | Puts the group in an error state |
+| `direction` | `"row" \| "column"` | `"column"` | Layout direction on desktop (always column on mobile) |
+| `disabled` | `boolean` | `false` | Disables the entire group |
+The component also forwards all native MUI `RadioGroupProps`.
+
+---
+
+## Option shape
+
+```ts
+interface Option {
+  label: string;
+  value: string;
+  disabled?: boolean;
+}
+```
+
+---
+
+## Accessibility
+
+- `MuiRadioGroup` renders `role="radiogroup"` automatically.
+- `aria-required` is forwarded when `required={true}`.
+- Each option has a minimum tap target of 44×44px (2.75rem).
+- Custom icons are marked `aria-hidden="true"` — the native `<input type="radio">` handles all keyboard and screen reader interaction.
