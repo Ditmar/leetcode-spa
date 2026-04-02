@@ -1,4 +1,4 @@
-import type { RadioGroupProps } from "@mui/material";
+import type { RadioGroupProps } from '@mui/material';
 
 export interface Option {
   label: string;
@@ -7,12 +7,12 @@ export interface Option {
 }
 
 export interface CustomRadioGroupProps
-  extends Omit<RadioGroupProps, "row" | "children"> {
+  extends Omit<RadioGroupProps, 'row' | 'children'> {
   options: Option[];
   label?: string;
   helperText?: string;
   error?: boolean;
-  direction?: "row" | "column";
+  direction?: 'row' | 'column';
   disabled?: boolean;
   required?: boolean;
 }

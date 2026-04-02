@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 interface UseRadioGroupOptions {
   defaultValue?: string;
@@ -9,7 +9,8 @@ interface UseRadioGroupReturn {
   reset: () => void;
 }
 export const useRadioGroup = ({
-  defaultValue = "",
+  defaultValue = '',
+  
 }: UseRadioGroupOptions = {}): UseRadioGroupReturn => {
   const [value, setValue] = useState<string>(defaultValue);
 
