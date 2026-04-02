@@ -48,9 +48,7 @@ describe('RadioGroup', () => {
     expect(container.querySelector('.Mui-error')).toBeTruthy();
   });
 
-  it('forwards aria-required to the radiogroup', () => {
-    const { getByRole } = render(
-    <RadioGroup required options={options} label='Pick one' />
+  it('forwards aria-required to the radiogroup', () => {const { getByRole } = render(<RadioGroup required options={options} label='Pick one' />
     );
 
     expect(getByRole('radiogroup').getAttribute('aria-required')).toBe('true');
