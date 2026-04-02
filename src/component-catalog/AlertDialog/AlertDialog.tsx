@@ -12,8 +12,9 @@ import {
   StyledDialogContent,
   StyledDialogTitle,
 } from './AlertDialog.styles';
-import type { AlertDialogProps } from './AlertDialog.types';
 import { getAlertDialogIds } from './AlertDialog.utils';
+
+import type { AlertDialogProps } from './AlertDialog.types';
 
 const AlertDialog = ({
   open,
@@ -98,9 +99,7 @@ const AlertDialog = ({
       {description ? (
         <StyledDialogContent>
           {typeof description === 'string' || typeof description === 'number' ? (
-            <DialogContentText id={descriptionId}>
-              {description}
-            </DialogContentText>
+            <DialogContentText id={descriptionId}>{description}</DialogContentText>
           ) : (
             <Box id={descriptionId}>{description}</Box>
           )}

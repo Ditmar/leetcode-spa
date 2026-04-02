@@ -3,6 +3,7 @@ import {
   DEFAULT_CANCEL_LABEL,
   DEFAULT_CONFIRM_LABEL,
 } from './AlertDialog.constants';
+
 import type { AlertDialogProps } from './AlertDialog.types';
 
 type UseAlertDialogParams = Pick<
@@ -25,8 +26,7 @@ export const useAlertDialog = ({
 }: UseAlertDialogParams) => {
   const resolvedConfirmLabel = confirmLabel ?? DEFAULT_CONFIRM_LABEL;
   const resolvedCancelLabel = cancelLabel ?? DEFAULT_CANCEL_LABEL;
-  const resolvedAcknowledgeLabel =
-    acknowledgeLabel ?? DEFAULT_ACKNOWLEDGE_LABEL;
+  const resolvedAcknowledgeLabel = acknowledgeLabel ?? DEFAULT_ACKNOWLEDGE_LABEL;
 
   const hasAcknowledgeAction = showAcknowledgeButton;
   const hasConfirmCancelActions = showConfirmButton || showCancelButton;
