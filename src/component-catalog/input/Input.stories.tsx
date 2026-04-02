@@ -1,9 +1,8 @@
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
+import { Input } from './Input';
 
 import type { Meta, StoryObj } from '@storybook/react';
-
-import { Input } from './Input';
 
 const meta: Meta<typeof Input> = {
   title: 'component-catalog/Input',
@@ -38,11 +37,7 @@ export const ResponsiveShowcase: Story = {
 
         <Input type="password" placeholder="••••••••" />
 
-        <Input
-          type="search"
-          placeholder="Search..."
-          startAdornment={<SearchIcon />}
-        />
+        <Input type="search" placeholder="Search..." startAdornment={<SearchIcon />} />
 
         <Input disabled placeholder="Disabled" />
 

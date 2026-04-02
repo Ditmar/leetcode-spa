@@ -1,7 +1,8 @@
-import { describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import SearchIcon from '@mui/icons-material/Search';
+import { describe, expect, it } from 'vitest';
+
 import { Input } from './Input';
 
 describe('Input', () => {
