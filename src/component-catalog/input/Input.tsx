@@ -1,12 +1,7 @@
-import { useId, useState, type ChangeEvent } from 'react';
-import {
-  Box,
-  IconButton,
-  InputAdornment,
-  Typography,
-} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Box, IconButton, InputAdornment, Typography } from '@mui/material';
+import { useId, useState, type ChangeEvent } from 'react';
 
 import { inputModeByType } from './Input.constants';
 import { usePasswordToggle } from './Input.hook';
@@ -110,14 +105,12 @@ export function Input(props: InputProps) {
             </InputAdornment>
           ) : undefined,
       }}
-      slotProps={{
-        htmlInput: {
-          ...inputProps,
-          maxLength,
-          inputMode: inputModeByType[type],
-          'aria-invalid': rest.error || undefined,
-          'aria-describedby': hasHelper ? helperTextId : undefined,
-        },
+      inputProps={{
+        ...inputProps,
+        maxLength,
+        inputMode: inputModeByType[type],
+        'aria-invalid': rest.error || undefined,
+        'aria-describedby': hasHelper ? helperTextId : undefined,
       }}
     />
   );
