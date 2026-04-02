@@ -1,13 +1,5 @@
+import { AppBar, Toolbar, Button, Box, IconButton, Drawer, ListItemButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  Box,
-  IconButton,
-  Drawer,
-  ListItemButton,
-} from '@mui/material';
 
 /**
  * Root AppBar (Menubar container)

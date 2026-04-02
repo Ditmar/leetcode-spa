@@ -6,17 +6,11 @@ import { Menubar } from './Menubar';
 const mockItems = [
   {
     label: 'File',
-    children: [
-      { label: 'New' },
-      { label: 'Open' },
-    ],
+    children: [{ label: 'New' }, { label: 'Open' }],
   },
   {
     label: 'Edit',
-    children: [
-      { label: 'Undo' },
-      { label: 'Redo' },
-    ],
+    children: [{ label: 'Undo' }, { label: 'Redo' }],
   },
 ];
 
@@ -44,9 +38,7 @@ describe('Menubar', () => {
     const items = [
       {
         label: 'File',
-        children: [
-          { label: 'New', onClick },
-        ],
+        children: [{ label: 'New', onClick }],
       },
     ];
 

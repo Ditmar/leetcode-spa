@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react';
-
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 import { Menubar } from './Menubar';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Menubar> = {
   title: 'component-catalog/Menubar',
@@ -18,22 +18,16 @@ const sampleItems = [
   {
     label: 'Home',
     icon: <HomeIcon />,
-    onClick: () => console.log('Home clicked'),
+    onClick: () => {},
   },
   {
     label: 'Settings',
     icon: <SettingsIcon />,
-    children: [
-      { label: 'Profile' },
-      { label: 'Account' },
-    ],
+    children: [{ label: 'Profile' }, { label: 'Account' }],
   },
   {
     label: 'Help',
-    children: [
-      { label: 'Documentation' },
-      { label: 'Support' },
-    ],
+    children: [{ label: 'Documentation' }, { label: 'Support' }],
   },
 ];
 
@@ -59,10 +53,7 @@ export const WithDisabledItems: Story = {
       },
       {
         label: 'Settings',
-        children: [
-          { label: 'Profile', disabled: true },
-          { label: 'Account' },
-        ],
+        children: [{ label: 'Profile', disabled: true }, { label: 'Account' }],
       },
     ],
   },

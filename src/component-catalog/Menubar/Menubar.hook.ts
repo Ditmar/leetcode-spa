@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import type { MouseEvent, KeyboardEvent } from 'react';
-
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useState } from 'react';
+
+import type { MouseEvent, KeyboardEvent } from 'react';
 
 /**
  * Custom hook to manage Menubar state and interactions
@@ -44,10 +44,7 @@ export const useMenubar = () => {
   /**
    * Open menu on click
    */
-  const handleMenuOpen = (
-    event: MouseEvent<HTMLElement>,
-    index: number
-  ) => {
+  const handleMenuOpen = (event: MouseEvent<HTMLElement>, index: number) => {
     setAnchorEl(event.currentTarget);
     setActiveMenuIndex(index);
   };

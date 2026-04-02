@@ -1,17 +1,8 @@
-import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-import {
-  Box,
-  Menu,
-  MenuItem,
-  List,
-  Collapse,
-} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Box, Menu, MenuItem, List, Collapse } from '@mui/material';
 
 import { useMenubar } from './Menubar.hook';
-import type { MenubarProps } from './Menubar.types';
-
 import {
   StyledAppBar,
   StyledToolbar,
@@ -22,6 +13,8 @@ import {
   MobileListItem,
   SubmenuContainer,
 } from './Menubar.styles';
+
+import type { MenubarProps } from './Menubar.types';
 
 /**
  * Menubar component
@@ -166,11 +159,7 @@ export function Menubar(props: MenubarProps) {
       <StyledToolbar role="menubar" aria-label={ariaLabel}>
         {logo && <Box mr={2}>{logo}</Box>}
 
-        {!isMobile && (
-          <Box flex={1}>
-            {renderDesktopMenu()}
-          </Box>
-        )}
+        {!isMobile && <Box flex={1}>{renderDesktopMenu()}</Box>}
 
         {isMobile && (
           <HamburgerButton onClick={handleDrawerToggle} aria-label="Open menu">
