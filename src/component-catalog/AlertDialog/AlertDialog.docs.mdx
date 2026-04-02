@@ -1,0 +1,70 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import * as AlertDialogStories from './AlertDialog.stories';
+
+<Meta of={AlertDialogStories} />
+
+<Title />
+
+<Subtitle>
+A modal component for critical messages and required user decisions.
+</Subtitle>
+
+<Description>
+`AlertDialog` is a Material UI based modal component used when a user must acknowledge important information or explicitly confirm an action before continuing.
+</Description>
+
+## Use cases
+
+Use `AlertDialog` when the interface must:
+
+- confirm a destructive or sensitive action
+- block the flow until the user acknowledges important information
+- present critical feedback that requires an explicit decision
+
+Do not use this component for passive inline feedback. For non-blocking messages, use a standard alert component instead.
+
+## Severity variants
+
+The component supports the following severity variants:
+
+- `info`
+- `success`
+- `warning`
+- `error`
+
+Severity changes the visual emphasis of the dialog and its primary action.
+
+## Action patterns
+
+The component supports these action patterns:
+
+- **Confirm / Cancel**
+- **Acknowledge**
+
+This allows the dialog to cover both decision-based flows and blocking informational messages.
+
+## Accessibility
+
+The component includes:
+
+- `role="alertdialog"`
+- `aria-labelledby`
+- `aria-describedby`
+
+These attributes improve compatibility with assistive technologies.
+
+## Responsive behavior
+
+On small screens, the dialog is rendered at the bottom of the viewport and expands to the available width to improve mobile usability.
+
+## Primary example
+
+<Primary />
+
+## Controls
+
+<Controls />
+
+## Additional stories
+
+<Stories includePrimary={false} />
