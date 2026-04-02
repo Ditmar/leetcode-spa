@@ -5,8 +5,8 @@ export interface Option {
   value: string;
   disabled?: boolean;
 }
-export interface CustomRadioGroupProps
-  extends Omit<RadioGroupProps, 'row' | 'children'> {
+
+export interface CustomRadioGroupProps extends Omit<RadioGroupProps, 'row' | 'children'> {
   options: Option[];
   label?: string;
   helperText?: string;

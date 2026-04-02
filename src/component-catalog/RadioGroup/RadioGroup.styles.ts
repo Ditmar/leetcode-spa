@@ -1,4 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
+
 export const radioOptionStyles: SxProps<Theme> = {
   minHeight: '2.75rem',
   '& .MuiTypography-root': {
@@ -29,9 +30,7 @@ export const formLabelStyles: SxProps<Theme> = {
   },
 };
 
-export const radioGroupStyles = (
-direction: 'row' | 'column'
-): SxProps<Theme> => ({
+export const radioGroupStyles = (direction: 'row' | 'column'): SxProps<Theme> => ({
   flexDirection: {
     xs: 'column',
     sm: direction,
@@ -40,20 +39,17 @@ direction: 'row' | 'column'
   gap: 0,
 });
 
-/** Custom unchecked radio icon */
 export const customIconStyles: React.CSSProperties = {
   width: 16,
   height: 16,
   borderRadius: '50%',
   border: '0px solid rgba(0, 0, 0, 0.25)',
-
   boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
 };
 
-/** Custom checked radio icon outer ring */
 export const customCheckedIconStyles: React.CSSProperties = {
   width: 16,
   height: 16,
@@ -65,7 +61,6 @@ export const customCheckedIconStyles: React.CSSProperties = {
   justifyContent: 'center',
 };
 
-/** Inner dot for checked icon */
 export const customCheckedDotStyles: React.CSSProperties = {
   width: 8,
   height: 8,
