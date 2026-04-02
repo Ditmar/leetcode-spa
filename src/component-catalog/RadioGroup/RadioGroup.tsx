@@ -52,18 +52,17 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
           <FormControlLabel
             key={option.value}
             value={option.value}
-            control={<Radio icon={CustomRadioIcon} checkedIcon={CustomRadioCheckedIcon} />} 
+            control={<Radio icon={CustomRadioIcon} checkedIcon={CustomRadioCheckedIcon} />}
             label={option.label}
             disabled={option.disabled}
             sx={radioOptionStyles}
           />
         ))}
-      </MuiRadioGroup>  
-          
+      </MuiRadioGroup>
+
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
 };
-
 
 export { RadioGroup };
