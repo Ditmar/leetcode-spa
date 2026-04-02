@@ -7,7 +7,6 @@ import {
   RadioGroup as MuiRadioGroup,
 } from '@mui/material';
 
-import type { CustomRadioGroupProps } from './RadioGroup.types';
 import {
   customCheckedDotStyles,
   customCheckedIconStyles,
@@ -17,13 +16,14 @@ import {
   radioGroupStyles,
   radioOptionStyles,
 } from './RadioGroup.styles';
+import type { CustomRadioGroupProps } from './RadioGroup.types';
 
 const CustomRadioIcon = (
-  <span style={customIconStyles} aria-hidden='true' />
+<span style={customIconStyles} aria-hidden='true' />
 );
 
 const CustomRadioCheckedIcon = (
-  <span style={customCheckedIconStyles} aria-hidden='true'>
+  <span style={customCheckedIconStyles} aria-hidden="true">
     <span style={customCheckedDotStyles} />
   </span>
 );
@@ -48,10 +48,7 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
         </FormLabel>
       )}
 
-      <MuiRadioGroup
-        aria-required={required}
-        sx={radioGroupStyles(direction)}
-        {...rest}
+      <MuiRadioGroup aria-required={required} sx={radioGroupStyles(direction)} {...rest}
       >
         {options.map((option) => (
           <FormControlLabel
@@ -70,8 +67,7 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
         ))}
       </MuiRadioGroup>
 
-      {helperText && (
-        <FormHelperText>{helperText}</FormHelperText>
+      {helperText && (<FormHelperText>{helperText}</FormHelperText>
       )}
     </FormControl>
   );
