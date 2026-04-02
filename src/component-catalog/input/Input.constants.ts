@@ -1,4 +1,5 @@
 export type InputVariants = 'outlined' | 'filled' | 'standard';
+
 export type InputTypes =
   | 'text'
   | 'email'

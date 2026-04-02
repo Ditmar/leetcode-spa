@@ -1,6 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
+import Box from '@mui/material/Box';
+
+import type { Meta, StoryObj } from '@storybook/react';
+
 import { Input } from './Input';
 
 const meta: Meta<typeof Input> = {
@@ -42,14 +44,10 @@ export const ResponsiveShowcase: Story = {
           startAdornment={<SearchIcon />}
         />
 
-        <Input readOnly placeholder="Disabled" />
+        <Input disabled placeholder="Disabled" />
 
         <Box sx={{ gridColumn: { xs: 'auto', md: '1 / -1' } }}>
-          <Input
-            multiline
-            minRows={4}
-            placeholder="Tell us about yourself..."
-          />
+          <Input multiline minRows={4} placeholder="Tell us about yourself..." />
         </Box>
       </Box>
     </Box>
