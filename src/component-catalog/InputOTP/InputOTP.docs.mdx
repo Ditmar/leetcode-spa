@@ -1,0 +1,97 @@
+# InputOTP
+
+The InputOTP component allows users to enter a one-time password (OTP) or verification code using multiple individual input fields.
+
+It is designed to be mobile-friendly, supporting numeric keyboards and smooth input navigation.
+
+---
+
+## Features
+
+- Configurable number of digits
+- Auto-focus to next input
+- Backspace navigation
+- Paste full OTP support
+- Numeric-only input
+- Disabled and error states
+- Fully responsive layout
+
+---
+
+## Basic Usage
+
+  <Story of={InputOTPStories.Primary} />
+
+---
+
+## Props
+
+| Prop     | Type                     | Default | Description |
+|----------|--------------------------|--------|-------------|
+| length   | number                   | 6      | Number of OTP digits |
+| disabled | boolean                  | false  | Disables all inputs |
+| error    | boolean                  | false  | Shows error state |
+| value    | string                   | —      | Controlled value (optional) |
+| onChange | (value: string) => void  | —      | Callback when value changes |
+
+---
+
+## Examples
+
+### Default (6 digits)
+
+<InputOTP />
+
+---
+
+### Custom length
+
+<InputOTP length={4} />
+
+---
+
+### Disabled
+
+<InputOTP disabled />
+
+---
+
+### Error state
+
+<InputOTP error />
+
+---
+
+## Mobile Behavior
+
+- Uses inputMode="numeric" to trigger numeric keyboard
+- Optimized for touch interaction
+- Each input is touch-friendly in size
+- Supports pasting OTP codes from SMS
+
+---
+
+## Accessibility
+
+- Wrapped with role="group"
+- Each input includes an aria-label:
+
+Digit X of N
+
+- Screen reader friendly
+
+---
+
+## Notes
+
+- Only numeric input is allowed
+- Pasted values are sanitized (non-numeric removed)
+- Focus automatically moves between inputs
+
+---
+
+## Design Considerations
+
+- Built with Material UI
+- Uses theme.spacing (no hardcoded px)
+- Matches Figma design specifications

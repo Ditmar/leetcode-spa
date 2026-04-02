@@ -1,0 +1,58 @@
+import { Container, StyledTextField, Label } from './InputOTP.styles';
+import { Box } from '@mui/material';
+import type { InputOTPProps } from './InputOTP.types';
+import { DEFAULT_OTP_LENGTH, OTP_INPUT_PATTERN } from './InputOTP.constants';
+import { useInputOTP } from './InputOTP.hook';
+
+export function InputOTP({
+  length = DEFAULT_OTP_LENGTH,
+  disabled = false,
+  error = false,
+}: InputOTPProps) {
+  const {
+    values,
+    inputRefs,
+    handleChange,
+    handleKeyDown,
+    handlePaste,
+  } = useInputOTP(length, disabled);
+
+  return (
+    <Container role="group" aria-label="One-time password input">
+
+      {/* 👇 TEXTO */}
+      <Label>Enter OTP Code</Label>
+
+      {/* 👇 WRAPPER SOLO PARA LOS INPUTS */}
+      <Box display="flex" alignItems="center" gap={1}>
+        {Array.from({ length }).map((_, index) => {
+          const isFirst = index === 0;
+          const isLast = index === length - 1;
+
+          return (
+            <StyledTextField
+              key={index}
+              name={`otp-${index}`}
+              value={values[index]}
+              onChange={(e) => handleChange(e, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              onPaste={handlePaste}
+              inputRef={(el) => (inputRefs.current[index] = el)}
+              isFirst={isFirst}
+              isLast={isLast}
+              disabled={disabled}
+              error={error}
+              inputProps={{
+                maxLength: 1,
+                inputMode: 'numeric',
+                pattern: OTP_INPUT_PATTERN,
+                'aria-label': `Digit ${index + 1} of ${length}`,
+              }}
+            />
+          );
+        })}
+      </Box>
+
+    </Container>
+  );
+}
