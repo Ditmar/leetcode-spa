@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
 import SearchIcon from '@mui/icons-material/Search';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { Input } from './Input';
@@ -12,13 +12,7 @@ describe('Input', () => {
   });
 
   it('renders adornment', () => {
-    render(
-      <Input
-        label="Search"
-        startAdornment={<SearchIcon data-testid="icon" />}
-      />,
-    );
-
+    render(<Input label="Search" startAdornment={<SearchIcon data-testid="icon" />} />);
     expect(screen.getByTestId('icon')).toBeInTheDocument();
   });
 
@@ -37,15 +31,7 @@ describe('Input', () => {
   });
 
   it('shows character count', () => {
-    render(
-      <Input
-        label="Bio"
-        maxLength={20}
-        showCharacterCount
-        defaultValue="Hello"
-      />,
-    );
-
+    render(<Input label="Bio" maxLength={20} showCharacterCount defaultValue="Hello" />);
     expect(screen.getByText('5/20')).toBeInTheDocument();
   });
 

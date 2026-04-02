@@ -1,5 +1,6 @@
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
+
 import { Input } from './Input';
 
 import type { Meta, StoryObj } from '@storybook/react';
