@@ -30,7 +30,7 @@ export const formLabelStyles: SxProps<Theme> = {
   },
 };
 
-export const radioGroupStyles=(direction: 'row' | 'column'): SxProps<Theme> => ({
+export const radioGroupStyles = (direction: 'row' | 'column'): SxProps<Theme> => ({
   flexDirection: {
     xs: 'column',
     sm: direction,
