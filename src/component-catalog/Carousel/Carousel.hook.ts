@@ -1,10 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-export const useCarousel = (
-  length: number,
-  autoPlay?: boolean,
-  interval: number = 3000
-) => {
+export const useCarousel = (length: number, autoPlay?: boolean, interval: number = 3000) => {
   const [index, setIndex] = useState(0);
   const startX = useRef(0);
 

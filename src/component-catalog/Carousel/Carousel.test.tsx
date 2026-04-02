@@ -1,9 +1,10 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { vi } from "vitest";
-import Carousel from "./Carousel";
+import { render, screen, fireEvent } from '@testing-library/react';
+import { vi } from 'vitest';
 
-describe("Carousel", () => {
-  it("renders children correctly", () => {
+import Carousel from './Carousel';
+
+describe('Carousel', () => {
+  it('renders children correctly', () => {
     render(
       <Carousel>
         <div>Slide 1</div>
@@ -11,11 +12,11 @@ describe("Carousel", () => {
       </Carousel>
     );
 
-    expect(screen.getByText("Slide 1")).toBeInTheDocument();
-    expect(screen.getByText("Slide 2")).toBeInTheDocument();
+    expect(screen.getByText('Slide 1')).toBeInTheDocument();
+    expect(screen.getByText('Slide 2')).toBeInTheDocument();
   });
 
-  it("navigates to next slide when clicking next button", () => {
+  it('navigates to next slide when clicking next button', () => {
     render(
       <Carousel>
         <div>Slide 1</div>
@@ -23,15 +24,15 @@ describe("Carousel", () => {
       </Carousel>
     );
 
-    const buttons = screen.getAllByRole("button");
+    const buttons = screen.getAllByRole('button');
     const nextButton = buttons[1]; // segundo botón → next
 
     fireEvent.click(nextButton);
 
-    expect(screen.getByText("Slide 2")).toBeInTheDocument();
+    expect(screen.getByText('Slide 2')).toBeInTheDocument();
   });
 
-  it("auto plays slides", () => {
+  it('auto plays slides', () => {
     vi.useFakeTimers();
 
     render(
@@ -43,10 +44,10 @@ describe("Carousel", () => {
 
     vi.advanceTimersByTime(1000);
 
-    expect(screen.getByText("Slide 2")).toBeInTheDocument();
+    expect(screen.getByText('Slide 2')).toBeInTheDocument();
   });
 
-  it("handles swipe gesture", () => {
+  it('handles swipe gesture', () => {
     render(
       <Carousel>
         <div>Slide 1</div>
@@ -54,7 +55,7 @@ describe("Carousel", () => {
       </Carousel>
     );
 
-    const carousel = screen.getByRole("region");
+    const carousel = screen.getByRole('region');
 
     fireEvent.touchStart(carousel, {
       touches: [{ clientX: 100 }],
@@ -64,6 +65,6 @@ describe("Carousel", () => {
       changedTouches: [{ clientX: 0 }],
     });
 
-    expect(screen.getByText("Slide 2")).toBeInTheDocument();
+    expect(screen.getByText('Slide 2')).toBeInTheDocument();
   });
 });

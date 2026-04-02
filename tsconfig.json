@@ -3,8 +3,8 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"],
   "compilerOptions": {
-  "jsx": "react-jsx",
-  "jsxImportSource": "react",
-  "types": ["vitest/globals"]
-}
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "types": ["vitest/globals"]
+  }
 }
