@@ -1,0 +1,39 @@
+import { Meta, Primary, Controls, Story, Canvas, Source } from '@storybook/blocks';
+import * as CollapsibleStories from './Collapsible.stories';
+
+<Meta of={CollapsibleStories} />
+
+# Collapsible
+
+The `Collapsible` component is used to **show or hide content** dynamically. It is perfect for keeping the interface clean and reducing visual clutter.
+
+---
+
+## Interactive Preview
+Interact with the component to see the animation and the final design.
+
+<Canvas>
+  <Story of={CollapsibleStories.FigmaMatch} />
+</Canvas>
+
+### Preview Code
+This is the code required to replicate the example above:
+
+<Source 
+  language="tsx"
+  dark
+  code={`
+<Collapsible title="@peduarte starred 3 repositories">
+  <TextField 
+    fullWidth 
+    placeholder="@radix-ui/primitives" 
+    size="small" 
+  />
+</Collapsible>
+  `}
+/>
+
+---
+
+
+
