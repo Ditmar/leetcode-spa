@@ -1,16 +1,26 @@
-import React from 'react';
-
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-}
-
-const Button: React.FC<ButtonProps> = ({ children, onClick }) => {
+import { StyledButton } from './Button.styles';
+import { type ButtonProps } from './Button.types';
+const Button = (props: ButtonProps) => {
+  const {
+    children,
+    variant = 'contained',
+    size = 'medium',
+    disabled = false,
+    onClick,
+    startIcon,
+  } = props;
   return (
-    <button onClick={onClick}>
+    <StyledButton
+      data-testid="button"
+      variant={variant}
+      size={size}
+      disabled={disabled}
+      onClick={onClick}
+      startIcon={startIcon}
+    >
       {children}
-    </button>
+    </StyledButton>
   );
 };
 
-export default Button;
+export { Button };

@@ -1,8 +1,6 @@
-import type {
-  NavigationMenuSize,
-  NavigationMenuVariant,
-} from './NavigationMenu.types';
 import { NAV_COLORS } from './NavigationMenu.constants';
+
+import type { NavigationMenuSize, NavigationMenuVariant } from './NavigationMenu.types';
 import type { Theme } from '@mui/material';
 
 function getSizeConfig(size: NavigationMenuSize = 'medium') {

@@ -58,7 +58,9 @@ const NavigationMenu = (props: NavigationMenuProps) => {
         fontSize: sizeConfig.itemFontSize,
       }}
     >
-      {item.icon && <Box sx={{ mr: 0.5, display: 'flex', fontSize: sizeConfig.itemFontSize }}>{item.icon}</Box>}
+      {item.icon && (
+        <Box sx={{ mr: 0.5, display: 'flex', fontSize: sizeConfig.itemFontSize }}>{item.icon}</Box>
+      )}
       {item.label}
     </StyledListItemButton>
   );
@@ -86,7 +88,11 @@ const NavigationMenu = (props: NavigationMenuProps) => {
             </IconButton>
             {logo && (
               <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-                {typeof logo === 'string' ? <img src={logo} alt="Logo" style={{ height: 24 }} /> : logo}
+                {typeof logo === 'string' ? (
+                  <img src={logo} alt="Logo" style={{ height: 24 }} />
+                ) : (
+                  logo
+                )}
               </Box>
             )}
           </>
@@ -94,7 +100,11 @@ const NavigationMenu = (props: NavigationMenuProps) => {
           <>
             {logo && (
               <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0, mr: 1 }}>
-                {typeof logo === 'string' ? <img src={logo} alt="Logo" style={{ height: 24 }} /> : logo}
+                {typeof logo === 'string' ? (
+                  <img src={logo} alt="Logo" style={{ height: 24 }} />
+                ) : (
+                  logo
+                )}
               </Box>
             )}
           </>

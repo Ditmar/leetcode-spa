@@ -1,3 +1,6 @@
+import { useMediaQuery, useTheme } from '@mui/material';
+import { useMemo } from 'react';
+
 import NavigationLogo from '../../assets/NavigationMenu.svg';
 import NavigationLogo2 from '../../assets/NavigationMenu2.svg';
 
@@ -5,8 +8,6 @@ import { NavigationMenu } from './NavigationMenu';
 
 import type { NavSection } from './NavigationMenu.types';
 import type { Meta, StoryObj } from '@storybook/react';
-import { useMediaQuery, useTheme } from '@mui/material';
-import { useMemo } from 'react';
 
 const defaultNavItems = ['Premium', 'Explore', 'Problems', 'Contest', 'Discuss'];
 
@@ -29,7 +30,7 @@ const meta: Meta<typeof NavigationMenu> = {
     },
     navLabels: {
       control: 'object',
-      description: 'Custom labels for the 5 navigation items (Premium, Explore, Problems, Contest, Discuss)',
+      description: `Custom labels for the\n       5 navigation items (Premium, Explore, Problems, Contest, Discuss)`,
     },
     navSections: {
       table: { disable: true },
@@ -90,8 +91,8 @@ const createNavSections = (labels: string[]): NavSection[] => [
   },
 ];
 
-const createStoryRender = (defaultArgs: any) => {
-  return ({ navLabels = defaultNavItems, size, variant, ...args }: any) => (
+const createStoryRender = () => {
+  return ({ navLabels = defaultNavItems, size, variant, ...args }: Record<string, unknown>) => (
     <NavigationMenu
       {...args}
       navSections={createNavSections(navLabels)}
@@ -101,7 +102,12 @@ const createStoryRender = (defaultArgs: any) => {
   );
 };
 
-const ResponsiveLogoWrapper = ({ navLabels = defaultNavItems, size, variant, ...args }: any) => {
+const ResponsiveLogoWrapper = ({
+  navLabels = defaultNavItems,
+  size,
+  variant,
+  ...args
+}: Record<string, unknown>) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -198,7 +204,7 @@ export const CustomLabels: Story = {
     size: 'medium',
     variant: 'primary',
   },
-  render: ({ navLabels, size, variant, ...args }: any) => (
+  render: ({ navLabels, size, variant, ...args }: Record<string, unknown>) => (
     <NavigationMenu
       {...args}
       navSections={createNavSections(navLabels)}
@@ -209,7 +215,8 @@ export const CustomLabels: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Example showing custom labels. Edit navLabels in Controls to change the menu items.',
+        story:
+          'Example showing custom labels. Edit navLabels in Controls to change the menu items.',
       },
     },
   },
