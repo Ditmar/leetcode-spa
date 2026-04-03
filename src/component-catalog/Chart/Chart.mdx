@@ -1,0 +1,95 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as ChartStories from './Chart.stories';
+
+<Meta of={ChartStories} />
+
+# Chart
+
+A unified, responsive chart component built on top of `@mui/x-charts`.
+It supports **bar**, **line**, and **pie** chart types through a single `type` prop
+and adapts fluidly to any container width — from 320 px mobile screens to wide desktop layouts.
+
+
+
+```tsx
+import { Chart } from './Chart';
+
+<Chart
+  type="bar"
+  title="Monthly Revenue"
+  series={[{ data: [180, 320, 240, 280, 210], label: 'Revenue' }]}
+  xAxis={{ labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'] }}
+/>
+```
+
+---
+
+## Variants
+
+### Bar
+
+<Canvas of={ChartStories.Bar} />
+
+
+
+### Line
+
+<Canvas of={ChartStories.Line} />
+
+
+
+### Pie
+
+<Canvas of={ChartStories.Pie} />
+
+### Loading skeleton
+
+<Canvas of={ChartStories.Loading} />
+
+---
+
+## Props
+
+<Controls />
+
+---
+
+## Design tokens
+
+Series colours reference the CSS variables defined in `colors.css`
+(`--chart-1` … `--chart-5`) so the chart adapts to light and dark mode
+automatically — no hardcoded hex values anywhere in the component.
+
+| Token | Light | Dark |
+|---|---|---|
+| `--chart-1` | `#e8622a` | `#3b6fd4` |
+| `--chart-2` | `#3ba89c` | `#4db896` |
+| `--chart-3` | `#2e5f8a` | `#c97a10` |
+| `--chart-4` | `#d4a017` | `#a855f7` |
+| `--chart-5` | `#c97a10` | `#ef4444` |
+
+The loading skeleton uses `--muted` (`#ececf0` light / `#2a2a2a` dark) — the
+correct semantic token for placeholder surfaces in the design system.
+
+---
+
+## Accessibility
+
+- The wrapper carries `role="img"`.
+- A visually-hidden `<span>` linked via `aria-labelledby` provides the chart title to screen readers.
+- The optional `description` prop adds a second visually-hidden `<span>` via `aria-describedby`.
+- All interactive elements (tooltips) are keyboard and touch accessible.
+
+---
+
+## Responsive behaviour
+
+| Breakpoint | Behaviour |
+|---|---|
+| 320 px | Axis labels scale to `11px`; chart fills full width |
+| 375 px | Standard rendering; chart fills full width |
+| 768 px | Standard rendering |
+| 1024 px + | Width capped by parent container |
+
+The `height` prop (default `320`) controls the fixed vertical dimension; width
+always expands to 100 % of the parent container.
