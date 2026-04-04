@@ -1,10 +1,10 @@
-import React from 'react';
-import MuiCheckbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
 import Box from '@mui/material/Box';
+import MuiCheckbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
 import { styled } from '@mui/material/styles';
+import React from 'react';
 
 import type { CheckboxProps as MuiCheckboxProps } from '@mui/material/Checkbox';
 
@@ -52,11 +52,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
               size={size}
               color={color}
               inputProps={{
-                'aria-checked': indeterminate
-                  ? 'mixed'
-                  : checked
-                  ? 'true'
-                  : 'false',
+                'aria-checked': indeterminate ? 'mixed' : checked ? 'true' : 'false',
               }}
             />
           </TouchTarget>
@@ -64,9 +60,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         label={label}
       />
 
-      {helperText && (
-        <FormHelperText>{helperText}</FormHelperText>
-      )}
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
 };

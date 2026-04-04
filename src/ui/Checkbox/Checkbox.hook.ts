@@ -1,5 +1,4 @@
 import { useControlled } from '@mui/material/utils';
-import { useState } from 'react';
 
 export const useCheckboxState = ({
   checked: checkedProp,

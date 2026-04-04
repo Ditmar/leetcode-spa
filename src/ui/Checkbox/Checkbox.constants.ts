@@ -3,4 +3,4 @@ export const CHECKBOX_SIZES = {
   MEDIUM: 'medium',
 } as const;
 
-export type CheckboxSize = typeof CHECKBOX_SIZES[keyof typeof CHECKBOX_SIZES];
+export type CheckboxSize = (typeof CHECKBOX_SIZES)[keyof typeof CHECKBOX_SIZES];
