@@ -6,6 +6,7 @@ import {
 } from './Badge.constants';
 import { useBadge } from './Badge.hook';
 import { StandaloneBadgeLabel, StyledBadge } from './Badge.styles';
+
 import type { BadgeProps } from './Badge.types';
 
 export function Badge({

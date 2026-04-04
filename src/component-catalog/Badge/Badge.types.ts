@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import type { BadgeProps as MuiBadgeProps } from '@mui/material/Badge';
+import type { ReactNode } from 'react';
 
 export type BadgeColor =
   | 'default'

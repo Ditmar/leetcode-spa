@@ -1,7 +1,7 @@
+import { Badge } from './Badge';
+
 import type { Meta, StoryObj } from '@storybook/react';
 import Box from '@mui/material/Box';
-
-import { Badge } from './Badge';
 
 const Target = () => (
   <Box

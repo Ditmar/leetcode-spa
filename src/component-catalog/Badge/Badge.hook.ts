@@ -5,6 +5,7 @@ import {
   BADGE_DEFAULT_TONE,
 } from './Badge.constants';
 import { formatStandaloneBadgeContent, shouldRenderStandaloneBadge } from './Badge.utils';
+
 import type { BadgeProps } from './Badge.types';
 
 type UseBadgeParams = Pick<
