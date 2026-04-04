@@ -1,7 +1,20 @@
+import Box from '@mui/material/Box';
+
 import { Badge } from './Badge';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import Box from '@mui/material/Box';
+
+const meta = {
+  title: 'Component Catalog/Badges',
+  component: Badge,
+  parameters: {
+    layout: 'centered',
+  },
+} satisfies Meta<typeof Badge>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
 
 const Target = () => (
   <Box
@@ -13,26 +26,6 @@ const Target = () => (
     }}
   />
 );
-
-const meta = {
-  title: 'Component Catalog/Badges',
-  component: Badge,
-  parameters: {
-    layout: 'centered',
-  },
-  render: (args) =>
-    args.display === 'attached' ? (
-      <Badge {...args}>
-        <Target />
-      </Badge>
-    ) : (
-      <Badge {...args} />
-    ),
-} satisfies Meta<typeof Badge>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -92,87 +85,83 @@ export const Warning: Story = {
 
 export const Numeric: Story = {
   args: {
-    display: 'attached',
     badgeContent: 8,
-    color: 'primary',
+    children: <Target />,
   },
 };
 
 export const MaxOverflow: Story = {
   args: {
-    display: 'attached',
     badgeContent: 120,
     max: 99,
-    color: 'default',
+    color: 'error',
+    children: <Target />,
   },
 };
 
 export const DotVariant: Story = {
   args: {
-    display: 'attached',
     variant: 'dot',
     color: 'success',
+    children: <Target />,
   },
 };
 
 export const TopLeft: Story = {
   args: {
-    display: 'attached',
     badgeContent: 4,
-    color: 'info',
     anchorOrigin: {
       vertical: 'top',
       horizontal: 'left',
     },
+    children: <Target />,
   },
 };
 
 export const BottomRight: Story = {
   args: {
-    display: 'attached',
-    badgeContent: 4,
-    color: 'warning',
+    badgeContent: 7,
     anchorOrigin: {
       vertical: 'bottom',
       horizontal: 'right',
     },
+    children: <Target />,
   },
 };
 
 export const BottomLeft: Story = {
   args: {
-    display: 'attached',
-    badgeContent: 4,
-    color: 'secondary',
+    badgeContent: 3,
     anchorOrigin: {
       vertical: 'bottom',
       horizontal: 'left',
     },
+    children: <Target />,
   },
 };
 
-export const MUIColorVariants: Story = {
+export const MuiColorVariants: Story = {
   render: () => (
-    <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-      <Badge display="attached" badgeContent={1} color="default">
+    <Box display="flex" gap={2} flexWrap="wrap">
+      <Badge badgeContent={4} color="default">
         <Target />
       </Badge>
-      <Badge display="attached" badgeContent={1} color="primary">
+      <Badge badgeContent={4} color="primary">
         <Target />
       </Badge>
-      <Badge display="attached" badgeContent={1} color="secondary">
+      <Badge badgeContent={4} color="secondary">
         <Target />
       </Badge>
-      <Badge display="attached" badgeContent={1} color="error">
+      <Badge badgeContent={4} color="error">
         <Target />
       </Badge>
-      <Badge display="attached" badgeContent={1} color="info">
+      <Badge badgeContent={4} color="info">
         <Target />
       </Badge>
-      <Badge display="attached" badgeContent={1} color="success">
+      <Badge badgeContent={4} color="success">
         <Target />
       </Badge>
-      <Badge display="attached" badgeContent={1} color="warning">
+      <Badge badgeContent={4} color="warning">
         <Target />
       </Badge>
     </Box>
