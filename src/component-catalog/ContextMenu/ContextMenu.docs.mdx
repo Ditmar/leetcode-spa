@@ -1,0 +1,32 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as ContextMenuStories from './ContextMenu.stories';
+
+<Meta of={ContextMenuStories} />
+
+# ContextMenu
+
+A context-sensitive menu triggered by right-click (desktop) or long-press ≥ 500ms (mobile).
+
+## Usage
+
+Wrap any element with `<ContextMenu>` and pass a list of groups:
+```tsx
+<ContextMenu groups={menuGroups}>
+  <div>Right-click here</div>
+</ContextMenu>
+```
+
+## Default
+
+<Canvas of={ContextMenuStories.Default} />
+<Controls of={ContextMenuStories.Default} />
+
+## With Groups
+
+Items organized in groups separated by dividers.
+
+<Canvas of={ContextMenuStories.WithGroups} />
+
+## With Disabled Items
+
+<Canvas of={ContextMenuStories.WithDisabled} />
