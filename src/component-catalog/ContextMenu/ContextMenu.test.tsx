@@ -1,10 +1,11 @@
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
 import { ContextMenu } from './ContextMenu';
-import type { ContextMenuGroup } from './ContextMenu.types';
 import { LONG_PRESS_DURATION_MS } from './ContextMenu.constants';
 
+import type { ContextMenuGroup } from './ContextMenu.types';
 
 const mockGroups: ContextMenuGroup[] = [
   {
@@ -17,9 +18,7 @@ const mockGroups: ContextMenuGroup[] = [
   },
   {
     id: 'group-2',
-    items: [
-      { id: 'delete', label: 'Delete', onClick: vi.fn() },
-    ],
+    items: [{ id: 'delete', label: 'Delete', onClick: vi.fn() }],
   },
 ];
 
@@ -32,7 +31,6 @@ function renderMenu() {
   );
   return { ...utils, onClose };
 }
-
 
 describe('ContextMenu — abrir y cerrar', () => {
   it('está cerrado por defecto', () => {
@@ -50,9 +48,7 @@ describe('ContextMenu — abrir y cerrar', () => {
     renderMenu();
     fireEvent.contextMenu(screen.getByTestId('context-menu-trigger'));
     await userEvent.click(screen.getByTestId('context-menu-item-copy'));
-    await waitFor(() =>
-      expect(screen.queryByTestId('context-menu')).not.toBeInTheDocument()
-    );
+    await waitFor(() => expect(screen.queryByTestId('context-menu')).not.toBeInTheDocument());
   });
 
   it('llama a onClose al cerrar', async () => {
@@ -74,8 +70,7 @@ describe('ContextMenu — items', () => {
   it('el item deshabilitado tiene aria-disabled', () => {
     renderMenu();
     fireEvent.contextMenu(screen.getByTestId('context-menu-trigger'));
-    expect(screen.getByTestId('context-menu-item-cut'))
-      .toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByTestId('context-menu-item-cut')).toHaveAttribute('aria-disabled', 'true');
   });
 });
 
@@ -84,16 +79,16 @@ describe('ContextMenu — long-press móvil', () => {
   afterEach(() => vi.useRealTimers());
 
   it('abre después de 500ms en touch', async () => {
-  renderMenu();
-  const trigger = screen.getByTestId('context-menu-trigger');
-  fireEvent.pointerDown(trigger, { pointerType: 'touch', clientX: 50, clientY: 50 });
-  
-  await act(async () => {
-    vi.advanceTimersByTime(LONG_PRESS_DURATION_MS);
+    renderMenu();
+    const trigger = screen.getByTestId('context-menu-trigger');
+    fireEvent.pointerDown(trigger, { pointerType: 'touch', clientX: 50, clientY: 50 });
+
+    await act(async () => {
+      vi.advanceTimersByTime(LONG_PRESS_DURATION_MS);
+    });
+
+    expect(screen.getByTestId('context-menu')).toBeInTheDocument();
   });
-  
-  expect(screen.getByTestId('context-menu')).toBeInTheDocument();
-});
 
   it('no abre si soltás antes de 500ms', async () => {
     renderMenu();

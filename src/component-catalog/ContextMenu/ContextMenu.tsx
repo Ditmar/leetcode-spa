@@ -1,18 +1,14 @@
-import { Fragment } from 'react';
 import { Divider, ListItemIcon } from '@mui/material';
-import type { ContextMenuProps } from './ContextMenu.types';
+import { Fragment } from 'react';
+
 import { useContextMenu } from './ContextMenu.hook';
 import { ContextMenuTrigger, StyledMenu, StyledMenuItem } from './ContextMenu.styles';
 
+import type { ContextMenuProps } from './ContextMenu.types';
+
 export function ContextMenu({ children, groups, onClose }: ContextMenuProps) {
-  const {
-    open,
-    position,
-    handleContextMenu,
-    handlePointerDown,
-    handlePointerUp,
-    handleClose,
-  } = useContextMenu();
+  const { open, position, handleContextMenu, handlePointerDown, handlePointerUp, handleClose } =
+    useContextMenu();
 
   const handleItemClick = (itemOnClick?: () => void) => {
     itemOnClick?.();
@@ -34,7 +30,10 @@ export function ContextMenu({ children, groups, onClose }: ContextMenuProps) {
 
       <StyledMenu
         open={open}
-        onClose={() => { handleClose(); onClose?.(); }}
+        onClose={() => {
+          handleClose();
+          onClose?.();
+        }}
         anchorReference="anchorPosition"
         anchorPosition={open ? { top: position.y, left: position.x } : undefined}
         MenuListProps={{ role: 'menu' }}
@@ -52,9 +51,7 @@ export function ContextMenu({ children, groups, onClose }: ContextMenuProps) {
                 role="menuitem"
                 data-testid={`context-menu-item-${item.id}`}
               >
-                {item.icon && (
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                )}
+                {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
                 {item.label}
               </StyledMenuItem>
             ))}

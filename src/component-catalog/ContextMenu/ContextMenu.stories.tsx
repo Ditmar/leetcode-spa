@@ -1,15 +1,19 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import DeleteIcon from '@mui/icons-material/Delete';
+
 import { ContextMenu } from './ContextMenu';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof ContextMenu> = {
   title: 'component-catalog/ContextMenu',
   component: ContextMenu,
   decorators: [
     (Story) => (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}
+      >
         <Story />
       </div>
     ),
@@ -52,9 +56,7 @@ export const WithGroups: Story = {
       },
       {
         id: 'group-2',
-        items: [
-          { id: 'delete', label: 'Delete', icon: <DeleteIcon fontSize="small" /> },
-        ],
+        items: [{ id: 'delete', label: 'Delete', icon: <DeleteIcon fontSize="small" /> }],
       },
     ],
   },
