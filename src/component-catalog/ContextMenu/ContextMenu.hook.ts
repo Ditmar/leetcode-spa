@@ -1,8 +1,9 @@
-import { useState, useRef, useCallback } from "react";
-import type { MenuPosition } from "./ContextMenu.types";
-import { LONG_PRESS_DURATION_MS } from "./ContextMenu.constants";
-import { clampToViewport } from "./ContextMenu.utils";
+import { useState, useRef, useCallback } from 'react';
 
+import { LONG_PRESS_DURATION_MS } from './ContextMenu.constants';
+import { clampToViewport } from './ContextMenu.utils';
+
+import type { MenuPosition } from './ContextMenu.types';
 
 export function useContextMenu() {
     const [open, setOpen] = useState(false);
@@ -44,4 +45,3 @@ export function useContextMenu() {
         handleClose,
     };
 }
-
