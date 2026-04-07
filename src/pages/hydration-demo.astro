@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Counter from '../ui/components/Counter.tsx';
-import { CountdownTimer } from '../components/CountdownTimer/CountdownTimer.tsx';
+
 ---
 
 <Layout>
@@ -17,7 +17,7 @@ import { CountdownTimer } from '../components/CountdownTimer/CountdownTimer.tsx'
     <!-- Componente que se hidrata cuando es visible -->
     <section style="margin-top: 100vh;">
       <h2>Hidratación por Visibilidad (client:visible)</h2>
-      <CountdownTimer client:visible seconds={30} />
+     
     </section>
 
     <!-- Componente que se hidrata en idle -->

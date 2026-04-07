@@ -5,12 +5,10 @@ export default {
   component: Carousel,
 };
 
-export const Default = {
-  render: () => (
-    <Carousel autoPlay>
-      <div style={{ height: 200, width: '100%', background: 'red' }}></div>
-      <div style={{ height: 200, width: '100%', background: 'blue' }}></div>
-      <div style={{ height: 200, width: '100%', background: 'green' }}></div>
-    </Carousel>
-  ),
-};
+export const Default = () => (
+  <Carousel autoPlay>
+    <div style={{ height: 200, width: '100%', background: 'red' }} />
+    <div style={{ height: 200, width: '100%', background: 'blue' }} />
+    <div style={{ height: 200, width: '100%', background: 'green' }} />
+  </Carousel>
+);
