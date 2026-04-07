@@ -25,11 +25,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.10.0'
+<<<<<<< HEAD
+=======
+          cache: 'yarn'
+>>>>>>> ba8d7add (fix: unify yarn install with immutable)
 
       - name: Enable Corepack
         run: |
           corepack enable
+<<<<<<< HEAD
           corepack prepare yarn@4.13.0 --activate
+=======
+          corepack install
+>>>>>>> ba8d7add (fix: unify yarn install with immutable)
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -54,11 +62,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.10.0'
+<<<<<<< HEAD
+=======
+          cache: 'yarn'
+>>>>>>> ba8d7add (fix: unify yarn install with immutable)
 
       - name: Enable Corepack
         run: |
           corepack enable
+<<<<<<< HEAD
           corepack prepare yarn@4.13.0 --activate
+=======
+          corepack install
+>>>>>>> ba8d7add (fix: unify yarn install with immutable)
 
       - name: Install dependencies
         run: yarn install --immutable
