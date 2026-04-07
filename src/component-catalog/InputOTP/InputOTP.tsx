@@ -1,29 +1,24 @@
-import { Container, StyledTextField, Label } from './InputOTP.styles';
 import { Box } from '@mui/material';
-import type { InputOTPProps } from './InputOTP.types';
+
 import { DEFAULT_OTP_LENGTH, OTP_INPUT_PATTERN } from './InputOTP.constants';
 import { useInputOTP } from './InputOTP.hook';
+import { Container, StyledTextField, Label } from './InputOTP.styles';
+
+import type { InputOTPProps } from './InputOTP.types';
 
 export function InputOTP({
   length = DEFAULT_OTP_LENGTH,
   disabled = false,
   error = false,
 }: InputOTPProps) {
-  const {
-    values,
-    inputRefs,
-    handleChange,
-    handleKeyDown,
-    handlePaste,
-  } = useInputOTP(length, disabled);
+  const { values, inputRefs, handleChange, handleKeyDown, handlePaste } = useInputOTP(
+    length,
+    disabled
+  );
 
   return (
     <Container role="group" aria-label="One-time password input">
-
-      {/* 👇 TEXTO */}
       <Label>Enter OTP Code</Label>
-
-      {/* 👇 WRAPPER SOLO PARA LOS INPUTS */}
       <Box display="flex" alignItems="center" gap={1}>
         {Array.from({ length }).map((_, index) => {
           const isFirst = index === 0;
@@ -52,7 +47,6 @@ export function InputOTP({
           );
         })}
       </Box>
-
     </Container>
   );
 }

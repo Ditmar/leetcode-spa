@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+
 import { InputOTP } from './InputOTP';
 
 describe('InputOTP Component', () => {

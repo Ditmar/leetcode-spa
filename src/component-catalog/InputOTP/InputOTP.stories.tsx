@@ -1,4 +1,4 @@
-import { InputOTP } from './InputOTP';  
+import { InputOTP } from './InputOTP';
 
 import type { Meta, StoryObj } from '@storybook/react';
 

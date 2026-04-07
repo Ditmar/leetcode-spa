@@ -1,8 +1,5 @@
-import { styled, Box, TextField } from '@mui/material';
+import { styled, Box, TextField, Typography } from '@mui/material';
 
-import { Typography } from '@mui/material';
-
-// 👇 nuevo
 export const Label = styled(Typography)(() => ({
   fontFamily: 'Inter, sans-serif',
   fontWeight: 500,
@@ -52,8 +49,8 @@ export const StyledTextField = styled(TextField, {
     borderRadius: isFirst
       ? `${theme.spacing(1)} 0 0 ${theme.spacing(1)}`
       : isLast
-      ? `0 ${theme.spacing(1)} ${theme.spacing(1)} 0`
-      : 0,
+        ? `0 ${theme.spacing(1)} ${theme.spacing(1)} 0`
+        : 0,
 
     '& fieldset': {
       border: '1px solid var(--border)',

@@ -1,13 +1,9 @@
 import { useState, useRef } from 'react';
-import {
-  OTP_SINGLE_DIGIT_REGEX,
-  OTP_SANITIZE_REGEX,
-} from './InputOTP.constants';
+
+import { OTP_SINGLE_DIGIT_REGEX, OTP_SANITIZE_REGEX } from './InputOTP.constants';
 
 export function useInputOTP(length: number, disabled?: boolean) {
-  const [values, setValues] = useState<string[]>(
-    Array(length).fill('')
-  );
+  const [values, setValues] = useState<string[]>(Array(length).fill(''));
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -30,10 +26,7 @@ export function useInputOTP(length: number, disabled?: boolean) {
     }
   };
 
-  const handleKeyDown = (
-    e: React.KeyboardEvent,
-    index: number
-  ) => {
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (disabled) return;
 
     if (e.key === 'Backspace') {
