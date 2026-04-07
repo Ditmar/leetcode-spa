@@ -7,16 +7,8 @@ import { CarouselContainer, SlidesContainer, Slide } from './Carousel.styles';
 
 import type { CarouselProps } from './Carousel.types';
 
-const Carousel = ({
-  children,
-  autoPlay = false,
-  interval = 3000,
-}: CarouselProps) => {
-  const { index, next, prev } = useCarousel(
-    children.length,
-    autoPlay,
-    interval,
-  );
+const Carousel = ({ children, autoPlay = false, interval = 3000 }: CarouselProps) => {
+  const { index, next, prev } = useCarousel(children.length, autoPlay, interval);
 
   return (
     <CarouselContainer>
