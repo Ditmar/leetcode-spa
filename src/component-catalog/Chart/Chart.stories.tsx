@@ -39,7 +39,6 @@ const meta: Meta<typeof Chart> = {
 export default meta;
 type Story = StoryObj<typeof Chart>;
 
-
 const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
 
 export const Bar: Story = {
@@ -53,7 +52,6 @@ export const Bar: Story = {
   },
 };
 
-
 export const Line: Story = {
   args: {
     type: 'line',
@@ -64,8 +62,6 @@ export const Line: Story = {
     showLegend: true,
   },
 };
-
-
 
 export const Pie: Story = {
   args: {
@@ -78,7 +74,6 @@ export const Pie: Story = {
   },
 };
 
-
 export const Loading: Story = {
   args: {
     type: 'bar',
@@ -88,7 +83,6 @@ export const Loading: Story = {
     height: 320,
   },
 };
-
 
 export const BarNoLegend: Story = {
   args: {

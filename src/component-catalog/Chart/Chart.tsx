@@ -1,14 +1,14 @@
-import { useId } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { PieChart } from '@mui/x-charts/PieChart';
+import { useId } from 'react';
 
-import { ChartWrapper, ChartSkeleton, VisuallyHidden } from './Chart.styles';
 import { DEFAULT_CHART_HEIGHT, SERIES_COLORS, AXIS_TICK_FONT_SIZE } from './Chart.constants';
+import { ChartWrapper, ChartSkeleton, VisuallyHidden } from './Chart.styles';
+
 import type { ChartProps } from './Chart.types';
 
 const HiddenLegend = () => null;
-
 
 const Chart = (props: ChartProps) => {
   const {
@@ -102,13 +102,7 @@ const Chart = (props: ChartProps) => {
         />
       )}
 
-      {type === 'pie' && (
-        <PieChart
-          series={pieSeries}
-          height={height}
-          slots={legendSlots}
-        />
-      )}
+      {type === 'pie' && <PieChart series={pieSeries} height={height} slots={legendSlots} />}
     </ChartWrapper>
   );
 };

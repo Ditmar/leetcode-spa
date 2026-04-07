@@ -8,9 +8,7 @@ export const AXIS_TICK_FONT_SIZE_MIN = 11;
 
 export const AXIS_TICK_FONT_FAMILY = 'Arial, sans-serif';
 
-
 export const AXIS_TICK_COLOR = 'var(--muted-foreground)';
-
 
 export const SERIES_COLORS: string[] = [
   'var(--chart-1)',
@@ -19,7 +17,6 @@ export const SERIES_COLORS: string[] = [
   'var(--chart-4)',
   'var(--chart-5)',
 ];
-
 
 export const chartTypeConfig: Record<ChartType, ChartStylesVariants> = {
   bar: {
