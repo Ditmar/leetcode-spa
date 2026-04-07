@@ -17,9 +17,9 @@ const Carousel = ({ children, autoPlay = false, interval = 3000 }: CarouselProps
           transform: `translateX(-${index * 100}%)`,
         }}
       >
-        {children.map((child, i) => (
-          <Slide key={i}>{child}</Slide>
-        ))}
+        {children.map((child, i) => {
+          return <Slide key={i}>{child}</Slide>;
+        })}
       </SlidesContainer>
 
       <IconButton onClick={prev}>
