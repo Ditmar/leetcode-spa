@@ -25,12 +25,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.10.0'
-          cache: 'yarn'
 
       - name: Enable Corepack
         run: |
           corepack enable
-          corepack install
+          corepack prepare yarn@4.13.0 --activate
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -55,12 +54,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.10.0'
-          cache: 'yarn'
 
       - name: Enable Corepack
         run: |
           corepack enable
-          corepack install
+          corepack prepare yarn@4.13.0 --activate
 
       - name: Install dependencies
         run: yarn install --immutable
