@@ -80,8 +80,11 @@
 =======
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
+<<<<<<< HEAD
     "@types/testing-library__jest-dom": "^6.0.0",
 >>>>>>> e0e39bfa (fix: resolve merge conflict in index.astro)
+=======
+>>>>>>> 95b7a69d (fix: carousel and storybook issues)
     "@typescript-eslint/eslint-plugin": "8.44.0",
     "@typescript-eslint/parser": "8.44.0",
     "@vitejs/plugin-react": "5.0.4",

@@ -1,3 +1,4 @@
+import { Children } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { IconButton, MobileStepper } from '@mui/material';
@@ -8,8 +9,10 @@ import { CarouselContainer, SlidesContainer, Slide } from './Carousel.styles';
 import type { CarouselProps } from './Carousel.types';
 
 const Carousel = ({ children, autoPlay = false, interval = 3000 }: CarouselProps) => {
+  const totalSlides = Children.count(children);
+
   const { index, next, prev, handleTouchStart, handleTouchEnd } = useCarousel(
-    children.length,
+    totalSlides,
     autoPlay,
     interval
   );
@@ -31,12 +34,14 @@ const Carousel = ({ children, autoPlay = false, interval = 3000 }: CarouselProps
           transform: `translateX(-${index * 100}%)`,
         }}
       >
-        {children.map((child, i) => (
+        {Children.map(children, (child, i) => (
           <Slide key={i}>{child}</Slide>
         ))}
       </SlidesContainer>
 
+      {/* Botón anterior */}
       <IconButton
+        aria-label="Previous slide"
         onClick={prev}
         sx={{
           position: 'absolute',
@@ -48,7 +53,9 @@ const Carousel = ({ children, autoPlay = false, interval = 3000 }: CarouselProps
         <ArrowBackIosNewIcon />
       </IconButton>
 
+      {/* Botón siguiente */}
       <IconButton
+        aria-label="Next slide"
         onClick={next}
         sx={{
           position: 'absolute',
@@ -61,7 +68,7 @@ const Carousel = ({ children, autoPlay = false, interval = 3000 }: CarouselProps
       </IconButton>
 
       <MobileStepper
-        steps={children.length}
+        steps={totalSlides}
         position="static"
         activeStep={index}
         nextButton={null}
@@ -71,4 +78,4 @@ const Carousel = ({ children, autoPlay = false, interval = 3000 }: CarouselProps
   );
 };
 
-export default Carousel;
+export { Carousel };
