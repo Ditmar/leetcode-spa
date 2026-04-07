@@ -6,11 +6,13 @@ export default {
 };
 
 export const Default = {
-  render: () => (
-    <Carousel autoPlay>
-      <div style={{ height: 200, width: '100%', background: 'red' }} />
-      <div style={{ height: 200, width: '100%', background: 'blue' }} />
-      <div style={{ height: 200, width: '100%', background: 'green' }} />
-    </Carousel>
-  ),
+  render: () => {
+    return (
+      <Carousel autoPlay>
+        <div style={{ height: 200, width: '100%', background: 'red' }} />
+        <div style={{ height: 200, width: '100%', background: 'blue' }} />
+        <div style={{ height: 200, width: '100%', background: 'green' }} />
+      </Carousel>
+    );
+  },
 };
