@@ -29,7 +29,8 @@ export const useDropdownMenu = (disabled = false): UseDropdownMenuReturn => {
   const [submenuDirection, setSubmenuDirection] = useState<SubmenuDirection>('right');
 
   const open = Boolean(anchorEl);
-  const submenuOpen = Boolean(submenuAnchorEl) && activeSubmenuItems.length > 0;
+  const submenuOpen =
+    Boolean(submenuAnchorEl) && activeSubmenuItems.length > 0;
 
   const handleOpenMenu = (event: ReactMouseEvent<HTMLElement>) => {
     if (disabled) return;

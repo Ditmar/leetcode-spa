@@ -11,9 +11,7 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import { cloneElement, isValidElement, useEffect, useId, useMemo, useState } from 'react';
 
-import type { ReactElement, ReactNode } from 'react';
 import { ARIA_ROLES, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
 import useDropdownMenu from './DropdownMenu.hook';
 import {
@@ -28,7 +26,6 @@ import {
   dropdownShortcutSx,
   dropdownSubmenuPaperSx,
 } from './DropdownMenu.styles';
-import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
 import {
   getAriaChecked,
   getMenuItemRole,
@@ -39,6 +36,10 @@ import {
   selectRadioItemInGroups,
   toggleCheckboxItemInGroups,
 } from './DropdownMenu.utils';
+
+import { cloneElement, isValidElement, useEffect, useId, useMemo, useState } from 'react';
+import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
+import type { ReactElement, ReactNode } from 'react';
 
 const renderItemIndicator = (item: DropdownItem) => {
   if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {

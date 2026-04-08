@@ -187,8 +187,9 @@ describe('DropdownMenu', () => {
       'aria-checked',
       'false'
     );
-    expect(
-      screen.getByRole('menuitemradio', { name: /sort by date/i })
-    ).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('menuitemradio', { name: /sort by date/i })).toHaveAttribute(
+      'aria-checked',
+      'true'
+    );
   });
 });
