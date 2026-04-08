@@ -1,9 +1,7 @@
-export type DialogSizes = 'sm' | 'md' | 'lg' | 'xl' | 'fullScreen';
-
-export const dialogMaxWidth = {
-  sm: 'sm',
-  md: 'md',
-  lg: 'lg',
-  xl: 'xl',
-  fullScreen: false,
+export const DIALOG_SIZES = {
+  SM: 'sm',
+  MD: 'md',
+  LG: 'lg',
+  XL: 'xl',
+  FULL_SCREEN: 'fullScreen',
 } as const;

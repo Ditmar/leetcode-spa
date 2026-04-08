@@ -1,35 +1,35 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-
 import { Dialog } from './Dialog';
 
-describe('Dialog', () => {
-  it('renders when open', () => {
-    const { getByTestId } = render(<Dialog open={true}>Content</Dialog>);
-    expect(getByTestId('dialog')).toBeTruthy();
+describe('Dialog Component', () => {
+  const onCloseMock = vi.fn();
+
+  it('debe renderizar el título correctamente', () => {
+    render(
+      <Dialog isOpen={true} onClose={onCloseMock} title="Título de Prueba" />
+    );
+    expect(screen.getByTestId('mui-dialog-title')).toHaveTextContent('Título de Prueba');
   });
 
-  it('calls onClose when clicking outside (non-persistent)', () => {
-    const onClose = vi.fn();
-    const { getByRole } = render(
-      <Dialog open={true} onClose={onClose}>
-        Content
-      </Dialog>
+  it('debe llamar a onClose cuando se hace clic en el botón de cerrar', () => {
+    render(
+      <Dialog isOpen={true} onClose={onCloseMock} title="Test" showCloseButton={true} />
     );
-
-    fireEvent.keyDown(getByRole('dialog'), { key: 'Escape' });
-    expect(onClose).toHaveBeenCalled();
+    const closeButton = screen.getByLabelText('close-dialog');
+    fireEvent.click(closeButton);
+    expect(onCloseMock).toHaveBeenCalledTimes(1);
   });
 
-  it('does NOT close when persistent', () => {
-    const onClose = vi.fn();
-    const { getByRole } = render(
-      <Dialog open={true} onClose={onClose} persistent>
-        Content
-      </Dialog>
+  it('no debe cerrar al hacer clic en el backdrop si es persistente', () => {
+    render(
+      <Dialog isOpen={true} onClose={onCloseMock} persistent={true} />
     );
-
-    fireEvent.keyDown(getByRole('dialog'), { key: 'Escape' });
-    expect(onClose).not.toHaveBeenCalled();
+    
+    // Intentamos cerrar haciendo clic en el fondo (backdrop)
+    const backdrop = screen.getByRole('presentation').firstChild as HTMLElement;
+    if (backdrop) fireEvent.click(backdrop);
+    
+    expect(onCloseMock).not.toHaveBeenCalled();
   });
 });

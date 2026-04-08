@@ -1,9 +1,14 @@
-import type { DialogProps } from '@mui/material';
 import type { ReactNode } from 'react';
 
-export interface CustomDialogProps extends DialogProps {
-  title?: string;
+export interface DialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: ReactNode;
   description?: string;
+  children?: ReactNode;
   actions?: ReactNode;
+  showCloseButton?: boolean;
   persistent?: boolean;
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'fullScreen' | false;
+  fullScreen?: boolean;
 }
