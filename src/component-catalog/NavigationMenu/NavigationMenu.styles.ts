@@ -1,4 +1,17 @@
-import { styled, AppBar, Toolbar, List, ListItemButton, Drawer, Box } from '@mui/material';
+import {
+  styled,
+  AppBar,
+  Toolbar,
+  List,
+  ListItemButton,
+  Drawer,
+  Box,
+  Accordion,
+  Paper,
+  Popper,
+} from '@mui/material';
+
+import { alpha } from '../../style-library';
 
 import {
   ANIMATION_DURATIONS,
@@ -151,6 +164,34 @@ const StyledMobileNav = styled(List)(({ theme }) => ({
   },
 }));
 
+const StyledAccordion = styled(Accordion)(() => ({
+  backgroundColor: alpha(NAV_COLORS.BACKGROUND, 0.8),
+  boxShadow: 'none',
+  borderBottom: `1px solid ${alpha(NAV_COLORS.BORDER, 0.5)}`,
+
+  '&:before': {
+    display: 'none',
+  },
+
+  '&.Mui-expanded': {
+    margin: 0,
+  },
+}));
+
+const StyledMegaPanel = styled(Paper)(({ theme }) => ({
+  backgroundColor: NAV_COLORS.BACKGROUND,
+  boxShadow: theme.shadows[8],
+  borderRadius: theme.spacing(0.5),
+  padding: theme.spacing(2),
+  minWidth: 280,
+  maxWidth: 400,
+  border: `1px solid ${alpha(NAV_COLORS.BORDER, 0.8)}`,
+}));
+
+const StyledFlyoutPopper = styled(Popper)(() => ({
+  zIndex: Z_INDEX_STACK.POPPER_FLYOUT,
+}));
+
 export {
   StyledAppBar,
   StyledToolbar,
@@ -159,4 +200,7 @@ export {
   StyledDrawer,
   StyledMobileNav,
   StyledNavContainer,
+  StyledAccordion,
+  StyledMegaPanel,
+  StyledFlyoutPopper,
 };

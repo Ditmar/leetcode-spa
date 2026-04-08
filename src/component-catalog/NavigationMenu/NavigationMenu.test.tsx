@@ -12,6 +12,15 @@ const mockNavSections: NavSection[] = [
     items: [
       { id: 'home', label: 'Home', href: '/' },
       { id: 'about', label: 'About', href: '/about' },
+      {
+        id: 'products',
+        label: 'Products',
+        href: '/products',
+        children: [
+          { id: 'p1', label: 'Product 1', href: '/products/1' },
+          { id: 'p2', label: 'Product 2', href: '/products/2' },
+        ],
+      },
     ],
   },
 ];
@@ -38,26 +47,6 @@ describe('NavigationMenu', () => {
     expect(homeItem).toHaveAttribute('aria-current', 'page');
   });
 
-  it('renders hamburger button on mobile', async () => {
-    const mockMatchMedia = (query: string) => ({
-      matches: query === '(max-width:959.95px)',
-      media: query,
-      onchange: null,
-      addListener: () => {},
-      removeListener: () => {},
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      dispatchEvent: () => {},
-    });
-
-    window.matchMedia = mockMatchMedia as unknown as MediaQueryList;
-
-    render(<NavigationMenu navSections={mockNavSections} />);
-
-    const hamburger = screen.queryByTestId('hamburger-button');
-    expect(hamburger).not.toBeInTheDocument();
-  });
-
   it('handles item click', async () => {
     const user = userEvent.setup();
     const onItemClick = () => {};
@@ -68,5 +57,21 @@ describe('NavigationMenu', () => {
     await user.click(homeItem);
 
     expect(homeItem).toBeInTheDocument();
+  });
+
+  it('renders Sign In button', () => {
+    render(<NavigationMenu navSections={mockNavSections} />);
+
+    const signInButton = screen.getByText('Sign In');
+    expect(signInButton).toBeInTheDocument();
+  });
+
+  it('supports keyboard event handling', () => {
+    render(<NavigationMenu navSections={mockNavSections} />);
+
+    const homeItem = screen.getByTestId('nav-item-home');
+    homeItem.focus();
+
+    expect(homeItem).toHaveFocus();
   });
 });

@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@mui/material';
+import { useMediaQuery, useScrollTrigger } from '@mui/material';
 import { useState, useCallback, useMemo } from 'react';
 
 import { useTheme } from '../../style-library';
@@ -10,6 +10,7 @@ interface UseNavigationMenuStateProps {
   currentPath?: string;
   onItemClick?: (item: NavItem) => void;
   useScrollHide?: boolean;
+  onMobileMenuToggle?: (isOpen: boolean) => void;
 }
 
 interface UseNavigationMenuStateReturn {
@@ -25,27 +26,49 @@ interface UseNavigationMenuStateReturn {
   isDesktop: boolean;
   handleItemClick: (item: NavItem) => void;
   handleEscapeKey: () => void;
+  handleKeyDown: (event: React.KeyboardEvent) => void;
+  isScrollHidden: boolean;
 }
 
 export function useNavigationMenuState(
   props: UseNavigationMenuStateProps
 ): UseNavigationMenuStateReturn {
-  const { navSections, currentPath = '', onItemClick } = props;
+  const {
+    navSections,
+    currentPath = '',
+    onItemClick,
+    useScrollHide = false,
+    onMobileMenuToggle,
+  } = props;
 
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isDesktop = !isMobile;
 
+  const isScrollHidden = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 100,
+  });
+
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
   const toggleMobileDrawer = useCallback(() => {
-    setIsMobileDrawerOpen((prev) => !prev);
-  }, []);
+    setIsMobileDrawerOpen((prev) => {
+      const newState = !prev;
+      if (onMobileMenuToggle) {
+        onMobileMenuToggle(newState);
+      }
+      return newState;
+    });
+  }, [onMobileMenuToggle]);
 
   const closeMobileDrawer = useCallback(() => {
     setIsMobileDrawerOpen(false);
-  }, []);
+    if (onMobileMenuToggle) {
+      onMobileMenuToggle(false);
+    }
+  }, [onMobileMenuToggle]);
 
   const [activePanelId, setActivePanelId] = useState<string | null>(null);
 
@@ -105,6 +128,24 @@ export function useNavigationMenuState(
     closePanel();
   }, [closeMobileDrawer, closePanel]);
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleEscapeKey();
+        return;
+      }
+
+      if (event.key === 'Tab') {
+        return;
+      }
+
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        event.preventDefault();
+      }
+    },
+    [handleEscapeKey]
+  );
+
   return {
     activePanelId,
     openPanel,
@@ -118,6 +159,8 @@ export function useNavigationMenuState(
     isDesktop,
     handleItemClick,
     handleEscapeKey,
+    handleKeyDown,
+    isScrollHidden: useScrollHide ? isScrollHidden : false,
   };
 }
 
