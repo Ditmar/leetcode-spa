@@ -3,20 +3,14 @@ import { styled } from '@mui/material/styles';
 
 export const StyledForm = styled('form')(({ theme }) => ({
   width: '100%',
-  maxWidth: theme.spacing(152),
-
-  minHeight: theme.spacing(37.5),
-
+  maxWidth: theme.breakpoints.values.xl,
+  minHeight: theme.spacing(38),
   display: 'flex',
   flexDirection: 'column',
-
   padding: theme.spacing(3),
-
   borderRadius: (theme.shape.borderRadius as number) * 2,
   border: `1px solid ${theme.palette.divider}`,
-
   backgroundColor: theme.palette.background.paper,
-
   margin: '0 auto',
 }));
 
@@ -27,13 +21,13 @@ export const StyledFormControl = styled(FormControl)(() => ({
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   width: '100%',
 
-  '& .MuiInputBase-root': {
+  '& .MuiOutlinedInput-root': {
     backgroundColor: theme.palette.action.hover,
     borderRadius: (theme.shape.borderRadius as number) * 1.5,
-  },
 
-  '& .MuiOutlinedInput-notchedOutline': {
-    border: 'none',
+    '& fieldset': {
+      border: 'none',
+    },
   },
 }));
 

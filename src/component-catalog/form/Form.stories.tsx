@@ -1,3 +1,5 @@
+import { action } from 'storybook/actions';
+
 import { Form } from './Form';
 
 import type { FormField } from './Form.types';
@@ -63,9 +65,7 @@ export const Default: StoryObj<typeof Form> = {
         placeholder: 'Tell us about yourself...',
       },
     ] as FormField[],
-    onSubmit: () => {
-      alert('Form submitted!');
-    },
+    onSubmit: action('Form submitted'),
     submitButtonText: 'Submit',
     resetButtonText: 'Reset',
     showResetButton: true,
@@ -154,9 +154,7 @@ export const AllFieldTypes: StoryObj<typeof Form> = {
         placeholder: 'Tell us about yourself...',
       },
     ] as FormField[],
-    onSubmit: () => {
-      alert('Form submitted!');
-    },
+    onSubmit: action('Form submitted'),
     submitButtonText: 'Submit Form',
     resetButtonText: 'Clear Form',
     showResetButton: true,

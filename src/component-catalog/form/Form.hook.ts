@@ -1,12 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, type UseFormReturn, type DefaultValues } from 'react-hook-form';
+import {
+  useForm as useReactHookForm,
+  type UseFormReturn,
+  type DefaultValues,
+} from 'react-hook-form';
 import { z } from 'zod';
 
-export const useFormHook = <T extends Record<string, unknown>>(
-  schema?: z.ZodType<T>,
-  defaultValues?: DefaultValues<T>
-): UseFormReturn<T> => {
-  return useForm<T>({
+export const useFormHook = <T extends z.ZodTypeAny>(
+  schema?: T,
+  defaultValues?: DefaultValues<z.infer<T>>
+): UseFormReturn<z.infer<T>> => {
+  return useReactHookForm<z.infer<T>>({
     resolver: schema ? zodResolver(schema) : undefined,
     defaultValues,
     mode: 'onChange',

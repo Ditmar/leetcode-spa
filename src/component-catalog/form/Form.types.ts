@@ -1,3 +1,5 @@
+import type { DefaultValues, FieldErrors } from 'react-hook-form';
+
 export type FieldType =
   | 'text'
   | 'email'
@@ -8,10 +10,10 @@ export type FieldType =
   | 'radio'
   | 'checkbox';
 
-export interface Option {
+export type Option = {
   label: string;
   value: string | number;
-}
+};
 
 export interface FormField {
   name: string;
@@ -25,12 +27,22 @@ export interface FormField {
   options?: Option[];
 }
 
-export interface FormProps {
+export interface FormProps<T extends Record<string, unknown> = Record<string, unknown>> {
   fields: FormField[];
-  onSubmit: (data: Record<string, unknown>) => void;
-  defaultValues?: Record<string, unknown>;
+  onSubmit: (data: T) => void;
+  defaultValues?: DefaultValues<T>;
   disabled?: boolean;
   submitButtonText?: string;
   resetButtonText?: string;
   showResetButton?: boolean;
 }
+
+export type RenderFieldProps = {
+  field: FormField;
+  ctrlField: {
+    value: unknown;
+    onChange: (value: unknown) => void;
+  };
+  disabled: boolean;
+  errors: FieldErrors;
+};

@@ -2,12 +2,8 @@ import { z } from 'zod';
 
 import type { FormField } from './Form.types';
 
-export const getInputMode = (
-  type: string
-): 'text' | 'email' | 'numeric' | 'tel' | 'search' | 'url' => {
+export const getInputMode = (type: string): 'text' | 'email' | 'search' | 'url' => {
   if (type === 'email') return 'email';
-  if (type === 'tel') return 'tel';
-  if (type === 'number') return 'numeric';
   if (type === 'search') return 'search';
   return 'text';
 };
@@ -28,7 +24,7 @@ export const buildFormSchema = (fields: FormField[]) => {
     } else if (field.required) {
       shape[field.name] = z.string().min(1, `${field.label} is required`);
     } else {
-      shape[field.name] = z.union([z.string(), z.boolean()]).optional();
+      shape[field.name] = z.union([z.boolean()]).optional();
     }
   });
 

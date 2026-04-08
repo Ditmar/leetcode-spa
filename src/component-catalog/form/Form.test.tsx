@@ -2,9 +2,8 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import Form from './Form';
+import { Form } from './Form';
 
-// Test fields
 const fields = [
   {
     name: 'email',
@@ -71,29 +70,23 @@ describe('Form Component', () => {
     mockOnSubmit = vi.fn();
   });
 
-  // TEST 1: FIELD RENDERING
   describe('Field Rendering', () => {
     it('renders all field types correctly with proper labels and attributes', () => {
       render(<Form fields={fields} onSubmit={mockOnSubmit} />);
 
-      // Check text/email/password fields
       expect(screen.getByLabelText('Email')).toBeInTheDocument();
       expect(screen.getByLabelText('Password')).toBeInTheDocument();
       expect(screen.getByLabelText('Search with icon')).toBeInTheDocument();
 
-      // Check select field
       const selectField = screen.getByLabelText('Role');
       expect(selectField).toBeInTheDocument();
 
-      // Check radio group
       expect(screen.getByText('Gender')).toBeInTheDocument();
       expect(screen.getByLabelText('Male')).toBeInTheDocument();
       expect(screen.getByLabelText('Female')).toBeInTheDocument();
 
-      // Check checkbox
       expect(screen.getByLabelText('Accept Terms')).toBeInTheDocument();
 
-      // Check textarea
       const textarea = screen.getByLabelText('Bio');
       expect(textarea).toBeInTheDocument();
       expect(textarea.tagName).toBe('TEXTAREA');
@@ -108,9 +101,8 @@ describe('Form Component', () => {
       expect(searchInput).toBeInTheDocument();
       expect(searchInput).toHaveAttribute('placeholder', 'Search...');
 
-      // Check if icon is present (Material-UI adds SVG)
-      const svgIcon = document.querySelector('svg');
-      expect(svgIcon).toBeInTheDocument();
+      const icon = screen.getByTestId('search-icon');
+      expect(icon).toBeInTheDocument();
     });
 
     it('renders select field with options', () => {
@@ -119,10 +111,8 @@ describe('Form Component', () => {
       const select = screen.getByLabelText('Role');
       expect(select).toBeInTheDocument();
 
-      // Open select dropdown
       fireEvent.mouseDown(select);
 
-      // Check options
       expect(screen.getByText('Admin')).toBeInTheDocument();
       expect(screen.getByText('User')).toBeInTheDocument();
     });
@@ -146,7 +136,6 @@ describe('Form Component', () => {
     });
   });
 
-  // TEST 2: VALIDATION ERRORS
   describe('Validation Errors', () => {
     it('displays validation errors when submitting empty required fields', async () => {
       render(<Form fields={fields} onSubmit={mockOnSubmit} />);
@@ -168,7 +157,7 @@ describe('Form Component', () => {
 
       const emailInput = screen.getByLabelText('Email');
       await user.type(emailInput, 'invalid-email');
-      await user.tab(); // Trigger blur validation
+      await user.tab();
 
       await waitFor(() => {
         expect(screen.getByText('Invalid email')).toBeInTheDocument();
@@ -240,7 +229,6 @@ describe('Form Component', () => {
 
       const emailInput = screen.getByLabelText('Email');
 
-      // Trigger validation error
       await user.type(emailInput, 'invalid-email');
       await user.tab();
 
@@ -248,7 +236,6 @@ describe('Form Component', () => {
         expect(screen.getByText('Invalid email')).toBeInTheDocument();
       });
 
-      // Correct the error
       await user.clear(emailInput);
       await user.type(emailInput, 'valid@example.com');
       await user.tab();
@@ -259,19 +246,15 @@ describe('Form Component', () => {
     });
   });
 
-  // TEST 3: FORM SUBMIT
   describe('Form Submit', () => {
-    // TEST 4: FORM RESET
     describe('Form Reset', () => {
       it('resets radio group correctly', async () => {
         const user = userEvent.setup();
         render(<Form fields={[fields[4]]} onSubmit={mockOnSubmit} showResetButton={true} />);
 
-        // Select radio option
         await user.click(screen.getByLabelText('Male'));
         expect(screen.getByLabelText('Male')).toBeChecked();
 
-        // Reset
         const resetButton = screen.getByText('Reset');
         await user.click(resetButton);
 
@@ -285,12 +268,10 @@ describe('Form Component', () => {
         const user = userEvent.setup();
         render(<Form fields={[fields[5]]} onSubmit={mockOnSubmit} showResetButton={true} />);
 
-        // Check checkbox
         const checkbox = screen.getByLabelText('Accept Terms');
         await user.click(checkbox);
         expect(checkbox).toBeChecked();
 
-        // Reset
         const resetButton = screen.getByText('Reset');
         await user.click(resetButton);
 
@@ -307,7 +288,6 @@ describe('Form Component', () => {
         await user.type(textarea, 'Some bio text');
         expect(textarea).toHaveValue('Some bio text');
 
-        // Reset
         const resetButton = screen.getByText('Reset');
         await user.click(resetButton);
 
@@ -320,7 +300,6 @@ describe('Form Component', () => {
         const user = userEvent.setup();
         render(<Form fields={[fields[0]]} onSubmit={mockOnSubmit} showResetButton={true} />);
 
-        // Trigger validation error
         const submitButton = screen.getByText('Submit');
         await user.click(submitButton);
 
@@ -328,7 +307,6 @@ describe('Form Component', () => {
           expect(screen.getByText('Email is required')).toBeInTheDocument();
         });
 
-        // Reset form
         const resetButton = screen.getByText('Reset');
         await user.click(resetButton);
 
