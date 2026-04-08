@@ -1,4 +1,9 @@
-import { ARIA_ROLES, DEFAULT_GROUP_ID, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
+import {
+  ARIA_ROLES,
+  DEFAULT_GROUP_ID,
+  DROPDOWN_ITEM_TYPES,
+} from './DropdownMenu.constants';
+
 import type { DropdownGroup, DropdownItem } from './DropdownMenu.types';
 
 /**
@@ -31,7 +36,8 @@ export const normalizeGroups = (
  */
 export const isSubmenuItem = (item: DropdownItem): boolean => {
   return (
-    item.type === DROPDOWN_ITEM_TYPES.SUBMENU || Boolean(item.children && item.children.length > 0)
+    item.type === DROPDOWN_ITEM_TYPES.SUBMENU ||
+    Boolean(item.children && item.children.length > 0)
   );
 };
 
@@ -66,8 +72,11 @@ export const getMenuItemRole = (
  * Returns whether aria-checked should be set for the item.
  */
 export const getAriaChecked = (item: DropdownItem): boolean | undefined => {
-  if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX || item.type === DROPDOWN_ITEM_TYPES.RADIO) {
-    return Boolean(item.checked);
+  if (
+    item.type === DROPDOWN_ITEM_TYPES.CHECKBOX ||
+    item.type === DROPDOWN_ITEM_TYPES.RADIO
+  ) {
+    return !!item.checked;
   }
 
   return undefined;
@@ -77,7 +86,10 @@ export const getAriaChecked = (item: DropdownItem): boolean | undefined => {
  * Returns whether a radio or checkbox item is interactive as a selection item.
  */
 export const isSelectableItem = (item: DropdownItem): boolean => {
-  return item.type === DROPDOWN_ITEM_TYPES.CHECKBOX || item.type === DROPDOWN_ITEM_TYPES.RADIO;
+  return (
+    item.type === DROPDOWN_ITEM_TYPES.CHECKBOX ||
+    item.type === DROPDOWN_ITEM_TYPES.RADIO
+  );
 };
 
 const updateItemsRecursively = (
@@ -111,7 +123,7 @@ export const toggleCheckboxItemInGroups = (
       if (item.id === itemId && item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
         return {
           ...item,
-          checked: !Boolean(item.checked),
+          checked: !item.checked,
         };
       }
 
