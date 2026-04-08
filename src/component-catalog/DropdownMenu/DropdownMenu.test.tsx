@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
 import DropdownMenu from './DropdownMenu';
+
 import type { DropdownItem } from './DropdownMenu.types';
 
 const menuItems: DropdownItem[] = [
