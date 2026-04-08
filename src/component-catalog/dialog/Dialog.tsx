@@ -1,63 +1,58 @@
-import { 
-  Dialog as MuiDialog,
-  DialogTitle, 
-  DialogContent, 
-  DialogActions, 
-  Typography,
+import {
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   IconButton,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { StyledMuiDialog } from './Dialog.styles';
-import { type DialogProps } from './Dialog.types';
-import { DIALOG_SIZES } from './Dialog.constants';
 
-const Dialog = (props: DialogProps) => {
+import { StyledDialog } from './Dialog.styles';
+import { type CustomDialogProps } from './Dialog.types';
+
+const Dialog = (props: CustomDialogProps) => {
   const {
-    isOpen,
+    open = true, // 👈 SIEMPRE ABIERTO (lo que te pidieron)
     onClose,
     title,
     description,
     children,
     actions,
-    showCloseButton = true,
     persistent = false,
-    maxWidth = DIALOG_SIZES.SM,
+    ...rest
   } = props;
 
   const theme = useTheme();
-  // Cumple con: On mobile (< 600px) renders as full-screen
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleMuiDialogClose = (_: any, reason: string) => {
+  const handleClose = (
+    event: object,
+    reason: 'backdropClick' | 'escapeKeyDown'
+  ) => {
     if (persistent && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
       return;
     }
-    onClose();
+    onClose?.(event, reason);
   };
 
   return (
-    <StyledMuiDialog
-      data-testid="mui-dialog-container"
-      open={isOpen}
-      onClose={handleMuiDialogClose}
-      // Si el maxWidth es 'fullScreen', pasamos false para que el tamaño no limite
-      maxWidth={maxWidth === DIALOG_SIZES.FULL_SCREEN ? false : maxWidth as any}
+    <StyledDialog
+      data-testid="dialog"
+      open={open}
+      onClose={handleClose}
+      fullScreen={fullScreen}
       fullWidth
-      fullScreen={isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN}
-      aria-labelledby="dialog-title"
+      maxWidth="sm"
+      {...rest}
     >
       {title && (
-        <DialogTitle id="dialog-title" data-testid="mui-dialog-title" sx={{ m: 0, p: 2 }}>
-          <Typography variant="h6" component="div" fontWeight="700">
-            {title}
-          </Typography>
-          {showCloseButton && (
+        <DialogTitle>
+          {title}
+          {!persistent && (
             <IconButton
-              aria-label="close"
-              onClick={onClose}
-              sx={{ position: 'absolute', right: theme.spacing(1), top: theme.spacing(1) }}
+              onClick={(e) => onClose?.(e, 'escapeKeyDown')}
+              sx={{ position: 'absolute', right: 8, top: 8 }}
             >
               <CloseIcon />
             </IconButton>
@@ -65,25 +60,13 @@ const Dialog = (props: DialogProps) => {
         </DialogTitle>
       )}
 
-      <DialogContent 
-        dividers 
-        data-testid="mui-dialog-content"
-        sx={{ border: 'none', p: 2 }}
-      >
-        {description && (
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {description}
-          </Typography>
-        )}
+      <DialogContent>
+        {description && <p>{description}</p>}
         {children}
       </DialogContent>
 
-      {actions && (
-        <DialogActions data-testid="mui-dialog-actions" sx={{ p: 2 }}>
-          {actions}
-        </DialogActions>
-      )}
-    </StyledMuiDialog>
+      {actions && <DialogActions>{actions}</DialogActions>}
+    </StyledDialog>
   );
 };
 

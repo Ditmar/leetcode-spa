@@ -1,10 +1,20 @@
-import { styled, Dialog as MuiDialogBase } from '@mui/material';
+import { styled, Dialog } from '@mui/material';
 
-export const StyledMuiDialog = styled(MuiDialogBase)(({ theme }) => ({
+export const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialog-paper': {
-    // borderRadius: 16px -> 16 / 8 = 2. Usamos spacing(2)
-    borderRadius: theme.spacing(2),
-    padding: theme.spacing(1),
-    backgroundColor: '#fff',
+    borderRadius: '16px',
+    padding: theme.spacing(2),
+    width: '100%',
+    maxWidth: '400px',
+  },
+
+  '& .MuiDialogTitle-root': {
+    textAlign: 'center',
+    fontWeight: 600,
+  },
+
+  '& .MuiDialogContent-root': {
+    textAlign: 'center',
+    color: '#0d1016',
   },
 }));

@@ -1,14 +1,9 @@
-import type { ReactNode } from 'react'; // Obligatorio 'import type'
+import type { DialogProps } from '@mui/material';
+import type { ReactNode } from 'react';
 
-export interface DialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title?: ReactNode;
+export interface CustomDialogProps extends DialogProps {
+  title?: string;
   description?: string;
-  children?: ReactNode;
   actions?: ReactNode;
-  showCloseButton?: boolean;
   persistent?: boolean;
-  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'fullScreen' | false;
-  fullScreen?: boolean;
 }
