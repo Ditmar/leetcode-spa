@@ -83,8 +83,10 @@ describe('HoverCard — desktop hover', () => {
     fireEvent.mouseLeave(getTrigger());
     act(() => vi.advanceTimersByTime(DEFAULT_CLOSE_DELAY));
 
-    expect(screen.queryByText('Card content')).toBeNull();});
-    it('cancels a scheduled close when the trigger is re-entered', async () => {
+    expect(screen.queryByText('Card content')).toBeNull();
+  });
+
+  it('cancels a scheduled close when the trigger is re-entered', async () => {
     renderCard({ openDelay: 0, closeDelay: 500 });
 
     fireEvent.mouseEnter(getTrigger());
@@ -185,7 +187,7 @@ describe('HoverCard — controlled mode', () => {
     const { rerender } = render(
       <HoverCard
         open={false}
-        onClose={() => {}}
+        onClose={() => { }}
         trigger={<button type="button">Hover Card</button>}
       >
         <p>Card content</p>
@@ -195,7 +197,7 @@ describe('HoverCard — controlled mode', () => {
     expect(screen.queryByText('Card content')).toBeNull();
 
     rerender(
-      <HoverCard open={true} onClose={() => {}} trigger={<button type="button">Hover Card</button>}>
+      <HoverCard open={true} onClose={() => { }} trigger={<button type="button">Hover Card</button>}>
         <p>Card content</p>
       </HoverCard>
     );
