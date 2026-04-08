@@ -1,15 +1,13 @@
-
-
-import DropdownMenu from './DropdownMenu';
-import type { DropdownItem } from './DropdownMenu.types';
-import type { Meta, StoryObj } from '@storybook/react';
-
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ShareIcon from '@mui/icons-material/Share';
 import { Box, Button, Stack } from '@mui/material';
+import type { Meta, StoryObj } from '@storybook/react';
+
+import DropdownMenu from './DropdownMenu';
+import type { DropdownItem } from './DropdownMenu.types';
 
 const menuItems: DropdownItem[] = [
   {

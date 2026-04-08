@@ -1,5 +1,7 @@
-import { cloneElement, isValidElement, useEffect, useId, useMemo, useState } from 'react';
-import type { ReactElement } from 'react';
+import CheckIcon from '@mui/icons-material/Check';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import {
   Box,
   Divider,
@@ -9,10 +11,15 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import {
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useId,
+  useMemo,
+  useState,
+} from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
 import { ARIA_ROLES, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
 import useDropdownMenu from './DropdownMenu.hook';
@@ -28,7 +35,11 @@ import {
   dropdownShortcutSx,
   dropdownSubmenuPaperSx,
 } from './DropdownMenu.styles';
-import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
+import type {
+  DropdownGroup,
+  DropdownItem,
+  DropdownMenuProps,
+} from './DropdownMenu.types';
 import {
   getAriaChecked,
   getMenuItemRole,
@@ -76,6 +87,14 @@ const renderLeadingVisual = (
   return item.icon ?? indicator ?? <Box sx={dropdownPlaceholderIconSx} />;
 };
 
+type TriggerElementProps = {
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  disabled?: boolean;
+  'aria-haspopup'?: string;
+  'aria-expanded'?: 'true' | 'false';
+  'aria-controls'?: string;
+};
+
 const DropdownMenu = ({
   trigger,
   groups,
@@ -85,9 +104,14 @@ const DropdownMenu = ({
   mobileFullWidth = false,
 }: DropdownMenuProps) => {
   const menuId = useId();
-  const normalizedGroups = useMemo(() => normalizeGroups(groups, items), [groups, items]);
+  const normalizedGroups = useMemo(
+    () => normalizeGroups(groups, items),
+    [groups, items]
+  );
 
-  const [menuGroups, setMenuGroups] = useState<DropdownGroup[]>(normalizedGroups);
+  const [menuGroups, setMenuGroups] = useState<DropdownGroup[]>(
+    normalizedGroups
+  );
 
   useEffect(() => {
     setMenuGroups(normalizedGroups);
@@ -112,17 +136,24 @@ const DropdownMenu = ({
     if (isSubmenuItem(item)) return;
 
     if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
-      setMenuGroups((prevGroups) => toggleCheckboxItemInGroups(prevGroups, item.id));
+      setMenuGroups((prevGroups) =>
+        toggleCheckboxItemInGroups(prevGroups, item.id)
+      );
     }
 
     if (item.type === DROPDOWN_ITEM_TYPES.RADIO) {
-      setMenuGroups((prevGroups) => selectRadioItemInGroups(prevGroups, item.id, item.name));
+      setMenuGroups((prevGroups) =>
+        selectRadioItemInGroups(prevGroups, item.id, item.name)
+      );
     }
 
     item.onClick?.();
     onItemSelect?.(item);
 
-    if (item.type !== DROPDOWN_ITEM_TYPES.CHECKBOX && item.type !== DROPDOWN_ITEM_TYPES.RADIO) {
+    if (
+      item.type !== DROPDOWN_ITEM_TYPES.CHECKBOX &&
+      item.type !== DROPDOWN_ITEM_TYPES.RADIO
+    ) {
       handleCloseMenu();
     }
   };
@@ -131,30 +162,38 @@ const DropdownMenu = ({
     if (item.disabled) return;
 
     if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
-      setMenuGroups((prevGroups) => toggleCheckboxItemInGroups(prevGroups, item.id));
+      setMenuGroups((prevGroups) =>
+        toggleCheckboxItemInGroups(prevGroups, item.id)
+      );
     }
 
     if (item.type === DROPDOWN_ITEM_TYPES.RADIO) {
-      setMenuGroups((prevGroups) => selectRadioItemInGroups(prevGroups, item.id, item.name));
+      setMenuGroups((prevGroups) =>
+        selectRadioItemInGroups(prevGroups, item.id, item.name)
+      );
     }
 
     item.onClick?.();
     onItemSelect?.(item);
 
-    if (item.type !== DROPDOWN_ITEM_TYPES.CHECKBOX && item.type !== DROPDOWN_ITEM_TYPES.RADIO) {
+    if (
+      item.type !== DROPDOWN_ITEM_TYPES.CHECKBOX &&
+      item.type !== DROPDOWN_ITEM_TYPES.RADIO
+    ) {
       handleCloseMenu();
     }
   };
 
-  const enhancedTrigger = isValidElement(trigger)
-    ? cloneElement(trigger as ReactElement<any>, {
-        onClick: handleOpenMenu,
-        'aria-haspopup': ARIA_ROLES.MENU,
-        'aria-expanded': open ? 'true' : 'false',
-        'aria-controls': open ? menuId : undefined,
-        disabled,
-      })
-    : trigger;
+  const enhancedTrigger =
+    isValidElement<TriggerElementProps>(trigger)
+      ? cloneElement(trigger as ReactElement<TriggerElementProps>, {
+          onClick: handleOpenMenu,
+          'aria-haspopup': ARIA_ROLES.MENU,
+          'aria-expanded': open ? 'true' : 'false',
+          'aria-controls': open ? menuId : undefined,
+          disabled,
+        })
+      : trigger;
 
   const submenuAnchorOrigin =
     submenuDirection === 'left'
@@ -168,7 +207,7 @@ const DropdownMenu = ({
 
   return (
     <>
-      {enhancedTrigger}
+      {enhancedTrigger as ReactNode}
 
       <Menu
         id={menuId}
@@ -223,7 +262,11 @@ const DropdownMenu = ({
                   aria-checked={getAriaChecked(item)}
                   aria-haspopup={submenuItem ? ARIA_ROLES.MENU : undefined}
                   aria-expanded={
-                    submenuItem ? (activeSubmenuParentId === item.id ? 'true' : 'false') : undefined
+                    submenuItem
+                      ? activeSubmenuParentId === item.id
+                        ? 'true'
+                        : 'false'
+                      : undefined
                   }
                   sx={dropdownMenuItemSx}
                 >
@@ -254,7 +297,9 @@ const DropdownMenu = ({
               );
             })}
 
-            {groupIndex < menuGroups.length - 1 && <Divider sx={dropdownDividerSx} />}
+            {groupIndex < menuGroups.length - 1 && (
+              <Divider sx={dropdownDividerSx} />
+            )}
           </Box>
         ))}
       </Menu>
