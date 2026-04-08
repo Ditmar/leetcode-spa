@@ -3,13 +3,12 @@ import {
   DialogContent, 
   DialogActions, 
   Typography,
-  IconButton,
-  useMediaQuery,
-  useTheme
+  IconButton
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { StyledMuiDialog } from './Dialog.styles';
 import { type DialogProps } from './Dialog.types';
+import { DIALOG_SIZES } from './Dialog.constants'; // Ajuste 1
 
 const Dialog = (props: DialogProps) => {
   const {
@@ -21,16 +20,11 @@ const Dialog = (props: DialogProps) => {
     actions,
     showCloseButton = true,
     persistent = false,
-    maxWidth = 'sm',
+    maxWidth = DIALOG_SIZES.SM, // Ajuste 2
     fullScreen = false,
   } = props;
 
-  // Hook para detectar si la pantalla es menor a 600px (sm)
-  const theme = useTheme();
-  
-
   const handleMuiDialogClose = (_: any, reason: string) => {
-    // Si es persistente, no cerramos por click afuera ni por la tecla Escape
     if (persistent && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
       return;
     }
@@ -42,9 +36,9 @@ const Dialog = (props: DialogProps) => {
       data-testid="mui-dialog-container"
       open={isOpen}
       onClose={handleMuiDialogClose}
-      maxWidth={maxWidth}
+      maxWidth={maxWidth === 'fullScreen' ? false : maxWidth as any} 
       fullWidth
-      fullScreen={false}
+      fullScreen={fullScreen} 
     >
       {title && (
         <DialogTitle data-testid="mui-dialog-title" sx={{ m: 0, p: 2 }}>

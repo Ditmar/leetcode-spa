@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from 'react'; // Añade la palabra 'type'
 
 export interface DialogProps {
   isOpen: boolean;
@@ -9,6 +9,7 @@ export interface DialogProps {
   actions?: ReactNode;
   showCloseButton?: boolean;
   persistent?: boolean;
-  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  // Actualiza esta línea para incluir 'fullScreen' como opción de texto
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'fullScreen' | false; 
   fullScreen?: boolean;
 }
