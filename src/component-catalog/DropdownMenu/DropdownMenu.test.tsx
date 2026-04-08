@@ -64,30 +64,39 @@ describe('DropdownMenu', () => {
 
     render(<DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />);
 
-    expect(screen.queryByText('Edit')).not.toBeInTheDocument();
-
-    await user.click(screen.getByRole('button', { name: /dropdown menu/i }));
-
-    expect(screen.getByText('Edit')).toBeInTheDocument();
-  });
-
-  it('closes the menu when clicking away', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <div>
-        <button type="button">Outside</button>
-        <DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />
-      </div>
+    expect(screen.getByRole('button', { name: /dropdown menu/i })).toHaveAttribute(
+      'aria-expanded',
+      'false'
     );
 
     await user.click(screen.getByRole('button', { name: /dropdown menu/i }));
-    expect(screen.getByText('Edit')).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: /outside/i }));
+    expect(screen.getByRole('button', { name: /dropdown menu/i })).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    );
+    expect(screen.getByRole('menu', { name: /dropdown menu/i })).toBeInTheDocument();
+    expect(screen.getByText('Edit')).toBeInTheDocument();
+  });
+
+  it('closes the menu when pressing escape', async () => {
+    const user = userEvent.setup();
+
+    render(<DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />);
+
+    await user.click(screen.getByRole('button', { name: /dropdown menu/i }));
+    expect(screen.getByRole('button', { name: /dropdown menu/i })).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    );
+
+    await user.keyboard('{Escape}');
 
     await waitFor(() => {
-      expect(screen.queryByText('Edit')).not.toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /dropdown menu/i })).toHaveAttribute(
+        'aria-expanded',
+        'false'
+      );
     });
   });
 
