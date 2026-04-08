@@ -2,24 +2,20 @@ import CheckIcon from '@mui/icons-material/Check';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import { Box, Divider, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
-
+import {
+  Box,
+  Divider,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Typography,
+} from '@mui/material';
 import { cloneElement, isValidElement, useEffect, useId, useMemo, useState } from 'react';
 
+import type { ReactElement, ReactNode } from 'react';
 import { ARIA_ROLES, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
 import useDropdownMenu from './DropdownMenu.hook';
-import {
-  getAriaChecked,
-  getMenuItemRole,
-  isSelectableItem,
-  isSeparatorItem,
-  isSubmenuItem,
-  normalizeGroups,
-  selectRadioItemInGroups,
-  toggleCheckboxItemInGroups,
-} from './DropdownMenu.utils';
-
-import type { ReactElement, ReactNode } from 'react';
 import {
   dropdownDividerSx,
   dropdownIndicatorSx,
@@ -33,6 +29,16 @@ import {
   dropdownSubmenuPaperSx,
 } from './DropdownMenu.styles';
 import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
+import {
+  getAriaChecked,
+  getMenuItemRole,
+  isSelectableItem,
+  isSeparatorItem,
+  isSubmenuItem,
+  normalizeGroups,
+  selectRadioItemInGroups,
+  toggleCheckboxItemInGroups,
+} from './DropdownMenu.utils';
 
 const renderItemIndicator = (item: DropdownItem) => {
   if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
@@ -88,7 +94,6 @@ const DropdownMenu = ({
 }: DropdownMenuProps) => {
   const menuId = useId();
   const normalizedGroups = useMemo(() => normalizeGroups(groups, items), [groups, items]);
-
   const [menuGroups, setMenuGroups] = useState<DropdownGroup[]>(normalizedGroups);
 
   useEffect(() => {
@@ -224,7 +229,9 @@ const DropdownMenu = ({
                   role={getMenuItemRole(item)}
                   aria-checked={getAriaChecked(item)}
                   aria-haspopup={submenuItem ? ARIA_ROLES.MENU : undefined}
-                  aria-expanded={submenuItem ? (activeSubmenuParentId === item.id ? 'true' : 'false') : undefined}
+                  aria-expanded={
+                    submenuItem ? (activeSubmenuParentId === item.id ? 'true' : 'false') : undefined
+                  }
                   sx={dropdownMenuItemSx}
                 >
                   <ListItemIcon sx={dropdownListItemIconSx}>

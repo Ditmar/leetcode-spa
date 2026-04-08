@@ -1,7 +1,6 @@
 import type { DropdownItemType } from './DropdownMenu.constants';
 import type { ReactNode } from 'react';
 
-
 export interface DropdownItem {
   id: string;
   label?: string;
@@ -15,13 +14,11 @@ export interface DropdownItem {
   children?: DropdownItem[];
 }
 
-
 export interface DropdownGroup {
   id: string;
   label?: string;
   items: DropdownItem[];
 }
-
 
 export interface DropdownMenuProps {
   trigger: ReactNode;

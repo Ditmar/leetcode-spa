@@ -1,7 +1,6 @@
-
+import { useState, type MouseEvent as ReactMouseEvent } from 'react';
 
 import type { DropdownItem } from './DropdownMenu.types';
-import { useState, type MouseEvent as ReactMouseEvent } from 'react';
 
 type SubmenuDirection = 'right' | 'left';
 
@@ -51,8 +50,7 @@ export const useDropdownMenu = (disabled = false): UseDropdownMenuReturn => {
     const triggerRect = event.currentTarget.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const availableRightSpace = viewportWidth - triggerRect.right;
-    const shouldOpenLeft =
-      availableRightSpace < SUBMENU_ESTIMATED_WIDTH + VIEWPORT_SAFE_MARGIN;
+    const shouldOpenLeft = availableRightSpace < SUBMENU_ESTIMATED_WIDTH + VIEWPORT_SAFE_MARGIN;
 
     setSubmenuDirection(shouldOpenLeft ? 'left' : 'right');
     setSubmenuAnchorEl(event.currentTarget);
