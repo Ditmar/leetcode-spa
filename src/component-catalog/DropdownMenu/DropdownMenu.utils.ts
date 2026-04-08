@@ -1,6 +1,12 @@
 import { ARIA_ROLES, DEFAULT_GROUP_ID, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
+
 import type { DropdownGroup, DropdownItem } from './DropdownMenu.types';
 
+/**
+ * Normalizes menu data so the component can always render groups.
+ * If groups are provided, they are returned as-is.
+ * If flat items are provided, they are wrapped in a default group.
+ */
 export const normalizeGroups = (
   groups?: DropdownGroup[],
   items?: DropdownItem[]
@@ -21,16 +27,25 @@ export const normalizeGroups = (
   return [];
 };
 
+/**
+ * Checks whether an item should open a nested submenu.
+ */
 export const isSubmenuItem = (item: DropdownItem): boolean => {
   return (
     item.type === DROPDOWN_ITEM_TYPES.SUBMENU || Boolean(item.children && item.children.length > 0)
   );
 };
 
+/**
+ * Checks whether an item is a separator.
+ */
 export const isSeparatorItem = (item: DropdownItem): boolean => {
   return item.type === DROPDOWN_ITEM_TYPES.SEPARATOR;
 };
 
+/**
+ * Returns the correct ARIA role based on item type.
+ */
 export const getMenuItemRole = (
   item: DropdownItem
 ):
@@ -48,6 +63,9 @@ export const getMenuItemRole = (
   return ARIA_ROLES.MENU_ITEM;
 };
 
+/**
+ * Returns whether aria-checked should be set for the item.
+ */
 export const getAriaChecked = (item: DropdownItem): boolean | undefined => {
   if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX || item.type === DROPDOWN_ITEM_TYPES.RADIO) {
     return !!item.checked;
@@ -56,6 +74,9 @@ export const getAriaChecked = (item: DropdownItem): boolean | undefined => {
   return undefined;
 };
 
+/**
+ * Returns whether a radio or checkbox item is interactive as a selection item.
+ */
 export const isSelectableItem = (item: DropdownItem): boolean => {
   return item.type === DROPDOWN_ITEM_TYPES.CHECKBOX || item.type === DROPDOWN_ITEM_TYPES.RADIO;
 };
@@ -78,6 +99,9 @@ const updateItemsRecursively = (
   });
 };
 
+/**
+ * Toggles a checkbox item by id.
+ */
 export const toggleCheckboxItemInGroups = (
   groups: DropdownGroup[],
   itemId: string
@@ -97,6 +121,9 @@ export const toggleCheckboxItemInGroups = (
   }));
 };
 
+/**
+ * Selects one radio item and unselects the others in the same radio group.
+ */
 export const selectRadioItemInGroups = (
   groups: DropdownGroup[],
   itemId: string,
