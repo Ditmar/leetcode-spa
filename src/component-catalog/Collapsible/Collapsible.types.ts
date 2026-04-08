@@ -4,7 +4,7 @@ export interface CollapsibleProps {
   title?: string;
   headerSlot?: ReactNode;
   children: ReactNode;
-  open?: boolean; 
+  open?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
   defaultOpen?: boolean;
 }

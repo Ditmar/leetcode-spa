@@ -1,8 +1,8 @@
+import { Box, Stack, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Stack, Button, Typography } from '@mui/material';
 
 export const StyledCard = styled(Box)(({ theme }) => ({
-  borderRadius: '14px', 
+  borderRadius: '14px',
   backgroundColor: theme.palette.common.white,
   border: `1.2px solid ${theme.palette.divider}`,
   padding: theme.spacing(3),
@@ -17,11 +17,11 @@ export const Header = styled(Stack)(({ theme }) => ({
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'space-between',
-  minHeight: theme.spacing(5.5), 
+  minHeight: theme.spacing(5.5),
 }));
 
 export const BlackButton = styled(Button)(({ theme }) => ({
-  background: '#030213', 
+  background: '#030213',
   color: '#fff',
   minWidth: theme.spacing(4.5),
   height: theme.spacing(4),
