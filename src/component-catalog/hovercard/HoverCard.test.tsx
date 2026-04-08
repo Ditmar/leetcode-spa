@@ -85,7 +85,6 @@ describe('HoverCard — desktop hover', () => {
 
     expect(screen.queryByText('Card content')).toBeNull();
   });
-
   it('cancels a scheduled close when the trigger is re-entered', async () => {
     renderCard({ openDelay: 0, closeDelay: 500 });
 
@@ -187,7 +186,7 @@ describe('HoverCard — controlled mode', () => {
     const { rerender } = render(
       <HoverCard
         open={false}
-        onClose={() => {}}
+        onClose={() => { }}
         trigger={<button type="button">Hover Card</button>}
       >
         <p>Card content</p>
@@ -197,7 +196,7 @@ describe('HoverCard — controlled mode', () => {
     expect(screen.queryByText('Card content')).toBeNull();
 
     rerender(
-      <HoverCard open={true} onClose={() => {}} trigger={<button type="button">Hover Card</button>}>
+      <HoverCard open={true} onClose={() => { }} trigger={<button type="button">Hover Card</button>}>
         <p>Card content</p>
       </HoverCard>
     );
