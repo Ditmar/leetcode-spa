@@ -84,7 +84,6 @@ describe('HoverCard — desktop hover', () => {
     act(() => vi.advanceTimersByTime(DEFAULT_CLOSE_DELAY));
 
     expect(screen.queryByText('Card content')).toBeNull();
-    
   });
 
   it('cancels a scheduled close when the trigger is re-entered', async () => {
