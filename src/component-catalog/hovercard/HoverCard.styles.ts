@@ -49,6 +49,5 @@ export const DemoTriggerContainer = styled(Box)(({ theme }) => ({
   display: 'inline-flex',
   flexDirection: 'column',
   gap: theme.spacing(1.5),
-  // Subtle border visible on the grey background
   border: `1px solid ${theme.palette.divider}`,
 }));

@@ -139,12 +139,10 @@ describe('HoverCard — configurable delays', () => {
   it('respects a custom closeDelay of 600 ms', () => {
     renderCard({ openDelay: 0, closeDelay: 600 });
 
-    // Abrir
     fireEvent.mouseEnter(getTrigger());
     act(() => vi.advanceTimersByTime(0));
     expect(screen.getByText('Hover Card')).toBeVisible();
 
-    // Cerrar
     fireEvent.mouseLeave(getTrigger());
 
     act(() => vi.advanceTimersByTime(599));
