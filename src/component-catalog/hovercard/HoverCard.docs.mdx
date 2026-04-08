@@ -1,0 +1,100 @@
+import { Meta, Story, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './HoverCard.stories';
+
+<Meta of={Stories} />
+
+# HoverCard Component
+
+The **HoverCard** component displays a rich floating preview card anchored to a
+trigger element. It implements the **'Tooltips & Hover Cards'** pattern from the
+Figma design system and follows **Component-Driven Development (CDD)** principles
+using MUI primitives (`Popper`, `Paper`, `Fade`, `ClickAwayListener`).
+
+---
+
+## Features
+
+- Built with `@mui/material/Popper` and `Paper`
+- Opens on `mouseenter` / `focus` (desktop) and `click` (touch devices)
+- Configurable open and close delay (default: 200 ms / 300 ms)
+- Viewport-clamped via `@popperjs/core` modifiers
+- Smooth `Fade` transition on open/close
+- `ClickAwayListener` closes the card on outside click/tap
+- Fully responsive — fluid width at 320 px and 375 px, capped at `maxWidth` on wider screens
+- Figma-faithful ghost trigger button (`HoverTriggerButton`) included
+
+---
+
+## Default
+
+Matches the Figma 'Tooltips & Hover Cards' screen exactly.
+
+<Canvas>
+  <Story of={Stories.Default} />
+</Canvas>
+
+---
+
+## No Delay
+
+<Canvas>
+  <Story of={Stories.NoDelay} />
+</Canvas>
+
+---
+
+## Disabled
+
+<Canvas>
+  <Story of={Stories.Disabled} />
+</Canvas>
+
+---
+
+## Props
+
+<Controls />
+
+---
+
+## Interaction model
+
+| Device | Open gesture | Close gesture |
+|---|---|---|
+| Desktop / mouse | `mouseenter` or keyboard `focus` | `mouseleave`, `blur`, or click outside |
+
+---
+
+## Responsive behaviour
+
+| Viewport | Card behaviour |
+|---|---|
+| 320 px | Fluid: `calc(100vw - theme.spacing(4))` |
+| 375 px | Fluid (same rule) |
+| 768 px | Capped at `maxWidth` (default 320 px) |
+| 1024 px | Capped at `maxWidth` (default 320 px) |
+
+---
+
+## Accessibility
+
+- The card carries `role='tooltip'` for screen-reader compatibility.
+- Keyboard users can open via `Tab` (focus) and close by navigating away.
+- Passes axe / WCAG 2.1 AA checks.
+- `HoverTriggerButton` includes a `:focus-visible` outline using `theme.palette.primary.main`.
+
+---
+
+## File structure
+
+```
+src/component-catalog/HoverCard/
+├── HoverCard.tsx            Main component
+├── HoverCard.types.ts       TypeScript interfaces
+├── HoverCard.constants.ts   Delay and transition constants
+├── HoverCard.hook.ts        Open/close state with delay management
+├── HoverCard.styles.ts      MUI styled() — HoverCardPaper, HoverTriggerButton, HoverCardDemoContainer
+├── HoverCard.test.tsx       Vitest / Testing Library unit tests
+├── HoverCard.stories.tsx    Storybook CSF stories
+└── HoverCard.docs.mdx       This file
+```

@@ -1,45 +1,30 @@
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Fade from "@mui/material/Fade";
-import Popper from "@mui/material/Popper";
-import { cloneElement, isValidElement, type FC } from "react";
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Fade from '@mui/material/Fade';
+import Popper from '@mui/material/Popper';
+import { cloneElement, isValidElement, type FC } from 'react';
 
 import {
   CARD_OFFSET,
-  DEFAULT_CLOSE_DELAY,
-  DEFAULT_OPEN_DELAY,
   DEFAULT_PLACEMENT,
   TRANSITION_DURATION,
   VIEWPORT_PADDING,
-} from "./HoverCard.constants";
-import { useHoverCard } from "./HoverCard.hook";
-import { HoverCardPaper, TriggerWrapper } from "./HoverCard.styles";
-import type { HoverCardProps } from "./HoverCard.types";
-import { buildPopperModifiers } from "./HoverCard.utils";
+} from './HoverCard.constants';
+import { useHoverCard } from './HoverCard.hook';
+import { HoverCardPaper, TriggerWrapper } from './HoverCard.styles';
+import { buildPopperModifiers } from './HoverCard.utils';
+
+import type { HoverCardProps } from './HoverCard.types';
 
 /**
- * HoverCard
- *
- * Displays a rich floating preview card anchored to a trigger element.
- * Matches the Figma "Tooltips & Hover Cards" design spec.
- *
- * Desktop / mouse  → opens on mouseenter / focus; closes on mouseleave / blur
- * Touch / mobile   → opens on tap (click); closes on second tap or tap outside
- *
+ 
  * @example
- * ```tsx
- * <HoverCard trigger={<Button variant="outlined">Hover for Card</Button>}>
- *   <Typography variant="subtitle2">Jane Doe</Typography>
- *   <Typography variant="body2" color="text.secondary">
- *     Senior Product Designer
- *   </Typography>
- * </HoverCard>
- * ```
+ 
  */
 export const HoverCard: FC<HoverCardProps> = ({
   trigger,
   children,
-  openDelay = DEFAULT_OPEN_DELAY,
-  closeDelay = DEFAULT_CLOSE_DELAY,
+  openDelay = 100,
+  closeDelay = 100,
   PaperProps,
   maxWidth = 280,
   placement = DEFAULT_PLACEMENT,
@@ -60,8 +45,6 @@ export const HoverCard: FC<HoverCardProps> = ({
 
   const modifiers = buildPopperModifiers(VIEWPORT_PADDING, [0, CARD_OFFSET]);
 
-  // Prefer cloneElement to keep the trigger's original DOM node and ref.
-  // Fall back to a span wrapper for plain strings / numbers / fragments.
   const triggerElement = isValidElement(trigger) ? (
     cloneElement(trigger as React.ReactElement<Record<string, unknown>>, {
       ref: anchorRef,
@@ -88,16 +71,12 @@ export const HoverCard: FC<HoverCardProps> = ({
       >
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={TRANSITION_DURATION}>
-            {/*
-             * Wrapping div is required: Fade needs a single child that
-             * accepts a ref. ClickAwayListener must be inside so that a
-             * trigger click does not immediately fire a click-away event.
-             */}
+            {}
             <div>
               <ClickAwayListener onClickAway={close}>
                 <HoverCardPaper
                   elevation={4}
-                  role="tooltip"
+                  role='tooltip'
                   {...PaperProps}
                   sx={{
                     maxWidth,
@@ -115,6 +94,6 @@ export const HoverCard: FC<HoverCardProps> = ({
   );
 };
 
-HoverCard.displayName = "HoverCard";
+HoverCard.displayName = 'HoverCard';
 
 export default HoverCard;

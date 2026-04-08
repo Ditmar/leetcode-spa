@@ -1,52 +1,26 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { DEFAULT_CLOSE_DELAY, DEFAULT_OPEN_DELAY } from "./HoverCard.constants";
-import type { TriggerEventHandlers, UseHoverCardReturn } from "./HoverCard.types";
+//import { DEFAULT_CLOSE_DELAY, DEFAULT_OPEN_DELAY } from './HoverCard.constants';
 
-// ---------------------------------------------------------------------------
-// Touch detection
-// ---------------------------------------------------------------------------
+import type { TriggerEventHandlers, UseHoverCardReturn } from './HoverCard.types';
 
-/**
- * Returns true when the primary input device is a touch screen.
- * Uses ontouchstart and navigator.maxTouchPoints as specified in the task.
- * Falls back to false in SSR environments.
- */
 function detectTouchDevice(): boolean {
-  if (typeof window === "undefined") return false;
-  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  if (typeof window === 'undefined') return false;
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 }
-
-// ---------------------------------------------------------------------------
-// Hook options
-// ---------------------------------------------------------------------------
 
 export interface UseHoverCardOptions {
   openDelay?: number;
   closeDelay?: number;
-  /** Pass the open prop value here when using the component in controlled mode. */
   controlledOpen?: boolean;
   onOpen?: () => void;
   onClose?: () => void;
   disabled?: boolean;
 }
 
-// ---------------------------------------------------------------------------
-// Hook
-// ---------------------------------------------------------------------------
-
-/**
- * Manages open/close state for the HoverCard with configurable enter/leave
- * delays.
- *
- * Desktop (non-touch): opens on mouseenter/focus, closes on mouseleave/blur.
- * Touch devices: opens on click (tap), ClickAwayListener handles outside tap.
- *
- * Supports both uncontrolled and controlled modes.
- */
 export const useHoverCard = ({
-  openDelay = DEFAULT_OPEN_DELAY,
-  closeDelay = DEFAULT_CLOSE_DELAY,
+  openDelay = 100,
+  closeDelay = 100,
   controlledOpen,
   onOpen,
   onClose,
@@ -61,10 +35,6 @@ export const useHoverCard = ({
   const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isTouchRef = useRef(detectTouchDevice());
-
-  // -------------------------------------------------------------------------
-  // Timer helpers
-  // -------------------------------------------------------------------------
 
   const clearTimers = useCallback(() => {
     if (openTimerRef.current !== null) {
@@ -102,10 +72,6 @@ export const useHoverCard = ({
   }, [clearTimers, closeCard, closeDelay]);
 
   useEffect(() => () => clearTimers(), [clearTimers]);
-
-  // -------------------------------------------------------------------------
-  // Event handlers
-  // -------------------------------------------------------------------------
 
   const triggerProps: TriggerEventHandlers = {
     onMouseEnter: () => {
