@@ -1,0 +1,55 @@
+import React from 'react';
+import { Tooltip, IconButton } from '@mui/material';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import type { LabelProps } from './Label.types';
+import { StyledInputLabel, OptionalText, LabelWrapper } from './Label.styles';
+import { LABEL_SIZES } from './Label.constants';
+import { useLabel } from './Label.hook';
+
+export function Label({
+    children, required, optional, tooltip, error, disabled, htmlFor, ...props
+}: LabelProps) {
+    const { showOptional, accessibilityProps, labels } = useLabel({
+        required,
+        optional,
+        htmlFor,
+        tooltip,
+        error,
+        disabled,
+    });
+
+    return (
+        <StyledInputLabel
+            {...props}
+            {...accessibilityProps}
+            htmlFor={htmlFor}
+            required={required}
+            error={error}
+            disabled={disabled}
+            shrink={false}
+        >
+            <LabelWrapper>
+                {children}
+
+                {showOptional && (
+                    <OptionalText aria-hidden="true">
+                        {labels.optionalIndicator}
+                    </OptionalText>
+                )}
+
+                {tooltip && (
+                    <Tooltip title={tooltip} arrow placement="top">
+                        <IconButton
+                            size="small"
+                            sx={{ ml: 0.5, p: 0.25 }}
+                            aria-label={labels.helpAction}
+                            disabled={disabled} // El tooltip icon también debe reflejar el estado
+                        >
+                            <HelpOutlineIcon sx={{ fontSize: LABEL_SIZES.TOOLTIP_ICON_FONT_SIZE }} />
+                        </IconButton>
+                    </Tooltip>
+                )}
+            </LabelWrapper>
+        </StyledInputLabel>
+    );
+}

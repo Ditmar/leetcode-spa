@@ -1,0 +1,24 @@
+# Label Component
+
+The `Label` component is a wrapper around MUI's `InputLabel`, enhanced with accessibility features and built-in support for required/optional indicators.
+
+## Features
+- **Responsive**: Text wraps correctly on mobile devices and supports 200% font scaling.
+- **Accessible**: Automatically manages `aria-required` and `htmlFor` associations.
+- **Contextual**: Integrated Tooltip support for extra guidance.
+
+## Props
+| Prop | Type | Description |
+| :--- | :--- | :--- |
+| `children` | `ReactNode` | The label text. |
+| `required` | `boolean` | Adds a red asterisk and ARIA required attribute. |
+| `optional` | `boolean` | Adds an "(optional)" suffix. |
+| `tooltip` | `string` | Adds a help icon with a tooltip message. |
+| `error` | `boolean` | Colors the label with the theme's error palette. |
+
+## Usage
+```tsx
+<Label htmlFor="email" required tooltip="We'll never share your email">
+  Email Address
+</Label>
+<input id="email" type="email" />
