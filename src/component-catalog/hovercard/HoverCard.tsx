@@ -76,7 +76,7 @@ export const HoverCard: FC<HoverCardProps> = ({
               <ClickAwayListener onClickAway={close}>
                 <HoverCardPaper
                   elevation={4}
-                  role='tooltip'
+                  role="tooltip"
                   {...PaperProps}
                   sx={{
                     maxWidth,

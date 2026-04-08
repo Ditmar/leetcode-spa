@@ -8,7 +8,7 @@ import { DEFAULT_CLOSE_DELAY, DEFAULT_OPEN_DELAY } from './HoverCard.constants';
 function renderCard(props?: Partial<React.ComponentProps<typeof HoverCard>>) {
   return render(
     <HoverCard
-      trigger={<button type='button'>Hover Card</button>} // ← Cambiado
+      trigger={<button type="button">Hover Card</button>} // ← Cambiado
       {...props}
     >
       <p>Card content</p>
@@ -211,7 +211,7 @@ describe('HoverCard — controlled mode', () => {
       <HoverCard
         open={false}
         onClose={() => {}}
-        trigger={<button type='button'>Hover Card</button>}
+        trigger={<button type="button">Hover Card</button>}
       >
         <p>Card content</p>
       </HoverCard>
@@ -221,7 +221,7 @@ describe('HoverCard — controlled mode', () => {
     expect(screen.queryByText('Card content')).toBeNull();
 
     rerender(
-      <HoverCard open={true} onClose={() => {}} trigger={<button type='button'>Hover Card</button>}>
+      <HoverCard open={true} onClose={() => {}} trigger={<button type="button">Hover Card</button>}>
         <p>Card content</p>
       </HoverCard>
     );

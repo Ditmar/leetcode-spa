@@ -17,12 +17,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 function UserCard() {
   return (
     <Stack spacing={1.5} sx={{ minWidth: 220 }}>
-      <Stack direction='row' spacing={1.5} alignItems='center'>
+      <Stack direction="row" spacing={1.5} alignItems="center">
         <Box>
-          <Typography variant='subtitle2' fontWeight={700}>
+          <Typography variant="subtitle2" fontWeight={700}>
             This is a Hover Card
           </Typography>
-          <Typography variant='caption' color='text.secondary'>
+          <Typography variant="caption" color="text.secondary">
             This is a Hover Card from my PR
           </Typography>
         </Box>
@@ -78,9 +78,9 @@ export const FigmaDemo: Story = {
 
       <DemoTriggerContainer>
         {}
-        <Tooltip title='This is a Tooltip from my PR' placement='right' arrow>
+        <Tooltip title="This is a Tooltip from my PR" placement="right" arrow>
           <Button
-            variant='outlined'
+            variant="outlined"
             sx={{
               borderRadius: 2,
               textTransform: 'none',
@@ -97,7 +97,7 @@ export const FigmaDemo: Story = {
         <HoverCard
           trigger={
             <Button
-              variant='outlined'
+              variant="outlined"
               sx={{
                 borderRadius: 2,
                 textTransform: 'none',
@@ -111,7 +111,7 @@ export const FigmaDemo: Story = {
           }
           openDelay={200}
           closeDelay={300}
-          placement='bottom-start'
+          placement="bottom-start"
           maxWidth={280}
         >
           <UserCard />
@@ -129,7 +129,7 @@ export const Default: Story = {
     disabled: false,
     maxWidth: 280,
     trigger: (
-      <Button variant='outlined' sx={{ textTransform: 'none', borderRadius: 2 }}>
+      <Button variant="outlined" sx={{ textTransform: 'none', borderRadius: 2 }}>
         Hover Card
       </Button>
     ),
@@ -142,10 +142,10 @@ export const NoDelay: Story = {
     openDelay: 0,
     closeDelay: 0,
     trigger: (
-      <Button variant='outlined' sx={{ textTransform: 'none', borderRadius: 2 }}>
+      <Button variant="outlined" sx={{ textTransform: 'none', borderRadius: 2 }}>
         Hover Card
       </Button>
     ),
-    children: <Typography variant='body2'>Opens and closes without delay.</Typography>,
+    children: <Typography variant="body2">Opens and closes without delay.</Typography>,
   },
 };
