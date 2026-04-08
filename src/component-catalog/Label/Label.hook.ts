@@ -4,6 +4,8 @@ import { shouldShowOptional, getTooltipId } from './Label.utils';
 import { LABEL_TEXTS } from './Label.constants';
 
 /**
+ * 
+ * 
  * Hook interno para gestionar la lógica de negocio y estados de accesibilidad
  * del componente Label.
  */
@@ -15,19 +17,23 @@ export const useLabel = ({
   error,
   disabled,
 }: Partial<LabelProps>) => {
+
   // Memorizamos si debe mostrar el indicador opcional
+
   const showOptional = useMemo(
     () => shouldShowOptional(optional, required),
     [optional, required]
   );
 
   // Generamos un ID estable para el tooltip si existe
+
   const tooltipId = useMemo(
     () => (tooltip ? getTooltipId(htmlFor) : undefined),
     [tooltip, htmlFor]
   );
 
   // Centralizamos las clases o estados de accesibilidad
+  
   const accessibilityProps = {
     'aria-required': required,
     'aria-disabled': disabled,
