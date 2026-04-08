@@ -1,16 +1,17 @@
-import { 
-  DialogTitle, 
-  DialogContent, 
-  DialogActions, 
+import CloseIcon from '@mui/icons-material/Close';
+import {
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   Typography,
   IconButton,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+
+import { DIALOG_SIZES } from './Dialog.constants';
 import { StyledMuiDialog } from './Dialog.styles';
 import { type DialogProps } from './Dialog.types';
-import { DIALOG_SIZES } from './Dialog.constants';
 
 const Dialog = (props: DialogProps) => {
   const {
@@ -40,7 +41,7 @@ const Dialog = (props: DialogProps) => {
       data-testid="mui-dialog-container"
       open={isOpen}
       onClose={handleMuiDialogClose}
-      maxWidth={maxWidth === DIALOG_SIZES.FULL_SCREEN ? false : maxWidth as any}
+      maxWidth={maxWidth === DIALOG_SIZES.FULL_SCREEN ? false : (maxWidth as any)}
       fullWidth
       fullScreen={isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN}
       aria-labelledby="dialog-title"

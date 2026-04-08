@@ -1,14 +1,24 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { Button, TextField, Typography, Box } from '@mui/material';
-import { Dialog } from './Dialog';
 import React from 'react';
+
+import { Dialog } from './Dialog';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Dialog> = {
   title: 'component-catalog/Dialog',
   component: Dialog,
   decorators: [
     (Story) => (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          width: '100%',
+        }}
+      >
         <Story />
       </div>
     ),
@@ -18,7 +28,6 @@ const meta: Meta<typeof Dialog> = {
 export default meta;
 type Story = StoryObj<typeof Dialog>;
 
-// 1. Estructura Básica (Solo el contenedor y título)
 export const Base: Story = {
   name: '1. Estructura Base',
   args: {
@@ -28,7 +37,6 @@ export const Base: Story = {
   },
 };
 
-// 2. Solo Contenido (Espacio para el texto/formulario)
 export const SoloContenido: Story = {
   name: '2. Espacio de Contenido',
   args: {
@@ -44,7 +52,6 @@ export const SoloContenido: Story = {
   },
 };
 
-// 3. Solo Acciones (Botones)
 export const SoloBotones: Story = {
   name: '3. Espacio de Acciones',
   args: {
@@ -52,15 +59,18 @@ export const SoloBotones: Story = {
     title: 'Diálogo con Botones',
     actions: (
       <>
-        <Button fullWidth variant="contained" sx={{ bgcolor: '#000' }}>Acción Principal</Button>
-        <Button fullWidth variant="outlined" sx={{ color: '#000', borderColor: '#ccc' }}>Cancelar</Button>
+        <Button fullWidth variant="contained" sx={{ bgcolor: '#000' }}>
+          Acción Principal
+        </Button>
+        <Button fullWidth variant="outlined" sx={{ color: '#000', borderColor: '#ccc' }}>
+          Cancelar
+        </Button>
       </>
     ),
     onClose: () => {},
   },
 };
 
-// 4. Implementación Completa (Todo junto como en Figma)
 export const Completo: Story = {
   name: '4. Implementación Final',
   args: {
@@ -68,28 +78,20 @@ export const Completo: Story = {
     title: 'Dialog Title',
     description: 'This is a dialog description. You can put any content here.',
     children: (
-      <TextField 
-        fullWidth 
-        label="Name" 
-        placeholder="Enter your name" 
-        variant="outlined" 
-        margin="normal" 
+      <TextField
+        fullWidth
+        label="Name"
+        placeholder="Enter your name"
+        variant="outlined"
+        margin="normal"
       />
     ),
     actions: (
       <>
-        <Button 
-          fullWidth 
-          variant="contained" 
-          sx={{ bgcolor: '#000', color: '#fff', mb: 1 }}
-        >
+        <Button fullWidth variant="contained" sx={{ bgcolor: '#000', color: '#fff', mb: 1 }}>
           Save changes
         </Button>
-        <Button 
-          fullWidth 
-          variant="outlined" 
-          sx={{ color: '#000', borderColor: '#ccc' }}
-        >
+        <Button fullWidth variant="outlined" sx={{ color: '#000', borderColor: '#ccc' }}>
           Cancel
         </Button>
       </>
