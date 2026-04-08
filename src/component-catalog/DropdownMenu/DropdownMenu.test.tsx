@@ -158,9 +158,10 @@ describe('DropdownMenu', () => {
 
     await user.click(checkboxItem);
 
-    expect(
-      screen.getByRole('menuitemcheckbox', { name: /show line numbers/i })
-    ).toHaveAttribute('aria-checked', 'false');
+    expect(screen.getByRole('menuitemcheckbox', { name: /show line numbers/i })).toHaveAttribute(
+      'aria-checked',
+      'false'
+    );
   });
 
   it('updates radio group selection', async () => {
