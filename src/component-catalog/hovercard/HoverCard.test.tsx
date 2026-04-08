@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { HoverCard } from './HoverCard';
 import { DEFAULT_CLOSE_DELAY, DEFAULT_OPEN_DELAY } from './HoverCard.constants';
 
-// ✅ CORREGIDO: El texto debe coincidir con el del botón
 function renderCard(props?: Partial<React.ComponentProps<typeof HoverCard>>) {
   return render(
     <HoverCard
@@ -16,7 +15,6 @@ function renderCard(props?: Partial<React.ComponentProps<typeof HoverCard>>) {
   );
 }
 
-// ✅ CORREGIDO: Buscar el texto correcto
 function getTrigger() {
   return screen.getByRole('button', { name: /hover card/i }); // ← Cambiado
 }
@@ -38,8 +36,6 @@ describe('HoverCard — render', () => {
   });
 
   it('renders with the Figma HoverTriggerButton trigger', () => {
-    // Si este test falla por un import, asegúrate de que HoverTriggerButton esté exportado
-    // Por ahora, comenta este test o asegúrate de que el componente exista
     renderCard();
     expect(getTrigger()).toBeInTheDocument();
   });
@@ -65,7 +61,7 @@ describe('HoverCard — desktop hover', () => {
     vi.useRealTimers();
   });
 
-  it('opens after openDelay ms on mouseenter', async () => {
+  it('opens after openDelay ms on mouseenter', () => {
     renderCard({ openDelay: DEFAULT_OPEN_DELAY });
 
     fireEvent.mouseEnter(getTrigger());
@@ -73,20 +69,17 @@ describe('HoverCard — desktop hover', () => {
 
     act(() => vi.advanceTimersByTime(DEFAULT_OPEN_DELAY));
 
-    
-      const content = screen.getByText('Hover Card');
-      expect(content).toBeInTheDocument();
+    const content = screen.getByText('Hover Card');
+    expect(content).toBeInTheDocument();
   });
 
-  it('closes after closeDelay ms on mouseleave', async () => {
+  it('closes after closeDelay ms on mouseleave', () => {
     renderCard({ openDelay: 0, closeDelay: DEFAULT_CLOSE_DELAY });
 
-    // Abrir
     fireEvent.mouseEnter(getTrigger());
     act(() => vi.advanceTimersByTime(0));
     expect(screen.getByText('Hover Card')).toBeInTheDocument();
 
-    // Cerrar
     fireEvent.mouseLeave(getTrigger());
     act(() => vi.advanceTimersByTime(DEFAULT_CLOSE_DELAY));
 
@@ -97,7 +90,6 @@ describe('HoverCard — desktop hover', () => {
   it('cancels a scheduled close when the trigger is re-entered', async () => {
     renderCard({ openDelay: 0, closeDelay: 500 });
 
-    // Abrir
     fireEvent.mouseEnter(getTrigger());
     act(() => vi.advanceTimersByTime(0));
     expect(screen.getByText('Hover Card')).toBeInTheDocument();
@@ -205,7 +197,6 @@ describe('HoverCard — controlled mode', () => {
       </HoverCard>
     );
 
-    // Debe estar cerrado
     expect(screen.queryByText('Card content')).toBeNull();
 
     rerender(
@@ -214,7 +205,6 @@ describe('HoverCard — controlled mode', () => {
       </HoverCard>
     );
 
-    // Debe estar abierto
     await waitFor(() => {
       const content = screen.getByText('Card content');
       expect(content).toBeInTheDocument();
