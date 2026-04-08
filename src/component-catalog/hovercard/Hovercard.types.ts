@@ -3,7 +3,7 @@ import type { PopperProps } from '@mui/material/Popper';
 import type { ReactNode, RefObject } from 'react';
 
 export interface HoverCardProps
-  extends Omit<PopperProps, "open" | "anchorEl" | "children" | "ref"> {
+  extends Omit<PopperProps, 'open' | 'anchorEl' | 'children' | 'ref'> {
   trigger: ReactNode;
 
   children: ReactNode;
