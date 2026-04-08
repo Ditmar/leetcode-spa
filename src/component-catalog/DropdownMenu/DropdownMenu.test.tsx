@@ -64,17 +64,13 @@ describe('DropdownMenu', () => {
 
     render(<DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />);
 
-    expect(screen.getByRole('button', { name: /dropdown menu/i })).toHaveAttribute(
-      'aria-expanded',
-      'false'
-    );
+    const trigger = screen.getByRole('button', { name: /dropdown menu/i });
 
-    await user.click(screen.getByRole('button', { name: /dropdown menu/i }));
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
-    expect(screen.getByRole('button', { name: /dropdown menu/i })).toHaveAttribute(
-      'aria-expanded',
-      'true'
-    );
+    await user.click(trigger);
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByRole('menu', { name: /dropdown menu/i })).toBeInTheDocument();
     expect(screen.getByText('Edit')).toBeInTheDocument();
   });
@@ -84,19 +80,15 @@ describe('DropdownMenu', () => {
 
     render(<DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />);
 
-    await user.click(screen.getByRole('button', { name: /dropdown menu/i }));
-    expect(screen.getByRole('button', { name: /dropdown menu/i })).toHaveAttribute(
-      'aria-expanded',
-      'true'
-    );
+    const trigger = screen.getByRole('button', { name: /dropdown menu/i });
+
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
 
     await user.keyboard('{Escape}');
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /dropdown menu/i })).toHaveAttribute(
-        'aria-expanded',
-        'false'
-      );
+      expect(trigger).toHaveAttribute('aria-expanded', 'false');
     });
   });
 
