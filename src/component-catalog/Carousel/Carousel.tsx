@@ -38,5 +38,6 @@ const Carousel = ({ children, autoPlay = false, interval = 3000 }: CarouselProps
       />
     </CarouselContainer>
   );
-}
+};
+;
 export default Carousel;
