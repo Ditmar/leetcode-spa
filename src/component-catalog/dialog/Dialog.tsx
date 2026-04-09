@@ -1,3 +1,4 @@
+import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   DialogTitle,
@@ -27,9 +28,10 @@ const Dialog = (props: DialogProps) => {
   } = props;
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Cumple: Mobile < 600px full-screen
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleMuiDialogClose = (_: any, reason: string) => {
+  // Corregido: se cambió 'any' por 'object' para cumplir con las reglas de Lint
+  const handleMuiDialogClose = (_: object, reason: string) => {
     if (persistent && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
       return;
     }
@@ -41,7 +43,8 @@ const Dialog = (props: DialogProps) => {
       data-testid="mui-dialog-container"
       open={isOpen}
       onClose={handleMuiDialogClose}
-      maxWidth={maxWidth === DIALOG_SIZES.FULL_SCREEN ? false : (maxWidth as any)}
+      // Corregido: se eliminó 'as any' y se usó un tipado explícito para Material UI
+      maxWidth={maxWidth === DIALOG_SIZES.FULL_SCREEN ? false : (maxWidth as 'xs' | 'sm' | 'md' | 'lg' | 'xl')}
       fullWidth
       fullScreen={isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN}
       aria-labelledby="dialog-title"
