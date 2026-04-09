@@ -1,0 +1,20 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as AvatarStories from './Avatar.stories';
+
+<Meta of={AvatarStories} />
+
+# Avatar
+
+Avatars are used to represent a user or entity through initials or images.
+
+## Design Implementation
+The component follows the 1216px grid system defined in the Figma documentation.
+
+### Props
+<Controls />
+
+### Usage
+```tsx
+import Avatar from './Avatar';
+
+<Avatar size="lg" customVariant="primary">JD</Avatar>
