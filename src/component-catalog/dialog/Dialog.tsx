@@ -7,6 +7,7 @@ import {
   IconButton,
   useMediaQuery,
   useTheme,
+  type BackdropProps,
 } from '@mui/material';
 import React from 'react';
 
@@ -50,6 +51,12 @@ const Dialog = (props: DialogProps) => {
       fullWidth
       fullScreen={isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN}
       aria-labelledby="dialog-title"
+      // Se usa un objeto plano que TypeScript permite para pasar el testId al Backdrop
+      BackdropProps={
+        {
+          'data-testid': 'mui-dialog-backdrop',
+        } as Partial<BackdropProps>
+      }
     >
       {title && (
         <DialogTitle id="dialog-title" data-testid="mui-dialog-title" sx={{ m: 0, p: 2 }}>
