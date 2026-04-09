@@ -42,16 +42,19 @@ const Dialog = (props: DialogProps) => {
       data-testid="mui-dialog-container"
       open={isOpen}
       onClose={handleMuiDialogClose}
-      maxWidth={maxWidth === DIALOG_SIZES.FULL_SCREEN ? false : (maxWidth as 'xs' | 'sm' | 'md' | 'lg' | 'xl')}
+      maxWidth={
+        maxWidth === DIALOG_SIZES.FULL_SCREEN
+          ? false
+          : (maxWidth as 'xs' | 'sm' | 'md' | 'lg' | 'xl')
+      }
       fullWidth
       fullScreen={isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN}
       aria-labelledby="dialog-title"
-      // SOLUCIÓN FINAL: Cambiamos el componente del fondo a un div simple
       slotProps={{
         backdrop: {
           // @ts-expect-error - data-testid no está en la definición oficial pero es necesario para el test
           'data-testid': 'mui-dialog-backdrop',
-          component: 'div', 
+          component: 'div',
         },
       }}
     >
