@@ -1,52 +1,56 @@
 import { useMemo } from 'react';
-import type { LabelProps } from './Label.types';
-import { shouldShowOptional, getTooltipId } from './Label.utils';
+import { LabelProps } from './Label.types';
 import { LABEL_TEXTS } from './Label.constants';
+import { shouldShowOptional } from './Label.utils';
 
 /**
- * 
- * 
- * Hook interno para gestionar la lógica de negocio y estados de accesibilidad
- * del componente Label.
+ * Hook interno para el componente Label.
+ * Centraliza la lógica de visualización y accesibilidad.
  */
-export const useLabel = ({
-  required,
-  optional,
-  htmlFor,
-  tooltip,
-  error,
-  disabled,
-}: Partial<LabelProps>) => {
+export const useLabel = (props: Partial<LabelProps>) => {
+  const {
+    required,
+    optional,
+    tooltip,
+    error,
+    disabled,
+    id,
+    htmlFor,
+  } = props;
 
-  // Memorizamos si debe mostrar el indicador opcional
-
+  // 1. Lógica para el indicador opcional
   const showOptional = useMemo(
     () => shouldShowOptional(optional, required),
     [optional, required]
   );
 
-  // Generamos un ID estable para el tooltip si existe
-
+  // 2. Gestión de IDs para vinculación ARIA (Tooltip -> Label)
   const tooltipId = useMemo(
-    () => (tooltip ? getTooltipId(htmlFor) : undefined),
-    [tooltip, htmlFor]
+    () => (tooltip ? `${id || htmlFor || 'label'}-tooltip` : undefined),
+    [tooltip, id, htmlFor]
   );
 
-  // Centralizamos las clases o estados de accesibilidad
-  
-  const accessibilityProps = {
-    'aria-required': required,
-    'aria-disabled': disabled,
-    'aria-invalid': error,
+  // 3. Atributos de accesibilidad derivados del estado
+  const accessibilityProps = useMemo(() => ({
+    'aria-required': required ? true : undefined,
+    'aria-invalid': error ? true : undefined,
+    'aria-disabled': disabled ? true : undefined,
+    // Si hay un tooltip, podemos vincularlo mediante aria-describedby
+    'aria-describedby': tooltipId,
+  }), [required, error, disabled, tooltipId]);
+
+  // 4. Agrupación de textos de la interfaz (i18n ready)
+  const i18n = {
+    optionalLabel: LABEL_TEXTS.OPTIONAL_INDICATOR,
+    tooltipActionLabel: LABEL_TEXTS.HELP_ICON_ARIA_LABEL,
   };
 
   return {
     showOptional,
     tooltipId,
     accessibilityProps,
-    labels: {
-      optionalIndicator: LABEL_TEXTS.OPTIONAL_INDICATOR,
-      helpAction: LABEL_TEXTS.HELP_ICON_ARIA_LABEL,
-    },
+    i18n,
+    // Estado booleano para facilitar estilos condicionales si fuera necesario en el TSX
+    hasTooltip: Boolean(tooltip),
   };
 };
