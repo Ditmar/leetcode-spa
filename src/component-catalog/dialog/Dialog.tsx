@@ -51,10 +51,11 @@ const Dialog = (props: DialogProps) => {
       fullWidth
       fullScreen={isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN}
       aria-labelledby="dialog-title"
-      // Se usa un objeto plano que TypeScript permite para pasar el testId al Backdrop
+      // Quitamos el rol al Backdrop para que el test no encuentre duplicados
       BackdropProps={
         {
           'data-testid': 'mui-dialog-backdrop',
+          role: undefined,
         } as Partial<BackdropProps>
       }
     >
