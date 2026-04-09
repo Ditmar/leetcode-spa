@@ -1,3 +1,4 @@
+import CloseIcon from '@mui/icons-material/Close';
 import {
   DialogTitle,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   useTheme,
 } from '@mui/material';
 import React from 'react';
-import CloseIcon from '@mui/icons-material/Close';
 
 import { DIALOG_SIZES } from './Dialog.constants';
 import { StyledMuiDialog } from './Dialog.styles';
