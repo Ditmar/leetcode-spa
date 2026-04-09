@@ -11,15 +11,10 @@ import {
   Popper,
 } from '@mui/material';
 
+import '../../style-library/theme/colors.css';
 import { alpha } from '../../style-library';
 
-import {
-  ANIMATION_DURATIONS,
-  ANIMATION_EASING,
-  Z_INDEX_STACK,
-  TOUCH_TARGET_MIN,
-  NAV_COLORS,
-} from './NavigationMenu.constants';
+import { TOUCH_TARGET_MIN, NAV_COLORS } from './NavigationMenu.constants';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   position: 'sticky',
@@ -29,10 +24,10 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   color: theme.palette.common.white,
   boxShadow: theme.shadows[8],
   borderBottom: `1px solid ${NAV_COLORS.BORDER}`,
-  zIndex: Z_INDEX_STACK.APPBAR,
+  zIndex: theme.zIndex.appBar,
   transition: theme.transitions.create(['top', 'box-shadow'], {
-    duration: ANIMATION_DURATIONS.STANDARD,
-    easing: ANIMATION_EASING,
+    duration: theme.transitions.duration.standard,
+    easing: theme.transitions.easing.easeInOut,
   }),
   overflowX: 'hidden',
   overflowY: 'hidden',
@@ -86,7 +81,7 @@ const StyledNavContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   flex: 1,
-  gap: theme.spacing(1),
+  gap: theme.spacing(0.5),
   flexWrap: 'nowrap',
 }));
 
@@ -94,17 +89,17 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   position: 'relative',
   minHeight: TOUCH_TARGET_MIN,
   minWidth: 'auto',
-  padding: theme.spacing(0.5, 1.5),
+  padding: theme.spacing(0.75, 1.5),
   borderRadius: 0,
   fontSize: theme.typography.body2.fontSize ?? '0.875rem',
   fontWeight: 500,
   letterSpacing: theme.spacing(0.05),
   lineHeight: 1.4,
-  color: '#D1D5DC',
+  color: 'var(--navigation-text)',
 
   transition: theme.transitions.create(['color'], {
-    duration: ANIMATION_DURATIONS.SHORT,
-    easing: ANIMATION_EASING,
+    duration: theme.transitions.duration.shortest,
+    easing: theme.transitions.easing.easeInOut,
   }),
 
   '&:hover': {
@@ -138,10 +133,10 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     width: 256,
     backgroundColor: NAV_COLORS.BACKGROUND,
     color: theme.palette.common.white,
-    zIndex: Z_INDEX_STACK.DRAWER,
+    zIndex: theme.zIndex.drawer,
     transition: theme.transitions.create('width', {
-      duration: ANIMATION_DURATIONS.STANDARD,
-      easing: ANIMATION_EASING,
+      duration: theme.transitions.duration.standard,
+      easing: theme.transitions.easing.easeInOut,
     }),
     overflowY: 'hidden',
     scrollbarWidth: 'none' as const,
@@ -188,8 +183,8 @@ const StyledMegaPanel = styled(Paper)(({ theme }) => ({
   border: `1px solid ${alpha(NAV_COLORS.BORDER, 0.8)}`,
 }));
 
-const StyledFlyoutPopper = styled(Popper)(() => ({
-  zIndex: Z_INDEX_STACK.POPPER_FLYOUT,
+const StyledFlyoutPopper = styled(Popper)(({ theme }) => ({
+  zIndex: theme.zIndex.modal,
 }));
 
 export {

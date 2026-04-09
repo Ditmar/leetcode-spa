@@ -3,24 +3,24 @@ import { NAV_COLORS } from './NavigationMenu.constants';
 import type { NavigationMenuSize, NavigationMenuVariant } from './NavigationMenu.types';
 import type { Theme } from '@mui/material';
 
-function getSizeConfig(size: NavigationMenuSize = 'medium') {
+function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
   const sizeConfigs = {
     small: {
       appBarHeight: 48,
-      itemPadding: '0.25rem 1rem',
-      itemFontSize: '11px',
+      itemPadding: `${theme.spacing(0.25)} ${theme.spacing(1)}`,
+      itemFontSize: theme.typography.caption.fontSize,
       toolbarGap: 0.5,
     },
     medium: {
       appBarHeight: 57,
-      itemPadding: '0.5rem 1.5rem',
-      itemFontSize: '12px',
+      itemPadding: `${theme.spacing(0.5)} ${theme.spacing(1.5)}`,
+      itemFontSize: theme.typography.body2.fontSize,
       toolbarGap: 1,
     },
     large: {
       appBarHeight: 64,
-      itemPadding: '0.75rem 2rem',
-      itemFontSize: '13px',
+      itemPadding: `${theme.spacing(0.75)} ${theme.spacing(2)}`,
+      itemFontSize: theme.typography.body1.fontSize,
       toolbarGap: 1.5,
     },
   };

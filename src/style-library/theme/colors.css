@@ -68,7 +68,11 @@
   --sidebar-accent-foreground: #1a1a1a;
   --sidebar-border: #e8e8e8;
   --sidebar-ring: #b3b3b3;
-}
+
+  /* NavigationMenu - Figma Design Tokens */
+  --navigation-background: #101828;
+  --navigation-border: #1E2939;
+  --navigation-text: #D1D5DC;
 
 .dark {
   /* Surfaces */
@@ -124,4 +128,10 @@
   --sidebar-accent-foreground: #fafafa;
   --sidebar-border: #2a2a2a;
   --sidebar-ring: #4a4a4a;
+
+  /* NavigationMenu - Figma Design Tokens (maintains same values in dark mode) */
+  --navigation-background: #101828;
+  --navigation-border: #1E2939;
+  --navigation-text: #D1D5DC;
+}
 }

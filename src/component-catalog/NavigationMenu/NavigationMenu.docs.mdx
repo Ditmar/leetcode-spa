@@ -51,7 +51,7 @@ import { NavigationMenu } from '@/component-catalog/NavigationMenu';
 ### Basic Navigation (Desktop + Mobile)
 
 ```tsx
-import { NavigationMenu } from '@/component-catalog/navigation-menu';
+import { NavigationMenu } from '@/component-catalog/NavigationMenu';
 
 const navSections = [
   {
@@ -169,7 +169,7 @@ Edit `navSections` to see different menu items.
 | `useScrollHide`       | `boolean`                             | `false`       | Hide nav on scroll down (future feature)       |
 | `rightContent`        | `ReactNode`                           | —             | Custom content on nav bar right side           |
 | `onMobileMenuToggle`  | `(isOpen: boolean) => void`           | —             | Callback for mobile drawer state               |
-| `forceHamburger`      | `boolean`                             | `false`       | Always show hamburger (skip responsive logic) |
+| `forceHamburger`      | `boolean`                             | `false`       | Always show hamburger button (skip responsive logic). For debugging/Storybook only. |
 | `drawerProps`         | `Partial<DrawerProps>`                | —             | Additional MUI Drawer props                    |
 | `toolbarProps`        | `Partial<ToolbarProps>`               | —             | Additional MUI Toolbar props                   |
 
@@ -243,7 +243,7 @@ All spacing is expressed in `theme.spacing()` or `rem` — no hardcoded `px` val
 NavigationMenu/
 ├── NavigationMenu.tsx           # Component logic & JSX
 ├── NavigationMenu.types.ts      # TypeScript interfaces
-├── NavigationMenu.constants.ts  # Animation, colors, breakpoints
+├── NavigationMenu.constants.ts  # Constants (TOUCH_TARGET_MIN, ARIA labels)
 ├── NavigationMenu.hook.ts       # useNavigationMenuState hook
 ├── NavigationMenu.styles.ts     # MUI styled() components
 ├── NavigationMenu.utils.ts      # getSizeConfig, getVariantConfig

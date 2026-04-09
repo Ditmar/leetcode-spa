@@ -26,17 +26,14 @@ interface NavSection {
   subheader?: ReactNode;
 }
 
-interface NavigationMenuProps extends Omit<MuiAppBarProps, 'children'> {
+interface NavigationMenuProps extends Omit<MuiAppBarProps, 'children' | 'color'> {
   logo?: string | ReactNode;
   navSections: NavSection[];
   onItemClick?: (item: NavItem) => void;
   currentPath?: string;
   useScrollHide?: boolean;
-  themeColor?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
-  elevation?: number;
   ariaLabel?: string;
   rightContent?: ReactNode;
-  appBarHeight?: string | number;
   drawerProps?: Partial<MuiDrawerProps>;
   toolbarProps?: Partial<MuiToolbarProps>;
   onMobileMenuToggle?: (isOpen: boolean) => void;

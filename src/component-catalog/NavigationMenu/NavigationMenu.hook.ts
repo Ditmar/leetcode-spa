@@ -132,15 +132,6 @@ export function useNavigationMenuState(
     (event: React.KeyboardEvent) => {
       if (event.key === 'Escape') {
         handleEscapeKey();
-        return;
-      }
-
-      if (event.key === 'Tab') {
-        return;
-      }
-
-      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
-        event.preventDefault();
       }
     },
     [handleEscapeKey]

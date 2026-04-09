@@ -9,8 +9,12 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from '@mui/material';
+import { useRef } from 'react';
 
-import { DEFAULT_ARIA_LABEL } from './NavigationMenu.constants';
+import NavigationLogoFull from '../../assets/NavigationMenu.svg';
+import NavigationLogoCompact from '../../assets/NavigationMenu2.svg';
+
+import { DEFAULT_ARIA_LABEL, NAV_COLORS } from './NavigationMenu.constants';
 import { useNavigationMenuState } from './NavigationMenu.hook';
 import {
   StyledAppBar,
@@ -31,6 +35,8 @@ import type { Theme } from '@mui/material';
 
 const NavigationMenu = (props: NavigationMenuProps) => {
   const theme = useTheme();
+  const anchorRefs = useRef<Map<string, HTMLElement>>(new Map());
+
   const {
     logo,
     navSections,
@@ -43,7 +49,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     onMobileMenuToggle,
   } = props;
 
-  const sizeConfig = getSizeConfig(size);
+  const sizeConfig = getSizeConfig(size, theme);
   const variantConfig = getVariantConfig(variant, theme);
 
   const {
@@ -87,11 +93,6 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     </StyledListItemButton>
   );
 
-  /**
-   * Renders the logo component.
-   * @param additionalSx - Additional sx props for the logo container.
-   * @returns The rendered logo component.
-   */
   const renderLogo = (additionalSx = {}) =>
     logo && (
       <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0, ...additionalSx }}>
@@ -177,7 +178,9 @@ const NavigationMenu = (props: NavigationMenuProps) => {
             >
               {isMobileDrawerOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
-            {renderLogo()}
+            <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+              <img src={NavigationLogoCompact} alt="Logo" style={{ height: 24 }} />
+            </Box>
           </>
         ) : (
           <>{renderLogo({ mr: 1 })}</>
@@ -190,7 +193,9 @@ const NavigationMenu = (props: NavigationMenuProps) => {
                 section.items.map((item) => (
                   <Box key={item.id} position="relative">
                     <Box
-                      id={`mega-panel-anchor-${item.id}`}
+                      ref={(el) => {
+                        if (el) anchorRefs.current.set(item.id, el);
+                      }}
                       onMouseEnter={() => item.megaPanelContent && openPanel(item.id)}
                       onMouseLeave={() => closePanel()}
                     >
@@ -200,7 +205,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
                     {item.megaPanelContent && (
                       <StyledFlyoutPopper
                         open={activePanelId === item.id}
-                        anchorEl={document.getElementById(`mega-panel-anchor-${item.id}`)}
+                        anchorEl={anchorRefs.current.get(item.id) || null}
                         placement="bottom-start"
                         modifiers={[
                           {
@@ -214,6 +219,8 @@ const NavigationMenu = (props: NavigationMenuProps) => {
                         <StyledMegaPanel
                           onMouseEnter={() => openPanel(item.id)}
                           onMouseLeave={() => closePanel()}
+                          onFocus={() => openPanel(item.id)}
+                          onBlur={() => closePanel()}
                         >
                           {item.megaPanelContent}
                         </StyledMegaPanel>
@@ -238,6 +245,29 @@ const NavigationMenu = (props: NavigationMenuProps) => {
           onClose={closeMobileDrawer}
           data-testid="mobile-drawer"
         >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: theme.spacing(1),
+              borderBottom: `1px solid ${NAV_COLORS.BORDER}`,
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+              <img src={NavigationLogoFull} alt="Logo" style={{ height: 24 }} />
+            </Box>
+            <IconButton
+              onClick={closeMobileDrawer}
+              color="inherit"
+              aria-label="Close menu"
+              data-testid="close-drawer-button"
+              onKeyDown={handleKeyDown}
+              sx={{ ml: 'auto' }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
           <StyledMobileNav role="navigation" aria-label={ariaLabel} onKeyDown={handleKeyDown}>
             {navSections.map((section) => (
               <Box key={section.id}>{section.items.map((item) => renderMobileAccordion(item))}</Box>
