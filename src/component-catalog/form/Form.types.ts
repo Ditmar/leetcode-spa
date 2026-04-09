@@ -1,4 +1,10 @@
-import type { DefaultValues, FieldErrors } from 'react-hook-form';
+import type {
+  DefaultValues,
+  FieldErrors,
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 
 export type FieldType =
   | 'text'
@@ -27,7 +33,7 @@ export interface FormField {
   options?: Option[];
 }
 
-export interface FormProps<T extends Record<string, unknown> = Record<string, unknown>> {
+export interface FormProps<T extends FieldValues = FieldValues> {
   fields: FormField[];
   onSubmit: (data: T) => void;
   defaultValues?: DefaultValues<T>;
@@ -37,12 +43,9 @@ export interface FormProps<T extends Record<string, unknown> = Record<string, un
   showResetButton?: boolean;
 }
 
-export type RenderFieldProps = {
+export type RenderFieldProps<T extends FieldValues = FieldValues> = {
   field: FormField;
-  ctrlField: {
-    value: unknown;
-    onChange: (value: unknown) => void;
-  };
+  ctrlField: ControllerRenderProps<T, Path<T>>;
   disabled: boolean;
-  errors: FieldErrors;
+  errors: FieldErrors<T>;
 };

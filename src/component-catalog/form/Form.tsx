@@ -9,8 +9,8 @@ import {
   FormLabel,
   useTheme,
 } from '@mui/material';
-import React from 'react';
-import { FormProvider, Controller } from 'react-hook-form';
+import { useMemo, type ChangeEvent, type ComponentProps, type ReactNode } from 'react';
+import { FormProvider, Controller, type FieldValues } from 'react-hook-form';
 
 import { useFormHook } from './Form.hook';
 import {
@@ -25,72 +25,69 @@ import {
 } from './Form.styles';
 import { getInputMode, buildFormSchema } from './Form.utils';
 
-import type { FormProps, FormField, RenderFieldProps } from './Form.types';
+import type { FormProps, FormField, RenderFieldProps, Option } from './Form.types';
 
-const createChangeHandler =
-  (onChange: (value: unknown) => void) =>
-  (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+const handleTextChange =
+  (onChange: (value: string) => void) =>
+  (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     onChange(event.target.value);
   };
 
-const createCheckboxHandler =
-  (onChange: (value: boolean) => void) => (event: React.ChangeEvent<HTMLInputElement>) => {
+const handleCheckboxChange =
+  (onChange: (value: boolean) => void) => (event: ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked);
   };
 
-const SelectField = ({ field, ctrlField, disabled, errors }) => {
-  const handleChange = createChangeHandler(ctrlField.onChange);
+type BaseTextFieldProps<T extends FieldValues> = RenderFieldProps<T> & {
+  children?: ReactNode;
+} & Omit<ComponentProps<typeof StyledTextField>, 'name'>;
 
-  return (
-    <StyledTextField
-      id={field.name}
-      label={field.label}
-      select
-      fullWidth
-      value={ctrlField.value || ''}
-      onChange={handleChange}
-      disabled={disabled || field.disabled}
-      error={!!errors[field.name]}
-    >
-      <MenuItem value="">
-        <em>Select an option</em>
+const BaseTextField = <T extends FieldValues>({
+  field,
+  ctrlField,
+  disabled,
+  errors,
+  children,
+  ...rest
+}: BaseTextFieldProps<T>) => (
+  <StyledTextField
+    id={field.name}
+    label={field.label}
+    fullWidth
+    value={ctrlField.value ?? ''}
+    onChange={handleTextChange(ctrlField.onChange)}
+    placeholder={field.placeholder}
+    disabled={disabled || field.disabled}
+    error={!!errors[field.name]}
+    {...rest}
+  >
+    {children}
+  </StyledTextField>
+);
+
+const SelectField = <T extends FieldValues>(props: RenderFieldProps<T>) => (
+  <BaseTextField {...props} select>
+    <MenuItem value="">
+      <em>Select an option</em>
+    </MenuItem>
+
+    {props.field.options?.map((opt: Option) => (
+      <MenuItem key={opt.value} value={opt.value}>
+        {opt.label}
       </MenuItem>
+    ))}
+  </BaseTextField>
+);
 
-      {field.options?.map((opt: typeof Option) => (
-        <MenuItem key={opt.value} value={opt.value}>
-          {opt.label}
-        </MenuItem>
-      ))}
-    </StyledTextField>
-  );
-};
-
-const RadioField = ({ field, ctrlField, disabled, theme }) => {
-  const handleChange = createChangeHandler(ctrlField.onChange);
+const RadioField = <T extends FieldValues>({ field, ctrlField, disabled }: RenderFieldProps<T>) => {
+  const theme = useTheme();
 
   return (
     <>
-      <FormLabel
-        id={`${field.name}-label`}
-        sx={{
-          fontSize: theme.typography.body2.fontSize,
-          fontWeight: theme.typography.body2.fontWeight,
-          lineHeight: theme.typography.body2.lineHeight,
-          letterSpacing: theme.typography.body2.letterSpacing,
-          marginBottom: theme.spacing(1),
-          color: theme.palette.text.primary,
-        }}
-      >
-        {field.label}
-      </FormLabel>
+      <FormLabel sx={{ marginBottom: theme.spacing(1) }}>{field.label}</FormLabel>
 
-      <RadioGroup
-        aria-labelledby={`${field.name}-label`}
-        value={ctrlField.value || ''}
-        onChange={handleChange}
-        row
-      >
-        {field.options?.map((opt: typeof Option) => (
+      <RadioGroup value={ctrlField.value ?? ''} onChange={handleTextChange(ctrlField.onChange)} row>
+        {field.options?.map((opt) => (
           <FormControlLabel
             key={opt.value}
             value={opt.value}
@@ -104,69 +101,49 @@ const RadioField = ({ field, ctrlField, disabled, theme }) => {
   );
 };
 
-const CheckboxField = ({ field, ctrlField, disabled }) => {
-  const handleChange = createCheckboxHandler(ctrlField.onChange);
+const CheckboxField = <T extends FieldValues>({
+  field,
+  ctrlField,
+  disabled,
+}: RenderFieldProps<T>) => (
+  <FormControlLabel
+    control={
+      <Checkbox
+        size="small"
+        checked={Boolean(ctrlField.value)}
+        onChange={handleCheckboxChange(ctrlField.onChange)}
+        disabled={disabled || field.disabled}
+      />
+    }
+    label={field.label}
+  />
+);
+
+const TextAreaField = <T extends FieldValues>(props: RenderFieldProps<T>) => (
+  <BaseTextField {...props} multiline rows={props.field.rows ?? 4} />
+);
+
+const InputField = <T extends FieldValues>({
+  field,
+  ctrlField,
+  disabled,
+  errors,
+}: RenderFieldProps<T>) => {
+  const theme = useTheme();
 
   return (
-    <FormControlLabel
-      control={
-        <Checkbox
-          size="small"
-          checked={ctrlField.value || false}
-          onChange={handleChange}
-          disabled={disabled || field.disabled}
-        />
-      }
-      label={field.label}
-    />
-  );
-};
-
-const TextAreaField = ({ field, ctrlField, disabled, errors }) => {
-  const handleChange = createChangeHandler(ctrlField.onChange);
-
-  return (
-    <StyledTextField
-      id={field.name}
-      label={field.label}
-      fullWidth
-      multiline
-      rows={field.rows ?? 4}
-      value={ctrlField.value || ''}
-      onChange={handleChange}
-      placeholder={field.placeholder}
-      disabled={disabled || field.disabled}
-      error={!!errors[field.name]}
-    />
-  );
-};
-
-const InputField = ({ field, ctrlField, disabled, errors, theme }) => {
-  const handleChange = createChangeHandler(ctrlField.onChange);
-
-  return (
-    <StyledTextField
-      id={field.name}
-      label={field.label}
-      fullWidth
+    <BaseTextField
+      field={field}
+      ctrlField={ctrlField}
+      disabled={disabled}
+      errors={errors}
       type={field.type === 'search' ? 'text' : field.type}
-      value={ctrlField.value || ''}
-      onChange={handleChange}
-      placeholder={field.placeholder}
-      disabled={disabled || field.disabled}
-      error={!!errors[field.name]}
-      inputProps={{
-        inputMode: getInputMode(field.type),
-      }}
+      inputProps={{ inputMode: getInputMode(field.type) }}
       InputProps={{
         startAdornment:
           field.type === 'search' ? (
             <InputAdornment position="start">
-              <SearchIcon
-                data-testid="search-icon"
-                fontSize="small"
-                sx={{ color: theme.palette.text.secondary }}
-              />
+              <SearchIcon fontSize="small" sx={{ color: theme.palette.text.secondary }} />
             </InputAdornment>
           ) : undefined,
       }}
@@ -174,49 +151,46 @@ const InputField = ({ field, ctrlField, disabled, errors, theme }) => {
   );
 };
 
-const renderFieldByType = (field: FormField, props: typeof RenderFieldProps) => {
+const renderFieldByType = <T extends FieldValues>(field: FormField, props: RenderFieldProps<T>) => {
   switch (field.type) {
     case 'select':
-      return <SelectField {...props} field={field} />;
+      return <SelectField {...props} />;
     case 'radio':
-      return <RadioField {...props} field={field} />;
+      return <RadioField {...props} />;
     case 'checkbox':
-      return <CheckboxField {...props} field={field} />;
+      return <CheckboxField {...props} />;
     case 'textarea':
-      return <TextAreaField {...props} field={field} />;
+      return <TextAreaField {...props} />;
     default:
-      return <InputField {...props} field={field} />;
+      return <InputField {...props} />;
   }
 };
 
-export const Form: React.FC<FormProps> = ({
+export const Form = <T extends FieldValues>({
   fields,
   onSubmit,
-  defaultValues: propDefaultValues,
+  defaultValues,
   disabled = false,
   submitButtonText,
   resetButtonText,
   showResetButton = true,
-}) => {
-  const theme = useTheme();
+}: FormProps<T>) => {
+  const initialDefaultValues = useMemo(() => {
+    if (defaultValues) return defaultValues;
 
-  const submitText =
-    submitButtonText || theme.components?.MuiButton?.defaultProps?.children || 'Submit';
-  const resetText = resetButtonText || 'Reset';
+    return fields.reduce(
+      (acc, field) => {
+        acc[field.name] = field.type === 'checkbox' ? false : '';
+        return acc;
+      },
+      {} as Record<string, string | boolean>
+    );
+  }, [fields, defaultValues]);
 
-  const initialDefaultValues = React.useMemo(() => {
-    if (propDefaultValues) return propDefaultValues;
+  const schema = useMemo(() => buildFormSchema(fields), [fields]);
 
-    const defaults: Record<string, unknown> = {};
-    fields.forEach((field) => {
-      defaults[field.name] = field.type === 'checkbox' ? false : '';
-    });
-    return defaults;
-  }, [fields, propDefaultValues]);
+  const methods = useFormHook<T>(schema, initialDefaultValues);
 
-  const schema = React.useMemo(() => buildFormSchema(fields), [fields]);
-
-  const methods = useFormHook(schema, initialDefaultValues);
   const {
     reset,
     control,
@@ -224,13 +198,7 @@ export const Form: React.FC<FormProps> = ({
     formState: { errors },
   } = methods;
 
-  const handleReset = () => {
-    reset(initialDefaultValues);
-  };
-
   return (
-    // NOTE: react-hook-form FormProvider requires full methods object.
-    // Spread operator is used intentionally as per library design.
     <FormProvider {...methods}>
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <GridContainer>
@@ -246,15 +214,12 @@ export const Form: React.FC<FormProps> = ({
                       ctrlField,
                       disabled,
                       errors,
-                      theme,
                     })
                   }
                 />
 
-                {errors[field.name] && (
-                  <StyledFormHelperText>
-                    {errors[field.name]?.message as string}
-                  </StyledFormHelperText>
+                {errors[field.name]?.message && (
+                  <StyledFormHelperText>{String(errors[field.name]?.message)}</StyledFormHelperText>
                 )}
               </StyledFormControl>
             </GridItem>
@@ -262,13 +227,13 @@ export const Form: React.FC<FormProps> = ({
         </GridContainer>
 
         <ButtonContainer>
-          <StyledButton type="submit" variant="contained" sx={{ marginRight: theme.spacing(1) }}>
-            {submitText}
+          <StyledButton type="submit" variant="contained">
+            {submitButtonText || 'Submit'}
           </StyledButton>
 
           {showResetButton && (
-            <StyledButton type="button" variant="outlined" onClick={handleReset}>
-              {resetText}
+            <StyledButton type="button" variant="outlined" onClick={() => reset()}>
+              {resetButtonText || 'Reset'}
             </StyledButton>
           )}
         </ButtonContainer>
