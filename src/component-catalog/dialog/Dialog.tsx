@@ -59,7 +59,7 @@ const Dialog = (props: DialogProps) => {
           </Typography>
           {showCloseButton && (
             <IconButton
-              aria-label="close"
+              aria-label="close-dialog"
               onClick={onClose}
               sx={{ position: 'absolute', right: theme.spacing(1), top: theme.spacing(1) }}
             >
