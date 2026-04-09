@@ -52,9 +52,9 @@ const Dialog = (props: DialogProps) => {
       aria-labelledby="dialog-title"
       slotProps={{
         backdrop: {
-          // @ts-expect-error - data-testid no está en la definición oficial pero es necesario para el test
+          // @ts-expect-error - Cambiamos el rol para que el test no encuentre duplicados
           'data-testid': 'mui-dialog-backdrop',
-          component: 'div',
+          role: 'none',
         },
       }}
     >
