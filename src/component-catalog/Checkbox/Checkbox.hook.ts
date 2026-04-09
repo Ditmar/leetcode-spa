@@ -1,5 +1,7 @@
 import { useControlled } from '@mui/material/utils';
 
+import type { ChangeEvent } from 'react';
+
 export const useCheckboxState = ({
   checked: checkedProp,
   defaultChecked,
@@ -14,7 +16,7 @@ export const useCheckboxState = ({
     state: 'checked',
   });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
 
