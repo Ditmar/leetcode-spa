@@ -29,13 +29,12 @@ const Dialog = (props: DialogProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  // Corregido: se cambió 'any' por 'object' para cumplir con las reglas de Lint
-  const handleMuiDialogClose = (_: object, reason: string) => {
+  const handleMuiDialogClose = (_: object, reason: 'backdropClick' | 'escapeKeyDown' | 'closeButtonClick') => {
     if (persistent && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
       return;
     }
     onClose();
-  };
+   };
 
   return (
     <StyledMuiDialog
