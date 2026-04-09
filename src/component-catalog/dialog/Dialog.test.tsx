@@ -12,13 +12,13 @@ describe('Dialog Component', () => {
 
   it('debe renderizar el título correctamente', () => {
     render(<Dialog isOpen={true} onClose={onCloseMock} title="Título de Prueba" />);
-    
+
     expect(screen.getByTestId('mui-dialog-title')).toHaveTextContent('Título de Prueba');
   });
 
   it('debe llamar a onClose cuando se hace clic en el botón de cerrar', () => {
     render(<Dialog isOpen={true} onClose={onCloseMock} title="Test" showCloseButton={true} />);
-    
+
     const closeButton = screen.getByLabelText('close-dialog');
     fireEvent.click(closeButton);
 
