@@ -13,6 +13,7 @@ import React from 'react';
 import { DIALOG_SIZES } from './Dialog.constants';
 import { StyledMuiDialog } from './Dialog.styles';
 import { type DialogProps } from './Dialog.types';
+
 const Dialog = (props: DialogProps) => {
   const {
     isOpen,
@@ -29,19 +30,18 @@ const Dialog = (props: DialogProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleMuiDialogClose = (_: object, reason: 'backdropClick' | 'escapeKeyDown' | 'closeButtonClick') => {
+  const handleMuiDialogClose = (_: object, reason: 'backdropClick' | 'escapeKeyDown') => {
     if (persistent && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
       return;
     }
     onClose();
-   };
+  };
 
   return (
     <StyledMuiDialog
       data-testid="mui-dialog-container"
       open={isOpen}
       onClose={handleMuiDialogClose}
-      // Corregido: se eliminó 'as any' y se usó un tipado explícito para Material UI
       maxWidth={
         maxWidth === DIALOG_SIZES.FULL_SCREEN
           ? false
