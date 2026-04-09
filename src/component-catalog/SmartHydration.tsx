@@ -1,10 +1,13 @@
 import { Box, Typography, Button } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
-export default function HydrationDemo() {
+type SmartHydrationProps = {
+  threshold: number;
+};
+
+export default function SmartHydration({ threshold }: SmartHydrationProps) {
   const [shouldHydrate, setShouldHydrate] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
-  const threshold = 1000; // 1 segundo
 
   useEffect(() => {
     const timer = setTimeout(() => setShouldHydrate(true), threshold);

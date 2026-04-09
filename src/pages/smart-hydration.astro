@@ -9,11 +9,11 @@ import SmartHydrationComponent from '../component-catalog/SmartHydration';
     <h1>Hidratación Inteligente</h1>
 
     <MyCustomProvider mode="ssr" client:load>
-      <SmartHydration threshold={500} />
+      <SmartHydrationComponent threshold={500} />
     </MyCustomProvider>
 
     <MyCustomProvider mode="client-only" client:idle>
-      <SmartHydration threshold={2000} />
+      <SmartHydrationComponent threshold={2000} />
     </MyCustomProvider>
   </main>
 </Layout>
