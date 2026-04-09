@@ -2,10 +2,10 @@ import { Box, Typography, Button } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
 type SmartHydrationProps = {
-  threshold: number;
+  threshold?: number; // 👈 opcional para no romper tests
 };
 
-export default function SmartHydration({ threshold }: SmartHydrationProps) {
+const SmartHydration = ({ threshold = 1000 }: SmartHydrationProps) => {
   const [shouldHydrate, setShouldHydrate] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
 
@@ -31,9 +31,15 @@ export default function SmartHydration({ threshold }: SmartHydrationProps) {
   return (
     <Box sx={{ p: 2, bgcolor: 'primary.light' }}>
       <Typography variant="h6">✅ Componente Hidratado</Typography>
-      <Button variant="contained" onClick={() => alert('¡Funcional!')} sx={{ mt: 1 }}>
+      <Button
+        variant="contained"
+        onClick={() => alert('¡Funcional!')}
+        sx={{ mt: 1 }}
+      >
         Interactuar
       </Button>
     </Box>
   );
-}
+};
+
+export default SmartHydration;
