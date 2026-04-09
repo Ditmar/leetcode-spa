@@ -41,4 +41,4 @@ const Carousel = ({ children, autoPlay = false, interval = 3000 }: CarouselProps
   );
 };
 
-export { Carousel };
+export default Carousel;
