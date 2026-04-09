@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type KeyboardEvent } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { COMMAND_KEYS } from './Command.constants';
 import { filterGroups } from './Command.utils';
@@ -24,9 +24,9 @@ export const useCommand = ({ groups, onClose }: UseCommandParams) => {
 
   useEffect(() => {
     setHighlightedIndex(0);
-  }, [query]);
+  }, [filteredGroups]);
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement | HTMLInputElement>) => {
     if (!flatItems.length) {
       if (event.key === COMMAND_KEYS.ESCAPE) {
         onClose?.();

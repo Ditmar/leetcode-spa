@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useId, useState } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 
 import { useCommand } from './Command.hook';
 import {
@@ -22,9 +22,9 @@ import {
   CommandWrapper,
 } from './Command.styles';
 
-import type { CommandProps } from './Command.types';
+import type { CommandProps, CommandItem } from './Command.types';
 
-export default function Command({
+export const Command = ({
   open = false,
   groups,
   placeholder = 'Type a command or search...',
@@ -32,29 +32,47 @@ export default function Command({
   title = 'Command',
   subtitle = 'Command palette / search',
   onClose,
-}: CommandProps) {
-  const [internalOpen, setInternalOpen] = useState(open);
+}: CommandProps) => {
+  const [internalOpen, setInternalOpen] = useState(open || false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const listboxId = useId();
 
-  const handleClose = () => {
+  useEffect(() => {
+    setInternalOpen(open);
+  }, [open]);
+
+  const handleClose = useCallback(() => {
     setInternalOpen(false);
     onClose?.();
-  };
+  }, [onClose]);
 
-  const { query, setQuery, filteredGroups, highlightedIndex, handleKeyDown } = useCommand({
-    groups,
-    onClose: handleClose,
-  });
+  const { query, setQuery, filteredGroups, flatItems, highlightedIndex, handleKeyDown } =
+    useCommand({
+      groups,
+      onClose: handleClose,
+    });
 
   const hasResults = filteredGroups.length > 0;
-  const flatItems = filteredGroups.flatMap((group) => group.items.filter((item) => !item.disabled));
-
   const activeItem = flatItems[highlightedIndex];
   const activeDescendantId = activeItem ? `command-item-${activeItem.id}` : undefined;
 
-  let currentItemIndex = -1;
+  const handleOpen = useCallback(() => setInternalOpen(true), []);
+
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setQuery(event.target.value);
+    },
+    [setQuery]
+  );
+
+  const handleSelect = useCallback(
+    (itm: CommandItem) => () => {
+      itm.onSelect?.();
+      handleClose();
+    },
+    [handleClose]
+  );
 
   return (
     <CommandWrapper>
@@ -67,7 +85,7 @@ export default function Command({
       </Typography>
 
       <CommandPanel>
-        <CommandOpenButton variant="outlined" size="small" onClick={() => setInternalOpen(true)}>
+        <CommandOpenButton variant="outlined" size="small" onClick={handleOpen}>
           Open Command Palette
         </CommandOpenButton>
 
@@ -83,7 +101,7 @@ export default function Command({
               fullWidth
               value={query}
               placeholder={placeholder}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={handleChange}
               onKeyDown={handleKeyDown}
               role="combobox"
               aria-expanded={internalOpen}
@@ -96,7 +114,7 @@ export default function Command({
                   </InputAdornment>
                 ),
                 sx: {
-                  minHeight: isMobile ? 44 : undefined,
+                  minHeight: isMobile ? theme.spacing(5.5) : undefined,
                 },
               }}
             />
@@ -106,17 +124,14 @@ export default function Command({
                 <List id={listboxId} sx={{ py: 1 }}>
                   {filteredGroups.map((group) => (
                     <li key={group.id}>
-                      <ul style={{ padding: 0, margin: 0 }}>
+                      <Box component="ul" sx={{ p: 0, m: 0 }}>
                         <ListSubheader>{group.heading}</ListSubheader>
 
                         {group.items.map((item) => {
-                          if (!item.disabled) {
-                            currentItemIndex += 1;
-                          }
-
-                          const isHighlighted =
-                            !item.disabled && currentItemIndex === highlightedIndex;
-
+                          const itemIndex = flatItems.findIndex(
+                            (flatItem) => flatItem.id === item.id
+                          );
+                          const isHighlighted = itemIndex !== -1 && itemIndex === highlightedIndex;
                           const itemDomId = `command-item-${item.id}`;
 
                           return (
@@ -125,15 +140,13 @@ export default function Command({
                               id={itemDomId}
                               disabled={item.disabled}
                               selected={isHighlighted}
-                              onClick={() => {
-                                item.onSelect?.();
-                                handleClose();
-                              }}
+                              onClick={handleSelect(item)}
                             >
                               <Box
                                 sx={{
                                   display: 'flex',
                                   alignItems: 'center',
+                                  gap: theme.spacing(1.25),
                                   justifyContent: 'space-between',
                                   width: '100%',
                                 }}
@@ -146,7 +159,7 @@ export default function Command({
                                       justifyContent: 'center',
                                       color: 'var(--ring)',
                                       '& svg': {
-                                        fontSize: 18,
+                                        fontSize: theme.typography.body1.fontSize,
                                       },
                                     }}
                                   >
@@ -154,7 +167,10 @@ export default function Command({
                                   </Box>
 
                                   <Typography
-                                    sx={{ fontSize: 15, fontWeight: isHighlighted ? 500 : 400 }}
+                                    sx={{
+                                      fontSize: theme.typography.body2.fontSize,
+                                      fontWeight: isHighlighted ? 500 : 400,
+                                    }}
                                   >
                                     {item.label}
                                   </Typography>
@@ -169,7 +185,7 @@ export default function Command({
                             </CommandItemRow>
                           );
                         })}
-                      </ul>
+                      </Box>
                     </li>
                   ))}
                 </List>
@@ -182,4 +198,4 @@ export default function Command({
       </CommandPanel>
     </CommandWrapper>
   );
-}
+};

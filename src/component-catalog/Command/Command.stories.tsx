@@ -5,28 +5,29 @@ import {
   SettingsOutlined,
 } from '@mui/icons-material';
 
-import Command from './Command';
+import { Command } from './Command';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj, Decorator } from '@storybook/react';
+
+const CenterDecorator: Decorator = (Story) => (
+  <div
+    style={{
+      padding: 0,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+    }}
+  >
+    <Story />
+  </div>
+);
 
 const meta: Meta<typeof Command> = {
   title: 'Component-Catalog/Command',
   component: Command,
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          padding: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '100vh',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
+  // Usamos la constante que creamos arriba
+  decorators: [CenterDecorator],
 };
 
 export default meta;
