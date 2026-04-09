@@ -1,4 +1,3 @@
-import CloseIcon from '@mui/icons-material/Close';
 import {
   DialogTitle,
   DialogContent,
@@ -9,6 +8,7 @@ import {
   useTheme,
 } from '@mui/material';
 import React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { DIALOG_SIZES } from './Dialog.constants';
 import { StyledMuiDialog } from './Dialog.styles';
@@ -52,9 +52,10 @@ const Dialog = (props: DialogProps) => {
       aria-labelledby="dialog-title"
       slotProps={{
         backdrop: {
-          // @ts-expect-error - Cambiamos el rol para que el test no encuentre duplicados
+          // @ts-expect-error - Escondemos el fondo del test para evitar el error de roles duplicados
           'data-testid': 'mui-dialog-backdrop',
-          role: 'none',
+          'aria-hidden': 'true',
+          role: 'presentation',
         },
       }}
     >
