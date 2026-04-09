@@ -1,4 +1,3 @@
-import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   DialogTitle,
@@ -9,11 +8,11 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import React from 'react';
 
 import { DIALOG_SIZES } from './Dialog.constants';
 import { StyledMuiDialog } from './Dialog.styles';
 import { type DialogProps } from './Dialog.types';
-
 const Dialog = (props: DialogProps) => {
   const {
     isOpen,
@@ -44,7 +43,11 @@ const Dialog = (props: DialogProps) => {
       open={isOpen}
       onClose={handleMuiDialogClose}
       // Corregido: se eliminó 'as any' y se usó un tipado explícito para Material UI
-      maxWidth={maxWidth === DIALOG_SIZES.FULL_SCREEN ? false : (maxWidth as 'xs' | 'sm' | 'md' | 'lg' | 'xl')}
+      maxWidth={
+        maxWidth === DIALOG_SIZES.FULL_SCREEN
+          ? false
+          : (maxWidth as 'xs' | 'sm' | 'md' | 'lg' | 'xl')
+      }
       fullWidth
       fullScreen={isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN}
       aria-labelledby="dialog-title"
