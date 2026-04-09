@@ -31,11 +31,7 @@ const SmartHydration = ({ threshold = 1000 }: SmartHydrationProps) => {
   return (
     <Box sx={{ p: 2, bgcolor: 'primary.light' }}>
       <Typography variant="h6">✅ Componente Hidratado</Typography>
-      <Button
-        variant="contained"
-        onClick={() => alert('¡Funcional!')}
-        sx={{ mt: 1 }}
-      >
+      <Button variant="contained" onClick={() => alert('¡Funcional!')} sx={{ mt: 1 }}>
         Interactuar
       </Button>
     </Box>
