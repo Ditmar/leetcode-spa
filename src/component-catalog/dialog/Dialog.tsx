@@ -7,7 +7,6 @@ import {
   IconButton,
   useMediaQuery,
   useTheme,
-  type BackdropProps,
 } from '@mui/material';
 import React from 'react';
 
@@ -51,13 +50,13 @@ const Dialog = (props: DialogProps) => {
       fullWidth
       fullScreen={isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN}
       aria-labelledby="dialog-title"
-      // Quitamos el rol al Backdrop para que el test no encuentre duplicados
-      BackdropProps={
-        {
+      slotProps={{
+        backdrop: {
           'data-testid': 'mui-dialog-backdrop',
-          role: undefined,
-        } as Partial<BackdropProps>
-      }
+          // @ts-expect-error - Ignoramos el error de tipo en el rol para que el test funcione correctamente
+          role: null,
+        },
+      }}
     >
       {title && (
         <DialogTitle id="dialog-title" data-testid="mui-dialog-title" sx={{ m: 0, p: 2 }}>
