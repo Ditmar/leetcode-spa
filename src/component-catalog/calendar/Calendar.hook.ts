@@ -1,8 +1,10 @@
 import { useState, useCallback } from 'react';
-import type { Dayjs } from 'dayjs';
+
 import { EMPTY_RANGE } from './Calendar.constants';
 import { resolveRangeSelection, toggleDayInMulti } from './Calendar.utils';
+
 import type { DateRange } from './Calendar.types';
+import type { Dayjs } from 'dayjs';
 
 export interface UseSingleDateOptions {
   initial?: Dayjs | null;

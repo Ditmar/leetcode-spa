@@ -1,6 +1,5 @@
-import type { Dayjs } from 'dayjs';
-
 import type { DateRange } from './Calendar.types';
+import type { Dayjs } from 'dayjs';
 
 export function isDayInRange(day: Dayjs, range: DateRange): boolean {
   const { start, end } = range;
