@@ -1,14 +1,14 @@
+import React, { useCallback, useEffect } from 'react';
+
+import type { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
+import type { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import React, { useCallback } from 'react';
 
 import { useSingleDate, useDateRange, useMultiDate } from './Calendar.hook';
 import { CalendarWrapper, StyledDateCalendar, StyledPickersDay } from './Calendar.styles';
 import { isDayInRange, isDaySelected } from './Calendar.utils';
-
 import type { CalendarProps, DateRange } from './Calendar.types';
-import type { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
-import type { Dayjs } from 'dayjs';
 
 interface SingleProps {
   value?: Dayjs | null;
@@ -21,10 +21,14 @@ function SingleCalendar({
   onChange: onChangeProp,
   shouldDisableDate,
 }: SingleProps) {
-  const { value, handleChange } = useSingleDate({
+  const { value, handleChange, setValue } = useSingleDate({
     initial: valueProp,
     onChange: onChangeProp,
   });
+
+  useEffect(() => {
+    setValue(valueProp ?? null);
+  }, [valueProp]);
 
   return (
     <CalendarWrapper>
@@ -49,10 +53,14 @@ function RangeCalendar({
   onChange: onChangeProp,
   shouldDisableDate,
 }: RangeProps) {
-  const { range, handleDayClick } = useDateRange({
+  const { range, handleDayClick, setRange } = useDateRange({
     initial: valueProp,
     onChange: onChangeProp,
   });
+
+  useEffect(() => {
+    if (valueProp) setRange(valueProp);
+  }, [valueProp]);
 
   const renderDay = useCallback(
     (props: PickersDayProps) => {
@@ -102,10 +110,14 @@ function MultiCalendar({
   onChange: onChangeProp,
   shouldDisableDate,
 }: MultiProps) {
-  const { dates, handleDayClick } = useMultiDate({
+  const { dates, handleDayClick, setDates } = useMultiDate({
     initial: valueProp,
     onChange: onChangeProp,
   });
+
+  useEffect(() => {
+    if (valueProp) setDates(valueProp);
+  }, [valueProp]);
 
   const renderDay = useCallback(
     (props: PickersDayProps) => {

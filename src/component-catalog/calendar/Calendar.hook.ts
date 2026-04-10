@@ -1,17 +1,24 @@
 import { useState, useCallback } from 'react';
-
+import type { Dayjs } from 'dayjs';
 import { EMPTY_RANGE } from './Calendar.constants';
 import { resolveRangeSelection, toggleDayInMulti } from './Calendar.utils';
-
 import type { DateRange } from './Calendar.types';
-import type { Dayjs } from 'dayjs';
 
 export interface UseSingleDateOptions {
   initial?: Dayjs | null;
   onChange?: (date: Dayjs | null) => void;
 }
 
-export function useSingleDate({ initial = null, onChange }: UseSingleDateOptions) {
+export interface UseSingleDateReturn {
+  value: Dayjs | null;
+  handleChange: (date: Dayjs | null) => void;
+  setValue: (date: Dayjs | null) => void;
+}
+
+export function useSingleDate({
+  initial = null,
+  onChange,
+}: UseSingleDateOptions): UseSingleDateReturn {
   const [value, setValue] = useState<Dayjs | null>(initial);
 
   const handleChange = useCallback(
@@ -22,7 +29,7 @@ export function useSingleDate({ initial = null, onChange }: UseSingleDateOptions
     [onChange]
   );
 
-  return { value, handleChange };
+  return { value, handleChange, setValue };
 }
 
 export interface UseDateRangeOptions {
@@ -30,7 +37,16 @@ export interface UseDateRangeOptions {
   onChange?: (range: DateRange) => void;
 }
 
-export function useDateRange({ initial = EMPTY_RANGE, onChange }: UseDateRangeOptions) {
+export interface UseDateRangeReturn {
+  range: DateRange;
+  handleDayClick: (day: Dayjs) => void;
+  setRange: (range: DateRange) => void;
+}
+
+export function useDateRange({
+  initial = EMPTY_RANGE,
+  onChange,
+}: UseDateRangeOptions): UseDateRangeReturn {
   const [range, setRange] = useState<DateRange>(initial);
 
   const handleDayClick = useCallback(
@@ -44,7 +60,7 @@ export function useDateRange({ initial = EMPTY_RANGE, onChange }: UseDateRangeOp
     [onChange]
   );
 
-  return { range, handleDayClick };
+  return { range, handleDayClick, setRange };
 }
 
 export interface UseMultiDateOptions {
@@ -52,7 +68,13 @@ export interface UseMultiDateOptions {
   onChange?: (dates: Dayjs[]) => void;
 }
 
-export function useMultiDate({ initial = [], onChange }: UseMultiDateOptions) {
+export interface UseMultiDateReturn {
+  dates: Dayjs[];
+  handleDayClick: (day: Dayjs) => void;
+  setDates: (dates: Dayjs[]) => void;
+}
+
+export function useMultiDate({ initial = [], onChange }: UseMultiDateOptions): UseMultiDateReturn {
   const [dates, setDates] = useState<Dayjs[]>(initial);
 
   const handleDayClick = useCallback(
@@ -66,5 +88,5 @@ export function useMultiDate({ initial = [], onChange }: UseMultiDateOptions) {
     [onChange]
   );
 
-  return { dates, handleDayClick };
+  return { dates, handleDayClick, setDates };
 }

@@ -29,7 +29,7 @@ The `Calendar` component supports three selection modes via the `mode` prop:
 
 ```bash
 # Already in your project — just add MUI X and dayjs:
-npm install @mui/x-date-pickers dayjs
+yarn add @mui/x-date-pickers dayjs
 ```
 
 > Your project already ships `@mui/material` v7 and `@emotion/*`. No extra peer deps needed.
@@ -39,29 +39,28 @@ npm install @mui/x-date-pickers dayjs
 ## Quick Start
 
 ```tsx
-import dayjs from 'dayjs';
+import { useState } from 'react';
+import dayjs, { type Dayjs } from 'dayjs';
 import { Calendar } from '@/components/Calendar';
+import type { DateRange } from '@/components/Calendar/Calendar.types';
 
 // Single date
-<Calendar
-  mode="single"
-  value={dayjs()}
-  onChange={(date) => console.log(date?.format('YYYY-MM-DD'))}
-/>
+function SingleExample() {
+  const [date, setDate] = useState<Dayjs | null>(dayjs());
+  return <Calendar mode="single" value={date} onChange={setDate} />;
+}
 
 // Date range
-<Calendar
-  mode="range"
-  value={{ start: dayjs(), end: dayjs().add(7, 'day') }}
-  onChange={({ start, end }) => console.log(start, end)}
-/>
+function RangeExample() {
+  const [range, setRange] = useState<DateRange>({ start: dayjs(), end: dayjs().add(7, 'day') });
+  return <Calendar mode="range" value={range} onChange={setRange} />;
+}
 
 // Multi date
-<Calendar
-  mode="multi"
-  value={[dayjs(), dayjs().add(3, 'day')]}
-  onChange={(dates) => console.log(dates.map((d) => d.format('YYYY-MM-DD')))}
-/>
+function MultiExample() {
+  const [dates, setDates] = useState<Dayjs[]>([dayjs(), dayjs().add(3, 'day')]);
+  return <Calendar mode="multi" value={dates} onChange={setDates} />;
+}
 ```
 
 ---

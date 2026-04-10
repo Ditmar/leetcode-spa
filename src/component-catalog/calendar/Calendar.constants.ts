@@ -1,8 +1,7 @@
-export const EMPTY_RANGE = { start: null, end: null };
-// as {
-//   start: Dayjs | null;
-//   end: Dayjs | null;
-// };
+import type { DateRange } from './Calendar.types';
+
+export const EMPTY_RANGE: DateRange = { start: null, end: null };
+
 export type variants = 'selected' | 'inRange' | 'default';
 export type CalendarStateStyle = {
   backgroundColor: string;

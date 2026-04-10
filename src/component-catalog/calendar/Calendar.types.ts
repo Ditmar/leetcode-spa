@@ -32,7 +32,6 @@ export interface CalendarCommonProps
   maxDate?: Dayjs;
   shouldDisableDate?: (day: Dayjs) => boolean;
   fullWidth?: boolean;
-  'aria-label'?: string;
 }
 
 export type CalendarProps = CalendarCommonProps &

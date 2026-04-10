@@ -1,7 +1,8 @@
+import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import dayjs from 'dayjs';
-import React from 'react';
+import dayjs, { Dayjs } from 'dayjs';
+
 import { describe, it, expect, vi } from 'vitest';
 
 import { Calendar } from './Calendar';
@@ -39,7 +40,12 @@ describe('Calendar — single', () => {
   it('selects day', async () => {
     const user = userEvent.setup();
 
-    render(<Calendar mode="single" value={REF} />);
+    function Wrapper() {
+      const [value, setValue] = React.useState<Dayjs | null>(REF);
+      return <Calendar mode="single" value={value} onChange={setValue} />;
+    }
+
+    render(<Wrapper />);
 
     await clickDay(user, 20);
 

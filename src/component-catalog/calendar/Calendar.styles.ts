@@ -38,8 +38,8 @@ export const StyledDateCalendar = styled(DateCalendar)(({ theme }) => ({
     },
   },
 
-  '& .MuiPickersDay-today': {
-    border: '1px solid var(--primary) !important',
+  '& .MuiPickersDay-root.MuiPickersDay-today': {
+    border: '1px solid var(--primary) ',
   },
 
   '& .MuiPickersArrowSwitcher-button': {
@@ -48,7 +48,7 @@ export const StyledDateCalendar = styled(DateCalendar)(({ theme }) => ({
       backgroundColor: 'var(--accent)',
     },
   },
-})) as typeof DateCalendar;
+}));
 
 export interface StyledPickersDayProps {
   isRangeStart?: boolean;
