@@ -1,12 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Avatar from "@mui/material/Avatar";
 import { Card } from "./Card";
+import Button from "@mui/material/Button";
 
 const meta: Meta<typeof Card> = {
   title: "ComponentCatalog/Card",
   component: Card,
 
-  // 🔥 evita que Storybook meta {}
+  parameters: {
+    viewport: {
+      defaultViewport: "responsive",
+    },
+  },
+  
   argTypes: {
     avatar: { control: false },
     children: { control: false },
@@ -40,6 +46,49 @@ export const Expandable: Story = {
     title: "Expandable Card",
     expandable: true,
     expandedContent: "Hidden content",
+  },
+};
+
+export const Highlighted: Story = {
+  args: {
+    customVariant: "highlighted",
+    title: "Highlighted Card",
+    subheader: "With custom styling",
+    children: "Cards can be customized with different colors and styles.",
+  },
+};
+
+export const WithFooter: Story = {
+  args: {
+    title: "Card with Footer",
+    children: "This card includes footer actions.",
+    actions: (
+      <>
+        <Button
+          variant="outlined"
+          sx={{
+            borderColor: "var(--primary)",
+            color: "var(--primary)",
+          }}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: "var(--primary)",
+            color: "var(--primary-foreground)",
+            "&:hover": {
+              backgroundColor: "var(--primary)",
+              opacity: 0.9,
+            },
+          }}
+        >
+          Save
+        </Button>
+      </>
+    ),
   },
 };
 

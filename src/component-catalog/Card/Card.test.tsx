@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 import { Card } from "./Card";
-import { describe } from "vitest";
+import { describe,it,expect } from "vitest";
 
 describe("Card Component", () => {
   it("renders title", () => {
@@ -62,4 +62,9 @@ describe("Card Component", () => {
 
     expect(screen.getByTestId("avatar")).toBeInTheDocument();
   });
+  
+  it("renders highlighted variant", () => {
+  render(<Card customVariant="highlighted" title="Hi" />);
+  expect(screen.getByText("Hi")).toBeInTheDocument();
+});
 });

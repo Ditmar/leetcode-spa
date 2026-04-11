@@ -652,14 +652,14 @@ theme.palette = {
   text: {
     primary: '#000000',
     secondary: '#4F4F4F',
-    disabled: '',
+    disabled: '#9E9E9E',
   },
   backgroundQuestion: '#F1F3F9',
   backgroundIcon: '#F8F6FF',
   backgroundCard: '#FAFAFA',
   statsNumbers: '#0D0D0DCC',
   statsLabel: '#0D0D0D80',
-};
+}as any;
 theme.consoleIO = {
   dimensions: {
     containerWidth: 260,

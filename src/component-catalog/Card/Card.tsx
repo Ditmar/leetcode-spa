@@ -11,7 +11,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import type { CardProps } from "./Card.types";
 import { useCardExpand } from "./Card.hook";
-import { StyledCard, VerticalCard } from "./Card.styles";
+import {
+  StyledCard,
+  VerticalCard,
+  HighlightedCard,
+} from "./Card.styles";
 
 // 🔥 helper para evitar {}
 const isValidNode = (node: any) => {
@@ -24,6 +28,7 @@ const isValidNode = (node: any) => {
 
 export const Card = ({
   layout = "vertical",
+  customVariant = "default", 
   title,
   subheader,
   avatar,
@@ -38,7 +43,14 @@ export const Card = ({
   const { expanded, toggleExpand } = useCardExpand();
 
   const isHorizontal = layout === "horizontal";
-  const Container = isHorizontal ? StyledCard : VerticalCard;
+
+  // ✅ usar let porque se reasigna
+  let Container = isHorizontal ? StyledCard : VerticalCard;
+
+  // ✅ usar customVariant (no variant)
+  if (customVariant === "highlighted") {
+    Container = HighlightedCard;
+  }
 
   return (
     <Container {...props}>
@@ -47,6 +59,7 @@ export const Card = ({
           xs: "column",
           md: isHorizontal ? "row" : "column",
         }}
+        spacing={2} 
         width="100%"
       >
         {media && (
@@ -74,7 +87,14 @@ export const Card = ({
           <CardContent>{isValidNode(children)}</CardContent>
 
           {(actions || expandable) && (
-            <CardActions>
+            <CardActions
+              sx={{
+                px: 2,
+                pb: 2,
+                justifyContent: "flex-end",
+                gap: 1,
+              }}
+            >
               {isValidNode(actions)}
 
               {expandable && (
