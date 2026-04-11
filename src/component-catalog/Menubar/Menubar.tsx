@@ -1,6 +1,6 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Box, Menu, MenuItem, List, Collapse } from '@mui/material';
+import { Box, List, Collapse } from '@mui/material';
 
 import { useMenubar } from './Menubar.hook';
 import {
@@ -12,13 +12,13 @@ import {
   StyledDrawer,
   MobileListItem,
   SubmenuContainer,
+  StyledMenu,
+  StyledMenuItem,
+  IconWrapper,
 } from './Menubar.styles';
 
 import type { MenubarProps } from './Menubar.types';
 
-/**
- * Menubar component
- */
 export function Menubar(props: MenubarProps) {
   const { items, logo, ariaLabel = 'Main menu', onItemClick } = props;
 
@@ -63,42 +63,24 @@ export function Menubar(props: MenubarProps) {
   );
 
   const renderDesktopDropdown = () => (
-    <Menu
-      anchorEl={anchorEl}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-      role="menu"
-      PaperProps={{
-        sx: {
-          backgroundColor: 'var(--background)',
-          color: 'var(--foreground)',
-          border: '1px solid var(--border)',
-          borderRadius: 'var(--radius)',
-        },
-      }}
-    >
+    <StyledMenu anchorEl={anchorEl} open={isMenuOpen} onClose={handleMenuClose}>
       {activeMenuIndex !== null &&
         items[activeMenuIndex]?.children?.map((subItem) => (
-          <MenuItem
+          <StyledMenuItem
             key={subItem.label}
             role="menuitem"
             disabled={subItem.disabled}
-            sx={{
-              '&:hover': {
-                backgroundColor: 'var(--accent)',
-              },
-            }}
             onClick={() => {
               subItem.onClick?.();
               onItemClick?.(subItem);
               handleItemClick();
             }}
           >
-            {subItem.icon && <Box mr={1}>{subItem.icon}</Box>}
+            {subItem.icon && <IconWrapper>{subItem.icon}</IconWrapper>}
             {subItem.label}
-          </MenuItem>
+          </StyledMenuItem>
         ))}
-    </Menu>
+    </StyledMenu>
   );
 
   const renderMobileMenu = () => (
@@ -122,8 +104,10 @@ export function Menubar(props: MenubarProps) {
                 }}
                 disabled={item.disabled}
               >
-                {item.icon && <Box mr={1}>{item.icon}</Box>}
-                {item.label}
+                <Box display="flex" alignItems="center" gap={1}>
+                  {item.icon && <IconWrapper>{item.icon}</IconWrapper>}
+                  {item.label}
+                </Box>
                 {hasChildren && <ExpandMoreIcon />}
               </MobileListItem>
 
@@ -140,8 +124,10 @@ export function Menubar(props: MenubarProps) {
                         }}
                         disabled={subItem.disabled}
                       >
-                        {subItem.icon && <Box mr={1}>{subItem.icon}</Box>}
-                        {subItem.label}
+                        <Box display="flex" alignItems="center" gap={1}>
+                          {subItem.icon && <IconWrapper>{subItem.icon}</IconWrapper>}
+                          {subItem.label}
+                        </Box>
                       </MobileListItem>
                     ))}
                   </SubmenuContainer>
@@ -157,7 +143,7 @@ export function Menubar(props: MenubarProps) {
   return (
     <StyledAppBar position="static">
       <StyledToolbar role="menubar" aria-label={ariaLabel}>
-        {logo && <Box mr={2}>{logo}</Box>}
+        {logo && <Box>{logo}</Box>}
 
         {!isMobile && <Box flex={1}>{renderDesktopMenu()}</Box>}
 

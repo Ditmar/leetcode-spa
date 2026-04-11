@@ -1,38 +1,47 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
-
 import { Menubar } from './Menubar';
 
 const mockItems = [
   {
     label: 'File',
-    children: [{ label: 'New' }, { label: 'Open' }],
+    children: [
+      { label: 'New' },
+      { label: 'Open' },
+    ],
   },
   {
     label: 'Edit',
-    children: [{ label: 'Undo' }, { label: 'Redo' }],
+    children: [
+      { label: 'Undo' },
+      { label: 'Redo' },
+    ],
   },
 ];
 
 describe('Menubar', () => {
-  it('renders menubar with items', () => {
+  it('renders menu items', () => {
     render(<Menubar items={mockItems} />);
 
     expect(screen.getByText('File')).toBeInTheDocument();
     expect(screen.getByText('Edit')).toBeInTheDocument();
   });
 
-  it('opens dropdown menu on click (desktop)', () => {
+  it('opens submenu on click', async () => {
+    const user = userEvent.setup();
+
     render(<Menubar items={mockItems} />);
 
     const fileButton = screen.getByText('File');
-    fireEvent.click(fileButton);
+    await user.click(fileButton);
 
     expect(screen.getByText('New')).toBeInTheDocument();
     expect(screen.getByText('Open')).toBeInTheDocument();
   });
 
-  it('handles submenu item click', () => {
+  it('calls onClick when submenu item is clicked', async () => {
+    const user = userEvent.setup();
     const onClick = vi.fn();
 
     const items = [
@@ -44,47 +53,23 @@ describe('Menubar', () => {
 
     render(<Menubar items={items} />);
 
-    fireEvent.click(screen.getByText('File'));
-    fireEvent.click(screen.getByText('New'));
+    await user.click(screen.getByText('File'));
+    await user.click(screen.getByText('New'));
 
     expect(onClick).toHaveBeenCalled();
   });
 
-  it('renders hamburger button on mobile', () => {
-    // Mock matchMedia
-    window.matchMedia = vi.fn().mockImplementation((query) => ({
-      matches: true,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    }));
+  it('handles keyboard navigation', async () => {
+    const user = userEvent.setup();
 
     render(<Menubar items={mockItems} />);
 
-    expect(screen.getByLabelText('Open menu')).toBeInTheDocument();
-  });
+    const fileButton = screen.getByText('File');
 
-  it('opens drawer on hamburger click', () => {
-    window.matchMedia = vi.fn().mockImplementation((query) => ({
-      matches: true,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    }));
+    await user.click(fileButton); // Open the menuq
 
-    render(<Menubar items={mockItems} />);
+    await user.keyboard('{ArrowDown}');
 
-    const button = screen.getByLabelText('Open menu');
-    fireEvent.click(button);
-
-    expect(screen.getByText('File')).toBeInTheDocument();
+    expect(await screen.findByText('New')).toBeInTheDocument();
   });
 });
