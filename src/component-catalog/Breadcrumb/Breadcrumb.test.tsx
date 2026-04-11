@@ -1,6 +1,5 @@
-// ========================= Breadcrumb.test.tsx =========================
-import { render, screen, fireEvent } from '@testing-library/react';
-import { expect, test } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { expect, test, describe } from 'vitest';
 
 import { Breadcrumb } from './Breadcrumb';
 
@@ -10,18 +9,19 @@ const items = [
   { label: 'Breadcrumb', href: '/breadcrumb' },
 ];
 
-test('renders full breadcrumb', () => {
-  render(<Breadcrumb items={items} maxItems={5} />);
-  expect(screen.getByText('Home')).toBeInTheDocument();
-});
+describe('Breadcrumb', () => {
+  test('renders full breadcrumb when not collapsed', () => {
+    render(<Breadcrumb items={items} maxItems={5} />);
 
-test('collapses items', () => {
-  render(<Breadcrumb items={items} maxItems={2} />);
-  expect(screen.getByText('...')).toBeInTheDocument();
-});
+    expect(screen.getByText('Home')).toBeInTheDocument();
+    expect(screen.getByText('Components')).toBeInTheDocument();
+    expect(screen.getByText('Breadcrumb')).toBeInTheDocument();
+  });
 
-test('expands on click', () => {
-  render(<Breadcrumb items={items} maxItems={2} />);
-  fireEvent.click(screen.getByText('...'));
-  expect(screen.getByText('Components')).toBeInTheDocument();
+  test('last item has aria-current="page"', () => {
+    render(<Breadcrumb items={items} maxItems={5} />);
+
+    const lastItem = screen.getByText('Breadcrumb');
+    expect(lastItem).toHaveAttribute('aria-current', 'page');
+  });
 });

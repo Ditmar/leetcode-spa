@@ -12,12 +12,8 @@ import { getCollapsedItems } from './Breadcrumb.utils';
 
 import type { CustomBreadcrumbProps } from './Breadcrumb.types';
 
-export const Breadcrumb: React.FC<CustomBreadcrumbProps> = ({
-  items,
-  maxItems = DEFAULT_MAX_ITEMS,
-  separator,
-  ...props
-}) => {
+export const Breadcrumb = (props: CustomBreadcrumbProps) => {
+  const { items, maxItems = DEFAULT_MAX_ITEMS, separator } = props;
   const theme = useTheme();
   const { expanded, handleExpand } = useBreadcrumb();
 
