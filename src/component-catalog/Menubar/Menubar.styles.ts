@@ -1,6 +1,15 @@
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Box,
+  IconButton,
+  Drawer,
+  ListItemButton,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { AppBar, Toolbar, Button, Box, IconButton, Drawer, ListItemButton, Menu, MenuItem } from '@mui/material';
-
 
 export const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'var(--background)',
@@ -88,7 +97,6 @@ export const SubmenuContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   gap: theme.spacing(1),
 }));
-
 
 export const StyledMenu = styled(Menu)(() => ({
   '& .MuiPaper-root': {

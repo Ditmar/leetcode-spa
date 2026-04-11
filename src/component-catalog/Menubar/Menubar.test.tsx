@@ -1,22 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
+
 import { Menubar } from './Menubar';
 
 const mockItems = [
   {
     label: 'File',
-    children: [
-      { label: 'New' },
-      { label: 'Open' },
-    ],
+    children: [{ label: 'New' }, { label: 'Open' }],
   },
   {
     label: 'Edit',
-    children: [
-      { label: 'Undo' },
-      { label: 'Redo' },
-    ],
+    children: [{ label: 'Undo' }, { label: 'Redo' }],
   },
 ];
 
