@@ -1,4 +1,5 @@
 import { styled, InputLabel, Box } from '@mui/material';
+
 import type { LabelProps } from './Label.types';
 
 export const StyledInputLabel = styled(InputLabel, {
@@ -14,10 +15,10 @@ export const StyledInputLabel = styled(InputLabel, {
   fontWeight: 500,
   lineHeight: 1.5,
   marginBottom: theme.spacing(0.5),
-  
+
   // Soporte para escalado de fuente del 200%
   minHeight: '1.5em',
-  
+
   color: error ? theme.palette.error.main : theme.palette.text.primary,
   opacity: disabled ? 0.5 : 1,
 

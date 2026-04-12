@@ -2,10 +2,7 @@
  * Determina si se debe mostrar el indicador opcional.
  * No se muestra si el campo ya es obligatorio.
  */
-export const shouldShowOptional = (
-  optional?: boolean,
-  required?: boolean
-): boolean => {
+export const shouldShowOptional = (optional?: boolean, required?: boolean): boolean => {
   return Boolean(optional && !required);
 };
 

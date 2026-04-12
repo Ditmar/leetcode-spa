@@ -1,12 +1,13 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { Label } from './Label';
 import { ThemeProvider, createTheme } from '@mui/material';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
 import { describe, expect, it } from 'vitest';
+
+import { Label } from './Label';
 
 const theme = createTheme();
 
-const renderWithTheme = (ui: React.ReactElement) => 
+const renderWithTheme = (ui: React.ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>);
 
 describe('Label Component', () => {
