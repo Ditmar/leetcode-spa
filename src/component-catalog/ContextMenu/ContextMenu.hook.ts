@@ -1,21 +1,26 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 
-import { LONG_PRESS_DURATION_MS } from './ContextMenu.constants';
+import {
+  LONG_PRESS_DURATION_MS,
+  FALLBACK_MENU_WIDTH_PX,
+  FALLBACK_MENU_HEIGHT_PX,
+} from './ContextMenu.constants';
 import { clampToViewport } from './ContextMenu.utils';
 
 import type { MenuPosition } from './ContextMenu.types';
+import type { MouseEvent, PointerEvent } from 'react';
 
 export function useContextMenu() {
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState<MenuPosition>({ x: 0, y: 0 });
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openAt = useCallback((rawX: number, rawY: number) => {
-    setPosition(clampToViewport(rawX, rawY));
+    setPosition(clampToViewport(rawX, rawY, FALLBACK_MENU_WIDTH_PX, FALLBACK_MENU_HEIGHT_PX));
     setOpen(true);
   }, []);
 
   const handleContextMenu = useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       event.preventDefault();
       openAt(event.clientX, event.clientY);
     },
@@ -23,7 +28,7 @@ export function useContextMenu() {
   );
 
   const handlePointerDown = useCallback(
-    (event: React.PointerEvent) => {
+    (event: PointerEvent) => {
       if (event.pointerType === 'mouse') return;
       const { clientX, clientY } = event;
       longPressTimer.current = setTimeout(() => {
@@ -41,6 +46,15 @@ export function useContextMenu() {
   }, []);
 
   const handleClose = useCallback(() => setOpen(false), []);
+
+  useEffect(() => {
+    return () => {
+      if (longPressTimer.current) {
+        clearTimeout(longPressTimer.current);
+        longPressTimer.current = null;
+      }
+    };
+  }, []);
 
   return {
     open,

@@ -16,6 +16,13 @@ export function ContextMenu({ children, groups, onClose }: ContextMenuProps) {
     onClose?.();
   };
 
+  const handleMenuClose = () => {
+    handleClose();
+    onClose?.();
+  };
+
+  const createItemClickHandler = (itemOnClick?: () => void) => () => handleItemClick(itemOnClick);
+
   return (
     <>
       <ContextMenuTrigger
@@ -30,10 +37,7 @@ export function ContextMenu({ children, groups, onClose }: ContextMenuProps) {
 
       <StyledMenu
         open={open}
-        onClose={() => {
-          handleClose();
-          onClose?.();
-        }}
+        onClose={handleMenuClose}
         anchorReference="anchorPosition"
         anchorPosition={open ? { top: position.y, left: position.x } : undefined}
         MenuListProps={{ role: 'menu' }}
@@ -47,7 +51,7 @@ export function ContextMenu({ children, groups, onClose }: ContextMenuProps) {
               <StyledMenuItem
                 key={item.id}
                 disabled={item.disabled}
-                onClick={() => handleItemClick(item.onClick)}
+                onClick={createItemClickHandler(item.onClick)}
                 role="menuitem"
                 data-testid={`context-menu-item-${item.id}`}
               >

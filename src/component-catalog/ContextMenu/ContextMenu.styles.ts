@@ -1,7 +1,7 @@
 import { styled, Menu, MenuItem } from '@mui/material';
 
 export const ContextMenuTrigger = styled('div')({
-  display: 'contents',
+  display: 'block',
   userSelect: 'none',
 });
 

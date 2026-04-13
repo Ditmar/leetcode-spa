@@ -11,9 +11,7 @@ const meta: Meta<typeof ContextMenu> = {
   component: ContextMenu,
   decorators: [
     (Story) => (
-      <div
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}
-      >
+      <div className="context-menu-story-wrapper">
         <Story />
       </div>
     ),
@@ -38,7 +36,7 @@ export const Default: Story = {
   render: (args) => (
     <ContextMenu {...args}>
       <div style={{ padding: 40, border: '2px dashed #ccc', borderRadius: 8, color: '#888' }}>
-        Click derecho aquí
+        Right click here
       </div>
     </ContextMenu>
   ),
@@ -63,7 +61,7 @@ export const WithGroups: Story = {
   render: (args) => (
     <ContextMenu {...args}>
       <div style={{ padding: 40, border: '2px dashed #ccc', borderRadius: 8, color: '#888' }}>
-        Click derecho aquí
+        Right click here
       </div>
     </ContextMenu>
   ),
@@ -76,7 +74,7 @@ export const WithDisabled: Story = {
         id: 'group-1',
         items: [
           { id: 'copy', label: 'Copy' },
-          { id: 'paste', label: 'Paste (no disponible)', disabled: true },
+          { id: 'paste', label: 'Paste (unavailable)', disabled: true },
         ],
       },
     ],
@@ -84,7 +82,7 @@ export const WithDisabled: Story = {
   render: (args) => (
     <ContextMenu {...args}>
       <div style={{ padding: 40, border: '2px dashed #ccc', borderRadius: 8, color: '#888' }}>
-        Click derecho aquí
+        Right click here
       </div>
     </ContextMenu>
   ),
