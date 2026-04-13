@@ -1,39 +1,39 @@
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
+  CardActions,
+  CardContent,
   CardHeader,
   CardMedia,
-  CardContent,
-  CardActions,
   Collapse,
   IconButton,
   Stack,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+} from '@mui/material';
 
-import type { CardProps } from "./Card.types";
-import { useCardExpand } from "./Card.hook";
-import {
-  StyledCard,
-  VerticalCard,
-  HighlightedCard,
-} from "./Card.styles";
+import { useCardExpand } from './Card.hook';
+import { HighlightedCard, StyledCard, VerticalCard } from './Card.styles';
 
-// 🔥 helper para evitar {}
-const isValidNode = (node: any) => {
+import type { CardProps } from './Card.types';
+import type { ReactNode } from 'react';
+
+// 🔥 helper sin any (fix ESLint)
+const isValidNode = (node: ReactNode) => {
   if (!node) return undefined;
-  if (typeof node === "object" && Object.keys(node).length === 0) {
+
+  if (typeof node === 'object' && node !== null && Object.keys(node as object).length === 0) {
     return undefined;
   }
+
   return node;
 };
 
 export const Card = ({
-  layout = "vertical",
-  customVariant = "default", 
+  layout = 'vertical',
+  customVariant = 'default',
   title,
   subheader,
   avatar,
   media,
-  mediaType = "image",
+  mediaType = 'image',
   actions,
   expandable,
   expandedContent,
@@ -42,13 +42,11 @@ export const Card = ({
 }: CardProps) => {
   const { expanded, toggleExpand } = useCardExpand();
 
-  const isHorizontal = layout === "horizontal";
+  const isHorizontal = layout === 'horizontal';
 
-  // ✅ usar let porque se reasigna
   let Container = isHorizontal ? StyledCard : VerticalCard;
 
-  // ✅ usar customVariant (no variant)
-  if (customVariant === "highlighted") {
+  if (customVariant === 'highlighted') {
     Container = HighlightedCard;
   }
 
@@ -56,32 +54,28 @@ export const Card = ({
     <Container {...props}>
       <Stack
         direction={{
-          xs: "column",
-          md: isHorizontal ? "row" : "column",
+          xs: 'column',
+          md: isHorizontal ? 'row' : 'column',
         }}
-        spacing={2} 
+        spacing={2}
         width="100%"
       >
         {media && (
           <CardMedia
-            component={mediaType === "image" ? "img" : "video"}
+            component={mediaType === 'image' ? 'img' : 'video'}
             src={media}
-            controls={mediaType === "video"}
+            controls={mediaType === 'video'}
             sx={{
-              width: isHorizontal ? { xs: "100%", md: "40%" } : "100%",
-              aspectRatio: "16/9",
-              objectFit: "cover",
+              width: isHorizontal ? { xs: '100%', md: '40%' } : '100%',
+              aspectRatio: '16/9',
+              objectFit: 'cover',
             }}
           />
         )}
 
         <Stack flex={1}>
           {(title || subheader) && (
-            <CardHeader
-              avatar={isValidNode(avatar)}
-              title={title}
-              subheader={subheader}
-            />
+            <CardHeader avatar={isValidNode(avatar)} title={title} subheader={subheader} />
           )}
 
           <CardContent>{isValidNode(children)}</CardContent>
@@ -91,18 +85,14 @@ export const Card = ({
               sx={{
                 px: 2,
                 pb: 2,
-                justifyContent: "flex-end",
+                justifyContent: 'flex-end',
                 gap: 1,
               }}
             >
               {isValidNode(actions)}
 
               {expandable && (
-                <IconButton
-                  onClick={toggleExpand}
-                  aria-expanded={expanded}
-                  aria-label="show more"
-                >
+                <IconButton onClick={toggleExpand} aria-expanded={expanded} aria-label="show more">
                   <ExpandMoreIcon />
                 </IconButton>
               )}
@@ -111,9 +101,7 @@ export const Card = ({
 
           {expandable && (
             <Collapse in={expanded}>
-              <CardContent>
-                {isValidNode(expandedContent)}
-              </CardContent>
+              <CardContent>{isValidNode(expandedContent)}</CardContent>
             </Collapse>
           )}
         </Stack>
