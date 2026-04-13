@@ -8,19 +8,23 @@ import { shouldShowOptional } from './Label.utils';
  * Hook interno para el componente Label.
  * Centraliza la lógica de visualización y accesibilidad.
  */
+
 export const useLabel = (props: Partial<LabelProps>) => {
   const { required, optional, tooltip, error, disabled, id, htmlFor } = props;
 
   // 1. Lógica para el indicador opcional
+
   const showOptional = useMemo(() => shouldShowOptional(optional, required), [optional, required]);
 
   // 2. Gestión de IDs para vinculación ARIA (Tooltip -> Label)
+
   const tooltipId = useMemo(
     () => (tooltip ? `${id || htmlFor || 'label'}-tooltip` : undefined),
     [tooltip, id, htmlFor]
   );
 
   // 3. Atributos de accesibilidad derivados del estado
+
   const accessibilityProps = useMemo(
     () => ({
       'aria-required': required ? true : undefined,
@@ -33,6 +37,7 @@ export const useLabel = (props: Partial<LabelProps>) => {
   );
 
   // 4. Agrupación de textos de la interfaz (i18n ready)
+
   const i18n = {
     optionalLabel: LABEL_TEXTS.OPTIONAL_INDICATOR,
     tooltipActionLabel: LABEL_TEXTS.HELP_ICON_ARIA_LABEL,
