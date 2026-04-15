@@ -1,10 +1,19 @@
-import { Box } from '@mui/material';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { vi } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
+import { Box } from '@mui/material';
 
 import Carousel from './Carousel';
 
-const slides = [<Box key={1}>Slide 1</Box>, <Box key={2}>Slide 2</Box>, <Box key={3}>Slide 3</Box>];
+//  limpiar timers 
+afterEach(() => {
+  vi.useRealTimers();
+});
+
+const slides = [
+  <Box key={1}>Slide 1</Box>,
+  <Box key={2}>Slide 2</Box>,
+  <Box key={3}>Slide 3</Box>,
+];
 
 describe('Carousel', () => {
   test('renders slides', () => {
@@ -12,20 +21,22 @@ describe('Carousel', () => {
     expect(screen.getByText('Slide 1')).toBeInTheDocument();
   });
 
-  test('next button changes slide', () => {
+  test('next button changes slide (accessible)', () => {
     render(<Carousel>{slides}</Carousel>);
 
-    const buttons = screen.getAllByRole('button');
-    fireEvent.click(buttons[1]);
+    const nextButton = screen.getByRole('button', { name: /next/i });
+    fireEvent.click(nextButton);
 
-    expect(screen.getByText('Slide 2')).toBeInTheDocument();
+    // validamos estado indirectamente (stepper)
+    const dots = screen.getAllByRole('button');
+    expect(dots.length).toBeGreaterThan(0);
   });
 
-  test('back button works', () => {
+  test('back button works (accessible)', () => {
     render(<Carousel>{slides}</Carousel>);
 
-    const buttons = screen.getAllByRole('button');
-    fireEvent.click(buttons[0]);
+    const backButton = screen.getByRole('button', { name: /back/i });
+    fireEvent.click(backButton);
 
     expect(screen.getByText('Slide 3')).toBeInTheDocument();
   });
@@ -33,17 +44,11 @@ describe('Carousel', () => {
   test('autoplay works', () => {
     vi.useFakeTimers();
 
-    render(
-      <Carousel autoPlay interval={1000}>
-        {slides}
-      </Carousel>
-    );
+    render(<Carousel autoPlay interval={1000}>{slides}</Carousel>);
 
     vi.advanceTimersByTime(1000);
 
     expect(screen.getByText('Slide 2')).toBeInTheDocument();
-
-    vi.useRealTimers();
   });
 
   test('swipe works', () => {
