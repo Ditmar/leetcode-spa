@@ -2,16 +2,32 @@ import { useEffect, useRef, useState } from 'react';
 
 import { clampIndex } from './Carousel.utils';
 
-export function useCarousel(length: number, autoPlay: boolean, interval: number) {
+export interface UseCarouselReturn {
+  activeStep: number;
+  next: () => void;
+  back: () => void;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export function useCarousel(
+  length: number,
+  autoPlay: boolean,
+  interval: number,
+): UseCarouselReturn {
+  // 🛡️ Guard para evitar errores
+  const safeLength = length > 0 ? length : 1;
+
   const [activeStep, setActiveStep] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const next = () => {
-    setActiveStep((prev) => clampIndex(prev + 1, length));
+    if (length <= 0) return; // no-op
+    setActiveStep((prev) => clampIndex(prev + 1, safeLength));
   };
 
   const back = () => {
-    setActiveStep((prev) => clampIndex(prev - 1, length));
+    if (length <= 0) return; // no-op
+    setActiveStep((prev) => clampIndex(prev - 1, safeLength));
   };
 
   useEffect(() => {
