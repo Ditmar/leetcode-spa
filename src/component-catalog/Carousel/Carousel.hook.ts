@@ -12,7 +12,7 @@ export interface UseCarouselReturn {
 export function useCarousel(
   length: number,
   autoPlay: boolean,
-  interval: number,
+  interval: number
 ): UseCarouselReturn {
   // 🛡️ Guard para evitar errores
   const safeLength = length > 0 ? length : 1;
