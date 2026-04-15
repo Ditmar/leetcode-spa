@@ -1,16 +1,17 @@
-import { styled } from "@mui/material/styles";
-import { Box } from "@mui/material";
+import { Box, styled } from "@mui/material";
 
 export const CarouselContainer = styled(Box)({
+  position: "relative",
   width: "100%",
   overflow: "hidden",
-  position: "relative",
 });
 
-export const SlidesContainer = styled(Box)({
+export const SlidesContainer = styled(Box)<{ index: number }>(({ index }) => ({
   display: "flex",
-  transition: "transform 0.3s ease",
-});
+  width: "100%",
+  transform: `translateX(-${index * 100}%)`,
+  transition: "transform 0.4s ease-in-out",
+}));
 
 export const Slide = styled(Box)({
   minWidth: "100%",

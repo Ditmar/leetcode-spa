@@ -1,8 +1,11 @@
 import { IconButton, MobileStepper } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useRef } from "react";
+
 import type { CarouselProps } from "./Carousel.types";
 import { useCarousel } from "./Carousel.hook";
+import { DEFAULT_INTERVAL, SWIPE_THRESHOLD } from "./Carousel.constants";
 import {
   CarouselContainer,
   SlidesContainer,
@@ -12,58 +15,87 @@ import {
 export default function Carousel({
   children,
   autoPlay = false,
-  interval = 3000,
+  interval = DEFAULT_INTERVAL,
+  ...props
 }: CarouselProps) {
-  const {
-    index,
-    next,
-    prev,
-    handleTouchStart,
-    handleTouchEnd,
-  } = useCarousel(children.length, autoPlay, interval);
+  const items = Array.isArray(children) ? children : [children];
+  const length = items.length;
+
+  const { activeStep, next, back } = useCarousel(
+    length,
+    autoPlay,
+    interval
+  );
+
+  // Swipe
+  const startX = useRef(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    startX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX.current - endX;
+
+    if (diff > SWIPE_THRESHOLD) next();
+    if (diff < -SWIPE_THRESHOLD) back();
+  };
 
   return (
-    <CarouselContainer
-      role="region"
-      aria-roledescription="carousel"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "ArrowRight") next();
-        if (e.key === "ArrowLeft") prev();
-      }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
+    <CarouselContainer {...props}>
       <SlidesContainer
-        sx={{
-          transform: `translateX(-${index * 100}%)`,
-        }}
+        index={activeStep}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
-        {children.map((child, i) => (
-          <Slide key={i}>{child}</Slide>
+        {items.map((child, index) => (
+          <Slide key={index}>{child}</Slide>
         ))}
       </SlidesContainer>
 
+      {/* Back */}
       <IconButton
-        onClick={prev}
-        sx={{ position: "absolute", left: 10, top: "50%" }}
+        onClick={back}
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: 8,
+          transform: "translateY(-50%)",
+          zIndex: 2,
+        }}
       >
         <ArrowBackIosNewIcon />
       </IconButton>
 
+      {/* Next */}
       <IconButton
         onClick={next}
-        sx={{ position: "absolute", right: 10, top: "50%" }}
+        sx={{
+          position: "absolute",
+          top: "50%",
+          right: 8,
+          transform: "translateY(-50%)",
+          zIndex: 2,
+        }}
       >
         <ArrowForwardIosIcon />
       </IconButton>
 
+      {/* Indicators */}
       <MobileStepper
-        steps={children.length}
+        steps={length}
         position="static"
-        activeStep={index}
+        activeStep={activeStep}
         nextButton={null}
         backButton={null}
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          width: "100%",
+          background: "transparent",
+          justifyContent: "center",
+        }}
       />
     </CarouselContainer>
   );

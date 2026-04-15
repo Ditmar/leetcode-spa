@@ -1,47 +1,39 @@
 import { useEffect, useRef, useState } from "react";
+import { clampIndex } from "./Carousel.utils";
 
-export const useCarousel = (
+export function useCarousel(
   length: number,
-  autoPlay?: boolean,
-  interval: number = 3000
-) => {
-  const [index, setIndex] = useState(0);
-  const startX = useRef(0);
+  autoPlay: boolean,
+  interval: number
+) {
+  const [activeStep, setActiveStep] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const next = () => {
-    setIndex((prev) => (prev + 1) % length);
+    setActiveStep((prev) => clampIndex(prev + 1, length));
   };
 
-  const prev = () => {
-    setIndex((prev) => (prev - 1 + length) % length);
+  const back = () => {
+    setActiveStep((prev) => clampIndex(prev - 1, length));
   };
 
   // autoplay
   useEffect(() => {
-    if (!autoPlay) return;
+    if (!autoPlay || length <= 1) return;
 
-    const id = setInterval(next, interval);
-    return () => clearInterval(id);
-  }, [autoPlay, interval]);
+    timerRef.current = setInterval(() => {
+      next();
+    }, interval);
 
-  // swipe
-  const handleTouchStart = (e: React.TouchEvent) => {
-    startX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const diff = e.changedTouches[0].clientX - startX.current;
-
-    if (diff > 50) prev();
-    if (diff < -50) next();
-  };
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [autoPlay, interval, length]);
 
   return {
-    index,
+    activeStep,
     next,
-    prev,
-    setIndex,
-    handleTouchStart,
-    handleTouchEnd,
+    back,
+    setActiveStep,
   };
-};
+}
