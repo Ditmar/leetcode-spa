@@ -2,11 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { clampIndex } from './Carousel.utils';
 
-export function useCarousel(
-  length: number,
-  autoPlay: boolean,
-  interval: number,
-) {
+export function useCarousel(length: number, autoPlay: boolean, interval: number) {
   const [activeStep, setActiveStep] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 

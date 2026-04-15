@@ -1,14 +1,10 @@
+import { Box } from '@mui/material';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
-import { Box } from '@mui/material';
 
 import Carousel from './Carousel';
 
-const slides = [
-  <Box key={1}>Slide 1</Box>,
-  <Box key={2}>Slide 2</Box>,
-  <Box key={3}>Slide 3</Box>,
-];
+const slides = [<Box key={1}>Slide 1</Box>, <Box key={2}>Slide 2</Box>, <Box key={3}>Slide 3</Box>];
 
 describe('Carousel', () => {
   test('renders slides', () => {
@@ -37,7 +33,11 @@ describe('Carousel', () => {
   test('autoplay works', () => {
     vi.useFakeTimers();
 
-    render(<Carousel autoPlay interval={1000}>{slides}</Carousel>);
+    render(
+      <Carousel autoPlay interval={1000}>
+        {slides}
+      </Carousel>
+    );
 
     vi.advanceTimersByTime(1000);
 
