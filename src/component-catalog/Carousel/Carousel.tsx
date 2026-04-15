@@ -15,7 +15,6 @@ export const Carousel = ({
   interval = DEFAULT_INTERVAL,
   ...props
 }: CarouselProps) => {
-  // ✅ normalizar children correctamente
   const items = React.Children.toArray(children);
   const length = items.length;
 
@@ -47,7 +46,6 @@ export const Carousel = ({
         ))}
       </SlidesContainer>
 
-      {/* Previous */}
       <IconButton
         aria-label="Previous slide"
         onClick={back}
@@ -62,7 +60,6 @@ export const Carousel = ({
         <ArrowBackIosNewIcon />
       </IconButton>
 
-      {/* Next */}
       <IconButton
         aria-label="Next slide"
         onClick={next}

@@ -23,7 +23,10 @@ describe('Carousel', () => {
   test('next button works', () => {
     render(<Carousel>{slides}</Carousel>);
 
-    const nextButton = screen.getByRole('button', { name: /next/i });
+    const nextButton = screen.getByRole('button', {
+      name: /next slide/i,
+    });
+
     fireEvent.click(nextButton);
 
     expect(screen.getByText('Slide 2')).toBeInTheDocument();
@@ -32,7 +35,10 @@ describe('Carousel', () => {
   test('back button works', () => {
     render(<Carousel>{slides}</Carousel>);
 
-    const backButton = screen.getByRole('button', { name: /back/i });
+    const backButton = screen.getByRole('button', {
+      name: /previous slide/i,
+    });
+
     fireEvent.click(backButton);
 
     expect(screen.getByText('Slide 3')).toBeInTheDocument();
