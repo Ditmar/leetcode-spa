@@ -56,10 +56,6 @@
     "yaml": "2.4.2",
     "zod": "^4.1.13"
   },
-  "engines": {
-    "node": ">=20.3.0",
-    "yarn": ">=1.22.21 <=1.22.22"
-  },
   "devDependencies": {
     "@chromatic-com/storybook": "4.1.1",
     "@eslint/js": "9.36.0",
@@ -105,6 +101,14 @@
     "storybook": "9.1.10",
     "typescript": "5.9.2",
     "vite": "7.1.9",
+<<<<<<< HEAD
     "vitest": "3.2.4"
+=======
+    "vitest": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=20.3.0",
+    "yarn": ">=1.22.21 <=1.22.22"
+>>>>>>> 1e6782fa (chore: clean package.json formatting)
   }
 }
