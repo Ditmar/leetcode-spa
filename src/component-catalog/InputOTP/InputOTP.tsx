@@ -13,13 +13,11 @@ export function InputOTP({
   onComplete,
   label,
 }: InputOTPProps) {
-  const {
-    values,
-    inputRefs,
-    handleChange,
-    handleKeyDown,
-    handlePaste,
-  } = useInputOTP(length, disabled, onComplete);
+  const { values, inputRefs, handleChange, handleKeyDown, handlePaste } = useInputOTP(
+    length,
+    disabled,
+    onComplete
+  );
 
   return (
     <Container role="group" aria-label="One-time password input">

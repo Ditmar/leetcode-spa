@@ -2,12 +2,14 @@ import { useState, useRef } from 'react';
 
 import { OTP_SINGLE_DIGIT_REGEX, OTP_SANITIZE_REGEX } from './InputOTP.constants';
 
-export function useInputOTP( length: number, disabled?: boolean, onComplete?: (value: string) => void ) {
+export function useInputOTP(
+  length: number,
+  disabled?: boolean,
+  onComplete?: (value: string) => void
+) {
   const [values, setValues] = useState<string[]>(Array(length).fill(''));
 
-  const inputRefs = useRef<(HTMLInputElement | null)[]>(
-    new Array(length).fill(null)
-  );
+  const inputRefs = useRef<(HTMLInputElement | null)[]>(new Array(length).fill(null));
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
