@@ -1,6 +1,7 @@
+import type { BoxProps } from '@mui/material';
 import type { ReactNode } from 'react';
 
-export interface CollapsibleProps {
+export interface CollapsibleProps extends BoxProps {
   title?: string;
   headerSlot?: ReactNode;
   children: ReactNode;

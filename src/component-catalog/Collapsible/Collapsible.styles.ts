@@ -2,9 +2,9 @@ import { Box, Stack, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const StyledCard = styled(Box)(({ theme }) => ({
-  borderRadius: '14px',
+  borderRadius: Number(theme.shape.borderRadius) * 1.75,
   backgroundColor: theme.palette.common.white,
-  border: `1.2px solid ${theme.palette.divider}`,
+  border: `1px solid ${theme.palette.divider}`,
   padding: theme.spacing(3),
   display: 'flex',
   flexDirection: 'column',
@@ -20,11 +20,17 @@ export const Header = styled(Stack)(({ theme }) => ({
   minHeight: theme.spacing(5.5),
 }));
 
-export const BlackButton = styled(Button)(({ theme }) => ({
-  background: '#030213',
-  color: '#fff',
+export const BlackButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== 'isOpen',
+})<{ isOpen?: boolean }>(({ theme }) => ({
+  backgroundColor: theme.palette.common.black,
+  color: theme.palette.common.white,
   minWidth: theme.spacing(4.5),
   height: theme.spacing(4),
-  borderRadius: '8px',
-  '&:hover': { background: '#030213', opacity: 0.9 },
+  borderRadius: theme.shape.borderRadius,
+  padding: 0,
+  '&:hover': {
+    backgroundColor: theme.palette.common.black,
+    opacity: 0.9,
+  },
 }));

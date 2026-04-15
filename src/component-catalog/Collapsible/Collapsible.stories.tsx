@@ -12,7 +12,7 @@ const meta: Meta<typeof Collapsible> = {
 export default meta;
 type Story = StoryObj<typeof Collapsible>;
 
-export const FigmaMatch: Story = {
+export const Default: Story = {
   args: {
     title: '@peduarte starred 3 repositories',
     children: (
