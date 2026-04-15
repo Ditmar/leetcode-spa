@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
-import Carousel from './Carousel';
+import { Carousel } from './Carousel';
 
 afterEach(() => {
   vi.useRealTimers();

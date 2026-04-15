@@ -1,7 +1,7 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { IconButton, MobileStepper } from '@mui/material';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { DEFAULT_INTERVAL, SWIPE_THRESHOLD } from './Carousel.constants';
 import { useCarousel } from './Carousel.hook';
@@ -9,13 +9,14 @@ import { CarouselContainer, SlidesContainer, Slide } from './Carousel.styles';
 
 import type { CarouselProps } from './Carousel.types';
 
-export default function Carousel({
+export const Carousel = ({
   children,
   autoPlay = false,
   interval = DEFAULT_INTERVAL,
   ...props
-}: CarouselProps) {
-  const items = Array.isArray(children) ? children : [children];
+}: CarouselProps) => {
+  // ✅ normalizar children correctamente
+  const items = React.Children.toArray(children);
   const length = items.length;
 
   const { activeStep, next, back } = useCarousel(length, autoPlay, interval);
@@ -46,13 +47,14 @@ export default function Carousel({
         ))}
       </SlidesContainer>
 
+      {/* Previous */}
       <IconButton
-        aria-label="back"
+        aria-label="Previous slide"
         onClick={back}
         sx={{
           position: 'absolute',
           top: '50%',
-          left: 8,
+          left: (theme) => theme.spacing(2),
           transform: 'translateY(-50%)',
           zIndex: 2,
         }}
@@ -60,13 +62,14 @@ export default function Carousel({
         <ArrowBackIosNewIcon />
       </IconButton>
 
+      {/* Next */}
       <IconButton
-        aria-label="next"
+        aria-label="Next slide"
         onClick={next}
         sx={{
           position: 'absolute',
           top: '50%',
-          right: 8,
+          right: (theme) => theme.spacing(2),
           transform: 'translateY(-50%)',
           zIndex: 2,
         }}
@@ -90,4 +93,4 @@ export default function Carousel({
       />
     </CarouselContainer>
   );
-}
+};

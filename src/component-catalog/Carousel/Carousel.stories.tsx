@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-import Carousel from './Carousel';
+import { Carousel } from './Carousel';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
