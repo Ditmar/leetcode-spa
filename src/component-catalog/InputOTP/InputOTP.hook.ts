@@ -2,10 +2,12 @@ import { useState, useRef } from 'react';
 
 import { OTP_SINGLE_DIGIT_REGEX, OTP_SANITIZE_REGEX } from './InputOTP.constants';
 
-export function useInputOTP(length: number, disabled?: boolean) {
+export function useInputOTP( length: number, disabled?: boolean, onComplete?: (value: string) => void ) {
   const [values, setValues] = useState<string[]>(Array(length).fill(''));
 
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>(
+    new Array(length).fill(null)
+  );
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -20,6 +22,9 @@ export function useInputOTP(length: number, disabled?: boolean) {
     const newValues = [...values];
     newValues[index] = val;
     setValues(newValues);
+    if (!newValues.includes('')) {
+      onComplete?.(newValues.join(''));
+    }
 
     if (val && index < length - 1) {
       inputRefs.current[index + 1]?.focus();
@@ -47,11 +52,10 @@ export function useInputOTP(length: number, disabled?: boolean) {
     }
   };
 
-  const handlePaste = (e: React.ClipboardEvent) => {
+  const handlePaste = (e: React.ClipboardEvent, index: number) => {
     if (disabled) return;
 
     e.preventDefault();
-
     const pasteData = e.clipboardData.getData('text');
     const sanitized = pasteData.replace(OTP_SANITIZE_REGEX, '');
 
@@ -59,16 +63,20 @@ export function useInputOTP(length: number, disabled?: boolean) {
 
     const newValues = [...values];
 
-    for (let i = 0; i < length; i++) {
-      newValues[i] = sanitized[i] || '';
+    for (let i = 0; i < sanitized.length; i++) {
+      if (index + i < length) {
+        newValues[index + i] = sanitized[i];
+      }
     }
 
     setValues(newValues);
-
-    const lastIndex = Math.min(sanitized.length, length) - 1;
-    if (lastIndex >= 0) {
-      inputRefs.current[lastIndex]?.focus();
+    const otp = newValues.join('');
+    if (otp.length === length && !newValues.includes('')) {
+      onComplete?.(otp);
     }
+
+    const lastIndex = Math.min(index + sanitized.length - 1, length - 1);
+    inputRefs.current[lastIndex]?.focus();
   };
 
   return {

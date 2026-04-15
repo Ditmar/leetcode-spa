@@ -1,7 +1,7 @@
 import { styled, Box, TextField, Typography } from '@mui/material';
 
-export const Label = styled(Typography)(() => ({
-  fontFamily: 'Inter, sans-serif',
+export const Label = styled(Typography)(({ theme }) => ({
+  fontFamily: theme.typography.fontFamily,
   fontWeight: 500,
   fontSize: '0.875rem',
   lineHeight: '0.875rem',
@@ -37,7 +37,7 @@ export const StyledTextField = styled(TextField, {
   shouldForwardProp: (prop) => prop !== 'isFirst' && prop !== 'isLast',
 })<StyledProps>(({ theme, isFirst, isLast }) => ({
   flex: 1,
-  minWidth: theme.spacing(5),
+  minWidth: theme.spacing(5.5),
   maxWidth: theme.spacing(6),
 
   '& .MuiOutlinedInput-root': {

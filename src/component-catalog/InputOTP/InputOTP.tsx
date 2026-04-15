@@ -10,15 +10,20 @@ export function InputOTP({
   length = DEFAULT_OTP_LENGTH,
   disabled = false,
   error = false,
+  onComplete,
+  label,
 }: InputOTPProps) {
-  const { values, inputRefs, handleChange, handleKeyDown, handlePaste } = useInputOTP(
-    length,
-    disabled
-  );
+  const {
+    values,
+    inputRefs,
+    handleChange,
+    handleKeyDown,
+    handlePaste,
+  } = useInputOTP(length, disabled, onComplete);
 
   return (
     <Container role="group" aria-label="One-time password input">
-      <Label>Enter OTP Code</Label>
+      <Label>{label || 'Enter OTP Code'}</Label>
       <Box display="flex" alignItems="center" gap={1}>
         {Array.from({ length }).map((_, index) => {
           const isFirst = index === 0;
@@ -31,7 +36,7 @@ export function InputOTP({
               value={values[index]}
               onChange={(e) => handleChange(e, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              onPaste={handlePaste}
+              onPaste={(e) => handlePaste(e, index)}
               inputRef={(el) => (inputRefs.current[index] = el)}
               isFirst={isFirst}
               isLast={isLast}
