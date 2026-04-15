@@ -1,16 +1,17 @@
-import { IconButton, MobileStepper } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useRef } from "react";
+import { IconButton, MobileStepper } from '@mui/material';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useRef } from 'react';
 
-import type { CarouselProps } from "./Carousel.types";
-import { useCarousel } from "./Carousel.hook";
-import { DEFAULT_INTERVAL, SWIPE_THRESHOLD } from "./Carousel.constants";
+import type { CarouselProps } from './Carousel.types';
+
+import { useCarousel } from './Carousel.hook';
+import { DEFAULT_INTERVAL, SWIPE_THRESHOLD } from './Carousel.constants';
 import {
   CarouselContainer,
   SlidesContainer,
   Slide,
-} from "./Carousel.styles";
+} from './Carousel.styles';
 
 export default function Carousel({
   children,
@@ -24,10 +25,9 @@ export default function Carousel({
   const { activeStep, next, back } = useCarousel(
     length,
     autoPlay,
-    interval
+    interval,
   );
 
-  // Swipe
   const startX = useRef(0);
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -54,47 +54,44 @@ export default function Carousel({
         ))}
       </SlidesContainer>
 
-      {/* Back */}
       <IconButton
         onClick={back}
         sx={{
-          position: "absolute",
-          top: "50%",
+          position: 'absolute',
+          top: '50%',
           left: 8,
-          transform: "translateY(-50%)",
+          transform: 'translateY(-50%)',
           zIndex: 2,
         }}
       >
         <ArrowBackIosNewIcon />
       </IconButton>
 
-      {/* Next */}
       <IconButton
         onClick={next}
         sx={{
-          position: "absolute",
-          top: "50%",
+          position: 'absolute',
+          top: '50%',
           right: 8,
-          transform: "translateY(-50%)",
+          transform: 'translateY(-50%)',
           zIndex: 2,
         }}
       >
         <ArrowForwardIosIcon />
       </IconButton>
 
-      {/* Indicators */}
       <MobileStepper
         steps={length}
-        position="static"
+        position='static'
         activeStep={activeStep}
         nextButton={null}
         backButton={null}
         sx={{
-          position: "absolute",
+          position: 'absolute',
           bottom: 0,
-          width: "100%",
-          background: "transparent",
-          justifyContent: "center",
+          width: '100%',
+          background: 'transparent',
+          justifyContent: 'center',
         }}
       />
     </CarouselContainer>

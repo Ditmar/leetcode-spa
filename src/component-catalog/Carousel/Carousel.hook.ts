@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import { clampIndex } from "./Carousel.utils";
+import { useEffect, useRef, useState } from 'react';
+
+import { clampIndex } from './Carousel.utils';
 
 export function useCarousel(
   length: number,
   autoPlay: boolean,
-  interval: number
+  interval: number,
 ) {
   const [activeStep, setActiveStep] = useState(0);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const next = () => {
     setActiveStep((prev) => clampIndex(prev + 1, length));
@@ -17,7 +18,6 @@ export function useCarousel(
     setActiveStep((prev) => clampIndex(prev - 1, length));
   };
 
-  // autoplay
   useEffect(() => {
     if (!autoPlay || length <= 1) return;
 
