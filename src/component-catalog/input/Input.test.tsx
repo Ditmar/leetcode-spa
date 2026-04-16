@@ -1,8 +1,7 @@
 import '@testing-library/jest-dom';
-import { describe, expect, it } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
 import SearchIcon from '@mui/icons-material/Search';
-
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 
 import { Input } from './Input';
 
@@ -18,15 +17,15 @@ describe('Input', () => {
   });
 
   it('toggles password', () => {
-  render(<Input label="Password" type="password" />);
-  const input = screen.getByLabelText('Password');
-  const button = screen.getByRole('button');
+    render(<Input label="Password" type="password" />);
+    const input = screen.getByLabelText('Password');
+    const button = screen.getByRole('button');
 
-  fireEvent.click(button);
-  expect(input).toHaveAttribute('type', 'text');
+    fireEvent.click(button);
+    expect(input).toHaveAttribute('type', 'text');
 
-  fireEvent.click(button);
-  expect(input).toHaveAttribute('type', 'password');
+    fireEvent.click(button);
+    expect(input).toHaveAttribute('type', 'password');
   });
 
   it('renders error state', () => {
@@ -46,26 +45,26 @@ describe('Input', () => {
   });
 
   it('links helperText with aria-describedby', () => {
-  render(<Input label="Email" helperText="Helper text" />);
-  const input = screen.getByLabelText('Email');
-  const helper = screen.getByText('Helper text');
+    render(<Input label="Email" helperText="Helper text" />);
+    const input = screen.getByLabelText('Email');
+    const helper = screen.getByText('Helper text');
 
-  expect(input).toHaveAttribute('aria-describedby', helper.id);
+    expect(input).toHaveAttribute('aria-describedby', helper.id);
   });
 
   it('renders disabled state', () => {
-  render(<Input label="Disabled" disabled />);
-  expect(screen.getByLabelText('Disabled')).toBeDisabled();
+    render(<Input label="Disabled" disabled />);
+    expect(screen.getByLabelText('Disabled')).toBeDisabled();
   });
 
   it('renders different variants', () => {
-  const { rerender } = render(<Input label="Test" variant="outlined" />);
-  expect(screen.getByLabelText('Test')).toBeInTheDocument();
+    const { rerender } = render(<Input label="Test" variant="outlined" />);
+    expect(screen.getByLabelText('Test')).toBeInTheDocument();
 
-  rerender(<Input label="Test" variant="filled" />);
-  expect(screen.getByLabelText('Test')).toBeInTheDocument();
+    rerender(<Input label="Test" variant="filled" />);
+    expect(screen.getByLabelText('Test')).toBeInTheDocument();
 
-  rerender(<Input label="Test" variant="standard" />);
-  expect(screen.getByLabelText('Test')).toBeInTheDocument();
+    rerender(<Input label="Test" variant="standard" />);
+    expect(screen.getByLabelText('Test')).toBeInTheDocument();
   });
 });

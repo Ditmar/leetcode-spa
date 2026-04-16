@@ -36,9 +36,9 @@ export function Input(props: InputProps) {
   const { showPassword, togglePassword } = usePasswordToggle();
 
   const [count, setCount] = useState(getCharacterCount((value ?? defaultValue) as string));
-    useEffect(() => {
+  useEffect(() => {
     setCount(getCharacterCount((value ?? defaultValue) as string));
-    }, [value, defaultValue]);
+  }, [value, defaultValue]);
 
   const resolvedType = type === 'password' ? (showPassword ? 'text' : 'password') : type;
 
@@ -50,25 +50,25 @@ export function Input(props: InputProps) {
   const hasHelper = Boolean(helperText || showCharacterCount || maxLength);
 
   const renderEndAdornment = () => {
-  if (!endAdornment && type !== 'password') return undefined;
+    if (!endAdornment && type !== 'password') return undefined;
 
-  return (
-    <InputAdornment position="end">
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        {endAdornment}
-        {type === 'password' && (
-          <IconButton
-            aria-label="Toggle password visibility"
-            onClick={togglePassword}
-            onMouseDown={(event) => event.preventDefault()}
-          >
-            {showPassword ? <VisibilityOff /> : <Visibility />}
-          </IconButton>
-        )}
-      </Box>
-    </InputAdornment>
-  );
-};
+    return (
+      <InputAdornment position="end">
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {endAdornment}
+          {type === 'password' && (
+            <IconButton
+              aria-label="Toggle password visibility"
+              onClick={togglePassword}
+              onMouseDown={(event) => event.preventDefault()}
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          )}
+        </Box>
+      </InputAdornment>
+    );
+  };
   const helper = hasHelper ? (
     <Box
       sx={{
@@ -102,10 +102,10 @@ export function Input(props: InputProps) {
         ...InputProps,
         readOnly,
         startAdornment: startAdornment ? (
-       <InputAdornment position="start">{startAdornment}</InputAdornment>
-       ) : undefined,
-  endAdornment: renderEndAdornment(),
-}}
+          <InputAdornment position="start">{startAdornment}</InputAdornment>
+        ) : undefined,
+        endAdornment: renderEndAdornment(),
+      }}
       inputProps={{
         ...inputProps,
         maxLength,

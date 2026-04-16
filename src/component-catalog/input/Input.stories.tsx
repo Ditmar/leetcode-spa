@@ -1,9 +1,9 @@
+import SearchIcon from '@mui/icons-material/Search';
+import Box from '@mui/material/Box';
+
 import { Input } from './Input';
 
 import type { Meta, StoryObj } from '@storybook/react';
-
-import SearchIcon from '@mui/icons-material/Search';
-import Box from '@mui/material/Box';
 
 const meta: Meta<typeof Input> = {
   title: 'component-catalog/Input',
@@ -56,7 +56,7 @@ export const ResponsiveShowcase: Story = {
         border: '0.0625rem solid var(--border)',
         borderRadius: 'var(--radius-lg)',
         backgroundColor: 'var(--card)',
-})}
+      })}
     >
       <Box
         sx={{
