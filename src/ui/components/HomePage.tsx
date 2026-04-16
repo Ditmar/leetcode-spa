@@ -1,3 +1,4 @@
+
 import ClientOnlyMuiProvider from '../../style-library/ClientOnlyMuiProvider';
 
 export default function HomePage() {
