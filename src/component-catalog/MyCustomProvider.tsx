@@ -1,8 +1,8 @@
 import { CacheProvider } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
-import { createEmotionCache } from '../../utils/createEmotionCache';
-import { theme } from '../../theme';
+import { theme } from '../theme/index.ts';
+import { createEmotionCache } from '../utils/createEmotionCache.ts';
 
 import type { ReactNode } from 'react';
 
