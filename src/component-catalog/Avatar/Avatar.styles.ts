@@ -1,53 +1,24 @@
-import { styled } from '@mui/material/styles';
-import { Avatar as MUIAvatar } from '@mui/material';
-import { AvatarProps } from './Avatar.types';
-import { AVATAR_SIZES, AVATAR_COLORS } from './Avatar.constants';
+import { styled, Box } from '@mui/material';
 
-export const StyledAvatar = styled(MUIAvatar, {
-  shouldForwardProp: (prop) => prop !== 'size' && prop !== 'customVariant',
-})<AvatarProps>(({ size = 'md', customVariant = 'default' }) => ({
-  width: AVATAR_SIZES[size].width,
-  height: AVATAR_SIZES[size].height,
-  fontSize: AVATAR_SIZES[size].fontSize,
-  fontWeight: 500,
-  backgroundColor: AVATAR_COLORS[customVariant].bg,
-  color: AVATAR_COLORS[customVariant].text,
-  border: 'none', // Following Figma clean look
-}));
+import { AVATAR_SIZES, AVATAR_VARIANTS } from './Avatar.constants';
+import type { AvatarStylesProps } from './Avatar.types';
 
-export const SectionContainer = styled('div')(({ theme }) => ({
+export const StyledAvatar = styled(Box, {
+  shouldForwardProp: (prop) => !['$size', '$variant'].includes(prop as string),
+})<AvatarStylesProps>(({ $size = 'md', $variant = 'default' }) => ({
   display: 'flex',
-  flexDirection: 'column',
-  gap: '16px',
-  fontFamily: 'sans-serif',
-  width: '100%',
-  maxWidth: '1216px',
-}));
-
-export const Header = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '4px',
-  alignItems: 'flex-start',
-});
-
-export const Card = styled('div')({
-  boxSizing: 'border-box',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  padding: '24px',
-  width: '100%',
-  height: '114px',
-  background: '#FFFFFF',
-  border: '1px solid rgba(0, 0, 0, 0.1)',
-  borderRadius: '14px',
-});
-
-export const AvatarRow = styled('div')({
-  display: 'flex',
-  flexDirection: 'row',
   alignItems: 'center',
-  gap: '16px',
-  flexWrap: 'wrap', // Prevents overflow on mobile
-});
+  justifyContent: 'center',
+  borderRadius: '50%',
+  userSelect: 'none',
+  fontWeight: 500,
+  transition: 'all 0.2s ease-in-out',
+
+  width: `${AVATAR_SIZES[$size]}px`,
+  height: `${AVATAR_SIZES[$size]}px`,
+
+  fontSize: $size === 'sm' ? '11px' : $size === 'md' ? '13px' : $size === 'xl' ? '16px' : '14px',
+
+  backgroundColor: AVATAR_VARIANTS[$variant].bg,
+  color: AVATAR_VARIANTS[$variant].color,
+}));

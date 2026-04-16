@@ -1,22 +1,25 @@
-/* Updated import path to resolve Storybook/Vite export issues */
-import { AvatarProps as MUIAvatarProps } from '@mui/material/Avatar';
+import type { BoxProps } from '@mui/material';
 
-export type AvatarSize = 'sm' | 'md' | 'lg' | 'xl';
-export type AvatarVariant = 'default' | 'primary' | 'success';
+import type { AvatarSizes, AvatarVariants } from './Avatar.constants';
 
-export interface AvatarProps extends Omit<MUIAvatarProps, 'variant'> {
+export interface AvatarStylesProps {
+  $size?: AvatarSizes;
+  $variant?: AvatarVariants;
+}
+
+export interface AvatarProps extends BoxProps {
   /**
-   * Sets the size of the avatar based on pre-defined constants
+   * The content to be displayed inside the avatar (initials)
+   */
+  children: React.ReactNode;
+  /**
+   * Defines the size of the component
    * @default 'md'
    */
-  size?: AvatarSize;
+  size?: AvatarSizes;
   /**
-   * Custom color variants identified in design
+   * Defines the color variant
    * @default 'default'
    */
-  customVariant?: AvatarVariant;
-  /**
-   * Initials or text to display inside the avatar
-   */
-  children?: React.ReactNode;
+  variant?: AvatarVariants;
 }

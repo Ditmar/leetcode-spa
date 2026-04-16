@@ -1,20 +1,29 @@
-import { Meta, Canvas, Controls } from '@storybook/blocks';
+import { Canvas, Meta, Controls } from '@storybook/blocks';
 import * as AvatarStories from './Avatar.stories';
 
 <Meta of={AvatarStories} />
 
 # Avatar
 
-Avatars are used to represent a user or entity through initials or images.
+The `Avatar` component is used to represent users by their initials. 
+It supports multiple sizes and color variants based on the design system.
 
-## Design Implementation
-The component follows the 1216px grid system defined in the Figma documentation.
+### Features
+- Support for 4 sizes: **sm, md, lg, xl**. [cite: 36, 37, 38, 39]
+- Theme-based variants: **default, primary, success**. [cite: 21]
+- Responsive circular shape. [cite: 34]
 
-### Props
+<Canvas of={AvatarStories.Default} />
+
 <Controls />
 
 ### Usage
-```tsx
-import Avatar from './Avatar';
 
-<Avatar size="lg" customVariant="primary">JD</Avatar>
+```tsx
+import { Avatar } from './Avatar';
+
+const UserProfile = () => (
+  <Avatar size="lg" variant="primary">
+    JS
+  </Avatar>
+);
