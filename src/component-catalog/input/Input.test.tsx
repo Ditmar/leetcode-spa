@@ -48,10 +48,7 @@ describe('Input', () => {
   render(<Input label="Email" helperText="Helper text" />);
   const input = screen.getByLabelText('Email');
 
-  expect(input).toHaveAttribute(
-    'aria-describedby',
-    expect.stringContaining('helper-text')
-  );
+  expect(input).toHaveAttribute('aria-describedby', expect.stringContaining('helper-text'));
   });
 
   it('renders disabled state', () => {
