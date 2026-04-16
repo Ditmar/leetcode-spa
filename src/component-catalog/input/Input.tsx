@@ -71,6 +71,7 @@ export function Input(props: InputProps) {
   };
   const helper = hasHelper ? (
     <Box
+     component="span"
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
