@@ -1,9 +1,10 @@
 import { CacheProvider } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import type { ReactNode } from 'react';
 
 import { createEmotionCache } from '../utils/createEmotionCache';
 import { theme } from '../theme';
+
+import type { ReactNode } from 'react';
 
 export interface MyCustomProviderProps {
   children: ReactNode;

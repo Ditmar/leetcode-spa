@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
+
+import { useEffect, useState } from 'react';
 
 export interface SmartHydrationProps {
   threshold?: number;
