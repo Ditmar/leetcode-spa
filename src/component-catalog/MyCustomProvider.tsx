@@ -1,14 +1,14 @@
 import { CacheProvider } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
-import { theme } from '../theme';
-import { createEmotionCache } from '../utils/createEmotionCache';
+import { createEmotionCache } from '../../utils/createEmotionCache';
+import { theme } from '../../theme';
 
 import type { ReactNode } from 'react';
 
 export interface MyCustomProviderProps {
   children: ReactNode;
-  mode?: 'ssr' | 'client-only';
+  mode?: 'ssr' | 'client';
 }
 
 export const MyCustomProvider = ({

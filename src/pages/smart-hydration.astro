@@ -8,13 +8,14 @@ import { SmartHydration as SmartHydrationComponent } from '../component-catalog/
   <main>
     <h1>Smart Hydration</h1>
 
+    <!-- SSR + hydrate immediately -->
     <MyCustomProvider mode="ssr" client:load>
       <SmartHydrationComponent threshold={500} />
     </MyCustomProvider>
 
-    <MyCustomProvider mode="client-only" client:idle>
+    <!-- Client only (idle) -->
+    <MyCustomProvider mode="client" client:idle>
       <SmartHydrationComponent threshold={2000} />
     </MyCustomProvider>
-
   </main>
 </Layout>
