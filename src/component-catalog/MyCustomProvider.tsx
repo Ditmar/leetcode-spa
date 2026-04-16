@@ -1,20 +1,22 @@
 import { CacheProvider } from '@emotion/react';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import { useEffect, useState, type ReactNode } from 'react';
 
 import { theme } from '../theme';
 import { createEmotionCache } from '../utils/createEmotionCache';
 
-import type { ReactNode } from 'react';
-
-export interface MyCustomProviderProps {
+interface MyCustomProviderProps {
   children: ReactNode;
   mode?: 'ssr' | 'client';
 }
 
-export const MyCustomProvider = ({
-  children,mode='ssr'
-}: MyCustomProviderProps) => {
-  const isClient = typeof window !== 'undefined';
+export const MyCustomProvider = ({ children, mode = 'ssr' }: MyCustomProviderProps) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const shouldRender = mode === 'ssr' || isClient;
 
