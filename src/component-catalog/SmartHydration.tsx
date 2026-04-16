@@ -1,41 +1,33 @@
 import { Box, Typography, Button } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-type SmartHydrationProps = {
-  threshold?: number; // 👈 opcional para no romper tests
-};
+export interface SmartHydrationProps {
+  threshold?: number;
+}
 
-const SmartHydration = ({ threshold = 1000 }: SmartHydrationProps) => {
+export const SmartHydration = ({ threshold = 1000 }: SmartHydrationProps) => {
   const [shouldHydrate, setShouldHydrate] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShouldHydrate(true), threshold);
+    const timer = setTimeout(() => {
+      setShouldHydrate(true);
+    }, threshold);
+
     return () => clearTimeout(timer);
   }, [threshold]);
 
-  useEffect(() => {
-    if (shouldHydrate) {
-      setIsHydrated(true);
-    }
-  }, [shouldHydrate]);
-
-  if (!isHydrated) {
+  if (!shouldHydrate) {
     return (
-      <Box sx={{ p: 2, bgcolor: 'grey.100' }}>
-        <Typography>🔄 Preparando hidratación...</Typography>
+      <Box>
+        <Typography>Loading...</Typography>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ p: 2, bgcolor: 'primary.light' }}>
-      <Typography variant="h6">✅ Componente Hidratado</Typography>
-      <Button variant="contained" onClick={() => alert('¡Funcional!')} sx={{ mt: 1 }}>
-        Interactuar
-      </Button>
+    <Box>
+      <Typography>Content hydrated</Typography>
+      <Button variant="contained">Action</Button>
     </Box>
   );
 };
-
-export default SmartHydration;
