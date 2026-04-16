@@ -12,7 +12,7 @@ export interface MyCustomProviderProps {
 }
 
 export const MyCustomProvider = ({
-  children, mode = 'ssr'
+  children,mode='ssr'
 }: MyCustomProviderProps) => {
   const isClient = typeof window !== 'undefined';
 

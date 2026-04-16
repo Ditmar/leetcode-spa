@@ -1,9 +1,7 @@
-import type { BoxProps } from '@mui/material';
 import type { ReactNode } from 'react';
 
-export interface CarouselProps extends BoxProps {
+export interface CarouselProps {
   children: ReactNode;
   autoPlay?: boolean;
   interval?: number;
 }
-  
