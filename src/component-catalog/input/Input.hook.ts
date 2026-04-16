@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export function usePasswordToggle() {
   const [showPassword, setShowPassword] = useState(false);
 
+  const togglePassword = useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
+
   return {
     showPassword,
-    togglePassword: () => setShowPassword((prev) => !prev),
+    togglePassword,
   };
 }

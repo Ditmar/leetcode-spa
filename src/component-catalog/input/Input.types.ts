@@ -1,6 +1,8 @@
-import type { InputTypes, InputVariants } from './Input.constants';
-import type { TextFieldProps } from '@mui/material';
 import type { ReactNode } from 'react';
+import type { TextFieldProps } from '@mui/material';
+
+import type { InputTypes, InputVariants } from './Input.constants';
+
 
 export interface InputProps extends Omit<TextFieldProps, 'type' | 'variant'> {
   type?: InputTypes;
