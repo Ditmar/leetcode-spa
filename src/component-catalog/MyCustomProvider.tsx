@@ -1,41 +1,24 @@
 import { CacheProvider } from '@emotion/react';
-import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
-
-import createEmotionCache from '../style-library/cache/createEmotionCache';
-
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import type { ReactNode } from 'react';
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: { main: '#90caf9' },
-    secondary: { main: '#f48fb1' },
-  },
-});
+import { createEmotionCache } from '../utils/createEmotionCache';
+import { theme } from '../theme';
 
-interface MyCustomProviderProps {
+export interface MyCustomProviderProps {
   children: ReactNode;
   mode?: 'ssr' | 'client-only';
 }
 
-export default function MyCustomProvider({ children, mode = 'ssr' }: MyCustomProviderProps) {
-  const [mounted, setMounted] = useState(mode === 'ssr');
+export const MyCustomProvider = ({
+  children,
+  mode = 'ssr',
+}: MyCustomProviderProps) => {
+  const isClient = typeof window !== 'undefined';
 
-  useEffect(() => {
-    if (mode === 'client-only') {
-      setMounted(true);
-    }
-  }, [mode]);
+  const shouldRender = mode === 'ssr' || isClient;
 
-  if (!mounted) {
-    return mode === 'ssr' ? (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
-    ) : null;
-  }
+  if (!shouldRender) return null;
 
   const cache = createEmotionCache();
 
@@ -47,4 +30,4 @@ export default function MyCustomProvider({ children, mode = 'ssr' }: MyCustomPro
       </ThemeProvider>
     </CacheProvider>
   );
-}
+};

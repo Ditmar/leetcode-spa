@@ -1,33 +1,28 @@
-import { Box, Typography, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { Box, Typography } from '@mui/material';
 
 export interface SmartHydrationProps {
   threshold?: number;
 }
 
 export const SmartHydration = ({ threshold = 1000 }: SmartHydrationProps) => {
-  const [shouldHydrate, setShouldHydrate] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShouldHydrate(true);
+      setHydrated(true);
     }, threshold);
 
     return () => clearTimeout(timer);
   }, [threshold]);
 
-  if (!shouldHydrate) {
-    return (
-      <Box>
-        <Typography>Loading...</Typography>
-      </Box>
-    );
+  if (!hydrated) {
+    return <Typography>Loading...</Typography>;
   }
 
   return (
     <Box>
-      <Typography>Content hydrated</Typography>
-      <Button variant="contained">Action</Button>
+      <Typography>Hydrated after {threshold}ms</Typography>
     </Box>
   );
 };
