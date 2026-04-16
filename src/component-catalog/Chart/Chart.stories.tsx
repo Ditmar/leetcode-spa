@@ -1,9 +1,9 @@
 import { Chart } from './Chart';
-import type { ChartType } from './Chart.types';
 
+import type { ChartType } from './Chart.types';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const chartType: ChartType[] = ['bar','line','pie']; 
+const chartType: ChartType[] = ['bar', 'line', 'pie'];
 
 const meta: Meta<typeof Chart> = {
   title: 'component-catalog/Chart',

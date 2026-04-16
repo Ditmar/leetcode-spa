@@ -1,13 +1,14 @@
 import { BarChart } from '@mui/x-charts/BarChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { useId, useMemo  } from 'react';
+import { useId, useMemo } from 'react';
+
+import { useTheme } from '../../style-library';
 
 import { DEFAULT_CHART_HEIGHT, SERIES_COLORS } from './Chart.constants';
 import { ChartWrapper, ChartSkeleton, VisuallyHidden } from './Chart.styles';
 
 import type { ChartProps } from './Chart.types';
-import { useTheme } from '../../style-library';
 
 const HiddenLegend = () => null;
 
@@ -37,51 +38,58 @@ const Chart = (props: ChartProps) => {
     );
   }
 
-const legendSlots = useMemo(
-  () => (showLegend ? undefined : { legend: HiddenLegend }),
-  [showLegend],
-);
+  const legendSlots = useMemo(
+    () => (showLegend ? undefined : { legend: HiddenLegend }),
+    [showLegend]
+  );
 
-  const xAxisConfig =useMemo(() => xAxis?.labels
-    ? [
-        {
-          scaleType: 'band' as const,
-          data: xAxis.labels,
-          label: xAxis.title,
-          tickLabelStyle: { fontSize: axisFontSize },
-        },
-      ]
-    : undefined,
+  const xAxisConfig = useMemo(
+    () =>
+      xAxis?.labels
+        ? [
+            {
+              scaleType: 'band' as const,
+              data: xAxis.labels,
+              label: xAxis.title,
+              tickLabelStyle: { fontSize: axisFontSize },
+            },
+          ]
+        : undefined,
     [xAxis, axisFontSize]
-    );
+  );
 
-  const yAxisConfig = useMemo(() => yAxis?.title
-    ? [{ label: yAxis.title, tickLabelStyle: { fontSize: axisFontSize } }]
-    : undefined,
+  const yAxisConfig = useMemo(
+    () =>
+      yAxis?.title
+        ? [{ label: yAxis.title, tickLabelStyle: { fontSize: axisFontSize } }]
+        : undefined,
     [xAxis, axisFontSize]
-    );
+  );
 
-  const normalisedSeries = useMemo(() => series.map((s, i) => ({
-    data: s.data,
-    label: s.label,
-    color: s.color ?? SERIES_COLORS[i % SERIES_COLORS.length],
-  })),
-  [series],);
+  const normalisedSeries = useMemo(
+    () =>
+      series.map((s, i) => ({
+        data: s.data,
+        label: s.label,
+        color: s.color ?? SERIES_COLORS[i % SERIES_COLORS.length],
+      })),
+    [series]
+  );
 
   const pieSeries = useMemo(
-  () => [
-    {
-      data:
-        series[0]?.data.map((value, i) => ({
-          id: i,
-          value,
-          label: xAxis?.labels?.[i] ?? `Item ${i + 1}`,
-          color: SERIES_COLORS[i % SERIES_COLORS.length],
-        })) ?? [],
-    },
-  ],
-  [series, xAxis],
-);
+    () => [
+      {
+        data:
+          series[0]?.data.map((value, i) => ({
+            id: i,
+            value,
+            label: xAxis?.labels?.[i] ?? `Item ${i + 1}`,
+            color: SERIES_COLORS[i % SERIES_COLORS.length],
+          })) ?? [],
+      },
+    ],
+    [series, xAxis]
+  );
 
   return (
     <ChartWrapper

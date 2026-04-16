@@ -1,7 +1,9 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import type { ComponentProps } from 'react';
+
 import { Chart } from './Chart';
+
+import type { ComponentProps } from 'react';
 
 type ChartSeries = ComponentProps<typeof Chart>['series'][number];
 
