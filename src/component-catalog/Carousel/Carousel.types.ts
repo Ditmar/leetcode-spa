@@ -6,3 +6,4 @@ export interface CarouselProps extends BoxProps {
   autoPlay?: boolean;
   interval?: number;
 }
+  
