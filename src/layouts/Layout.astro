@@ -6,17 +6,13 @@ export interface Props {
   showNavigation?: boolean;
 }
 
-const { title = 'Astro + React Lab', showNavigation = true } = Astro.props;
+const { title = 'Astro App', showNavigation = true } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="emotion-insertion-point" content="" />
     <title>{title}</title>
   </head>
   <body>
@@ -37,11 +33,11 @@ const { title = 'Astro + React Lab', showNavigation = true } = Astro.props;
 </html>
 
 <style>
-  html, body {
+  .layout {
     margin: 0;
-    width: 100%;
-    height: 100%;
     font-family: system-ui, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
   }
 
   nav {
