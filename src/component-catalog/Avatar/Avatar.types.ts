@@ -1,6 +1,5 @@
-import type { BoxProps } from '@mui/material';
-
 import type { AvatarSizes, AvatarVariants } from './Avatar.constants';
+import type { BoxProps } from '@mui/material';
 
 export interface AvatarStylesProps {
   $size?: AvatarSizes;

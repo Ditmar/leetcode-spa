@@ -17,7 +17,8 @@ export const StyledAvatar = styled(Box, {
   width: `${AVATAR_SIZES[$size]}px`,
   height: `${AVATAR_SIZES[$size]}px`,
 
-  fontSize: $size === 'sm' ? '11px' : $size === 'md' ? '13px' : $size === 'xl' ? '16px' : '14px',
+  fontSize:
+    $size === 'sm' ? '11px' : $size === 'md' ? '13px' : $size === 'xl' ? '16px' : '14px',
 
   backgroundColor: AVATAR_VARIANTS[$variant].bg,
   color: AVATAR_VARIANTS[$variant].color,
