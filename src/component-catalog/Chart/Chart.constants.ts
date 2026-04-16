@@ -2,10 +2,6 @@ import type { ChartType, ChartStylesVariants } from './Chart.types';
 
 export const DEFAULT_CHART_HEIGHT = 320;
 
-export const AXIS_TICK_FONT_SIZE = 12;
-
-export const AXIS_TICK_FONT_SIZE_MIN = 11;
-
 export const AXIS_TICK_FONT_FAMILY = 'Arial, sans-serif';
 
 export const AXIS_TICK_COLOR = 'var(--muted-foreground)';

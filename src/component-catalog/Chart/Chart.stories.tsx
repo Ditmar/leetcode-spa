@@ -1,6 +1,9 @@
 import { Chart } from './Chart';
+import type { ChartType } from './Chart.types';
 
 import type { Meta, StoryObj } from '@storybook/react';
+
+const chartType: ChartType[] = ['bar','line','pie']; 
 
 const meta: Meta<typeof Chart> = {
   title: 'component-catalog/Chart',
@@ -28,7 +31,7 @@ const meta: Meta<typeof Chart> = {
   argTypes: {
     type: {
       control: 'select',
-      options: ['bar', 'line', 'pie'],
+      options: chartType,
     },
     height: { control: 'number' },
     showLegend: { control: 'boolean' },
