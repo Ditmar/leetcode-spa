@@ -11,91 +11,58 @@ import {
   Popper,
 } from '@mui/material';
 
-import '../../style-library/theme/colors.css';
 import { alpha } from '../../style-library';
-
-import { TOUCH_TARGET_MIN, NAV_COLORS } from './NavigationMenu.constants';
+import { navigationMenuTokens } from '../../style-library/theme/theme';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  position: 'sticky',
-  top: 0,
-  height: 57,
-  backgroundColor: NAV_COLORS.BACKGROUND,
+  ...navigationMenuTokens.layout.appBar,
+  height: navigationMenuTokens.sizes.appBarHeight.medium,
+  backgroundColor: navigationMenuTokens.colors.background,
   color: theme.palette.common.white,
   boxShadow: theme.shadows[8],
-  borderBottom: `1px solid ${NAV_COLORS.BORDER}`,
+  borderBottom: `${navigationMenuTokens.borders.width}px solid ${navigationMenuTokens.colors.border}`,
   zIndex: theme.zIndex.appBar,
   transition: theme.transitions.create(['top', 'box-shadow'], {
     duration: theme.transitions.duration.standard,
     easing: theme.transitions.easing.easeInOut,
   }),
-  overflowX: 'hidden',
-  overflowY: 'hidden',
-  scrollbarWidth: 'none' as const,
-  msOverflowStyle: 'none' as const,
   '&::-webkit-scrollbar': {
     display: 'none',
   },
 }));
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'flex-start',
-  alignItems: 'center',
-  height: 57,
-  paddingLeft: theme.spacing(1),
-  paddingRight: theme.spacing(1),
-  gap: 0,
-  minHeight: 'auto',
-  flexWrap: 'nowrap',
-  overflowX: 'hidden',
-  overflowY: 'hidden',
-  scrollbarWidth: 'none' as const,
-  msOverflowStyle: 'none' as const,
+  ...navigationMenuTokens.layout.toolbar,
+  height: navigationMenuTokens.sizes.appBarHeight.medium,
+  paddingLeft: theme.spacing(navigationMenuTokens.spacing.toolbarPadding),
+  paddingRight: theme.spacing(navigationMenuTokens.spacing.toolbarPadding),
   '&::-webkit-scrollbar': {
     display: 'none',
   },
 }));
 
 const StyledDesktopNav = styled(List)(({ theme }) => ({
-  display: 'none',
-  flexDirection: 'row',
-  alignItems: 'center',
-  gap: 0,
-  flexWrap: 'nowrap',
-  overflowX: 'hidden',
-  overflowY: 'hidden',
-  scrollbarWidth: 'none' as const,
-  msOverflowStyle: 'none' as const,
+  ...navigationMenuTokens.layout.desktopNav,
   '&::-webkit-scrollbar': {
     display: 'none',
   },
 
-  [theme.breakpoints.up('md')]: {
-    display: 'flex',
-  },
+  [theme.breakpoints.up('md')]: navigationMenuTokens.layout.desktopNavDesktop,
 }));
 
 const StyledNavContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  flex: 1,
-  gap: theme.spacing(0.5),
+  ...navigationMenuTokens.layout.navContainer,
+  gap: theme.spacing(navigationMenuTokens.spacing.navContainerGap),
   flexWrap: 'nowrap',
 }));
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  position: 'relative',
-  minHeight: TOUCH_TARGET_MIN,
-  minWidth: 'auto',
+  ...navigationMenuTokens.listItem,
+  minHeight: navigationMenuTokens.minTouchTarget,
   padding: theme.spacing(0.75, 1.5),
-  borderRadius: 0,
-  fontSize: theme.typography.body2.fontSize ?? '0.875rem',
-  fontWeight: 500,
-  letterSpacing: theme.spacing(0.05),
-  lineHeight: 1.4,
-  color: 'var(--navigation-text)',
+  letterSpacing: theme.spacing(navigationMenuTokens.spacing.letterSpacing),
+  fontSize: theme.typography.body2.fontSize ?? navigationMenuTokens.listItem.fontSize,
+  color: navigationMenuTokens.colors.text,
 
   transition: theme.transitions.create(['color'], {
     duration: theme.transitions.duration.shortest,
@@ -103,25 +70,21 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   }),
 
   '&:hover': {
-    backgroundColor: 'transparent',
+    ...navigationMenuTokens.listItem.hover,
     color: theme.palette.common.white,
   },
 
   '&[aria-current="page"]': {
-    backgroundColor: 'transparent',
+    ...navigationMenuTokens.listItem.active,
     color: theme.palette.common.white,
-    fontWeight: 600,
 
     '&:hover': {
-      backgroundColor: 'transparent',
+      ...navigationMenuTokens.listItem.hover,
       color: theme.palette.common.white,
     },
   },
 
-  '&.Mui-disabled': {
-    opacity: 0.5,
-    cursor: 'not-allowed',
-  },
+  '&.Mui-disabled': navigationMenuTokens.listItem.disabled,
 
   [theme.breakpoints.up('md')]: {
     padding: theme.spacing(0.5, 1.5),
@@ -130,17 +93,16 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
-    width: 256,
-    backgroundColor: NAV_COLORS.BACKGROUND,
+    width: navigationMenuTokens.sizes.drawerWidth,
+    backgroundColor: navigationMenuTokens.colors.background,
     color: theme.palette.common.white,
     zIndex: theme.zIndex.drawer,
     transition: theme.transitions.create('width', {
       duration: theme.transitions.duration.standard,
       easing: theme.transitions.easing.easeInOut,
     }),
-    overflowY: 'hidden',
-    scrollbarWidth: 'none' as const,
-    msOverflowStyle: 'none' as const,
+    ...navigationMenuTokens.layout.drawer,
+    ...navigationMenuTokens.layout.scrollbar,
     '&::-webkit-scrollbar': {
       display: 'none',
     },
@@ -148,39 +110,34 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
 }));
 
 const StyledMobileNav = styled(List)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  padding: theme.spacing(0),
-  backgroundColor: NAV_COLORS.BACKGROUND,
+  ...navigationMenuTokens.layout.mobileNav,
+  padding: theme.spacing(navigationMenuTokens.spacing.mobileNavPadding),
+  backgroundColor: navigationMenuTokens.colors.background,
 
-  [theme.breakpoints.up('md')]: {
-    display: 'none',
-  },
+  [theme.breakpoints.up('md')]: navigationMenuTokens.layout.mobileNavDesktop,
 }));
 
 const StyledAccordion = styled(Accordion)(() => ({
-  backgroundColor: alpha(NAV_COLORS.BACKGROUND, 0.8),
-  boxShadow: 'none',
-  borderBottom: `1px solid ${alpha(NAV_COLORS.BORDER, 0.5)}`,
+  backgroundColor: alpha(
+    navigationMenuTokens.colors.background,
+    navigationMenuTokens.opacity.accordion
+  ),
+  ...navigationMenuTokens.accordion,
+  borderBottom: `${navigationMenuTokens.borders.width}px solid ${alpha(navigationMenuTokens.colors.border, navigationMenuTokens.opacity.border)}`,
 
-  '&:before': {
-    display: 'none',
-  },
+  '&:before': navigationMenuTokens.accordion.before,
 
-  '&.Mui-expanded': {
-    margin: 0,
-  },
+  '&.Mui-expanded': navigationMenuTokens.accordion.expanded,
 }));
 
 const StyledMegaPanel = styled(Paper)(({ theme }) => ({
-  backgroundColor: NAV_COLORS.BACKGROUND,
+  backgroundColor: navigationMenuTokens.colors.background,
   boxShadow: theme.shadows[8],
-  borderRadius: theme.spacing(0.5),
-  padding: theme.spacing(2),
-  minWidth: 280,
-  maxWidth: 400,
-  border: `1px solid ${alpha(NAV_COLORS.BORDER, 0.8)}`,
+  borderRadius: theme.spacing(navigationMenuTokens.megaPanel.borderRadius),
+  padding: theme.spacing(navigationMenuTokens.spacing.megaPanelPadding),
+  minWidth: navigationMenuTokens.sizes.megaPanel.minWidth,
+  maxWidth: navigationMenuTokens.sizes.megaPanel.maxWidth,
+  border: `${navigationMenuTokens.borders.width}px solid ${alpha(navigationMenuTokens.colors.border, navigationMenuTokens.opacity.accordion)}`,
 }));
 
 const StyledFlyoutPopper = styled(Popper)(({ theme }) => ({

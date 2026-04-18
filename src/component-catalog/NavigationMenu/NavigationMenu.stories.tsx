@@ -1,8 +1,6 @@
-import { useMediaQuery, useTheme } from '@mui/material';
-import { useMemo } from 'react';
+import { useTheme, useMediaQuery } from '@mui/material';
 
-import NavigationLogo from '../../assets/NavigationMenu.svg';
-import NavigationLogo2 from '../../assets/NavigationMenu2.svg';
+import NavigationMenuLogo from '../../assets/NavigationMenu.svg?url';
 
 import { NavigationMenu } from './NavigationMenu';
 
@@ -40,21 +38,6 @@ const meta: Meta<typeof NavigationMenu> = {
     useScrollHide: {
       table: { disable: true },
     },
-    themeColor: {
-      table: { disable: true },
-    },
-    elevation: {
-      table: { disable: true },
-    },
-    ariaLabel: {
-      table: { disable: true },
-    },
-    rightContent: {
-      table: { disable: true },
-    },
-    appBarHeight: {
-      table: { disable: true },
-    },
     drawerProps: {
       table: { disable: true },
     },
@@ -88,30 +71,12 @@ const createNavSections = (labels: string[]): NavSection[] => [
 ];
 
 const createStoryRender = () => {
-  return (args: Record<string, unknown>) => {
+  return (args: NavigationMenuProps) => {
     if (!args.navSections) {
       args.navSections = createNavSections(defaultNavItems);
     }
-    return <NavigationMenu {...(args as NavigationMenuProps)} />;
+    return <NavigationMenu {...args} />;
   };
-};
-
-const ResponsiveLogoWrapper = (args: Record<string, unknown>) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  const logo = useMemo(() => {
-    if (isMobile) {
-      return <img src={NavigationLogo2} alt="LeetCode" style={{ height: 24 }} />;
-    }
-    return <img src={NavigationLogo} alt="LeetCode" style={{ height: 24 }} />;
-  }, [isMobile]);
-
-  if (!args.navSections) {
-    args.navSections = createNavSections(defaultNavItems);
-  }
-
-  return <NavigationMenu {...(args as NavigationMenuProps)} logo={logo} />;
 };
 
 export const Default: Story = {
@@ -129,7 +94,12 @@ export const WithLogo: Story = {
     size: 'medium',
     variant: 'primary',
   },
-  render: ResponsiveLogoWrapper,
+  render: (args: NavigationMenuProps) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    return <NavigationMenu {...args} logo={isMobile ? undefined : NavigationMenuLogo} />;
+  },
 };
 
 export const ActiveState: Story = {

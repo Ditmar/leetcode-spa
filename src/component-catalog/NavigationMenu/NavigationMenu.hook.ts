@@ -2,42 +2,24 @@ import { useMediaQuery, useScrollTrigger } from '@mui/material';
 import { useState, useCallback, useMemo } from 'react';
 
 import { useTheme } from '../../style-library';
+import { navigationMenuTokens } from '../../style-library/theme/theme';
 
-import type { NavItem, NavSection } from './NavigationMenu.types';
+import { DEFAULT_NAVIGATION_MENU_STATE_PROPS } from './NavigationMenu.types';
 
-interface UseNavigationMenuStateProps {
-  navSections: NavSection[];
-  currentPath?: string;
-  onItemClick?: (item: NavItem) => void;
-  useScrollHide?: boolean;
-  onMobileMenuToggle?: (isOpen: boolean) => void;
-}
-
-interface UseNavigationMenuStateReturn {
-  activePanelId: string | null;
-  openPanel: (panelId: string) => void;
-  closePanel: () => void;
-  isMobileDrawerOpen: boolean;
-  toggleMobileDrawer: () => void;
-  closeMobileDrawer: () => void;
-  activeItemId: string | null;
-  isItemActive: (item: NavItem) => boolean;
-  isMobile: boolean;
-  isDesktop: boolean;
-  handleItemClick: (item: NavItem) => void;
-  handleEscapeKey: () => void;
-  handleKeyDown: (event: React.KeyboardEvent) => void;
-  isScrollHidden: boolean;
-}
+import type {
+  NavItem,
+  UseNavigationMenuStateProps,
+  UseNavigationMenuStateReturn,
+} from './NavigationMenu.types';
 
 export function useNavigationMenuState(
   props: UseNavigationMenuStateProps
 ): UseNavigationMenuStateReturn {
   const {
     navSections,
-    currentPath = '',
+    currentPath = DEFAULT_NAVIGATION_MENU_STATE_PROPS.currentPath,
     onItemClick,
-    useScrollHide = false,
+    useScrollHide = DEFAULT_NAVIGATION_MENU_STATE_PROPS.useScrollHide,
     onMobileMenuToggle,
   } = props;
 
@@ -48,7 +30,7 @@ export function useNavigationMenuState(
 
   const isScrollHidden = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 100,
+    threshold: navigationMenuTokens.scroll.hideThreshold,
   });
 
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
@@ -154,5 +136,3 @@ export function useNavigationMenuState(
     isScrollHidden: useScrollHide ? isScrollHidden : false,
   };
 }
-
-export type { UseNavigationMenuStateReturn };

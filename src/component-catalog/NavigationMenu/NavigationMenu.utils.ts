@@ -1,4 +1,4 @@
-import { NAV_COLORS } from './NavigationMenu.constants';
+import { navigationMenuTokens } from '../../style-library/theme/theme';
 
 import type { NavigationMenuSize, NavigationMenuVariant } from './NavigationMenu.types';
 import type { Theme } from '@mui/material';
@@ -6,22 +6,22 @@ import type { Theme } from '@mui/material';
 function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
   const sizeConfigs = {
     small: {
-      appBarHeight: 48,
-      itemPadding: `${theme.spacing(0.25)} ${theme.spacing(1)}`,
+      appBarHeight: navigationMenuTokens.sizes.appBarHeight.small,
+      itemPadding: `${theme.spacing(navigationMenuTokens.spacing.itemPaddingY.small)} ${theme.spacing(navigationMenuTokens.spacing.itemPaddingX.small)}`,
       itemFontSize: theme.typography.caption.fontSize,
-      toolbarGap: 0.5,
+      toolbarGap: navigationMenuTokens.spacing.toolbarGap.small,
     },
     medium: {
-      appBarHeight: 57,
-      itemPadding: `${theme.spacing(0.5)} ${theme.spacing(1.5)}`,
+      appBarHeight: navigationMenuTokens.sizes.appBarHeight.medium,
+      itemPadding: `${theme.spacing(navigationMenuTokens.spacing.itemPaddingY.medium)} ${theme.spacing(navigationMenuTokens.spacing.itemPaddingX.medium)}`,
       itemFontSize: theme.typography.body2.fontSize,
-      toolbarGap: 1,
+      toolbarGap: navigationMenuTokens.spacing.toolbarGap.medium,
     },
     large: {
-      appBarHeight: 64,
-      itemPadding: `${theme.spacing(0.75)} ${theme.spacing(2)}`,
+      appBarHeight: navigationMenuTokens.sizes.appBarHeight.large,
+      itemPadding: `${theme.spacing(navigationMenuTokens.spacing.itemPaddingY.large)} ${theme.spacing(navigationMenuTokens.spacing.itemPaddingX.large)}`,
       itemFontSize: theme.typography.body1.fontSize,
-      toolbarGap: 1.5,
+      toolbarGap: navigationMenuTokens.spacing.toolbarGap.large,
     },
   };
 
@@ -31,7 +31,7 @@ function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
 function getVariantConfig(variant: NavigationMenuVariant = 'primary', theme: Theme) {
   const variantConfigs = {
     primary: {
-      backgroundColor: NAV_COLORS.BACKGROUND,
+      backgroundColor: navigationMenuTokens.colors.background,
       textColor: theme.palette.common.white,
     },
     secondary: {

@@ -11,10 +11,9 @@ import {
 } from '@mui/material';
 import { useRef } from 'react';
 
-import NavigationLogoFull from '../../assets/NavigationMenu.svg';
-import NavigationLogoCompact from '../../assets/NavigationMenu2.svg';
+import { navigationMenuTokens } from '../../style-library/theme/theme';
 
-import { DEFAULT_ARIA_LABEL, NAV_COLORS } from './NavigationMenu.constants';
+import { DEFAULT_ARIA_LABEL, NAVIGATION_LOGOS } from './NavigationMenu.constants';
 import { useNavigationMenuState } from './NavigationMenu.hook';
 import {
   StyledAppBar,
@@ -31,7 +30,6 @@ import {
 import { getSizeConfig, getVariantConfig } from './NavigationMenu.utils';
 
 import type { NavigationMenuProps, NavItem } from './NavigationMenu.types';
-import type { Theme } from '@mui/material';
 
 const NavigationMenu = (props: NavigationMenuProps) => {
   const theme = useTheme();
@@ -73,7 +71,17 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     onMobileMenuToggle,
   });
 
-  const renderItem = (item: NavItem) => (
+  const getLogoSrc = (variant: 'full' | 'compact') =>
+    (typeof logo === 'string' ? logo : NAVIGATION_LOGOS[variant]) as string;
+
+  const renderIcon = (icon: React.ReactNode, fontSize: string | number | undefined) =>
+    icon ? (
+      <Box sx={{ ...navigationMenuTokens.layout.iconContainer, fontSize: fontSize || 'inherit' }}>
+        {icon}
+      </Box>
+    ) : null;
+
+  const renderNavItem = (item: NavItem) => (
     <StyledListItemButton
       key={item.id}
       data-testid={`nav-item-${item.id}`}
@@ -86,42 +94,13 @@ const NavigationMenu = (props: NavigationMenuProps) => {
         fontSize: sizeConfig.itemFontSize,
       }}
     >
-      {item.icon && (
-        <Box sx={{ mr: 0.5, display: 'flex', fontSize: sizeConfig.itemFontSize }}>{item.icon}</Box>
-      )}
+      {renderIcon(item.icon, sizeConfig.itemFontSize)}
       {item.label}
     </StyledListItemButton>
   );
 
-  const renderLogo = (additionalSx = {}) =>
-    logo && (
-      <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0, ...additionalSx }}>
-        {typeof logo === 'string' ? <img src={logo} alt="Logo" style={{ height: 24 }} /> : logo}
-      </Box>
-    );
-
-  const signInButtonSx = {
-    textTransform: 'none',
-    fontSize: theme.spacing(1.5),
-    fontWeight: 600,
-    height: 28,
-    paddingX: 2,
-    letterSpacing: theme.spacing(0.05),
-    borderRadius: (theme: Theme) => theme.spacing(0.5),
-    backgroundColor: (theme: Theme) => theme.palette.success.main,
-    color: (theme: Theme) => theme.palette.success.contrastText,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    '&:hover': {
-      backgroundColor: (theme: Theme) => theme.palette.success.dark,
-      color: (theme: Theme) => theme.palette.success.contrastText,
-    },
-  };
-
   const renderMobileAccordion = (item: NavItem) => {
-    if (!item.children || item.children.length === 0) {
-      return renderItem(item);
-    }
+    if (!item.children?.length) return renderNavItem(item);
 
     return (
       <StyledAccordion key={item.id} data-testid={`accordion-${item.id}`}>
@@ -134,26 +113,67 @@ const NavigationMenu = (props: NavigationMenuProps) => {
             sx={{
               padding: sizeConfig.itemPadding,
               fontSize: sizeConfig.itemFontSize,
-              width: '100%',
-              '&.Mui-focused': {
-                backgroundColor: 'transparent',
-              },
+              ...navigationMenuTokens.accordion.summaryButton,
+              '&.Mui-focused': navigationMenuTokens.accordion.summaryFocused,
             }}
           >
-            {item.icon && (
-              <Box sx={{ mr: 0.5, display: 'flex', fontSize: sizeConfig.itemFontSize }}>
-                {item.icon}
-              </Box>
-            )}
+            {renderIcon(item.icon, sizeConfig.itemFontSize)}
             {item.label}
           </StyledListItemButton>
         </AccordionSummary>
-        <AccordionDetails sx={{ padding: 0 }}>
-          {item.children.map((child) => renderItem(child))}
+        <AccordionDetails sx={{ p: 0 }}>
+          {item.children.map((child) => renderNavItem(child))}
         </AccordionDetails>
       </StyledAccordion>
     );
   };
+
+  const signInButtonSx = {
+    ...navigationMenuTokens.signInButton,
+    letterSpacing: theme.spacing(navigationMenuTokens.signInButton.letterSpacing),
+    borderRadius: theme.spacing(navigationMenuTokens.signInButton.borderRadius),
+    backgroundColor: theme.palette.success.main,
+    color: theme.palette.success.contrastText,
+    flexShrink: 0,
+    '&:hover': {
+      backgroundColor: theme.palette.success.dark,
+      color: theme.palette.success.contrastText,
+    },
+  };
+
+  const renderDesktopItem = (item: NavItem) => (
+    <Box key={item.id} position="relative">
+      <Box
+        ref={(el: HTMLElement | null) => {
+          if (el) anchorRefs.current.set(item.id, el);
+        }}
+        onMouseEnter={() => item.megaPanelContent && openPanel(item.id)}
+        onMouseLeave={closePanel}
+      >
+        {renderNavItem(item)}
+      </Box>
+
+      {item.megaPanelContent && (
+        <StyledFlyoutPopper
+          open={activePanelId === item.id}
+          anchorEl={anchorRefs.current.get(item.id) || null}
+          placement="bottom-start"
+          modifiers={[
+            { name: 'offset', options: { offset: navigationMenuTokens.megaPanel.popperOffset } },
+          ]}
+        >
+          <StyledMegaPanel
+            onMouseEnter={() => openPanel(item.id)}
+            onMouseLeave={closePanel}
+            onFocus={() => openPanel(item.id)}
+            onBlur={closePanel}
+          >
+            {item.megaPanelContent}
+          </StyledMegaPanel>
+        </StyledFlyoutPopper>
+      )}
+    </Box>
+  );
 
   return (
     <StyledAppBar
@@ -166,7 +186,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
       }}
     >
       <StyledToolbar sx={{ gap: sizeConfig.toolbarGap }}>
-        {isMobile ? (
+        {isMobile && (
           <>
             <IconButton
               onClick={toggleMobileDrawer}
@@ -178,57 +198,50 @@ const NavigationMenu = (props: NavigationMenuProps) => {
             >
               {isMobileDrawerOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
-            <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-              <img src={NavigationLogoCompact} alt="Logo" style={{ height: 24 }} />
-            </Box>
+            {typeof logo === 'string' ? (
+              <img
+                src={logo}
+                alt="Logo"
+                style={{
+                  height: navigationMenuTokens.sizes.logoHeight,
+                  flexShrink: 0,
+                }}
+              />
+            ) : logo ? (
+              <Box sx={{ ...navigationMenuTokens.layout.logoContainer, flexShrink: 0 }}>{logo}</Box>
+            ) : (
+              <img
+                src={getLogoSrc('compact')}
+                alt="Logo"
+                style={{
+                  height: navigationMenuTokens.sizes.logoHeight,
+                  flexShrink: 0,
+                }}
+              />
+            )}
           </>
-        ) : (
-          <>{renderLogo({ mr: 1 })}</>
         )}
+
+        {isDesktop &&
+          logo &&
+          (typeof logo === 'string' ? (
+            <img
+              src={logo}
+              alt="Logo"
+              style={{
+                height: navigationMenuTokens.sizes.logoHeight,
+                marginRight: theme.spacing(navigationMenuTokens.spacing.logoMargin),
+                flexShrink: 0,
+              }}
+            />
+          ) : (
+            <Box sx={navigationMenuTokens.layout.logoContainerDesktop}>{logo}</Box>
+          ))}
 
         <StyledNavContainer>
           {isDesktop && (
             <StyledDesktopNav role="navigation" aria-label={ariaLabel} onKeyDown={handleKeyDown}>
-              {navSections.map((section) =>
-                section.items.map((item) => (
-                  <Box key={item.id} position="relative">
-                    <Box
-                      ref={(el) => {
-                        if (el) anchorRefs.current.set(item.id, el);
-                      }}
-                      onMouseEnter={() => item.megaPanelContent && openPanel(item.id)}
-                      onMouseLeave={() => closePanel()}
-                    >
-                      {renderItem(item)}
-                    </Box>
-
-                    {item.megaPanelContent && (
-                      <StyledFlyoutPopper
-                        open={activePanelId === item.id}
-                        anchorEl={anchorRefs.current.get(item.id) || null}
-                        placement="bottom-start"
-                        modifiers={[
-                          {
-                            name: 'offset',
-                            options: {
-                              offset: [0, 8],
-                            },
-                          },
-                        ]}
-                      >
-                        <StyledMegaPanel
-                          onMouseEnter={() => openPanel(item.id)}
-                          onMouseLeave={() => closePanel()}
-                          onFocus={() => openPanel(item.id)}
-                          onBlur={() => closePanel()}
-                        >
-                          {item.megaPanelContent}
-                        </StyledMegaPanel>
-                      </StyledFlyoutPopper>
-                    )}
-                  </Box>
-                ))
-              )}
+              {navSections.flatMap((section) => section.items.map(renderDesktopItem))}
             </StyledDesktopNav>
           )}
 
@@ -247,16 +260,31 @@ const NavigationMenu = (props: NavigationMenuProps) => {
         >
           <Box
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: theme.spacing(1),
-              borderBottom: `1px solid ${NAV_COLORS.BORDER}`,
+              ...navigationMenuTokens.layout.drawerHeader,
+              borderBottom: `${navigationMenuTokens.borders.width}px solid ${navigationMenuTokens.colors.border}`,
             }}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-              <img src={NavigationLogoFull} alt="Logo" style={{ height: 24 }} />
-            </Box>
+            {typeof logo === 'string' ? (
+              <img
+                src={logo}
+                alt="Logo"
+                style={{
+                  height: navigationMenuTokens.sizes.logoHeight,
+                  flexShrink: 0,
+                }}
+              />
+            ) : logo ? (
+              <Box sx={{ ...navigationMenuTokens.layout.logoContainer, flexShrink: 0 }}>{logo}</Box>
+            ) : (
+              <img
+                src={getLogoSrc('full')}
+                alt="Logo"
+                style={{
+                  height: navigationMenuTokens.sizes.logoHeight,
+                  flexShrink: 0,
+                }}
+              />
+            )}
             <IconButton
               onClick={closeMobileDrawer}
               color="inherit"
@@ -269,9 +297,9 @@ const NavigationMenu = (props: NavigationMenuProps) => {
             </IconButton>
           </Box>
           <StyledMobileNav role="navigation" aria-label={ariaLabel} onKeyDown={handleKeyDown}>
-            {navSections.map((section) => (
-              <Box key={section.id}>{section.items.map((item) => renderMobileAccordion(item))}</Box>
-            ))}
+            {navSections.flatMap((section) =>
+              section.items.map((item) => renderMobileAccordion(item))
+            )}
           </StyledMobileNav>
         </StyledDrawer>
       )}

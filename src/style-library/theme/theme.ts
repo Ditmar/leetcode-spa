@@ -512,6 +512,195 @@ export const formInputTokens = {
   },
 } as const;
 
+/**
+ * NavigationMenu Component Tokens
+ * Color and sizing tokens from Figma design
+ * ↓ AGREGADO PARA NavigationMenu - Bloque completo de tokens
+ */
+export const navigationMenuTokens = {
+  // ↓ Agregado para NavigationMenu - colors
+  colors: {
+    background: '#101828',
+    border: '#1E2939',
+    text: '#D1D5DC',
+  },
+  // ↓ Agregado para NavigationMenu - sizes
+  sizes: {
+    appBarHeight: {
+      small: 48,
+      medium: 57,
+      large: 64,
+    },
+    logoHeight: 24,
+    drawerWidth: 256,
+    megaPanel: {
+      minWidth: 280,
+      maxWidth: 400,
+    },
+  },
+  // ↓ Agregado para NavigationMenu - minTouchTarget
+  minTouchTarget: 44,
+  // ↓ Agregado para NavigationMenu - spacing
+  spacing: {
+    itemPaddingY: {
+      small: 0.25,
+      medium: 0.5,
+      large: 0.75,
+    },
+    itemPaddingX: {
+      small: 1,
+      medium: 1.5,
+      large: 2,
+    },
+    toolbarGap: {
+      small: 0.5,
+      medium: 1,
+      large: 1.5,
+    },
+    iconMargin: 0.5,
+    navContainerGap: 0.5,
+    logoMargin: 1,
+    drawerHeaderPadding: 1,
+    letterSpacing: 0.05,
+    toolbarPadding: 1,
+    mobileNavPadding: 0,
+    megaPanelPadding: 2,
+  },
+  // ↓ Agregado para NavigationMenu - signInButton
+  signInButton: {
+    fontWeight: 600,
+    height: 28,
+    paddingX: 2,
+    fontSize: '0.875rem',
+    textTransform: 'none',
+    whiteSpace: 'nowrap',
+    letterSpacing: 0.05,
+    borderRadius: 0.5,
+  },
+  // ↓ Agregado para NavigationMenu - layout
+  layout: {
+    appBar: {
+      position: 'sticky' as const,
+      top: 0,
+      minHeight: 'auto',
+      flexWrap: 'nowrap',
+      overflowX: 'hidden',
+      overflowY: 'hidden',
+    },
+    toolbar: {
+      display: 'flex' as const,
+      justifyContent: 'flex-start' as const,
+      alignItems: 'center' as const,
+    },
+    iconContainer: {
+      mr: 0.5,
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+    },
+    logoContainer: {
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+    },
+    logoContainerDesktop: {
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+      mr: 1,
+      flexShrink: 0,
+    },
+    drawerHeader: {
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'space-between' as const,
+      padding: 1,
+    },
+    desktopNav: {
+      display: 'none' as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
+    },
+    desktopNavDesktop: {
+      display: 'flex' as const,
+    },
+    navContainer: {
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'flex-end' as const,
+      flex: 1,
+    },
+    mobileNav: {
+      display: 'flex' as const,
+      flexDirection: 'column' as const,
+      width: '100%' as const,
+    },
+    mobileNavDesktop: {
+      display: 'none' as const,
+    },
+    drawer: {
+      overflowY: 'hidden',
+    },
+    scrollbar: {
+      scrollbarWidth: 'none' as const,
+      msOverflowStyle: 'none' as const,
+    },
+  },
+  // ↓ Agregado para NavigationMenu - listItem
+  listItem: {
+    position: 'relative' as const,
+    minWidth: 'auto' as const,
+    fontSize: '0.875rem',
+    fontWeight: 500,
+    lineHeight: 1.4,
+    borderRadius: 0,
+    hover: {
+      backgroundColor: 'transparent' as const,
+    },
+    active: {
+      backgroundColor: 'transparent' as const,
+      fontWeight: 600,
+    },
+    disabled: {
+      opacity: 0.5,
+      cursor: 'not-allowed' as const,
+    },
+  },
+  // ↓ Agregado para NavigationMenu - accordion
+  accordion: {
+    boxShadow: 'none' as const,
+    before: {
+      display: 'none' as const,
+    },
+    expanded: {
+      margin: 0,
+    },
+    // ↓ Agregado para NavigationMenu - summaryButton
+    summaryButton: {
+      width: '100%' as const,
+    },
+    // ↓ Agregado para NavigationMenu - summaryFocused
+    summaryFocused: {
+      backgroundColor: 'transparent' as const,
+    },
+  },
+  // ↓ Agregado para NavigationMenu - megaPanel
+  megaPanel: {
+    popperOffset: [0, 8] as const,
+    borderRadius: 0.5,
+  },
+  // ↓ Agregado para NavigationMenu - opacity
+  opacity: {
+    accordion: 0.8,
+    border: 0.5,
+  },
+  // ↓ Agregado para NavigationMenu - borders
+  borders: {
+    width: 1,
+  },
+  // ↓ Agregado para NavigationMenu - scroll
+  scroll: {
+    hideThreshold: 100,
+  },
+} as const;
+
 const themeConfig: ThemeConfig = {
   mode: 'light',
   primaryColor: '#1976d2',
