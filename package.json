@@ -25,7 +25,6 @@
     "@emotion/react": "11.14.0",
     "@emotion/server": "11.11.0",
     "@emotion/styled": "11.14.1",
-    "@hookform/resolvers": "5.2.2",
     "@mui/icons-material": "7.3.4",
     "@mui/material": "7.3.4",
     "@mui/x-date-pickers": "8.27.2",
@@ -36,7 +35,6 @@
     "i18next": "^25.7.2",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "react-hook-form": "7.72.0",
     "react-i18next": "^16.3.5",
     "yaml": "2.4.2",
     "zod": "^4.1.13"
@@ -49,7 +47,6 @@
     "@chromatic-com/storybook": "4.1.1",
     "@eslint/js": "9.36.0",
     "@storybook/addon-a11y": "9.1.10",
-    "@storybook/addon-actions": "9.0.8",
     "@storybook/addon-docs": "9.1.10",
     "@storybook/addon-vitest": "9.1.10",
     "@storybook/blocks": "9.0.0-alpha.17",
