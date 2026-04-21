@@ -1,0 +1,26 @@
+import { Meta, Canvas, Story } from '@storybook/blocks';
+import * as Stories from './Checkbox.stories';
+
+<Meta of={Stories} />
+
+# Checkbox
+
+Material-style checkbox component built with MUI.
+
+## Features
+
+- Accessible (ARIA compliant)
+- Responsive (minimum 44x44 touch target)
+- Supports checked, unchecked, and indeterminate states
+- Supports error and helper text
+- Built on top of MUI Checkbox and FormControlLabel
+
+## Usage
+
+The component supports both **controlled** and **uncontrolled** modes:
+
+- **Controlled**: pass `checked` and `onChange`
+- **Uncontrolled**: use `defaultChecked`
+
+```tsx
+<Checkbox checked={value} onChange={handleChange} />
