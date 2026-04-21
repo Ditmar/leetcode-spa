@@ -68,19 +68,26 @@ jobs:
       - name: Sanitize Branch name
         id: sanitize_branch_name
         run: |
-          SANITIZED_BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9-]/-/g')
-          echo "SANITIZED_BRANCH_NAME=${SANITIZED_BRANCH_NAME}" >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.ref_name }}" == "master" ]]; then
+            echo "SANITIZED_BRANCH_NAME=" >> "$GITHUB_OUTPUT"
+            echo "STORYBOOK_BASE=/leetcode-spa/" >> "$GITHUB_OUTPUT"
+          else
+            SANITIZED=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9-]/-/g')
+            echo "SANITIZED_BRANCH_NAME=${SANITIZED}" >> "$GITHUB_OUTPUT"
+            echo "STORYBOOK_BASE=/leetcode-spa/${SANITIZED}/" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Build Storybook
         run: yarn build-storybook
         env:
-          STORYBOOK_BASE_URL: /leetcode-spa/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}/
+          STORYBOOK_BASE_URL: ${{ steps.sanitize_branch_name.outputs.STORYBOOK_BASE }}
 
       # Desplegar usando peaceiris para todas las ramas
       - name: Debug - Check build output
         run: |
           echo "Branch name: ${{ github.ref_name }}"
           echo "Sanitized branch name: ${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}"
+          echo "Storybook base: ${{ steps.sanitize_branch_name.outputs.STORYBOOK_BASE }}"
           echo "Contents of storybook-static:"
           ls -la ./storybook-static/
 
@@ -99,7 +106,7 @@ jobs:
 
       - name: Show Storybook URL
         run: |
-          echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}/"
+          echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}"
 
   # build-and-push-docker-image:
   #   name: Build and Push Docker Image
