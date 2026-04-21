@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - '**'
+    branches-ignore:
+      - 'gh-pages'
 
 permissions:
   contents: write
@@ -63,15 +65,16 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Build Storybook
-        run: yarn build-storybook
-
       - name: Sanitize Branch name
+        id: sanitize_branch_name
         run: |
-          BRANCH_NAME=${{ github.ref_name }}
           SANITIZED_BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9-]/-/g')
           echo "SANITIZED_BRANCH_NAME=${SANITIZED_BRANCH_NAME}" >> "$GITHUB_OUTPUT"
-        id: sanitize_branch_name
+
+      - name: Build Storybook
+        run: yarn build-storybook
+        env:
+          STORYBOOK_BASE_URL: /leetcode-spa/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}/
 
       # Desplegar usando peaceiris para todas las ramas
       - name: Debug - Check build output
