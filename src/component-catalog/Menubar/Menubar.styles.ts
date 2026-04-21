@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
+ 
 export const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'var(--background)',
   color: 'var(--foreground)',
@@ -19,14 +19,14 @@ export const StyledAppBar = styled(AppBar)(({ theme }) => ({
   boxShadow: 'none',
   padding: theme.spacing(3),
 }));
-
+ 
 export const StyledToolbar = styled(Toolbar)(() => ({
   display: 'flex',
   alignItems: 'center',
   padding: 0,
   minHeight: 'auto',
 }));
-
+ 
 export const MenuItemsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -36,9 +36,9 @@ export const MenuItemsContainer = styled(Box)(({ theme }) => ({
   border: '1px solid var(--border)',
   borderRadius: 'var(--radius-sm)',
   backgroundColor: 'var(--background)',
-  boxShadow: '0 1px 2px var(--border)',
+  boxShadow: 'var(--shadow-sm)',
 }));
-
+ 
 export const MenuButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
   color: 'var(--foreground)',
@@ -59,13 +59,13 @@ export const MenuButton = styled(Button)(({ theme }) => ({
     marginRight: theme.spacing(0.5),
   },
 }));
-
+ 
 export const HamburgerButton = styled(IconButton)(({ theme }) => ({
   minWidth: theme.spacing(5.5),
   minHeight: theme.spacing(5.5),
   color: 'var(--foreground)',
 }));
-
+ 
 export const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
     width: theme.spacing(32),
@@ -74,7 +74,7 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
     color: 'var(--foreground)',
   },
 }));
-
+ 
 export const MobileListItem = styled(ListItemButton)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -90,14 +90,14 @@ export const MobileListItem = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: 'var(--muted)',
   },
 }));
-
+ 
 export const SubmenuContainer = styled(Box)(({ theme }) => ({
   paddingLeft: theme.spacing(2),
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1),
 }));
-
+ 
 export const StyledMenu = styled(Menu)(() => ({
   '& .MuiPaper-root': {
     backgroundColor: 'var(--background)',
@@ -106,13 +106,13 @@ export const StyledMenu = styled(Menu)(() => ({
     borderRadius: 'var(--radius)',
   },
 }));
-
+ 
 export const StyledMenuItem = styled(MenuItem)(() => ({
   '&:hover': {
     backgroundColor: 'var(--accent)',
   },
 }));
-
+ 
 export const IconWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',

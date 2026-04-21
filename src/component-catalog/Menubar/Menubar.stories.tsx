@@ -1,9 +1,8 @@
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { Menubar } from './Menubar';
-
-import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Menubar> = {
   title: 'component-catalog/Menubar',

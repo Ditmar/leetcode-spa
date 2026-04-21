@@ -16,7 +16,6 @@ import {
   StyledMenuItem,
   IconWrapper,
 } from './Menubar.styles';
-
 import type { MenubarProps } from './Menubar.types';
 
 export function Menubar(props: MenubarProps) {
@@ -39,10 +38,9 @@ export function Menubar(props: MenubarProps) {
   } = useMenubar();
 
   const renderDesktopMenu = () => (
-    <MenuItemsContainer>
+    <MenuItemsContainer role="menubar">
       {items.map((item, index) => {
         const isActive = activeMenuIndex === index;
-
         return (
           <MenuButton
             key={item.label}
@@ -89,7 +87,6 @@ export function Menubar(props: MenubarProps) {
         {items.map((item, index) => {
           const hasChildren = !!item.children;
           const isExpanded = expandedItemIndex === index;
-
           return (
             <Box key={item.label}>
               <MobileListItem
@@ -110,7 +107,6 @@ export function Menubar(props: MenubarProps) {
                 </Box>
                 {hasChildren && <ExpandMoreIcon />}
               </MobileListItem>
-
               {hasChildren && (
                 <Collapse in={isExpanded}>
                   <SubmenuContainer>
@@ -142,18 +138,15 @@ export function Menubar(props: MenubarProps) {
 
   return (
     <StyledAppBar position="static">
-      <StyledToolbar role="menubar" aria-label={ariaLabel}>
+      <StyledToolbar aria-label={ariaLabel}>
         {logo && <Box>{logo}</Box>}
-
         {!isMobile && <Box flex={1}>{renderDesktopMenu()}</Box>}
-
         {isMobile && (
           <HamburgerButton onClick={handleDrawerToggle} aria-label="Open menu">
             <MenuIcon />
           </HamburgerButton>
         )}
       </StyledToolbar>
-
       {!isMobile && renderDesktopDropdown()}
       {isMobile && renderMobileMenu()}
     </StyledAppBar>
