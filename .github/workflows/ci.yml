@@ -80,7 +80,6 @@ jobs:
         env:
           STORYBOOK_BASE_URL: ${{ steps.sanitize_branch_name.outputs.STORYBOOK_BASE }}
 
-      # Desplegar usando peaceiris para todas las ramas
       - name: Debug - Check build output
         run: |
           echo "Branch name: ${{ github.ref_name }}"
@@ -89,7 +88,21 @@ jobs:
           echo "Contents of storybook-static:"
           ls -la ./storybook-static/
 
-      - name: Deploy Storybook
+      - name: Deploy Storybook (master → root)
+        if: github.ref_name == 'master'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./storybook-static
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          keep_files: true
+          enable_jekyll: false
+          allow_empty_commit: false
+          force_orphan: false
+
+      - name: Deploy Storybook (branch → subdirectory)
+        if: github.ref_name != 'master'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
