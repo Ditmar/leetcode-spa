@@ -16,7 +16,7 @@ import { getAlertDialogIds } from './AlertDialog.utils';
 
 import type { AlertDialogProps } from './AlertDialog.types';
 
-const AlertDialog = ({
+export const AlertDialog = ({
   open,
   onClose,
   title,
@@ -43,26 +43,17 @@ const AlertDialog = ({
   const baseId = testId ?? `alert-dialog-${reactId}`;
   const { titleId, descriptionId } = getAlertDialogIds(baseId);
 
-  const { labels, actions } = useAlertDialog({
+  const { labels, actions, handlers } = useAlertDialog({
     confirmLabel,
     cancelLabel,
     acknowledgeLabel,
     showConfirmButton,
     showCancelButton,
     showAcknowledgeButton,
+    onConfirm,
+    onCancel,
+    onAcknowledge,
   });
-
-  const handleCancelClick = () => {
-    onCancel?.();
-  };
-
-  const handleConfirmClick = () => {
-    onConfirm?.();
-  };
-
-  const handleAcknowledgeClick = () => {
-    onAcknowledge?.();
-  };
 
   return (
     <StyledAlertDialog
@@ -113,7 +104,7 @@ const AlertDialog = ({
               <Button
                 variant="text"
                 color="inherit"
-                onClick={handleCancelClick}
+                onClick={handlers.handleCancelClick}
                 {...cancelButtonProps}
               >
                 {labels.cancel}
@@ -124,7 +115,7 @@ const AlertDialog = ({
               <Button
                 variant="contained"
                 color={severity}
-                onClick={handleConfirmClick}
+                onClick={handlers.handleConfirmClick}
                 {...confirmButtonProps}
               >
                 {labels.confirm}
@@ -137,7 +128,7 @@ const AlertDialog = ({
           <Button
             variant="contained"
             color={severity}
-            onClick={handleAcknowledgeClick}
+            onClick={handlers.handleAcknowledgeClick}
             {...acknowledgeButtonProps}
           >
             {labels.acknowledge}
@@ -147,5 +138,3 @@ const AlertDialog = ({
     </StyledAlertDialog>
   );
 };
-
-export default AlertDialog;

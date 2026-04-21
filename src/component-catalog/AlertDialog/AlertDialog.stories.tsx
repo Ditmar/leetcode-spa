@@ -1,9 +1,8 @@
 import { Box, Button, Stack } from '@mui/material';
-import { useState } from 'react';
-
-import AlertDialog from './AlertDialog';
-
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState, type ReactNode } from 'react';
+
+import { AlertDialog } from './AlertDialog';
 
 const meta: Meta<typeof AlertDialog> = {
   title: 'Components/AlertDialog',
@@ -12,9 +11,9 @@ const meta: Meta<typeof AlertDialog> = {
 
 export default meta;
 
-type Story = StoryObj<typeof AlertDialog>;
+type Story = StoryObj<typeof meta>;
 
-const StoryWrapper = ({ children }: { children: React.ReactNode }) => (
+const StoryWrapper = ({ children }: { children: ReactNode }) => (
   <Box>
     <Stack spacing={2} alignItems="flex-start">
       {children}

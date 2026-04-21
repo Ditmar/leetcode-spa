@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import AlertDialog from './AlertDialog';
+import { AlertDialog } from './AlertDialog';
 
 const renderAlertDialog = (props = {}) => {
   return render(

@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import {
   DEFAULT_ACKNOWLEDGE_LABEL,
   DEFAULT_CANCEL_LABEL,
@@ -14,7 +16,27 @@ type UseAlertDialogParams = Pick<
   | 'showConfirmButton'
   | 'showCancelButton'
   | 'showAcknowledgeButton'
+  | 'onConfirm'
+  | 'onCancel'
+  | 'onAcknowledge'
 >;
+
+type UseAlertDialogResult = {
+  labels: {
+    confirm: string;
+    cancel: string;
+    acknowledge: string;
+  };
+  actions: {
+    hasAcknowledgeAction: boolean;
+    hasConfirmCancelActions: boolean;
+  };
+  handlers: {
+    handleConfirmClick: () => void;
+    handleCancelClick: () => void;
+    handleAcknowledgeClick: () => void;
+  };
+};
 
 export const useAlertDialog = ({
   confirmLabel,
@@ -23,13 +45,28 @@ export const useAlertDialog = ({
   showConfirmButton = false,
   showCancelButton = false,
   showAcknowledgeButton = false,
-}: UseAlertDialogParams) => {
+  onConfirm,
+  onCancel,
+  onAcknowledge,
+}: UseAlertDialogParams): UseAlertDialogResult => {
   const resolvedConfirmLabel = confirmLabel ?? DEFAULT_CONFIRM_LABEL;
   const resolvedCancelLabel = cancelLabel ?? DEFAULT_CANCEL_LABEL;
   const resolvedAcknowledgeLabel = acknowledgeLabel ?? DEFAULT_ACKNOWLEDGE_LABEL;
 
   const hasAcknowledgeAction = showAcknowledgeButton;
   const hasConfirmCancelActions = showConfirmButton || showCancelButton;
+
+  const handleConfirmClick = useCallback((): void => {
+    onConfirm?.();
+  }, [onConfirm]);
+
+  const handleCancelClick = useCallback((): void => {
+    onCancel?.();
+  }, [onCancel]);
+
+  const handleAcknowledgeClick = useCallback((): void => {
+    onAcknowledge?.();
+  }, [onAcknowledge]);
 
   return {
     labels: {
@@ -40,6 +77,11 @@ export const useAlertDialog = ({
     actions: {
       hasAcknowledgeAction,
       hasConfirmCancelActions,
+    },
+    handlers: {
+      handleConfirmClick,
+      handleCancelClick,
+      handleAcknowledgeClick,
     },
   };
 };
