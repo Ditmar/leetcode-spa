@@ -1,8 +1,9 @@
 import { Box, Button, Stack } from '@mui/material';
-import type { Meta, StoryObj } from '@storybook/react';
 import { useState, type ReactNode } from 'react';
 
 import { AlertDialog } from './AlertDialog';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof AlertDialog> = {
   title: 'Components/AlertDialog',
