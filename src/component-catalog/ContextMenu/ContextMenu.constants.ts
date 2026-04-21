@@ -1,0 +1,4 @@
+export const LONG_PRESS_DURATION_MS = 600;
+
+export const FALLBACK_MENU_WIDTH_PX = 200;
+export const FALLBACK_MENU_HEIGHT_PX = 250;
