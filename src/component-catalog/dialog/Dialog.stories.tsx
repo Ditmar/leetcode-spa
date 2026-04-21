@@ -31,7 +31,7 @@ type Story = StoryObj<typeof Dialog>;
 export const Base: Story = {
   name: '1. Estructura Base',
   args: {
-    isOpen: true,
+    open: true,
     title: 'Título del Diálogo',
     onClose: () => {},
   },
@@ -40,7 +40,7 @@ export const Base: Story = {
 export const SoloContenido: Story = {
   name: '2. Espacio de Contenido',
   args: {
-    isOpen: true,
+    open: true,
     title: 'Diálogo con Contenido',
     description: 'Este es el espacio dedicado a la descripción o instrucciones del formulario.',
     children: (
@@ -55,7 +55,7 @@ export const SoloContenido: Story = {
 export const SoloBotones: Story = {
   name: '3. Espacio de Acciones',
   args: {
-    isOpen: true,
+    open: true,
     title: 'Diálogo con Botones',
     actions: (
       <>
@@ -74,7 +74,7 @@ export const SoloBotones: Story = {
 export const Completo: Story = {
   name: '4. Implementación Final',
   args: {
-    isOpen: true,
+    open: true,
     title: 'Dialog Title',
     description: 'This is a dialog description. You can put any content here.',
     children: (

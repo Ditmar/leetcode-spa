@@ -8,7 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import React from 'react';
+import React, { useId } from 'react';
 
 import { DIALOG_SIZES } from './Dialog.constants';
 import { StyledMuiDialog } from './Dialog.styles';
@@ -16,7 +16,7 @@ import { type DialogProps } from './Dialog.types';
 
 const Dialog = (props: DialogProps) => {
   const {
-    isOpen,
+    open,
     onClose,
     title,
     description,
@@ -30,45 +30,49 @@ const Dialog = (props: DialogProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleMuiDialogClose = (_: object, reason: 'backdropClick' | 'escapeKeyDown') => {
-    if (persistent && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
-      return;
-    }
-    onClose();
-  };
+  // ✅ IDs dinámicos (evita conflictos)
+  const titleId = useId();
+  const descriptionId = useId();
+
+  const handleMuiDialogClose = (
+  event: {},
+  reason: 'backdropClick' | 'escapeKeyDown'
+   ) => {
+  if (persistent && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
+    return;
+  }
+
+  onClose?.(event as any, reason);
+};
+
+  const isFullScreen = isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN;
 
   return (
     <StyledMuiDialog
       data-testid="mui-dialog-container"
-      open={isOpen}
+      open={open}
       onClose={handleMuiDialogClose}
-      maxWidth={
-        maxWidth === DIALOG_SIZES.FULL_SCREEN
-          ? false
-          : (maxWidth as 'xs' | 'sm' | 'md' | 'lg' | 'xl')
-      }
+      maxWidth={isFullScreen ? false : maxWidth}
       fullWidth
-      fullScreen={isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN}
-      aria-labelledby="dialog-title"
-      slotProps={{
-        backdrop: {
-          // @ts-expect-error - Escondemos el fondo del test para evitar el error de roles duplicados
-          'data-testid': 'mui-dialog-backdrop',
-          'aria-hidden': 'true',
-          role: 'presentation',
-        },
-      }}
+      fullScreen={isFullScreen}
+      aria-labelledby={title ? titleId : undefined}
+      aria-describedby={description ? descriptionId : undefined}
     >
       {title && (
-        <DialogTitle id="dialog-title" data-testid="mui-dialog-title" sx={{ m: 0, p: 2 }}>
+        <DialogTitle id={titleId} data-testid="mui-dialog-title" sx={{ m: 0, p: 2 }}>
           <Typography variant="h6" component="div" fontWeight="700">
             {title}
           </Typography>
+
           {showCloseButton && (
             <IconButton
-              aria-label="close-dialog"
-              onClick={onClose}
-              sx={{ position: 'absolute', right: theme.spacing(1), top: theme.spacing(1) }}
+              aria-label="close dialog"
+              onClick={(e) => onClose?.(e as any, 'escapeKeyDown')}
+              sx={{
+                position: 'absolute',
+                right: theme.spacing(1),
+                top: theme.spacing(1),
+              }}
             >
               <CloseIcon />
             </IconButton>
@@ -76,12 +80,22 @@ const Dialog = (props: DialogProps) => {
         </DialogTitle>
       )}
 
-      <DialogContent dividers data-testid="mui-dialog-content" sx={{ border: 'none', p: 2 }}>
+      <DialogContent
+        dividers
+        data-testid="mui-dialog-content"
+        sx={{ border: 'none', p: 2 }}
+      >
         {description && (
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          <Typography
+            id={descriptionId}
+            variant="body2"
+            color="text.secondary"
+            sx={{ mb: 2 }}
+          >
             {description}
           </Typography>
         )}
+
         {children}
       </DialogContent>
 

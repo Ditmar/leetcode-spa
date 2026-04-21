@@ -11,22 +11,22 @@ describe('Dialog Component', () => {
   });
 
   it('debe renderizar el título correctamente', () => {
-    render(<Dialog isOpen={true} onClose={onCloseMock} title="Título de Prueba" />);
+    render(<Dialog open={true} onClose={onCloseMock} title="Título de Prueba" />);
 
     expect(screen.getByTestId('mui-dialog-title')).toHaveTextContent('Título de Prueba');
   });
 
   it('debe llamar a onClose cuando se hace clic en el botón de cerrar', () => {
-    render(<Dialog isOpen={true} onClose={onCloseMock} title="Test" showCloseButton={true} />);
+    render(<Dialog open={true} onClose={onCloseMock} title="Test" showCloseButton={true} />);
 
-    const closeButton = screen.getByLabelText('close-dialog');
+    const closeButton = screen.getByLabelText('close dialog');
     fireEvent.click(closeButton);
 
     expect(onCloseMock).toHaveBeenCalledTimes(1);
   });
 
   it('no debe cerrar si es persistente (tecla Escape)', () => {
-    render(<Dialog isOpen={true} onClose={onCloseMock} persistent={true} />);
+    render(<Dialog open={true} onClose={onCloseMock} persistent={true} />);
 
     const dialog = screen.getByTestId('mui-dialog-container');
     fireEvent.keyDown(dialog, { key: 'Escape' });
@@ -35,7 +35,7 @@ describe('Dialog Component', () => {
   });
 
   it('debe cerrar con Escape si NO es persistente', () => {
-    render(<Dialog isOpen={true} onClose={onCloseMock} persistent={false} />);
+    render(<Dialog open={true} onClose={onCloseMock} persistent={false} />);
 
     const dialog = screen.getByTestId('mui-dialog-container');
     fireEvent.keyDown(dialog, { key: 'Escape' });
@@ -46,7 +46,7 @@ describe('Dialog Component', () => {
   it('renderiza contenido y acciones correctamente', () => {
     render(
       <Dialog
-        isOpen={true}
+        open={true}
         onClose={onCloseMock}
         description="Descripción de prueba"
         actions={<button>Acción</button>}

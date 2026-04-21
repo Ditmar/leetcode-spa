@@ -1,14 +1,13 @@
 import type { ReactNode } from 'react';
+import type { DialogProps as MuiDialogProps } from '@mui/material';
 
-export interface DialogProps {
-  isOpen: boolean;
-  onClose: () => void;
+export interface DialogProps
+  extends Omit<MuiDialogProps, 'title' | 'maxWidth'> {
   title?: ReactNode;
-  description?: string;
-  children?: ReactNode;
+  description?: ReactNode;
   actions?: ReactNode;
   showCloseButton?: boolean;
   persistent?: boolean;
-  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'fullScreen' | false;
-  fullScreen?: boolean;
+
+  maxWidth?: MuiDialogProps['maxWidth'] | 'fullScreen';
 }
