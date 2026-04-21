@@ -22,6 +22,7 @@ jobs:
         with:
           script: |
             const UNRESOLVED_LABEL = 'unresolved-comments';
+            const RESOLVED_LABEL = 'resolved';
             const CHANGES_REQUESTED_LABEL = 'changes-requested';
 
             // ── Helper: evaluate and sync labels for a single PR ────────────────
@@ -130,8 +131,10 @@ jobs:
                   UNRESOLVED_LABEL,
                   `${activeUnresolved.length} unresolved thread(s)`,
                 );
+                await removeLabel(RESOLVED_LABEL, 'there are unresolved threads');
               } else {
                 await removeLabel(UNRESOLVED_LABEL, 'all threads resolved');
+                await addLabel(RESOLVED_LABEL, 'all threads resolved');
               }
 
               // changes-requested label
