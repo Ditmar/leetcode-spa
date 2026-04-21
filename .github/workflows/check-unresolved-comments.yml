@@ -152,7 +152,7 @@ jobs:
             }
 
             // ── Entry point ─────────────────────────────────────────────────────
-            if (context.eventName === 'schedule') {
+            if (context.eventName === 'schedule' || context.eventName === 'workflow_dispatch') {
               // On cron runs, evaluate all open PRs
               const { data: openPRs } = await github.rest.pulls.list({
                 owner: context.repo.owner,
