@@ -3,10 +3,10 @@ name: Check unresolved PR review comments
 on:
   pull_request_review:
     types: [submitted, dismissed]
-  pull_request_review_thread:
-    types: [resolved, unresolved]
   pull_request:
     types: [synchronize, reopened]
+  schedule:
+    - cron: '0 * * * *'
 
 permissions:
   pull-requests: write
@@ -23,129 +23,148 @@ jobs:
             const UNRESOLVED_LABEL = 'unresolved-comments';
             const CHANGES_REQUESTED_LABEL = 'changes-requested';
 
-            const prNumber = context.payload.pull_request?.number;
-            if (!prNumber) {
-              core.warning('Could not determine PR number from event payload.');
-              return;
-            }
-
-            // ── 1. Fetch unresolved threads and latest reviews via GraphQL ──────
-            const query = `
-              query($owner: String!, $repo: String!, $prNumber: Int!) {
-                repository(owner: $owner, name: $repo) {
-                  pullRequest(number: $prNumber) {
-                    isDraft
-                    reviewThreads(first: 100) {
-                      nodes {
-                        isResolved
-                        isOutdated
+            // ── Helper: evaluate and sync labels for a single PR ────────────────
+            async function evaluatePR(prNumber) {
+              // 1. Fetch unresolved threads and latest reviews via GraphQL
+              const query = `
+                query($owner: String!, $repo: String!, $prNumber: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    pullRequest(number: $prNumber) {
+                      isDraft
+                      reviewThreads(first: 100) {
+                        nodes {
+                          isResolved
+                          isOutdated
+                        }
                       }
-                    }
-                    reviews(last: 100) {
-                      nodes {
-                        state
-                        submittedAt
-                        author { login }
+                      reviews(last: 100) {
+                        nodes {
+                          state
+                          submittedAt
+                          author { login }
+                        }
                       }
                     }
                   }
                 }
+              `;
+
+              const { repository } = await github.graphql(query, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                prNumber,
+              });
+
+              const pr = repository.pullRequest;
+
+              if (pr.isDraft) {
+                core.info(`PR #${prNumber} is a draft, skipping.`);
+                return;
               }
-            `;
 
-            const { repository } = await github.graphql(query, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              prNumber,
-            });
-
-            const pr = repository.pullRequest;
-
-            if (pr.isDraft) {
-              core.info(`PR #${prNumber} is a draft, skipping.`);
-              return;
-            }
-
-            // ── 2. Check for unresolved (non-outdated) threads ──────────────────
-            const activeUnresolved = pr.reviewThreads.nodes.filter(
-              (t) => !t.isResolved && !t.isOutdated,
-            );
-            const hasUnresolvedThreads = activeUnresolved.length > 0;
-
-            core.info(
-              `PR #${prNumber}: ${activeUnresolved.length} active unresolved thread(s).`,
-            );
-
-            // ── 3. Check for CHANGES_REQUESTED without a later APPROVED ─────────
-            //    Group reviews by author and keep only the latest review per author.
-            const latestReviewByAuthor = new Map();
-            for (const review of pr.reviews.nodes) {
-              if (!['APPROVED', 'CHANGES_REQUESTED'].includes(review.state)) continue;
-              const existing = latestReviewByAuthor.get(review.author.login);
-              if (!existing || new Date(review.submittedAt) > new Date(existing.submittedAt)) {
-                latestReviewByAuthor.set(review.author.login, review);
-              }
-            }
-
-            const hasChangesRequested = [...latestReviewByAuthor.values()].some(
-              (r) => r.state === 'CHANGES_REQUESTED',
-            );
-
-            core.info(
-              `PR #${prNumber}: changes requested (unresolved) = ${hasChangesRequested}.`,
-            );
-
-            // ── 4. Sync labels ──────────────────────────────────────────────────
-            const { data: issue } = await github.rest.issues.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-            });
-            const currentLabels = issue.labels.map((l) => l.name);
-
-            async function addLabel(label, reason) {
-              if (!currentLabels.includes(label)) {
-                await github.rest.issues.addLabels({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: prNumber,
-                  labels: [label],
-                });
-                core.info(`PR #${prNumber}: added label "${label}" — ${reason}`);
-              }
-            }
-
-            async function removeLabel(label, reason) {
-              if (currentLabels.includes(label)) {
-                await github.rest.issues.removeLabel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: prNumber,
-                  name: label,
-                });
-                core.info(`PR #${prNumber}: removed label "${label}" — ${reason}`);
-              }
-            }
-
-            // unresolved-comments label
-            if (hasUnresolvedThreads) {
-              await addLabel(
-                UNRESOLVED_LABEL,
-                `${activeUnresolved.length} unresolved thread(s)`,
+              // 2. Check for unresolved (non-outdated) threads
+              const activeUnresolved = pr.reviewThreads.nodes.filter(
+                (t) => !t.isResolved && !t.isOutdated,
               );
+              const hasUnresolvedThreads = activeUnresolved.length > 0;
+
+              core.info(
+                `PR #${prNumber}: ${activeUnresolved.length} active unresolved thread(s).`,
+              );
+
+              // 3. Check for CHANGES_REQUESTED without a later APPROVED
+              //    Group reviews by author and keep only the latest review per author.
+              const latestReviewByAuthor = new Map();
+              for (const review of pr.reviews.nodes) {
+                if (!['APPROVED', 'CHANGES_REQUESTED'].includes(review.state)) continue;
+                const existing = latestReviewByAuthor.get(review.author.login);
+                if (!existing || new Date(review.submittedAt) > new Date(existing.submittedAt)) {
+                  latestReviewByAuthor.set(review.author.login, review);
+                }
+              }
+
+              const hasChangesRequested = [...latestReviewByAuthor.values()].some(
+                (r) => r.state === 'CHANGES_REQUESTED',
+              );
+
+              core.info(
+                `PR #${prNumber}: changes requested (unresolved) = ${hasChangesRequested}.`,
+              );
+
+              // 4. Sync labels
+              const { data: issue } = await github.rest.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+              });
+              const currentLabels = issue.labels.map((l) => l.name);
+
+              async function addLabel(label, reason) {
+                if (!currentLabels.includes(label)) {
+                  await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: prNumber,
+                    labels: [label],
+                  });
+                  core.info(`PR #${prNumber}: added label "${label}" — ${reason}`);
+                }
+              }
+
+              async function removeLabel(label, reason) {
+                if (currentLabels.includes(label)) {
+                  await github.rest.issues.removeLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: prNumber,
+                    name: label,
+                  });
+                  core.info(`PR #${prNumber}: removed label "${label}" — ${reason}`);
+                }
+              }
+
+              // unresolved-comments label
+              if (hasUnresolvedThreads) {
+                await addLabel(
+                  UNRESOLVED_LABEL,
+                  `${activeUnresolved.length} unresolved thread(s)`,
+                );
+              } else {
+                await removeLabel(UNRESOLVED_LABEL, 'all threads resolved');
+              }
+
+              // changes-requested label
+              if (hasChangesRequested) {
+                await addLabel(
+                  CHANGES_REQUESTED_LABEL,
+                  'at least one reviewer requested changes',
+                );
+              } else {
+                await removeLabel(
+                  CHANGES_REQUESTED_LABEL,
+                  'no pending change requests',
+                );
+              }
+            }
+
+            // ── Entry point ─────────────────────────────────────────────────────
+            if (context.eventName === 'schedule') {
+              // On cron runs, evaluate all open PRs
+              const { data: openPRs } = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                per_page: 100,
+              });
+              core.info(`Schedule run: found ${openPRs.length} open PR(s).`);
+              for (const pr of openPRs) {
+                await evaluatePR(pr.number);
+              }
             } else {
-              await removeLabel(UNRESOLVED_LABEL, 'all threads resolved');
-            }
-
-            // changes-requested label
-            if (hasChangesRequested) {
-              await addLabel(
-                CHANGES_REQUESTED_LABEL,
-                'at least one reviewer requested changes',
-              );
-            } else {
-              await removeLabel(
-                CHANGES_REQUESTED_LABEL,
-                'no pending change requests',
-              );
+              const prNumber = context.payload.pull_request?.number;
+              if (!prNumber) {
+                core.warning('Could not determine PR number from event payload.');
+                return;
+              }
+              await evaluatePR(prNumber);
             }
