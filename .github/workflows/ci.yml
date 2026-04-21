@@ -2,8 +2,6 @@ name: Deploy docker hub
 
 on:
   push:
-    branches:
-      - '**'
     branches-ignore:
       - 'gh-pages'
 
