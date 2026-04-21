@@ -126,15 +126,21 @@ jobs:
               }
 
               // unresolved-comments label
+              const totalThreads = pr.reviewThreads.nodes.length;
+
               if (hasUnresolvedThreads) {
                 await addLabel(
                   UNRESOLVED_LABEL,
                   `${activeUnresolved.length} unresolved thread(s)`,
                 );
                 await removeLabel(RESOLVED_LABEL, 'there are unresolved threads');
-              } else {
+              } else if (totalThreads > 0) {
                 await removeLabel(UNRESOLVED_LABEL, 'all threads resolved');
                 await addLabel(RESOLVED_LABEL, 'all threads resolved');
+              } else {
+                // No review threads at all — remove both labels if present
+                await removeLabel(UNRESOLVED_LABEL, 'no review threads');
+                await removeLabel(RESOLVED_LABEL, 'no review threads');
               }
 
               // changes-requested label
