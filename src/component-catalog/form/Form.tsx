@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { FormProvider, Controller, type FieldValues } from 'react-hook-form';
 
+import { renderFieldByType } from './Form.FormFields';
 import { useFormHook } from './Form.hook';
 import {
   StyledForm,
@@ -12,7 +13,6 @@ import {
   GridItem,
 } from './Form.styles';
 import { buildFormSchema } from './Form.utils';
-import { renderFieldByType } from './From.FormFields';
 
 import type { FormProps } from './Form.types';
 
@@ -65,7 +65,7 @@ export const Form = <T extends FieldValues>({
                   name={field.name}
                   control={control}
                   render={({ field: ctrlField }) =>
-                    renderFieldByType(field, {
+                    renderFieldByType({
                       field,
                       ctrlField,
                       disabled,

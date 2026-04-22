@@ -139,55 +139,28 @@ const InputField = <T extends FieldValues>({
   );
 };
 
-export const renderFieldByType = <T extends FieldValues>(
-  field: FormField,
-  props: RenderFieldProps<T>
-) => {
+export const renderFieldByType = <T extends FieldValues>({
+  field,
+  ctrlField,
+  disabled,
+  errors,
+}: RenderFieldProps<T> & { field: FormField }) => {
   switch (field.type) {
     case 'select':
       return (
-        <SelectField
-          field={props.field}
-          ctrlField={props.ctrlField}
-          disabled={props.disabled}
-          errors={props.errors}
-        />
+        <SelectField field={field} ctrlField={ctrlField} disabled={disabled} errors={errors} />
       );
     case 'radio':
-      return (
-        <RadioField
-          field={props.field}
-          ctrlField={props.ctrlField}
-          disabled={props.disabled}
-          errors={props.errors}
-        />
-      );
+      return <RadioField field={field} ctrlField={ctrlField} disabled={disabled} errors={errors} />;
     case 'checkbox':
       return (
-        <CheckboxField
-          field={props.field}
-          ctrlField={props.ctrlField}
-          disabled={props.disabled}
-          errors={props.errors}
-        />
+        <CheckboxField field={field} ctrlField={ctrlField} disabled={disabled} errors={errors} />
       );
     case 'textarea':
       return (
-        <TextAreaField
-          field={props.field}
-          ctrlField={props.ctrlField}
-          disabled={props.disabled}
-          errors={props.errors}
-        />
+        <TextAreaField field={field} ctrlField={ctrlField} disabled={disabled} errors={errors} />
       );
     default:
-      return (
-        <InputField
-          field={props.field}
-          ctrlField={props.ctrlField}
-          disabled={props.disabled}
-          errors={props.errors}
-        />
-      );
+      return <InputField field={field} ctrlField={ctrlField} disabled={disabled} errors={errors} />;
   }
 };

@@ -1,4 +1,10 @@
-import { TextField, FormControl, FormHelperText, Button } from '@mui/material';
+import {
+  TextField,
+  FormControl,
+  FormHelperText,
+  Button,
+  outlinedInputClasses,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const StyledForm = styled('form')(({ theme }) => ({
@@ -21,11 +27,10 @@ export const StyledFormControl = styled(FormControl)(() => ({
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   width: '100%',
 
-  '& .MuiOutlinedInput-root': {
+  [`& .${outlinedInputClasses.root}`]: {
     backgroundColor: theme.palette.action.hover,
-    borderRadius: (theme.shape.borderRadius as number) * 1.5,
 
-    '& fieldset': {
+    [`& .${outlinedInputClasses.notchedOutline}`]: {
       border: 'none',
     },
   },
