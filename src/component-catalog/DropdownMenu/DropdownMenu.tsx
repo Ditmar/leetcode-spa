@@ -13,8 +13,6 @@ import {
 } from '@mui/material';
 import { cloneElement, isValidElement, useEffect, useId, useMemo, useState } from 'react';
 
-import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
-import type { ReactElement, ReactNode } from 'react';
 import { DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
 import useDropdownMenu from './DropdownMenu.hook';
 import {
@@ -39,6 +37,9 @@ import {
   selectRadioItemInGroups,
   toggleCheckboxItemInGroups,
 } from './DropdownMenu.utils';
+
+import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
+import type { ReactElement, ReactNode } from 'react';
 
 const renderItemIndicator = (item: DropdownItem) => {
   if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
@@ -93,6 +94,7 @@ const DropdownMenu = ({
   mobileFullWidth = false,
 }: DropdownMenuProps) => {
   const menuId = useId();
+
   const normalizedGroups = useMemo(() => normalizeGroups(groups, items), [groups, items]);
   const [menuGroups, setMenuGroups] = useState<DropdownGroup[]>(normalizedGroups);
 
@@ -119,11 +121,11 @@ const DropdownMenu = ({
     if (isSubmenuItem(item)) return;
 
     if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
-      setMenuGroups((prevGroups) => toggleCheckboxItemInGroups(prevGroups, item.id));
+      setMenuGroups((prev) => toggleCheckboxItemInGroups(prev, item.id));
     }
 
     if (item.type === DROPDOWN_ITEM_TYPES.RADIO) {
-      setMenuGroups((prevGroups) => selectRadioItemInGroups(prevGroups, item.id, item.name));
+      setMenuGroups((prev) => selectRadioItemInGroups(prev, item.id, item.name));
     }
 
     item.onClick?.();
@@ -138,11 +140,11 @@ const DropdownMenu = ({
     if (item.disabled) return;
 
     if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
-      setMenuGroups((prevGroups) => toggleCheckboxItemInGroups(prevGroups, item.id));
+      setMenuGroups((prev) => toggleCheckboxItemInGroups(prev, item.id));
     }
 
     if (item.type === DROPDOWN_ITEM_TYPES.RADIO) {
-      setMenuGroups((prevGroups) => selectRadioItemInGroups(prevGroups, item.id, item.name));
+      setMenuGroups((prev) => selectRadioItemInGroups(prev, item.id, item.name));
     }
 
     item.onClick?.();
@@ -182,19 +184,14 @@ const DropdownMenu = ({
         anchorEl={anchorEl}
         open={open}
         onClose={handleCloseMenu}
-        keepMounted
-        marginThreshold={16}
-        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         slotProps={{
-          paper: {
-            elevation: 3,
-            sx: dropdownMenuPaperSx(mobileFullWidth),
-          },
           list: {
             role: 'menu',
             'aria-label': 'Dropdown menu',
             sx: dropdownMenuListSx,
+          },
+          paper: {
+            sx: dropdownMenuPaperSx(mobileFullWidth),
           },
         }}
       >
@@ -217,7 +214,6 @@ const DropdownMenu = ({
                       handleOpenSubmenu(event, item);
                       return;
                     }
-
                     handleItemClick(item);
                   }}
                   onMouseEnter={(event) => {
@@ -225,7 +221,6 @@ const DropdownMenu = ({
                       handleOpenSubmenu(event, item);
                     }
                   }}
-                  selected={activeSubmenuParentId === item.id}
                   role={getMenuItemRole(item)}
                   aria-checked={getAriaChecked(item)}
                   aria-haspopup={submenuItem ? 'menu' : undefined}
@@ -239,17 +234,11 @@ const DropdownMenu = ({
                   </ListItemIcon>
 
                   <ListItemText
-                    primary={
-                      <Typography variant="body2" sx={dropdownLabelSx}>
-                        {item.label}
-                      </Typography>
-                    }
+                    primary={<Typography sx={dropdownLabelSx}>{item.label}</Typography>}
                   />
 
                   {item.shortcut && (
-                    <Typography variant="caption" sx={dropdownShortcutSx}>
-                      {item.shortcut}
-                    </Typography>
+                    <Typography sx={dropdownShortcutSx}>{item.shortcut}</Typography>
                   )}
 
                   {submenuItem && (
@@ -270,18 +259,15 @@ const DropdownMenu = ({
         anchorEl={submenuAnchorEl}
         open={submenuOpen}
         onClose={handleCloseSubmenu}
-        marginThreshold={16}
-        transformOrigin={submenuTransformOrigin}
         anchorOrigin={submenuAnchorOrigin}
+        transformOrigin={submenuTransformOrigin}
         slotProps={{
-          paper: {
-            elevation: 3,
-            sx: dropdownSubmenuPaperSx,
-          },
           list: {
             role: 'menu',
-            'aria-label': 'Nested dropdown submenu',
             sx: dropdownMenuListSx,
+          },
+          paper: {
+            sx: dropdownSubmenuPaperSx,
           },
         }}
       >
@@ -303,17 +289,11 @@ const DropdownMenu = ({
               </ListItemIcon>
 
               <ListItemText
-                primary={
-                  <Typography variant="body2" sx={dropdownLabelSx}>
-                    {item.label}
-                  </Typography>
-                }
+                primary={<Typography sx={dropdownLabelSx}>{item.label}</Typography>}
               />
 
               {item.shortcut && (
-                <Typography variant="caption" sx={dropdownShortcutSx}>
-                  {item.shortcut}
-                </Typography>
+                <Typography sx={dropdownShortcutSx}>{item.shortcut}</Typography>
               )}
             </MenuItem>
           );
