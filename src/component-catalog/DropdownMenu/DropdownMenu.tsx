@@ -13,7 +13,9 @@ import {
 } from '@mui/material';
 import { cloneElement, isValidElement, useEffect, useId, useMemo, useState } from 'react';
 
-import { ARIA_ROLES, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
+import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
+import type { ReactElement, ReactNode } from 'react';
+import { DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
 import useDropdownMenu from './DropdownMenu.hook';
 import {
   dropdownDividerSx,
@@ -37,9 +39,6 @@ import {
   selectRadioItemInGroups,
   toggleCheckboxItemInGroups,
 } from './DropdownMenu.utils';
-
-import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
-import type { ReactElement, ReactNode } from 'react';
 
 const renderItemIndicator = (item: DropdownItem) => {
   if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
@@ -157,7 +156,7 @@ const DropdownMenu = ({
   const enhancedTrigger = isValidElement<TriggerElementProps>(trigger)
     ? cloneElement(trigger as ReactElement<TriggerElementProps>, {
         onClick: handleOpenMenu,
-        'aria-haspopup': ARIA_ROLES.MENU,
+        'aria-haspopup': 'menu',
         'aria-expanded': open ? 'true' : 'false',
         'aria-controls': open ? menuId : undefined,
         disabled,
@@ -193,7 +192,7 @@ const DropdownMenu = ({
             sx: dropdownMenuPaperSx(mobileFullWidth),
           },
           list: {
-            role: ARIA_ROLES.MENU,
+            role: 'menu',
             'aria-label': 'Dropdown menu',
             sx: dropdownMenuListSx,
           },
@@ -229,7 +228,7 @@ const DropdownMenu = ({
                   selected={activeSubmenuParentId === item.id}
                   role={getMenuItemRole(item)}
                   aria-checked={getAriaChecked(item)}
-                  aria-haspopup={submenuItem ? ARIA_ROLES.MENU : undefined}
+                  aria-haspopup={submenuItem ? 'menu' : undefined}
                   aria-expanded={
                     submenuItem ? (activeSubmenuParentId === item.id ? 'true' : 'false') : undefined
                   }
@@ -280,7 +279,7 @@ const DropdownMenu = ({
             sx: dropdownSubmenuPaperSx,
           },
           list: {
-            role: ARIA_ROLES.MENU,
+            role: 'menu',
             'aria-label': 'Nested dropdown submenu',
             sx: dropdownMenuListSx,
           },
