@@ -288,8 +288,7 @@ const DropdownMenu = ({
                 {renderLeadingVisual(item, submenuItem, indicator)}
               </ListItemIcon>
 
-              <ListItemText
-                primary={<Typography sx={dropdownLabelSx}>{item.label}</Typography>}/>
+              <ListItemText primary={<Typography sx={dropdownLabelSx}>{item.label}</Typography>}/>
 
               {item.shortcut && <Typography sx={dropdownShortcutSx}>{item.shortcut}</Typography>}
             </MenuItem>
