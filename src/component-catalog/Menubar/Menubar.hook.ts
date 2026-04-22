@@ -1,44 +1,45 @@
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState } from 'react';
-import type { MouseEvent, KeyboardEvent } from 'react';
- 
+
 import { MENUBAR_MOBILE_BREAKPOINT } from './Menubar.constants';
- 
+
+import type { MouseEvent, KeyboardEvent } from 'react';
+
 /**
  * Custom hook to manage Menubar state and interactions
  */
 export const useMenubar = () => {
   const theme = useTheme();
- 
+
   /**
    * Responsive detection (SSR safe)
    */
   const isMobile = useMediaQuery(theme.breakpoints.down(MENUBAR_MOBILE_BREAKPOINT), {
     noSsr: false,
   });
- 
+
   // =========================
   // Desktop state
   // =========================
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
- 
+
   // =========================
   // Mobile state
   // =========================
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [expandedItemIndex, setExpandedItemIndex] = useState<number | null>(null);
- 
+
   // =========================
   // Derived state
   // =========================
   const isMenuOpen = Boolean(anchorEl);
- 
+
   // =========================
   // Desktop handlers
   // =========================
- 
+
   /**
    * Open menu on click
    */
@@ -46,7 +47,7 @@ export const useMenubar = () => {
     setAnchorEl(event.currentTarget);
     setActiveMenuIndex(index);
   };
- 
+
   /**
    * Close menu
    */
@@ -54,7 +55,7 @@ export const useMenubar = () => {
     setAnchorEl(null);
     setActiveMenuIndex(null);
   };
- 
+
   /**
    * Keyboard navigation
    */
@@ -91,18 +92,18 @@ export const useMenubar = () => {
         break;
     }
   };
- 
+
   // =========================
   // Mobile handlers
   // =========================
- 
+
   /**
    * Toggle Drawer
    */
   const handleDrawerToggle = () => {
     setIsDrawerOpen((prev) => !prev);
   };
- 
+
   /**
    * Close Drawer
    */
@@ -110,18 +111,18 @@ export const useMenubar = () => {
     setIsDrawerOpen(false);
     setExpandedItemIndex(null);
   };
- 
+
   /**
    * Expand / collapse submenu in mobile
    */
   const handleExpandItem = (index: number) => {
     setExpandedItemIndex((prev) => (prev === index ? null : index));
   };
- 
+
   // =========================
   // General handler
   // =========================
- 
+
   /**
    * Handle item click (both desktop and mobile)
    */
@@ -129,7 +130,7 @@ export const useMenubar = () => {
     handleMenuClose();
     handleDrawerClose();
   };
- 
+
   return {
     // Responsive
     isMobile,

@@ -16,6 +16,7 @@ import {
   StyledMenuItem,
   IconWrapper,
 } from './Menubar.styles';
+
 import type { MenubarProps } from './Menubar.types';
 
 export function Menubar(props: MenubarProps) {
