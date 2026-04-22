@@ -37,7 +37,9 @@ export function useCarousel(
     }, interval);
 
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
     };
   }, [autoPlay, interval, length]);
 
