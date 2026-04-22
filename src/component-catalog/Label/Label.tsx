@@ -48,7 +48,7 @@ export function Label({
               size="small"
               sx={{ ml: 0.5, p: 0.25 }}
               aria-label={labels.helpAction}
-              disabled={disabled} // El tooltip icon también debe reflejar el estado
+              disabled={disabled}
             >
               <HelpOutlineIcon sx={{ fontSize: LABEL_SIZES.TOOLTIP_ICON_FONT_SIZE }} />
             </IconButton>
