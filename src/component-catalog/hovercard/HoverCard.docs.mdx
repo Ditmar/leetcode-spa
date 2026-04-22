@@ -16,7 +16,7 @@ using MUI primitives (`Popper`, `Paper`, `Fade`, `ClickAwayListener`).
 
 - Built with `@mui/material/Popper` and `Paper`
 - Opens on `mouseenter` / `focus` (desktop) and `click` (touch devices)
-- Configurable open and close delay (default: 200 ms / 300 ms)
+- Configurable open and close delay (default: 100 ms / 100 ms)
 - Viewport-clamped via `@popperjs/core` modifiers
 - Smooth `Fade` transition on open/close
 - `ClickAwayListener` closes the card on outside click/tap
@@ -39,14 +39,6 @@ Matches the Figma 'Tooltips & Hover Cards' screen exactly.
 
 <Canvas>
   <Story of={Stories.NoDelay} />
-</Canvas>
-
----
-
-## Disabled
-
-<Canvas>
-  <Story of={Stories.Disabled} />
 </Canvas>
 
 ---

@@ -5,12 +5,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import { HoverCard } from './HoverCard';
-import {
-  DemoPageRoot,
-  DemoPageTitle,
-  DemoPageSubtitle,
-  DemoTriggerContainer,
-} from './HoverCard.styles';
+import { DemoPageRoot, DemoPageTitle, DemoPageSubtitle, DemoTriggerContainer,} from './HoverCard.styles';
 
 import type { Meta, StoryObj } from '@storybook/react';
 

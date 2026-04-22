@@ -3,12 +3,7 @@ import Fade from '@mui/material/Fade';
 import Popper from '@mui/material/Popper';
 import { cloneElement, isValidElement, type FC } from 'react';
 
-import {
-  CARD_OFFSET,
-  DEFAULT_PLACEMENT,
-  TRANSITION_DURATION,
-  VIEWPORT_PADDING,
-} from './HoverCard.constants';
+import {CARD_OFFSET, DEFAULT_PLACEMENT, TRANSITION_DURATION, VIEWPORT_PADDING, DEFAULT_OPEN_DELAY, DEFAULT_CLOSE_DELAY} from './HoverCard.constants';
 import { useHoverCard } from './HoverCard.hook';
 import { HoverCardPaper, TriggerWrapper } from './HoverCard.styles';
 import { buildPopperModifiers } from './HoverCard.utils';
@@ -23,8 +18,8 @@ import type { HoverCardProps } from './HoverCard.types';
 export const HoverCard: FC<HoverCardProps> = ({
   trigger,
   children,
-  openDelay = 100,
-  closeDelay = 100,
+  openDelay = DEFAULT_OPEN_DELAY,
+  closeDelay = DEFAULT_CLOSE_DELAY,
   PaperProps,
   maxWidth = 280,
   placement = DEFAULT_PLACEMENT,
@@ -65,13 +60,13 @@ export const HoverCard: FC<HoverCardProps> = ({
         anchorEl={anchorRef.current}
         placement={placement}
         transition
-        sx={{ zIndex: 1300 }}
+        sx={{ zIndex: (theme) => theme.zIndex.modal  }}
         modifiers={modifiers}
-        {...popperProps}
+        disablePortal={popperProps.disablePortal}
+        keepMounted={popperProps.keepMounted}
       >
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={TRANSITION_DURATION}>
-            {}
             <div>
               <ClickAwayListener onClickAway={close}>
                 <HoverCardPaper
@@ -96,4 +91,4 @@ export const HoverCard: FC<HoverCardProps> = ({
 
 HoverCard.displayName = 'HoverCard';
 
-export default HoverCard;
+export {HoverCard as default};

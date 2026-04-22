@@ -1,4 +1,5 @@
 import type { Options as PopperOptions } from '@popperjs/core';
+import { CARD_OFFSET } from './HoverCard.constants';
 
 /**
  * @param padding
@@ -6,7 +7,7 @@ import type { Options as PopperOptions } from '@popperjs/core';
  */
 export const buildPopperModifiers = (
   padding: number,
-  offset: [number, number] = [0, 8]
+  offset: [number, number] = [0, CARD_OFFSET]
 ): PopperOptions['modifiers'] => [
   {
     name: 'preventOverflow',

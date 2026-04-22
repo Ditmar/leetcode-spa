@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-//import { DEFAULT_CLOSE_DELAY, DEFAULT_OPEN_DELAY } from './HoverCard.constants';
+import { DEFAULT_CLOSE_DELAY, DEFAULT_OPEN_DELAY } from './HoverCard.constants';
 
 import type { TriggerEventHandlers, UseHoverCardReturn } from './HoverCard.types';
 
@@ -19,8 +19,8 @@ export interface UseHoverCardOptions {
 }
 
 export const useHoverCard = ({
-  openDelay = 100,
-  closeDelay = 100,
+  openDelay = DEFAULT_CLOSE_DELAY,
+  closeDelay = DEFAULT_OPEN_DELAY,
   controlledOpen,
   onOpen,
   onClose,

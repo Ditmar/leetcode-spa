@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 export const HoverCardPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   padding: theme.spacing(2),
-  borderRadius: (theme.shape.borderRadius as number) * 3,
+  borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 3 : theme.shape.borderRadius,
   boxShadow: theme.shadows[4],
   outline: `1px solid ${theme.palette.divider}`,
   overflowWrap: 'break-word',
@@ -44,7 +44,7 @@ export const DemoPageSubtitle = styled('p')(({ theme }) => ({
 
 export const DemoTriggerContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
-  borderRadius: (theme.shape.borderRadius as number) * 3,
+  borderRadius: typeof theme.shape.borderRadius === 'number' ? theme.shape.borderRadius * 3 : theme.shape.borderRadius,
   padding: theme.spacing(3),
   display: 'inline-flex',
   flexDirection: 'column',
