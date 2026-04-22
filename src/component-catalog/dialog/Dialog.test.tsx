@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-
 import { Dialog } from './Dialog';
 
 describe('Dialog Component', () => {
@@ -10,53 +9,59 @@ describe('Dialog Component', () => {
     onCloseMock.mockClear();
   });
 
-  it('debe renderizar el título correctamente', () => {
-    render(<Dialog open={true} onClose={onCloseMock} title="Título de Prueba" />);
+  it('should render the title correctly', () => {
+    render(<Dialog open={true} onClose={onCloseMock} title="Test Title" />);
 
-    expect(screen.getByTestId('mui-dialog-title')).toHaveTextContent('Título de Prueba');
+    // Buscamos por rol de encabezado y nombre exacto (más semántico)
+    expect(screen.getByRole('heading', { name: /test title/i })).toBeInTheDocument();
   });
 
-  it('debe llamar a onClose cuando se hace clic en el botón de cerrar', () => {
+  it('should call onClose when the close button is clicked', () => {
     render(<Dialog open={true} onClose={onCloseMock} title="Test" showCloseButton={true} />);
 
-    const closeButton = screen.getByLabelText('close dialog');
+    const closeButton = screen.getByLabelText(/close dialog/i);
     fireEvent.click(closeButton);
 
     expect(onCloseMock).toHaveBeenCalledTimes(1);
   });
 
-  it('no debe cerrar si es persistente (tecla Escape)', () => {
-    render(<Dialog open={true} onClose={onCloseMock} persistent={true} />);
+  it('should not close when persistent is true and Escape is pressed', () => {
+    render(<Dialog open={true} onClose={onCloseMock} title="Test" persistent={true} />);
 
-    const dialog = screen.getByTestId('mui-dialog-container');
+    // Buscamos por el rol 'dialog' en lugar de test-id
+    const dialog = screen.getByRole('dialog');
     fireEvent.keyDown(dialog, { key: 'Escape' });
 
     expect(onCloseMock).not.toHaveBeenCalled();
   });
 
-  it('debe cerrar con Escape si NO es persistente', () => {
-    render(<Dialog open={true} onClose={onCloseMock} persistent={false} />);
+  it('should close when Escape is pressed and NOT persistent', () => {
+    render(<Dialog open={true} onClose={onCloseMock} title="Test" persistent={false} />);
 
-    const dialog = screen.getByTestId('mui-dialog-container');
+    const dialog = screen.getByRole('dialog');
     fireEvent.keyDown(dialog, { key: 'Escape' });
 
     expect(onCloseMock).toHaveBeenCalledTimes(1);
   });
 
-  it('renderiza contenido y acciones correctamente', () => {
+  it('should render content and actions correctly', () => {
     render(
       <Dialog
         open={true}
         onClose={onCloseMock}
-        description="Descripción de prueba"
-        actions={<button>Acción</button>}
+        title="Test"
+        description="Test description"
+        actions={<button>Action Button</button>}
       >
-        <div>Contenido</div>
+        <div>Main Content</div>
       </Dialog>
     );
 
-    expect(screen.getByTestId('mui-dialog-content')).toHaveTextContent('Descripción de prueba');
-    expect(screen.getByText('Contenido')).toBeInTheDocument();
-    expect(screen.getByTestId('mui-dialog-actions')).toBeInTheDocument();
+    // Usamos getByText directamente para descripción y contenido
+    expect(screen.getByText(/test description/i)).toBeInTheDocument();
+    expect(screen.getByText(/main content/i)).toBeInTheDocument();
+    
+    // Verificamos la acción por su rol de botón
+    expect(screen.getByRole('button', { name: /action button/i })).toBeInTheDocument();
   });
 });

@@ -30,36 +30,34 @@ const Dialog = (props: DialogProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  // ✅ IDs dinámicos (evita conflictos)
   const titleId = useId();
   const descriptionId = useId();
 
   const handleMuiDialogClose = (
-  event: {},
-  reason: 'backdropClick' | 'escapeKeyDown'
-   ) => {
-  if (persistent && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
-    return;
-  }
+    event: object,
+    reason: 'backdropClick' | 'escapeKeyDown'
+  ) => {
+    if (persistent && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
+      return;
+    }
+    onClose?.(event as any, reason);
+  };
 
-  onClose?.(event as any, reason);
-};
-
-  const isFullScreen = isMobile || maxWidth === DIALOG_SIZES.FULL_SCREEN;
+  const isFullScreen = isMobile || (maxWidth as string) === (DIALOG_SIZES.FULL_SCREEN as string);
 
   return (
     <StyledMuiDialog
-      data-testid="mui-dialog-container"
       open={open}
       onClose={handleMuiDialogClose}
-      maxWidth={isFullScreen ? false : maxWidth}
+      // Si es fullScreen enviamos false, si no, forzamos el tipo para evitar el error de TS
+      maxWidth={isFullScreen ? false : (maxWidth as any)}
       fullWidth
       fullScreen={isFullScreen}
       aria-labelledby={title ? titleId : undefined}
       aria-describedby={description ? descriptionId : undefined}
     >
       {title && (
-        <DialogTitle id={titleId} data-testid="mui-dialog-title" sx={{ m: 0, p: 2 }}>
+        <DialogTitle id={titleId} sx={{ m: 0, p: 2 }}>
           <Typography variant="h6" component="div" fontWeight="700">
             {title}
           </Typography>
@@ -72,6 +70,7 @@ const Dialog = (props: DialogProps) => {
                 position: 'absolute',
                 right: theme.spacing(1),
                 top: theme.spacing(1),
+                color: 'text.secondary',
               }}
             >
               <CloseIcon />
@@ -82,7 +81,6 @@ const Dialog = (props: DialogProps) => {
 
       <DialogContent
         dividers
-        data-testid="mui-dialog-content"
         sx={{ border: 'none', p: 2 }}
       >
         {description && (
@@ -100,7 +98,7 @@ const Dialog = (props: DialogProps) => {
       </DialogContent>
 
       {actions && (
-        <DialogActions data-testid="mui-dialog-actions" sx={{ p: 2 }}>
+        <DialogActions sx={{ p: 2 }}>
           {actions}
         </DialogActions>
       )}

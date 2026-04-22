@@ -1,26 +1,33 @@
 import { Button, TextField, Typography, Box } from '@mui/material';
 import React from 'react';
-
 import { Dialog } from './Dialog';
-
 import type { Meta, StoryObj } from '@storybook/react';
+
+const CenterDecorator: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '400px', 
+      width: '100%',
+      bgcolor: 'background.default',
+    }}
+  >
+    {children}
+  </Box>
+);
+
+const handleClose = () => { console.log('close'); };
 
 const meta: Meta<typeof Dialog> = {
   title: 'component-catalog/Dialog',
   component: Dialog,
   decorators: [
     (Story) => (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-          width: '100%',
-        }}
-      >
+      <CenterDecorator>
         <Story />
-      </div>
+      </CenterDecorator>
     ),
   ],
 };
@@ -29,50 +36,60 @@ export default meta;
 type Story = StoryObj<typeof Dialog>;
 
 export const Base: Story = {
-  name: '1. Estructura Base',
+  name: '1. Base Structure',
   args: {
     open: true,
-    title: 'Título del Diálogo',
-    onClose: () => {},
+    title: 'Dialog Title',
+    onClose: handleClose,
   },
 };
 
-export const SoloContenido: Story = {
-  name: '2. Espacio de Contenido',
+export const OnlyContent: Story = {
+  name: '2. Content Space',
   args: {
     open: true,
-    title: 'Diálogo con Contenido',
-    description: 'Este es el espacio dedicado a la descripción o instrucciones del formulario.',
+    title: 'Dialog with Content',
+    description: 'This is the dedicated space for description or form instructions.',
     children: (
-      <Box sx={{ p: 2, border: '1px dashed #ccc', textAlign: 'center' }}>
-        <Typography>Aquí va el cuerpo del mensaje o inputs</Typography>
+      <Box 
+        sx={{ 
+          p: 2, 
+          border: (theme) => `1px dashed ${theme.palette.divider}`, 
+          textAlign: 'center' 
+        }}
+      >
+        <Typography>Body message or inputs go here</Typography>
       </Box>
     ),
-    onClose: () => {},
+    onClose: handleClose,
   },
 };
 
-export const SoloBotones: Story = {
-  name: '3. Espacio de Acciones',
+export const OnlyButtons: Story = {
+  name: '3. Actions Space',
   args: {
     open: true,
-    title: 'Diálogo con Botones',
+    title: 'Dialog with Buttons',
     actions: (
       <>
-        <Button fullWidth variant="contained" sx={{ bgcolor: '#000' }}>
-          Acción Principal
+        <Button fullWidth variant="contained" color="primary">
+          Main Action
         </Button>
-        <Button fullWidth variant="outlined" sx={{ color: '#000', borderColor: '#ccc' }}>
-          Cancelar
+        <Button 
+          fullWidth 
+          variant="outlined" 
+          sx={{ color: 'text.primary', borderColor: 'divider' }}
+        >
+          Cancel
         </Button>
       </>
     ),
-    onClose: () => {},
+    onClose: handleClose,
   },
 };
 
-export const Completo: Story = {
-  name: '4. Implementación Final',
+export const Complete: Story = {
+  name: '4. Final Implementation',
   args: {
     open: true,
     title: 'Dialog Title',
@@ -88,14 +105,22 @@ export const Completo: Story = {
     ),
     actions: (
       <>
-        <Button fullWidth variant="contained" sx={{ bgcolor: '#000', color: '#fff', mb: 1 }}>
+        <Button 
+          fullWidth 
+          variant="contained" 
+          sx={{ mb: 1 }}
+        >
           Save changes
         </Button>
-        <Button fullWidth variant="outlined" sx={{ color: '#000', borderColor: '#ccc' }}>
+        <Button 
+          fullWidth 
+          variant="outlined" 
+          sx={{ borderColor: 'divider' }}
+        >
           Cancel
         </Button>
       </>
     ),
-    onClose: () => {},
+    onClose: handleClose,
   },
 };
