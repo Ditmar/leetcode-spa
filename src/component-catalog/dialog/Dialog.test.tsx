@@ -26,8 +26,6 @@ describe('Dialog Component', () => {
 
   it('should not close when persistent is true and Escape is pressed', () => {
     render(<Dialog open={true} onClose={onCloseMock} title="Test" persistent={true} />);
-
-    // Buscamos por el rol 'dialog' en lugar de test-id
     const dialog = screen.getByRole('dialog');
     fireEvent.keyDown(dialog, { key: 'Escape' });
 
@@ -55,12 +53,8 @@ describe('Dialog Component', () => {
         <div>Main Content</div>
       </Dialog>
     );
-
-    // Usamos getByText directamente para descripción y contenido
     expect(screen.getByText(/test description/i)).toBeInTheDocument();
     expect(screen.getByText(/main content/i)).toBeInTheDocument();
-    
-    // Verificamos la acción por su rol de botón
     expect(screen.getByRole('button', { name: /action button/i })).toBeInTheDocument();
   });
 });

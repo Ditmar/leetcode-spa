@@ -36,8 +36,6 @@ const meta: Meta<typeof Dialog> = {
 
 export default meta;
 type Story = StoryObj<typeof Dialog>;
-
-// 1. Base
 export const Base: Story = {
   name: '1. Base Structure',
   args: {
@@ -46,8 +44,6 @@ export const Base: Story = {
     onClose: handleClose,
   },
 };
-
-// 2. Content
 export const OnlyContent: Story = {
   name: '2. Content Space',
   args: {
@@ -68,8 +64,6 @@ export const OnlyContent: Story = {
     onClose: handleClose,
   },
 };
-
-// 3. Actions
 export const OnlyButtons: Story = {
   name: '3. Actions Space',
   args: {
@@ -106,8 +100,6 @@ export const OnlyButtons: Story = {
     onClose: handleClose,
   },
 };
-
-// 4. Final Implementation
 export const Complete: Story = {
   name: '4. Final Implementation',
   args: {
