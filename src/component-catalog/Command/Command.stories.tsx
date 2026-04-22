@@ -26,7 +26,6 @@ const CenterDecorator: Decorator = (Story) => (
 const meta: Meta<typeof Command> = {
   title: 'Component-Catalog/Command',
   component: Command,
-  // Usamos la constante que creamos arriba
   decorators: [CenterDecorator],
 };
 
@@ -36,7 +35,7 @@ type Story = StoryObj<typeof Command>;
 
 export const Default: Story = {
   args: {
-    open: false,
+    open: true,
     onClose: () => {},
     title: 'Command',
     subtitle: 'Command palette / search',
@@ -60,7 +59,7 @@ export const Default: Story = {
             keywords: ['emoji', 'smile'],
           },
           {
-            id: 'settings-a',
+            id: 'settings-suggestion',
             label: 'Settings',
             icon: <SettingsOutlined fontSize="small" />,
             keywords: ['preferences'],
@@ -68,7 +67,7 @@ export const Default: Story = {
         ],
       },
       {
-        id: 'settings',
+        id: 'settings-group',
         heading: 'Settings',
         items: [
           {
@@ -84,7 +83,7 @@ export const Default: Story = {
             keywords: ['payment'],
           },
           {
-            id: 'settings-b',
+            id: 'settings-config',
             label: 'Settings',
             icon: <SettingsOutlined fontSize="small" />,
             keywords: ['config'],
