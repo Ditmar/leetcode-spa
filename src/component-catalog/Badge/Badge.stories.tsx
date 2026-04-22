@@ -15,17 +15,9 @@ const meta = {
       control: 'select',
       options: ['default', 'primary', 'secondary', 'error', 'info', 'success', 'warning'],
     },
-    tone: {
-      control: 'select',
-      options: ['default', 'secondary', 'outline', 'destructive', 'success', 'info', 'warning'],
-    },
     variant: {
       control: 'select',
       options: ['standard', 'dot'],
-    },
-    display: {
-      control: 'select',
-      options: ['attached', 'standalone'],
     },
     anchorOrigin: {
       control: 'object',
@@ -63,105 +55,61 @@ const Target = () => (
   />
 );
 
-export const Default: Story = {
-  args: {
-    display: 'standalone',
-    badgeContent: 'Default',
-    tone: 'default',
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    display: 'standalone',
-    badgeContent: 'Secondary',
-    tone: 'secondary',
-  },
-};
-
-export const Outline: Story = {
-  args: {
-    display: 'standalone',
-    badgeContent: 'Outline',
-    tone: 'outline',
-  },
-};
-
-export const Destructive: Story = {
-  args: {
-    display: 'standalone',
-    badgeContent: 'Destructive',
-    tone: 'destructive',
-  },
-};
-
-export const Success: Story = {
-  args: {
-    display: 'standalone',
-    badgeContent: 'Success',
-    tone: 'success',
-  },
-};
-
-export const Info: Story = {
-  args: {
-    display: 'standalone',
-    badgeContent: 'Info',
-    tone: 'info',
-  },
-};
-
-export const Warning: Story = {
-  args: {
-    display: 'standalone',
-    badgeContent: 'Warning',
-    tone: 'warning',
-  },
-};
-
 export const Numeric: Story = {
   args: {
-    display: 'attached',
     badgeContent: 8,
+    color: 'primary',
     children: <Target />,
   },
 };
 
 export const MaxOverflow: Story = {
   args: {
-    display: 'attached',
     badgeContent: 120,
     max: 99,
-    color: 'default',
+    color: 'primary',
     children: <Target />,
   },
 };
 
 export const DotVariant: Story = {
   args: {
-    display: 'attached',
     variant: 'dot',
     color: 'success',
     children: <Target />,
   },
 };
 
-export const TopRight: Story = {
-  args: {
-    display: 'attached',
-    badgeContent: 12,
-    color: 'primary',
-    anchorOrigin: {
-      vertical: 'top',
-      horizontal: 'right',
-    },
-    children: <Target />,
-  },
+export const ColorVariants: Story = {
+  render: () => (
+    <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+      <Badge badgeContent={1} color="default">
+        <Target />
+      </Badge>
+      <Badge badgeContent={2} color="primary">
+        <Target />
+      </Badge>
+      <Badge badgeContent={3} color="secondary">
+        <Target />
+      </Badge>
+      <Badge badgeContent={4} color="error">
+        <Target />
+      </Badge>
+      <Badge badgeContent={5} color="info">
+        <Target />
+      </Badge>
+      <Badge badgeContent={6} color="success">
+        <Target />
+      </Badge>
+      <Badge badgeContent={7} color="warning">
+        <Target />
+      </Badge>
+    </Box>
+  ),
 };
 
 export const TopLeft: Story = {
   args: {
-    display: 'attached',
     badgeContent: 12,
     color: 'primary',
     anchorOrigin: {
@@ -172,13 +120,12 @@ export const TopLeft: Story = {
   },
 };
 
-export const BottomRight: Story = {
+export const TopRight: Story = {
   args: {
-    display: 'attached',
     badgeContent: 12,
     color: 'primary',
     anchorOrigin: {
-      vertical: 'bottom',
+      vertical: 'top',
       horizontal: 'right',
     },
     children: <Target />,
@@ -187,7 +134,6 @@ export const BottomRight: Story = {
 
 export const BottomLeft: Story = {
   args: {
-    display: 'attached',
     badgeContent: 12,
     color: 'primary',
     anchorOrigin: {
@@ -198,9 +144,20 @@ export const BottomLeft: Story = {
   },
 };
 
+export const BottomRight: Story = {
+  args: {
+    badgeContent: 12,
+    color: 'primary',
+    anchorOrigin: {
+      vertical: 'bottom',
+      horizontal: 'right',
+    },
+    children: <Target />,
+  },
+};
+
 export const Playground: Story = {
   args: {
-    display: 'attached',
     badgeContent: 4,
     color: 'primary',
     variant: 'standard',

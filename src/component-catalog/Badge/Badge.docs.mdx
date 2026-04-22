@@ -1,57 +1,53 @@
-import { Meta, Canvas, Story } from '@storybook/blocks';
+import { Canvas, Meta, Story } from '@storybook/blocks';
 import * as BadgeStories from './Badge.stories';
 
 <Meta title="Component Catalog/Badges/Docs" of={BadgeStories} />
 
 # Badge
 
-The Badge component is used to display a small visual indicator that helps identify status, category, or short contextual information inside the interface.
+The Badge component is based on `@mui/material/Badge`.
+It is used to show small pieces of information like numbers, notifications, or status indicators.
+Usually, it is attached to another element like an icon, button, or small box.
 
-This component supports two display modes:
+## What this component supports
 
-- **Standalone**: used as a text badge to represent categories or visual states.
-- **Attached**: used as a Material UI badge attached to another element, for example to show counts, notifications, or a dot indicator.
+- Numeric badge content
+- Overflow with the `max` prop, for example `99+`
+- Dot variant without content
+- MUI colors: `default`, `primary`, `secondary`, `error`, `info`, `success`, `warning`
+- Different anchor positions: `top-right`, `top-left`, `bottom-right`, `bottom-left`
 
-## What this component does
+## Why this component is useful
 
-The purpose of this component is to make small pieces of information easier to notice without taking too much space in the layout.
-
-It can be used to:
-
-- show category labels
-- represent status or semantic meaning
-- display notification counts
-- show overflow values such as `99+`
-- display a dot indicator for unread or active states
-
-Because this is a compact component, it should remain readable, visually clear, and consistent across different screen sizes.
-
-## Variants
-
-For the standalone version, the component includes these visual variants:
-
-- **Default**
-- **Secondary**
-- **Outline**
-- **Destructive**
-- **Success**
-- **Info**
-- **Warning**
-
-Each variant changes the visual appearance of the badge depending on its intended meaning.
-
-For the attached version, the component also supports:
-
-- numeric content
-- max overflow
-- dot variant
-- multiple Material UI color variants
-- configurable anchor positions
+This component helps display short information in a small space.
+For example, it can be used to show unread messages, notifications, or a simple status dot.
+It is useful because the information is easy to see without taking too much space in the UI.
 
 ## Example
 
-Standalone badge:
-
 ```tsx
-<Badge display="standalone" badgeContent="Success" tone="success" />
+<Badge badgeContent={8} color="primary">
+  <button type="button">Inbox</button>
+</Badge>
 ```
+
+## Notes
+
+- The component uses Material UI Badge as the base
+- The `max` prop is useful when the number is too large
+- The `dot` variant can be used when no number is needed
+- The position can be changed with `anchorOrigin`
+
+## Stories
+
+<Canvas>
+  <Story of={BadgeStories.Numeric} />
+</Canvas>
+
+<Canvas>
+  <Story of={BadgeStories.MaxOverflow} />
+</Canvas>
+
+<Canvas>
+  <Story of={BadgeStories.DotVariant} />
+</Canvas>
