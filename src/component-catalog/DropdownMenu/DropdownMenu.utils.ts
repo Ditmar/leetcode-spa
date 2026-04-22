@@ -1,4 +1,4 @@
-import { ARIA_ROLES, DEFAULT_GROUP_ID, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
+import { DEFAULT_GROUP_ID, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
 
 import type { DropdownGroup, DropdownItem } from './DropdownMenu.types';
 
@@ -34,19 +34,16 @@ export const isSeparatorItem = (item: DropdownItem): boolean => {
 
 export const getMenuItemRole = (
   item: DropdownItem
-):
-  | typeof ARIA_ROLES.MENU_ITEM
-  | typeof ARIA_ROLES.MENU_ITEM_CHECKBOX
-  | typeof ARIA_ROLES.MENU_ITEM_RADIO => {
+): 'menuitem' | 'menuitemcheckbox' | 'menuitemradio' => {
   if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
-    return ARIA_ROLES.MENU_ITEM_CHECKBOX;
+    return 'menuitemcheckbox';
   }
 
   if (item.type === DROPDOWN_ITEM_TYPES.RADIO) {
-    return ARIA_ROLES.MENU_ITEM_RADIO;
+    return 'menuitemradio';
   }
 
-  return ARIA_ROLES.MENU_ITEM;
+  return 'menuitem';
 };
 
 export const getAriaChecked = (item: DropdownItem): boolean | undefined => {
