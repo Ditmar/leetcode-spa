@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 
 interface UseRadioGroupOptions {
   defaultValue?: string;

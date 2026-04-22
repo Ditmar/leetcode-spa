@@ -1,15 +1,16 @@
+import { theme } from '../../style-library';
+
 import type { SxProps, Theme } from '@mui/material';
 
-export const radioOptionStyles: SxProps<Theme> = {
-  minHeight: '2.75rem',
+export const radioOptionStyles: SxProps<Theme> = (theme) => ({
+  minHeight: theme.spacing(6),
   '& .MuiTypography-root': {
-    color: 'text.primary',
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '0.875rem',
-    fontWeight: 500,
+    ...theme.typography.body2,
+    color: theme.palette.text.primary,
+    fontWeight: theme.typography.fontWeightMedium,
     lineHeight: 1,
   },
-};
+});
 
 export const formControlStyles: SxProps<Theme> = {
   display: 'flex',
@@ -19,16 +20,15 @@ export const formControlStyles: SxProps<Theme> = {
   gap: 2,
 };
 
-export const formLabelStyles: SxProps<Theme> = {
-  color: 'text.primary',
-  fontFamily: 'Inter, sans-serif',
-  fontSize: '1.125rem',
-  fontWeight: 500,
+export const formLabelStyles: SxProps<Theme> = (theme) => ({
+  color: theme.palette.text.primary,
+  ...theme.typography.subtitle1,
+  fontWeight: theme.typography.fontWeightMedium,
   lineHeight: 1.5,
   '&.Mui-focused': {
-    color: 'text.primary',
+    color: theme.palette.text.primary,
   },
-};
+});
 
 export const radioGroupStyles = (direction: 'row' | 'column'): SxProps<Theme> => ({
   flexDirection: {
@@ -39,31 +39,29 @@ export const radioGroupStyles = (direction: 'row' | 'column'): SxProps<Theme> =>
   gap: 0,
 });
 
-export const customIconStyles: React.CSSProperties = {
-  width: 16,
-  height: 16,
+export const customIconStyles: SxProps<Theme> = {
+  width: '1rem',
+  height: '1rem',
   borderRadius: '50%',
-  border: '0px solid rgba(0, 0, 0, 0.25)',
-  boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+  boxShadow: (theme) => theme.shadows[1],
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
 };
 
-export const customCheckedIconStyles: React.CSSProperties = {
-  width: 16,
-  height: 16,
+export const customCheckedIconStyles: SxProps<Theme> = {
+  width: '1rem',
+  height: '1rem',
   borderRadius: '50%',
-  border: '0px solid #030213',
-  background: 'transparent',
+  backgroundColor: 'transparentent',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
 };
 
-export const customCheckedDotStyles: React.CSSProperties = {
-  width: 8,
-  height: 8,
+export const customCheckedDotStyles: SxProps<Theme> = {
+  width: '0.5rem',
+  height: '0.5rem',
   borderRadius: '50%',
-  backgroundColor: '#030213',
+  backgroundColor: theme.palette.text.primary,
 };

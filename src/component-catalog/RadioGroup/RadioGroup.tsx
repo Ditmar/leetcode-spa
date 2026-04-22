@@ -5,6 +5,7 @@ import {
   FormLabel,
   Radio,
   RadioGroup as MuiRadioGroup,
+  Box,
 } from '@mui/material';
 
 import {
@@ -17,14 +18,14 @@ import {
   radioOptionStyles,
 } from './RadioGroup.styles';
 
-import type { CustomRadioGroupProps } from './RadioGroup.types';
+import type { CustomRadioGroupProps, OptionValues } from './RadioGroup.types';
 
-const CustomRadioIcon = <span style={customIconStyles} aria-hidden="true" />;
+const CustomRadioIcon = <Box component="span" sx={customIconStyles} aria-hidden="true" />;
 
 const CustomRadioCheckedIcon = (
-  <span style={customCheckedIconStyles} aria-hidden="true">
-    <span style={customCheckedDotStyles} />
-  </span>
+  <Box component="span" sx={customCheckedIconStyles} aria-hidden="true">
+    <Box component="span" sx={customCheckedDotStyles} />
+  </Box>
 );
 
 const RadioGroup = (props: CustomRadioGroupProps) => {
@@ -36,19 +37,34 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
     direction = 'column',
     disabled = false,
     required = false,
-    ...rest
+    value,
+    defaultValue,
+    onChange,
+    name,
   } = props;
+
+  const labelId = label ? 'radio-group-label' : undefined;
 
   return (
     <FormControl error={error} fullWidth disabled={disabled} sx={formControlStyles}>
       {label && (
-        <FormLabel required={required} sx={formLabelStyles}>
+        <FormLabel id={labelId} required={required} sx={formLabelStyles}>
           {label}
         </FormLabel>
       )}
 
-      <MuiRadioGroup aria-required={required} sx={radioGroupStyles(direction)} {...rest}>
-        {options.map((option) => (
+      <MuiRadioGroup
+        value={value}
+        defaultValue={defaultValue}
+        onChange={onChange}
+        name={name}
+        aria-required={required}
+        aria-invalid={error ? 'true' : undefined}
+        aria-labelledby={labelId}
+        role="radiogroup"
+        sx={radioGroupStyles(direction)}
+      >
+        {options.map((option: OptionValues) => (
           <FormControlLabel
             key={option.value}
             value={option.value}
