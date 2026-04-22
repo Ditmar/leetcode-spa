@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { LABEL_TEXT } from './Label.constants.ts';
+import { LABEL_TEXT } from './Label.constants';
 import { type LabelProps } from './Label.types';
 import { shouldShowOptional } from './Label.utils';
 
@@ -24,16 +24,16 @@ export const useLabel = (props: Partial<LabelProps>) => {
     [required, error, disabled, tooltipId]
   );
 
-  const labels = {
-    optionalIndicator: LABEL_TEXT.OPTIONAL_HINT,
-    helpAction: LABEL_TEXT.TOOLTIP_ARIA_LABEL,
+  const i18n = {
+    optionalLabel: LABEL_TEXT.OPTIONAL_HINT,
+    tooltipActionLabel: LABEL_TEXT.TOOLTIP_ARIA_LABEL ,
   };
 
   return {
     showOptional,
     tooltipId,
     accessibilityProps,
-    labels,
+    i18n,
     hasTooltip: Boolean(tooltip),
   };
 };
