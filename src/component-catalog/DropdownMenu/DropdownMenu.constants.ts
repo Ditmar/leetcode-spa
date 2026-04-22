@@ -6,8 +6,7 @@ export const DROPDOWN_ITEM_TYPES = {
   SUBMENU: 'submenu',
 } as const;
 
-export type DropdownItemType =
-  (typeof DROPDOWN_ITEM_TYPES)[keyof typeof DROPDOWN_ITEM_TYPES];
+export type DropdownItemType =(typeof DROPDOWN_ITEM_TYPES)[keyof typeof DROPDOWN_ITEM_TYPES];
 
 export const DEFAULT_GROUP_ID = 'default-group';
 
