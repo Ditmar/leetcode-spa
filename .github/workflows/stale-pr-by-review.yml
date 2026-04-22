@@ -52,25 +52,42 @@ jobs:
                 continue;
               }
 
-              // Fetch all reviews for this PR
-              const reviews = await github.paginate(github.rest.pulls.listReviews, {
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: prNumber,
-                per_page: 100,
-              });
+              // Fetch reviews, commits and comments to determine last activity
+              const [reviews, commits, comments] = await Promise.all([
+                github.paginate(github.rest.pulls.listReviews, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: prNumber,
+                  per_page: 100,
+                }),
+                github.paginate(github.rest.pulls.listCommits, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: prNumber,
+                  per_page: 100,
+                }),
+                github.paginate(github.rest.issues.listComments, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  per_page: 100,
+                }),
+              ]);
 
-              if (reviews.length === 0) {
-                core.info(`PR #${prNumber} has no reviews yet, skipping.`);
+              const activityDates = [
+                ...reviews.map((r) => new Date(r.submitted_at).getTime()),
+                ...commits.map((c) => new Date(c.commit.committer.date).getTime()),
+                ...comments.map((c) => new Date(c.updated_at).getTime()),
+              ];
+
+              if (activityDates.length === 0) {
+                core.info(`PR #${prNumber} has no activity yet, skipping.`);
                 continue;
               }
 
-              // Find the most recent review submission date
-              const lastReviewMs = Math.max(
-                ...reviews.map((r) => new Date(r.submitted_at).getTime()),
-              );
-              const lastReviewDate = new Date(lastReviewMs);
-              const isStale = lastReviewMs < staleCutoffMs;
+              const lastActivityMs = Math.max(...activityDates);
+              const lastActivityDate = new Date(lastActivityMs);
+              const isStale = lastActivityMs < staleCutoffMs;
               const hasStaleLabel = labels.includes(STALE_LABEL);
 
               if (isStale && !hasStaleLabel) {
@@ -87,7 +104,7 @@ jobs:
                   body: STALE_MESSAGE,
                 });
                 core.info(
-                  `PR #${prNumber} marked as stale. Last review: ${lastReviewDate.toISOString()}`,
+                  `PR #${prNumber} marked as stale. Last activity: ${lastActivityDate.toISOString()}`,
                 );
               } else if (!isStale && hasStaleLabel) {
                 await github.rest.issues.removeLabel({
@@ -97,7 +114,7 @@ jobs:
                   name: STALE_LABEL,
                 });
                 core.info(
-                  `PR #${prNumber} stale label removed. Recent review: ${lastReviewDate.toISOString()}`,
+                  `PR #${prNumber} stale label removed. Recent activity: ${lastActivityDate.toISOString()}`,
                 );
               } else {
                 core.info(
