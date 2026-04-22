@@ -1,6 +1,7 @@
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Tooltip, IconButton } from '@mui/material';
 import React from 'react';
+
 import { LABEL_TEXT } from './Label.constants';
 import { useLabel } from './Label.hook';
 import { StyledInputLabel, OptionalText, LabelWrapper } from './Label.styles';
@@ -11,22 +12,22 @@ export function Label({
   children,
   required,
   optional,
+  htmlFor,
   tooltip,
   error,
   disabled,
-  htmlFor,
   ...props
 }: LabelProps) {
-const { showOptional, accessibilityProps,labels } = useLabel({
-  required,
-  optional,
-  htmlFor,
-  tooltip,
-  error,
-  disabled,
-});
+  const { showOptional, accessibilityProps, i18n } = useLabel({
+    required,
+    optional,
+    htmlFor,
+    tooltip,
+    error,
+    disabled,
+  });
 
-return (
+  return (
     <StyledInputLabel
       {...props}
       {...accessibilityProps}
@@ -39,21 +40,21 @@ return (
       <LabelWrapper>
         {children}
 
-        {showOptional && <OptionalText>{labels.optionalIndicator}</OptionalText>}
+        {showOptional && <OptionalText>{i18n.optionalLabel}</OptionalText>}
 
         {tooltip && (
           <Tooltip title={tooltip} arrow placement="top">
             <IconButton
               size="small"
               sx={{ ml: 0.5, p: 0.25 }}
-              aria-label={labels.helpAction}
+              aria-label={i18n.tooltipActionLabel}
               disabled={disabled}
             >
               <HelpOutlineIcon sx={{ fontSize: LABEL_TEXT.TOOLTIP_ICON_FONT_SIZE }} />
             </IconButton>
           </Tooltip>
         )}
-      </LabelWrapper>
-    </StyledInputLabel>
-  );
-}
+        </LabelWrapper>
+      </StyledInputLabel>
+    );
+  }

@@ -33,9 +33,8 @@ describe('Label Component', () => {
   });
 
   it('has the correct htmlFor attribute', () => {
-  renderWithTheme(<Label htmlFor="input-id">Username</Label>);
-  const labelElement = screen.getByText(/Username/i).closest('label');
-  expect(labelElement).toHaveAttribute('for', 'input-id');
+    renderWithTheme(<Label htmlFor="input-id">Username</Label>);
+    const labelElement = screen.getByText(/Username/i).closest('label');
+    expect(labelElement).toHaveAttribute('for', 'input-id');
   });
-  
 });

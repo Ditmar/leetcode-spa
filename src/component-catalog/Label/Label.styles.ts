@@ -9,7 +9,7 @@ export const StyledInputLabel = styled(InputLabel, {
   alignItems: 'center',
   gap: theme.spacing(0.5),
   position: 'relative',
-  whiteSpace: 'normal', 
+  whiteSpace: 'normal',
   wordBreak: 'break-word',
   fontSize: '1rem',
   fontWeight: 500,
@@ -34,6 +34,6 @@ export const OptionalText = styled('span')(({ theme }) => ({
 export const LabelWrapper = styled(Box)({
   display: 'flex',
   alignItems: 'center',
-  flexWrap: 'wrap', 
+  flexWrap: 'wrap',
   maxWidth: '100%',
 });

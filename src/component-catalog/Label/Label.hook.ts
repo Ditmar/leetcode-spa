@@ -26,7 +26,7 @@ export const useLabel = (props: Partial<LabelProps>) => {
 
   const i18n = {
     optionalLabel: LABEL_TEXT.OPTIONAL_HINT,
-    tooltipActionLabel: LABEL_TEXT.TOOLTIP_ARIA_LABEL ,
+    tooltipActionLabel: LABEL_TEXT.TOOLTIP_ARIA_LABEL,
   };
 
   return {

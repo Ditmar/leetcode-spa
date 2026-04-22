@@ -1,6 +1,7 @@
 export const LABEL_TEXT = {
   OPTIONAL_HINT: '(optional)',
   TOOLTIP_ARIA_LABEL: 'More information',
+  TOOLTIP_ICON_FONT_SIZE: '16px',
 } as const;
 
 export const LABEL_SPACING = {
