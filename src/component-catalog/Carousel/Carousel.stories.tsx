@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
-
 import { Carousel } from './Carousel';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Carousel> = {
-  title: 'Components/Carousel',
+  title: 'Component Catalog/Carousel',
   component: Carousel,
+  tags: ['autodocs'], // 🔥 IMPORTANTE
   argTypes: {
     autoPlay: { control: 'boolean' },
     interval: { control: 'number' },
@@ -44,6 +44,8 @@ export const AutoPlay: Story = {
 export const SingleSlide: Story = {
   args: {
     autoPlay: false,
-    children: [<Box key={1} sx={{ height: 200, width: '100%', bgcolor: 'warning.main' }} />],
+    children: [
+      <Box key={1} sx={{ height: 200, width: '100%', bgcolor: 'warning.main' }} />,
+    ],
   },
 };
