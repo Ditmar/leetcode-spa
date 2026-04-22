@@ -1,16 +1,23 @@
-import type { RadioGroupProps } from '@mui/material';
+import type { ChangeEvent } from 'react';
 
-export interface Option {
+export interface OptionValues {
   label: string;
-  value: string;
+  value: string | number;
   disabled?: boolean;
 }
-export interface CustomRadioGroupProps extends Omit<RadioGroupProps, 'row' | 'children'> {
-  options: Option[];
+
+export interface CustomRadioGroupProps {
+  options: OptionValues[];
+
   label?: string;
   helperText?: string;
   error?: boolean;
   direction?: 'row' | 'column';
   disabled?: boolean;
   required?: boolean;
+
+  value?: string | number;
+  defaultValue?: string | number;
+  onChange?: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
+  name?: string;
 }
