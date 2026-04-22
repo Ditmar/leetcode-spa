@@ -1,6 +1,8 @@
 import { Button, TextField, Typography, Box } from '@mui/material';
 import React from 'react';
+
 import { Dialog } from './Dialog';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 const CenterDecorator: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -18,9 +20,7 @@ const CenterDecorator: React.FC<{ children: React.ReactNode }> = ({ children }) 
   </Box>
 );
 
-const handleClose = () => {
-  console.log('close');
-};
+const handleClose = () => {};
 
 const meta: Meta<typeof Dialog> = {
   title: 'component-catalog/Dialog',

@@ -3,7 +3,6 @@ export const DIALOG_SIZES = {
   MD: 'md',
   LG: 'lg',
   XL: 'xl',
-  FULL_SCREEN: 'fullscreen',
 } as const;
 
-export type DialogSize = typeof DIALOG_SIZES[keyof typeof DIALOG_SIZES];
+export type DialogSize = (typeof DIALOG_SIZES)[keyof typeof DIALOG_SIZES];

@@ -25,6 +25,7 @@ const Dialog = (props: DialogProps) => {
     showCloseButton = true,
     persistent = false,
     maxWidth = DIALOG_SIZES.SM,
+    fullScreen = false, // ✅ IMPORTANTE (fix PR)
   } = props;
 
   const theme = useTheme();
@@ -33,23 +34,20 @@ const Dialog = (props: DialogProps) => {
   const titleId = useId();
   const descriptionId = useId();
 
-  const handleMuiDialogClose = (
-    event: object,
-    reason: 'backdropClick' | 'escapeKeyDown'
-  ) => {
+  const handleMuiDialogClose = (event: object, reason: 'backdropClick' | 'escapeKeyDown') => {
     if (persistent && (reason === 'backdropClick' || reason === 'escapeKeyDown')) {
       return;
     }
-    onClose?.(event as any, reason);
-  };
 
-  const isFullScreen = isMobile || (maxWidth as string) === (DIALOG_SIZES.FULL_SCREEN as string);
+    onClose?.(event, reason);
+  };
+  const isFullScreen = fullScreen || isMobile;
 
   return (
     <StyledMuiDialog
       open={open}
       onClose={handleMuiDialogClose}
-      maxWidth={isFullScreen ? false : (maxWidth as any)}
+      maxWidth={isFullScreen ? false : maxWidth}
       fullWidth
       fullScreen={isFullScreen}
       aria-labelledby={title ? titleId : undefined}
@@ -64,7 +62,7 @@ const Dialog = (props: DialogProps) => {
           {showCloseButton && (
             <IconButton
               aria-label="close dialog"
-              onClick={(e) => onClose?.(e as any, 'escapeKeyDown')}
+              onClick={(e) => onClose?.(e, 'escapeKeyDown')}
               sx={{
                 position: 'absolute',
                 right: theme.spacing(1),
@@ -78,17 +76,9 @@ const Dialog = (props: DialogProps) => {
         </DialogTitle>
       )}
 
-      <DialogContent
-        dividers
-        sx={{ border: 'none', p: 2 }}
-      >
+      <DialogContent dividers sx={{ border: 'none', p: 2 }}>
         {description && (
-          <Typography
-            id={descriptionId}
-            variant="body2"
-            color="text.secondary"
-            sx={{ mb: 2 }}
-          >
+          <Typography id={descriptionId} variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             {description}
           </Typography>
         )}
@@ -96,11 +86,7 @@ const Dialog = (props: DialogProps) => {
         {children}
       </DialogContent>
 
-      {actions && (
-        <DialogActions sx={{ p: 2 }}>
-          {actions}
-        </DialogActions>
-      )}
+      {actions && <DialogActions sx={{ p: 2 }}>{actions}</DialogActions>}
     </StyledMuiDialog>
   );
 };
