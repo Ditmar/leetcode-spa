@@ -12,7 +12,6 @@ describe('Dialog Component', () => {
   it('should render the title correctly', () => {
     render(<Dialog open={true} onClose={onCloseMock} title="Test Title" />);
 
-    // Buscamos por rol de encabezado y nombre exacto (más semántico)
     expect(screen.getByRole('heading', { name: /test title/i })).toBeInTheDocument();
   });
 

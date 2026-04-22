@@ -9,7 +9,7 @@ const CenterDecorator: React.FC<{ children: React.ReactNode }> = ({ children }) 
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      minHeight: '400px', 
+      minHeight: '400px',
       width: '100%',
       bgcolor: 'background.default',
     }}
@@ -18,7 +18,9 @@ const CenterDecorator: React.FC<{ children: React.ReactNode }> = ({ children }) 
   </Box>
 );
 
-const handleClose = () => { console.log('close'); };
+const handleClose = () => {
+  console.log('close');
+};
 
 const meta: Meta<typeof Dialog> = {
   title: 'component-catalog/Dialog',
@@ -35,6 +37,7 @@ const meta: Meta<typeof Dialog> = {
 export default meta;
 type Story = StoryObj<typeof Dialog>;
 
+// 1. Base
 export const Base: Story = {
   name: '1. Base Structure',
   args: {
@@ -44,6 +47,7 @@ export const Base: Story = {
   },
 };
 
+// 2. Content
 export const OnlyContent: Story = {
   name: '2. Content Space',
   args: {
@@ -51,11 +55,11 @@ export const OnlyContent: Story = {
     title: 'Dialog with Content',
     description: 'This is the dedicated space for description or form instructions.',
     children: (
-      <Box 
-        sx={{ 
-          p: 2, 
-          border: (theme) => `1px dashed ${theme.palette.divider}`, 
-          textAlign: 'center' 
+      <Box
+        sx={{
+          p: 2,
+          border: (theme) => `1px dashed ${theme.palette.divider}`,
+          textAlign: 'center',
         }}
       >
         <Typography>Body message or inputs go here</Typography>
@@ -65,6 +69,7 @@ export const OnlyContent: Story = {
   },
 };
 
+// 3. Actions
 export const OnlyButtons: Story = {
   name: '3. Actions Space',
   args: {
@@ -72,13 +77,27 @@ export const OnlyButtons: Story = {
     title: 'Dialog with Buttons',
     actions: (
       <>
-        <Button fullWidth variant="contained" color="primary">
+        <Button
+          fullWidth
+          variant="contained"
+          sx={{
+            backgroundColor: (theme) => theme.palette.grey[900],
+            color: (theme) => theme.palette.common.white,
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.grey[800],
+            },
+          }}
+        >
           Main Action
         </Button>
-        <Button 
-          fullWidth 
-          variant="outlined" 
-          sx={{ color: 'text.primary', borderColor: 'divider' }}
+
+        <Button
+          fullWidth
+          variant="outlined"
+          sx={{
+            color: 'text.primary',
+            borderColor: 'divider',
+          }}
         >
           Cancel
         </Button>
@@ -88,6 +107,7 @@ export const OnlyButtons: Story = {
   },
 };
 
+// 4. Final Implementation
 export const Complete: Story = {
   name: '4. Final Implementation',
   args: {
@@ -105,17 +125,28 @@ export const Complete: Story = {
     ),
     actions: (
       <>
-        <Button 
-          fullWidth 
-          variant="contained" 
-          sx={{ mb: 1 }}
+        <Button
+          fullWidth
+          variant="contained"
+          sx={{
+            mb: 1,
+            backgroundColor: (theme) => theme.palette.grey[900],
+            color: (theme) => theme.palette.common.white,
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.grey[800],
+            },
+          }}
         >
           Save changes
         </Button>
-        <Button 
-          fullWidth 
-          variant="outlined" 
-          sx={{ borderColor: 'divider' }}
+
+        <Button
+          fullWidth
+          variant="outlined"
+          sx={{
+            borderColor: 'divider',
+            color: 'text.primary',
+          }}
         >
           Cancel
         </Button>

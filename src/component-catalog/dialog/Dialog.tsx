@@ -49,7 +49,6 @@ const Dialog = (props: DialogProps) => {
     <StyledMuiDialog
       open={open}
       onClose={handleMuiDialogClose}
-      // Si es fullScreen enviamos false, si no, forzamos el tipo para evitar el error de TS
       maxWidth={isFullScreen ? false : (maxWidth as any)}
       fullWidth
       fullScreen={isFullScreen}
