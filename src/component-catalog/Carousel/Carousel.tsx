@@ -20,18 +20,29 @@ export const Carousel = ({
 
   const { activeStep, next, back } = useCarousel(length, autoPlay, interval);
 
-  const startX = useRef(0);
+  // ✅ más robusto que usar 0
+  const startX = useRef<number | null>(null);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     startX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
+    if (startX.current === null) return;
+
     const endX = e.changedTouches[0].clientX;
     const diff = startX.current - endX;
 
     if (diff > SWIPE_THRESHOLD) next();
     if (diff < -SWIPE_THRESHOLD) back();
+
+    // ✅ FIX IMPORTANTE
+    startX.current = null;
+  };
+
+  const handleTouchCancel = () => {
+    // ✅ evita valores residuales
+    startX.current = null;
   };
 
   return (
@@ -40,6 +51,7 @@ export const Carousel = ({
         index={activeStep}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchCancel} // ✅ agregado
       >
         {items.map((child, index) => (
           <Slide key={index}>{child}</Slide>

@@ -12,21 +12,20 @@ export interface UseCarouselReturn {
 export function useCarousel(
   length: number,
   autoPlay: boolean,
-  interval: number
+  interval: number,
 ): UseCarouselReturn {
-  // 🛡️ Guard para evitar errores
   const safeLength = length > 0 ? length : 1;
 
   const [activeStep, setActiveStep] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const next = () => {
-    if (length <= 0) return; // no-op
+    if (length <= 0) return;
     setActiveStep((prev) => clampIndex(prev + 1, safeLength));
   };
 
   const back = () => {
-    if (length <= 0) return; // no-op
+    if (length <= 0) return;
     setActiveStep((prev) => clampIndex(prev - 1, safeLength));
   };
 
