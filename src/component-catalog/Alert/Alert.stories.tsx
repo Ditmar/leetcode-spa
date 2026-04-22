@@ -32,6 +32,7 @@ export const Info: Story = {
     title: 'Information',
     children: 'This is a standard informational alert message.',
   },
+  render: (args) => <Alert {...args} />,
 };
 
 export const Success: Story = {
@@ -40,6 +41,7 @@ export const Success: Story = {
     title: 'Success',
     children: 'Your changes have been saved successfully!',
   },
+  render: (args) => <Alert {...args} />,
 };
 
 export const Warning: Story = {
@@ -48,6 +50,7 @@ export const Warning: Story = {
     title: 'Warning',
     children: 'Please review your information before submitting.',
   },
+  render: (args) => <Alert {...args} />,
 };
 
 export const Error: Story = {
@@ -56,6 +59,7 @@ export const Error: Story = {
     title: 'Error',
     children: 'Something went wrong. Please try again.',
   },
+  render: (args) => <Alert {...args} />,
 };
 
 export const TitleOnly: Story = {
@@ -63,7 +67,9 @@ export const TitleOnly: Story = {
     severity: 'info',
     title: 'This is a compact alert without a description.',
   },
+  render: (args) => <Alert {...args} />,
 };
+
 export const AllAlertsStacked: Story = {
   render: () => (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

@@ -7,28 +7,28 @@ import type { AlertSeverity, AlertStylesVariants } from './Alert.types';
 
 export const ALERT_VARIANTS: Record<AlertSeverity, AlertStylesVariants> = {
   info: {
-    backgroundColor: '#FFFFFF',
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-    titleColor: '#0A0A0A',
-    descriptionColor: '#717182',
+    backgroundColor: 'var(--info-bg)',
+    borderColor: 'var(--info-border)',
+    titleColor: 'var(--info-title)',
+    descriptionColor: 'var(--info-foreground)',
   },
   success: {
-    backgroundColor: '#F0FDF4',
-    borderColor: '#B9F8CF',
-    titleColor: '#016630',
-    descriptionColor: '#008236',
+    backgroundColor: 'var(--success-bg)',
+    borderColor: 'var(--success-border)',
+    titleColor: 'var(--success-title)',
+    descriptionColor: 'var(--success-foreground)',
   },
   warning: {
-    backgroundColor: '#FEFCE8',
-    borderColor: '#FFF085',
-    titleColor: '#894B00',
-    descriptionColor: '#A65F00',
+    backgroundColor: 'var(--warning-bg)',
+    borderColor: 'var(--warning-border)',
+    titleColor: 'var(--warning-title)',
+    descriptionColor: 'var(--warning-foreground)',
   },
   error: {
-    backgroundColor: '#FFFFFF',
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-    titleColor: '#D4183D',
-    descriptionColor: 'rgba(212, 24, 61, 0.9)',
+    backgroundColor: 'var(--error-bg)',
+    borderColor: 'var(--error-border)',
+    titleColor: 'var(--error-title)',
+    descriptionColor: 'var(--error-foreground)',
   },
 };
 

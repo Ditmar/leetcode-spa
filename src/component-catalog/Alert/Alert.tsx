@@ -11,12 +11,15 @@ import type { AlertProps } from './Alert.types';
 
 const Alert = ({ severity = 'info', title, children, icon, className }: AlertProps) => {
   const IconComponent = ALERT_ICONS[severity];
+  const role = severity === 'error' ? 'alert' : 'status';
+  const ariaLive = severity === 'error' ? 'assertive' : 'polite';
 
   return (
     <StyledAlertContainer
       severity={severity}
       className={className}
-      role="alert"
+      role={role}
+      aria-live={ariaLive}
       data-testid={`alert-${severity}`}
     >
       <StyledIconWrapper severity={severity} aria-hidden="true">

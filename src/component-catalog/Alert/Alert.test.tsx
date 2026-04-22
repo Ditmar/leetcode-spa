@@ -8,7 +8,8 @@ describe('Alert Component', () => {
   it('renders the alert with default info severity', () => {
     render(<Alert title="Information">This is a test.</Alert>);
 
-    const alertElement = screen.getByRole('alert');
+    // Ahora busca 'status' en lugar de 'alert' para la severidad por defecto (info)
+    const alertElement = screen.getByRole('status');
     expect(alertElement).toBeInTheDocument();
     expect(alertElement).toHaveAttribute('data-testid', 'alert-info');
 
@@ -22,17 +23,19 @@ describe('Alert Component', () => {
     expect(screen.queryByText('This is a test.')).not.toBeInTheDocument();
   });
 
+  // Actualizamos el array para indicarle qué rol debe esperar cada variante
   it.each([
-    ['success', 'Success'],
-    ['warning', 'Warning'],
-    ['error', 'Error'],
-  ] as const)('renders the %s variant correctly', (severity, title) => {
+    ['success', 'Success', 'status'],
+    ['warning', 'Warning', 'status'],
+    ['error', 'Error', 'alert'],
+  ] as const)('renders the %s variant correctly with role %s', (severity, title, expectedRole) => {
     render(
       <Alert severity={severity} title={title}>
         Message
       </Alert>
     );
-    const alertElement = screen.getByRole('alert');
+
+    const alertElement = screen.getByRole(expectedRole);
     expect(alertElement).toHaveAttribute('data-testid', `alert-${severity}`);
   });
 
