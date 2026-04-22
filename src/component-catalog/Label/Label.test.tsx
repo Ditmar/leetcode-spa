@@ -12,8 +12,8 @@ const renderWithTheme = (ui: React.ReactElement) =>
 
 describe('Label Component', () => {
   it('renders children correctly', () => {
-    renderWithTheme(<Label>Nombre</Label>);
-    expect(screen.getByText(/Nombre/i)).toBeInTheDocument();
+    renderWithTheme(<Label>Name</Label>);
+    expect(screen.getByText(/Name/i)).toBeInTheDocument();
   });
 
   it('shows asterisk when required is true', () => {
@@ -22,8 +22,8 @@ describe('Label Component', () => {
   });
 
   it('shows optional text when optional is true', () => {
-    renderWithTheme(<Label optional>Teléfono</Label>);
-    expect(screen.getByText('(opcional)')).toBeInTheDocument();
+    renderWithTheme(<Label optional>Phone</Label>);
+    expect(screen.getByText('(optional)')).toBeInTheDocument();
   });
 
   it('applies error styles when error prop is true', () => {
