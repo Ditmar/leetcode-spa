@@ -289,12 +289,9 @@ const DropdownMenu = ({
               </ListItemIcon>
 
               <ListItemText
-                primary={<Typography sx={dropdownLabelSx}>{item.label}</Typography>}
-              />
+                primary={<Typography sx={dropdownLabelSx}>{item.label}</Typography>}/>
 
-              {item.shortcut && (
-                <Typography sx={dropdownShortcutSx}>{item.shortcut}</Typography>
-              )}
+              {item.shortcut && <Typography sx={dropdownShortcutSx}>{item.shortcut}</Typography>}
             </MenuItem>
           );
         })}
