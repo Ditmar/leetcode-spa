@@ -72,10 +72,8 @@ const createNavSections = (labels: string[]): NavSection[] => [
 
 const createStoryRender = () => {
   return (args: NavigationMenuProps) => {
-    if (!args.navSections) {
-      args.navSections = createNavSections(defaultNavItems);
-    }
-    return <NavigationMenu {...args} />;
+    const navSections = args.navSections || createNavSections(defaultNavItems);
+    return <NavigationMenu {...args} navSections={navSections} />;
   };
 };
 

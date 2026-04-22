@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 import { NavigationMenu } from './NavigationMenu';
 import { MOCK_NAV_SECTIONS } from './NavigationMenu.constants';
@@ -29,14 +29,17 @@ describe('NavigationMenu', () => {
 
   it('handles item click', async () => {
     const user = userEvent.setup();
-    const onItemClick = () => {};
+    const onItemClick = vi.fn();
 
     render(<NavigationMenu navSections={MOCK_NAV_SECTIONS} onItemClick={onItemClick} />);
 
     const homeItem = screen.getByTestId('nav-item-home');
     await user.click(homeItem);
 
-    expect(homeItem).toBeInTheDocument();
+    expect(onItemClick).toHaveBeenCalledOnce();
+    expect(onItemClick).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'home', label: 'Home' })
+    );
   });
 
   it('renders Sign In button', () => {
@@ -46,12 +49,18 @@ describe('NavigationMenu', () => {
     expect(signInButton).toBeInTheDocument();
   });
 
-  it('supports keyboard event handling', () => {
-    render(<NavigationMenu navSections={MOCK_NAV_SECTIONS} />);
+  it('supports keyboard event handling', async () => {
+    const user = userEvent.setup();
+    const onItemClick = vi.fn();
+
+    render(<NavigationMenu navSections={MOCK_NAV_SECTIONS} onItemClick={onItemClick} />);
 
     const homeItem = screen.getByTestId('nav-item-home');
     homeItem.focus();
 
     expect(homeItem).toHaveFocus();
+
+    await user.keyboard('{Enter}');
+    expect(onItemClick).toHaveBeenCalled();
   });
 });

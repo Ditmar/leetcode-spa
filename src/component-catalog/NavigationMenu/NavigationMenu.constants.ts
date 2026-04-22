@@ -1,11 +1,11 @@
-const DEFAULT_ARIA_LABEL = 'Main navigation' as const;
-
-const TOUCH_TARGET_MIN = 44;
-
 import NavigationLogoFull from '../../assets/NavigationMenu.svg';
 import NavigationLogoCompact from '../../assets/NavigationMenu2.svg';
 
 import type { NavSection } from './NavigationMenu.types';
+
+const DEFAULT_ARIA_LABEL = 'Main navigation' as const;
+
+const TOUCH_TARGET_MIN = 44;
 
 export const MOCK_NAV_SECTIONS: NavSection[] = [
   {
