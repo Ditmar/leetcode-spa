@@ -32,8 +32,10 @@ describe('Label Component', () => {
     expect(label).toHaveClass('Mui-error');
   });
 
-  it('has correct htmlFor attribute', () => {
-    renderWithTheme(<Label htmlFor="input-id">Label</Label>);
-    expect(screen.getByText('Label')).toHaveAttribute('for', 'input-id');
+  it('has the correct htmlFor attribute', () => {
+  renderWithTheme(<Label htmlFor="input-id">Username</Label>);
+  const labelElement = screen.getByText(/Username/i).closest('label');
+  expect(labelElement).toHaveAttribute('for', 'input-id');
   });
+  
 });

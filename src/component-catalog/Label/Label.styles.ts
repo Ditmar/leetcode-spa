@@ -9,16 +9,13 @@ export const StyledInputLabel = styled(InputLabel, {
   alignItems: 'center',
   gap: theme.spacing(0.5),
   position: 'relative',
-  whiteSpace: 'normal', // Permite que el texto fluya en móviles
+  whiteSpace: 'normal', 
   wordBreak: 'break-word',
   fontSize: '1rem',
   fontWeight: 500,
   lineHeight: 1.5,
   marginBottom: theme.spacing(0.5),
-
-  // Soporte para escalado de fuente del 200%
   minHeight: '1.5em',
-
   color: error ? theme.palette.error.main : theme.palette.text.primary,
   opacity: disabled ? 0.5 : 1,
 
@@ -37,6 +34,6 @@ export const OptionalText = styled('span')(({ theme }) => ({
 export const LabelWrapper = styled(Box)({
   display: 'flex',
   alignItems: 'center',
-  flexWrap: 'wrap', // Evita desbordamiento en 320px
+  flexWrap: 'wrap', 
   maxWidth: '100%',
 });
