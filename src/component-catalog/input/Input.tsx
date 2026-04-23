@@ -1,14 +1,15 @@
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Box, IconButton, InputAdornment, Typography } from '@mui/material';
-import { useId, useState, useEffect, type ChangeEvent } from 'react';
+import { useEffect, useId, useState, type ChangeEvent } from 'react';
 
 import { inputModeByType } from './Input.constants';
 import { usePasswordToggle } from './Input.hook';
 import { StyledInput } from './Input.styles';
+import type { InputProps } from './Input.types';
 import { getCharacterCount } from './Input.utils';
 
-import type { InputProps } from './Input.types';
+
 
 export function Input(props: InputProps) {
   const {

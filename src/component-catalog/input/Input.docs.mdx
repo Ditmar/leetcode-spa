@@ -3,13 +3,20 @@ import * as InputStories from './Input.stories';
 
 <Meta of={InputStories} />
 
-# Input Ticket Implementation Guide
+## Example
 
-This document explains how the **Input** ticket was implemented using **Material UI** and following the required **CDD structure**.
+<Canvas>
+  <Story of={InputStories.Basic} />
+</Canvas>
 
-The goal of this ticket was to build a reusable input component based on **MUI TextField** that could be used as the main text field across forms, while also supporting responsiveness, accessibility, mobile keyboard behavior, and common form features.
+# Input
+
+The **Input** component is a reusable text field built on top of MUI `TextField`.  
+It is designed to be used across forms while supporting accessibility, responsiveness, and common input features.
+
 ---
-## 1. Component goal
+
+## Usage
 
 The component was created to serve as the standard text input element in the component catalog.
 
@@ -27,7 +34,7 @@ The implementation needed to support:
 
 The component was also designed to stay reusable and consistent with the project design tokens.
 ---
-## 2. File structure used
+## File structure used
 
 The ticket was organized using the required file structure.
 
@@ -59,15 +66,24 @@ This file contains the unit tests for the component behavior.
 ### `Input.stories.tsx`
 This file contains the Storybook story used to visualize the component.
 ---
-## 3. Base implementation
+## Base Behavior
 
-The component was built on top of **Material UI TextField** because the ticket required MUI as the foundation.
+The component is built on top of MUI `TextField` to provide a familiar and accessible text input experience.
 
-Using `TextField` made it possible to keep the component accessible and compatible with standard form behavior while extending it with the requested features.
+It supports common form scenarios such as:
 
-The component was wrapped in a custom styled version called `StyledInput`, so the final result could match the project tokens and visual requirements.
+- different input types
+- multiple variants
+- start and end adornments
+- helper text
+- password visibility toggle
+- optional character count
+- responsive behavior
+- accessibility support
+- mobile-friendly input behavior
+
 ---
-## 4. Types and props
+## Types and props
 
 The component props were defined in `Input.types.ts`.
 
@@ -83,7 +99,7 @@ The implementation extends the standard MUI `TextField` props and adds custom pr
 
 This keeps the component flexible while still controlling the accepted input behavior required by the ticket.
 ---
-## 5. Supported input types
+## Supported input types
 
 The component supports the following input types:
 
@@ -101,7 +117,7 @@ They were also connected to an `inputMode` mapping so that mobile devices can sh
 
 This was an important part of the implementation because mobile keyboard compatibility was explicitly required.
 ---
-## 6. Password toggle implementation
+## Password toggle implementation
 
 For password inputs, a visibility toggle was added using an end adornment with an icon button.
 
@@ -116,7 +132,7 @@ When the input type is `password`, the component switches between:
 
 depending on the visibility state.
 ---
-## 7. Adornments
+## Adornments
 
 The component supports both start and end adornments.
 
@@ -126,7 +142,7 @@ The purpose of this feature was to allow icons or extra visual content inside th
 
 This is especially useful for fields such as search inputs or password fields.
 ---
-## 8. Helper text and character count
+## Helper text and character count
 
 The helper text logic was added inside `Input.tsx`.
 
@@ -138,7 +154,7 @@ This allows the component to handle more common form scenarios without requiring
 
 The character count value is calculated with a helper function stored in `Input.utils.ts`.
 ---
-## 9. Styling decisions
+## Styling decisions
 
 All styling was implemented in `Input.styles.ts` using **MUI styled()**.
 
@@ -156,7 +172,7 @@ The styling relies on the project design tokens, including values such as:
 
 This decision keeps the component visually aligned with the rest of the project and avoids isolated styling rules.
 ---
-## 10. Responsive behavior
+## Responsive behavior
 
 The input component itself was implemented with full-width behavior so it can adapt to its container.
 
@@ -166,7 +182,7 @@ That story was structured to display the component in different common form stat
 
 This helped verify the behavior requested in the ticket for responsive widths.
 ---
-## 11. Accessibility considerations
+## Accessibility considerations
 
 Accessibility was considered during the implementation.
 
@@ -176,7 +192,7 @@ The implementation also passes `aria-invalid` and `aria-describedby` to the inpu
 
 This was important because the ticket explicitly mentioned accessibility checks.
 ---
-## 12. Testing approach
+## Testing approach
 
 The component includes tests in `Input.test.tsx`.
 
@@ -190,3 +206,7 @@ The tests were added to cover the most important behaviors:
 - read-only behavior
 
 These tests help confirm that the component works as expected and reduce the risk of breaking the main features later.
+
+## Controls
+
+<Controls />

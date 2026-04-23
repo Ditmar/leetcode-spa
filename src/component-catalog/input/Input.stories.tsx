@@ -1,9 +1,11 @@
-import SearchIcon from '@mui/icons-material/Search';
+import type { Meta, StoryObj } from '@storybook/react';
 import Box from '@mui/material/Box';
+import SearchIcon from '@mui/icons-material/Search';
+
 
 import { Input } from './Input';
 
-import type { Meta, StoryObj } from '@storybook/react';
+
 
 const meta: Meta<typeof Input> = {
   title: 'component-catalog/Input',
