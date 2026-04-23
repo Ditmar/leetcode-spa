@@ -3,7 +3,14 @@ import Fade from '@mui/material/Fade';
 import Popper from '@mui/material/Popper';
 import { cloneElement, isValidElement, type FC } from 'react';
 
-import {CARD_OFFSET, DEFAULT_PLACEMENT, TRANSITION_DURATION, VIEWPORT_PADDING, DEFAULT_OPEN_DELAY, DEFAULT_CLOSE_DELAY} from './HoverCard.constants';
+import {
+  CARD_OFFSET,
+  DEFAULT_PLACEMENT,
+  TRANSITION_DURATION,
+  VIEWPORT_PADDING,
+  DEFAULT_OPEN_DELAY,
+  DEFAULT_CLOSE_DELAY,
+} from './HoverCard.constants';
 import { useHoverCard } from './HoverCard.hook';
 import { HoverCardPaper, TriggerWrapper } from './HoverCard.styles';
 import { buildPopperModifiers } from './HoverCard.utils';
@@ -54,13 +61,12 @@ export const HoverCard: FC<HoverCardProps> = ({
   return (
     <>
       {triggerElement}
-
       <Popper
         open={isOpen}
         anchorEl={anchorRef.current}
         placement={placement}
         transition
-        sx={{ zIndex: (theme) => theme.zIndex.modal  }}
+        sx={{ zIndex: (theme) => theme.zIndex.modal }}
         modifiers={modifiers}
         disablePortal={popperProps.disablePortal}
         keepMounted={popperProps.keepMounted}
@@ -91,4 +97,4 @@ export const HoverCard: FC<HoverCardProps> = ({
 
 HoverCard.displayName = 'HoverCard';
 
-export {HoverCard as default};
+export { HoverCard as default };

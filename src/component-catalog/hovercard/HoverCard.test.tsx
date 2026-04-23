@@ -6,10 +6,7 @@ import { DEFAULT_CLOSE_DELAY, DEFAULT_OPEN_DELAY } from './HoverCard.constants';
 
 function renderCard(props?: Partial<React.ComponentProps<typeof HoverCard>>) {
   return render(
-    <HoverCard
-      trigger={<button type="button">Hover Card</button>}
-      {...props}
-    >
+    <HoverCard trigger={<button type="button">Hover Card</button>} {...props}>
       <p>Card content</p>
     </HoverCard>
   );

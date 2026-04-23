@@ -1,5 +1,6 @@
-import type { Options as PopperOptions } from '@popperjs/core';
 import { CARD_OFFSET } from './HoverCard.constants';
+
+import type { Options as PopperOptions } from '@popperjs/core';
 
 /**
  * @param padding
