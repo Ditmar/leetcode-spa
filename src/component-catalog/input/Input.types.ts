@@ -8,8 +8,8 @@ export interface InputProps extends Omit<TextFieldProps, 'type' | 'variant'> {
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
   /**
-  * Shortcut for inputProps.maxLength
-  */
+   * Shortcut for inputProps.maxLength
+   */
   maxLength?: number;
   showCharacterCount?: boolean;
   readOnly?: boolean;
