@@ -1,6 +1,6 @@
-export const DEFAULT_OPEN_DELAY = 100;
+export const DEFAULT_OPEN_DELAY = 200;
 
-export const DEFAULT_CLOSE_DELAY = 100;
+export const DEFAULT_CLOSE_DELAY = 300;
 
 export const TRANSITION_DURATION = 200;
 
