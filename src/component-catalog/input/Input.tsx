@@ -10,7 +10,6 @@ import { getCharacterCount } from './Input.utils';
 
 import type { InputProps } from './Input.types';
 
-
 export function Input(props: InputProps) {
   const {
     type = 'text',

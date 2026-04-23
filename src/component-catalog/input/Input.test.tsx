@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
-import { describe, expect, it } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import SearchIcon from '@mui/icons-material/Search';
+import { describe, expect, it } from 'vitest';
 
 import { Input } from './Input';
 
