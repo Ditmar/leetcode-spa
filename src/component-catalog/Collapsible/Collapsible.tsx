@@ -37,9 +37,13 @@ const Collapsible: React.FC<CollapsibleProps> = ({
               {title}
             </Typography>
           )}
-          <S.BlackButton aria-expanded={isOpen} aria-controls={regionId} aria-labelledby={headerId}>
+          <S.ToggleButton
+            aria-expanded={isOpen}
+            aria-controls={regionId}
+            aria-labelledby={headerId}
+          >
             {isOpen ? <RemoveIcon fontSize="small" /> : <AddIcon fontSize="small" />}
-          </S.BlackButton>
+          </S.ToggleButton>
         </S.Header>
 
         <Collapse in={isOpen} id={regionId} role="region" aria-labelledby={headerId}>
