@@ -9,7 +9,7 @@ export const StyledCard = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  maxWidth: '400px',
+  maxWidth: theme.spacing(50),
   boxSizing: 'border-box',
 }));
 
@@ -20,7 +20,7 @@ export const Header = styled(Stack)(({ theme }) => ({
   minHeight: theme.spacing(5.5),
 }));
 
-export const BlackButton = styled(Button, {
+export const ToggleButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'isOpen',
 })<{ isOpen?: boolean }>(({ theme }) => ({
   backgroundColor: theme.palette.common.black,

@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { TextField, Box } from '@mui/material';
 
 import Collapsible from './Collapsible';
 
@@ -7,12 +7,20 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta: Meta<typeof Collapsible> = {
   title: 'Components/Collapsible',
   component: Collapsible,
+  decorators: [
+    (Story) => (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+        <Story />
+      </Box>
+    ),
+  ],
 };
 
 export default meta;
 type Story = StoryObj<typeof Collapsible>;
 
-export const Default: Story = {
+export const FigmaMatch: Story = {
+  name: 'Figma Match Demo',
   args: {
     title: '@peduarte starred 3 repositories',
     children: (
@@ -21,7 +29,11 @@ export const Default: Story = {
         placeholder="@radix-ui/primitives"
         size="small"
         disabled
-        sx={{ '& .MuiInputBase-root': { borderRadius: '8px' } }}
+        sx={{
+          '& .MuiInputBase-root': {
+            borderRadius: (theme) => theme.shape.borderRadius,
+          },
+        }}
       />
     ),
   },
