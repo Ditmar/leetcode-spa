@@ -7,6 +7,7 @@ import SimpleMuiExample from '../style-library/stories/SimpleMuiExample';
 
 import type { EmotionCache } from '@emotion/react';
 
+// Crear un tema básico
 const theme = createTheme({
   palette: {
     mode: 'light',
