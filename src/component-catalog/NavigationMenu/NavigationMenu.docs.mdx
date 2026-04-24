@@ -2,19 +2,6 @@ import { Meta, Canvas, Controls, ArgTypes } from '@storybook/blocks';
 import * as NavigationMenuStories from './NavigationMenu.stories';
 
 <Meta of={NavigationMenuStories} />
----
-
-## Storybook Validation
-
-**Interactive Component Showcase:**
-
-You can view and interact with all NavigationMenu stories, test responsive behavior, and validate component behavior in the live Storybook instance:
-
-🔗 **[Open in Storybook](https://ditmar.github.io/leetcode-spa/feature-leetcode-197/)**
-
-This is the single source of truth for component validation, visual testing, and supported variations.
-
----
 # NavigationMenu
 
 A **fully-responsive**, **accessible** navigation component built on
@@ -44,19 +31,6 @@ to screen size:
 - ✓ Touch targets ≥ 44×44px on mobile
 - ✓ Fully-responsive: 320px → 1440px tested
 
----
-
-## Storybook Validation
-
-**Interactive Component Showcase:**
-
-You can view and interact with all NavigationMenu stories, test responsive behavior, and validate component behavior in the live Storybook instance:
-
-🔗 **[Open in Storybook](https://ditmar.github.io/leetcode-spa/feature-leetcode-197/)**
-
-This is the single source of truth for component validation, visual testing, and supported variations.
-
----
 
 ## Installation
 
@@ -89,11 +63,20 @@ const navSections = [
 ];
 
 export function App() {
+  const [currentPath, setCurrentPath] = React.useState('/premium');
+
+  const handleNavigation = (item: NavItem) => {
+    if (item.href) {
+      setCurrentPath(item.href);
+      // Implement your routing logic here
+    }
+  };
+
   return (
     <NavigationMenu
       navSections={navSections}
-      currentPath="/premium"
-      onItemClick={(item) => console.log('Clicked:', item.label)}
+      currentPath={currentPath}
+      onItemClick={handleNavigation}
     />
   );
 }
@@ -186,11 +169,11 @@ Edit `navSections` to see different menu items.
 | `navSections`         | `NavSection[]`                        | **Required**  | Array of navigation sections with items        |
 | `currentPath`         | `string`                              | `''`          | Active route path for highlighting             |
 | `onItemClick`         | `(item: NavItem) => void`             | —             | Callback when user clicks a menu item          |
-| `ariaLabel`           | `string`                              | `Navigation`  | Accessible label for screen readers            |
+| `ariaLabel`           | `string`                              | `'Main navigation'` | Accessible label for screen readers            |
 | `logo`                | `string \| ReactNode`                 | —             | Logo URL or React component                    |
 | `size`                | `'small' \| 'medium' \| 'large'`      | `'medium'`    | Navigation menu size variant                   |
 | `variant`             | `'primary' \| 'secondary'`            | `'primary'`   | Color scheme variant                           |
-| `useScrollHide`       | `boolean`                             | `false`       | Hide nav on scroll down (future feature)       |
+| `useScrollHide`       | `boolean`                             | `false`       | Hide nav on scroll down (requires SSR-safe wrapper) |
 | `rightContent`        | `ReactNode`                           | —             | Custom content on nav bar right side           |
 | `onMobileMenuToggle`  | `(isOpen: boolean) => void`           | —             | Callback for mobile drawer state               |
 | `forceHamburger`      | `boolean`                             | `false`       | Always show hamburger button (skip responsive logic). For debugging/Storybook only. |
@@ -215,11 +198,8 @@ Edit `navSections` to see different menu items.
 | `label`             | `string`                | Yes      | Display text                         |
 | `href`              | `string`                | —        | Link destination                     |
 | `icon`              | `ReactNode`             | —        | Icon component                       |
-| `children`          | `NavItem[]`             | —        | Nested items (future: submenu)       |
-| `megaPanelContent`  | `ReactNode`             | —        | Dropdown/flyout panel (future)       |
-| `badge`             | `ReactNode`             | —        | Badge or notification indicator      |
 | `disabled`          | `boolean`               | —        | Disable interaction                  |
-| `isActive`          | `boolean`               | —        | Override auto-detect active state    |
+| `badge`             | `ReactNode`             | —        | Badge or notification indicator      |
 
 ---
 
@@ -257,7 +237,7 @@ Edit `navSections` to see different menu items.
 | lg         | 1024 px  | Horizontal nav bar, wider container            |
 | xl         | 1440 px+ | Horizontal nav bar, max-width constraint       |
 
-All spacing is expressed in `theme.spacing()` or `rem` — no hardcoded `px` values.
+Spacing and size values use `rem` strings or unitless multiples of `theme.spacing()`. See **Design Tokens** section for details on each token type.
 
 ---
 
@@ -267,7 +247,7 @@ All spacing is expressed in `theme.spacing()` or `rem` — no hardcoded `px` val
 NavigationMenu/
 ├── NavigationMenu.tsx           # Component logic & JSX
 ├── NavigationMenu.types.ts      # TypeScript interfaces
-├── NavigationMenu.constants.ts  # Constants (TOUCH_TARGET_MIN, ARIA labels)
+├── NavigationMenu.constants.ts  # Constants (ARIA labels)
 ├── NavigationMenu.hook.ts       # useNavigationMenuState hook
 ├── NavigationMenu.styles.ts     # MUI styled() components
 ├── NavigationMenu.utils.ts      # getSizeConfig, getVariantConfig
@@ -275,6 +255,368 @@ NavigationMenu/
 ├── NavigationMenu.stories.tsx   # Storybook 9 CSF format
 └── NavigationMenu.docs.mdx      # This documentation
 ```
+
+---
+
+## Design Tokens
+
+### Theme Imports
+
+The `NavigationMenu` component imports multiple utilities and tokens from the theme system. Here's a detailed breakdown of all imports across the component files:
+
+#### **NavigationMenu.tsx**
+```typescript
+import { navigationMenuTokens } from '../../style-library/theme/theme';
+import { useTheme } from '@mui/material';
+```
+- Uses `navigationMenuTokens.layout.iconContainer` for icon rendering
+- Uses `theme` hook for theme breakpoints and spacing
+
+#### **NavigationMenu.styles.ts**
+```typescript
+import { alpha } from '../../style-library';
+import { navigationMenuTokens } from '../../style-library/theme/theme';
+```
+- `navigationMenuTokens` for all styled component definitions (AppBar, Toolbar, Buttons, Drawer, etc.)
+- `alpha` from style-library for color opacity utilities
+
+#### **NavigationMenu.hook.ts**
+```typescript
+import { useTheme } from '../../style-library';
+import { navigationMenuTokens } from '../../style-library/theme/theme';
+```
+- `navigationMenuTokens.scroll.hideThreshold` for scroll trigger behavior
+- `useTheme` hook for responsive breakpoints
+
+#### **NavigationMenu.utils.ts**
+```typescript
+import { navigationMenuTokens } from '../../style-library/theme/theme';
+import type { Theme } from '@mui/material';
+```
+- `navigationMenuTokens.sizes` for responsive AppBar heights
+- `navigationMenuTokens.spacing` for padding and margin calculations
+
+---
+
+### Token Import
+
+The `NavigationMenu` component utilizes centralized design tokens from the theme system:
+
+```typescript
+import { navigationMenuTokens } from '../../style-library/theme/theme';
+```
+
+**Used in 4 files:**
+- `NavigationMenu.tsx` → Component layout and rendering
+- `NavigationMenu.styles.ts` → Styled component definitions
+- `NavigationMenu.utils.ts` → Size and variant configurations
+- `NavigationMenu.hook.ts` → Scroll behavior thresholds
+
+### navigationMenuTokens Structure
+
+The `navigationMenuTokens` object contains all styling, spacing, and sizing configuration:
+
+| Category | Properties | Usage |
+|----------|-----------|-------|
+| **colors** | `background`, `border`, `text` | AppBar, drawer, and text colors |
+| **sizes** | `appBarHeight` (3 variants), `logoHeight`, `drawerWidth`, `megaPanel` | Responsive dimensions |
+| **minTouchTarget** | `5.5` | WCAG touch target minimum (→ 44px with theme.spacing) |
+| **spacing** | `itemPaddingY/X`, `toolbarGap`, `iconMargin`, `logoMargin`, etc | Layout spacing |
+| **signInButton** | `fontWeight`, `height`, `paddingX`, `fontSize`, `borderRadius` | Sign-in button styling |
+| **layout** | `appBar`, `toolbar`, `iconContainer`, `logoContainer`, `desktopNav`, `mobileNav`, `drawer`, `scrollbar` | Flexbox & position configs |
+| **listItem** | `position`, `fontSize`, `fontWeight`, `hover`, `active`, `disabled` | Menu item states |
+| **accordion** | `boxShadow`, `expanded`, `summaryButton`, `summaryFocused` | Mobile accordion styling |
+| **megaPanel** | `popperOffset`, `borderRadius` | Flyout panel positioning |
+| **opacity** | `accordion`, `border` | Transparency values |
+| **borders** | `width` | Border thickness |
+| **scroll** | `hideThreshold` | Scroll hide trigger (100px) |
+
+### Size Token Values
+
+All size values are expressed in **rem** (relative em units) for consistency with the project's design system. This allows for scalable, accessible sizing that respects user font-size preferences.
+
+| Token | Value | Equivalent |
+|-------|-------|------------|
+| **appBarHeight.small** | `'3rem'` | 48px |
+| **appBarHeight.medium** | `'3.5625rem'` | 57px |
+| **appBarHeight.large** | `'4rem'` | 64px |
+| **logoHeight** | `'1.5rem'` | 24px |
+| **drawerWidth** | `'16rem'` | 256px |
+| **megaPanel.minWidth** | `'17.5rem'` | 280px |
+| **megaPanel.maxWidth** | `'25rem'` | 400px |
+
+**Conversion formula:** `px ÷ 16 = rem` (assuming base font-size of 16px)
+
+### Token Unit Consistency
+
+The `navigationMenuTokens` object uses standardized unit representations to avoid ambiguity:
+
+| Unit Type | Usage | Examples |
+|-----------|-------|----------|
+| **String rem** | Direct CSS values (no conversion) | `fontSize: '0.875rem'`, `height: '1.75rem'`, `logoHeight: '1.5rem'` |
+| **Number multiplier** | Values passed to `theme.spacing()` | `paddingX: 2`, `letterSpacing: 0.05`, `borderRadius: 0.5` |
+| **Pure number** | Unitless CSS properties | `fontWeight: 600` |
+
+**Example from signInButton:**
+```typescript
+signInButton: {
+  fontWeight: 600,           // Pure number (unitless)
+  height: '1.75rem',         // String rem (28px)
+  paddingX: 2,               // Multiplier → theme.spacing(2) = 16px
+  fontSize: '0.875rem',      // String rem
+  letterSpacing: 0.05,       // Multiplier → theme.spacing(0.05) for conversion
+  borderRadius: 0.5,         // Multiplier → theme.spacing(0.5) = 4px
+}
+```
+
+**Usage in NavigationMenu.tsx:**
+```typescript
+const signInButtonSx = {
+  ...navigationMenuTokens.signInButton,
+  letterSpacing: theme.spacing(navigationMenuTokens.signInButton.letterSpacing),
+  borderRadius: theme.spacing(navigationMenuTokens.signInButton.borderRadius),
+  // ... other properties
+};
+```
+
+Example usage in styles:
+```typescript
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  height: navigationMenuTokens.sizes.appBarHeight.medium, // '3.5625rem'
+  backgroundColor: navigationMenuTokens.colors.background,
+}));
+```
+
+### Scroll Hide Threshold
+
+The scroll hide feature uses a 100px threshold before triggering the hide animation:
+
+```typescript
+const isScrollHidden = useScrollTrigger({
+  threshold: navigationMenuTokens.scroll.hideThreshold, // 100px
+});
+```
+
+---
+```typescript
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  ...navigationMenuTokens.layout.appBar,
+  height: navigationMenuTokens.sizes.appBarHeight.medium,
+  backgroundColor: navigationMenuTokens.colors.background,
+  borderBottom: `${navigationMenuTokens.borders.width}px solid ${navigationMenuTokens.colors.border}`,
+}));
+```
+
+**In NavigationMenu.utils.ts:**
+```typescript
+function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
+  const sizeConfigs = {
+    small: {
+      appBarHeight: navigationMenuTokens.sizes.appBarHeight.small,
+      itemPadding: theme.spacing(
+        navigationMenuTokens.spacing.itemPaddingY.small,
+        navigationMenuTokens.spacing.itemPaddingX.small
+      ),
+    },
+    medium: {
+      appBarHeight: navigationMenuTokens.sizes.appBarHeight.medium,
+      // ... medium config
+    },
+    large: {
+      appBarHeight: navigationMenuTokens.sizes.appBarHeight.large,
+      // ... large config
+    },
+  };
+}
+```
+
+**In NavigationMenu.hook.ts:**
+```typescript
+const isScrollHidden = useScrollTrigger({
+  disableHysteresis: true,
+  threshold: navigationMenuTokens.scroll.hideThreshold, // 100px
+});
+```
+
+---
+
+## Import Architecture
+
+### Complete Import Map
+
+This section shows all imports from `theme.ts` across the NavigationMenu component:
+
+#### **1. NavigationMenu.tsx (Component Logic)**
+```typescript
+// ✅ From theme.ts
+import { navigationMenuTokens } from '../../style-library/theme/theme';
+import { useTheme } from '@mui/material';
+
+// Usage in component:
+const renderIcon = (icon: React.ReactNode, fontSize: string | number | undefined) =>
+  icon ? (
+    <Box sx={{ ...navigationMenuTokens.layout.iconContainer, fontSize: fontSize || 'inherit' }}>
+      {icon}
+    </Box>
+  ) : null;
+```
+**Tokens Used:**
+- `navigationMenuTokens.layout.iconContainer` → Icon container flexbox styling
+
+---
+
+#### **2. NavigationMenu.styles.ts (Styled Components)**
+```typescript
+// ✅ From theme.ts and style-library
+import { alpha } from '../../style-library';
+import { navigationMenuTokens } from '../../style-library/theme/theme';
+
+// Usage example:
+const StyledAppBar = styled(AppBar)(({ theme }) =>
+  mergeTokens(
+    {
+      height: navigationMenuTokens.sizes.appBarHeight.medium,
+      backgroundColor: navigationMenuTokens.colors.background,
+      color: theme.palette.common.white,
+      boxShadow: theme.shadows[8],
+      borderBottom: `${navigationMenuTokens.borders.width}px solid ${navigationMenuTokens.colors.border}`,
+      zIndex: theme.zIndex.appBar,
+      transition: theme.transitions.create(['top', 'box-shadow'], {
+        duration: theme.transitions.duration.standard,
+        easing: theme.transitions.easing.easeInOut,
+      }),
+    },
+    navigationMenuTokens.layout.appBar
+  )
+);
+```
+**Tokens Used:**
+- `navigationMenuTokens.sizes.appBarHeight` → AppBar responsive heights
+- `navigationMenuTokens.colors` → Background, border, and text colors
+- `navigationMenuTokens.borders.width` → Border thickness
+- `navigationMenuTokens.layout.*` → Flexbox and positioning for all styled components
+- `navigationMenuTokens.listItem.*` → Menu item hover/active/disabled states
+- `navigationMenuTokens.spacing.*` → Padding, margin, and gaps
+- `navigationMenuTokens.accordion.*` → Mobile accordion styling
+- `alpha` → Color opacity for hover effects
+
+---
+
+#### **3. NavigationMenu.hook.ts (State Management Hook)**
+```typescript
+// ✅ From theme.ts and style-library
+import { useTheme } from '../../style-library';
+import { navigationMenuTokens } from '../../style-library/theme/theme';
+
+// Usage in hook:
+const isScrollHidden = useScrollTrigger({
+  disableHysteresis: true,
+  threshold: navigationMenuTokens.scroll.hideThreshold,  // 100px
+});
+
+const isMobile = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true });
+```
+**Tokens Used:**
+- `navigationMenuTokens.scroll.hideThreshold` → Scroll hide trigger (100px)
+- `useTheme` hook → Access to breakpoints for responsive queries
+
+---
+
+#### **4. NavigationMenu.utils.ts (Configuration Helpers)**
+```typescript
+// ✅ From theme.ts
+import { navigationMenuTokens } from '../../style-library/theme/theme';
+import type { Theme } from '@mui/material';
+
+// Usage in utility function:
+function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
+  const sizeConfigs = {
+    small: {
+      appBarHeight: navigationMenuTokens.sizes.appBarHeight.small,
+      itemPadding: `${theme.spacing(navigationMenuTokens.spacing.itemPaddingY.small)} ${theme.spacing(navigationMenuTokens.spacing.itemPaddingX.small)}`,
+      itemFontSize: theme.typography.caption.fontSize,
+      toolbarGap: navigationMenuTokens.spacing.toolbarGap.small,
+    },
+    medium: {
+      appBarHeight: navigationMenuTokens.sizes.appBarHeight.medium,
+      itemPadding: `${theme.spacing(navigationMenuTokens.spacing.itemPaddingY.medium)} ${theme.spacing(navigationMenuTokens.spacing.itemPaddingX.medium)}`,
+      itemFontSize: theme.typography.body2.fontSize,
+      toolbarGap: navigationMenuTokens.spacing.toolbarGap.medium,
+    },
+    large: {
+      appBarHeight: navigationMenuTokens.sizes.appBarHeight.large,
+      itemPadding: `${theme.spacing(navigationMenuTokens.spacing.itemPaddingY.large)} ${theme.spacing(navigationMenuTokens.spacing.itemPaddingX.large)}`,
+      itemFontSize: theme.typography.body1.fontSize,
+      toolbarGap: navigationMenuTokens.spacing.toolbarGap.large,
+    },
+  };
+  return sizeConfigs[size];
+}
+```
+**Tokens Used:**
+- `navigationMenuTokens.sizes.appBarHeight` → For each size variant
+- `navigationMenuTokens.spacing.itemPaddingY` → Vertical padding by size
+- `navigationMenuTokens.spacing.itemPaddingX` → Horizontal padding by size
+- `navigationMenuTokens.spacing.toolbarGap` → Gap between toolbar items
+
+---
+
+### Token Usage Summary
+
+| Token Category | Used In | Purpose |
+|----------------|---------|---------|
+| `colors` | styles.ts | AppBar background, borders, text colors |
+| `sizes.appBarHeight` | styles.ts, utils.ts, tsx | Responsive AppBar heights (48/57/64px) |
+| `sizes.logoHeight` | styles.ts | Logo sizing |
+| `sizes.drawerWidth` | styles.ts | Mobile drawer width (256px) |
+| `minTouchTarget` | styles.ts | WCAG touch target minimum (→ 44px with theme.spacing) |
+| `spacing.*` | styles.ts, utils.ts, tsx | Padding, margins, gaps throughout |
+| `signInButton.*` | styles.ts | Sign-in button styling |
+| `layout.*` | styles.ts, tsx | Flexbox, positioning, layout props |
+| `listItem.*` | styles.ts | Menu item states (hover, active, disabled) |
+| `accordion.*` | styles.ts | Mobile accordion styling |
+| `megaPanel.*` | styles.ts | Flyout panel positioning |
+| `opacity.*` | styles.ts | Element transparency |
+| `borders.width` | styles.ts | Border thickness |
+| `scroll.hideThreshold` | hook.ts | Scroll hide trigger distance |
+
+---
+
+### How navigationMenuTokens Integrates with Theme
+
+The `navigationMenuTokens` object is exported from `theme.ts` alongside other token exports:
+
+```typescript
+// src/style-library/theme/theme.ts
+
+// Other token exports (existing)
+export const PROFILE_CARD_SPACING = { ... };
+export const PROFILE_CARD_TYPOGRAPHY = { ... };
+export const PROFILE_CARD_COLORS = { ... };
+export const pillTagTokens = { ... };
+export const formInputTokens = { ... };
+export const typographyTokens = { ... };
+
+// ✅ NEW: NavigationMenu tokens
+export const navigationMenuTokens = {
+  colors: { ... },
+  sizes: { ... },
+  spacing: { ... },
+  layout: { ... },
+  listItem: { ... },
+  // ... and more
+} as const;
+
+// Theme configuration and export
+const theme = createCustomTheme(themeConfig);
+export default theme;
+```
+
+This structure allows:
+- ✅ Centralized token management
+- ✅ Type-safe styling across multiple components
+- ✅ Easy token reuse and maintenance
+- ✅ Consistent design system implementation
 
 ---
 

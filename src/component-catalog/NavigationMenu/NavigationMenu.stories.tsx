@@ -1,5 +1,3 @@
-import { useTheme, useMediaQuery } from '@mui/material';
-
 import NavigationMenuLogo from '../../assets/NavigationMenu.svg?url';
 
 import { NavigationMenu } from './NavigationMenu';
@@ -89,14 +87,27 @@ export const Default: Story = {
 export const WithLogo: Story = {
   args: {
     navSections: createNavSections(defaultNavItems),
+    logo: NavigationMenuLogo,
     size: 'medium',
     variant: 'primary',
   },
-  render: (args: NavigationMenuProps) => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+};
 
-    return <NavigationMenu {...args} logo={isMobile ? undefined : NavigationMenuLogo} />;
+export const Desktop: Story = {
+  args: {
+    navSections: createNavSections(defaultNavItems),
+    logo: NavigationMenuLogo,
+    size: 'medium',
+    variant: 'primary',
+  },
+};
+
+export const Mobile: Story = {
+  args: {
+    navSections: createNavSections(defaultNavItems),
+    logo: undefined,
+    size: 'medium',
+    variant: 'primary',
   },
 };
 

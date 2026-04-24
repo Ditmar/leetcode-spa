@@ -8,19 +8,25 @@ function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
     small: {
       appBarHeight: navigationMenuTokens.sizes.appBarHeight.small,
       itemPadding: `${theme.spacing(navigationMenuTokens.spacing.itemPaddingY.small)} ${theme.spacing(navigationMenuTokens.spacing.itemPaddingX.small)}`,
-      itemFontSize: theme.typography.caption.fontSize,
+      itemFontSize:
+        theme.typography.caption.fontSize ??
+        navigationMenuTokens.sizes.typography.fontSizes.captionFallback,
       toolbarGap: navigationMenuTokens.spacing.toolbarGap.small,
     },
     medium: {
       appBarHeight: navigationMenuTokens.sizes.appBarHeight.medium,
       itemPadding: `${theme.spacing(navigationMenuTokens.spacing.itemPaddingY.medium)} ${theme.spacing(navigationMenuTokens.spacing.itemPaddingX.medium)}`,
-      itemFontSize: theme.typography.body2.fontSize,
+      itemFontSize:
+        theme.typography.body2.fontSize ??
+        navigationMenuTokens.sizes.typography.fontSizes.body2Fallback,
       toolbarGap: navigationMenuTokens.spacing.toolbarGap.medium,
     },
     large: {
       appBarHeight: navigationMenuTokens.sizes.appBarHeight.large,
       itemPadding: `${theme.spacing(navigationMenuTokens.spacing.itemPaddingY.large)} ${theme.spacing(navigationMenuTokens.spacing.itemPaddingX.large)}`,
-      itemFontSize: theme.typography.body1.fontSize,
+      itemFontSize:
+        theme.typography.body1.fontSize ??
+        navigationMenuTokens.sizes.typography.fontSizes.body1Fallback,
       toolbarGap: navigationMenuTokens.spacing.toolbarGap.large,
     },
   };

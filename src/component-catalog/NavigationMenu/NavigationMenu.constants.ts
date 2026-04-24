@@ -1,11 +1,9 @@
-import NavigationLogoFull from '../../assets/NavigationMenu.svg';
-import NavigationLogoCompact from '../../assets/NavigationMenu2.svg';
+import NavigationLogoFull from '../../assets/NavigationMenu.svg?url';
+import NavigationLogoCompact from '../../assets/NavigationMenu2.svg?url';
 
 import type { NavSection } from './NavigationMenu.types';
 
 const DEFAULT_ARIA_LABEL = 'Main navigation' as const;
-
-const TOUCH_TARGET_MIN = 44;
 
 export const MOCK_NAV_SECTIONS: NavSection[] = [
   {
@@ -31,4 +29,4 @@ export const NAVIGATION_LOGOS = {
   compact: NavigationLogoCompact,
 } as const;
 
-export { DEFAULT_ARIA_LABEL, TOUCH_TARGET_MIN };
+export { DEFAULT_ARIA_LABEL };

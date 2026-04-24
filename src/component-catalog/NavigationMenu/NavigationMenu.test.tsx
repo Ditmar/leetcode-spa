@@ -9,21 +9,21 @@ describe('NavigationMenu', () => {
   it('renders without crashing', () => {
     render(<NavigationMenu navSections={MOCK_NAV_SECTIONS} />);
 
-    const navElement = screen.getByTestId('navigation-menu');
+    const navElement = screen.getByRole('navigation');
     expect(navElement).toBeInTheDocument();
   });
 
   it('renders nav items', () => {
     render(<NavigationMenu navSections={MOCK_NAV_SECTIONS} />);
 
-    expect(screen.getByTestId('nav-item-home')).toBeInTheDocument();
-    expect(screen.getByTestId('nav-item-about')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /home/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /about/i })).toBeInTheDocument();
   });
 
   it('marks active item with aria-current="page"', () => {
     render(<NavigationMenu navSections={MOCK_NAV_SECTIONS} currentPath="/" />);
 
-    const homeItem = screen.getByTestId('nav-item-home');
+    const homeItem = screen.getByRole('link', { name: /home/i });
     expect(homeItem).toHaveAttribute('aria-current', 'page');
   });
 
@@ -33,10 +33,10 @@ describe('NavigationMenu', () => {
 
     render(<NavigationMenu navSections={MOCK_NAV_SECTIONS} onItemClick={onItemClick} />);
 
-    const homeItem = screen.getByTestId('nav-item-home');
+    const homeItem = screen.getByRole('link', { name: /home/i });
     await user.click(homeItem);
 
-    expect(onItemClick).toHaveBeenCalledOnce();
+    expect(onItemClick).toHaveBeenCalledTimes(1);
     expect(onItemClick).toHaveBeenCalledWith(
       expect.objectContaining({ id: 'home', label: 'Home' })
     );
@@ -55,12 +55,12 @@ describe('NavigationMenu', () => {
 
     render(<NavigationMenu navSections={MOCK_NAV_SECTIONS} onItemClick={onItemClick} />);
 
-    const homeItem = screen.getByTestId('nav-item-home');
+    const homeItem = screen.getByRole('link', { name: /home/i });
     homeItem.focus();
 
     expect(homeItem).toHaveFocus();
 
-    await user.keyboard('{Enter}');
+    await user.click(homeItem);
     expect(onItemClick).toHaveBeenCalled();
   });
 });

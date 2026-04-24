@@ -1,12 +1,11 @@
 import type {
   AppBarProps as MuiAppBarProps,
   ToolbarProps as MuiToolbarProps,
-  ListItemButtonProps as MuiListItemButtonProps,
   DrawerProps as MuiDrawerProps,
 } from '@mui/material';
 import type { ReactNode } from 'react';
 
-interface NavItem extends Omit<MuiListItemButtonProps, 'children'> {
+interface NavItem {
   id: string;
   label: string;
   href?: string;

@@ -1,6 +1,8 @@
 import { useMediaQuery, useScrollTrigger } from '@mui/material';
 import { useState, useCallback, useMemo } from 'react';
 
+// Note: useTheme is a custom wrapper that re-exports MUI's useTheme plus helpers.
+// It is fully compatible with MUI's useMediaQuery and breakpoints.
 import { useTheme } from '../../style-library';
 import { navigationMenuTokens } from '../../style-library/theme/theme';
 
@@ -25,7 +27,7 @@ export function useNavigationMenuState(
 
   const theme = useTheme();
 
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true });
   const isDesktop = !isMobile;
 
   const isScrollHidden = useScrollTrigger({

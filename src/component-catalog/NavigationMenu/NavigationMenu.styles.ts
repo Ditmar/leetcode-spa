@@ -14,38 +14,48 @@ import {
 import { alpha } from '../../style-library';
 import { navigationMenuTokens } from '../../style-library/theme/theme';
 
-const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  ...navigationMenuTokens.layout.appBar,
-  height: navigationMenuTokens.sizes.appBarHeight.medium,
-  backgroundColor: navigationMenuTokens.colors.background,
-  color: theme.palette.common.white,
-  boxShadow: theme.shadows[8],
-  borderBottom: `${navigationMenuTokens.borders.width}px solid ${navigationMenuTokens.colors.border}`,
-  zIndex: theme.zIndex.appBar,
-  transition: theme.transitions.create(['top', 'box-shadow'], {
-    duration: theme.transitions.duration.standard,
-    easing: theme.transitions.easing.easeInOut,
-  }),
-  '&::-webkit-scrollbar': {
-    display: 'none',
-  },
-}));
+const mergeTokens = (
+  base: Record<string, string | number | boolean | Record<string, unknown>>,
+  tokens: Record<string, string | number | boolean | Record<string, unknown>> = {}
+) => Object.assign({}, tokens, base);
 
-const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-  ...navigationMenuTokens.layout.toolbar,
-  height: navigationMenuTokens.sizes.appBarHeight.medium,
-  paddingLeft: theme.spacing(navigationMenuTokens.spacing.toolbarPadding),
-  paddingRight: theme.spacing(navigationMenuTokens.spacing.toolbarPadding),
-  '&::-webkit-scrollbar': {
-    display: 'none',
-  },
-}));
+// Centralized scrollbar hiding rule to avoid repetition
+const HIDE_SCROLLBAR = { '&::-webkit-scrollbar': { display: 'none' as const } };
+
+const StyledAppBar = styled(AppBar)(({ theme }) =>
+  mergeTokens(
+    {
+      height: navigationMenuTokens.sizes.appBarHeight.medium,
+      backgroundColor: navigationMenuTokens.colors.background,
+      color: theme.palette.common.white,
+      boxShadow: theme.shadows[8],
+      borderBottom: `${navigationMenuTokens.borders.width}px solid ${navigationMenuTokens.colors.border}`,
+      zIndex: theme.zIndex.appBar,
+      transition: theme.transitions.create(['top', 'box-shadow'], {
+        duration: theme.transitions.duration.standard,
+        easing: theme.transitions.easing.easeInOut,
+      }),
+      ...HIDE_SCROLLBAR,
+    },
+    navigationMenuTokens.layout.appBar
+  )
+);
+
+const StyledToolbar = styled(Toolbar)(({ theme }) =>
+  mergeTokens(
+    {
+      height: navigationMenuTokens.sizes.appBarHeight.medium,
+      paddingLeft: theme.spacing(navigationMenuTokens.spacing.toolbarPadding),
+      paddingRight: theme.spacing(navigationMenuTokens.spacing.toolbarPadding),
+      ...HIDE_SCROLLBAR,
+    },
+    navigationMenuTokens.layout.toolbar
+  )
+);
 
 const StyledDesktopNav = styled(List)(({ theme }) => ({
   ...navigationMenuTokens.layout.desktopNav,
-  '&::-webkit-scrollbar': {
-    display: 'none',
-  },
+  ...HIDE_SCROLLBAR,
 
   [theme.breakpoints.up('md')]: navigationMenuTokens.layout.desktopNavDesktop,
 }));
@@ -58,7 +68,7 @@ const StyledNavContainer = styled(Box)(({ theme }) => ({
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   ...navigationMenuTokens.listItem,
-  minHeight: navigationMenuTokens.minTouchTarget,
+  minHeight: theme.spacing(navigationMenuTokens.minTouchTarget),
   padding: theme.spacing(0.75, 1.5),
   letterSpacing: theme.spacing(navigationMenuTokens.spacing.letterSpacing),
   fontSize: theme.typography.body2.fontSize ?? navigationMenuTokens.listItem.fontSize,
@@ -103,9 +113,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     }),
     ...navigationMenuTokens.layout.drawer,
     ...navigationMenuTokens.layout.scrollbar,
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
+    ...HIDE_SCROLLBAR,
   },
 }));
 
