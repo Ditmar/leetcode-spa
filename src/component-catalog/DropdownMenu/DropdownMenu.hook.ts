@@ -18,7 +18,6 @@ interface UseDropdownMenuReturn {
   handleCloseSubmenu: () => void;
 }
 
-const SUBMENU_ESTIMATED_WIDTH = 320;
 const VIEWPORT_SAFE_MARGIN = 16;
 
 export const useDropdownMenu = (disabled = false): UseDropdownMenuReturn => {
@@ -54,9 +53,17 @@ export const useDropdownMenu = (disabled = false): UseDropdownMenuReturn => {
     if (disabled || item.disabled || !item.children?.length) return;
 
     const triggerRect = event.currentTarget.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
+
+    // ✅ FIX SSR (window guard)
+    const viewportWidth =
+      typeof window !== 'undefined' ? window.innerWidth : 1024;
+
+    // ✅ FIX hardcoded width (dynamic width)
+    const submenuWidth = event.currentTarget.offsetWidth;
+
     const availableRightSpace = viewportWidth - triggerRect.right;
-    const shouldOpenLeft = availableRightSpace < SUBMENU_ESTIMATED_WIDTH + VIEWPORT_SAFE_MARGIN;
+    const shouldOpenLeft =
+      availableRightSpace < submenuWidth + VIEWPORT_SAFE_MARGIN;
 
     setSubmenuDirection(shouldOpenLeft ? 'left' : 'right');
     setSubmenuAnchorEl(event.currentTarget);
