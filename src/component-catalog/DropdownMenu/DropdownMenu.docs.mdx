@@ -34,6 +34,7 @@ It supports:
 
 ### Accessibility
 - ARIA accessibility support
+- keyboard navigation support
 
 ## Preview
 
@@ -199,55 +200,22 @@ Main props:
 The component supports multiple item types.
 
 ### Action Item
-
 A normal clickable item.
 
-Example use cases:
-
-- Edit
-- Duplicate
-- Share
-
 ### Separator Item
-
-A visual divider between menu sections.
-
-This improves readability when a menu contains many actions.
+A visual divider.
 
 ### Checkbox Item
-
-A toggleable item that can switch between checked and unchecked states.
-
-Example:
-
-- Show line numbers
-- Word wrap
+A toggleable item.
 
 ### Radio Item
-
-A selectable item that belongs to a radio group.
-
-Only one option inside the same group should be active at a time.
-
-Example:
-
-- Sort by name
-- Sort by date
-- Sort by size
+A selectable item within a group.
 
 ### Submenu Item
-
 An item that opens another menu.
 
-This implementation supports one submenu level.
-
 ### Disabled Item
-
-A non-interactive item that is still visible but cannot be selected.
-
-Example:
-
-- Delete, when the action is unavailable
+A non-interactive item.
 
 ## Accessibility
 
@@ -264,97 +232,47 @@ The component includes:
   - `menuitemradio`
 - `aria-checked` for checkbox and radio items
 
+### Keyboard Navigation
+
+The component supports keyboard interaction:
+
+- Enter / Space → Opens the menu and selects items
+- Escape → Closes the menu
+- Arrow Down / Arrow Up → Navigate between items
+- Arrow Right → Opens submenu (if available)
+- Arrow Left → Closes submenu
+
 These attributes improve screen reader behavior and keyboard accessibility.
 
 ## Responsive Behavior
 
 The component was designed to behave correctly across multiple screen sizes.
 
-Responsive considerations include:
-
-- constrained menu width
-- constrained menu height
-- internal scrolling when space is limited
-- mobile-friendly item height
-- submenu direction adjustment when space is limited
-- viewport-safe margins
-
-Target viewport validations include:
-
-- 320px
-- 375px
-- 768px
-- 1024px
-
 ## Styling Strategy
 
-The component uses `sx` style objects instead of external CSS files.
-
-This approach provides:
-
-- centralized styling
-- better integration with Material UI
-- easier maintenance
-- token-based visual consistency
-
-The styles are based on the provided design tokens, including:
-
-- colors
-- borders
-- radius
-- foreground/background values
+Uses `sx` styles.
 
 ## Design Fidelity
 
-The component was visually aligned with the provided Figma reference.
-
-Main fidelity goals:
-
-- simple outlined trigger appearance
-- subtle borders
-- soft radius
-- neutral surface colors
-- vertical stacking of the two trigger buttons
-- clean and uncluttered spacing
-- consistent dropdown layout
+Aligned with Figma.
 
 ## Example Usage
-
-A simplified example:
 
 ```tsx
 import Button from '@mui/material/Button';
 import DropdownMenu from './DropdownMenu';
 
 const items = [
-  {
-    id: 'edit',
-    label: 'Edit',
-  },
-  {
-    id: 'show-lines',
-    label: 'Show line numbers',
-    type: 'checkbox',
-    checked: true,
-  },
-  {
-    id: 'sort-name',
-    label: 'Sort by name',
-    type: 'radio',
-    name: 'sort',
-    checked: true,
-  },
-  {
-    id: 'settings',
-    label: 'Settings',
-    type: 'submenu',
-    children: [
-      { id: 'profile', label: 'Profile' },
-      { id: 'security', label: 'Security' },
-    ],
-  },
+  { id: 'edit', label: 'Edit' },
+  { id: 'show-lines', label: 'Show line numbers', type: 'checkbox', checked: true },
+  { id: 'sort-name', label: 'Sort by name', type: 'radio', name: 'sort', checked: true },
 ];
 
 export default function Example() {
-  return <DropdownMenu trigger={<Button variant="outlined">Dropdown Menu</Button>} items={items} />;
+  return (
+    <DropdownMenu
+      trigger={<Button variant="outlined">Dropdown Menu</Button>}
+      items={items}
+    />
+  );
 }
