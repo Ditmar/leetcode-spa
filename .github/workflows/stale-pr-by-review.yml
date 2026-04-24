@@ -1,0 +1,124 @@
+name: Mark stale PRs by review inactivity
+
+on:
+  schedule:
+    - cron: '0 13 * * *'
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check and label stale PRs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const DAYS_BEFORE_STALE = 7;
+            const STALE_LABEL = 'stale';
+            const EXEMPT_LABELS = ['do-not-stale', 'wip', 'blocked'];
+            const STALE_MESSAGE =
+              `⏰ This PR has had no code review activity for **${DAYS_BEFORE_STALE} days**.\n` +
+              `If this is still being worked on, please update the PR or remove the \`${STALE_LABEL}\` label.`;
+
+            const now = new Date();
+            const staleCutoffMs = now.getTime() - DAYS_BEFORE_STALE * 24 * 60 * 60 * 1000;
+
+            const pulls = await github.paginate(github.rest.pulls.list, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+
+            core.info(`Found ${pulls.length} open PR(s).`);
+
+            for (const pr of pulls) {
+              const prNumber = pr.number;
+              const labels = pr.labels.map((l) => l.name);
+
+              // Skip draft PRs
+              if (pr.draft) {
+                core.info(`PR #${prNumber} is a draft, skipping.`);
+                continue;
+              }
+
+              // Skip exempt PRs
+              if (EXEMPT_LABELS.some((label) => labels.includes(label))) {
+                core.info(`PR #${prNumber} has an exempt label, skipping.`);
+                continue;
+              }
+
+              // Fetch reviews, commits and comments to determine last activity
+              const [reviews, commits, comments] = await Promise.all([
+                github.paginate(github.rest.pulls.listReviews, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: prNumber,
+                  per_page: 100,
+                }),
+                github.paginate(github.rest.pulls.listCommits, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: prNumber,
+                  per_page: 100,
+                }),
+                github.paginate(github.rest.issues.listComments, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  per_page: 100,
+                }),
+              ]);
+
+              const activityDates = [
+                ...reviews.map((r) => new Date(r.submitted_at).getTime()),
+                ...commits.map((c) => new Date(c.commit.committer.date).getTime()),
+                ...comments.map((c) => new Date(c.updated_at).getTime()),
+              ];
+
+              if (activityDates.length === 0) {
+                core.info(`PR #${prNumber} has no activity yet, skipping.`);
+                continue;
+              }
+
+              const lastActivityMs = Math.max(...activityDates);
+              const lastActivityDate = new Date(lastActivityMs);
+              const isStale = lastActivityMs < staleCutoffMs;
+              const hasStaleLabel = labels.includes(STALE_LABEL);
+
+              if (isStale && !hasStaleLabel) {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  labels: [STALE_LABEL],
+                });
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: STALE_MESSAGE,
+                });
+                core.info(
+                  `PR #${prNumber} marked as stale. Last activity: ${lastActivityDate.toISOString()}`,
+                );
+              } else if (!isStale && hasStaleLabel) {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  name: STALE_LABEL,
+                });
+                core.info(
+                  `PR #${prNumber} stale label removed. Recent activity: ${lastActivityDate.toISOString()}`,
+                );
+              } else {
+                core.info(
+                  `PR #${prNumber}: no change (stale=${isStale}, label=${hasStaleLabel}).`,
+                );
+              }
+            }

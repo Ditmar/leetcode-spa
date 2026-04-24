@@ -1,0 +1,70 @@
+import { Meta, Canvas, Story, Controls } from '@storybook/blocks';
+import * as BreadcrumbStories from './Breadcrumb.stories';
+
+<Meta of={BreadcrumbStories} />
+
+# Breadcrumb
+
+The **Breadcrumb** component displays the current navigation hierarchy and helps users understand their location within the application.
+
+---
+
+## Features
+
+- Responsive collapse behavior
+- Custom separator support (string or ReactNode)
+- Expand/collapse interaction with "..."
+- Optional icons per item
+- Accessible (ARIA compliant)
+
+---
+
+## Usage
+
+### Basic Example
+
+<Canvas>
+  <Story of={BreadcrumbStories.Default} />
+</Canvas>
+
+---
+
+## Collapse Behavior
+
+When the number of items exceeds `maxItems`, the breadcrumb collapses intermediate items into an ellipsis (`...`).
+
+### Collapsed State
+
+- Shows first item + "..." + last items
+- Prevents overflow on small screens
+
+### Expanded State
+
+- Clicking "..." reveals all items
+- Full navigation path becomes visible
+
+---
+
+## Accessibility
+
+The component follows accessibility best practices:
+
+- Uses `aria-label="breadcrumb"` for navigation context
+- Applies `aria-current="page"` to the current item
+- Supports keyboard navigation via native MUI components
+
+---
+
+## Controls
+
+Use the controls below to interact with the component props:
+
+<Controls of={BreadcrumbStories.Default} />
+
+---
+
+## Notes
+
+- Built on top of Material UI `Breadcrumbs`
+- Designed to be responsive across all screen sizes
+- Avoids horizontal overflow on small devices

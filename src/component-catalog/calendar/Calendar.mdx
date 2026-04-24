@@ -1,0 +1,193 @@
+{/* Calendar.docs.mdx — English documentation for Storybook */}
+
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/blocks';
+import * as CalendarStories from './Calendar.stories';
+
+<Meta of={CalendarStories} />
+
+# Calendar
+
+A **fully-responsive**, **accessible** date-picker component built on
+[MUI X `DateCalendar`](https://mui.com/x/react-date-pickers/date-calendar/)
+with the `dayjs` adapter.
+
+---
+
+## Overview
+
+The `Calendar` component supports three selection modes via the `mode` prop:
+
+| Mode     | Description                           |
+| -------- | ------------------------------------- |
+| `single` | Pick one date at a time (default)     |
+| `range`  | Pick a start and an end date          |
+| `multi`  | Toggle any number of individual dates |
+
+---
+
+## Installation
+
+```bash
+# Already in your project — just add MUI X and dayjs:
+yarn add @mui/x-date-pickers dayjs
+```
+
+> Your project already ships `@mui/material` v7 and `@emotion/*`. No extra peer deps needed.
+
+---
+
+## Quick Start
+
+```tsx
+import { useState } from 'react';
+import dayjs, { type Dayjs } from 'dayjs';
+import { Calendar } from '@/components/Calendar';
+import type { DateRange } from '@/components/Calendar/Calendar.types';
+
+// Single date
+function SingleExample() {
+  const [date, setDate] = useState<Dayjs | null>(dayjs());
+  return <Calendar mode="single" value={date} onChange={setDate} />;
+}
+
+// Date range
+function RangeExample() {
+  const [range, setRange] = useState<DateRange>({ start: dayjs(), end: dayjs().add(7, 'day') });
+  return <Calendar mode="range" value={range} onChange={setRange} />;
+}
+
+// Multi date
+function MultiExample() {
+  const [dates, setDates] = useState<Dayjs[]>([dayjs(), dayjs().add(3, 'day')]);
+  return <Calendar mode="multi" value={dates} onChange={setDates} />;
+}
+```
+
+---
+
+## Stories
+
+### Single Date
+
+<Canvas of={CalendarStories.SingleDate} />
+
+### Date Range
+
+<Canvas of={CalendarStories.DateRange} />
+
+### Multi Date
+
+<Canvas of={CalendarStories.MultiDate} />
+
+### Disabled Weekends
+
+Use `shouldDisableDate` to restrict selectable days.
+
+<Canvas of={CalendarStories.DisabledWeekends} />
+
+### Min / Max Bounds
+
+Restrict navigation and selection to a date window.
+
+<Canvas of={CalendarStories.MinMaxBounds} />
+
+### Full Width at 320 px
+
+The calendar is fluid and meets WCAG 2.5.5 tap-target requirements at every viewport.
+
+<Canvas of={CalendarStories.FullWidthMobile} />
+
+---
+
+## Controls
+
+<Controls />
+
+---
+
+## Prop Reference
+
+### Common props (all modes)
+
+| Prop                | Type                             | Default       | Description                               |
+| ------------------- | -------------------------------- | ------------- | ----------------------------------------- |
+| `mode`              | `'single' \| 'range' \| 'multi'` | —             | **Required.** Selection mode.             |
+| `minDate`           | `Dayjs`                          | —             | Earliest selectable date.                 |
+| `maxDate`           | `Dayjs`                          | —             | Latest selectable date.                   |
+| `shouldDisableDate` | `(day: Dayjs) => boolean`        | —             | Predicate to disable individual days.     |
+| `fullWidth`         | `boolean`                        | `true`        | Stretch to 100% of container width.       |
+| `aria-label`        | `string`                         | mode-specific | Accessible label for the calendar widget. |
+
+### `mode="single"` specific props
+
+| Prop       | Type                            | Description               |
+| ---------- | ------------------------------- | ------------------------- |
+| `value`    | `Dayjs \| null`                 | Controlled selected date. |
+| `onChange` | `(date: Dayjs \| null) => void` | Fired on day click.       |
+
+### `mode="range"` specific props
+
+| Prop       | Type                                           | Description             |
+| ---------- | ---------------------------------------------- | ----------------------- |
+| `value`    | `{ start: Dayjs \| null; end: Dayjs \| null }` | Controlled range.       |
+| `onChange` | `(range: DateRange) => void`                   | Fired after each click. |
+
+### `mode="multi"` specific props
+
+| Prop       | Type                       | Description                         |
+| ---------- | -------------------------- | ----------------------------------- |
+| `value`    | `Dayjs[]`                  | Controlled array of selected dates. |
+| `onChange` | `(dates: Dayjs[]) => void` | Fired after each toggle.            |
+
+---
+
+## Accessibility
+
+- Day grid uses `role="grid"` / `role="gridcell"` — screen-reader friendly.
+- Arrow keys (`← → ↑ ↓`) move focus between day cells.
+- Navigation arrows are reachable via `Tab` and operable with `Enter` / `Space`.
+- All interactive elements display a `:focus-visible` ring styled from the MUI theme.
+- Disabled days carry `aria-disabled="true"` and are skipped by keyboard navigation.
+- Component passes `axe-core` / WCAG 2.1 AA checks (via `@storybook/addon-a11y`).
+
+---
+
+## Responsive Behaviour
+
+| Viewport | Layout                                                   |
+| -------- | -------------------------------------------------------- |
+| 320 px   | Full-width, day cells ≥ 44 × 44 px (`2.75rem`)           |
+| 375 px   | Full-width, comfortable spacing                          |
+| 768 px   | Constrained to `theme.spacing(48)`, centred in container |
+| 1024 px+ | Inline within parent layout, same max-width constraint   |
+
+All sizing is expressed in `theme.spacing()` or `rem` — no hardcoded `px` values.
+
+---
+
+## File Structure
+
+```
+Calendar/
+├── Calendar.tsx           # Component logic & JSX
+├── Calendar.types.ts      # TypeScript interfaces extending MUI X
+├── Calendar.constants.ts  # View enums, tap-target value, breakpoint aliases
+├── Calendar.hook.ts       # useSingleDate / useDateRange / useMultiDate
+├── Calendar.styles.ts     # MUI styled() components — no external CSS
+├── Calendar.utils.ts      # Pure date helpers (format, range, multi)
+├── Calendar.test.tsx      # Vitest + Testing Library test suite
+├── Calendar.stories.tsx   # Storybook 9 CSF stories
+└── Calendar.docs.mdx      # This file
+```
+
+---
+
+## Stack
+
+| Package                     | Role                     |
+| --------------------------- | ------------------------ |
+| `@mui/material` v7          | Theme, Box, styled       |
+| `@mui/x-date-pickers`       | DateCalendar, PickersDay |
+| `@emotion/react` / `styled` | CSS-in-JS runtime        |
+| `dayjs`                     | Date manipulation        |
+| `AdapterDayjs`              | MUI X ↔ dayjs bridge    |
