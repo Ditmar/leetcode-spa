@@ -4,8 +4,6 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
-import type { Meta, StoryObj } from '@storybook/react';
-
 import { HoverCard } from './HoverCard';
 import {
   DemoPageRoot,
@@ -13,6 +11,8 @@ import {
   DemoPageSubtitle,
   DemoTriggerContainer,
 } from './HoverCard.styles';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 function UserCard() {
   return (
