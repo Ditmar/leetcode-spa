@@ -1,6 +1,7 @@
 {
   "name": "magazine",
   "type": "module",
+  "license": "UNLICENSED",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
@@ -8,6 +9,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint . --ext .js,.mjs,.cjs,.ts,.tsx,.jsx,.astro",
+    "extends": "astro/tsconfigs/strict.json",
+    "lint": "npx eslint . --ext .js,.mjs,.cjs,.ts,.tsx,.jsx,.astro --fix",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
