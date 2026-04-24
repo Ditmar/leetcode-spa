@@ -156,6 +156,61 @@ export const BottomRight: Story = {
   },
 };
 
+export const PositionExamples: Story = {
+  render: () => (
+    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(120px, 1fr))', gap: 3 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+        <Box component="span" sx={{ fontSize: 14, color: 'text.secondary' }}>
+          Top Left
+        </Box>
+        <Badge
+          badgeContent={12}
+          color="primary"
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        >
+          <Target />
+        </Badge>
+      </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+        <Box component="span" sx={{ fontSize: 14, color: 'text.secondary' }}>
+          Top Right
+        </Box>
+        <Badge
+          badgeContent={12}
+          color="primary"
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          <Target />
+        </Badge>
+      </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+        <Box component="span" sx={{ fontSize: 14, color: 'text.secondary' }}>
+          Bottom Left
+        </Box>
+        <Badge
+          badgeContent={12}
+          color="primary"
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        >
+          <Target />
+        </Badge>
+      </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+        <Box component="span" sx={{ fontSize: 14, color: 'text.secondary' }}>
+          Bottom Right
+        </Box>
+        <Badge
+          badgeContent={12}
+          color="primary"
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        >
+          <Target />
+        </Badge>
+      </Box>
+    </Box>
+  ),
+};
+
 export const Playground: Story = {
   args: {
     badgeContent: 4,
