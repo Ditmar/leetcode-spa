@@ -2,7 +2,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Button from '@mui/material/Button';
 import '@testing-library/jest-dom/vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -58,13 +58,27 @@ const menuItems: DropdownItem[] = [
   },
 ];
 
+const renderDropdownMenu = (onItemSelect?: (item: DropdownItem) => void) => {
+  render(
+    <DropdownMenu
+      trigger={<Button>Dropdown Menu</Button>}
+      items={menuItems}
+      onItemSelect={onItemSelect}
+    />
+  );
+};
+
+const getDropdownTrigger = () => {
+  return screen.getByRole('button', { name: /dropdown menu/i });
+};
+
 describe('DropdownMenu', () => {
   it('opens the menu when the trigger is clicked', async () => {
     const user = userEvent.setup();
 
-    render(<DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />);
+    renderDropdownMenu();
 
-    const trigger = screen.getByRole('button', { name: /dropdown menu/i });
+    const trigger = getDropdownTrigger();
 
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
@@ -75,12 +89,48 @@ describe('DropdownMenu', () => {
     expect(screen.getByText('Edit')).toBeInTheDocument();
   });
 
+  it('sets correct ARIA attributes and roles', async () => {
+    const user = userEvent.setup();
+
+    renderDropdownMenu();
+
+    const trigger = getDropdownTrigger();
+
+    expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+    await user.click(trigger);
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+    expect(screen.getByRole('menu', { name: /dropdown menu/i })).toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: /edit/i })).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('menuitemcheckbox', {
+        name: /show line numbers/i,
+      })
+    ).toHaveAttribute('aria-checked', 'true');
+
+    expect(
+      screen.getByRole('menuitemradio', {
+        name: /sort by name/i,
+      })
+    ).toHaveAttribute('aria-checked', 'true');
+
+    expect(
+      screen.getByRole('menuitemradio', {
+        name: /sort by date/i,
+      })
+    ).toHaveAttribute('aria-checked', 'false');
+  });
+
   it('closes the menu when pressing escape', async () => {
     const user = userEvent.setup();
 
-    render(<DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />);
+    renderDropdownMenu();
 
-    const trigger = screen.getByRole('button', { name: /dropdown menu/i });
+    const trigger = getDropdownTrigger();
 
     await user.click(trigger);
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
@@ -96,15 +146,9 @@ describe('DropdownMenu', () => {
     const user = userEvent.setup();
     const onItemSelect = vi.fn();
 
-    render(
-      <DropdownMenu
-        trigger={<Button>Dropdown Menu</Button>}
-        items={menuItems}
-        onItemSelect={onItemSelect}
-      />
-    );
+    renderDropdownMenu(onItemSelect);
 
-    await user.click(screen.getByRole('button', { name: /dropdown menu/i }));
+    await user.click(getDropdownTrigger());
     await user.click(screen.getByText('Edit'));
 
     expect(onItemSelect).toHaveBeenCalledTimes(1);
@@ -119,9 +163,9 @@ describe('DropdownMenu', () => {
   it('supports keyboard navigation to open the menu', async () => {
     const user = userEvent.setup();
 
-    render(<DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />);
+    renderDropdownMenu();
 
-    const trigger = screen.getByRole('button', { name: /dropdown menu/i });
+    const trigger = getDropdownTrigger();
     trigger.focus();
 
     await user.keyboard('{Enter}');
@@ -132,12 +176,12 @@ describe('DropdownMenu', () => {
   it('opens a submenu when hovering over a submenu item', async () => {
     const user = userEvent.setup();
 
-    render(<DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />);
+    renderDropdownMenu();
 
-    await user.click(screen.getByRole('button', { name: /dropdown menu/i }));
+    await user.click(getDropdownTrigger());
 
     const settingsItem = screen.getByText('Settings');
-    fireEvent.mouseEnter(settingsItem);
+    await user.hover(settingsItem);
 
     await waitFor(() => {
       expect(screen.getByText('Profile')).toBeInTheDocument();
@@ -148,9 +192,9 @@ describe('DropdownMenu', () => {
   it('toggles checkbox items', async () => {
     const user = userEvent.setup();
 
-    render(<DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />);
+    renderDropdownMenu();
 
-    await user.click(screen.getByRole('button', { name: /dropdown menu/i }));
+    await user.click(getDropdownTrigger());
 
     const checkboxItem = screen.getByRole('menuitemcheckbox', {
       name: /show line numbers/i,
@@ -169,9 +213,9 @@ describe('DropdownMenu', () => {
   it('updates radio group selection', async () => {
     const user = userEvent.setup();
 
-    render(<DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />);
+    renderDropdownMenu();
 
-    await user.click(screen.getByRole('button', { name: /dropdown menu/i }));
+    await user.click(getDropdownTrigger());
 
     const sortName = screen.getByRole('menuitemradio', {
       name: /sort by name/i,
