@@ -1,4 +1,4 @@
-import { useState, type MouseEvent as ReactMouseEvent } from 'react';
+import { useEffect, useState, type MouseEvent as ReactMouseEvent } from 'react';
 
 import type { DropdownItem } from './DropdownMenu.types';
 
@@ -31,11 +31,6 @@ export const useDropdownMenu = (disabled = false): UseDropdownMenuReturn => {
   const open = Boolean(anchorEl);
   const submenuOpen = Boolean(submenuAnchorEl) && activeSubmenuItems.length > 0;
 
-  const handleOpenMenu = (event: ReactMouseEvent<HTMLElement>) => {
-    if (disabled) return;
-    setAnchorEl(event.currentTarget);
-  };
-
   const handleCloseMenu = () => {
     setAnchorEl(null);
     setSubmenuAnchorEl(null);
@@ -44,8 +39,19 @@ export const useDropdownMenu = (disabled = false): UseDropdownMenuReturn => {
     setSubmenuDirection('right');
   };
 
+  useEffect(() => {
+    if (disabled) {
+      handleCloseMenu();
+    }
+  }, [disabled]);
+
+  const handleOpenMenu = (event: ReactMouseEvent<HTMLElement>) => {
+    if (disabled) return;
+    setAnchorEl(event.currentTarget);
+  };
+
   const handleOpenSubmenu = (event: ReactMouseEvent<HTMLElement>, item: DropdownItem) => {
-    if (item.disabled || !item.children?.length) return;
+    if (disabled || item.disabled || !item.children?.length) return;
 
     const triggerRect = event.currentTarget.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
