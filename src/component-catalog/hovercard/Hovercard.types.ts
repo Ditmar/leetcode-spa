@@ -8,12 +8,12 @@ export interface HoverCardProps
   children: ReactNode;
 
   /**
-   * @default 100
+   * @default 200
    */
   openDelay?: number;
 
   /**
-   * @default 100
+   * @default 300
    */
   closeDelay?: number;
 
