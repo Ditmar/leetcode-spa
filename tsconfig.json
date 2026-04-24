@@ -5,5 +5,12 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "react"
+    "jsxImportSource": "react-jsx",
+    "jsxImportSource": "@emotion/react",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
+}
 }
