@@ -27,15 +27,8 @@
     "@emotion/styled": "11.14.1",
     "@mui/icons-material": "7.3.4",
     "@mui/material": "7.3.4",
-<<<<<<< HEAD
-<<<<<<< HEAD
     "@mui/x-date-pickers": "8.27.2",
-=======
-    "@mui/x-charts": "^8.28.2",
->>>>>>> 905e4ac7 (feat: create CDD component Chart using the code documentacion)
-=======
     "@mui/x-charts": "8.28.2",
->>>>>>> ce54e147 (chore:update package.json in the version of x-charts)
     "astro": "5.13.9",
     "date-fns": "4.1.0",
     "dayjs": "1.11.20",
