@@ -9,8 +9,9 @@ import {
 
 import type { AlertProps } from './Alert.types';
 
-const Alert = ({ severity = 'info', title, children, icon, className }: AlertProps) => {
+const Alert = ({ severity = 'info', title, children, icon, className, ...props }: AlertProps) => {
   const IconComponent = ALERT_ICONS[severity];
+
   const role = severity === 'error' ? 'alert' : 'status';
   const ariaLive = severity === 'error' ? 'assertive' : 'polite';
 
@@ -21,19 +22,14 @@ const Alert = ({ severity = 'info', title, children, icon, className }: AlertPro
       role={role}
       aria-live={ariaLive}
       data-testid={`alert-${severity}`}
+      {...props}
     >
       <StyledIconWrapper severity={severity} aria-hidden="true">
         {icon ? icon : <IconComponent data-testid="alert-default-icon" />}
       </StyledIconWrapper>
       <StyledContentWrapper>
-        <StyledTitle severity={severity} component="h6">
-          {title}
-        </StyledTitle>
-        {children && (
-          <StyledDescription severity={severity} component="p">
-            {children}
-          </StyledDescription>
-        )}
+        <StyledTitle severity={severity}>{title}</StyledTitle>
+        {children && <StyledDescription severity={severity}>{children}</StyledDescription>}
       </StyledContentWrapper>
     </StyledAlertContainer>
   );

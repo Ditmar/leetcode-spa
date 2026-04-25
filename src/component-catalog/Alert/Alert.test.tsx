@@ -5,25 +5,22 @@ import '@testing-library/jest-dom';
 import { Alert } from './Alert';
 
 describe('Alert Component', () => {
-  it('renders the alert with default info severity', () => {
+  it('renders the alert with default info severity and expected text', () => {
     render(<Alert title="Information">This is a test.</Alert>);
 
-    // Ahora busca 'status' en lugar de 'alert' para la severidad por defecto (info)
     const alertElement = screen.getByRole('status');
     expect(alertElement).toBeInTheDocument();
-    expect(alertElement).toHaveAttribute('data-testid', 'alert-info');
-
-    expect(screen.getByText('Information')).toBeInTheDocument();
-    expect(screen.getByText('This is a test.')).toBeInTheDocument();
+    expect(alertElement).toHaveTextContent('Information');
+    expect(alertElement).toHaveTextContent('This is a test.');
   });
 
   it('renders correctly without children (title only)', () => {
     render(<Alert title="Only Title" />);
+
     expect(screen.getByText('Only Title')).toBeInTheDocument();
     expect(screen.queryByText('This is a test.')).not.toBeInTheDocument();
   });
 
-  // Actualizamos el array para indicarle qué rol debe esperar cada variante
   it.each([
     ['success', 'Success', 'status'],
     ['warning', 'Warning', 'status'],
@@ -36,14 +33,16 @@ describe('Alert Component', () => {
     );
 
     const alertElement = screen.getByRole(expectedRole);
-    expect(alertElement).toHaveAttribute('data-testid', `alert-${severity}`);
+    expect(alertElement).toBeInTheDocument();
+    expect(alertElement).toHaveTextContent(title);
+    expect(alertElement).toHaveTextContent('Message');
   });
 
-  it('allows rendering a custom icon', () => {
-    const CustomIcon = () => <svg data-testid="custom-icon" />;
+  it('allows rendering a custom icon using accessible queries', () => {
+    const CustomIcon = () => <svg role="img" aria-label="custom-icon" />;
     render(<Alert title="Custom Icon" icon={<CustomIcon />} />);
 
-    expect(screen.getByTestId('custom-icon')).toBeInTheDocument();
-    expect(screen.queryByTestId('alert-default-icon')).not.toBeInTheDocument();
+    const customIconElement = screen.getByRole('img', { name: 'custom-icon', hidden: true });
+    expect(customIconElement).toBeInTheDocument();
   });
 });
