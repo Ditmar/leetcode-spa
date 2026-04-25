@@ -1,6 +1,9 @@
 import type { DropdownItemType } from './DropdownMenu.constants';
 import type { ReactNode } from 'react';
 
+/**
+ * Base structure for any dropdown item.
+ */
 export interface DropdownItem {
   id: string;
   label?: string;
@@ -14,12 +17,18 @@ export interface DropdownItem {
   children?: DropdownItem[];
 }
 
+/**
+ * Group of items separated visually with Divider.
+ */
 export interface DropdownGroup {
   id: string;
   label?: string;
   items: DropdownItem[];
 }
 
+/**
+ * Props for DropdownMenu component.
+ */
 export interface DropdownMenuProps {
   trigger: ReactNode;
   groups?: DropdownGroup[];
