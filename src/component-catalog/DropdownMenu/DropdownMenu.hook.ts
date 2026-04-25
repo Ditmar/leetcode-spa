@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent as ReactMouseEvent } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import type { DropdownItem } from './DropdownMenu.types';
 
@@ -12,9 +12,9 @@ interface UseDropdownMenuReturn {
   submenuDirection: SubmenuDirection;
   open: boolean;
   submenuOpen: boolean;
-  handleOpenMenu: (event: ReactMouseEvent<HTMLElement>) => void;
+  handleOpenMenu: (anchorElement: HTMLElement) => void;
   handleCloseMenu: () => void;
-  handleOpenSubmenu: (event: ReactMouseEvent<HTMLElement>, item: DropdownItem) => void;
+  handleOpenSubmenu: (anchorElement: HTMLElement, item: DropdownItem) => void;
   handleCloseSubmenu: () => void;
 }
 
@@ -30,53 +30,52 @@ export const useDropdownMenu = (disabled = false): UseDropdownMenuReturn => {
   const open = Boolean(anchorEl);
   const submenuOpen = Boolean(submenuAnchorEl) && activeSubmenuItems.length > 0;
 
-  const handleCloseMenu = () => {
+  const handleCloseMenu = useCallback(() => {
     setAnchorEl(null);
     setSubmenuAnchorEl(null);
     setActiveSubmenuItems([]);
     setActiveSubmenuParentId(null);
     setSubmenuDirection('right');
-  };
+  }, []);
 
   useEffect(() => {
     if (disabled) {
       handleCloseMenu();
     }
-  }, [disabled]);
+  }, [disabled, handleCloseMenu]);
 
-  const handleOpenMenu = (event: ReactMouseEvent<HTMLElement>) => {
-    if (disabled) return;
-    setAnchorEl(event.currentTarget);
-  };
+  const handleOpenMenu = useCallback(
+    (anchorElement: HTMLElement) => {
+      if (disabled) return;
+      setAnchorEl(anchorElement);
+    },
+    [disabled]
+  );
 
-  const handleOpenSubmenu = (event: ReactMouseEvent<HTMLElement>, item: DropdownItem) => {
-    if (disabled || item.disabled || !item.children?.length) return;
+  const handleOpenSubmenu = useCallback(
+    (anchorElement: HTMLElement, item: DropdownItem) => {
+      if (disabled || item.disabled || !item.children?.length) return;
 
-    const triggerRect = event.currentTarget.getBoundingClientRect();
+      const triggerRect = anchorElement.getBoundingClientRect();
+      const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : triggerRect.right;
+      const submenuWidth = anchorElement.offsetWidth;
+      const availableRightSpace = viewportWidth - triggerRect.right;
+      const shouldOpenLeft = availableRightSpace < submenuWidth + VIEWPORT_SAFE_MARGIN;
 
-    // ✅ FIX SSR (window guard)
-    const viewportWidth =
-      typeof window !== 'undefined' ? window.innerWidth : 1024;
+      setSubmenuDirection(shouldOpenLeft ? 'left' : 'right');
+      setSubmenuAnchorEl(anchorElement);
+      setActiveSubmenuItems(item.children);
+      setActiveSubmenuParentId(item.id);
+    },
+    [disabled]
+  );
 
-    // ✅ FIX hardcoded width (dynamic width)
-    const submenuWidth = event.currentTarget.offsetWidth;
-
-    const availableRightSpace = viewportWidth - triggerRect.right;
-    const shouldOpenLeft =
-      availableRightSpace < submenuWidth + VIEWPORT_SAFE_MARGIN;
-
-    setSubmenuDirection(shouldOpenLeft ? 'left' : 'right');
-    setSubmenuAnchorEl(event.currentTarget);
-    setActiveSubmenuItems(item.children);
-    setActiveSubmenuParentId(item.id);
-  };
-
-  const handleCloseSubmenu = () => {
+  const handleCloseSubmenu = useCallback(() => {
     setSubmenuAnchorEl(null);
     setActiveSubmenuItems([]);
     setActiveSubmenuParentId(null);
     setSubmenuDirection('right');
-  };
+  }, []);
 
   return {
     anchorEl,

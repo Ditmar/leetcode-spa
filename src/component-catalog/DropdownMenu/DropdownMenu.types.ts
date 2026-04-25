@@ -27,4 +27,6 @@ export interface DropdownMenuProps {
   onItemSelect?: (item: DropdownItem) => void;
   disabled?: boolean;
   mobileFullWidth?: boolean;
+  menuAriaLabel?: string;
+  submenuAriaLabel?: string;
 }

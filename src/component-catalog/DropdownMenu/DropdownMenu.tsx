@@ -1,3 +1,15 @@
+import {
+  cloneElement,
+  isValidElement,
+  useCallback,
+  useId,
+  useMemo,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
@@ -11,7 +23,6 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import { cloneElement, isValidElement, useEffect, useId, useMemo, useState } from 'react';
 
 import { DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
 import useDropdownMenu from './DropdownMenu.hook';
@@ -34,12 +45,9 @@ import {
   isSeparatorItem,
   isSubmenuItem,
   normalizeGroups,
-  selectRadioItemInGroups,
-  toggleCheckboxItemInGroups,
 } from './DropdownMenu.utils';
 
 import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
-import type { ReactElement, ReactNode } from 'react';
 
 const renderItemIndicator = (item: DropdownItem) => {
   if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
@@ -78,7 +86,7 @@ const renderLeadingVisual = (
 };
 
 type TriggerElementProps = {
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  onClick?: (event: ReactMouseEvent<HTMLElement>) => void;
   disabled?: boolean;
   'aria-haspopup'?: string;
   'aria-expanded'?: 'true' | 'false';
@@ -92,15 +100,14 @@ const DropdownMenu = ({
   onItemSelect,
   disabled = false,
   mobileFullWidth = false,
+  menuAriaLabel = 'Dropdown menu',
+  submenuAriaLabel = 'Nested dropdown submenu',
 }: DropdownMenuProps) => {
   const menuId = useId();
-
   const normalizedGroups = useMemo(() => normalizeGroups(groups, items), [groups, items]);
-  const [menuGroups, setMenuGroups] = useState<DropdownGroup[]>(normalizedGroups);
 
-  useEffect(() => {
-    setMenuGroups(normalizedGroups);
-  }, [normalizedGroups]);
+  const [checkboxState, setCheckboxState] = useState<Record<string, boolean>>({});
+  const [radioState, setRadioState] = useState<Record<string, string>>({});
 
   const {
     anchorEl,
@@ -116,48 +123,132 @@ const DropdownMenu = ({
     handleCloseSubmenu,
   } = useDropdownMenu(disabled);
 
-  const handleItemClick = (item: DropdownItem) => {
-    if (item.disabled) return;
-    if (isSubmenuItem(item)) return;
+  const resolveItemState = useCallback(
+    (item: DropdownItem): DropdownItem => {
+      if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX && item.id in checkboxState) {
+        return {
+          ...item,
+          checked: checkboxState[item.id],
+        };
+      }
 
-    if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
-      setMenuGroups((prev) => toggleCheckboxItemInGroups(prev, item.id));
-    }
+      if (item.type === DROPDOWN_ITEM_TYPES.RADIO && item.name && radioState[item.name]) {
+        return {
+          ...item,
+          checked: radioState[item.name] === item.id,
+        };
+      }
 
-    if (item.type === DROPDOWN_ITEM_TYPES.RADIO) {
-      setMenuGroups((prev) => selectRadioItemInGroups(prev, item.id, item.name));
-    }
+      return item;
+    },
+    [checkboxState, radioState]
+  );
 
-    item.onClick?.();
-    onItemSelect?.(item);
+  const handleItemClick = useCallback(
+    (item: DropdownItem) => {
+      if (item.disabled) return;
+      if (isSubmenuItem(item)) return;
 
-    if (item.type !== DROPDOWN_ITEM_TYPES.CHECKBOX && item.type !== DROPDOWN_ITEM_TYPES.RADIO) {
+      const resolvedItem = resolveItemState(item);
+
+      if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
+        const nextChecked = !Boolean(resolvedItem.checked);
+
+        setCheckboxState((prevState) => ({
+          ...prevState,
+          [item.id]: nextChecked,
+        }));
+
+        item.onClick?.();
+        onItemSelect?.({
+          ...item,
+          checked: nextChecked,
+        });
+
+        return;
+      }
+
+      if (item.type === DROPDOWN_ITEM_TYPES.RADIO && item.name) {
+        setRadioState((prevState) => ({
+          ...prevState,
+          [item.name as string]: item.id,
+        }));
+
+        item.onClick?.();
+        onItemSelect?.({
+          ...item,
+          checked: true,
+        });
+
+        return;
+      }
+
+      item.onClick?.();
+      onItemSelect?.(resolvedItem);
       handleCloseMenu();
-    }
-  };
+    },
+    [handleCloseMenu, onItemSelect, resolveItemState]
+  );
 
-  const handleSubmenuItemClick = (item: DropdownItem) => {
-    if (item.disabled) return;
+  const handleRenderedItemClick = useCallback(
+    (
+      event: ReactMouseEvent<HTMLElement>,
+      item: DropdownItem,
+      submenuItem: boolean
+    ) => {
+      if (submenuItem) {
+        handleOpenSubmenu(event.currentTarget, item);
+        return;
+      }
 
-    if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
-      setMenuGroups((prev) => toggleCheckboxItemInGroups(prev, item.id));
-    }
+      handleItemClick(item);
+    },
+    [handleItemClick, handleOpenSubmenu]
+  );
 
-    if (item.type === DROPDOWN_ITEM_TYPES.RADIO) {
-      setMenuGroups((prev) => selectRadioItemInGroups(prev, item.id, item.name));
-    }
+  const handleRenderedItemMouseEnter = useCallback(
+    (
+      event: ReactMouseEvent<HTMLElement>,
+      item: DropdownItem,
+      submenuItem: boolean
+    ) => {
+      if (submenuItem) {
+        handleOpenSubmenu(event.currentTarget, item);
+      }
+    },
+    [handleOpenSubmenu]
+  );
 
-    item.onClick?.();
-    onItemSelect?.(item);
+  const handleRenderedItemKeyDown = useCallback(
+    (
+      event: ReactKeyboardEvent<HTMLElement>,
+      item: DropdownItem,
+      submenuItem: boolean
+    ) => {
+      if (!submenuItem) return;
 
-    if (item.type !== DROPDOWN_ITEM_TYPES.CHECKBOX && item.type !== DROPDOWN_ITEM_TYPES.RADIO) {
-      handleCloseMenu();
-    }
-  };
+      if (event.key === 'ArrowRight' || event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        handleOpenSubmenu(event.currentTarget, item);
+      }
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        handleCloseSubmenu();
+      }
+    },
+    [handleCloseSubmenu, handleOpenSubmenu]
+  );
 
   const enhancedTrigger = isValidElement<TriggerElementProps>(trigger)
     ? cloneElement(trigger as ReactElement<TriggerElementProps>, {
-        onClick: handleOpenMenu,
+        onClick: (event: ReactMouseEvent<HTMLElement>) => {
+          trigger.props.onClick?.(event);
+
+          if (!event.defaultPrevented) {
+            handleOpenMenu(event.currentTarget);
+          }
+        },
         'aria-haspopup': 'menu',
         'aria-expanded': open ? 'true' : 'false',
         'aria-controls': open ? menuId : undefined,
@@ -184,61 +275,73 @@ const DropdownMenu = ({
         anchorEl={anchorEl}
         open={open}
         onClose={handleCloseMenu}
+        keepMounted
+        marginThreshold={16}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         slotProps={{
+          paper: {
+            elevation: 3,
+            sx: dropdownMenuPaperSx(mobileFullWidth),
+          },
           list: {
             role: 'menu',
-            'aria-label': 'Dropdown menu',
+            'aria-label': menuAriaLabel,
             sx: dropdownMenuListSx,
-          },
-          paper: {
-            sx: dropdownMenuPaperSx(mobileFullWidth),
           },
         }}
       >
-        {menuGroups.map((group, groupIndex) => (
+        {normalizedGroups.map((group, groupIndex) => (
           <Box key={group.id}>
             {group.items.map((item) => {
               if (isSeparatorItem(item)) {
                 return <Divider key={item.id} sx={dropdownDividerSx} />;
               }
 
-              const indicator = renderItemIndicator(item);
-              const submenuItem = isSubmenuItem(item);
+              const resolvedItem = resolveItemState(item);
+              const indicator = renderItemIndicator(resolvedItem);
+              const submenuItem = isSubmenuItem(resolvedItem);
 
               return (
                 <MenuItem
-                  key={item.id}
-                  disabled={item.disabled}
-                  onClick={(event) => {
-                    if (submenuItem) {
-                      handleOpenSubmenu(event, item);
-                      return;
-                    }
-                    handleItemClick(item);
-                  }}
-                  onMouseEnter={(event) => {
-                    if (submenuItem) {
-                      handleOpenSubmenu(event, item);
-                    }
-                  }}
-                  role={getMenuItemRole(item)}
-                  aria-checked={getAriaChecked(item)}
+                  key={resolvedItem.id}
+                  disabled={resolvedItem.disabled}
+                  onClick={(event) => handleRenderedItemClick(event, resolvedItem, submenuItem)}
+                  onMouseEnter={(event) =>
+                    handleRenderedItemMouseEnter(event, resolvedItem, submenuItem)
+                  }
+                  onKeyDown={(event) =>
+                    handleRenderedItemKeyDown(event, resolvedItem, submenuItem)
+                  }
+                  selected={activeSubmenuParentId === resolvedItem.id}
+                  role={getMenuItemRole(resolvedItem)}
+                  aria-checked={getAriaChecked(resolvedItem)}
                   aria-haspopup={submenuItem ? 'menu' : undefined}
                   aria-expanded={
-                    submenuItem ? (activeSubmenuParentId === item.id ? 'true' : 'false') : undefined
+                    submenuItem
+                      ? activeSubmenuParentId === resolvedItem.id
+                        ? 'true'
+                        : 'false'
+                      : undefined
                   }
                   sx={dropdownMenuItemSx}
                 >
                   <ListItemIcon sx={dropdownListItemIconSx}>
-                    {renderLeadingVisual(item, submenuItem, indicator)}
+                    {renderLeadingVisual(resolvedItem, submenuItem, indicator)}
                   </ListItemIcon>
 
                   <ListItemText
-                    primary={<Typography sx={dropdownLabelSx}>{item.label}</Typography>}
+                    primary={
+                      <Typography variant="body2" sx={dropdownLabelSx}>
+                        {resolvedItem.label}
+                      </Typography>
+                    }
                   />
 
-                  {item.shortcut && (
-                    <Typography sx={dropdownShortcutSx}>{item.shortcut}</Typography>
+                  {resolvedItem.shortcut && (
+                    <Typography variant="caption" sx={dropdownShortcutSx}>
+                      {resolvedItem.shortcut}
+                    </Typography>
                   )}
 
                   {submenuItem && (
@@ -250,7 +353,7 @@ const DropdownMenu = ({
               );
             })}
 
-            {groupIndex < menuGroups.length - 1 && <Divider sx={dropdownDividerSx} />}
+            {groupIndex < normalizedGroups.length - 1 && <Divider sx={dropdownDividerSx} />}
           </Box>
         ))}
       </Menu>
@@ -259,38 +362,52 @@ const DropdownMenu = ({
         anchorEl={submenuAnchorEl}
         open={submenuOpen}
         onClose={handleCloseSubmenu}
-        anchorOrigin={submenuAnchorOrigin}
+        marginThreshold={16}
         transformOrigin={submenuTransformOrigin}
+        anchorOrigin={submenuAnchorOrigin}
         slotProps={{
+          paper: {
+            elevation: 3,
+            sx: dropdownSubmenuPaperSx,
+          },
           list: {
             role: 'menu',
+            'aria-label': submenuAriaLabel,
             sx: dropdownMenuListSx,
-          },
-          paper: {
-            sx: dropdownSubmenuPaperSx,
           },
         }}
       >
         {activeSubmenuItems.map((item) => {
-          const indicator = renderItemIndicator(item);
-          const submenuItem = isSubmenuItem(item);
+          const resolvedItem = resolveItemState(item);
+          const indicator = renderItemIndicator(resolvedItem);
+          const submenuItem = isSubmenuItem(resolvedItem);
 
           return (
             <MenuItem
-              key={item.id}
-              disabled={item.disabled}
-              onClick={() => handleSubmenuItemClick(item)}
-              role={getMenuItemRole(item)}
-              aria-checked={getAriaChecked(item)}
+              key={resolvedItem.id}
+              disabled={resolvedItem.disabled}
+              onClick={() => handleItemClick(resolvedItem)}
+              role={getMenuItemRole(resolvedItem)}
+              aria-checked={getAriaChecked(resolvedItem)}
               sx={dropdownMenuItemSx}
             >
               <ListItemIcon sx={dropdownListItemIconSx}>
-                {renderLeadingVisual(item, submenuItem, indicator)}
+                {renderLeadingVisual(resolvedItem, submenuItem, indicator)}
               </ListItemIcon>
 
-              <ListItemText primary={<Typography sx={dropdownLabelSx}>{item.label}</Typography>} />
+              <ListItemText
+                primary={
+                  <Typography variant="body2" sx={dropdownLabelSx}>
+                    {resolvedItem.label}
+                  </Typography>
+                }
+              />
 
-              {item.shortcut && <Typography sx={dropdownShortcutSx}>{item.shortcut}</Typography>}
+              {resolvedItem.shortcut && (
+                <Typography variant="caption" sx={dropdownShortcutSx}>
+                  {resolvedItem.shortcut}
+                </Typography>
+              )}
             </MenuItem>
           );
         })}
