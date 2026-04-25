@@ -1,15 +1,3 @@
-import {
-  cloneElement,
-  isValidElement,
-  useCallback,
-  useId,
-  useMemo,
-  useState,
-  type KeyboardEvent as ReactKeyboardEvent,
-  type MouseEvent as ReactMouseEvent,
-  type ReactElement,
-  type ReactNode,
-} from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
@@ -23,6 +11,18 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
+import {
+  cloneElement,
+  isValidElement,
+  useCallback,
+  useId,
+  useMemo,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 
 import { DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants';
 import useDropdownMenu from './DropdownMenu.hook';
@@ -47,7 +47,7 @@ import {
   normalizeGroups,
 } from './DropdownMenu.utils';
 
-import type { DropdownGroup, DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
+import type { DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
 
 const renderItemIndicator = (item: DropdownItem) => {
   if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
@@ -152,7 +152,7 @@ const DropdownMenu = ({
       const resolvedItem = resolveItemState(item);
 
       if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
-        const nextChecked = !Boolean(resolvedItem.checked);
+        const nextChecked = !resolvedItem.checked;
 
         setCheckboxState((prevState) => ({
           ...prevState,
@@ -191,11 +191,7 @@ const DropdownMenu = ({
   );
 
   const handleRenderedItemClick = useCallback(
-    (
-      event: ReactMouseEvent<HTMLElement>,
-      item: DropdownItem,
-      submenuItem: boolean
-    ) => {
+    (event: ReactMouseEvent<HTMLElement>, item: DropdownItem, submenuItem: boolean) => {
       if (submenuItem) {
         handleOpenSubmenu(event.currentTarget, item);
         return;
@@ -207,11 +203,7 @@ const DropdownMenu = ({
   );
 
   const handleRenderedItemMouseEnter = useCallback(
-    (
-      event: ReactMouseEvent<HTMLElement>,
-      item: DropdownItem,
-      submenuItem: boolean
-    ) => {
+    (event: ReactMouseEvent<HTMLElement>, item: DropdownItem, submenuItem: boolean) => {
       if (submenuItem) {
         handleOpenSubmenu(event.currentTarget, item);
       }
@@ -220,11 +212,7 @@ const DropdownMenu = ({
   );
 
   const handleRenderedItemKeyDown = useCallback(
-    (
-      event: ReactKeyboardEvent<HTMLElement>,
-      item: DropdownItem,
-      submenuItem: boolean
-    ) => {
+    (event: ReactKeyboardEvent<HTMLElement>, item: DropdownItem, submenuItem: boolean) => {
       if (!submenuItem) return;
 
       if (event.key === 'ArrowRight' || event.key === 'Enter' || event.key === ' ') {
@@ -310,9 +298,7 @@ const DropdownMenu = ({
                   onMouseEnter={(event) =>
                     handleRenderedItemMouseEnter(event, resolvedItem, submenuItem)
                   }
-                  onKeyDown={(event) =>
-                    handleRenderedItemKeyDown(event, resolvedItem, submenuItem)
-                  }
+                  onKeyDown={(event) => handleRenderedItemKeyDown(event, resolvedItem, submenuItem)}
                   selected={activeSubmenuParentId === resolvedItem.id}
                   role={getMenuItemRole(resolvedItem)}
                   aria-checked={getAriaChecked(resolvedItem)}

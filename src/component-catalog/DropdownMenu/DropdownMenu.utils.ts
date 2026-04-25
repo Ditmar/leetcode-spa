@@ -2,12 +2,21 @@ import { DEFAULT_GROUP_ID, DROPDOWN_ITEM_TYPES } from './DropdownMenu.constants'
 
 import type { DropdownGroup, DropdownItem } from './DropdownMenu.types';
 
+const getItemType = (item: DropdownItem) => {
+  return item.type ?? DROPDOWN_ITEM_TYPES.ACTION;
+};
+
+/**
+ * Normalizes menu data so the component can always render groups.
+ * If groups are provided, empty groups are filtered out.
+ * If flat items are provided, they are wrapped in a default group.
+ */
 export const normalizeGroups = (
   groups?: DropdownGroup[],
   items?: DropdownItem[]
 ): DropdownGroup[] => {
   if (groups && groups.length > 0) {
-    return groups;
+    return groups.filter((group) => group.items.length > 0);
   }
 
   if (items && items.length > 0) {
@@ -22,40 +31,60 @@ export const normalizeGroups = (
   return [];
 };
 
+/**
+ * Checks whether an item should open a nested submenu.
+ * Submenu behavior must be explicit through type="submenu".
+ */
 export const isSubmenuItem = (item: DropdownItem): boolean => {
-  return (
-    item.type === DROPDOWN_ITEM_TYPES.SUBMENU || Boolean(item.children && item.children.length > 0)
-  );
+  return getItemType(item) === DROPDOWN_ITEM_TYPES.SUBMENU;
 };
 
+/**
+ * Checks whether an item is a separator.
+ */
 export const isSeparatorItem = (item: DropdownItem): boolean => {
-  return item.type === DROPDOWN_ITEM_TYPES.SEPARATOR;
+  return getItemType(item) === DROPDOWN_ITEM_TYPES.SEPARATOR;
 };
 
+/**
+ * Returns the correct ARIA role based on item type.
+ */
 export const getMenuItemRole = (
   item: DropdownItem
 ): 'menuitem' | 'menuitemcheckbox' | 'menuitemradio' => {
-  if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
+  if (getItemType(item) === DROPDOWN_ITEM_TYPES.CHECKBOX) {
     return 'menuitemcheckbox';
   }
 
-  if (item.type === DROPDOWN_ITEM_TYPES.RADIO) {
+  if (getItemType(item) === DROPDOWN_ITEM_TYPES.RADIO) {
     return 'menuitemradio';
   }
 
   return 'menuitem';
 };
 
+/**
+ * Returns whether aria-checked should be set for the item.
+ */
 export const getAriaChecked = (item: DropdownItem): boolean | undefined => {
-  if (item.type === DROPDOWN_ITEM_TYPES.CHECKBOX || item.type === DROPDOWN_ITEM_TYPES.RADIO) {
+  if (
+    getItemType(item) === DROPDOWN_ITEM_TYPES.CHECKBOX ||
+    getItemType(item) === DROPDOWN_ITEM_TYPES.RADIO
+  ) {
     return !!item.checked;
   }
 
   return undefined;
 };
 
+/**
+ * Returns whether a radio or checkbox item is interactive as a selection item.
+ */
 export const isSelectableItem = (item: DropdownItem): boolean => {
-  return item.type === DROPDOWN_ITEM_TYPES.CHECKBOX || item.type === DROPDOWN_ITEM_TYPES.RADIO;
+  return (
+    getItemType(item) === DROPDOWN_ITEM_TYPES.CHECKBOX ||
+    getItemType(item) === DROPDOWN_ITEM_TYPES.RADIO
+  );
 };
 
 const updateItemsRecursively = (
@@ -76,6 +105,9 @@ const updateItemsRecursively = (
   });
 };
 
+/**
+ * Toggles a checkbox item by id.
+ */
 export const toggleCheckboxItemInGroups = (
   groups: DropdownGroup[],
   itemId: string
@@ -83,7 +115,7 @@ export const toggleCheckboxItemInGroups = (
   return groups.map((group) => ({
     ...group,
     items: updateItemsRecursively(group.items, (item) => {
-      if (item.id === itemId && item.type === DROPDOWN_ITEM_TYPES.CHECKBOX) {
+      if (item.id === itemId && getItemType(item) === DROPDOWN_ITEM_TYPES.CHECKBOX) {
         return {
           ...item,
           checked: !item.checked,
@@ -95,6 +127,10 @@ export const toggleCheckboxItemInGroups = (
   }));
 };
 
+/**
+ * Selects one radio item and unselects the others in the same radio group.
+ * Radio items require a name to ensure consistent group behavior.
+ */
 export const selectRadioItemInGroups = (
   groups: DropdownGroup[],
   itemId: string,
@@ -107,7 +143,11 @@ export const selectRadioItemInGroups = (
   return groups.map((group) => ({
     ...group,
     items: updateItemsRecursively(group.items, (item) => {
-      if (item.type !== DROPDOWN_ITEM_TYPES.RADIO) {
+      if (getItemType(item) !== DROPDOWN_ITEM_TYPES.RADIO) {
+        return item;
+      }
+
+      if (!item.name) {
         return item;
       }
 
