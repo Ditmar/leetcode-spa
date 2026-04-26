@@ -1,28 +1,28 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { Box } from '@mui/material';
 import { InputOTP } from './InputOTP';
 
-import type { Meta, StoryObj } from '@storybook/react';
+const CenterDecorator = (Story: any) => {
+  return (
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100%"
+    >
+      <Story />
+    </Box>
+  );
+};
 
 const meta: Meta<typeof InputOTP> = {
   title: 'component-catalog/InputOTP',
   component: InputOTP,
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          padding: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
+  decorators: [CenterDecorator],
 };
 
 export default meta;
+
 type Story = StoryObj<typeof InputOTP>;
 
 export const Primary: Story = {

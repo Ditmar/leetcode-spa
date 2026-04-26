@@ -3,8 +3,8 @@ import { styled, Box, TextField, Typography } from '@mui/material';
 export const Label = styled(Typography)(({ theme }) => ({
   fontFamily: theme.typography.fontFamily,
   fontWeight: 500,
-  fontSize: '0.875rem',
-  lineHeight: '0.875rem',
+  fontSize: theme.typography.body2.fontSize,
+  lineHeight: theme.typography.body2.lineHeight,
   color: 'var(--foreground)',
 }));
 
@@ -12,11 +12,8 @@ export const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  justifyContent: 'center',
   gap: theme.spacing(1),
-  width: 'fit-content',
   maxWidth: '100%',
-  margin: '0 auto',
   boxSizing: 'border-box',
   padding: theme.spacing(2),
   borderRadius: theme.spacing(2),
@@ -31,52 +28,57 @@ export const Container = styled(Box)(({ theme }) => ({
 interface StyledProps {
   isFirst?: boolean;
   isLast?: boolean;
+  error?: boolean;
+  disabled?: boolean;
 }
 
 export const StyledTextField = styled(TextField, {
-  shouldForwardProp: (prop) => prop !== 'isFirst' && prop !== 'isLast',
-})<StyledProps>(({ theme, isFirst, isLast }) => ({
+  shouldForwardProp: (prop) =>
+    prop !== 'isFirst' &&
+    prop !== 'isLast' &&
+    prop !== 'error' &&
+    prop !== 'disabled',
+})<StyledProps>(({ theme, isFirst, isLast, error, disabled }) => ({
   flex: 1,
-  minWidth: theme.spacing(5.5),
+  minWidth: theme.spacing(6),
   maxWidth: theme.spacing(6),
 
-  '& .MuiOutlinedInput-root': {
-    width: '100%',
+  '& .MuiInputBase-root': {
     height: theme.spacing(6),
-
     backgroundColor: 'var(--input-background)',
-
+    border: '1px solid var(--border)',
     borderRadius: isFirst
       ? `${theme.spacing(1)} 0 0 ${theme.spacing(1)}`
       : isLast
         ? `0 ${theme.spacing(1)} ${theme.spacing(1)} 0`
         : 0,
 
-    '& fieldset': {
-      border: '1px solid var(--border)',
-    },
+    boxSizing: 'border-box',
 
-    '&:hover fieldset': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    '&:hover': {
       borderColor: 'var(--ring)',
     },
 
-    '&.Mui-focused fieldset': {
+    '&:focus-within': {
       borderColor: 'var(--primary)',
     },
 
-    '&.Mui-error fieldset': {
+    ...(error && {
       borderColor: 'var(--destructive)',
-    },
+    }),
+
+    ...(disabled && {
+      opacity: 0.6,
+    }),
   },
 
   '& input': {
     textAlign: 'center',
     padding: 0,
-    height: '100%',
-    fontSize: theme.typography.h6.fontSize,
-  },
-
-  '& .MuiOutlinedInput-root.Mui-disabled': {
-    opacity: 0.6,
+    fontSize: theme.typography.h5?.fontSize ?? theme.typography.body1.fontSize,
   },
 }));

@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-
+import { useState, useRef, useEffect } from 'react';
+import type { ChangeEvent, KeyboardEvent, ClipboardEvent } from 'react';
 import { OTP_SINGLE_DIGIT_REGEX, OTP_SANITIZE_REGEX } from './InputOTP.constants';
 
 export function useInputOTP(
@@ -9,10 +9,10 @@ export function useInputOTP(
 ) {
   const [values, setValues] = useState<string[]>(Array(length).fill(''));
 
-  const inputRefs = useRef<(HTMLInputElement | null)[]>(new Array(length).fill(null));
+  const inputRefs = useRef<(HTMLInputElement | null)[]>(Array(length).fill(null));
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
   ) => {
     if (disabled) return;
@@ -21,9 +21,10 @@ export function useInputOTP(
 
     if (!OTP_SINGLE_DIGIT_REGEX.test(val)) return;
 
-    const newValues = [...values];
+    const newValues = values.slice();
     newValues[index] = val;
     setValues(newValues);
+
     if (!newValues.includes('')) {
       onComplete?.(newValues.join(''));
     }
@@ -33,37 +34,38 @@ export function useInputOTP(
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
     if (disabled) return;
 
     if (e.key === 'Backspace') {
+      const newValues = values.slice();
+
       if (values[index]) {
-        const newValues = [...values];
         newValues[index] = '';
         setValues(newValues);
         return;
       }
 
       if (index > 0) {
-        const newValues = [...values];
         newValues[index - 1] = '';
         setValues(newValues);
-
         inputRefs.current[index - 1]?.focus();
       }
     }
   };
 
-  const handlePaste = (e: React.ClipboardEvent, index: number) => {
+  const handlePaste = (e: ClipboardEvent<HTMLInputElement>, index: number) => {
     if (disabled) return;
 
+    // Prevent default paste so we can sanitize and distribute pasted digits across inputs
     e.preventDefault();
+
     const pasteData = e.clipboardData.getData('text');
     const sanitized = pasteData.replace(OTP_SANITIZE_REGEX, '');
 
     if (!sanitized) return;
 
-    const newValues = [...values];
+    const newValues = values.slice();
 
     for (let i = 0; i < sanitized.length; i++) {
       if (index + i < length) {
@@ -72,14 +74,19 @@ export function useInputOTP(
     }
 
     setValues(newValues);
-    const otp = newValues.join('');
-    if (otp.length === length && !newValues.includes('')) {
-      onComplete?.(otp);
+
+    if (!newValues.includes('')) {
+      onComplete?.(newValues.join(''));
     }
 
     const lastIndex = Math.min(index + sanitized.length - 1, length - 1);
     inputRefs.current[lastIndex]?.focus();
   };
+
+  useEffect(() => {
+    setValues(Array(length).fill(''));
+    inputRefs.current = Array(length).fill(null);
+  }, [length]);
 
   return {
     values,
