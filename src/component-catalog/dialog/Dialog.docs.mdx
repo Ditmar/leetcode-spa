@@ -1,0 +1,17 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as DialogStories from './Dialog.stories';
+
+<Meta of={DialogStories} />
+
+# Dialog Component
+
+The `Dialog` component is a modal overlay that requires user attention. It adapts to all screen sizes, becoming full-screen on mobile devices.
+
+## Features
+- **Configurable Size:** Supports sm, md, lg, xl.
+- **Persistent Mode:** Can prevent closing on backdrop click.
+- **Responsive:** Automatic full-screen on screens smaller than 600px.
+
+<Canvas of={DialogStories.Completo} />
+
+<Controls />
