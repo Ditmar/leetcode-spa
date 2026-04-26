@@ -1,0 +1,38 @@
+import { ALERT_ICONS } from './Alert.constants';
+import {
+  StyledAlertContainer,
+  StyledIconWrapper,
+  StyledContentWrapper,
+  StyledTitle,
+  StyledDescription,
+} from './Alert.styles';
+
+import type { AlertProps } from './Alert.types';
+
+const Alert = ({ severity = 'info', title, children, icon, className, ...props }: AlertProps) => {
+  const IconComponent = ALERT_ICONS[severity];
+
+  const role = severity === 'error' ? 'alert' : 'status';
+  const ariaLive = severity === 'error' ? 'assertive' : 'polite';
+
+  return (
+    <StyledAlertContainer
+      severity={severity}
+      className={className}
+      role={role}
+      aria-live={ariaLive}
+      data-testid={`alert-${severity}`}
+      {...props}
+    >
+      <StyledIconWrapper severity={severity} aria-hidden="true">
+        {icon ? icon : <IconComponent data-testid="alert-default-icon" />}
+      </StyledIconWrapper>
+      <StyledContentWrapper>
+        <StyledTitle severity={severity}>{title}</StyledTitle>
+        {children && <StyledDescription severity={severity}>{children}</StyledDescription>}
+      </StyledContentWrapper>
+    </StyledAlertContainer>
+  );
+};
+
+export { Alert };
