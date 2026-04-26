@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
-import type { ChangeEvent, KeyboardEvent, ClipboardEvent } from 'react';
+
 import { OTP_SINGLE_DIGIT_REGEX, OTP_SANITIZE_REGEX } from './InputOTP.constants';
+
+import type { ChangeEvent, KeyboardEvent, ClipboardEvent } from 'react';
 
 export function useInputOTP(
   length: number,
@@ -11,10 +13,7 @@ export function useInputOTP(
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>(Array(length).fill(null));
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
-  ) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
     if (disabled) return;
 
     const val = e.target.value;

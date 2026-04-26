@@ -1,15 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { Box } from '@mui/material';
+
 import { InputOTP } from './InputOTP';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const CenterDecorator = (Story: any) => {
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100%"
-    >
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100%">
       <Story />
     </Box>
   );

@@ -34,10 +34,7 @@ interface StyledProps {
 
 export const StyledTextField = styled(TextField, {
   shouldForwardProp: (prop) =>
-    prop !== 'isFirst' &&
-    prop !== 'isLast' &&
-    prop !== 'error' &&
-    prop !== 'disabled',
+    prop !== 'isFirst' && prop !== 'isLast' && prop !== 'error' && prop !== 'disabled',
 })<StyledProps>(({ theme, isFirst, isLast, error, disabled }) => ({
   flex: 1,
   minWidth: theme.spacing(6),

@@ -1,12 +1,7 @@
 import { Box } from '@mui/material';
 import { useCallback } from 'react';
 
-import {
-  DEFAULT_OTP_LENGTH,
-  OTP_INPUT_PATTERN,
-  DEFAULT_OTP_LABEL,
-} from './InputOTP.constants';
-
+import { DEFAULT_OTP_LENGTH, OTP_INPUT_PATTERN, DEFAULT_OTP_LABEL } from './InputOTP.constants';
 import { useInputOTP } from './InputOTP.hook';
 import { Container, StyledTextField, Label } from './InputOTP.styles';
 
@@ -19,8 +14,11 @@ export function InputOTP({
   onComplete,
   label,
 }: InputOTPProps) {
-  const { values, inputRefs, handleChange, handleKeyDown, handlePaste } =
-    useInputOTP(length, disabled, onComplete);
+  const { values, inputRefs, handleChange, handleKeyDown, handlePaste } = useInputOTP(
+    length,
+    disabled,
+    onComplete
+  );
 
   const handleChangeAt = useCallback(
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
