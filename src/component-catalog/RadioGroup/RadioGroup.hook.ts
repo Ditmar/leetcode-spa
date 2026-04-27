@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from 'react';
+import { useState } from 'react';
 
 interface UseRadioGroupOptions {
   defaultValue?: string;
@@ -6,7 +6,7 @@ interface UseRadioGroupOptions {
 
 interface UseRadioGroupReturn {
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
   reset: () => void;
 }
 
@@ -15,8 +15,8 @@ export const useRadioGroup = ({
 }: UseRadioGroupOptions = {}): UseRadioGroupReturn => {
   const [value, setValue] = useState<string>(defaultValue);
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+  const onChange = (value: string) => {
+    setValue(value);
   };
 
   const reset = () => setValue(defaultValue);

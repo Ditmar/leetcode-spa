@@ -1,5 +1,3 @@
-import type { ChangeEvent } from 'react';
-
 export interface OptionValues {
   label: string;
   value: string | number;
@@ -18,6 +16,8 @@ export interface CustomRadioGroupProps {
 
   value?: string | number;
   defaultValue?: string | number;
-  onChange?: (event: ChangeEvent<HTMLInputElement>, value: string) => void;
+
+  onChange?: (value: string) => void;
+
   name?: string;
 }
