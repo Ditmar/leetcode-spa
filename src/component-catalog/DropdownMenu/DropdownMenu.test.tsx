@@ -260,7 +260,7 @@ describe('DropdownMenu', () => {
       expect(screen.getByText('Preferences')).toBeInTheDocument();
     });
 
-    await user.click(screen.getByRole('button', { name: /outside/i }));
+    await user.click(screen.getByText('Outside'));
 
     await waitFor(() => {
       expect(screen.queryByText('Profile')).not.toBeInTheDocument();
