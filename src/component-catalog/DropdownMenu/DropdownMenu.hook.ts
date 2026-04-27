@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { DROPDOWN_DEFAULTS } from './DropdownMenu.constants';
+
 import type { DropdownItem } from './DropdownMenu.types';
 
 type SubmenuDirection = 'right' | 'left';

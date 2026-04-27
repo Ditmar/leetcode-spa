@@ -12,14 +12,23 @@ export const dropdownMenuPaperSx = (mobileFullWidth = false): SxProps<Theme> => 
   mt: 1,
   minWidth: (theme) => theme.spacing(28),
   width: mobileFullWidth
-    ? (theme) => `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(MENU_MAX_WIDTH_SPACING)})`
+    ? (theme) =>
+        `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(
+          MENU_MAX_WIDTH_SPACING
+        )})`
     : 'auto',
   maxWidth: (theme) =>
     mobileFullWidth
-      ? `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(MENU_MAX_WIDTH_SPACING)})`
-      : `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(MENU_DEFAULT_MAX_WIDTH_SPACING)})`,
+      ? `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(
+          MENU_MAX_WIDTH_SPACING
+        )})`
+      : `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(
+          MENU_DEFAULT_MAX_WIDTH_SPACING
+        )})`,
   maxHeight: (theme) =>
-    `min(calc(100vh - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(MENU_MAX_HEIGHT_SPACING)})`,
+    `min(calc(100vh - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(
+      MENU_MAX_HEIGHT_SPACING
+    )})`,
   borderWidth: BORDER_WIDTH,
   borderStyle: 'solid',
   borderColor: 'var(--border)',
@@ -34,9 +43,13 @@ export const dropdownSubmenuPaperSx: SxProps<Theme> = {
   ml: 0.5,
   minWidth: (theme) => theme.spacing(26),
   maxWidth: (theme) =>
-    `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(SUBMENU_MAX_WIDTH_SPACING)})`,
+    `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(
+      SUBMENU_MAX_WIDTH_SPACING
+    )})`,
   maxHeight: (theme) =>
-    `min(calc(100vh - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(SUBMENU_MAX_HEIGHT_SPACING)})`,
+    `min(calc(100vh - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(
+      SUBMENU_MAX_HEIGHT_SPACING
+    )})`,
   borderWidth: BORDER_WIDTH,
   borderStyle: 'solid',
   borderColor: 'var(--border)',
