@@ -5,10 +5,11 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ShareIcon from '@mui/icons-material/Share';
 import { Box, Button, Stack } from '@mui/material';
 
+import type { Meta, StoryObj } from '@storybook/react';
+
 import DropdownMenu from './DropdownMenu';
 
 import type { DropdownItem } from './DropdownMenu.types';
-import type { Meta, StoryObj } from '@storybook/react';
 
 const menuItems: DropdownItem[] = [
   {
@@ -99,13 +100,13 @@ const menuItems: DropdownItem[] = [
 const triggerButtonSx = {
   textTransform: 'none',
   fontWeight: 'var(--font-weight-normal)',
-  fontSize: 'body2',
+  fontSize: '0.875rem',
   borderRadius: 'var(--radius)',
   borderColor: 'var(--border)',
   color: 'var(--foreground)',
   backgroundColor: 'var(--background)',
   px: 2,
-  minHeight: 4.5,
+  minHeight: '2.25rem',
   '&:hover': {
     backgroundColor: 'var(--accent)',
     borderColor: 'var(--border)',
@@ -130,38 +131,36 @@ export default meta;
 
 type Story = StoryObj<typeof DropdownMenu>;
 
-const SinglePreview = () => {
-  return (
-    <Box
-      sx={{
-        width: '100%',
-        minWidth: 0,
-      }}
-    >
-      <Stack direction="column" spacing={2} alignItems="flex-start">
-        <DropdownMenu
-          trigger={
-            <Button variant="outlined" sx={triggerButtonSx}>
-              Dropdown Menu
-            </Button>
-          }
-          items={menuItems}
-          mobileFullWidth
-        />
+const SinglePreview = () => (
+  <Box
+    sx={{
+      width: '100%',
+      minWidth: 0,
+    }}
+  >
+    <Stack direction="column" spacing={2} alignItems="flex-start">
+      <DropdownMenu
+        trigger={
+          <Button variant="outlined" sx={triggerButtonSx}>
+            Dropdown Menu
+          </Button>
+        }
+        items={menuItems}
+        mobileFullWidth
+      />
 
-        <DropdownMenu
-          trigger={
-            <Button variant="outlined" sx={triggerButtonSx}>
-              Right Click Me
-            </Button>
-          }
-          items={menuItems}
-          mobileFullWidth
-        />
-      </Stack>
-    </Box>
-  );
-};
+      <DropdownMenu
+        trigger={
+          <Button variant="outlined" sx={triggerButtonSx}>
+            Right Click Me
+          </Button>
+        }
+        items={menuItems}
+        mobileFullWidth
+      />
+    </Stack>
+  </Box>
+);
 
 export const Playground: Story = {
   render: () => <SinglePreview />,
