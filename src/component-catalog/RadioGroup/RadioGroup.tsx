@@ -1,34 +1,8 @@
-import {
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  FormLabel,
-  Radio,
-  RadioGroup as MuiRadioGroup,
-  Box,
-} from '@mui/material';
-
-import {
-  customCheckedDotStyles,
-  customCheckedIconStyles,
-  customIconStyles,
-  formControlStyles,
-  formLabelStyles,
-  radioGroupStyles,
-  radioOptionStyles,
-} from './RadioGroup.styles';
-
-import type { CustomRadioGroupProps, OptionValues } from './RadioGroup.types';
-
-const CustomRadioIcon = <Box component="span" sx={customIconStyles} aria-hidden="true" />;
-
-const CustomRadioCheckedIcon = (
-  <Box component="span" sx={customCheckedIconStyles} aria-hidden="true">
-    <Box component="span" sx={customCheckedDotStyles} />
-  </Box>
-);
+import { useId } from 'react';
 
 const RadioGroup = (props: CustomRadioGroupProps) => {
+  const id = useId();
+
   const {
     options,
     label,
@@ -43,10 +17,16 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
     name,
   } = props;
 
-  const labelId = label ? 'radio-group-label' : undefined;
+  const labelId = label ? `${id}-radio-group-label` : undefined;
 
   return (
-    <FormControl error={error} fullWidth disabled={disabled} sx={formControlStyles}>
+    <FormControl
+      component="fieldset"
+      error={error}
+      fullWidth
+      disabled={disabled}
+      sx={formControlStyles}
+    >
       {label && (
         <FormLabel id={labelId} required={required} sx={formLabelStyles}>
           {label}
@@ -54,21 +34,26 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
       )}
 
       <MuiRadioGroup
-        value={value}
-        defaultValue={defaultValue}
+        data-testid="radio-group"
+        value={value ?? undefined}
+        defaultValue={value === undefined ? defaultValue : undefined}
         onChange={onChange}
         name={name}
         aria-required={required}
-        aria-invalid={error ? 'true' : undefined}
+        aria-invalid={error || undefined}
         aria-labelledby={labelId}
-        role="radiogroup"
         sx={radioGroupStyles(direction)}
       >
         {options.map((option: OptionValues) => (
           <FormControlLabel
             key={option.value}
             value={option.value}
-            control={<Radio icon={CustomRadioIcon} checkedIcon={CustomRadioCheckedIcon} />}
+            control={
+              <Radio
+                icon={CustomRadioIcon}
+                checkedIcon={CustomRadioCheckedIcon}
+              />
+            }
             label={option.label}
             disabled={option.disabled}
             sx={radioOptionStyles}
@@ -80,5 +65,3 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
     </FormControl>
   );
 };
-
-export { RadioGroup };
