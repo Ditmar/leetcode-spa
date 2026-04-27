@@ -239,15 +239,10 @@ describe('DropdownMenu', () => {
     expect(screen.getByText('Edit')).toBeInTheDocument();
   });
 
-  it('opens and closes a submenu when hovering and clicking outside', async () => {
+  it('opens and closes a submenu when hovering and pressing escape', async () => {
     const user = userEvent.setup();
 
-    render(
-      <div>
-        <button type="button">Outside</button>
-        <DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />
-      </div>
-    );
+    renderDropdownMenu();
 
     await user.click(getDropdownTrigger());
 
@@ -260,7 +255,7 @@ describe('DropdownMenu', () => {
       expect(screen.getByText('Preferences')).toBeInTheDocument();
     });
 
-    await user.click(screen.getByText('Outside'));
+    await user.keyboard('{Escape}');
 
     await waitFor(() => {
       expect(screen.queryByText('Profile')).not.toBeInTheDocument();
