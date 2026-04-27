@@ -6,11 +6,6 @@ const getItemType = (item: DropdownItem) => {
   return item.type ?? DROPDOWN_ITEM_TYPES.ACTION;
 };
 
-/**
- * Normalizes menu data so the component can always render groups.
- * If groups are provided, empty groups are filtered out.
- * If flat items are provided, they are wrapped in a default group.
- */
 export const normalizeGroups = (
   groups?: DropdownGroup[],
   items?: DropdownItem[]
@@ -31,24 +26,14 @@ export const normalizeGroups = (
   return [];
 };
 
-/**
- * Checks whether an item should open a nested submenu.
- * Submenu behavior must be explicit through type="submenu".
- */
 export const isSubmenuItem = (item: DropdownItem): boolean => {
   return getItemType(item) === DROPDOWN_ITEM_TYPES.SUBMENU;
 };
 
-/**
- * Checks whether an item is a separator.
- */
 export const isSeparatorItem = (item: DropdownItem): boolean => {
   return getItemType(item) === DROPDOWN_ITEM_TYPES.SEPARATOR;
 };
 
-/**
- * Returns the correct ARIA role based on item type.
- */
 export const getMenuItemRole = (
   item: DropdownItem
 ): 'menuitem' | 'menuitemcheckbox' | 'menuitemradio' => {
@@ -63,9 +48,6 @@ export const getMenuItemRole = (
   return 'menuitem';
 };
 
-/**
- * Returns whether aria-checked should be set for the item.
- */
 export const getAriaChecked = (item: DropdownItem): boolean | undefined => {
   if (
     getItemType(item) === DROPDOWN_ITEM_TYPES.CHECKBOX ||
@@ -77,9 +59,6 @@ export const getAriaChecked = (item: DropdownItem): boolean | undefined => {
   return undefined;
 };
 
-/**
- * Returns whether a radio or checkbox item is interactive as a selection item.
- */
 export const isSelectableItem = (item: DropdownItem): boolean => {
   return (
     getItemType(item) === DROPDOWN_ITEM_TYPES.CHECKBOX ||
@@ -105,9 +84,6 @@ const updateItemsRecursively = (
   });
 };
 
-/**
- * Toggles a checkbox item by id.
- */
 export const toggleCheckboxItemInGroups = (
   groups: DropdownGroup[],
   itemId: string
@@ -127,10 +103,6 @@ export const toggleCheckboxItemInGroups = (
   }));
 };
 
-/**
- * Selects one radio item and unselects the others in the same radio group.
- * Radio items require a name to ensure consistent group behavior.
- */
 export const selectRadioItemInGroups = (
   groups: DropdownGroup[],
   itemId: string,
