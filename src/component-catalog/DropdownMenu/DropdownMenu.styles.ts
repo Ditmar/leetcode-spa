@@ -1,12 +1,26 @@
 import type { SxProps, Theme } from '@mui/material/styles';
 
+const VIEWPORT_OFFSET_SPACING = 4;
+const MENU_MAX_WIDTH_SPACING = 48;
+const MENU_DEFAULT_MAX_WIDTH_SPACING = 44;
+const MENU_MAX_HEIGHT_SPACING = 48;
+const SUBMENU_MAX_WIDTH_SPACING = 40;
+const SUBMENU_MAX_HEIGHT_SPACING = 44;
+const BORDER_WIDTH = 1;
+
 export const dropdownMenuPaperSx = (mobileFullWidth = false): SxProps<Theme> => ({
   mt: 1,
   minWidth: (theme) => theme.spacing(28),
-  width: mobileFullWidth ? 'min(calc(100vw - 2rem), 24rem)' : 'auto',
-  maxWidth: mobileFullWidth ? 'min(calc(100vw - 2rem), 24rem)' : 'min(calc(100vw - 2rem), 22rem)',
-  maxHeight: 'min(calc(100vh - 2rem), 24rem)',
-  borderWidth: '0.0625rem',
+  width: mobileFullWidth
+    ? (theme) => `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(MENU_MAX_WIDTH_SPACING)})`
+    : 'auto',
+  maxWidth: (theme) =>
+    mobileFullWidth
+      ? `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(MENU_MAX_WIDTH_SPACING)})`
+      : `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(MENU_DEFAULT_MAX_WIDTH_SPACING)})`,
+  maxHeight: (theme) =>
+    `min(calc(100vh - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(MENU_MAX_HEIGHT_SPACING)})`,
+  borderWidth: BORDER_WIDTH,
   borderStyle: 'solid',
   borderColor: 'var(--border)',
   borderRadius: 'var(--radius)',
@@ -19,9 +33,11 @@ export const dropdownMenuPaperSx = (mobileFullWidth = false): SxProps<Theme> => 
 export const dropdownSubmenuPaperSx: SxProps<Theme> = {
   ml: 0.5,
   minWidth: (theme) => theme.spacing(26),
-  maxWidth: 'min(calc(100vw - 2rem), 20rem)',
-  maxHeight: 'min(calc(100vh - 2rem), 22rem)',
-  borderWidth: '0.0625rem',
+  maxWidth: (theme) =>
+    `min(calc(100vw - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(SUBMENU_MAX_WIDTH_SPACING)})`,
+  maxHeight: (theme) =>
+    `min(calc(100vh - ${theme.spacing(VIEWPORT_OFFSET_SPACING)}), ${theme.spacing(SUBMENU_MAX_HEIGHT_SPACING)})`,
+  borderWidth: BORDER_WIDTH,
   borderStyle: 'solid',
   borderColor: 'var(--border)',
   borderRadius: 'var(--radius)',
@@ -40,7 +56,10 @@ export const dropdownDividerSx: SxProps<Theme> = {
 };
 
 export const dropdownMenuItemSx: SxProps<Theme> = {
-  minHeight: { xs: '2.75rem', sm: '2.5rem' },
+  minHeight: {
+    xs: (theme) => theme.spacing(5.5),
+    sm: (theme) => theme.spacing(5),
+  },
   px: 1.5,
   py: 1,
   gap: 1,
@@ -48,13 +67,7 @@ export const dropdownMenuItemSx: SxProps<Theme> = {
   mx: 0.5,
   my: 0.25,
   color: 'var(--foreground)',
-  '&:hover': {
-    backgroundColor: 'var(--accent)',
-  },
-  '&.Mui-selected': {
-    backgroundColor: 'var(--accent)',
-  },
-  '&.Mui-selected:hover': {
+  '&:hover, &.Mui-selected, &.Mui-selected:hover': {
     backgroundColor: 'var(--accent)',
   },
   '&.Mui-disabled': {
@@ -86,6 +99,6 @@ export const dropdownIndicatorSx: SxProps<Theme> = {
 };
 
 export const dropdownPlaceholderIconSx: SxProps<Theme> = {
-  width: '1rem',
-  height: '1rem',
+  width: (theme) => theme.typography.pxToRem(20),
+  height: (theme) => theme.typography.pxToRem(20),
 };
