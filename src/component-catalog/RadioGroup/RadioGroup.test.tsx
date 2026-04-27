@@ -30,7 +30,7 @@ describe('RadioGroup', () => {
     expect(option.checked).toBe(true);
   });
 
-  it('calls onChange when selecting an option', async () => {
+  it('calls onChange with correct value', async () => {
     const user = userEvent.setup();
     const handleChange = vi.fn();
 
@@ -40,6 +40,7 @@ describe('RadioGroup', () => {
 
     await user.click(option);
 
+    expect(handleChange).toHaveBeenCalledWith('1');
     expect(handleChange).toHaveBeenCalledTimes(1);
   });
 
@@ -56,7 +57,7 @@ describe('RadioGroup', () => {
     expect(screen.getByRole('radio', { name: /option two/i })).toBeDisabled();
   });
 
-  it('shows error state when error prop is true', () => {
+  it('shows helper text when error is true', () => {
     render(<RadioGroup error helperText="Something went wrong" options={options} />);
 
     expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
@@ -68,5 +69,11 @@ describe('RadioGroup', () => {
     const group = screen.getByRole('radiogroup', { name: /pick one/i });
 
     expect(group).toHaveAttribute('aria-required', 'true');
+  });
+
+  it('respects controlled value', () => {
+    render(<RadioGroup options={options} value="2" />);
+
+    expect(screen.getByRole('radio', { name: /option two/i })).toBeChecked();
   });
 });
