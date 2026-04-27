@@ -8,7 +8,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import DropdownMenu from './DropdownMenu';
 
-import type { DropdownItem } from './DropdownMenu.types';
+import type { DropdownItem, DropdownMenuProps } from './DropdownMenu.types';
 
 const menuItems: DropdownItem[] = [
   {
@@ -58,18 +58,44 @@ const menuItems: DropdownItem[] = [
   },
 ];
 
-const renderDropdownMenu = (onItemSelect?: (item: DropdownItem) => void) => {
+const menuItemsWithDisabled: DropdownItem[] = [
+  ...menuItems,
+  {
+    id: 'delete',
+    label: 'Delete',
+    disabled: true,
+  },
+];
+
+const renderDropdownMenu = ({
+  items = menuItems,
+  onItemSelect,
+  mobileFullWidth,
+}: Partial<Pick<DropdownMenuProps, 'items' | 'onItemSelect' | 'mobileFullWidth'>> = {}) => {
   render(
     <DropdownMenu
       trigger={<Button>Dropdown Menu</Button>}
-      items={menuItems}
+      items={items}
       onItemSelect={onItemSelect}
+      mobileFullWidth={mobileFullWidth}
     />
   );
 };
 
 const getDropdownTrigger = () => {
   return screen.getByRole('button', { name: /dropdown menu/i });
+};
+
+const openDropdownMenu = async () => {
+  const user = userEvent.setup();
+
+  renderDropdownMenu();
+
+  const trigger = getDropdownTrigger();
+
+  await user.click(trigger);
+
+  return { user, trigger };
 };
 
 describe('DropdownMenu', () => {
@@ -126,13 +152,8 @@ describe('DropdownMenu', () => {
   });
 
   it('closes the menu when pressing escape', async () => {
-    const user = userEvent.setup();
+    const { user, trigger } = await openDropdownMenu();
 
-    renderDropdownMenu();
-
-    const trigger = getDropdownTrigger();
-
-    await user.click(trigger);
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
 
     await user.keyboard('{Escape}');
@@ -146,7 +167,7 @@ describe('DropdownMenu', () => {
     const user = userEvent.setup();
     const onItemSelect = vi.fn();
 
-    renderDropdownMenu(onItemSelect);
+    renderDropdownMenu({ onItemSelect });
 
     await user.click(getDropdownTrigger());
     await user.click(screen.getByText('Edit'));
@@ -160,12 +181,57 @@ describe('DropdownMenu', () => {
     );
   });
 
+  it('does not call onItemSelect when selecting a disabled item', async () => {
+    const user = userEvent.setup();
+    const onItemSelect = vi.fn();
+
+    renderDropdownMenu({
+      items: menuItemsWithDisabled,
+      onItemSelect,
+    });
+
+    await user.click(getDropdownTrigger());
+
+    const disabledItem = screen.getByRole('menuitem', { name: /delete/i });
+
+    expect(disabledItem).toHaveAttribute('aria-disabled', 'true');
+
+    await user.click(disabledItem);
+
+    expect(onItemSelect).not.toHaveBeenCalled();
+  });
+
+  it('renders separator items as non-interactive dividers', async () => {
+    const user = userEvent.setup();
+
+    renderDropdownMenu();
+
+    await user.click(getDropdownTrigger());
+
+    const separator = screen.getByRole('separator');
+
+    expect(separator).toBeInTheDocument();
+    expect(separator).not.toHaveAttribute('role', 'menuitem');
+  });
+
+  it('renders correctly with mobileFullWidth enabled', async () => {
+    const user = userEvent.setup();
+
+    renderDropdownMenu({ mobileFullWidth: true });
+
+    await user.click(getDropdownTrigger());
+
+    expect(screen.getByRole('menu', { name: /dropdown menu/i })).toBeInTheDocument();
+    expect(screen.getByText('Edit')).toBeInTheDocument();
+  });
+
   it('supports keyboard navigation to open the menu', async () => {
     const user = userEvent.setup();
 
     renderDropdownMenu();
 
     const trigger = getDropdownTrigger();
+
     trigger.focus();
 
     await user.keyboard('{Enter}');
@@ -173,19 +239,32 @@ describe('DropdownMenu', () => {
     expect(screen.getByText('Edit')).toBeInTheDocument();
   });
 
-  it('opens a submenu when hovering over a submenu item', async () => {
+  it('opens and closes a submenu when hovering and clicking outside', async () => {
     const user = userEvent.setup();
 
-    renderDropdownMenu();
+    render(
+      <div>
+        <button type="button">Outside</button>
+        <DropdownMenu trigger={<Button>Dropdown Menu</Button>} items={menuItems} />
+      </div>
+    );
 
     await user.click(getDropdownTrigger());
 
     const settingsItem = screen.getByText('Settings');
+
     await user.hover(settingsItem);
 
     await waitFor(() => {
       expect(screen.getByText('Profile')).toBeInTheDocument();
       expect(screen.getByText('Preferences')).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole('button', { name: /outside/i }));
+
+    await waitFor(() => {
+      expect(screen.queryByText('Profile')).not.toBeInTheDocument();
+      expect(screen.queryByText('Preferences')).not.toBeInTheDocument();
     });
   });
 
