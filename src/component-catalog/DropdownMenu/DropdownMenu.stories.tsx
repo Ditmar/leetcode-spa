@@ -7,8 +7,8 @@ import { Box, Button, Stack } from '@mui/material';
 
 import DropdownMenu from './DropdownMenu';
 
-import type { Meta, StoryObj } from '@storybook/react';
 import type { DropdownItem } from './DropdownMenu.types';
+import type { Meta, StoryObj } from '@storybook/react';
 
 const menuItems: DropdownItem[] = [
   {
