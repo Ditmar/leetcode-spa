@@ -1,3 +1,14 @@
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
+
+import { RadioGroup } from './RadioGroup';
+
+const options = [
+  { label: 'Option One', value: '1' },
+  { label: 'Option Two', value: '2' },
+];
+
 describe('RadioGroup', () => {
   it('renders all options', () => {
     render(<RadioGroup options={options} />);
@@ -10,13 +21,13 @@ describe('RadioGroup', () => {
     const user = userEvent.setup();
     render(<RadioGroup options={options} />);
 
-    const option = screen.getByRole('radio', { name: /option one/i });
+    const option = screen.getByRole('radio', { name: /option one/i }) as HTMLInputElement;
 
-    expect(option).not.toBeChecked();
+    expect(option.checked).toBe(false);
 
     await user.click(option);
 
-    expect(option).toBeChecked();
+    expect(option.checked).toBe(true);
   });
 
   it('calls onChange when selecting an option', async () => {
@@ -29,11 +40,15 @@ describe('RadioGroup', () => {
 
     await user.click(option);
 
-    expect(handleChange).toHaveBeenCalled();
+    expect(handleChange).toHaveBeenCalledTimes(1);
   });
 
   it('disables an individual option', () => {
-    render(<RadioGroup options={[{ label: 'Option One', value: '1', disabled: true }]} />);
+    render(
+      <RadioGroup
+        options={[{ label: 'Option One', value: '1', disabled: true }]}
+      />
+    );
 
     expect(screen.getByRole('radio', { name: /option one/i })).toBeDisabled();
   });
@@ -46,9 +61,15 @@ describe('RadioGroup', () => {
   });
 
   it('shows error state when error prop is true', () => {
-    render(<RadioGroup error helperText="Something went wrong" options={options} />);
+    render(
+      <RadioGroup
+        error
+        helperText="Something went wrong"
+        options={options}
+      />
+    );
 
-    expect(screen.getByText(/something went wrong/i)).toBeVisible();
+    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
   });
 
   it('forwards aria-required to the radiogroup', () => {
