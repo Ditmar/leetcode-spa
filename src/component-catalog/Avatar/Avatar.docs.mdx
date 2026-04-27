@@ -1,10 +1,7 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/blocks';
-/* 1. Importamos TODAS las historias usando el asterisco (*) */
 import * as AvatarStories from './Avatar.stories';
-/* 2. Importamos el componente SOLO para extraer sus tipos de propiedades */
 import { Avatar } from './Avatar';
 
-{/* SOLUCIÓN: Pasamos el archivo de historias al prop 'of', no el componente */}
 <Meta of={AvatarStories} />
 
 # Avatar Component
@@ -15,7 +12,6 @@ The Avatar component is used to represent a user or entity. It consumes MUI's gl
 
 The following table describes the public properties that the `Avatar` component accepts.
 
-{/* Usamos el componente aquí solo para generar la tabla de TypeScript */}
 <ArgTypes of={Avatar} />
 
 ---
@@ -24,7 +20,6 @@ The following table describes the public properties that the `Avatar` component 
 
 This showcase demonstrates all the size variations and semantic colors supported by the component, arranged in a responsive column.
 
-{/* Renderizamos una historia específica usando la notación de punto */}
 <Canvas of={AvatarStories.Showcase} />
 
 ## Default Variation
