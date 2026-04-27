@@ -106,6 +106,22 @@ export function App() {
 <NavigationMenu navSections={navSections} variant="secondary" />
 ```
 
+### SVG Icon Customization
+
+The navigation menu uses SVG icons (`NavigationMenu.svg`, `NavigationMenu2.svg`) with green strokes by default. The stroke color can be customized using the CSS variable `--nav-stroke-color`:
+
+```css
+/* Default: green accent */
+--nav-stroke-color: #00C950;
+
+/* To override globally, add to your CSS/SCSS */
+:root {
+  --nav-stroke-color: #your-custom-color;
+}
+```
+
+**No component code changes required** — the SVGs automatically adapt when the CSS variable is defined in your stylesheet.
+
 ---
 
 ## Stories
