@@ -44,11 +44,7 @@ describe('RadioGroup', () => {
   });
 
   it('disables an individual option', () => {
-    render(
-      <RadioGroup
-        options={[{ label: 'Option One', value: '1', disabled: true }]}
-      />
-    );
+    render(<RadioGroup options={[{ label: 'Option One', value: '1', disabled: true }]} />);
 
     expect(screen.getByRole('radio', { name: /option one/i })).toBeDisabled();
   });
@@ -61,13 +57,7 @@ describe('RadioGroup', () => {
   });
 
   it('shows error state when error prop is true', () => {
-    render(
-      <RadioGroup
-        error
-        helperText="Something went wrong"
-        options={options}
-      />
-    );
+    render(<RadioGroup error helperText="Something went wrong" options={options} />);
 
     expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
   });
