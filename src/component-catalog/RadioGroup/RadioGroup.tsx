@@ -1,6 +1,6 @@
 import { useId } from 'react';
 
-const RadioGroup = (props: CustomRadioGroupProps) => {
+const CustomRadioGroup = (props: CustomRadioGroupProps) => {
   const id = useId();
 
   const {
@@ -48,12 +48,7 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
           <FormControlLabel
             key={option.value}
             value={option.value}
-            control={
-              <Radio
-                icon={CustomRadioIcon}
-                checkedIcon={CustomRadioCheckedIcon}
-              />
-            }
+            control={<Radio icon={CustomRadioIcon} checkedIcon={CustomRadioCheckedIcon} />}
             label={option.label}
             disabled={option.disabled}
             sx={radioOptionStyles}
@@ -65,3 +60,5 @@ const RadioGroup = (props: CustomRadioGroupProps) => {
     </FormControl>
   );
 };
+
+export { CustomRadioGroup as RadioGroup };
