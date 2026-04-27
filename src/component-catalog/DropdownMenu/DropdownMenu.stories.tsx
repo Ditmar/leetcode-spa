@@ -7,8 +7,8 @@ import { Box, Button, Stack } from '@mui/material';
 
 import DropdownMenu from './DropdownMenu';
 
-import type { DropdownItem } from './DropdownMenu.types';
 import type { Meta, StoryObj } from '@storybook/react';
+import type { DropdownItem } from './DropdownMenu.types';
 
 const menuItems: DropdownItem[] = [
   {
@@ -99,13 +99,13 @@ const menuItems: DropdownItem[] = [
 const triggerButtonSx = {
   textTransform: 'none',
   fontWeight: 'var(--font-weight-normal)',
-  fontSize: '0.875rem',
+  fontSize: 'body2',
   borderRadius: 'var(--radius)',
   borderColor: 'var(--border)',
   color: 'var(--foreground)',
   backgroundColor: 'var(--background)',
   px: 2,
-  minHeight: '2.25rem',
+  minHeight: 4.5,
   '&:hover': {
     backgroundColor: 'var(--accent)',
     borderColor: 'var(--border)',
