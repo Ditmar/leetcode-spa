@@ -1,23 +1,52 @@
 import { useId } from 'react';
+import {
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  FormLabel,
+  Radio,
+  RadioGroup as MuiRadioGroup,
+} from '@mui/material';
 
-const CustomRadioGroup = (props: CustomRadioGroupProps) => {
+import {
+  customCheckedDotStyles,
+  customCheckedIconStyles,
+  customIconStyles,
+  formControlStyles,
+  formLabelStyles,
+  radioGroupStyles,
+  radioOptionStyles,
+} from './RadioGroup.styles';
+
+import type { CustomRadioGroupProps } from './RadioGroup.types';
+
+const CustomRadioIcon = (
+  <span style={customIconStyles as React.CSSProperties} aria-hidden="true" />
+);
+
+const CustomRadioCheckedIcon = (
+  <span style={customCheckedIconStyles as React.CSSProperties} aria-hidden="true">
+    <span style={customCheckedDotStyles as React.CSSProperties} />
+  </span>
+);
+
+const CustomRadioGroup = ({
+  options,
+  label,
+  helperText,
+  error = false,
+  direction = 'column',
+  disabled = false,
+  required = false,
+  value,
+  defaultValue,
+  onChange,
+  name,
+}: CustomRadioGroupProps) => {
   const id = useId();
-
-  const {
-    options,
-    label,
-    helperText,
-    error = false,
-    direction = 'column',
-    disabled = false,
-    required = false,
-    value,
-    defaultValue,
-    onChange,
-    name,
-  } = props;
-
   const labelId = label ? `${id}-radio-group-label` : undefined;
+
+  const isControlled = value !== undefined;
 
   return (
     <FormControl
@@ -35,20 +64,27 @@ const CustomRadioGroup = (props: CustomRadioGroupProps) => {
 
       <MuiRadioGroup
         data-testid="radio-group"
-        value={value ?? undefined}
-        defaultValue={value === undefined ? defaultValue : undefined}
-        onChange={onChange}
         name={name}
+        onChange={onChange}
         aria-required={required}
-        aria-invalid={error || undefined}
+        aria-invalid={error ? true : undefined}
         aria-labelledby={labelId}
+        row={direction === 'row'}
         sx={radioGroupStyles(direction)}
+        {...(isControlled
+          ? { value }
+          : { defaultValue })}
       >
-        {options.map((option: OptionValues) => (
+        {options.map((option) => (
           <FormControlLabel
             key={option.value}
             value={option.value}
-            control={<Radio icon={CustomRadioIcon} checkedIcon={CustomRadioCheckedIcon} />}
+            control={
+              <Radio
+                icon={CustomRadioIcon}
+                checkedIcon={CustomRadioCheckedIcon}
+              />
+            }
             label={option.label}
             disabled={option.disabled}
             sx={radioOptionStyles}
