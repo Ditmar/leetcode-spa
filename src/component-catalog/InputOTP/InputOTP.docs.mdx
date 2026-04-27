@@ -1,0 +1,127 @@
+import { Meta, Canvas, Story } from '@storybook/blocks';
+import * as InputOTPStories from './InputOTP.stories';
+
+<Meta of={InputOTPStories} />
+
+# InputOTP
+
+The **InputOTP** component allows users to enter a one-time password (OTP) or verification code using multiple individual input fields.
+
+It is designed to be mobile-friendly, supporting numeric keyboards, focus navigation, backspace behavior, and paste-to-fill interaction.
+
+---
+
+## Features
+
+- Configurable number of digits
+- Auto-focus to next input
+- Backspace navigation
+- Paste full OTP support
+- Numeric-only input
+- Disabled and error states
+- Fully responsive layout
+- Uncontrolled internal state
+- Completion callback through `onComplete`
+
+---
+
+## Basic Usage
+
+<Canvas>
+  <Story of={InputOTPStories.Primary} />
+</Canvas>
+
+---
+
+## Props
+
+| Prop       | Type                    | Default        | Description |
+|------------|-------------------------|----------------|-------------|
+| length     | number                  | 6              | Number of OTP digits |
+| disabled   | boolean                 | false          | Disables all inputs |
+| error      | boolean                 | false          | Shows error state |
+| label      | string                  | Enter OTP Code | Text label displayed above the inputs |
+| onComplete | (value: string) => void | —              | Callback fired when all OTP digits are filled |
+
+---
+
+## Examples
+
+### Default
+
+```tsx
+<InputOTP />
+```
+
+### Custom length
+
+```tsx
+<InputOTP length={4} />
+```
+
+### Disabled
+
+```tsx
+<InputOTP disabled />
+```
+
+### Error state
+
+```tsx
+<InputOTP error />
+```
+
+### Completion callback
+
+```tsx
+<InputOTP
+  onComplete={(value) => {
+    console.log(value);
+  }}
+/>
+```
+
+---
+
+## Behavior
+
+The component is uncontrolled. It manages its own internal value state through the `useInputOTP` hook.
+
+When all inputs are filled, the `onComplete` callback is called with the full OTP value.
+
+---
+
+## Mobile Behavior
+
+- Uses `inputMode="numeric"` to trigger numeric keyboards
+- Uses `pattern="[0-9]*"` for numeric input support
+- Optimized for touch interaction
+- Supports pasting OTP codes from SMS or clipboard
+
+---
+
+## Accessibility
+
+- Wrapped with `role="group"`
+- Each input includes an `aria-label`
+- Each input label follows the format: `Digit X of N`
+- Screen reader friendly
+
+---
+
+## Notes
+
+- Only numeric input is allowed
+- Empty values are allowed internally to support deletion and backspace behavior
+- Pasted values are sanitized before being distributed across inputs
+- Focus automatically moves between inputs
+
+---
+
+## Design Considerations
+
+- Built with Material UI
+- Styles use MUI `styled()`
+- Uses theme typography and spacing tokens
+- No external CSS
+- Matches the Figma design specifications
