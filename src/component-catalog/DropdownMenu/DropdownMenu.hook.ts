@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { DROPDOWN_DEFAULTS } from './DropdownMenu.constants';
 import type { DropdownItem } from './DropdownMenu.types';
 
 type SubmenuDirection = 'right' | 'left';
@@ -17,8 +18,6 @@ interface UseDropdownMenuReturn {
   handleOpenSubmenu: (anchorElement: HTMLElement, item: DropdownItem) => void;
   handleCloseSubmenu: () => void;
 }
-
-const VIEWPORT_SAFE_MARGIN = 16;
 
 export const useDropdownMenu = (disabled = false): UseDropdownMenuReturn => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -60,7 +59,8 @@ export const useDropdownMenu = (disabled = false): UseDropdownMenuReturn => {
       const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : triggerRect.right;
       const submenuWidth = anchorElement.offsetWidth;
       const availableRightSpace = viewportWidth - triggerRect.right;
-      const shouldOpenLeft = availableRightSpace < submenuWidth + VIEWPORT_SAFE_MARGIN;
+      const shouldOpenLeft =
+        availableRightSpace < submenuWidth + DROPDOWN_DEFAULTS.VIEWPORT_SAFE_MARGIN;
 
       setSubmenuDirection(shouldOpenLeft ? 'left' : 'right');
       setSubmenuAnchorEl(anchorElement);

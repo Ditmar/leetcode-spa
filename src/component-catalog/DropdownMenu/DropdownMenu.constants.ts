@@ -13,4 +13,5 @@ export const DEFAULT_GROUP_ID = 'default-group';
 export const DROPDOWN_DEFAULTS = {
   MOBILE_MIN_HEIGHT: 44,
   SUBMENU_OFFSET: 4,
+  VIEWPORT_SAFE_MARGIN: 16,
 } as const;
