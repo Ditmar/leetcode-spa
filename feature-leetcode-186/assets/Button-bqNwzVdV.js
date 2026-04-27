@@ -1,0 +1,1 @@
+import{j as n}from"./iframe-CBohH5fi.js";import{useMDXComponents as r}from"./index-BwDuTD1S.js";import"./preload-helper-BgdeIAu4.js";function e(t){return n.jsx(n.Fragment,{})}function a(t={}){const{wrapper:o}={...r(),...t.components};return o?n.jsx(o,{...t,children:n.jsx(e,{...t})}):e()}export{a as default};
