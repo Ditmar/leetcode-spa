@@ -20,9 +20,11 @@ import {
 
 import type { CustomRadioGroupProps } from './RadioGroup.types';
 
-const CustomRadioIcon = <span style={customIconStyles as React.CSSProperties} aria-hidden="true" />;
+const CustomRadioIcon = () => (
+  <span style={customIconStyles as React.CSSProperties} aria-hidden="true" />
+);
 
-const CustomRadioCheckedIcon = (
+const CustomRadioCheckedIcon = () => (
   <span style={customCheckedIconStyles as React.CSSProperties} aria-hidden="true">
     <span style={customCheckedDotStyles as React.CSSProperties} />
   </span>
@@ -46,6 +48,10 @@ const CustomRadioGroup = ({
 
   const isControlled = value !== undefined;
 
+  const handleChange = (_event: React.ChangeEvent<HTMLInputElement>, value: string) => {
+    onChange?.(value); // ✅ NORMALIZADO
+  };
+
   return (
     <FormControl
       component="fieldset"
@@ -63,9 +69,9 @@ const CustomRadioGroup = ({
       <MuiRadioGroup
         data-testid="radio-group"
         name={name}
-        onChange={onChange}
+        onChange={handleChange}
         aria-required={required}
-        aria-invalid={error ? true : undefined}
+        aria-invalid={error || undefined}
         aria-labelledby={labelId}
         row={direction === 'row'}
         sx={radioGroupStyles(direction)}
@@ -75,7 +81,7 @@ const CustomRadioGroup = ({
           <FormControlLabel
             key={option.value}
             value={option.value}
-            control={<Radio icon={CustomRadioIcon} checkedIcon={CustomRadioCheckedIcon} />}
+            control={<Radio icon={<CustomRadioIcon />} checkedIcon={<CustomRadioCheckedIcon />} />}
             label={option.label}
             disabled={option.disabled}
             sx={radioOptionStyles}

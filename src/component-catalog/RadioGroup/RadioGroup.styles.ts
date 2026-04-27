@@ -53,7 +53,7 @@ export const customCheckedIconStyles: SxProps<Theme> = {
   width: '1rem',
   height: '1rem',
   borderRadius: '50%',
-  backgroundColor: 'transparentent',
+  backgroundColor: 'transparent',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
