@@ -80,7 +80,7 @@ declare module '@mui/material/Typography' {
     subtitle: true;
     question: true;
     option: true;
-    input: true; // AGREGADO PARA SEARCHBAR
+    input: true;
     numbers: true;
     texts: true;
   }
@@ -91,37 +91,36 @@ declare module '@mui/material/Typography' {
 // ========================================
 export const PROFILE_CARD_SPACING = {
   small: {
-    // DIMENSIONES FIJAS - NO CAMBIAN (igual que medium)
-    outerContainerWidth: 685, // ← MISMO que medium
-    outerContainerHeight: 527, // ← MISMO que medium
+    outerContainerWidth: 685,
+    outerContainerHeight: 527,
     outerContainerPadding: 0,
-    userCardWidth: 282, // ← MISMO que medium
-    userCardHeight: 316, // ← MISMO que medium
+    userCardWidth: 282,
+    userCardHeight: 316,
     userCardPadding: 20,
     userCardBorderRadius: 0,
-    avatarSize: 100, // ← Solo cambia el avatar (más pequeño)
+    avatarSize: 100,
     avatarBorder: 2,
     infoGap: 12,
     textGap: 8,
     userToStatsGap: 45,
-    statsContainerWidth: 685, // ← MISMO que medium
-    statsContainerHeight: 166, // ← MISMO que medium
+    statsContainerWidth: 685,
+    statsContainerHeight: 166,
     statsGap: 39,
-    statCardWidth: 195, // ← MISMO que medium
-    statCardHeight: 166, // ← MISMO que medium
+    statCardWidth: 195,
+    statCardHeight: 166,
     statPadding: 14,
     statCardBorderRadius: 8,
     statCardBorderWidth: 1,
     mobileBreakpoint: 768,
     tabletBreakpoint: 1024,
     mobile: {
-      outerContainerWidth: 350, // ← Ancho fijo para mobile
-      userCardWidth: 200, // ← Ancho fijo user card mobile
-      userCardHeight: 220, // ← Alto fijo user card mobile
+      outerContainerWidth: 350,
+      userCardWidth: 200,
+      userCardHeight: 220,
       userCardPadding: 16,
       avatarSize: 80,
       gap: 24,
-      statsContainerWidth: 350, // ← Ancho fijo stats mobile
+      statsContainerWidth: 350,
       statsGap: 8,
       statMinWidth: 100,
       statMaxWidth: 110,
@@ -129,13 +128,13 @@ export const PROFILE_CARD_SPACING = {
       statPadding: 12,
     },
     tablet: {
-      outerContainerWidth: 685, // ← Mantener tamaño desktop
-      userCardWidth: 282, // ← Mantener tamaño desktop
-      userCardHeight: 316, // ← Mantener tamaño desktop
+      outerContainerWidth: 685,
+      userCardWidth: 282,
+      userCardHeight: 316,
       userCardPadding: 20,
       avatarSize: 110,
       gap: 45,
-      statsContainerWidth: 685, // ← Mantener tamaño desktop
+      statsContainerWidth: 685,
       statsContainerHeight: 166,
       statsGap: 39,
       statCardWidth: 195,
@@ -144,7 +143,6 @@ export const PROFILE_CARD_SPACING = {
     },
   },
   medium: {
-    // BASE - DIMENSIONES EXACTAS DE FIGMA
     outerContainerWidth: 685,
     outerContainerHeight: 527,
     outerContainerPadding: 0,
@@ -168,13 +166,13 @@ export const PROFILE_CARD_SPACING = {
     mobileBreakpoint: 768,
     tabletBreakpoint: 1024,
     mobile: {
-      outerContainerWidth: 280, // ← Ancho fijo para mobile
-      userCardWidth: 180, // ← Ancho fijo user card mobile
-      userCardHeight: 200, // ← Alto fijo user card mobile
+      outerContainerWidth: 280,
+      userCardWidth: 180,
+      userCardHeight: 200,
       userCardPadding: 16,
       avatarSize: 80,
       gap: 24,
-      statsContainerWidth: 280, // ← Ancho fijo stats mobile
+      statsContainerWidth: 280,
       statsGap: 8,
       statMinWidth: 50,
       statMaxWidth: 100,
@@ -182,13 +180,13 @@ export const PROFILE_CARD_SPACING = {
       statPadding: 12,
     },
     tablet: {
-      outerContainerWidth: 685, // ← Mantener tamaño desktop
-      userCardWidth: 282, // ← Mantener tamaño desktop
-      userCardHeight: 316, // ← Mantener tamaño desktop
+      outerContainerWidth: 685,
+      userCardWidth: 282,
+      userCardHeight: 316,
       userCardPadding: 20,
       avatarSize: 130,
       gap: 45,
-      statsContainerWidth: 685, // ← Mantener tamaño desktop
+      statsContainerWidth: 685,
       statsContainerHeight: 166,
       statsGap: 39,
       statCardWidth: 195,
@@ -197,11 +195,11 @@ export const PROFILE_CARD_SPACING = {
     },
   },
   large: {
-    outerContainerWidth: 685, // ← MISMO que medium
-    outerContainerHeight: 527, // ← MISMO que medium
+    outerContainerWidth: 685,
+    outerContainerHeight: 527,
     outerContainerPadding: 0,
-    userCardWidth: 282, // ← MISMO que medium
-    userCardHeight: 316, // ← MISMO que medium
+    userCardWidth: 282,
+    userCardHeight: 316,
     userCardPadding: 20,
     userCardBorderRadius: 0,
     avatarSize: 145,
@@ -220,13 +218,13 @@ export const PROFILE_CARD_SPACING = {
     mobileBreakpoint: 768,
     tabletBreakpoint: 1024,
     mobile: {
-      outerContainerWidth: 350, // ← Ancho fijo para mobile
-      userCardWidth: 200, // ← Ancho fijo user card mobile
+      outerContainerWidth: 350,
+      userCardWidth: 200,
       userCardHeight: 220,
       userCardPadding: 16,
       avatarSize: 80,
       gap: 24,
-      statsContainerWidth: 350, // ← Ancho fijo stats mobile
+      statsContainerWidth: 350,
       statsGap: 8,
       statMinWidth: 100,
       statMaxWidth: 110,
@@ -234,13 +232,13 @@ export const PROFILE_CARD_SPACING = {
       statPadding: 12,
     },
     tablet: {
-      outerContainerWidth: 685, // ← Mantener tamaño desktop
-      userCardWidth: 282, // ← Mantener tamaño desktop
-      userCardHeight: 316, // ← Mantener tamaño desktop
+      outerContainerWidth: 685,
+      userCardWidth: 282,
+      userCardHeight: 316,
       userCardPadding: 20,
       avatarSize: 160,
       gap: 45,
-      statsContainerWidth: 685, // ← Mantener tamaño desktop
+      statsContainerWidth: 685,
       statsContainerHeight: 166,
       statsGap: 39,
       statCardWidth: 195,
@@ -399,12 +397,6 @@ export const PROFILE_CARD_TRANSITIONS = {
   },
 } as const;
 
-/**
- * PillTag Component Tokens
- * Dimensiones exactas desde Figma siguiendo la estructura:
- * - Rectangle (contenedor): dimensiones del chip completo
- * - Text (label): auto-ajustable dentro del contenedor
- */
 export const pillTagTokens = {
   colors: {
     background: '#FFFFFF',
@@ -509,6 +501,187 @@ export const formInputTokens = {
       medium: 0,
       large: 0,
     },
+  },
+} as const;
+
+export const navigationMenuTokens = {
+  colors: {
+    background: 'var(--nav-bg)',
+    border: 'var(--nav-border)',
+    text: 'var(--nav-text)',
+    accentGreen: 'var(--nav-accent-green)',
+  },
+  sizes: {
+    appBarHeight: {
+      small: '3rem',
+      medium: '3.5625rem',
+      large: '4rem',
+    },
+    logoHeight: '1.5rem',
+    drawerWidth: '16rem',
+    megaPanel: {
+      minWidth: '17.5rem',
+      maxWidth: '25rem',
+    },
+    typography: {
+      fontSizes: {
+        captionFallback: '0.75rem',
+        body2Fallback: '0.875rem',
+        body1Fallback: '1rem',
+      },
+    },
+  },
+  minTouchTarget: 5.5,
+  spacing: {
+    itemPaddingY: {
+      small: 0.25,
+      medium: 0.5,
+      large: 0.75,
+    },
+    itemPaddingX: {
+      small: 1,
+      medium: 1.5,
+      large: 2,
+    },
+    toolbarGap: {
+      small: 0.5,
+      medium: 1,
+      large: 1.5,
+    },
+    iconMargin: 0.5,
+    navContainerGap: 0.5,
+    logoMargin: 1,
+    drawerHeaderPadding: 1,
+    letterSpacing: 0.05,
+    toolbarPadding: 1,
+    mobileNavPadding: 0,
+    megaPanelPadding: 2,
+  },
+  signInButton: {
+    fontWeight: 600,
+    height: '1.75rem',
+    paddingX: 2,
+    fontSize: '0.875rem',
+    textTransform: 'none',
+    whiteSpace: 'nowrap',
+    letterSpacing: 0.05,
+    borderRadius: 0.5,
+  },
+  layout: {
+    appBar: {
+      position: 'sticky' as const,
+      top: 0,
+      minHeight: 'auto',
+      flexWrap: 'nowrap',
+      overflowX: 'hidden',
+      overflowY: 'hidden',
+    },
+    toolbar: {
+      display: 'flex' as const,
+      justifyContent: 'flex-start' as const,
+      alignItems: 'center' as const,
+    },
+    iconContainer: {
+      mr: 0.5,
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+    },
+    logoContainer: {
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+    },
+    logoContainerDesktop: {
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+      mr: 1,
+      flexShrink: 0,
+    },
+    drawerHeader: {
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'space-between' as const,
+      padding: 1,
+    },
+    desktopNav: {
+      display: 'none' as const,
+      flexDirection: 'row' as const,
+      alignItems: 'center' as const,
+    },
+    desktopNavDesktop: {
+      display: 'flex' as const,
+    },
+    navContainer: {
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'flex-end' as const,
+      flex: 1,
+    },
+    mobileNav: {
+      display: 'flex' as const,
+      flexDirection: 'column' as const,
+      width: '100%' as const,
+    },
+    mobileNavDesktop: {
+      display: 'none' as const,
+    },
+    drawer: {
+      overflowY: 'hidden',
+    },
+    scrollbar: {
+      scrollbarWidth: 'none' as const,
+      msOverflowStyle: 'none' as const,
+    },
+  },
+  listItem: {
+    position: 'relative' as const,
+    minWidth: 'auto' as const,
+    fontSize: '0.875rem',
+    fontWeight: 500,
+    lineHeight: 1.4,
+    borderRadius: 0,
+    hover: {
+      backgroundColor: 'transparent' as const,
+    },
+    active: {
+      backgroundColor: 'transparent' as const,
+      fontWeight: 600,
+    },
+    disabled: {
+      opacity: 0.5,
+      cursor: 'not-allowed' as const,
+    },
+  },
+  accordion: {
+    boxShadow: 'none' as const,
+    before: {
+      display: 'none' as const,
+    },
+    expanded: {
+      margin: 0,
+    },
+    summaryButton: {
+      width: '100%' as const,
+    },
+    summaryFocused: {
+      backgroundColor: 'transparent' as const,
+    },
+  },
+  megaPanel: {
+    popperOffset: [0, 8] as const,
+    borderRadius: 0.5,
+  },
+  opacity: {
+    accordion: 0.8,
+    border: 0.5,
+  },
+  borders: {
+    width: 1,
+  },
+  units: {
+    px: 'px',
+  },
+  scroll: {
+    hideThreshold: 100,
   },
 } as const;
 
@@ -620,7 +793,7 @@ theme.typography = {
     fontSize: '1rem',
     lineHeight: '19px',
     color: 'rgba(0, 0, 0, 0.5)',
-  }, // AGREGADO PARA SEARCHBAR
+  },
   numbers: {
     fontFamily:
       '"Poppins", "Syne", "Montserrat", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
