@@ -13,7 +13,6 @@ import {
 } from './HoverCard.styles';
 
 import type { Meta, StoryObj } from '@storybook/react';
-
 function UserCard() {
   return (
     <Stack spacing={1.5} sx={{ minWidth: 220 }}>
