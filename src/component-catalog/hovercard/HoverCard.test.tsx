@@ -83,17 +83,17 @@ describe('HoverCard — desktop hover', () => {
     expect(screen.queryByText('Card content')).toBeNull();
   });
   it('cancels a scheduled close when the trigger is re-entered', async () => {
-    renderCard({ openDelay: 0, closeDelay: 500 });
+    renderCard({ openDelay: 0, closeDelay: DEFAULT_CLOSE_DELAY });
 
     fireEvent.mouseEnter(getTrigger());
     act(() => vi.advanceTimersByTime(0));
     expect(screen.getByText('Hover Card')).toBeInTheDocument();
 
     fireEvent.mouseLeave(getTrigger());
-    act(() => vi.advanceTimersByTime(200));
+    act(() => vi.advanceTimersByTime(DEFAULT_OPEN_DELAY));
 
     fireEvent.mouseEnter(getTrigger());
-    act(() => vi.advanceTimersByTime(500));
+    act(() => vi.advanceTimersByTime(DEFAULT_CLOSE_DELAY));
 
     expect(screen.getByText('Hover Card')).toBeInTheDocument();
   });

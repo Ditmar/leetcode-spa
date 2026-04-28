@@ -13,7 +13,7 @@ export const HoverCardPaper = styled(Paper)(({ theme }) => ({
   outline: `1px solid ${theme.palette.divider}`,
   overflowWrap: 'break-word',
   wordBreak: 'break-word',
-  maxWidth: '100%',
+  maxWidth: 'maxWidth',
 
   [theme.breakpoints.down('sm')]: {
     padding: theme.spacing(1.5),
