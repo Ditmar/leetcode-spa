@@ -506,10 +506,10 @@ export const formInputTokens = {
 
 export const navigationMenuTokens = {
   colors: {
-    background: '#101828',
-    border: '#1E2939',
-    text: '#D1D5DC',
-    accentGreen: '#00C950',
+    background: 'var(--nav-bg)',
+    border: 'var(--nav-border)',
+    text: 'var(--nav-text)',
+    accentGreen: 'var(--nav-accent-green)',
   },
   sizes: {
     appBarHeight: {
