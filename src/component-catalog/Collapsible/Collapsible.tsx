@@ -3,6 +3,7 @@ import { RowSpacingIcon, Cross2Icon } from '@radix-ui/react-icons';
 import React, { useState } from 'react';
 
 import * as S from './Collapsible.styles';
+
 import type { CollapsibleProps } from './Collapsible.types';
 
 export const Collapsible: React.FC<CollapsibleProps> = ({
