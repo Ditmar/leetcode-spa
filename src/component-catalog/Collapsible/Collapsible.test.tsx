@@ -1,95 +1,29 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
-import Collapsible from './Collapsible';
+import { Collapsible } from './Collapsible';
 import '@testing-library/jest-dom/vitest';
 
 describe('Collapsible Component', () => {
-  it('should toggle visibility and update aria-expanded', () => {
-    render(<Collapsible title="Test Title">Content</Collapsible>);
-    const button = screen.getByRole('button');
+  const mockItems = ['Arrays', 'Hash Maps', 'Two Pointers'];
 
-    expect(button).toHaveAttribute('aria-expanded', 'false');
-    fireEvent.click(button);
-    expect(button).toHaveAttribute('aria-expanded', 'true');
+  it('should render the title and the total items count', () => {
+    render(<Collapsible title="Topics" items={mockItems} />);
+    const title = screen.getByText(/Topics — 3 items/i);
+    expect(title).toBeDefined();
   });
 
-  it('should be open by default when defaultOpen is true', () => {
-    render(
-      <Collapsible title="Default Open" defaultOpen={true}>
-        Uncontrolled Content
-      </Collapsible>
-    );
-    const button = screen.getByRole('button');
-    expect(button).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByText('Uncontrolled Content')).toBeVisible();
+  it('should toggle the visibility of the content when clicking the trigger button', () => {
+    render(<Collapsible title="Topics" items={mockItems} />);
+    const trigger = screen.getByRole('button');
+    fireEvent.click(trigger);
+    mockItems.forEach((item) => {
+      expect(screen.getByText(item)).toBeDefined();
+    });
   });
 
-  it('should respect the controlled open prop', () => {
-    const { rerender } = render(
-      <Collapsible title="Controlled" open={false}>
-        Controlled Content
-      </Collapsible>
-    );
-
-    const button = screen.getByRole('button');
-    expect(button).toHaveAttribute('aria-expanded', 'false');
-    rerender(
-      <Collapsible title="Controlled" open={true}>
-        Controlled Content
-      </Collapsible>
-    );
-    expect(button).toHaveAttribute('aria-expanded', 'true');
-  });
-
-  it('should call onOpenChange with correct state when clicked', () => {
-    const onOpenChangeMock = vi.fn();
-    render(
-      <Collapsible title="Callback Test" onOpenChange={onOpenChangeMock}>
-        Content
-      </Collapsible>
-    );
-
-    const button = screen.getByRole('button');
-    fireEvent.click(button);
-    expect(onOpenChangeMock).toHaveBeenCalledWith(true);
-
-    fireEvent.click(button);
-    expect(onOpenChangeMock).toHaveBeenCalledWith(false);
-  });
-
-  it('should render custom headerSlot instead of title', () => {
-    const CustomHeader = <div data-testid="custom-header">Custom Slot</div>;
-    render(
-      <Collapsible title="Standard Title" headerSlot={CustomHeader}>
-        Content
-      </Collapsible>
-    );
-
-    expect(screen.getByTestId('custom-header')).toBeInTheDocument();
-    expect(screen.queryByText('Standard Title')).not.toBeInTheDocument();
-  });
-
-  it('should render complex child elements correctly', () => {
-    render(
-      <Collapsible title="Children Test">
-        <ul data-testid="test-list">
-          <li>Item 1</li>
-          <li>Item 2</li>
-        </ul>
-      </Collapsible>
-    );
-
-    expect(screen.getByTestId('test-list')).toBeInTheDocument();
-    expect(screen.getAllByRole('listitem')).toHaveLength(2);
-  });
-
-  it('should link trigger with content via aria-controls', () => {
-    render(<Collapsible title="Test">Content</Collapsible>);
-    const button = screen.getByRole('button');
-    const contentId = button.getAttribute('aria-controls');
-
-    expect(contentId).not.toBeNull();
-    expect(screen.getByText('Content')).toBeInTheDocument();
+  it('should display the default title if none is provided', () => {
+    render(<Collapsible items={mockItems} />);
+    expect(screen.getByText(/@peduarte starred 3 repositories/i)).toBeDefined();
   });
 });

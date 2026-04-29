@@ -1,57 +1,35 @@
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import { Typography, Collapse, Box } from '@mui/material';
-import React, { useState, useId } from 'react';
+import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
+import { RowSpacingIcon, Cross2Icon } from '@radix-ui/react-icons';
+import React, { useState } from 'react';
 
 import * as S from './Collapsible.styles';
-
 import type { CollapsibleProps } from './Collapsible.types';
 
-const Collapsible: React.FC<CollapsibleProps> = ({
+export const Collapsible: React.FC<CollapsibleProps> = ({
   title = '@peduarte starred 3 repositories',
-  headerSlot,
-  children,
-  open: controlledOpen,
-  onOpenChange,
+  items,
   defaultOpen = false,
-  ...props
 }) => {
-  const [internalOpen, setInternalOpen] = useState(defaultOpen);
-  const id = useId();
-  const regionId = `content-${id}`;
-  const headerId = `header-${id}`;
-
-  const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
-
-  const handleToggle = () => {
-    if (controlledOpen === undefined) setInternalOpen(!isOpen);
-    onOpenChange?.(!isOpen);
-  };
+  const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <Box {...props}>
-      <S.StyledCard>
-        <S.Header id={headerId} onClick={handleToggle} sx={{ cursor: 'pointer' }}>
-          {headerSlot || (
-            <Typography variant="body2" fontWeight={600}>
-              {title}
-            </Typography>
-          )}
-          <S.ToggleButton
-            aria-expanded={isOpen}
-            aria-controls={regionId}
-            aria-labelledby={headerId}
-          >
-            {isOpen ? <RemoveIcon fontSize="small" /> : <AddIcon fontSize="small" />}
+    <S.StyledRoot open={open} onOpenChange={setOpen}>
+      <S.Header direction="row">
+        <S.Title>
+          {title} {items.length > 0 && `— ${items.length} items`}
+        </S.Title>
+        <CollapsiblePrimitive.Trigger asChild>
+          <S.ToggleButton aria-label={open ? 'Close' : 'Open'}>
+            {open ? <Cross2Icon /> : <RowSpacingIcon />}
           </S.ToggleButton>
-        </S.Header>
+        </CollapsiblePrimitive.Trigger>
+      </S.Header>
 
-        <Collapse in={isOpen} id={regionId} role="region" aria-labelledby={headerId}>
-          <Box sx={{ pt: 2 }}>{children}</Box>
-        </Collapse>
-      </S.StyledCard>
-    </Box>
+      <S.StyledContent>
+        {items.map((item, index) => (
+          <S.ItemCard key={`${item}-${index}`}>{item}</S.ItemCard>
+        ))}
+      </S.StyledContent>
+    </S.StyledRoot>
   );
 };
-
-export default Collapsible;
