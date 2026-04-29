@@ -1,7 +1,5 @@
-import { TextField, Box } from '@mui/material';
-
-import Collapsible from './Collapsible';
-
+import { Box } from '@mui/material';
+import { Collapsible } from './Collapsible';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Collapsible> = {
@@ -23,18 +21,7 @@ export const FigmaMatch: Story = {
   name: 'Figma Match Demo',
   args: {
     title: '@peduarte starred 3 repositories',
-    children: (
-      <TextField
-        fullWidth
-        placeholder="@radix-ui/primitives"
-        size="small"
-        disabled
-        sx={{
-          '& .MuiInputBase-root': {
-            borderRadius: (theme) => theme.shape.borderRadius,
-          },
-        }}
-      />
-    ),
+    items: ['@radix-ui/primitives', '@radix-ui/colors', '@radix-ui/themes'],
   },
 };
+

@@ -1,123 +1,17 @@
-import { Meta, Canvas } from '@storybook/blocks';
+import { Canvas, Meta, Controls } from '@storybook/blocks';
 import * as CollapsibleStories from './Collapsible.stories';
 
 <Meta of={CollapsibleStories} />
 
 # Collapsible
 
-An accessible accordion component that shows or hides content with a smooth animation. It supports both **controlled** and **uncontrolled** modes, and is fully compatible with screen readers through its ARIA attributes.
+Componente reactivo basado en **Radix UI** y **MUI System**. Permite organizar contenido en listas colapsables con un diseño de tarjetas limpio.
 
----
-
-## Preview
+### Guía de Uso
+1. Se integra con el `theme` de MUI para espaciados consistentes.
+2. Utiliza `gap` para la separación de los items internos.
 
 <Canvas of={CollapsibleStories.FigmaMatch} />
 
----
-
-## Installation & Usage
-
-```tsx
-import Collapsible from './Collapsible';
-```
-
-```tsx
-<Collapsible title="@peduarte starred 3 repositories">
-  <p>Hidden content goes here</p>
-</Collapsible>
-```
-
----
-
 ## Props
-
-| Prop           | Type                        | Default                              | Description                                                    |
-|----------------|-----------------------------|--------------------------------------|----------------------------------------------------------------|
-| `title`        | `string`                    | `'@peduarte starred 3 repositories'` | Header text displayed when `headerSlot` is not provided.       |
-| `headerSlot`   | `ReactNode`                 | `undefined`                          | Replaces the entire header content with a custom node.         |
-| `children`     | `ReactNode`                 | —                                    | *(Required)* Collapsible content that is shown or hidden.      |
-| `open`         | `boolean`                   | `undefined`                          | Controls the open/closed state externally (controlled mode).   |
-| `onOpenChange` | `(isOpen: boolean) => void` | `undefined`                          | Callback fired whenever the open state changes.                |
-| `defaultOpen`  | `boolean`                   | `false`                              | Initial open state in uncontrolled mode.                       |
-| `...BoxProps`  | `BoxProps`                  | —                                    | All MUI `Box` props are valid (e.g. `sx`, `className`).        |
-
-> **Note:** The component extends MUI's `BoxProps`, so any valid `Box` prop can be passed to the outer wrapper.
-
----
-
-## How It Works
-
-### State & Control
-
-The component implements the **controlled / uncontrolled** pattern:
-
-- **Uncontrolled mode** (default): maintains its own internal state via `useState`. The initial value is set by `defaultOpen`.
-- **Controlled mode**: when the `open` prop is provided, the external state takes priority over the internal one. The component does not modify its internal state and delegates control to the parent.
-
-```tsx
-const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
-```
-
-### Controlled mode example
-
-```tsx
-const [open, setOpen] = useState(false);
-
-<Collapsible
-  title="External control"
-  open={open}
-  onOpenChange={setOpen}
->
-  <p>State is managed by the parent.</p>
-</Collapsible>
-```
-
-### Accessibility (ARIA)
-
-The component follows the WAI-ARIA disclosure pattern:
-
-- The toggle button has `aria-expanded` to indicate whether the panel is open.
-- The button has `aria-controls` pointing to the `id` of the content region.
-- The header has a unique `id` and the content region has `aria-labelledby` pointing back to it.
-- IDs are generated uniquely via React's `useId()` hook to prevent collisions across multiple instances.
-
-### Animation
-
-The content uses MUI's `Collapse` component, which applies a smooth CSS height transition when showing or hiding.
-
-### Button Icon
-
-The black toggle button (`BlackButton`) renders:
-
-- `<AddIcon />` when the panel is **closed**
-- `<RemoveIcon />` when the panel is **open**
-
----
-
-## Styles
-
-Styles are defined in `Collapsible.styles.ts` using MUI's `styled`:
-
-| Component    | Description                                                                  |
-|--------------|------------------------------------------------------------------------------|
-| `StyledCard` | Main container. White background, border, padding, and a max-width of 400px. |
-| `Header`     | Flex row between the title and the toggle button. Minimum height of 44px.   |
-| `BlackButton`| Square black button with no additional state-based styles.                   |
-
----
-
-## Tests
-
-Tests are located in `Collapsible.test.tsx` and cover:
-
-| Test                                   | Description                                                                        |
-|----------------------------------------|------------------------------------------------------------------------------------|
-| Toggle visibility and `aria-expanded`  | Verifies that clicking the button changes `aria-expanded` from `false` to `true`.  |
-| `onOpenChange` callback                | Checks that the callback is called with the new state (`true`) when opening.       |
-| ARIA link between trigger and content  | Verifies that the button's `aria-controls` points to the region containing the content. |
-
-Run the tests:
-
-```bash
-vitest
-```
+<Controls />
