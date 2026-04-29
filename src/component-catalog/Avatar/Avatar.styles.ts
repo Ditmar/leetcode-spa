@@ -1,12 +1,11 @@
-import { styled, Box } from '@mui/material';
-
+import { styled, Avatar as MuiAvatar } from '@mui/material';
 import { AVATAR_SIZES, type AvatarSizeType } from './Avatar.constants';
-
 import type { AvatarStylesProps } from './Avatar.types';
 
-export const StyledAvatar = styled(Box, {
+export const StyledAvatar = styled(MuiAvatar, {
   shouldForwardProp: (prop) => !['$size', '$variant'].includes(prop as string),
 })<AvatarStylesProps>(({ theme, $size = 'md', $variant = 'default' }) => {
+  
   const sizeConfig = AVATAR_SIZES[$size as AvatarSizeType];
 
   const getThemeColors = () => {
@@ -21,7 +20,6 @@ export const StyledAvatar = styled(Box, {
           bg: theme.palette.success.main,
           color: theme.palette.success.contrastText,
         };
-      case 'default':
       default:
         return {
           bg: theme.palette.action.selected,
@@ -33,18 +31,10 @@ export const StyledAvatar = styled(Box, {
   const colors = getThemeColors();
 
   return {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: '50%',
-    userSelect: 'none',
     fontWeight: 500,
-    transition: 'all 0.2s ease-in-out',
-
     width: `${sizeConfig.width}px`,
     height: `${sizeConfig.height}px`,
     fontSize: `${sizeConfig.fontSize}px`,
-
     backgroundColor: colors.bg,
     color: colors.color,
   };

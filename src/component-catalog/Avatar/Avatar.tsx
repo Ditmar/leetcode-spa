@@ -1,22 +1,22 @@
 import React from 'react';
-
 import { StyledAvatar } from './Avatar.styles';
-
 import type { AvatarProps } from './Avatar.types';
 
-const Avatar = ({ children, size = 'md', variant = 'default', ...props }: AvatarProps) => {
+export const Avatar: React.FC<AvatarProps> = ({ 
+  size = 'md', 
+  variant = 'default', 
+  shape = 'circular', 
+  children, 
+  ...props 
+}) => {
   return (
-    <StyledAvatar
+    <StyledAvatar 
       $size={size}
       $variant={variant}
-      data-testid="avatar-component"
-      data-size={size}
-      data-variant={variant}
-      {...props}
+      variant={shape} 
+      {...props}     
     >
       {children}
     </StyledAvatar>
   );
 };
-
-export { Avatar };
