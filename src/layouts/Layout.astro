@@ -1,0 +1,62 @@
+---
+import { MyCustomProvider } from '../component-catalog/MyCustomProvider';
+
+export interface Props {
+  title?: string;
+  showNavigation?: boolean;
+}
+
+const { title = 'Astro App', showNavigation = true } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <MyCustomProvider client:load>
+      {showNavigation && (
+        <header>
+          <nav>
+            <a href="/">Home</a>
+            <a href="/mui-example">MUI Example</a>
+            <a href="/hydration-demo">Hydration Demo</a>
+            <a href="/smart-hydration">Smart Hydration</a>
+          </nav>
+        </header>
+      )}
+      <slot />
+    </MyCustomProvider>
+  </body>
+</html>
+
+<style>
+  .layout {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+
+  nav {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  nav a:hover {
+    background: #ddd;
+  }
+</style>

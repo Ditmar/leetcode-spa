@@ -1,23 +1,26 @@
 import { CacheProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import { useState, useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 import { theme } from '../theme';
 import { createEmotionCache } from '../utils/createEmotionCache';
 
-interface SSRMuiProviderProps {
+interface MyCustomProviderProps {
   children: ReactNode;
+  mode?: 'ssr' | 'client';
 }
 
-export const SSRMuiProvider = ({ children }: SSRMuiProviderProps) => {
-  const [mounted, setMounted] = useState(false);
+export const MyCustomProvider = ({ children, mode = 'ssr' }: MyCustomProviderProps) => {
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    setIsClient(true);
   }, []);
 
-  if (!mounted) return null;
+  const shouldRender = mode === 'ssr' || isClient;
+
+  if (!shouldRender) return null;
 
   const cache = createEmotionCache();
 

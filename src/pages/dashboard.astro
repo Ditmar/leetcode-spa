@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SSRMuiProvider } from '../style-library/SSRMuiProvider';
+import Counter from '../ui/components/Counter.tsx';
+---
+
+<Layout>
+  <main class="container">
+    <h1>Dashboard</h1>
+
+    <SSRMuiProvider client:load>
+      <div style="padding: 1rem; background: #f5f5f5;">
+        <h2>Estado del Sistema</h2>
+      </div>
+    </SSRMuiProvider>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    padding: 16px;
+  }
+
+  .text {
+    color: var(--color-primary, #1976d2);
+  }
+</style>
