@@ -1,0 +1,19 @@
+import{j as e}from"./iframe-Ci9desvZ.js";import{useMDXComponents as t}from"./index-hX2eHh96.js";import{M as i}from"./index-DIi_b7JG.js";import{S as s}from"./Checkbox.stories-qo_RFniW.js";import"./preload-helper-D6w0ADbe.js";import"./index-DflOnwVG.js";import"./index-DRBJiEwa.js";import"./index-CloCBUdy.js";import"./memoTheme-BHdtIpsl.js";import"./Box-CeR7Z5_t.js";import"./FormHelperText-DR4egqOn.js";import"./useSlot-ZLvd4vPz.js";import"./mergeSlotProps-BfAxln7h.js";import"./useTimeout-Cfa0pcnc.js";import"./Typography-B7m7WyK5.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";import"./useControlled-B0OE7ISt.js";import"./ButtonBase-iHUGhSeT.js";import"./createSvgIcon-DAOogXwF.js";import"./mergeSlotProps-CgQrFdDa.js";import"./Paper-Y2BJ_fSK.js";import"./useTheme-Cc2ko7_-.js";function r(o){const n={code:"code",h1:"h1",h2:"h2",li:"li",p:"p",pre:"pre",strong:"strong",ul:"ul",...t(),...o.components};return e.jsxs(e.Fragment,{children:[e.jsx(i,{of:s}),`
+`,e.jsx(n.h1,{id:"checkbox",children:"Checkbox"}),`
+`,e.jsx(n.p,{children:"Material-style checkbox component built with MUI."}),`
+`,e.jsx(n.h2,{id:"features",children:"Features"}),`
+`,e.jsxs(n.ul,{children:[`
+`,e.jsx(n.li,{children:"Accessible (ARIA compliant)"}),`
+`,e.jsx(n.li,{children:"Responsive (minimum 44x44 touch target)"}),`
+`,e.jsx(n.li,{children:"Supports checked, unchecked, and indeterminate states"}),`
+`,e.jsx(n.li,{children:"Supports error and helper text"}),`
+`,e.jsx(n.li,{children:"Built on top of MUI Checkbox and FormControlLabel"}),`
+`]}),`
+`,e.jsx(n.h2,{id:"usage",children:"Usage"}),`
+`,e.jsxs(n.p,{children:["The component supports both ",e.jsx(n.strong,{children:"controlled"})," and ",e.jsx(n.strong,{children:"uncontrolled"})," modes:"]}),`
+`,e.jsxs(n.ul,{children:[`
+`,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Controlled"}),": pass ",e.jsx(n.code,{children:"checked"})," and ",e.jsx(n.code,{children:"onChange"})]}),`
+`,e.jsxs(n.li,{children:[e.jsx(n.strong,{children:"Uncontrolled"}),": use ",e.jsx(n.code,{children:"defaultChecked"})]}),`
+`]}),`
+`,e.jsx(n.pre,{children:e.jsx(n.code,{className:"language-tsx",children:`<Checkbox checked={value} onChange={handleChange} />
+`})})]})}function R(o={}){const{wrapper:n}={...t(),...o.components};return n?e.jsx(n,{...o,children:e.jsx(r,{...o})}):r(o)}export{R as default};
