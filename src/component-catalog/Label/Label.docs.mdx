@@ -1,0 +1,137 @@
+{/* Label.docs.mdx */}
+
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/blocks';
+import * as LabelStories from './Label.stories';
+
+<Meta of={LabelStories} />
+
+# Label
+
+The `Label` component renders an accessible form label that programmatically and visually associates with its input control. It is a **pure presentational atom** built on top of MUI `InputLabel`.
+
+---
+
+## Usage
+
+```tsx
+import Label from '@/components/Label';
+
+<Label htmlFor="email-input" required>
+  Email address
+</Label>
+<input id="email-input" type="email" required />
+```
+
+---
+
+## Features
+
+| Feature | Prop | Behaviour |
+|---|---|---|
+| Required indicator | `required` | Appends a red `*` glyph; sets `aria-required="true"` on the `<label>` |
+| Optional hint | `optional` | Appends a grey italic `(optional)` span |
+| Error state | `error` | Text rendered in `theme.palette.error.main` |
+| Disabled state | `disabled` | Reduced opacity via MUI `Mui-disabled` class |
+| Contextual tooltip | `tooltip` | Renders an info icon button; tooltip opens on hover, focus, or tap |
+
+> **Note:** `required` and `optional` are mutually exclusive. If both are set, `required` takes precedence and `optional` is suppressed.
+
+---
+
+## Accessibility
+
+- The `htmlFor` prop **must** match the `id` of the associated input — this creates the programmatic association required by WCAG 1.3.1 (Info and Relationships).
+- When `required` is true, `aria-required="true"` is set on the `<label>` so screen readers announce the constraint even before the user interacts with the field.
+- The `*` glyph is wrapped in `aria-hidden="true"` to prevent double-announcement (the `aria-required` attribute is the canonical signal).
+- The tooltip icon has an accessible `aria-label` (`"More information"`) and is reachable by keyboard (`Tab`) and touch (`enterTouchDelay={0}`).
+- All text sizing uses `rem`-based MUI typography tokens, so the component respects OS-level font scaling (tested at 200%).
+- No content truncates at a 320 px viewport width.
+
+### axe / ARIA checklist
+
+- [x] `<label>` element with valid `for` attribute
+- [x] `aria-required` propagated correctly
+- [x] No orphaned ARIA attributes
+- [x] Tooltip icon has an accessible name
+- [x] Color contrast meets WCAG AA at all states
+
+---
+
+## Props
+
+<ArgTypes of={LabelStories} />
+
+---
+
+## Stories
+
+### Default
+
+<Canvas of={LabelStories.Default} />
+
+### Required
+
+<Canvas of={LabelStories.Required} />
+
+### Optional
+
+<Canvas of={LabelStories.Optional} />
+
+### Error
+
+<Canvas of={LabelStories.Error} />
+
+### Disabled
+
+<Canvas of={LabelStories.Disabled} />
+
+### With Tooltip
+
+<Canvas of={LabelStories.WithTooltip} />
+
+### Paired with Input
+
+<Canvas of={LabelStories.PairedWithInput} />
+
+### Narrow Viewport (320 px)
+
+Validates that no text is clipped or overflows at the minimum supported viewport width.
+
+<Canvas of={LabelStories.NarrowViewport} />
+
+### All States
+
+<Canvas of={LabelStories.AllStates} />
+
+---
+
+## Design tokens
+
+The component exclusively uses MUI theme tokens — no hardcoded `px` values.
+
+| Token | Usage |
+|---|---|
+| `theme.typography.body2` | Base font size and line-height |
+| `theme.typography.caption` | Optional hint text |
+| `theme.typography.fontWeightMedium` | Label font weight |
+| `theme.palette.text.primary` | Default text colour |
+| `theme.palette.text.secondary` | Optional hint colour |
+| `theme.palette.error.main` | Required `*` and error state colour |
+| `theme.spacing(…)` | All internal gaps and padding |
+
+---
+
+## File structure
+
+```
+Label/
+├── Label.tsx              # Main component logic & JSX
+├── Label.types.ts         # Props interface extending MUI InputLabelProps
+├── Label.constants.ts     # Required / optional indicator strings
+├── Label.hook.ts          # useLabelTooltip – tooltip open/close state
+├── Label.styles.ts        # MUI styled() components – no external CSS, no px
+├── Label.utils.ts         # resolveRequiredOptional, buildAccessibleLabel
+├── Label.test.tsx         # Unit tests – Jest / Testing Library + axe
+├── Label.stories.tsx      # Storybook stories (CSF)
+└── Label.docs.mdx         # This file
+```
