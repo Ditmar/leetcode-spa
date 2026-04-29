@@ -1,0 +1,64 @@
+import { Canvas, Meta, Story } from '@storybook/blocks';
+import * as BadgeStories from './Badge.stories';
+
+<Meta title="Component Catalog/Badges/Docs" of={BadgeStories} />
+
+# Badge
+
+The Badge component is based on `@mui/material/Badge`.
+It is used to show small pieces of information like numbers, notifications, or status indicators.
+Usually, it is attached to another element like an icon, button, or small box.
+
+## What this component supports
+
+- Numeric badge content
+- Overflow with the `max` prop, for example `99+`
+- Dot variant without content
+- MUI colors: `default`, `primary`, `secondary`, `error`, `info`, `success`, `warning`
+- Different anchor positions: `top-right`, `top-left`, `bottom-right`, `bottom-left`
+
+## Why this component is useful
+
+This component helps display short information in a small space.
+For example, it can be used to show unread messages, notifications, or a simple status dot.
+It is useful because the information is easy to see without taking too much space in the UI.
+
+## Example
+
+```tsx
+<Badge badgeContent={8} color="primary">
+  <button type="button">Inbox</button>
+</Badge>
+```
+
+## Notes
+
+- The component uses Material UI Badge as the base
+- The `max` prop is useful when the number is too large
+- The `dot` variant can be used when no number is needed
+- The position can be changed with `anchorOrigin`
+
+## Stories
+
+The Storybook stories were created to show the main behaviors of the component in a simple way.
+Instead of repeating many similar blocks in the docs page, the list below explains what each story is used for.
+
+### Main examples
+
+- `Numeric`: shows a normal badge with numeric content
+- `MaxOverflow`: shows how the component behaves when the value is bigger than the max limit
+- `DotVariant`: shows the badge used only as a dot indicator
+- `ColorVariants`: shows the supported MUI color options
+
+<Canvas>
+  <Story of={BadgeStories.Numeric} />
+</Canvas>
+
+### Position examples
+
+Instead of repeating the same example four times, the positions are shown together below.
+This makes it easier to compare how the badge moves around the same target element.
+
+<Canvas>
+  <Story of={BadgeStories.PositionExamples} />
+</Canvas>
