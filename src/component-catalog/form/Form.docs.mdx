@@ -1,0 +1,40 @@
+import { Meta, Canvas, Story, Controls } from '@storybook/blocks';
+import * as FormStories from './Form.stories.tsx';
+
+<Meta of={FormStories} />
+
+# Form Component
+
+The `Form` component is a dynamic and reusable solution for building forms using **React Hook Form** and **Material UI**. It allows rendering different types of fields based on configuration.
+
+---
+
+## ✨ Features
+
+- Supports multiple field types:
+  - `input` (text, number, search, etc.)
+  - `select`
+  - `radio`
+  - `checkbox`
+  - `textarea`
+- Integrated with `react-hook-form`
+- Schema-based validation
+- Automatic default values handling
+- Supports `disabled` state
+- Responsive layout with grid system
+
+---
+
+## 📦 Props
+
+<Controls />
+
+---
+
+## 🧪 Basic Example
+
+<Canvas>
+  <Story of={FormStories.Default} />
+</Canvas>
+
+---
