@@ -28,6 +28,7 @@
     "@hookform/resolvers": "5.2.2",
     "@mui/icons-material": "7.3.4",
     "@mui/material": "7.3.4",
+    "@mui/x-charts": "^9.0.4",
     "@mui/x-date-pickers": "8.27.2",
     "astro": "5.13.9",
     "date-fns": "4.1.0",
