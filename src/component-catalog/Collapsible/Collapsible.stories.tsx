@@ -1,5 +1,7 @@
 import { Box } from '@mui/material';
+
 import { Collapsible } from './Collapsible';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Collapsible> = {
@@ -24,4 +26,3 @@ export const FigmaMatch: Story = {
     items: ['@radix-ui/primitives', '@radix-ui/colors', '@radix-ui/themes'],
   },
 };
-
