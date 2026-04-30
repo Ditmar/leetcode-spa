@@ -1,11 +1,12 @@
 import { styled, Avatar as MuiAvatar } from '@mui/material';
+
 import { AVATAR_SIZES, type AvatarSizeType } from './Avatar.constants';
+
 import type { AvatarStylesProps } from './Avatar.types';
 
 export const StyledAvatar = styled(MuiAvatar, {
   shouldForwardProp: (prop) => !['$size', '$variant'].includes(prop as string),
 })<AvatarStylesProps>(({ theme, $size = 'md', $variant = 'default' }) => {
-  
   const sizeConfig = AVATAR_SIZES[$size as AvatarSizeType];
 
   const getThemeColors = () => {

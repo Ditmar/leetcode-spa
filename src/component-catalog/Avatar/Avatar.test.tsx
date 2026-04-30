@@ -12,8 +12,6 @@ describe('Avatar Component', () => {
   it('applies correct size attribute based on size prop', () => {
     render(<Avatar size="xl">XL</Avatar>);
     const avatar = screen.getByTestId('avatar-component');
-
-    // Verificamos que el atributo de tamaño sea el correcto
     expect(avatar.getAttribute('data-size')).toBe('xl');
   });
 
