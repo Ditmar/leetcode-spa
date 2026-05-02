@@ -1,0 +1,184 @@
+import { Meta, Canvas, Story } from '@storybook/blocks';
+import * as PopoverStories from './Popover.stories';
+
+<Meta of={PopoverStories} />
+
+# Popover
+
+The **Popover** component displays floating content anchored to a trigger element.
+
+It is built on top of Material UI's `Popover` primitive and supports configurable placement, optional arrow indicator, responsive behavior, and accessible trigger attributes.
+
+---
+
+## Features
+
+- Built with Material UI `Popover`
+- Configurable placement
+- Supports `top`, `bottom`, `left`, `right`
+- Supports `-start` and `-end` placement variants
+- Auto-flips when there is not enough viewport space
+- Optional arrow indicator
+- Supports arbitrary custom content
+- Closes on click outside
+- Closes on Escape key
+- Mobile responsive layout
+- Accessible trigger attributes
+
+---
+
+## Basic Usage
+
+<Canvas>
+  <Story of={PopoverStories.Primary} />
+</Canvas>
+
+---
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `trigger` | `ReactNode` | Required | Element used to open the popover |
+| `children` | `ReactNode` | Required | Content rendered inside the popover body |
+| `placement` | `PopoverPlacement` | `bottom` | Preferred popover placement |
+| `showArrow` | `boolean` | `false` | Shows an arrow pointing to the trigger |
+| `showCloseButton` | `boolean` | `false` | Reserved for close button support |
+| `onOpenChange` | `(open: boolean) => void` | `undefined` | Callback fired when the popover open state changes |
+
+---
+
+## Placement Values
+
+The `placement` prop supports the following values:
+
+```ts
+'top'
+'top-start'
+'top-end'
+'bottom'
+'bottom-start'
+'bottom-end'
+'left'
+'left-start'
+'left-end'
+'right'
+'right-start'
+'right-end'
+```
+
+---
+
+## Examples
+
+### Default
+
+```tsx
+<Popover trigger={<Button>Open Popover</Button>}>
+  <Typography>Popover content</Typography>
+</Popover>
+```
+
+### With Arrow
+
+```tsx
+<Popover trigger={<Button>Open Popover</Button>} showArrow>
+  <Typography>Popover content</Typography>
+</Popover>
+```
+
+### Custom Placement
+
+```tsx
+<Popover trigger={<Button>Open Popover</Button>} placement="top-start">
+  <Typography>Popover content</Typography>
+</Popover>
+```
+
+### Custom Content
+
+```tsx
+<Popover trigger={<Button>Open Popover</Button>}>
+  <Box>
+    <Typography variant="subtitle1">Popover title</Typography>
+    <Typography variant="body2">
+      This is custom content inside the popover.
+    </Typography>
+  </Box>
+</Popover>
+```
+
+---
+
+## Placement Behavior
+
+The component uses Material UI `anchorOrigin` and `transformOrigin` to position the popover relative to its trigger.
+
+When there is not enough space in the preferred direction, the component calculates the available viewport space and flips the placement to the opposite side.
+
+For example:
+
+- `bottom` can flip to `top`
+- `top` can flip to `bottom`
+- `left` can flip to `right`
+- `right` can flip to `left`
+
+---
+
+## Responsive Behavior
+
+The Popover was visually tested in Storybook at the following viewport widths:
+
+- 320px
+- 375px
+- 768px
+- 1024px
+
+On mobile viewports below 600px, the popover renders with a full-width layout and is vertically centered within the viewport.
+
+On tablet and desktop viewports, the popover remains anchored to the trigger and uses its configured placement.
+
+---
+
+## Accessibility
+
+The trigger wrapper includes the following ARIA attributes:
+
+- `aria-haspopup="dialog"`
+- `aria-expanded`
+
+The `aria-expanded` value updates based on the popover open state.
+
+The popover content is rendered with `role="dialog"`.
+
+---
+
+## Styling
+
+The component uses Material UI styling APIs and design tokens.
+
+Styling is implemented with:
+
+- MUI `styled()`
+- MUI `sx` through slot props
+- CSS design tokens
+- MUI theme spacing
+- MUI breakpoints
+
+No external CSS files are used.
+
+---
+
+## Design Notes
+
+The component uses the project design tokens for:
+
+- Popover background
+- Text color
+- Border
+- Shadow
+- Border radius
+
+The Storybook trigger button was visually aligned with the Figma reference using a neutral outlined style, normal text casing, border radius, and theme-based spacing.
+
+Figma design fidelity was visually checked in Storybook using the available reference.
