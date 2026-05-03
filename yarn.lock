@@ -1123,6 +1123,25 @@
   dependencies:
     "@babel/runtime" "^7.28.6"
 
+"@mui/types@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@mui/types/-/types-9.0.0.tgz#92d8c64e72cb863ee59108cb20cc476d648a3ab9"
+  integrity sha512-i1cuFCAWN44b3AJWO7mh7tuh1sqbQSeVr/94oG0TX5uXivac8XalgE4/6fQZcmGZigzbQ35IXxj/4jLpRIBYZg==
+  dependencies:
+    "@babel/runtime" "^7.29.2"
+
+"@mui/utils@9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-9.0.0.tgz#25b563ccbf537feba5f89c37a00cb8e6eea45ad0"
+  integrity sha512-bQcqyg/gjULUqTuyUjSAFr6LQGLvtkNtDbJerAtoUn9kGZ0hg5QJiN1PLHMLbeFpe3te1831uq7GFl2ITokGdg==
+  dependencies:
+    "@babel/runtime" "^7.29.2"
+    "@mui/types" "^9.0.0"
+    "@types/prop-types" "^15.7.15"
+    clsx "^2.1.1"
+    prop-types "^15.8.1"
+    react-is "^19.2.4"
+
 "@mui/utils@^7.3.10", "@mui/utils@^7.3.3", "@mui/utils@^7.3.5":
   version "7.3.10"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-7.3.10.tgz#b74050131ca9022c0815d16f54f1a6d757ab343d"
@@ -1135,25 +1154,25 @@
     prop-types "^15.8.1"
     react-is "^19.2.3"
 
-"@mui/x-charts-vendor@8.26.0":
-  version "8.26.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-charts-vendor/-/x-charts-vendor-8.26.0.tgz#58ab81deeb330b832acc535732dd03eb0e6d7d05"
-  integrity sha512-R//+WSWvsLJRTjTRN90EKX9sgRzAb4HQBvtUA3cTQpkGrmEjmatD4BJAm3IdRdkSagf6yKWF+ypESctyRhbwnA==
+"@mui/x-charts-vendor@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-charts-vendor/-/x-charts-vendor-9.0.0.tgz#aa1318bcd7eefc65d7f41661098b811e699ab587"
+  integrity sha512-Do91i+fZiNj/4LN5oaGpJoutolzDBDwdfw6tHrx2LKXDMCRlaImCfreLbdbkk7dFsi9fuIP7hWiMV4vDJKPJTA==
   dependencies:
-    "@babel/runtime" "^7.28.4"
+    "@babel/runtime" "^7.28.6"
     "@types/d3-array" "^3.2.2"
     "@types/d3-color" "^3.1.3"
     "@types/d3-format" "^3.0.4"
     "@types/d3-interpolate" "^3.0.4"
     "@types/d3-path" "^3.1.1"
     "@types/d3-scale" "^4.0.9"
-    "@types/d3-shape" "^3.1.7"
+    "@types/d3-shape" "^3.1.8"
     "@types/d3-time" "^3.0.4"
     "@types/d3-time-format" "^4.0.3"
     "@types/d3-timer" "^3.0.2"
     d3-array "^3.2.4"
     d3-color "^3.1.0"
-    d3-format "^3.1.0"
+    d3-format "^3.1.2"
     d3-interpolate "^3.0.1"
     d3-path "^3.1.0"
     d3-scale "^4.0.2"
@@ -1164,16 +1183,16 @@
     flatqueue "^3.0.0"
     internmap "^2.0.3"
 
-"@mui/x-charts@8.28.2":
-  version "8.28.2"
-  resolved "https://registry.yarnpkg.com/@mui/x-charts/-/x-charts-8.28.2.tgz#c6a8065d69605266446b4943015af73f0e64bbb6"
-  integrity sha512-xvQto+uVcwwWitZjzwmHaw1KZDsIju687kLSyOe3qsg4JYldgT+WWguBFQREF7Tsw7PFGAPahDAzbsTNuIkkTA==
+"@mui/x-charts@^9.0.4":
+  version "9.0.4"
+  resolved "https://registry.yarnpkg.com/@mui/x-charts/-/x-charts-9.0.4.tgz#854d91b4ad329a07fb8b1806dd39ad72a530a647"
+  integrity sha512-fm48kr+y7UEkb1a/FtJYwf0X/u4VWP6nPxkL50tY/t38DZBHCnWBxLbmCK1hH2ZLkS3VGKfwTQrg+TrGLEP87w==
   dependencies:
-    "@babel/runtime" "^7.28.4"
-    "@mui/utils" "^7.3.5"
-    "@mui/x-charts-vendor" "8.26.0"
-    "@mui/x-internal-gestures" "0.4.0"
-    "@mui/x-internals" "8.26.0"
+    "@babel/runtime" "^7.29.2"
+    "@mui/utils" "9.0.0"
+    "@mui/x-charts-vendor" "^9.0.0"
+    "@mui/x-internal-gestures" "^9.0.2"
+    "@mui/x-internals" "^9.0.4"
     bezier-easing "^2.1.0"
     clsx "^2.1.1"
     prop-types "^15.8.1"
@@ -1193,12 +1212,12 @@
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
 
-"@mui/x-internal-gestures@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-internal-gestures/-/x-internal-gestures-0.4.0.tgz#68d0d23ab794de186e02e6f29116d1fe1d9211c8"
-  integrity sha512-i0W6v9LoiNY8Yf1goOmaygtz/ncPJGBedhpDfvNg/i8BvzPwJcBaeW4rqPucJfVag9KQ8MSssBBrvYeEnrQmhw==
+"@mui/x-internal-gestures@^9.0.2":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@mui/x-internal-gestures/-/x-internal-gestures-9.0.2.tgz#e64b9f633f90204a1d489c9aab8e154f7dc130e4"
+  integrity sha512-xCp99a7cSb7iH1bj4G524ooMOFe92H8m/rONCUiKyj7LvV1YUGzTfHgJysQgDCZJqHYaW7YAGLvwMUyEMZVzqQ==
   dependencies:
-    "@babel/runtime" "^7.28.4"
+    "@babel/runtime" "^7.28.6"
 
 "@mui/x-internals@8.26.0":
   version "8.26.0"
@@ -1207,6 +1226,16 @@
   dependencies:
     "@babel/runtime" "^7.28.4"
     "@mui/utils" "^7.3.5"
+    reselect "^5.1.1"
+    use-sync-external-store "^1.6.0"
+
+"@mui/x-internals@^9.0.4":
+  version "9.0.4"
+  resolved "https://registry.yarnpkg.com/@mui/x-internals/-/x-internals-9.0.4.tgz#a6a1ad84d506d14f29e46b57cac55a0d3899378f"
+  integrity sha512-I84xcPZOEmN29syfAjgsv25kpW7GX9+F7n2xXKEX5C7VdyXITbAW2RomwXt3guud4KwGhkAGuGDPK7Wi20EoCg==
+  dependencies:
+    "@babel/runtime" "^7.29.2"
+    "@mui/utils" "9.0.0"
     reselect "^5.1.1"
     use-sync-external-store "^1.6.0"
 
@@ -1702,7 +1731,7 @@
   dependencies:
     "@types/d3-time" "*"
 
-"@types/d3-shape@^3.1.7":
+"@types/d3-shape@^3.1.8":
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/@types/d3-shape/-/d3-shape-3.1.8.tgz#d1516cc508753be06852cd06758e3bb54a22b0e3"
   integrity sha512-lae0iWfcDeR7qt7rA88BNiqdvPS5pFVPpo5OfjElwNaT2yyekbM0C9vK+yqBqEmHr6lDkRnYNoTBYlAgJa7a4w==
@@ -2930,7 +2959,7 @@ csstype@^3.0.2, csstype@^3.1.3, csstype@^3.2.3:
   resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-3.1.0.tgz#395b2833dfac71507f12ac2f7af23bf819de24e2"
   integrity sha512-zg/chbXyeBtMQ1LbD/WSoW2DpC3I0mpmPdW+ynRTj/x2DAWYrIY7qeZIHidozwV24m4iavr15lNwIwLxRmOxhA==
 
-"d3-format@1 - 3", d3-format@^3.1.0:
+"d3-format@1 - 3", d3-format@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/d3-format/-/d3-format-3.1.2.tgz#01fdb46b58beb1f55b10b42ad70b6e344d5eb2ae"
   integrity sha512-AJDdYOdnyRDV5b6ArilzCPPwc1ejkHcoyFarqlPqT7zRYjhavcT3uSrqcMvsgh2CgoPbK3RCwyHaVyxYcP2Arg==
@@ -5831,7 +5860,7 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-is@^19.1.1, react-is@^19.2.3:
+react-is@^19.1.1, react-is@^19.2.3, react-is@^19.2.4:
   version "19.2.5"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-19.2.5.tgz#7e7b54143e9313fed787b23fd4295d5a23872ad9"
   integrity sha512-Dn0t8IQhCmeIT3wu+Apm1/YVsJXsGWi6k4sPdnBIdqMVtHtv0IGi6dcpNpNkNac0zB2uUAqNX3MHzN8c+z2rwQ==
@@ -7451,4 +7480,3 @@ zwitch@^2.0.0, zwitch@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/zwitch/-/zwitch-2.0.4.tgz#c827d4b0acb76fc3e685a4c6ec2902d51070e9d7"
   integrity sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==
-  
