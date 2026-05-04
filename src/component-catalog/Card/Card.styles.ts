@@ -25,21 +25,18 @@ export const VerticalCard = styled(MuiCard)(() => ({
 export const HighlightedCard = styled(MuiCard)(() => ({
   width: '100%',
 
-  backgroundColor: 'var(--accent)', // 👈 fondo tipo celeste suave
+  backgroundColor: 'var(--accent)', 
   border: '1px solid var(--border)',
 
-  // texto principal
   '& .MuiCardHeader-title': {
-    color: 'var(--primary)', // 👈 azul oscuro
+    color: 'var(--primary)', 
     fontWeight: 'var(--font-weight-medium)',
   },
 
-  // subtexto
   '& .MuiCardHeader-subheader': {
-    color: 'var(--muted-foreground)', // 👈 gris/azulado
+    color: 'var(--muted-foreground)', 
   },
 
-  // contenido
   '& .MuiCardContent-root': {
     color: 'var(--foreground)',
   },

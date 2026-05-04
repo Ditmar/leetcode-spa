@@ -41,10 +41,8 @@ describe('Card Component', () => {
 
     const button = screen.getByRole('button');
 
-    // 👇 userEvent maneja act automáticamente
     await userEvent.click(button);
 
-    // 👇 espera a que MUI Collapse renderice
     expect(await screen.findByText('Hidden Content')).toBeInTheDocument();
   });
 
