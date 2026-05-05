@@ -30,6 +30,6 @@ describe('parseRatio', () => {
   });
 
   it('returns 1 for invalid ratio', () => {
-    expect(parseRatio('abc' as any)).toBe(1);
+    expect(parseRatio('abc' as unknown as `${number}/${number}`)).toBe(1);
   });
 });
