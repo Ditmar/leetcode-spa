@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { MyCustomProvider } from '../component-catalog/MyCustomProvider';
+import { SmartHydration as SmartHydrationComponent } from '../component-catalog/SmartHydration';
+---
+
+<Layout>
+  <main>
+    <h1>Smart Hydration</h1>
+
+    <!-- SSR + hydrate immediately -->
+    <MyCustomProvider mode="ssr" client:load>
+      <SmartHydrationComponent threshold={500} />
+    </MyCustomProvider>
+
+    <!-- Client only (idle) -->
+    <MyCustomProvider mode="client" client:idle>
+      <SmartHydrationComponent threshold={2000} />
+    </MyCustomProvider>
+  </main>
+</Layout>
