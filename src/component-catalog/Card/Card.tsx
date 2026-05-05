@@ -10,10 +10,10 @@ import {
 } from '@mui/material';
 
 import { useCardExpand } from './Card.hook';
-import { HighlightedCard, StyledCard, VerticalCard } from './Card.styles';
-
-import type { CardProps } from './Card.types';
 import type { ReactNode } from 'react';
+
+import { HighlightedCard, StyledCard, VerticalCard } from './Card.styles';
+import type { CardProps } from './Card.types';
 
 const isValidNode = (node: ReactNode) => {
   if (!node) return undefined;
