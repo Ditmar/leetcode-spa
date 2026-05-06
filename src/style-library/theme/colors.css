@@ -30,6 +30,22 @@
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
 
+  /* lead */
+  --secondaryy: #eceef2;
+  --secondaryy-foreground: #030213;
+
+  /* blues */
+  --info: #e0f2fe;
+  --info-foreground: #0284c7;
+
+  /* orange */
+  --warning: #fef9c2;
+  --warning-foreground: #a65f00;
+
+  /* greys */
+  --success: #dcfce7;
+  --success-foreground: #008236;
+
   /* Form */
   --border: rgba(0, 0, 0, 0.1);
   --input: transparent;
@@ -68,6 +84,12 @@
   --sidebar-accent-foreground: #1a1a1a;
   --sidebar-border: #e8e8e8;
   --sidebar-ring: #b3b3b3;
+
+  /* Navigation Menu */
+  --nav-bg: #101828;
+  --nav-border: #1e2939;
+  --nav-text: #d1d5dc;
+  --nav-accent-green: #00c950;
 }
 
 .dark {

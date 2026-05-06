@@ -1,0 +1,32 @@
+# Alert Component
+
+The `Alert` component displays short, important messages in a way that attracts the user's attention without interrupting the user's task. 
+
+## Usage
+
+```tsx
+import { Alert } from './Alert';
+
+export const Example = () => (
+  <Alert severity="success" title="Success">
+    Your changes have been saved successfully!
+  </Alert>
+);
+
+## Props
+
+The `Alert` component extends Material UI's `BoxProps`, meaning it accepts all standard HTML and Box properties (like `id`, `onClick`, `style`, etc.) in addition to the following:
+
+| Name       | Type                                          | Default     | Description                                   |
+|------------|-----------------------------------------------|-------------|-----------------------------------------------|
+| `severity` | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'`    | Defines the semantic style and default icon.  |
+| `title`    | `string`                                      | Required    | The bolded title text.                        |
+| `children` | `ReactNode`                                   | `undefined` | Optional descriptive message text.            |
+| `icon`     | `ReactNode`                                   | `undefined` | Overrides the default severity-based icon.    |
+| `className`| `string`                                      | `undefined` | Passed to the root container for styling.     |
+
+## Accessibility
+
+The component dynamically adjusts ARIA attributes based on the `severity` to ensure a smooth experience for screen reader users:
+- **Error:** Uses `role="alert"` and `aria-live="assertive"` to immediately interrupt the user for critical issues.
+- **Info, Success, Warning:** Uses `role="status"` and `aria-live="polite"` to announce messages safely without interrupting the current task.
