@@ -1,0 +1,65 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import * as AccordionStories from './Accordion.stories';
+
+<Meta of={AccordionStories} />
+
+<Title />
+
+<Subtitle>A versatile component for organizing and toggling related content sections.</Subtitle>
+
+<Description>
+  `Accordion` is a Material UI based component that allows users to expand and collapse sections of content. 
+  It is ideal for managing large amounts of information in a limited vertical space.
+</Description>
+
+## Use cases
+
+Use `Accordion` when the interface must:
+
+- group related information that doesn't need to be visible all at once
+- provide an overview of multiple categories or topics
+- reduce page scrolling and cognitive load by hiding secondary content
+- manage complex settings or FAQs in a structured manner
+
+Do not use this component if the user needs to see all the information at the same time for comparison.
+
+## Expansion variants
+
+The component supports two main interaction patterns:
+
+- **Single expansion**: Only one panel can be open at a time. Opening a new one automatically closes the previous one.
+- **Multiple expansion**: Allows several panels to stay open simultaneously, providing maximum flexibility.
+
+This behavior is controlled via the `variant` prop.
+
+## Key Features
+
+- **Custom Icons**: Support for overriding the default expand/collapse icon.
+- **Controlled/Uncontrolled**: Can be used with an internal state or controlled externally via the `expanded` prop.
+- **Smooth Transitions**: Built-in animations for a fluid user experience when toggling content.
+
+## Accessibility
+
+The component implements standard WAI-ARIA patterns:
+
+- `aria-expanded`: Dynamically updated to indicate the state of each panel.
+- `aria-controls`: Connects the summary to its corresponding content panel.
+- **Keyboard Navigation**: Full support for `Space` and `Enter` keys to toggle panels.
+
+## Responsive behavior
+
+`Accordion` is fully responsive and adapts to any viewport:
+- **Mobile (≥ 320px)**: Optimized touch targets (minimum 44x44px) and adjusted horizontal paddings for better readability on small screens.
+- **Desktop**: Maintains a clean, aligned layout with a maximum content width for optimal line length.
+
+## Primary example
+
+<Primary />
+
+## Controls
+
+<Controls />
+
+## Additional stories
+
+<Stories includePrimary={false} />
