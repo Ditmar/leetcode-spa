@@ -1,0 +1,75 @@
+import { Meta, Story, Canvas, Controls } from "@storybook/blocks";
+import * as Stories from "./Card.stories";
+
+<Meta of={Stories} />
+
+# Card Component
+
+The **Card** component is a flexible container used to group related information and actions.
+
+---
+
+## Features
+
+- Built with Material UI Card components
+- Supports vertical and horizontal layouts
+- Media support (image/video)
+- Expandable content
+- Responsive design
+
+---
+
+## Default
+
+<Canvas>
+  <Story of={Stories.Default} />
+</Canvas>
+
+---
+
+## Horizontal
+
+<Canvas>
+  <Story of={Stories.Horizontal} />
+</Canvas>
+
+---
+
+## Expandable
+
+<Canvas>
+  <Story of={Stories.Expandable} />
+</Canvas>
+
+---
+
+## With Avatar
+
+<Canvas>
+  <Story of={Stories.WithAvatar} />
+</Canvas>
+
+---
+
+## Props
+
+<Controls />
+
+---
+
+## Accessibility
+
+- Uses semantic MUI components
+- `aria-expanded` supported
+- Compatible with screen readers
+
+## Responsive Behavior
+
+Tested at:
+
+- 320px (small mobile)
+- 375px (mobile)
+- 768px (tablet)
+- 1024px (desktop)
+
+The layout adapts from vertical (mobile) to horizontal (desktop).

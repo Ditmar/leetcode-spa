@@ -24,16 +24,23 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '>=20.3.0'
+          node-version: '20.10.0'
+<<<<<<< HEAD
+=======
           cache: 'yarn'
+>>>>>>> ba8d7add (fix: unify yarn install with immutable)
 
-      - name: Install specific Yarn version
+      - name: Enable Corepack
         run: |
           corepack enable
-          corepack prepare yarn@1.22.22 --activate
+<<<<<<< HEAD
+          corepack prepare yarn@4.13.0 --activate
+=======
+          corepack install
+>>>>>>> ba8d7add (fix: unify yarn install with immutable)
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Run lint
         run: yarn lint
@@ -54,16 +61,23 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '>=20.3.0'
+          node-version: '20.10.0'
+<<<<<<< HEAD
+=======
           cache: 'yarn'
+>>>>>>> ba8d7add (fix: unify yarn install with immutable)
 
-      - name: Install specific Yarn version
+      - name: Enable Corepack
         run: |
           corepack enable
-          corepack prepare yarn@1.22.22 --activate
+<<<<<<< HEAD
+          corepack prepare yarn@4.13.0 --activate
+=======
+          corepack install
+>>>>>>> ba8d7add (fix: unify yarn install with immutable)
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Sanitize Branch name
         id: sanitize_branch_name
@@ -134,16 +148,16 @@ jobs:
   #     - name: Set up Node.js
   #       uses: actions/setup-node@v3
   #       with:
-  #         node-version: '>=18.19 <=18.21'
+  #         node-version: '18.20.0'
   #         cache: 'yarn'
 
-  #     - name: Install specific Yarn version
+  #     - name: Enable Corepack and use project Yarn
   #       run: |
   #         corepack enable
-  #         corepack prepare yarn@1.22.22 --activate
+  #         corepack install
 
   #     - name: Install dependencies
-  #       run: yarn install --frozen-lockfile
+  #       run: yarn install
 
   #     - name: Build project
   #       run: yarn build
