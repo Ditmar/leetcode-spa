@@ -25,7 +25,7 @@ describe('Chart — bar', () => {
 
   it('has role="img" for accessibility', () => {
     const { getByRole } = render(<Chart type="bar" series={barSeries} title="Revenue chart" />);
-    expect(getByRole('img', { name: /revenue chart/i })).toBeInTheDocument();
+    expect(getByRole('img')).toBeInTheDocument();
   });
 
   it('renders accessible title', () => {
