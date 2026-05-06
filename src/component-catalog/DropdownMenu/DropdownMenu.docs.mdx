@@ -1,0 +1,288 @@
+import { Meta, Canvas } from '@storybook/blocks';
+import * as DropdownMenuStories from './DropdownMenu.stories';
+
+<Meta of={DropdownMenuStories} />
+
+# DropdownMenu
+
+The `DropdownMenu` component is a reusable and accessible menu built with Material UI.  
+It is designed to support common action menus, contextual options, grouped content, and selection patterns such as checkbox and radio items.
+
+This component was implemented following a component-driven structure and separates responsibilities across multiple files for better scalability, maintainability, and testing.
+
+## Purpose
+
+The main purpose of `DropdownMenu` is to provide a flexible action menu that can be triggered by a customizable element such as a button or any other valid React node.
+
+It supports:
+
+### Item types
+- standard action items
+- checkbox items
+- radio items
+- disabled items
+
+### Layout and structure
+- grouped items with separators
+- one-level nested submenus
+- icons
+- keyboard shortcut hints
+
+### Behavior and responsiveness
+- responsive behavior
+- consistent interaction patterns
+
+### Accessibility
+- ARIA accessibility support
+- keyboard navigation support
+
+## Preview
+
+<Canvas of={DropdownMenuStories.Playground} />
+
+## Component Responsibilities
+
+The component is divided into dedicated files so that each part has a single clear responsibility.
+
+### `DropdownMenu.tsx`
+
+This is the main component file.
+
+Responsibilities:
+
+- renders the trigger
+- opens and closes the main menu
+- renders all menu items
+- renders the nested submenu
+- applies accessibility attributes
+- connects styles, utils, constants, and hook logic
+
+### `DropdownMenu.types.ts`
+
+This file contains the main TypeScript contracts used by the component.
+
+Main types defined here:
+
+- `DropdownItem`
+- `DropdownGroup`
+- `DropdownMenuProps`
+
+This ensures that the menu structure is strongly typed and easy to scale.
+
+### `DropdownMenu.constants.ts`
+
+This file centralizes reusable constants, such as:
+
+- supported item types
+- ARIA role names
+- default values used by the component
+
+This avoids magic strings and improves code consistency.
+
+### `DropdownMenu.hook.ts`
+
+This file contains the hook responsible for menu state management.
+
+Responsibilities:
+
+- stores the main menu anchor
+- stores the submenu anchor
+- handles open and close behavior
+- determines submenu direction
+- helps keep the main component cleaner
+
+### `DropdownMenu.styles.ts`
+
+This file contains all centralized `sx` style objects.
+
+Responsibilities:
+
+- menu paper styling
+- submenu paper styling
+- item styling
+- divider styling
+- icon alignment
+- shortcut alignment
+- responsive size adjustments
+
+This file avoids external CSS and keeps styles reusable.
+
+### `DropdownMenu.utils.ts`
+
+This file contains helper functions used by the main component.
+
+Responsibilities:
+
+- normalize groups
+- identify separators
+- identify submenu items
+- calculate ARIA states
+- toggle checkbox items
+- update radio groups
+
+### `DropdownMenu.test.tsx`
+
+This file contains unit tests.
+
+The goal of these tests is to validate:
+
+- menu open and close behavior
+- item selection
+- keyboard interaction
+- submenu rendering
+- checkbox toggling
+- radio group selection
+
+### `DropdownMenu.stories.tsx`
+
+This file contains the Storybook stories written in CSF format.
+
+Its purpose is to:
+
+- preview the component visually
+- validate interaction behavior
+- verify responsive behavior
+- support design review
+
+### `DropdownMenu.docs.mdx`
+
+This file provides written documentation for Storybook in English.
+
+Its purpose is to explain:
+
+- what the component does
+- how it is structured
+- how to use it
+- why specific implementation decisions were made
+
+## Data Model
+
+The component uses a structured item model to support different menu behaviors.
+
+### `DropdownItem`
+
+A `DropdownItem` represents one entry inside the menu.
+
+Common properties:
+
+- `id`: unique identifier
+- `label`: visible text
+- `icon`: optional icon
+- `shortcut`: optional keyboard hint
+- `disabled`: disables interaction
+- `type`: defines the item behavior
+- `checked`: used by checkbox and radio items
+- `name`: used to group radio items
+- `onClick`: optional callback
+- `children`: submenu items
+
+### `DropdownGroup`
+
+A `DropdownGroup` allows items to be rendered in logical sections.
+
+This is useful when the menu contains different categories of actions.
+
+### `DropdownMenuProps`
+
+The component accepts a set of props that define its behavior.
+
+Main props:
+
+- `trigger`
+- `groups`
+- `items`
+- `onItemSelect`
+- `disabled`
+- `mobileFullWidth`
+
+## Supported Item Types
+
+The component supports multiple item types.
+
+### Action Item
+A normal clickable item.
+
+### Separator Item
+A visual divider.
+
+### Checkbox Item
+A toggleable item.
+
+### Radio Item
+A selectable item within a group.
+
+### Submenu Item
+An item that opens another menu.
+
+### Disabled Item
+A non-interactive item.
+
+## Accessibility
+
+Accessibility was considered in the implementation.
+
+The component includes:
+
+- `role="menu"` for menu containers
+- `aria-haspopup="menu"` on the trigger
+- `aria-expanded` on the trigger
+- correct item roles:
+  - `menuitem`
+  - `menuitemcheckbox`
+  - `menuitemradio`
+- `aria-checked` for checkbox and radio items
+
+### Keyboard Navigation
+
+The component supports keyboard interaction:
+
+- Enter / Space → Opens the menu and selects items
+- Escape → Closes the menu
+- Arrow Down / Arrow Up → Navigate between items
+- Arrow Right → Opens submenu (if available)
+- Arrow Left → Closes submenu
+
+These attributes improve screen reader behavior and keyboard accessibility.
+
+## Responsive Behavior
+
+The component was designed to behave correctly across multiple screen sizes.
+
+Responsive considerations include:
+
+- constrained menu width
+- constrained menu height
+- internal scrolling when space is limited
+- mobile-friendly item height
+- minimum touch target height of 44px for better touch accessibility
+- submenu direction adjustment when space is limited
+- viewport-safe margins
+
+## Styling Strategy
+
+Uses `sx` styles.
+
+## Design Fidelity
+
+Aligned with Figma.
+
+## Example Usage
+
+```tsx
+import Button from '@mui/material/Button';
+import DropdownMenu from './DropdownMenu';
+
+const items = [
+  { id: 'edit', label: 'Edit' },
+  { id: 'show-lines', label: 'Show line numbers', type: 'checkbox', checked: true },
+  { id: 'sort-name', label: 'Sort by name', type: 'radio', name: 'sort', checked: true },
+];
+
+export default function Example() {
+  return (
+    <DropdownMenu
+      trigger={<Button variant="outlined">Dropdown Menu</Button>}
+      items={items}
+    />
+  );
+}
