@@ -69,69 +69,39 @@ import Label from '@/components/Label';
 
 <Canvas of={LabelStories.Default} />
 
-### Required
+### Required{/* Label.docs.mdx */}
 
-<Canvas of={LabelStories.Required} />
+import { Meta, Canvas, ArgTypes } from '@storybook/blocks';
+import * as LabelStories from './Label.stories';
 
-### Optional
+<Meta of={LabelStories} />
 
-<Canvas of={LabelStories.Optional} />
+# Label
 
-### Error
-
-<Canvas of={LabelStories.Error} />
-
-### Disabled
-
-<Canvas of={LabelStories.Disabled} />
-
-### With Tooltip
-
-<Canvas of={LabelStories.WithTooltip} />
-
-### Paired with Input
-
-<Canvas of={LabelStories.PairedWithInput} />
-
-### Narrow Viewport (320 px)
-
-Validates that no text is clipped or overflows at the minimum supported viewport width.
-
-<Canvas of={LabelStories.NarrowViewport} />
-
-### All States
-
-<Canvas of={LabelStories.AllStates} />
+The `Label` component renders a form label associated with its input control.
+It is a presentational atom built on top of MUI `InputLabel` and supports common form states such as required, optional, disabled, error, and tooltip messaging.
 
 ---
 
-## Design tokens
+## Usage
 
-The component exclusively uses MUI theme tokens — no hardcoded `px` values.
+```tsx
+import Label from './Label';
 
-| Token | Usage |
-|---|---|
-| `theme.typography.body2` | Base font size and line-height |
-| `theme.typography.caption` | Optional hint text |
-| `theme.typography.fontWeightMedium` | Label font weight |
-| `theme.palette.text.primary` | Default text colour |
-| `theme.palette.text.secondary` | Optional hint colour |
-| `theme.palette.error.main` | Required `*` and error state colour |
-| `theme.spacing(…)` | All internal gaps and padding |
+<Label htmlFor="email-input" required>
+  Email address
+</Label>
 
----
+<input id="email-input" type="email" required />
 
-## File structure
-
-```
 Label/
 ├── Label.tsx              # Main component logic & JSX
 ├── Label.types.ts         # Props interface extending MUI InputLabelProps
 ├── Label.constants.ts     # Required / optional indicator strings
 ├── Label.hook.ts          # useLabelTooltip – tooltip open/close state
-├── Label.styles.ts        # MUI styled() components – no external CSS, no px
+├── Label.styles.ts        # MUI styled() components
 ├── Label.utils.ts         # resolveRequiredOptional, buildAccessibleLabel
 ├── Label.test.tsx         # Unit tests – Jest / Testing Library + axe
 ├── Label.stories.tsx      # Storybook stories (CSF)
-└── Label.docs.mdx         # This file
-```
+└── Label.docs.mdx         # This documentation
+

@@ -1,5 +1,24 @@
-export const REQUIRED_INDICATOR = '*';
+export interface FormLabelsConfig {
+requiredIndicator: string;
+optionalIndicator: string;
+tooltipIconAriaLabel: string;
 
-export const OPTIONAL_INDICATOR = '(optional)';
+}
 
-export const TOOLTIP_ICON_ARIA_LABEL = 'More information';
+export const DEFAULT_FORM_LABELS: FormLabelsConfig = {
+requiredIndicator: '*',
+optionalIndicator: '(opcional)',
+tooltipIconAriaLabel: 'Más información',
+};
+
+export const REQUIRED_INDICATOR =
+
+DEFAULT_FORM_LABELS.requiredIndicator;
+
+export const OPTIONAL_INDICATOR =
+
+DEFAULT_FORM_LABELS.optionalIndicator;
+
+export const TOOLTIP_ICON_ARIA_LABEL =
+
+DEFAULT_FORM_LABELS.tooltipIconAriaLabel;
