@@ -46,11 +46,9 @@ export const TooltipIconWrapper = styled('span')(({ theme }) => ({
   flexShrink: 0,
 }));
 
-
 export const TooltipIconButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0.25),
 }));
-
 
 export const TooltipInfoIcon = styled('span')(({ theme }) => ({
   display: 'inline-flex',
