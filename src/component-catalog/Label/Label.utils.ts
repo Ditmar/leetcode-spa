@@ -1,14 +1,6 @@
-import {
-  REQUIRED_INDICATOR,
-  OPTIONAL_INDICATOR,
-} from './Label.constants';
+import { REQUIRED_INDICATOR, OPTIONAL_INDICATOR } from './Label.constants';
 
-export function buildAccessibleLabel(
-  text: string,
-  required?: boolean,
-  optional?: boolean
-): string {
- 
+export function buildAccessibleLabel(text: string, required?: boolean, optional?: boolean): string {
   if (required) {
     return `${text} ${REQUIRED_INDICATOR}`;
   }

@@ -1,65 +1,76 @@
-{/* Label.docs.mdx */}
-
-import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/blocks';
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/blocks';
 import * as LabelStories from './Label.stories';
 
 <Meta of={LabelStories} />
 
 # Label
 
-The `Label` component renders an accessible form label that programmatically and visually associates with its input control. It is a **pure presentational atom** built on top of MUI `InputLabel`.
+An **accessible**, **responsive**, and **theme-aware** form label component
+built on top of MUI `InputLabel`.
+
+The component supports common form-label states such as:
+
+- required
+- optional
+- error
+- disabled
+- tooltip messaging
+
+It is designed as a lightweight presentational atom that integrates seamlessly
+with form controls and accessibility workflows.
 
 ---
 
-## Usage
+## Overview
 
-```tsx
-import Label from '@/components/Label';
+The `Label` component visually and programmatically associates itself
+with form controls through the `htmlFor` prop.
 
-<Label htmlFor="email-input" required>
-  Email address
-</Label>
-<input id="email-input" type="email" required />
+| State      | Description                                      |
+| ----------- | ------------------------------------------------ |
+| `required` | Displays required indicator and accessibility metadata |
+| `optional` | Displays optional helper text                    |
+| `error`    | Applies error styling from the theme             |
+| `disabled` | Applies disabled visual state                    |
+| `tooltip`  | Displays contextual helper information           |
+
+---
+
+## Installation
+
+```bash
+# Already available in your project
+# Requires MUI v7
+
+yarn add @mui/material @emotion/react @emotion/styled
 ```
 
 ---
 
-## Features
+## Quick Start
 
-| Feature | Prop | Behaviour |
-|---|---|---|
-| Required indicator | `required` | Appends a red `*` glyph; sets `aria-required="true"` on the `<label>` |
-| Optional hint | `optional` | Appends a grey italic `(optional)` span |
-| Error state | `error` | Text rendered in `theme.palette.error.main` |
-| Disabled state | `disabled` | Reduced opacity via MUI `Mui-disabled` class |
-| Contextual tooltip | `tooltip` | Renders an info icon button; tooltip opens on hover, focus, or tap |
+```tsx
+import Label from './Label';
 
-> **Note:** `required` and `optional` are mutually exclusive. If both are set, `required` takes precedence and `optional` is suppressed.
+export default function Example() {
+  return (
+    <>
+      <Label
+        htmlFor="email-input"
+        required
+      >
+        Email address
+      </Label>
 
----
-
-## Accessibility
-
-- The `htmlFor` prop **must** match the `id` of the associated input — this creates the programmatic association required by WCAG 1.3.1 (Info and Relationships).
-- When `required` is true, `aria-required="true"` is set on the `<label>` so screen readers announce the constraint even before the user interacts with the field.
-- The `*` glyph is wrapped in `aria-hidden="true"` to prevent double-announcement (the `aria-required` attribute is the canonical signal).
-- The tooltip icon has an accessible `aria-label` (`"More information"`) and is reachable by keyboard (`Tab`) and touch (`enterTouchDelay={0}`).
-- All text sizing uses `rem`-based MUI typography tokens, so the component respects OS-level font scaling (tested at 200%).
-- No content truncates at a 320 px viewport width.
-
-### axe / ARIA checklist
-
-- [x] `<label>` element with valid `for` attribute
-- [x] `aria-required` propagated correctly
-- [x] No orphaned ARIA attributes
-- [x] Tooltip icon has an accessible name
-- [x] Color contrast meets WCAG AA at all states
-
----
-
-## Props
-
-<ArgTypes of={LabelStories} />
+      <input
+        id="email-input"
+        type="email"
+        required
+      />
+    </>
+  );
+}
+```
 
 ---
 
@@ -69,39 +80,130 @@ import Label from '@/components/Label';
 
 <Canvas of={LabelStories.Default} />
 
-### Required{/* Label.docs.mdx */}
+### Required
 
-import { Meta, Canvas, ArgTypes } from '@storybook/blocks';
-import * as LabelStories from './Label.stories';
+<Canvas of={LabelStories.Required} />
 
-<Meta of={LabelStories} />
+### Optional
 
-# Label
+<Canvas of={LabelStories.Optional} />
 
-The `Label` component renders a form label associated with its input control.
-It is a presentational atom built on top of MUI `InputLabel` and supports common form states such as required, optional, disabled, error, and tooltip messaging.
+### Error
+
+<Canvas of={LabelStories.Error} />
+
+### Disabled
+
+<Canvas of={LabelStories.Disabled} />
+
+### With Tooltip
+
+<Canvas of={LabelStories.WithTooltip} />
+
+### Required Error With Tooltip
+
+<Canvas of={LabelStories.RequiredErrorWithTooltip} />
+
+### Paired With Input
+
+<Canvas of={LabelStories.PairedWithInput} />
+
+### Narrow Viewport
+
+<Canvas of={LabelStories.NarrowViewport} />
+
+### All States
+
+<Canvas of={LabelStories.AllStates} />
 
 ---
 
-## Usage
+## Controls
 
-```tsx
-import Label from './Label';
+<Controls />
 
-<Label htmlFor="email-input" required>
-  Email address
-</Label>
+---
 
-<input id="email-input" type="email" required />
+## Prop Reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `htmlFor` | `string` | — | **Required.** Associates label with input id |
+| `children` | `React.ReactNode` | — | Label content |
+| `required` | `boolean` | `false` | Displays required indicator |
+| `optional` | `boolean` | `false` | Displays optional helper text |
+| `error` | `boolean` | `false` | Applies error visual state |
+| `disabled` | `boolean` | `false` | Applies disabled state |
+| `tooltip` | `string` | — | Tooltip helper content |
+
+---
+
+## Accessibility
+
+- `htmlFor` associates the label with its target form control.
+- Required fields propagate `aria-required="true"`.
+- Required indicators use `aria-hidden="true"` to prevent duplicate announcements.
+- Tooltip buttons expose accessible labels.
+- Tooltip interactions support keyboard navigation.
+- Compatible with screen readers and keyboard-only interaction.
+- Wrapped labels remain readable in narrow layouts.
+
+---
+
+## Responsive Behaviour
+
+| Viewport | Behaviour |
+| -------- | ---------- |
+| 320 px | Wrapped label text without clipping |
+| 375 px | Comfortable spacing and inline layout |
+| 768 px | Stable alignment with form controls |
+| 1024 px+ | Inline layout within wider forms |
+
+All spacing and typography values are derived from the MUI theme.
+
+No external CSS is required.
+
+---
+
+## Design Notes
+
+The component uses:
+
+- MUI `InputLabel`
+- MUI `styled()`
+- Theme typography tokens
+- Theme spacing tokens
+- Theme palette values
+
+The tooltip state is internally managed through a dedicated custom hook.
+
+---
+
+## File Structure
+
+```txt
 Label/
-├── Label.tsx              # Main component logic & JSX
-├── Label.types.ts         # Props interface extending MUI InputLabelProps
-├── Label.constants.ts     # Required / optional indicator strings
-├── Label.hook.ts          # useLabelTooltip – tooltip open/close state
-├── Label.styles.ts        # MUI styled() components
-├── Label.utils.ts         # resolveRequiredOptional, buildAccessibleLabel
-├── Label.test.tsx         # Unit tests – Jest / Testing Library + axe
-├── Label.stories.tsx      # Storybook stories (CSF)
-└── Label.docs.mdx         # This documentation
+├── Label.tsx
+├── Label.types.ts
+├── Label.constants.ts
+├── Label.hook.ts
+├── Label.styles.ts
+├── Label.utils.ts
+├── Label.test.tsx
+├── Label.stories.tsx
+└── Label.docs.mdx
+```
 
+---
+
+## Stack
+
+| Package | Role |
+| --- | --- |
+| `@mui/material` v7 | InputLabel, Tooltip, IconButton |
+| `@emotion/react` | CSS-in-JS runtime |
+| `@emotion/styled` | Styled components |
+| `react` | Component rendering |
+| `vitest` | Unit testing |
+| `@testing-library/react` | Accessibility and interaction testing |
+| `storybook` | Interactive component documentation |

@@ -1,18 +1,13 @@
 import type { InputLabelProps } from '@mui/material/InputLabel';
 import type React from 'react';
 
-interface BaseLabelProps
-  extends Omit<InputLabelProps, 'required'> {
- 
+interface BaseLabelProps extends Omit<InputLabelProps, 'required'> {
   htmlFor: string;
-
 
   children: React.ReactNode;
 
-  
   error?: boolean;
 
-  
   disabled?: boolean;
 
   tooltip?: string;
@@ -28,7 +23,4 @@ type RequiredStateProps =
       optional?: boolean;
     };
 
-
-export type LabelProps = BaseLabelProps &
-  RequiredStateProps;
-
+export type LabelProps = BaseLabelProps & RequiredStateProps;

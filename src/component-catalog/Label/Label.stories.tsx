@@ -63,8 +63,7 @@ const meta: Meta<typeof Label> = {
 
     tooltip: {
       control: 'text',
-      description:
-        'Tooltip content (renders info icon when provided)',
+      description: 'Tooltip content (renders info icon when provided)',
     },
   },
 
@@ -195,8 +194,7 @@ export const NarrowViewport: Story = {
 
   args: {
     htmlFor: 'label-narrow-viewport',
-    children:
-      'A very long label that might wrap on narrow screens',
+    children: 'A very long label that might wrap on narrow screens',
     required: true,
     tooltip: 'Helpful tooltip content for this field',
   },
@@ -249,12 +247,7 @@ export const AllStates: Story = {
       </Box>
 
       <Box>
-        <Label
-          htmlFor="s7"
-          required
-          error
-          tooltip="Fix this field"
-        >
+        <Label htmlFor="s7" required error tooltip="Fix this field">
           Required + Error + Tooltip
         </Label>
       </Box>

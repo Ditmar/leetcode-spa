@@ -3,13 +3,8 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import React from 'react';
 
-import {
-  OPTIONAL_INDICATOR,
-  TOOLTIP_ICON_ARIA_LABEL,
-} from './Label.constants';
-
+import { OPTIONAL_INDICATOR, TOOLTIP_ICON_ARIA_LABEL } from './Label.constants';
 import { useLabelTooltip } from './Label.hook';
-
 import {
   StyledInputLabel,
   RequiredIndicator,
@@ -18,35 +13,17 @@ import {
   TooltipIconButton,
   TooltipInfoIcon,
 } from './Label.styles';
-
 import { resolveRequiredOptional } from './Label.utils';
 
 import type { LabelProps } from './Label.types';
 
 const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
-  (
-    {
-      htmlFor,
-      children,
-      required,
-      optional,
-      error,
-      disabled,
-      tooltip,
-      ...rest
-    },
-    ref
-  ) => {
-    const { showRequired, showOptional } =
-      resolveRequiredOptional(required, optional);
+  ({ htmlFor, children, required, optional, error, disabled, tooltip, ...rest }, ref) => {
+    const { showRequired, showOptional } = resolveRequiredOptional(required, optional);
 
-    const { open, handleOpen, handleClose, handleToggle } =
-      useLabelTooltip();
+    const { open, handleOpen, handleClose, handleToggle } = useLabelTooltip();
 
-    const normalizedTooltip =
-      typeof tooltip === 'string'
-        ? tooltip.trim()
-        : '';
+    const normalizedTooltip = typeof tooltip === 'string' ? tooltip.trim() : '';
 
     return (
       <StyledInputLabel
@@ -60,17 +37,10 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
       >
         {children}
 
-        {showRequired && (
-          <RequiredIndicator aria-hidden="true">
-            *
-          </RequiredIndicator>
-        )}
+        {showRequired && <RequiredIndicator aria-hidden="true">*</RequiredIndicator>}
 
         {showOptional && (
-          <OptionalHint
-            component="span"
-            variant="caption"
-          >
+          <OptionalHint component="span" variant="caption">
             &nbsp;
             {OPTIONAL_INDICATOR}
           </OptionalHint>
@@ -95,10 +65,7 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
                 tabIndex={0}
                 disabled={disabled}
               >
-                <TooltipInfoIcon
-                  as={InfoOutlinedIcon}
-                  fontSize="inherit"
-                />
+                <TooltipInfoIcon as={InfoOutlinedIcon} fontSize="inherit" />
               </TooltipIconButton>
             </Tooltip>
           </TooltipIconWrapper>
