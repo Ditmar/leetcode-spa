@@ -1,4 +1,5 @@
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 import { AspectRatio } from './AspectRatio';
 
@@ -13,33 +14,73 @@ export default meta;
 
 type Story = StoryObj<typeof AspectRatio>;
 
-const DemoContent = () => (
+const DemoContent = ({ label }: { label: string }) => (
   <Box
     sx={(theme) => ({
-      backgroundColor: theme.palette.grey[300],
       width: '100%',
       height: '100%',
+      backgroundColor: theme.palette.grey[300],
+      borderRadius: theme.spacing(0.5),
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: theme.palette.text.secondary,
+      fontWeight: 600,
     })}
-  />
+  >
+    {label}
+  </Box>
 );
 
-export const Ratio16by9: Story = {
-  args: {
-    ratio: '16/9',
-    children: <DemoContent />,
-  },
-};
+export const MultipleRatios: Story = {
+  render: () => (
+    <Box
+      sx={(theme) => ({
+        p: 3,
+        backgroundColor: theme.palette.grey[100],
+        minHeight: '100vh',
+      })}
+    >
+      {/* Header */}
+      <Typography variant="h5" gutterBottom>
+        Aspect Ratio
+      </Typography>
 
-export const Ratio4by3: Story = {
-  args: {
-    ratio: '4/3',
-    children: <DemoContent />,
-  },
-};
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+        Maintain aspect ratios
+      </Typography>
 
-export const Ratio1by1: Story = {
-  args: {
-    ratio: 1,
-    children: <DemoContent />,
-  },
+      {/* Ratios */}
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            md: '1fr 1fr',
+          },
+          gap: 3,
+          width: '100%',
+          maxWidth: 900,
+        }}
+      >
+        {/* 16:9 */}
+        <Box>
+          <Typography mb={1}>16:9 Ratio</Typography>
+
+          <AspectRatio ratio="16/9">
+            <DemoContent label="16:9" />
+          </AspectRatio>
+        </Box>
+
+        {/* 1:1 */}
+        <Box>
+          <Typography mb={1}>1:1 Ratio</Typography>
+
+          <AspectRatio ratio="1/1">
+            <DemoContent label="1:1" />
+          </AspectRatio>
+        </Box>
+      </Box>
+    </Box>
+  ),
 };
