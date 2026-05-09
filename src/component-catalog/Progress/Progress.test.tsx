@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { expect, test, describe } from 'vitest';
 
 import theme from '../../style-library/theme/theme'; // ajusta la ruta
@@ -47,88 +47,5 @@ describe('Progress Component', () => {
     );
 
     expect(screen.queryByText(/%/)).not.toBeInTheDocument();
-  });
-
-  test('increase button increments value', () => {
-    renderWithTheme(
-      <Progress
-        variant={ProgressVariant.LINEAR}
-        mode={ProgressMode.DETERMINATE}
-        value={50}
-        showLabel
-      />
-    );
-
-    const increaseBtn = screen.getByText('Increase');
-
-    fireEvent.click(increaseBtn);
-
-    expect(screen.getByText('60%')).toBeInTheDocument();
-  });
-
-  test('decrease button decrements value', () => {
-    renderWithTheme(
-      <Progress
-        variant={ProgressVariant.LINEAR}
-        mode={ProgressMode.DETERMINATE}
-        value={50}
-        showLabel
-      />
-    );
-
-    const decreaseBtn = screen.getByText('Decrease');
-
-    fireEvent.click(decreaseBtn);
-
-    expect(screen.getByText('40%')).toBeInTheDocument();
-  });
-
-  test('value does not exceed 100', () => {
-    renderWithTheme(
-      <Progress
-        variant={ProgressVariant.LINEAR}
-        mode={ProgressMode.DETERMINATE}
-        value={95}
-        showLabel
-      />
-    );
-
-    const increaseBtn = screen.getByText('Increase');
-
-    fireEvent.click(increaseBtn);
-
-    expect(screen.getByText('100%')).toBeInTheDocument();
-  });
-
-  test('value does not go below 0', () => {
-    renderWithTheme(
-      <Progress
-        variant={ProgressVariant.LINEAR}
-        mode={ProgressMode.DETERMINATE}
-        value={5}
-        showLabel
-      />
-    );
-
-    const decreaseBtn = screen.getByText('Decrease');
-
-    fireEvent.click(decreaseBtn);
-
-    expect(screen.getByText('0%')).toBeInTheDocument();
-  });
-
-  test('applies custom color (dark)', () => {
-    renderWithTheme(
-      <Progress
-        variant={ProgressVariant.LINEAR}
-        mode={ProgressMode.DETERMINATE}
-        value={50}
-        color="dark"
-      />
-    );
-
-    const progress = screen.getByRole('progressbar');
-
-    expect(progress).toBeInTheDocument();
   });
 });

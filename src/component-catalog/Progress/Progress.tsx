@@ -1,5 +1,5 @@
 import { CircularProgress, useTheme, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { ProgressVariant, ProgressMode } from './Progress.constants';
 import { useProgress } from './Progress.hook';
@@ -9,12 +9,13 @@ import {
   CircularWrapper,
   StyledLinear,
   ContainerCard,
-  ControlsWrapper,
-  StyledButton,
-  Header,
+  ProgressHeader,
 } from './Progress.styles';
 
-import type { ProgressProps, ProgressColor } from './Progress.types';
+import type { ProgressProps } from './Progress.types';
+
+const DEFAULT_CIRCULAR_SIZE = 6; // theme spacing multiplier
+const DEFAULT_THICKNESS = 4;
 
 export const Progress: React.FC<ProgressProps> = (props) => {
   const {
@@ -23,42 +24,41 @@ export const Progress: React.FC<ProgressProps> = (props) => {
     value = 60,
     showLabel = true,
     color = 'primary',
-    size = '3rem',
-    thickness = 4,
+    size,
+    thickness = DEFAULT_THICKNESS,
   } = props;
 
   const theme = useTheme();
 
-  const [internalValue, setInternalValue] = useState<number>(value);
+  const paletteColor = theme.palette[color as keyof typeof theme.palette];
 
-  // ✅ obtener color SOLO desde theme
-  const paletteColor = theme.palette[color as ProgressColor];
+  const finalColor = (paletteColor as { main: string }).main;
 
-  const finalColor = paletteColor.main;
-  const contrastText = paletteColor.contrastText;
+  const resolvedSize = size ?? theme.spacing(DEFAULT_CIRCULAR_SIZE);
 
-  const { normalized } = useProgress(internalValue);
+  const { normalized } = useProgress(value);
 
   const isDeterminate = mode === ProgressMode.DETERMINATE;
 
-  const increase = () => setInternalValue((prev) => Math.min(100, prev + 10));
-
-  const decrease = () => setInternalValue((prev) => Math.max(0, prev - 10));
-
   return (
     <ContainerCard>
-      <Header>
+      <ProgressHeader>
         <Typography sx={{ color: theme.palette.text.secondary }}>Progress</Typography>
 
-        {showLabel && isDeterminate && <Label sx={{ color: finalColor }}>{normalized}%</Label>}
-      </Header>
+        {showLabel &&
+          isDeterminate &&
+          variant === ProgressVariant.LINEAR &&
+          mode === ProgressMode.DETERMINATE && (
+            <Label sx={{ color: finalColor }}>{normalized}%</Label>
+          )}
+      </ProgressHeader>
 
       {variant === ProgressVariant.CIRCULAR ? (
         <CircularWrapper>
           <CircularProgress
             variant={isDeterminate ? 'determinate' : 'indeterminate'}
             value={normalized}
-            size={size}
+            size={resolvedSize}
             thickness={thickness}
             sx={{ color: finalColor }}
           />
@@ -68,25 +68,10 @@ export const Progress: React.FC<ProgressProps> = (props) => {
           <StyledLinear
             variant={isDeterminate ? 'determinate' : 'indeterminate'}
             value={normalized}
-            sx={{
-              backgroundColor: theme.palette.grey[300],
-              '& .MuiLinearProgress-bar': {
-                backgroundColor: finalColor,
-              },
-            }}
+            color={color}
           />
         </Wrapper>
       )}
-
-      <ControlsWrapper sx={{ mt: 2 }}>
-        <StyledButton bgcolor={finalColor} sx={{ color: contrastText }} onClick={decrease}>
-          Decrease
-        </StyledButton>
-
-        <StyledButton bgcolor={finalColor} sx={{ color: contrastText }} onClick={increase}>
-          Increase
-        </StyledButton>
-      </ControlsWrapper>
     </ContainerCard>
   );
 };

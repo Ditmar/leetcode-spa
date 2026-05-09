@@ -2,21 +2,16 @@ import { ProgressVariant, ProgressMode } from './Progress.constants';
 
 import type { LinearProgressProps, CircularProgressProps } from '@mui/material';
 
-export type ProgressColor =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'error'
-  | 'warning'
-  | 'info'
-  | 'dark';
+type MuiProgressColor =
+  | NonNullable<LinearProgressProps['color']>
+  | NonNullable<CircularProgressProps['color']>;
 
 interface BaseProgressProps {
   variant?: ProgressVariant;
   mode?: ProgressMode;
   value?: number;
   showLabel?: boolean;
-  color?: ProgressColor;
+  color?: MuiProgressColor;
 }
 
 export interface LinearProps
