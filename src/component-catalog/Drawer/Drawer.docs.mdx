@@ -1,0 +1,34 @@
+import {
+  Canvas,
+  Controls,
+  Meta,
+} from '@storybook/blocks';
+
+import * as DrawerStories from './Drawer.stories';
+
+<Meta of={DrawerStories} />
+
+# Drawer
+
+Responsive Drawer component built using Material UI Drawer and SwipeableDrawer primitives.
+
+## Features
+
+- Left, right, top and bottom anchors
+- Temporary, persistent and permanent variants
+- Mobile swipe support
+- Responsive bottom sheet
+- Optional close button
+- Accessibility support
+- Theme token support
+- Figma-aligned desktop and mobile layouts
+
+## Desktop Example
+
+<Canvas of={DrawerStories.Right} />
+
+## Mobile Bottom Sheet
+
+<Canvas of={DrawerStories.Bottom} />
+
+<Controls />
