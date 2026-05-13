@@ -1,8 +1,8 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
-//import authService from './authService';
+import authService from './authService';
 import { AUTH_SIGN_OUT_EVENT } from './authService.constants';
-import authService from './authService.mock';
+//import authService from './authService.mock';
 
 import type { AuthSession, AuthUser, SignInPayload, SignUpPayload } from './authService.types';
 

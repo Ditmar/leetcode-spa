@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-//import authService from './authService';
+import authService from './authService';
 import { AUTH_SIGN_OUT_EVENT } from './authService.constants';
-import authService from './authService.mock';
+//import authService from './authService.mock';
 
 import type { ApiError } from '../api/apiClient.types';
 
