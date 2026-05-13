@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { problemsService } from './problemsService';
-
 import { apiClient } from '../api/apiClient';
+
+import { problemsService } from './problemsService';
 
 import type { ProblemDetail, ProblemListResponse } from './problemsService.types';
 
