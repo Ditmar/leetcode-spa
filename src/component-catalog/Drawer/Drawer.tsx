@@ -1,20 +1,8 @@
 import CloseIcon from '@mui/icons-material/Close';
+import { Box, Drawer as MuiDrawer, IconButton, SwipeableDrawer, Typography } from '@mui/material';
 
-import {
-  Box,
-  Drawer as MuiDrawer,
-  IconButton,
-  SwipeableDrawer,
-  Typography,
-} from '@mui/material';
-
-import {
-  DRAWER_ANCHORS,
-  DRAWER_VARIANTS,
-} from './Drawer.constants';
-
+import { DRAWER_ANCHORS, DRAWER_VARIANTS } from './Drawer.constants';
 import { useDrawer } from './Drawer.hook';
-
 import {
   dragHandleContainerSx,
   dragHandleSx,
@@ -46,95 +34,56 @@ const Drawer = (props: CustomDrawerProps) => {
 
   const { isMobile } = useDrawer();
 
-  const handleDrawerClose = (
-    event: React.SyntheticEvent
-  ) => {
+  const handleDrawerClose = (event: React.SyntheticEvent) => {
     if (onClose) {
       onClose(event, 'escapeKeyDown');
     }
   };
 
-  const paperSx = drawerPaperSx(
-    anchor,
-    drawerSize
-  );
+  const paperSx = drawerPaperSx(anchor, drawerSize);
 
   const drawerContent = (
     <Box>
-      {isMobile &&
-        anchor === DRAWER_ANCHORS.BOTTOM &&
-        showDragHandle && (
-          <Box
-            sx={
-              dragHandleContainerSx
-            }
-          >
-            <Box
-              sx={dragHandleSx}
-              aria-hidden="true"
-            />
-          </Box>
-        )}
+      {isMobile && anchor === DRAWER_ANCHORS.BOTTOM && showDragHandle && (
+        <Box sx={dragHandleContainerSx}>
+          <Box sx={dragHandleSx} aria-hidden="true" />
+        </Box>
+      )}
 
       {(title || description) && (
         <Box sx={drawerHeaderSx}>
           <Box>
             {title && (
-              <Typography
-                component="h2"
-                sx={drawerTitleSx}
-              >
+              <Typography component="h2" sx={drawerTitleSx}>
                 {title}
               </Typography>
             )}
 
             {description && (
-              <Typography
-                component="p"
-                sx={
-                  drawerDescriptionSx
-                }
-              >
+              <Typography component="p" sx={drawerDescriptionSx}>
                 {description}
               </Typography>
             )}
           </Box>
 
           {showCloseButton && (
-            <IconButton
-              aria-label="close drawer"
-              onClick={
-                handleDrawerClose
-              }
-              size="small"
-            >
-              <CloseIcon
-                fontSize="small"
-              />
+            <IconButton aria-label="close drawer" onClick={handleDrawerClose} size="small">
+              <CloseIcon fontSize="small" />
             </IconButton>
           )}
         </Box>
       )}
 
-      <Box sx={drawerContentSx}>
-        {children}
-      </Box>
+      <Box sx={drawerContentSx}>{children}</Box>
     </Box>
   );
 
-  if (
-    isMobile &&
-    swipeable &&
-    variant ===
-      DRAWER_VARIANTS.TEMPORARY
-  ) {
+  if (isMobile && swipeable && variant === DRAWER_VARIANTS.TEMPORARY) {
     return (
       <SwipeableDrawer
         anchor={anchor}
         open={open}
-        onClose={
-          handleDrawerClose
-        }
+        onClose={handleDrawerClose}
         onOpen={() => {}}
         PaperProps={{
           sx: paperSx,

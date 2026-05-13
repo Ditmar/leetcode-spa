@@ -1,26 +1,11 @@
-import {
-  Box,
-  Button,
-  Typography,
-} from '@mui/material';
-
+import { Box, Button, Typography } from '@mui/material';
 import { useState } from 'react';
 
 import { Drawer } from './Drawer';
-
-import {
-  formContainerSx,
-  formFieldSx,
-  formLabelSx,
-  formRowSx,
-} from './Drawer.styles';
+import { formContainerSx, formFieldSx, formLabelSx, formRowSx } from './Drawer.styles';
 
 import type { CustomDrawerProps } from './Drawer.types';
-
-import type {
-  Meta,
-  StoryObj,
-} from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Drawer> = {
   title: 'component-catalog/Drawer',
@@ -31,8 +16,7 @@ const meta: Meta<typeof Drawer> = {
     layout: 'fullscreen',
 
     viewport: {
-      defaultViewport:
-        'responsive',
+      defaultViewport: 'responsive',
     },
   },
 };
@@ -45,33 +29,22 @@ const DrawerFormContent = () => {
   return (
     <Box sx={formContainerSx}>
       <Box sx={formRowSx}>
-        <Typography sx={formLabelSx}>
-          Name
-        </Typography>
+        <Typography sx={formLabelSx}>Name</Typography>
 
-        <Box sx={formFieldSx}>
-          Pedro Duarte
-        </Box>
+        <Box sx={formFieldSx}>Pedro Duarte</Box>
       </Box>
 
       <Box sx={formRowSx}>
-        <Typography sx={formLabelSx}>
-          Username
-        </Typography>
+        <Typography sx={formLabelSx}>Username</Typography>
 
-        <Box sx={formFieldSx}>
-          @peduarte
-        </Box>
+        <Box sx={formFieldSx}>@peduarte</Box>
       </Box>
     </Box>
   );
 };
 
-const DrawerTemplate = (
-  args: CustomDrawerProps
-) => {
-  const [isOpen, setIsOpen] =
-    useState(false);
+const DrawerTemplate = (args: CustomDrawerProps) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Box
@@ -82,26 +55,14 @@ const DrawerTemplate = (
 
         minHeight: '100vh',
 
-        backgroundColor:
-          'var(--background)',
+        backgroundColor: 'var(--background)',
       }}
     >
-      <Button
-        variant="contained"
-        onClick={() =>
-          setIsOpen(true)
-        }
-      >
+      <Button variant="contained" onClick={() => setIsOpen(true)}>
         Open Drawer
       </Button>
 
-      <Drawer
-        {...args}
-        open={isOpen}
-        onClose={() =>
-          setIsOpen(false)
-        }
-      >
+      <Drawer {...args} open={isOpen} onClose={() => setIsOpen(false)}>
         {args.children}
       </Drawer>
     </Box>
@@ -116,14 +77,11 @@ export const Right: Story = {
 
     title: 'Edit profile',
 
-    description:
-      "Make changes to your profile here. Click save when you're done.",
+    description: "Make changes to your profile here. Click save when you're done.",
 
     variant: 'temporary',
 
-    children: (
-      <DrawerFormContent />
-    ),
+    children: <DrawerFormContent />,
   },
 };
 
@@ -135,14 +93,11 @@ export const Left: Story = {
 
     title: 'Navigation',
 
-    description:
-      'Responsive navigation drawer.',
+    description: 'Responsive navigation drawer.',
 
     variant: 'temporary',
 
-    children: (
-      <DrawerFormContent />
-    ),
+    children: <DrawerFormContent />,
   },
 };
 
@@ -154,8 +109,7 @@ export const Top: Story = {
 
     title: 'Top Drawer',
 
-    description:
-      'Top positioned drawer example.',
+    description: 'Top positioned drawer example.',
 
     variant: 'temporary',
 
@@ -166,13 +120,10 @@ export const Top: Story = {
 
           lineHeight: '1.25rem',
 
-          color:
-            'var(--muted-foreground)',
+          color: 'var(--muted-foreground)',
         }}
       >
-        Top drawers are useful for
-        contextual navigation and
-        actions.
+        Top drawers are useful for contextual navigation and actions.
       </Typography>
     ),
   },
@@ -186,8 +137,7 @@ export const Bottom: Story = {
 
     title: 'Drawer Title',
 
-    description:
-      'This is a drawer component from the bottom.',
+    description: 'This is a drawer component from the bottom.',
 
     variant: 'temporary',
 
@@ -198,13 +148,10 @@ export const Bottom: Story = {
 
           lineHeight: '1.25rem',
 
-          color:
-            'var(--muted-foreground)',
+          color: 'var(--muted-foreground)',
         }}
       >
-        Drawers are useful for mobile
-        experiences and bottom
-        sheets.
+        Drawers are useful for mobile experiences and bottom sheets.
       </Typography>
     ),
   },
@@ -218,14 +165,11 @@ export const Persistent: Story = {
 
     title: 'Persistent Drawer',
 
-    description:
-      'Persistent navigation drawer.',
+    description: 'Persistent navigation drawer.',
 
     variant: 'persistent',
 
-    children: (
-      <DrawerFormContent />
-    ),
+    children: <DrawerFormContent />,
   },
 };
 
@@ -237,13 +181,10 @@ export const Permanent: Story = {
 
     title: 'Permanent Drawer',
 
-    description:
-      'Permanent drawer example.',
+    description: 'Permanent drawer example.',
 
     variant: 'permanent',
 
-    children: (
-      <DrawerFormContent />
-    ),
+    children: <DrawerFormContent />,
   },
 };
