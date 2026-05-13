@@ -1,5 +1,4 @@
 import { apiClient } from '../api/apiClient';
-import type { RequestConfig } from '../api/apiClient.types';
 
 import type {
   ProblemDetail,
@@ -7,6 +6,7 @@ import type {
   ProblemListResponse,
   ProblemStats,
 } from './problemsService.types';
+import type { RequestConfig } from '../api/apiClient.types';
 
 function buildQueryString(filters: ProblemFilters = {}): string {
   const params = new URLSearchParams();
