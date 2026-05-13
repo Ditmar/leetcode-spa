@@ -1,6 +1,6 @@
-import type { AuthSession, AuthUser, SignInPayload, SignUpPayload } from './authService.types';
 import { AUTH_SIGN_OUT_EVENT } from './authService.constants';
 
+import type { AuthSession, AuthUser, SignInPayload, SignUpPayload } from './authService.types';
 
 const MOCK_USERS: AuthUser[] = [
   {
@@ -19,12 +19,9 @@ const MOCK_USERS: AuthUser[] = [
   },
 ];
 
-
 let _session: AuthSession | null = null;
 
-
 const authService = {
-
   async signIn(payload: SignInPayload): Promise<AuthSession> {
     const user = MOCK_USERS.find((u) => u.email === payload.email);
 

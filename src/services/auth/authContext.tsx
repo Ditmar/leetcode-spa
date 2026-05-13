@@ -1,7 +1,9 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+
 //import authService from './authService';
-import authService from './authService.mock';
 import { AUTH_SIGN_OUT_EVENT } from './authService.constants';
+import authService from './authService.mock';
+
 import type { AuthSession, AuthUser, SignInPayload, SignUpPayload } from './authService.types';
 
 export interface AuthContextValue {
@@ -14,7 +16,6 @@ export interface AuthContextValue {
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
-
 
 export interface AuthProviderProps {
   children: React.ReactNode;
@@ -70,7 +71,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       signUp,
       signOut,
     }),
-    [session, isLoading, signIn, signUp, signOut],
+    [session, isLoading, signIn, signUp, signOut]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

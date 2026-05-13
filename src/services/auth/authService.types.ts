@@ -8,13 +8,13 @@ export interface AuthUser {
 
 export interface AuthTokens {
   accessToken: string;
-  expiresAt: number; 
+  expiresAt: number;
 }
 
 export interface AuthSession {
   user: AuthUser;
   accessToken: string;
-  expiresAt: number; 
+  expiresAt: number;
 }
 
 export interface SignInPayload {

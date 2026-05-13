@@ -1,8 +1,9 @@
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 //import authService from './authService';
-import authService from './authService.mock';
 import { AUTH_SIGN_OUT_EVENT } from './authService.constants';
+import authService from './authService.mock';
+
 import type { ApiError } from '../api/apiClient.types';
 
 function isApiError(err: unknown): err is ApiError {
@@ -20,7 +21,7 @@ function makeSession(overrides: Partial<{ expiresAt: number }> = {}) {
   return {
     user: MOCK_USER,
     accessToken: 'access-token-abc',
-    expiresAt: Date.now() + 3_600_000, 
+    expiresAt: Date.now() + 3_600_000,
     ...overrides,
   };
 }
@@ -42,17 +43,21 @@ function mockFetchFailure(body: unknown, status = 401) {
   } as Response);
 }
 
-
 beforeEach(() => {
   vi.restoreAllMocks();
-  global.fetch = vi.fn().mockResolvedValue({ ok: true, status: 200, json: async () => ({}) } as Response);
+  global.fetch = vi
+    .fn()
+    .mockResolvedValue({ ok: true, status: 200, json: async () => ({}) } as Response);
 });
 
 afterEach(async () => {
   mockFetchSuccess({});
-  try { await authService.signOut(); } catch {  }
+  try {
+    await authService.signOut();
+  } catch {
+    // no-op
+  }
 });
-
 
 describe('signIn', () => {
   it('calls POST /auth/signin and stores access token in memory', async () => {
@@ -61,10 +66,7 @@ describe('signIn', () => {
 
     const result = await authService.signIn({ email: 'john@example.com', password: 'secret' });
 
-    expect(fetch).toHaveBeenCalledWith(
-      '/auth/signin',
-      expect.objectContaining({ method: 'POST' }),
-    );
+    expect(fetch).toHaveBeenCalledWith('/auth/signin', expect.objectContaining({ method: 'POST' }));
     expect(result.accessToken).toBe(session.accessToken);
     expect(result.user.id).toBe(MOCK_USER.id);
   });
@@ -82,7 +84,7 @@ describe('signIn', () => {
     mockFetchFailure({ message: 'Invalid credentials' }, 401);
 
     await expect(
-      authService.signIn({ email: 'john@example.com', password: 'wrong' }),
+      authService.signIn({ email: 'john@example.com', password: 'wrong' })
     ).rejects.toSatisfy(isApiError);
   });
 
@@ -105,10 +107,8 @@ describe('signIn', () => {
   });
 });
 
-
 describe('signOut', () => {
   it('calls POST /auth/signout and clears in-memory session', async () => {
-
     mockFetchSuccess(makeSession());
     await authService.signIn({ email: 'john@example.com', password: 'secret' });
 
@@ -127,7 +127,7 @@ describe('signOut', () => {
     await authService.signOut();
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      expect.objectContaining({ type: AUTH_SIGN_OUT_EVENT }),
+      expect.objectContaining({ type: AUTH_SIGN_OUT_EVENT })
     );
   });
 
@@ -136,13 +136,12 @@ describe('signOut', () => {
     await authService.signIn({ email: 'john@example.com', password: 'secret' });
 
     mockFetchFailure({ message: 'Server error' }, 500);
-    await authService.signOut(); 
+    await authService.signOut();
 
     expect(authService.getSession()).toBeNull();
     expect(authService.isAuthenticated()).toBe(false);
   });
 });
-
 
 describe('getSession', () => {
   it('returns null when no token is stored', () => {
@@ -169,7 +168,6 @@ describe('getSession', () => {
   });
 });
 
-
 describe('isAuthenticated', () => {
   it('returns false when there is no session', () => {
     expect(authService.isAuthenticated()).toBe(false);
@@ -183,7 +181,6 @@ describe('isAuthenticated', () => {
   });
 
   it('returns false when the token is expired', async () => {
-
     mockFetchSuccess(makeSession({ expiresAt: Date.now() - 1_000 }));
     await authService.signIn({ email: 'john@example.com', password: 'secret' });
 
@@ -201,7 +198,6 @@ describe('isAuthenticated', () => {
   });
 });
 
-
 describe('refreshToken', () => {
   it('updates the in-memory session with the new token', async () => {
     const newSession = makeSession();
@@ -215,7 +211,6 @@ describe('refreshToken', () => {
   });
 
   it('calls signOut and redirects to / on 401', async () => {
-    const assignMock = vi.fn();
     Object.defineProperty(window, 'location', {
       value: { href: '' },
       writable: true,
@@ -230,12 +225,12 @@ describe('refreshToken', () => {
   });
 });
 
-
 describe('signUp', () => {
   it('registers then automatically signs in', async () => {
     mockFetchSuccess(undefined, 201);
     const session = makeSession();
-    global.fetch = vi.fn()
+    global.fetch = vi
+      .fn()
       .mockResolvedValueOnce({ ok: true, status: 201, json: async () => ({}) } as Response)
       .mockResolvedValueOnce({ ok: true, status: 200, json: async () => session } as Response);
 
