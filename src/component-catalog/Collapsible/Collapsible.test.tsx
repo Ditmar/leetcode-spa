@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-
 import { Collapsible } from './Collapsible';
 import '@testing-library/jest-dom/vitest';
 

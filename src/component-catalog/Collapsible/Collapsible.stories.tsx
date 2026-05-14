@@ -1,7 +1,5 @@
 import { Box } from '@mui/material';
-
 import { Collapsible } from './Collapsible';
-
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Collapsible> = {
