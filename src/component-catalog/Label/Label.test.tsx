@@ -1,13 +1,9 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-<<<<<<< HEAD
-import { render, screen, waitFor } from '@testing-library/react';
-=======
 import {
   render,
   screen,
   waitFor,
 } from '@testing-library/react';
->>>>>>> 9d5761ed (refactor: improve readability of Label component tests by formatting and organizing imports and assertions)
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -167,21 +163,13 @@ describe('Label — tooltip', () => {
 
     await userEvent.click(button);
 
-<<<<<<< HEAD
-    const tooltip = await screen.findByText('Helpful information');
-=======
     const tooltip = await screen.findByText(
       'Helpful information'
     );
->>>>>>> 9d5761ed (refactor: improve readability of Label component tests by formatting and organizing imports and assertions)
 
     expect(tooltip).toBeVisible();
 
     await userEvent.click(button);
-<<<<<<< HEAD
-
-=======
->>>>>>> 9d5761ed (refactor: improve readability of Label component tests by formatting and organizing imports and assertions)
     await waitFor(() => {
       expect(tooltip).not.toBeVisible();
     });
