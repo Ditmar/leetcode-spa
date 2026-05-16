@@ -1,11 +1,23 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+<<<<<<< HEAD
 import { render, screen, waitFor } from '@testing-library/react';
+=======
+import {
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
+>>>>>>> 9d5761ed (refactor: improve readability of Label component tests by formatting and organizing imports and assertions)
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import Label from './Label';
-import { OPTIONAL_INDICATOR, TOOLTIP_ICON_ARIA_LABEL } from './Label.constants';
+
+import {
+  OPTIONAL_INDICATOR,
+  TOOLTIP_ICON_ARIA_LABEL,
+} from './Label.constants';
 
 const INPUT_ID = 'test-input';
 
@@ -37,7 +49,9 @@ describe('Label — rendering', () => {
   it('renders label text', () => {
     renderLabel();
 
-    expect(screen.getByText('Email address')).toBeInTheDocument();
+    expect(
+      screen.getByText('Email address')
+    ).toBeInTheDocument();
   });
 
   it('renders a label element', () => {
@@ -49,7 +63,9 @@ describe('Label — rendering', () => {
   it('associates htmlFor with the input', () => {
     renderLabel();
 
-    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/email address/i)
+    ).toBeInTheDocument();
   });
 });
 
@@ -57,21 +73,30 @@ describe('Label — required and optional states', () => {
   it('shows required asterisk when required=true', () => {
     renderLabel({ required: true });
 
-    expect(screen.getByText('*', { exact: false })).toBeInTheDocument();
+    expect(
+      screen.getByText('*', { exact: false })
+    ).toBeInTheDocument();
   });
 
   it('adds aria-required=true when required=true', () => {
     renderLabel({ required: true });
 
-    const label = screen.getByText('Email address').closest('label');
+    const label = screen
+      .getByText('Email address')
+      .closest('label');
 
-    expect(label).toHaveAttribute('aria-required', 'true');
+    expect(label).toHaveAttribute(
+      'aria-required',
+      'true'
+    );
   });
 
   it('shows optional text when optional=true', () => {
     renderLabel({ optional: true });
 
-    expect(screen.getByText(OPTIONAL_INDICATOR)).toBeInTheDocument();
+    expect(
+      screen.getByText(OPTIONAL_INDICATOR)
+    ).toBeInTheDocument();
   });
 
   it('required takes precedence over optional', () => {
@@ -80,7 +105,9 @@ describe('Label — required and optional states', () => {
       optional: true,
     });
 
-    expect(screen.getByText('*', { exact: false })).toBeInTheDocument();
+    expect(
+      screen.getByText('*', { exact: false })
+    ).toBeInTheDocument();
 
     expect(screen.queryByText(OPTIONAL_INDICATOR)).not.toBeInTheDocument();
   });
@@ -90,7 +117,9 @@ describe('Label — visual states', () => {
   it('renders label in error state', () => {
     renderLabel({ error: true });
 
-    const label = screen.getByText('Email address').closest('label');
+    const label = screen
+      .getByText('Email address')
+      .closest('label');
 
     expect(label).toBeInTheDocument();
   });
@@ -98,7 +127,9 @@ describe('Label — visual states', () => {
   it('renders disabled state correctly', () => {
     renderLabel({ disabled: true });
 
-    const input = screen.getByLabelText(/email address/i);
+    const input = screen.getByLabelText(
+      /email address/i
+    );
 
     expect(input).toBeDisabled();
   });
@@ -136,12 +167,21 @@ describe('Label — tooltip', () => {
 
     await userEvent.click(button);
 
+<<<<<<< HEAD
     const tooltip = await screen.findByText('Helpful information');
+=======
+    const tooltip = await screen.findByText(
+      'Helpful information'
+    );
+>>>>>>> 9d5761ed (refactor: improve readability of Label component tests by formatting and organizing imports and assertions)
 
     expect(tooltip).toBeVisible();
 
     await userEvent.click(button);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9d5761ed (refactor: improve readability of Label component tests by formatting and organizing imports and assertions)
     await waitFor(() => {
       expect(tooltip).not.toBeVisible();
     });
@@ -192,12 +232,16 @@ describe('Label — accessibility', () => {
   it('label remains associated with input when required', () => {
     renderLabel({ required: true });
 
-    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/email address/i)
+    ).toBeInTheDocument();
   });
 
   it('label remains associated with input when disabled', () => {
     renderLabel({ disabled: true });
 
-    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/email address/i)
+    ).toBeInTheDocument();
   });
 });
