@@ -95,5 +95,51 @@ describe('userService', () => {
         code: 'VALIDATION_ERROR',
       });
     });
+
+    it('throws when editorFontSize is below 12 or above 24', async () => {
+      await expect(userService.updatePreferences({ editorFontSize: 11 })).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+      });
+      await expect(userService.updatePreferences({ editorFontSize: 25 })).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+      });
+    });
+
+    it('throws when theme selection is invalid', async () => {
+      await expect(
+        userService.updatePreferences({ theme: 'invalid-theme' as unknown as 'light' })
+      ).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+      });
+    });
+
+    it('throws when editorTabSize is not 2 or 4', async () => {
+      await expect(
+        userService.updatePreferences({ editorTabSize: 3 as unknown as 2 })
+      ).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+      });
+    });
+
+    it('throws when avatar file format is not allowed', async () => {
+      const invalidFile = new File([''], 'malicious.exe', { type: 'application/x-msdownload' });
+      await expect(userService.uploadAvatar(invalidFile)).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+      });
+    });
+
+    it('throws when avatar file size exceeds 2MB', async () => {
+      const heavyPayload = 'a'.repeat(2 * 1024 * 1024 + 1);
+      const largeFile = new File([heavyPayload], 'avatar.png', { type: 'image/png' });
+      await expect(userService.uploadAvatar(largeFile)).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+      });
+    });
+
+    it('throws when deleteAccount is missing confirmationPassword', async () => {
+      await expect(userService.deleteAccount({ confirmationPassword: '' })).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+      });
+    });
   });
 });

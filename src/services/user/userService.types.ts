@@ -1,8 +1,16 @@
+export type SubmissionStatus =
+  | 'Accepted'
+  | 'Wrong Answer'
+  | 'Time Limit Exceeded'
+  | 'Runtime Error'
+  | 'Compilation Error'
+  | 'pending';
+
 export interface Submission {
   id: string;
   problemId: string;
   problemTitle: string;
-  status: string;
+  status: SubmissionStatus;
   submittedAt: string;
 }
 
@@ -24,6 +32,10 @@ export interface UserProfile {
   stats: UserStatsSummary; // lightweight summary for nav/profile card
 }
 
+export interface HeatmapEntry {
+  date: string; // YYYY-MM-DD
+  count: number;
+}
 export interface UserStats {
   totalSolved: number;
   easySolved: number;
@@ -32,18 +44,16 @@ export interface UserStats {
   acceptanceRate: number; // percentage 0-100
   currentStreak: number; //days
   maxStreak: number;
-  submissionHeatmap: Array<{
-    date: string; // YYYY-MM-DD
-    count: number;
-  }>;
+  submissionHeatmap: HeatmapEntry[];
   recentSubmissions: Submission[];
 }
 
+export type SupportedLanguage = 'javascript' | 'python' | 'java' | 'cpp';
 export interface UserPreferences {
-  defaultLanguage: string; // 'javascript' | 'python' | 'cpp' | 'java' | 'cpp'
+  defaultLanguage: SupportedLanguage;
   theme: 'light' | 'dark' | 'system';
   editorFontSize: number; // 12-24, default 14
-  editorTabSize: number; // 2 | 4
+  editorTabSize: 2 | 4;
 }
 
 export interface Badge {

@@ -14,6 +14,8 @@ const MAX_DISPLAY_NAME_LENGTH = 50;
 const MAX_BIO_LENGTH = 256;
 const MAX_AVATAR_SIZE_BYTES = 2 * 1024 * 1024;
 const ALLOWED_AVATAR_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const AVATAR_FILE_NAME = 'avatar';
+const DAYS_IN_YEAR = 365;
 
 const DEFAULT_PREFERENCES: UserPreferences = {
   defaultLanguage: 'javascript',
@@ -28,9 +30,16 @@ const createValidationError = (message: string): ApiError => ({
   message,
 });
 
-const createCookieConfig = (cookies?: string): RequestConfig | undefined => {
+export const createCookieConfig = (cookies?: string): RequestConfig | undefined => {
   if (!cookies) return undefined;
   return { headers: { Cookie: cookies } };
+};
+
+const formatDateLocal = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 };
 
 const normalizeHeatmap = (stats: UserStats): UserStats => {
@@ -40,10 +49,10 @@ const normalizeHeatmap = (stats: UserStats): UserStats => {
   });
 
   const today = new Date();
-  const normalizedHeatmap = Array.from({ length: 365 }, (_, index) => {
+  const normalizedHeatmap = Array.from({ length: DAYS_IN_YEAR }, (_, index) => {
     const date = new Date(today);
-    date.setDate(today.getDate() - (364 - index));
-    const dateKey = date.toISOString().slice(0, 10);
+    date.setDate(today.getDate() - (DAYS_IN_YEAR - 1 - index));
+    const dateKey = formatDateLocal(date);
     return {
       date: dateKey,
       count: heatmapByDate.get(dateKey) ?? 0,
@@ -74,15 +83,13 @@ export const userService = {
     );
 
     return {
-      defaultLanguage: response.data.defaultLanguage ?? DEFAULT_PREFERENCES.defaultLanguage,
-      theme: response.data.theme ?? DEFAULT_PREFERENCES.theme,
-      editorFontSize: response.data.editorFontSize ?? DEFAULT_PREFERENCES.editorFontSize,
-      editorTabSize: response.data.editorTabSize ?? DEFAULT_PREFERENCES.editorTabSize,
-    } as UserPreferences;
+      ...DEFAULT_PREFERENCES,
+      ...response.data,
+    };
   },
 
   updateProfile: async (payload: UpdateProfilePayload): Promise<UserProfile> => {
-    if (payload.displayName && payload.displayName.length > MAX_DISPLAY_NAME_LENGTH) {
+    if (payload.displayName !== undefined && payload.displayName.length > MAX_DISPLAY_NAME_LENGTH) {
       throw createValidationError(`Display name exceeds ${MAX_DISPLAY_NAME_LENGTH} chars.`);
     }
     if (payload.bio && payload.bio.length > MAX_BIO_LENGTH) {
@@ -94,6 +101,25 @@ export const userService = {
   },
 
   updatePreferences: async (payload: Partial<UserPreferences>): Promise<UserPreferences> => {
+    if (
+      payload.editorFontSize !== undefined &&
+      (payload.editorFontSize < 12 || payload.editorFontSize > 24)
+    ) {
+      throw createValidationError(`Font size must be between 12 and 24.`);
+    }
+
+    if (payload.theme !== undefined && !['light', 'dark', 'system'].includes(payload.theme)) {
+      throw createValidationError('Invalid theme selection.');
+    }
+
+    if (
+      payload.editorTabSize !== undefined &&
+      payload.editorTabSize !== 2 &&
+      payload.editorTabSize !== 4
+    ) {
+      throw createValidationError('Tab size must be either 2 or 4.');
+    }
+
     const response = await apiClient.put<UserPreferences>('/users/me/preferences', payload);
     return response.data;
   },
@@ -107,7 +133,7 @@ export const userService = {
     }
 
     const formData = new FormData();
-    formData.append('avatar', file);
+    formData.append(AVATAR_FILE_NAME, file);
     const response = await apiClient.post<UploadAvatarResponse>('/users/me/avatar', formData);
 
     return { avatarUrl: response.data.avatarUrl };
@@ -118,6 +144,10 @@ export const userService = {
       throw createValidationError('Confirmation password is required for account deletion.');
     }
 
-    await apiClient.delete('/users/me', payload as unknown as RequestConfig);
+    await apiClient.delete('/users/me', {
+      headers: {
+        'X-Confirmation-Password': payload.confirmationPassword,
+      },
+    });
   },
 };
