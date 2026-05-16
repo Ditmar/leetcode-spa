@@ -54,18 +54,9 @@ const Drawer = (props: CustomDrawerProps) => {
 
       {(title || description) && (
         <Box sx={drawerHeaderSx}>
-          {anchor ===
-            DRAWER_ANCHORS.BOTTOM && (
-            <Box
-              sx={
-                drawerDragIndicatorContainerSx
-              }
-            >
-              <Box
-                sx={
-                  drawerDragIndicatorSx
-                }
-              />
+          {anchor === DRAWER_ANCHORS.BOTTOM && (
+            <Box sx={drawerDragIndicatorContainerSx}>
+              <Box sx={drawerDragIndicatorSx} />
             </Box>
           )}
 
@@ -73,72 +64,46 @@ const Drawer = (props: CustomDrawerProps) => {
             sx={{
               display: 'flex',
               alignItems: 'flex-start',
-              justifyContent:
-                'space-between',
+              justifyContent: 'space-between',
               gap: 2,
             }}
           >
             <Box>
               {title && (
-                <Typography
-                  component="h2"
-                  sx={drawerTitleSx}
-                >
+                <Typography component="h2" sx={drawerTitleSx}>
                   {title}
                 </Typography>
               )}
 
               {description && (
-                <Typography
-                  component="p"
-                  sx={
-                    drawerDescriptionSx
-                  }
-                >
+                <Typography component="p" sx={drawerDescriptionSx}>
                   {description}
                 </Typography>
               )}
             </Box>
 
-            {(anchor ===
-              DRAWER_ANCHORS.LEFT ||
-              anchor ===
-                DRAWER_ANCHORS.RIGHT) &&
+            {(anchor === DRAWER_ANCHORS.LEFT || anchor === DRAWER_ANCHORS.RIGHT) &&
               showCloseButton && (
-                <IconButton
-                  aria-label="close drawer"
-                  onClick={
-                    handleDrawerClose
-                  }
-                >
+                <IconButton aria-label="close drawer" onClick={handleDrawerClose}>
                   <CloseIcon />
                 </IconButton>
               )}
           </Box>
-
         </Box>
       )}
 
       <>
-        <Box sx={drawerContentSx}>
-          {children}
-        </Box>
+        <Box sx={drawerContentSx}>{children}</Box>
 
-        {anchor ===
-          DRAWER_ANCHORS.TOP && (
+        {anchor === DRAWER_ANCHORS.TOP && (
           <Box
             sx={{
               display: 'flex',
-              justifyContent:
-                'center',
+              justifyContent: 'center',
               paddingBottom: 1,
             }}
           >
-            <Box
-              sx={
-                drawerDragIndicatorSx
-              }
-            />
+            <Box sx={drawerDragIndicatorSx} />
           </Box>
         )}
       </>
