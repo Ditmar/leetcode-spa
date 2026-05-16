@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import type { Contest } from './ContestPage.types';
+
 import { MOCK_CONTESTS } from './ContestPage.constants';
+
+import type { Contest } from './ContestPage.types';
 
 export const useContestPage = (initialContests: Contest[] = MOCK_CONTESTS) => {
   const [tabValue, setTabValue] = useState<number>(0);
@@ -16,8 +18,8 @@ export const useContestPage = (initialContests: Contest[] = MOCK_CONTESTS) => {
     const timer = setTimeout(() => {
       const statuses: ('active' | 'upcoming' | 'past')[] = ['active', 'upcoming', 'past'];
       const currentStatus = statuses[tabValue];
-      
-      const filtered = initialContests.filter(contest => contest.status === currentStatus);
+
+      const filtered = initialContests.filter((contest) => contest.status === currentStatus);
       setFilteredContests(filtered);
       setLoading(false);
     }, 300);

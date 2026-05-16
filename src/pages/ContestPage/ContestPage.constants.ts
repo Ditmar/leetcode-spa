@@ -35,5 +35,5 @@ export const MOCK_CONTESTS: Contest[] = [
     participants: 23100,
     problemCount: 3,
     hasPrize: false,
-  }
+  },
 ];

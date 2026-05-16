@@ -1,7 +1,7 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { ContestPage } from './ContestPage';
 import { MOCK_CONTESTS } from './ContestPage.constants';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof ContestPage> = {
   title: 'Pages/ContestPage',
