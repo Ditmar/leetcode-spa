@@ -1,18 +1,23 @@
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
 import React from 'react';
 
-import Label from './Label';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+import Label from './Label';
+
 const theme = createTheme();
 
-const withTheme = (Story: React.ComponentType) => (
+/**
+ * Shared Storybook decorator
+ */
+const withTheme = (Story: any) => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
+
     <Box
       sx={{
         p: 3,
@@ -133,14 +138,24 @@ export const RequiredErrorWithTooltip: Story = {
   },
 };
 
+
 export const RequiredOverridesOptional: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'This story intentionally demonstrates an invalid prop combination to validate precedence behavior. The required state should override the optional state.',
+      },
+    },
+  },
+
   args: {
     htmlFor: 'label-required-optional',
     children: 'Username',
     required: true,
     optional: true,
     tooltip: 'Required takes precedence over optional.',
-  },
+  } as any,
 };
 
 export const PairedWithInput: Story = {

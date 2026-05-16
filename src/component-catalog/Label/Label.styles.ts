@@ -1,3 +1,4 @@
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import { styled } from '@mui/material/styles';
@@ -50,9 +51,8 @@ export const TooltipIconButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0.25),
 }));
 
-export const TooltipInfoIcon = styled('span')(({ theme }) => ({
-  display: 'inline-flex',
-  alignItems: 'center',
+
+export const TooltipInfoIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
   fontSize: theme.typography.body2.fontSize,
   lineHeight: 1,
 }));

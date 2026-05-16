@@ -1,19 +1,33 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
-interface UseLabelTooltipReturn {
-  open: boolean;
-  handleToggle: () => void;
-}
+export function useLabelTooltip() {
+  const [open, setOpen] = useState(false);
 
-export function useLabelTooltip(): UseLabelTooltipReturn {
-  const [open, setOpen] = useState<boolean>(false);
+  /**
+   * Opens the tooltip.
+   */
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+  }, []);
 
+  /**
+   * Closes the tooltip.
+   */
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, []);
+
+  /**
+   * Toggles tooltip visibility.
+   */
   const handleToggle = useCallback(() => {
-    setOpen((prev) => !prev);
+    setOpen((previousOpen) => !previousOpen);
   }, []);
 
   return {
     open,
+    handleOpen,
+    handleClose,
     handleToggle,
   };
 }
