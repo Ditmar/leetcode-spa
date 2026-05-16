@@ -1,0 +1,40 @@
+# ContestPage Component Documentation
+
+The `ContestPage` is a comprehensive page-level component (organism) built with **Material UI (MUI)** following Component-Driven Development (CDD) principles. It serves as the main dashboard for developers to explore, register for, and review programming contests.
+
+---
+
+## Component Composition
+
+This page aggregates several atomic and molecular elements into a single cohesive layout:
+1. **Page Header**: Displays the main section title ("Contests") and an informative subtitle.
+2. **KPI Summary Stats Bar**: Consists of 4 responsive `Paper` cards showcasing vital contest metrics (Live Now, Upcoming, Ranking, and Contests Joined).
+3. **Tab Controls**: A fully interactive Material UI `Tabs` navigation system filtering content into dynamic timeframes.
+4. **Responsive Content Grid**: Displays individual instances of the `ContestCard` molecule.
+
+---
+
+## Technical Specifications & Features
+
+### 1. Responsiveness Matrix
+The layouts are fully adaptive using MUI's semantic grid layout API:
+* **Stats Bar**: Renders as a 2-column grid layout on mobile screens (`xs={12}`, `sm={6}`) and automatically switches into a 4-column row on desktop views (`md={3}`).
+* **Contest Cards Grid**: Seamless scaling across breakpoints using `<Grid item xs={12} sm={6} md={4}>` to maintain a perfect multi-row deck.
+
+### 2. State & Filtering Workflow (`useContestPage`)
+The internal state machine handles view synchronization through a custom React Hook:
+* **Active (Live Now)**: Live contests featuring quick actions like green `Join Contest` buttons.
+* **Upcoming**: Informative cards providing calendar scheduling and standard blue `Register` calls to action.
+* **Past**: Finished matchups offering analytical split actions (`Problems` and `Leaderboards`).
+
+### 3. Accessibility Compliance (axe / ARIA)
+* Semantic landmarks (`Typography` variations) are used to declare strict header hierarchies.
+* Interactive `Tabs` leverage keyboard access and focus management properties.
+* Dynamic counts inside Tab labels ensure clear contexts for screen readers.
+
+---
+
+## Styling Architecture
+* Built strictly using Material UI's `styled()` structural API.
+* All spacings rely dynamically on `theme.spacing` units to avoid bad hardcoded pixel constraints.
+* Theme-compliant colors map to semantical statuses (`success.main`, `primary.main`, and `text.secondary`).
