@@ -1,19 +1,11 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import {
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import Label from './Label';
-
-import {
-  OPTIONAL_INDICATOR,
-  TOOLTIP_ICON_ARIA_LABEL,
-} from './Label.constants';
+import { OPTIONAL_INDICATOR, TOOLTIP_ICON_ARIA_LABEL } from './Label.constants';
 
 const INPUT_ID = 'test-input';
 
@@ -35,11 +27,7 @@ function renderLabel(props: RenderLabelProps = {}) {
           Email address
         </Label>
 
-        <input
-          id={INPUT_ID}
-          required={props.required}
-          disabled={props.disabled}
-        />
+        <input id={INPUT_ID} required={props.required} disabled={props.disabled} />
       </>
     </ThemeProvider>
   );
@@ -49,25 +37,19 @@ describe('Label — rendering', () => {
   it('renders label text', () => {
     renderLabel();
 
-    expect(
-      screen.getByText('Email address')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Email address')).toBeInTheDocument();
   });
 
   it('renders a label element', () => {
     renderLabel();
 
-    expect(
-      screen.getByText('Email address').closest('label')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Email address').closest('label')).toBeInTheDocument();
   });
 
   it('associates htmlFor with the input', () => {
     renderLabel();
 
-    expect(
-      screen.getByLabelText(/email address/i)
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
   });
 });
 
@@ -75,30 +57,21 @@ describe('Label — required and optional states', () => {
   it('shows required asterisk when required=true', () => {
     renderLabel({ required: true });
 
-    expect(
-      screen.getByText('*', { exact: false })
-    ).toBeInTheDocument();
+    expect(screen.getByText('*', { exact: false })).toBeInTheDocument();
   });
 
   it('adds aria-required=true when required=true', () => {
     renderLabel({ required: true });
 
-    const label = screen
-      .getByText('Email address')
-      .closest('label');
+    const label = screen.getByText('Email address').closest('label');
 
-    expect(label).toHaveAttribute(
-      'aria-required',
-      'true'
-    );
+    expect(label).toHaveAttribute('aria-required', 'true');
   });
 
   it('shows optional text when optional=true', () => {
     renderLabel({ optional: true });
 
-    expect(
-      screen.getByText(OPTIONAL_INDICATOR)
-    ).toBeInTheDocument();
+    expect(screen.getByText(OPTIONAL_INDICATOR)).toBeInTheDocument();
   });
 
   it('required takes precedence over optional', () => {
@@ -107,13 +80,9 @@ describe('Label — required and optional states', () => {
       optional: true,
     });
 
-    expect(
-      screen.getByText('*', { exact: false })
-    ).toBeInTheDocument();
+    expect(screen.getByText('*', { exact: false })).toBeInTheDocument();
 
-    expect(
-      screen.queryByText(OPTIONAL_INDICATOR)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(OPTIONAL_INDICATOR)).not.toBeInTheDocument();
   });
 });
 
@@ -121,9 +90,7 @@ describe('Label — visual states', () => {
   it('renders label in error state', () => {
     renderLabel({ error: true });
 
-    const label = screen
-      .getByText('Email address')
-      .closest('label');
+    const label = screen.getByText('Email address').closest('label');
 
     expect(label).toBeInTheDocument();
   });
@@ -131,9 +98,7 @@ describe('Label — visual states', () => {
   it('renders disabled state correctly', () => {
     renderLabel({ disabled: true });
 
-    const input = screen.getByLabelText(
-      /email address/i
-    );
+    const input = screen.getByLabelText(/email address/i);
 
     expect(input).toBeDisabled();
   });
@@ -161,9 +126,7 @@ describe('Label — tooltip', () => {
       })
     );
 
-    expect(
-      await screen.findByText('Helpful information')
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Helpful information')).toBeInTheDocument();
   });
 
   it('closes tooltip on second click', async () => {
@@ -173,9 +136,7 @@ describe('Label — tooltip', () => {
 
     await userEvent.click(button);
 
-    const tooltip = await screen.findByText(
-      'Helpful information'
-    );
+    const tooltip = await screen.findByText('Helpful information');
 
     expect(tooltip).toBeVisible();
 
@@ -198,9 +159,7 @@ describe('Label — tooltip', () => {
 
     await userEvent.keyboard('{Enter}');
 
-    expect(
-      await screen.findByText('Helpful information')
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Helpful information')).toBeInTheDocument();
   });
 
   it('opens tooltip with keyboard (Space)', async () => {
@@ -214,9 +173,7 @@ describe('Label — tooltip', () => {
 
     await userEvent.keyboard(' ');
 
-    expect(
-      await screen.findByText('Helpful information')
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Helpful information')).toBeInTheDocument();
   });
 });
 
@@ -234,16 +191,12 @@ describe('Label — accessibility', () => {
   it('label remains associated with input when required', () => {
     renderLabel({ required: true });
 
-    expect(
-      screen.getByLabelText(/email address/i)
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
   });
 
   it('label remains associated with input when disabled', () => {
     renderLabel({ disabled: true });
 
-    expect(
-      screen.getByLabelText(/email address/i)
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
   });
 });

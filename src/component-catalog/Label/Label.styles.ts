@@ -51,7 +51,6 @@ export const TooltipIconButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0.25),
 }));
 
-
 export const TooltipInfoIcon = styled(InfoOutlinedIcon)(({ theme }) => ({
   fontSize: theme.typography.body2.fontSize,
   lineHeight: 1,

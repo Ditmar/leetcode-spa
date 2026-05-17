@@ -1,13 +1,12 @@
-import React from 'react';
-
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-import type { Meta, StoryObj } from '@storybook/react';
+import TextField from '@mui/material/TextField';
+import React from 'react';
 
 import Label from './Label';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const theme = createTheme();
 
@@ -137,7 +136,6 @@ export const RequiredErrorWithTooltip: Story = {
     tooltip: 'A valid email is required to proceed.',
   },
 };
-
 
 export const RequiredOverridesOptional: Story = {
   parameters: {
