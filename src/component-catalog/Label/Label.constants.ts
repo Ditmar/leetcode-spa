@@ -16,4 +16,3 @@ export const OPTIONAL_INDICATOR = DEFAULT_FORM_LABELS.optionalIndicator;
 
 export const TOOLTIP_ICON_ARIA_LABEL =
   DEFAULT_FORM_LABELS.tooltipIconAriaLabel;
-  
