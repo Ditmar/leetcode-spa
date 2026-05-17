@@ -1,0 +1,152 @@
+import { Meta, Canvas, Story } from '@storybook/blocks';
+
+import * as ProgressStories from './Progress.stories';
+
+<Meta of={ProgressStories} />
+
+# Progress Component
+
+The `Progress` component provides visual feedback about the status of an ongoing process or task.
+
+It supports both linear and circular indicators, determinate and indeterminate modes, and integrates with the design system theme tokens.
+
+---
+
+## Features
+
+- Linear and Circular variants
+- Determinate and Indeterminate modes
+- Optional progress label
+- Theme-based colors and sizing
+- Responsive layout
+- Accessible (ARIA compliant)
+- Customizable thickness and size for circular indicators
+
+---
+
+## Usage
+
+```tsx
+<Progress
+  variant="linear"
+  mode="determinate"
+  value={70}
+  showLabel
+/>
+```
+
+---
+
+## Variants
+
+### Linear Determinate
+
+Used when the progress value is known.
+
+<Canvas>
+  <Story of={ProgressStories.LinearDeterminate} />
+</Canvas>
+
+### Linear Indeterminate
+
+Used when progress duration or completion percentage is unknown.
+
+<Canvas>
+  <Story of={ProgressStories.LinearIndeterminate} />
+</Canvas>
+
+### Circular Determinate
+
+Circular progress with a known completion value.
+
+<Canvas>
+  <Story of={ProgressStories.CircularDeterminate} />
+</Canvas>
+
+### Circular Indeterminate
+
+Circular loading indicator for ongoing processes.
+
+<Canvas>
+  <Story of={ProgressStories.CircularIndeterminate} />
+</Canvas>
+
+---
+
+## Labels
+
+The progress label can be enabled using the `showLabel` prop.
+
+```tsx
+<Progress
+  variant="linear"
+  mode="determinate"
+  value={45}
+  showLabel
+/>
+```
+
+<Canvas>
+  <Story of={ProgressStories.WithoutLabel} />
+</Canvas>
+
+---
+
+## Colors
+
+The component supports theme palette colors.
+
+Available color tokens:
+
+- `primary`
+- `secondary`
+- `success`
+- `error`
+- `warning`
+- `info`
+- `dark`
+
+<Canvas>
+  <Story of={ProgressStories.WithCustomColors} />
+</Canvas>
+
+---
+
+## Circular Size & Thickness
+
+Circular progress indicators support custom sizing and thickness values.
+
+```tsx
+<Progress
+  variant="circular"
+  mode="determinate"
+  value={80}
+  size="5rem"
+  thickness={8}
+/>
+```
+
+<Canvas>
+  <Story of={ProgressStories.CircularCustomSizeAndThickness} />
+</Canvas>
+
+---
+
+## Accessibility
+
+The `Progress` component follows accessibility best practices:
+
+- Uses native MUI progress components with ARIA support
+- Supports determinate and indeterminate semantics
+- Labels improve readability for assistive technologies
+- Color usage should maintain sufficient contrast ratios
+
+---
+
+## Responsive Behavior
+
+- The component adapts to the width of its container
+- Circular indicators scale using theme spacing tokens
+- Suitable for dashboards, cards, forms, and loading states
+
+---
