@@ -42,6 +42,7 @@ declare module '@mui/material/styles' {
     gradientEnd: { main: string };
 
     neutralBg: { main: string };
+    dark: { main: string; contrastText: string };
   }
 
   interface PaletteOptions {
@@ -55,6 +56,7 @@ declare module '@mui/material/styles' {
     gradientEnd?: { main: string };
 
     neutralBg?: { main: string };
+    dark?: { main: string; contrastText?: string };
   }
   interface Theme {
     gradients?: {
@@ -813,6 +815,12 @@ theme.typography = {
 
 theme.palette = {
   ...theme.palette,
+
+  dark: {
+    main: '#030213',
+    contrastText: '#FFFFFF',
+  },
+
   customAccent1: { main: '#FBFF49' },
   customAccent2: { main: '#8E49FF' },
   customAccent3: { main: '#8CBCFE' },
