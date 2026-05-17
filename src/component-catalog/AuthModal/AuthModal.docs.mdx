@@ -1,0 +1,34 @@
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as AuthModalStories from './AuthModal.stories';
+
+<Meta of={AuthModalStories} />
+
+# AuthModal
+
+The `AuthModal` component provides a unified interface for user authentication, supporting both Sign In and Sign Up flows within a responsive Material UI Dialog.
+
+## Features
+- **CDD Architecture**: Separated logic (hooks), styles, and types.
+- **Form Validation**: Powered by `react-hook-form` and `zod`.
+- **Responsive**: Fullscreen on mobile devices (`< 600px`) and max-width 480px on desktop.
+- **Accessibility (a11y)**: Focus trapped, valid aria-labels for social buttons, and 44px minimum touch targets on mobile.
+
+## Usage
+
+```tsx
+import { useState } from 'react';
+import { AuthModal } from './AuthModal';
+import { AuthMode } from './AuthModal.types';
+
+export const App = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Login</button>
+      <AuthModal isOpen="{isOpen}" onClose="{()"> setIsOpen(false)} 
+        initialMode={AuthMode.SIGN_IN} 
+      />
+    </>
+  );
+};
