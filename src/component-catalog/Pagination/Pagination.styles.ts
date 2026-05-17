@@ -5,38 +5,36 @@ export const PaginationContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  maxWidth: '1216px',
-  height: '86px',
-  background: '#FFFFFF',
-  border: '1px solid rgba(0, 0, 0, 0.1)',
-  borderRadius: '14px',
+  backgroundColor: theme.palette.background.paper,
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: theme.shape.borderRadius,
   boxSizing: 'border-box',
-  padding: theme.spacing(0, 2),
+  padding: theme.spacing(2, 3),
 }));
 
-export const StyledPagination = styled(Pagination)({
+export const StyledPagination = styled(Pagination)(({ theme }) => ({
   '& .MuiPagination-ul': {
-    gap: '4px',
-    flexWrap: 'nowrap',
+    gap: theme.spacing(0.5),
+    flexWrap: 'wrap',
   },
-});
+}));
 
 export const StyledPaginationItem = styled(PaginationItem)(({ theme }) => ({
   height: '36px',
   minWidth: '36px',
-  fontFamily: "'Inter', sans-serif",
-  fontWeight: 500,
-  fontSize: '14px',
-  color: '#0A0A0A',
-  borderRadius: '8px',
-  padding: '0 12px',
+  fontFamily: theme.typography.fontFamily,
+  fontWeight: theme.typography.fontWeightMedium,
+  fontSize: '0.875rem',
+  color: theme.palette.text.primary,
+  borderRadius: theme.shape.borderRadius,
+  padding: theme.spacing(0, 1.5),
   margin: 0,
 
   '&.Mui-selected': {
-    backgroundColor: '#FFFFFF',
-    border: '1px solid rgba(0, 0, 0, 0.1)',
+    backgroundColor: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.divider}`,
     '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      backgroundColor: theme.palette.action.hover,
     },
   },
 
@@ -44,13 +42,14 @@ export const StyledPaginationItem = styled(PaginationItem)(({ theme }) => ({
     border: 'none',
     display: 'flex',
     alignItems: 'center',
-    gap: '8px',
+    gap: theme.spacing(1),
     '& .button-text': {
       display: 'inline',
     },
     [theme.breakpoints.down('md')]: {
       padding: 0,
-      minWidth: '36px',
+      minWidth: '44px',
+      height: '44px',
       justifyContent: 'center',
       '& .button-text': {
         display: 'none',

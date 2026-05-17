@@ -1,17 +1,77 @@
-import { PrevIcon, NextIcon, PAGINATION_TEST_ID } from './Pagination.constants';
+import { useMediaQuery, useTheme, Select, MenuItem, Typography, Box } from '@mui/material';
+
+import {
+  PrevIcon,
+  NextIcon,
+  PAGINATION_TEST_ID,
+  DEFAULT_PAGE_COUNT,
+  DEFAULT_ROWS_PER_PAGE_OPTIONS,
+} from './Pagination.constants';
 import { PaginationContainer, StyledPagination, StyledPaginationItem } from './Pagination.styles';
 
 import type { PaginationProps } from './Pagination.types';
 
 const Pagination = (props: PaginationProps) => {
-  const { count = 3, page, onChange, ...rest } = props;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const {
+    count = DEFAULT_PAGE_COUNT,
+    page,
+    onChange,
+    dataTestId = PAGINATION_TEST_ID,
+    showFirstButton = false,
+    showLastButton = false,
+    siblingCount = isMobile ? 0 : 1,
+    boundaryCount = 1,
+    disabled = false,
+    size = 'medium',
+    color = 'standard',
+    variant = 'text',
+    shape = 'circular',
+    rowsPerPage,
+    rowsPerPageOptions = DEFAULT_ROWS_PER_PAGE_OPTIONS,
+    onRowsPerPageChange,
+    ...rest
+  } = props;
 
   return (
-    <PaginationContainer data-testid={PAGINATION_TEST_ID}>
+    <PaginationContainer data-testid={dataTestId}>
+      {}
+      {onRowsPerPageChange && rowsPerPage !== undefined && (
+        <Box display="flex" alignItems="center" gap={1} mr={3}>
+          <Typography variant="body2" color="text.secondary">
+            Rows per page:
+          </Typography>
+          <Select
+            value={rowsPerPage}
+            onChange={onRowsPerPageChange}
+            size="small"
+            disabled={disabled}
+            sx={{ minWidth: '70px', height: '32px', borderRadius: 2 }}
+          >
+            {rowsPerPageOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
+      )}
+
       <StyledPagination
         count={count}
         page={page}
         onChange={onChange}
+        showFirstButton={showFirstButton}
+        showLastButton={showLastButton}
+        siblingCount={siblingCount}
+        boundaryCount={boundaryCount}
+        disabled={disabled}
+        size={size}
+        color={color}
+        variant={variant}
+        shape={shape}
         renderItem={(item) => (
           <StyledPaginationItem
             {...item}
@@ -27,4 +87,4 @@ const Pagination = (props: PaginationProps) => {
   );
 };
 
-export { Pagination };
+export default Pagination;

@@ -1,6 +1,17 @@
+import { Meta, Canvas, Story, Controls } from '@storybook/blocks';
+import * as PaginationStories from './Pagination.stories';
+
+<Meta of={PaginationStories} />
+
 # Pagination
 
-A responsive pagination component built on top of Material UI's `Pagination`. It follows the design system rules, collapsing into icon-only buttons on mobile breakpoints.
+A responsive, accessible pagination component built on top of Material UI's `Pagination`. This component strictly follows the design system rules and Component-Driven architecture guidelines.
+
+**Key Features:**
+- **Responsive Design:** Gracefully collapses into `36x36px` icon-only buttons on mobile breakpoints (`md`, `< 768px`) to prevent layout overflows and optimize touch targets.
+- **Custom Iconography:** Implements custom SVG arrow components matching exact Figma specifications (`1.33333px` stroke width).
+- **Accessibility (a11y):** Utilizes `aria-hidden` attributes on SVG elements and hidden text nodes to prevent screen reader duplication, relying purely on MUI's robust native `aria-labels`.
+- **Theme Integration:** Dynamically inherits text colors via `currentColor`, ensuring seamless adaptation to light/dark modes without hardcoded hex values.
 
 ## Usage
 
@@ -9,7 +20,7 @@ import { Pagination } from './Pagination';
 
 export const Example = () => {
   return (
-    <Pagination count="{5}" onChange="{(e,"> console.log('Current page:', page)} 
+    <Pagination count="{5}" onChange="{(event,"> console.log('Current page:', page)}
     />
   );
 };

@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 
-import { Pagination } from './Pagination';
-import { PAGINATION_TEST_ID } from './Pagination.constants';
+import Pagination from './Pagination';
+import { PAGINATION_TEST_ID, PREV_BUTTON_TEXT, NEXT_BUTTON_TEXT } from './Pagination.constants';
 
 describe('Pagination Component', () => {
   it('renders the pagination container correctly', () => {
@@ -11,26 +11,41 @@ describe('Pagination Component', () => {
     expect(container).toBeInTheDocument();
   });
 
-  it('renders the correct number of pages', () => {
+  it('renders the specific page numbers and navigation buttons', () => {
     render(<Pagination count={3} />);
-    // Expect pages 1, 2, 3 plus Prev and Next items
-    const items = screen.getAllByRole('button');
-    expect(items).toHaveLength(5);
+
+    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
+
+    expect(screen.getByLabelText(/go to previous page/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/go to next page/i)).toBeInTheDocument();
   });
 
-  it('triggers onChange event when a page is clicked', () => {
+  it('triggers onChange event with the correct page number when a page is clicked', () => {
     const handleChange = vi.fn();
     render(<Pagination count={3} onChange={handleChange} />);
 
     const pageTwoButton = screen.getByText('2');
-    pageTwoButton.click();
+    fireEvent.click(pageTwoButton);
 
     expect(handleChange).toHaveBeenCalledTimes(1);
+    expect(handleChange).toHaveBeenCalledWith(expect.anything(), 2);
   });
 
-  it('renders custom previous and next texts', () => {
+  it('renders custom previous and next texts associated with the correct buttons', () => {
     render(<Pagination count={3} />);
-    expect(screen.getByText('Previous')).toBeInTheDocument();
-    expect(screen.getByText('Next')).toBeInTheDocument();
+
+    const prevText = screen.getByText(PREV_BUTTON_TEXT);
+    const nextText = screen.getByText(NEXT_BUTTON_TEXT);
+
+    expect(prevText).toBeInTheDocument();
+    expect(nextText).toBeInTheDocument();
+
+    const prevButton = screen.getByLabelText(/go to previous page/i);
+    const nextButton = screen.getByLabelText(/go to next page/i);
+
+    expect(prevButton).toContainElement(prevText);
+    expect(nextButton).toContainElement(nextText);
   });
 });
