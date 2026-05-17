@@ -4,16 +4,13 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 
-import Label from './Label';
+import type { Decorator, Meta, StoryObj } from '@storybook/react';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import Label from './Label';
 
 const theme = createTheme();
 
-/**
- * Shared Storybook decorator
- */
-const withTheme = (Story: any) => (
+const withTheme: Decorator = (Story) => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
 
@@ -67,7 +64,8 @@ const meta: Meta<typeof Label> = {
 
     tooltip: {
       control: 'text',
-      description: 'Tooltip content (renders info icon when provided)',
+      description:
+        'Tooltip content (renders info icon when provided)',
     },
   },
 
@@ -153,7 +151,7 @@ export const RequiredOverridesOptional: Story = {
     required: true,
     optional: true,
     tooltip: 'Required takes precedence over optional.',
-  } as any,
+  },
 };
 
 export const PairedWithInput: Story = {
@@ -207,7 +205,8 @@ export const NarrowViewport: Story = {
 
   args: {
     htmlFor: 'label-narrow-viewport',
-    children: 'A very long label that might wrap on narrow screens',
+    children:
+      'A very long label that might wrap on narrow screens',
     required: true,
     tooltip: 'Helpful tooltip content for this field',
   },
@@ -260,7 +259,12 @@ export const AllStates: Story = {
       </Box>
 
       <Box>
-        <Label htmlFor="s7" required error tooltip="Fix this field">
+        <Label
+          htmlFor="s7"
+          required
+          error
+          tooltip="Fix this field"
+        >
           Required + Error + Tooltip
         </Label>
       </Box>
