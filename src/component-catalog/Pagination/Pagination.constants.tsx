@@ -24,7 +24,6 @@ export const PrevIcon = () => (
         strokeLinejoin="round"
       />
     </svg>
-    {}
     <span className="button-text" aria-hidden="true">
       {PREV_BUTTON_TEXT}
     </span>
@@ -33,7 +32,6 @@ export const PrevIcon = () => (
 
 export const NextIcon = () => (
   <>
-    {}
     <span className="button-text" aria-hidden="true">
       {NEXT_BUTTON_TEXT}
     </span>

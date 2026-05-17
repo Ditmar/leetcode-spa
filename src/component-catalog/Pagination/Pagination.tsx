@@ -22,11 +22,11 @@ const Pagination = (props: PaginationProps) => {
     dataTestId = PAGINATION_TEST_ID,
     showFirstButton = false,
     showLastButton = false,
-    siblingCount = isMobile ? 0 : 1,
+    siblingCount = isMobile ? 1 : 1,
     boundaryCount = 1,
     disabled = false,
     size = 'medium',
-    color = 'standard',
+    color,
     variant = 'text',
     shape = 'circular',
     rowsPerPage,
@@ -37,7 +37,6 @@ const Pagination = (props: PaginationProps) => {
 
   return (
     <PaginationContainer data-testid={dataTestId}>
-      {}
       {onRowsPerPageChange && rowsPerPage !== undefined && (
         <Box display="flex" alignItems="center" gap={1} mr={3}>
           <Typography variant="body2" color="text.secondary">
@@ -48,7 +47,11 @@ const Pagination = (props: PaginationProps) => {
             onChange={onRowsPerPageChange}
             size="small"
             disabled={disabled}
-            sx={{ minWidth: '70px', height: '32px', borderRadius: 2 }}
+            sx={{
+              minWidth: theme.spacing(8.75),
+              height: theme.spacing(4),
+              borderRadius: 1,
+            }}
           >
             {rowsPerPageOptions.map((option) => (
               <MenuItem key={option} value={option}>

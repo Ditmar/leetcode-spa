@@ -1,16 +1,11 @@
 import { styled, Pagination, PaginationItem, Box } from '@mui/material';
 
-export const PaginationContainer = styled(Box)(({ theme }) => ({
+export const PaginationContainer = styled(Box)({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  backgroundColor: theme.palette.background.paper,
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: theme.shape.borderRadius,
-  boxSizing: 'border-box',
-  padding: theme.spacing(2, 3),
-}));
+});
 
 export const StyledPagination = styled(Pagination)(({ theme }) => ({
   '& .MuiPagination-ul': {
@@ -20,8 +15,8 @@ export const StyledPagination = styled(Pagination)(({ theme }) => ({
 }));
 
 export const StyledPaginationItem = styled(PaginationItem)(({ theme }) => ({
-  height: '36px',
-  minWidth: '36px',
+  height: theme.spacing(4.5),
+  minWidth: theme.spacing(4.5),
   fontFamily: theme.typography.fontFamily,
   fontWeight: theme.typography.fontWeightMedium,
   fontSize: '0.875rem',
@@ -48,8 +43,8 @@ export const StyledPaginationItem = styled(PaginationItem)(({ theme }) => ({
     },
     [theme.breakpoints.down('md')]: {
       padding: 0,
-      minWidth: '44px',
-      height: '44px',
+      minWidth: theme.spacing(5.5),
+      height: theme.spacing(5.5),
       justifyContent: 'center',
       '& .button-text': {
         display: 'none',

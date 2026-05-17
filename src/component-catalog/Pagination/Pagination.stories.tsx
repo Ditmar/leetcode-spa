@@ -1,6 +1,5 @@
 import Pagination from './Pagination';
 
-import type { PaginationProps } from './Pagination.types';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Pagination> = {
@@ -28,6 +27,11 @@ const meta: Meta<typeof Pagination> = {
       control: 'radio',
       options: ['small', 'medium', 'large'],
       description: 'The size of the component.',
+    },
+    rowsPerPage: { control: 'number', description: 'Current number of rows per page.' },
+    onRowsPerPageChange: {
+      action: 'rowsPerPageChanged',
+      description: 'Callback fired when the rows per page value changes.',
     },
   },
 };
@@ -58,26 +62,10 @@ export const WithFirstLastButtons: Story = {
 };
 
 export const WithRowsPerPage: Story = {
-  render: (args: PaginationProps) => (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '16px',
-        fontFamily: "'Inter', sans-serif",
-      }}
-    >
-      <span style={{ fontSize: '14px', color: '#4A5565' }}>Rows per page:</span>
-      <select style={{ padding: '4px 8px', borderRadius: '4px', border: '1px solid #ccc' }}>
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-      </select>
-      <Pagination {...args} />
-    </div>
-  ),
   args: {
-    count: 5,
+    count: 50,
+    rowsPerPage: 10,
+    rowsPerPageOptions: [10, 20, 50],
   },
 };
 
@@ -88,10 +76,18 @@ export const Disabled: Story = {
   },
 };
 
+export const WithCustomStyling: Story = {
+  args: {
+    count: 5,
+    color: 'secondary',
+    variant: 'outlined',
+    shape: 'rounded',
+  },
+};
+
 export const MobileView: Story = {
   args: {
     count: 10,
-    siblingCount: 0,
   },
   parameters: {
     viewport: {
