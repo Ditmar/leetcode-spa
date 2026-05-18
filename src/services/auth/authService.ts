@@ -2,6 +2,7 @@ import { AUTH_ENDPOINTS, AUTH_SIGN_OUT_EVENT, REFRESH_THRESHOLD_MS } from './aut
 
 import type { AuthSession, SignInPayload, SignUpPayload } from './authService.types';
 import type { ApiError } from '../api/apiClient.types';
+import { id } from 'zod/v4/locales';
 
 function isApiError(err: unknown): err is ApiError {
   return (
@@ -72,7 +73,9 @@ const authService = {
 
     _session = null;
 
-    window.dispatchEvent(new CustomEvent(AUTH_SIGN_OUT_EVENT));
+    if (typeof window !== 'undefined'){
+      window.dispatchEvent(new CustomEvent(AUTH_SIGN_OUT_EVENT));
+    }
   },
 
   async refreshToken(): Promise<AuthSession> {
@@ -86,7 +89,9 @@ const authService = {
     } catch (err) {
       if (isApiError(err) && err.status === 401) {
         await authService.signOut();
-        window.location.href = '/';
+        if (typeof window !== 'undefined'){
+          window.location.href = '/';
+        }
       }
       throw err;
     }
@@ -94,13 +99,7 @@ const authService = {
 
   getSession(): AuthSession | null {
     if (!_session) return null;
-
-    if (_session.expiresAt <= Date.now()) {
-      _session = null;
-      return null;
-    }
-
-    return _session;
+    return _session.expiresAt <= Date.now() ? null : _session; 
   },
 
   isAuthenticated(): boolean {

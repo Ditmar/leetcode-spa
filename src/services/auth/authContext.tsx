@@ -28,12 +28,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     let cancelled = false;
 
-    authService.hydrateFromServer().then((restored) => {
-      if (!cancelled) {
-        setSession(restored);
-        setIsLoading(false);
+    const initAuth = async () => {
+      try {
+        const restotrd = await authService.hydrateFromServer();
+        if (!cancelled) setSession(restotrd);
+      } catch (error){
+        console.error('Auth hydrateFromServer failed: ', error)
+      } finally{
+        if (!cancelled) setIsLoading(false);
       }
-    });
+    };
+    initAuth();
 
     function handleSignOut() {
       setSession(null);
