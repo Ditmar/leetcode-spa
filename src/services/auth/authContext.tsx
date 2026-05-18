@@ -32,9 +32,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       try {
         const restotrd = await authService.hydrateFromServer();
         if (!cancelled) setSession(restotrd);
-      } catch (error){
-        console.error('Auth hydrateFromServer failed: ', error)
-      } finally{
+      } catch {
+        // hydration failed, user starts unauthenticated
+      } finally {
         if (!cancelled) setIsLoading(false);
       }
     };

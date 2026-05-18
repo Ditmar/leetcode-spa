@@ -1,4 +1,5 @@
 import { AUTH_SIGN_OUT_EVENT, REFRESH_THRESHOLD_MS } from './authService.constants';
+
 import type { AuthSession, AuthUser, SignInPayload, SignUpPayload } from './authService.types';
 
 const MOCK_USERS: AuthUser[] = [
