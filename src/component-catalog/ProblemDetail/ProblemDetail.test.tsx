@@ -67,10 +67,7 @@ describe('ProblemDetail', () => {
   ] as const)('applies the correct chip color for %s difficulty', (difficulty, expectedClass) => {
     render(<ProblemDetail problem={{ ...baseProblem, difficulty }} />);
 
-    const chip = screen
-      .getByLabelText(`Difficulty: ${difficulty}`)
-      .closest('.MuiChip-root');
-
+    const chip = screen.getByLabelText(`Difficulty: ${difficulty}`).closest('.MuiChip-root');
     expect(chip).toHaveClass(expectedClass);
   });
 });

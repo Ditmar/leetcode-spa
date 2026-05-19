@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { useProblemDetail } from './ProblemDetail.hook';
+
 import {
   chipRowSx,
   codeLabelSx,
@@ -24,6 +25,7 @@ import {
   tagChipSx,
   titleSx,
 } from './ProblemDetail.styles';
+
 import type { ProblemDetailProps } from './ProblemDetail.types';
 
 export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
@@ -33,12 +35,7 @@ export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
     <Box component="section" aria-labelledby="problem-detail-title" sx={panelSx}>
       <Stack spacing={2.5}>
         <Stack spacing={1}>
-          <Typography
-            id="problem-detail-title"
-            variant="h5"
-            component="h1"
-            sx={titleSx}
-          >
+          <Typography id="problem-detail-title" variant="h5" component="h1" sx={titleSx}>
             {problem.id}. {problem.title}
           </Typography>
 
@@ -75,6 +72,7 @@ export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
             <Typography variant="h6" component="h2" sx={sectionTitleSx}>
               Examples
             </Typography>
+
             <Divider />
           </Stack>
 
@@ -115,6 +113,7 @@ export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
             <Typography variant="h6" component="h2" sx={sectionTitleSx}>
               Constraints
             </Typography>
+
             <Divider />
           </Stack>
 
