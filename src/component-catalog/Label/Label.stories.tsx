@@ -1,20 +1,19 @@
-import React from 'react';
-
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-import type { Decorator, Meta, StoryObj } from '@storybook/react';
+import TextField from '@mui/material/TextField';
+import React from 'react';
 
 import Label from './Label';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const theme = createTheme();
 
 /**
  * Shared Storybook decorator
  */
-const withTheme = (Story: any) => (
+const withTheme = (Story: React.ComponentType) => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
 
@@ -33,36 +32,44 @@ const meta: Meta<typeof Label> = {
   title: 'Components/Label',
   component: Label,
   decorators: [withTheme],
+
   argTypes: {
     children: {
       control: 'text',
       description: 'Visible label text',
     },
+
     htmlFor: {
       control: 'text',
       description: 'ID of the associated input element',
     },
+
     required: {
       control: 'boolean',
       description: 'Displays required indicator',
     },
+
     optional: {
       control: 'boolean',
       description: 'Displays optional helper text',
     },
+
     error: {
       control: 'boolean',
       description: 'Applies error styling',
     },
+
     disabled: {
       control: 'boolean',
       description: 'Applies disabled styling',
     },
+
     tooltip: {
       control: 'text',
       description: 'Tooltip content (renders info icon when provided)',
     },
   },
+
   args: {
     htmlFor: 'label-default-input',
     children: 'Email address',
@@ -129,7 +136,6 @@ export const RequiredErrorWithTooltip: Story = {
   },
 };
 
-
 export const RequiredOverridesOptional: Story = {
   parameters: {
     docs: {
@@ -139,13 +145,14 @@ export const RequiredOverridesOptional: Story = {
       },
     },
   },
+
   args: {
     htmlFor: 'label-required-optional',
     children: 'Username',
     required: true,
     optional: true,
     tooltip: 'Required takes precedence over optional.',
-  } as any,
+  },
 };
 
 export const PairedWithInput: Story = {
@@ -170,6 +177,7 @@ export const PairedWithInput: Story = {
       />
     </Box>
   ),
+
   args: {
     htmlFor: 'label-paired-input',
     children: 'Email address',
@@ -179,7 +187,7 @@ export const PairedWithInput: Story = {
 
 export const NarrowViewport: Story = {
   decorators: [
-    (Story) => (
+    (Story: React.ComponentType) => (
       <ThemeProvider theme={theme}>
         <CssBaseline />
 
@@ -195,6 +203,7 @@ export const NarrowViewport: Story = {
       </ThemeProvider>
     ),
   ],
+
   args: {
     htmlFor: 'label-narrow-viewport',
     children: 'A very long label that might wrap on narrow screens',

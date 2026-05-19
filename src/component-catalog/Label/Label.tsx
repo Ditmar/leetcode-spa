@@ -17,29 +17,12 @@ import { resolveRequiredOptional } from './Label.utils';
 import type { LabelProps } from './Label.types';
 
 const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
-  (
-    {
-      htmlFor,
-      children,
-      required,
-      optional,
-      error,
-      disabled,
-      tooltip,
-      ...rest
-    },
-    ref
-  ) => {
-    const { showRequired, showOptional } = resolveRequiredOptional(
-      required,
-      optional
-    );
+  ({ htmlFor, children, required, optional, error, disabled, tooltip, ...rest }, ref) => {
+    const { showRequired, showOptional } = resolveRequiredOptional(required, optional);
 
-    const { open, handleOpen, handleClose, handleToggle } =
-      useLabelTooltip();
+    const { open, handleOpen, handleClose, handleToggle } = useLabelTooltip();
 
-    const normalizedTooltip =
-      typeof tooltip === 'string' ? tooltip.trim() : '';
+    const normalizedTooltip = typeof tooltip === 'string' ? tooltip.trim() : '';
 
     return (
       <StyledInputLabel
@@ -53,11 +36,7 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
       >
         {children}
 
-        {showRequired && (
-          <RequiredIndicator aria-hidden="true">
-            *
-          </RequiredIndicator>
-        )}
+        {showRequired && <RequiredIndicator aria-hidden="true">*</RequiredIndicator>}
 
         {showOptional && (
           <OptionalHint component="span" variant="caption">
@@ -85,10 +64,7 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
                 tabIndex={0}
                 disabled={disabled}
               >
-                <TooltipInfoIcon
-                  as={InfoOutlinedIcon}
-                  fontSize="inherit"
-                />
+                <TooltipInfoIcon as={InfoOutlinedIcon} fontSize="inherit" />
               </TooltipIconButton>
             </Tooltip>
           </TooltipIconWrapper>

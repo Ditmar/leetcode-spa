@@ -23,15 +23,11 @@ function renderLabel(props: RenderLabelProps = {}) {
   return render(
     <ThemeProvider theme={theme}>
       <>
-        <Label htmlFor={INPUT_ID} {...(props as any)}>
+        <Label htmlFor={INPUT_ID} {...props}>
           Email address
         </Label>
 
-        <input
-          id={INPUT_ID}
-          required={props.required}
-          disabled={props.disabled}
-        />
+        <input id={INPUT_ID} required={props.required} disabled={props.disabled} />
       </>
     </ThemeProvider>
   );
@@ -47,9 +43,7 @@ describe('Label — rendering', () => {
   it('renders a label element', () => {
     renderLabel();
 
-    expect(
-      screen.getByText('Email address').closest('label')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Email address').closest('label')).toBeInTheDocument();
   });
 
   it('associates htmlFor with the input', () => {
@@ -88,9 +82,7 @@ describe('Label — required and optional states', () => {
 
     expect(screen.getByText('*', { exact: false })).toBeInTheDocument();
 
-    expect(
-      screen.queryByText(OPTIONAL_INDICATOR)
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(OPTIONAL_INDICATOR)).not.toBeInTheDocument();
   });
 });
 
@@ -134,9 +126,7 @@ describe('Label — tooltip', () => {
       })
     );
 
-    expect(
-      await screen.findByText('Helpful information')
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Helpful information')).toBeInTheDocument();
   });
 
   it('closes tooltip on second click', async () => {
@@ -146,15 +136,15 @@ describe('Label — tooltip', () => {
 
     await userEvent.click(button);
 
-    expect(
-      await screen.findByText('Helpful information')
-    ).toBeInTheDocument();
+    const tooltip = await screen.findByText('Helpful information');
+
+    expect(tooltip).toBeVisible();
 
     await userEvent.click(button);
 
-    expect(
-      screen.queryByText('Helpful information')
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(tooltip).not.toBeVisible();
+    });
 
     expect(button).toHaveFocus();
   });
@@ -170,9 +160,7 @@ describe('Label — tooltip', () => {
 
     await userEvent.keyboard('{Enter}');
 
-    expect(
-      await screen.findByText('Helpful information')
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Helpful information')).toBeInTheDocument();
   });
 
   it('opens tooltip with keyboard (Space)', async () => {
@@ -186,9 +174,7 @@ describe('Label — tooltip', () => {
 
     await userEvent.keyboard(' ');
 
-    expect(
-      await screen.findByText('Helpful information')
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Helpful information')).toBeInTheDocument();
   });
 });
 
