@@ -1,12 +1,12 @@
 import { apiClient } from '../api/apiClient';
 
-import type { RequestConfig } from '../api/apiClient.types';
 import type {
   ProblemDetail,
   ProblemFilters,
   ProblemListResponse,
   ProblemStats,
 } from './problemsService.types';
+import type { RequestConfig } from '../api/apiClient.types';
 
 const MIN_PAGE_SIZE = 1;
 const MAX_PAGE_SIZE = 100;
