@@ -1,16 +1,12 @@
-﻿import { Avatar } from '../../component-catalog/Avatar/Avatar';
 import ClientOnlyMuiProvider from '../../style-library/ClientOnlyMuiProvider';
 
 import NavShell from './common/NavShell';
 
-export default function HomePage() {
+export default function ContestPage() {
   return (
     <ClientOnlyMuiProvider>
       <NavShell>
-        <h1>HOME PAGE </h1>
-        <Avatar size="lg" variant="default">
-          SM
-        </Avatar>
+        <h1>Contest PAGE </h1>
       </NavShell>
     </ClientOnlyMuiProvider>
   );
