@@ -4,16 +4,15 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 
-import type { Decorator, Meta, StoryObj } from '@storybook/react';
-
 import Label from './Label';
+
+import type { Decorator, Meta, StoryObj } from '@storybook/react';
 
 const theme = createTheme();
 
 const withTheme: Decorator = (Story) => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
-
     <Box
       sx={{
         p: 3,
@@ -28,47 +27,37 @@ const withTheme: Decorator = (Story) => (
 const meta: Meta<typeof Label> = {
   title: 'Components/Label',
   component: Label,
-
   decorators: [withTheme],
-
   argTypes: {
     children: {
       control: 'text',
       description: 'Visible label text',
     },
-
     htmlFor: {
       control: 'text',
       description: 'ID of the associated input element',
     },
-
     required: {
       control: 'boolean',
       description: 'Displays required indicator',
     },
-
     optional: {
       control: 'boolean',
       description: 'Displays optional helper text',
     },
-
     error: {
       control: 'boolean',
       description: 'Applies error styling',
     },
-
     disabled: {
       control: 'boolean',
       description: 'Applies disabled styling',
     },
-
     tooltip: {
       control: 'text',
-      description:
-        'Tooltip content (renders info icon when provided)',
+      description: 'Tooltip content (renders info icon when provided)',
     },
   },
-
   args: {
     htmlFor: 'label-default-input',
     children: 'Email address',
@@ -144,7 +133,6 @@ export const RequiredOverridesOptional: Story = {
       },
     },
   },
-
   args: {
     htmlFor: 'label-required-optional',
     children: 'Username',
@@ -176,7 +164,6 @@ export const PairedWithInput: Story = {
       />
     </Box>
   ),
-
   args: {
     htmlFor: 'label-paired-input',
     children: 'Email address',
@@ -202,11 +189,9 @@ export const NarrowViewport: Story = {
       </ThemeProvider>
     ),
   ],
-
   args: {
     htmlFor: 'label-narrow-viewport',
-    children:
-      'A very long label that might wrap on narrow screens',
+    children: 'A very long label that might wrap on narrow screens',
     required: true,
     tooltip: 'Helpful tooltip content for this field',
   },
@@ -259,12 +244,7 @@ export const AllStates: Story = {
       </Box>
 
       <Box>
-        <Label
-          htmlFor="s7"
-          required
-          error
-          tooltip="Fix this field"
-        >
+        <Label htmlFor="s7" required error tooltip="Fix this field">
           Required + Error + Tooltip
         </Label>
       </Box>
