@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { ProblemDetail } from './ProblemDetail';
+
 import type { Problem } from './ProblemDetail.types';
 
 const baseProblem: Problem = {
@@ -63,23 +64,13 @@ describe('ProblemDetail', () => {
     ['Easy', 'MuiChip-colorSuccess'],
     ['Medium', 'MuiChip-colorWarning'],
     ['Hard', 'MuiChip-colorError'],
-  ] as const)(
-    'applies the correct chip color for %s difficulty',
-    (difficulty, expectedClass) => {
-      render(
-        <ProblemDetail
-          problem={{
-            ...baseProblem,
-            difficulty,
-          }}
-        />,
-      );
+  ] as const)('applies the correct chip color for %s difficulty', (difficulty, expectedClass) => {
+    render(<ProblemDetail problem={{ ...baseProblem, difficulty }} />);
 
-      const chip = screen
-        .getByLabelText(`Difficulty: ${difficulty}`)
-        .closest('.MuiChip-root');
+    const chip = screen
+      .getByLabelText(`Difficulty: ${difficulty}`)
+      .closest('.MuiChip-root');
 
-      expect(chip).toHaveClass(expectedClass);
-    },
-  );
+    expect(chip).toHaveClass(expectedClass);
+  });
 });
