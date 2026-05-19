@@ -3,8 +3,9 @@ import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { ProblemDetail } from './ProblemDetail';
 import type { Problem } from './ProblemDetail.types';
+
+import { ProblemDetail } from './ProblemDetail';
 
 const baseProblem: Problem = {
   id: 1,
@@ -46,11 +47,11 @@ describe('ProblemDetail', () => {
     render(<ProblemDetail problem={baseProblem} />);
 
     expect(
-      screen.getByRole('heading', { name: 'Example 1' }),
+      screen.getByRole('heading', { name: 'Example 1:' }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('heading', { name: 'Example 2' }),
+      screen.getByRole('heading', { name: 'Example 2:' }),
     ).toBeInTheDocument();
 
     expect(
@@ -78,7 +79,10 @@ describe('ProblemDetail', () => {
     ).toBeInTheDocument();
 
     expect(screen.getByText('2 <= nums.length <= 10^4')).toBeInTheDocument();
-    expect(screen.getByText('Only one valid answer exists.')).toBeInTheDocument();
+
+    expect(
+      screen.getByText('Only one valid answer exists.'),
+    ).toBeInTheDocument();
   });
 
   it.each([

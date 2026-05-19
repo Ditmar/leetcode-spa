@@ -1,8 +1,9 @@
 import Box from '@mui/material/Box';
+
+import type { Problem } from './ProblemDetail.types';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ProblemDetail } from './ProblemDetail';
-import type { Problem } from './ProblemDetail.types';
 
 const meta: Meta<typeof ProblemDetail> = {
   title: 'Component Catalog/ProblemDetail',
@@ -48,8 +49,7 @@ const twoSumProblem: Problem = {
     {
       input: 'nums = [2,7,11,15], target = 9',
       output: '[0,1]',
-      explanation:
-        'Because nums[0] + nums[1] == 9, we return [0, 1].',
+      explanation: 'Because nums[0] + nums[1] == 9, we return [0, 1].',
     },
     {
       input: 'nums = [3,2,4], target = 6',
@@ -173,10 +173,7 @@ const validParenthesesProblem: Problem = {
       output: 'false',
     },
   ],
-  constraints: [
-    '1 <= s.length <= 10^4',
-    's consists of parentheses only.',
-  ],
+  constraints: ['1 <= s.length <= 10^4', 's consists of parentheses only.'],
   acceptance: 40.1,
   status: 'unsolved',
 };
