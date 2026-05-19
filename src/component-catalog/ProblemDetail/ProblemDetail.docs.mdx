@@ -1,0 +1,75 @@
+import {
+  Meta,
+  Canvas,
+  Controls,
+  Stories,
+  Subtitle,
+  Description,
+} from '@storybook/addon-docs/blocks';
+
+import * as ProblemDetailStories from './ProblemDetail.stories';
+
+<Meta of={ProblemDetailStories} />
+
+# ProblemDetail
+
+<Subtitle>
+Responsive page-level coding problem statement component built with Material UI and CDD architecture.
+</Subtitle>
+
+<Description>
+`ProblemDetail` is a fully responsive, presentational page-level component responsible for rendering the complete statement of a programming problem.
+
+The component follows Component-Driven Development (CDD) principles and is implemented using Material UI primitives to ensure consistency, scalability, accessibility, and maintainability.
+
+This component was designed to function as the central reading panel inside coding workspace applications such as algorithm platforms, interview preparation systems, online coding judges, or educational development environments.
+
+The component receives a fully structured `problem` object and renders all problem-related information in a readable and accessible layout.
+
+The component intentionally avoids internal business logic and asynchronous behavior in order to remain reusable, predictable, and easy to test.
+</Description>
+
+---
+
+# Architectural overview
+
+The `ProblemDetail` component belongs to the presentation layer of the application.
+
+Its responsibility is strictly limited to UI rendering.
+
+The component:
+
+- Receives data through props.
+- Renders semantic and accessible UI.
+- Applies responsive behavior.
+- Uses centralized styling.
+- Delegates utility logic to helper functions.
+- Does not mutate data.
+- Does not fetch external resources.
+- Does not handle persistence.
+- Does not manage editor state.
+- Does not execute code.
+
+This separation improves:
+
+- Maintainability.
+- Reusability.
+- Testability.
+- Scalability.
+- Predictability.
+- Long-term project stability.
+
+---
+
+# Component role inside the application
+
+The component is intended to work inside a larger coding workspace layout.
+
+Typical layout composition:
+
+```txt
+Coding Workspace
+├── ProblemsSidebar
+├── ProblemDetail
+├── CodeEditor
+└── TestResults
