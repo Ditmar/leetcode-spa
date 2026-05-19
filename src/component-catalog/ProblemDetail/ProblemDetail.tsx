@@ -6,7 +6,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { useProblemDetail } from './ProblemDetail.hook';
-
 import {
   chipRowSx,
   codeLabelSx,
