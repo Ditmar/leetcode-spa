@@ -1,12 +1,15 @@
 import { apiClient } from '../api/apiClient';
 
+import type { RequestConfig } from '../api/apiClient.types';
 import type {
   ProblemDetail,
   ProblemFilters,
   ProblemListResponse,
   ProblemStats,
 } from './problemsService.types';
-import type { RequestConfig } from '../api/apiClient.types';
+
+const MIN_PAGE_SIZE = 1;
+const MAX_PAGE_SIZE = 100;
 
 function buildQueryString(filters: ProblemFilters = {}): string {
   const params = new URLSearchParams();
@@ -27,8 +30,12 @@ function buildQueryString(filters: ProblemFilters = {}): string {
     params.set('tag', filters.tag);
   }
 
-  params.set('page', String(filters.page ?? 1));
-  params.set('pageSize', String(filters.pageSize ?? 20));
+  const page = filters.page ?? 1;
+  const pageSize = filters.pageSize ?? 20;
+
+  params.set('page', String(Math.max(1, page)));
+
+  params.set('pageSize', String(Math.min(MAX_PAGE_SIZE, Math.max(MIN_PAGE_SIZE, pageSize))));
 
   return params.toString();
 }
@@ -56,7 +63,12 @@ async function getTags(config?: RequestConfig): Promise<string[]> {
   return [...new Set(response.data)].sort((a, b) => a.localeCompare(b));
 }
 
-async function getStats(config?: RequestConfig): Promise<ProblemStats> {
+async function getStats(cookiesOrConfig?: string | RequestConfig): Promise<ProblemStats> {
+  const config: RequestConfig | undefined =
+    typeof cookiesOrConfig === 'string'
+      ? { headers: { cookie: cookiesOrConfig } }
+      : cookiesOrConfig;
+
   const response = await apiClient.get<ProblemStats>('/problems/stats', config);
 
   return response.data;

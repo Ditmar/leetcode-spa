@@ -22,7 +22,17 @@ export interface ProblemFilters {
   difficulty?: ProblemDifficulty;
   status?: ProblemStatus;
   tag?: string;
+  /**
+   * 1-based page number.
+   * Must be >= 1.
+   * @default 1
+   */
   page?: number;
+  /**
+   * Number of items per page.
+   * Accepted range: 1–100.
+   * @default 20
+   */
   pageSize?: number;
 }
 
