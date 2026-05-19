@@ -4,9 +4,7 @@ import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-
 import { useProblemDetail } from './ProblemDetail.hook';
-
 import {
   chipRowSx,
   codeLabelSx,
@@ -39,12 +37,7 @@ export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
             {problem.id}. {problem.title}
           </Typography>
 
-          <Stack
-            direction="row"
-            component="ul"
-            sx={chipRowSx}
-            aria-label="Problem metadata"
-          >
+          <Stack direction="row" component="ul" sx={chipRowSx} aria-label="Problem metadata">
             <Box component="li">
               <Chip
                 label={problem.difficulty}
