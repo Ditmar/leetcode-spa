@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box';
 
+import { ProblemDetail } from './ProblemDetail';
 import type { Problem } from './ProblemDetail.types';
 import type { Meta, StoryObj } from '@storybook/react';
-
-import { ProblemDetail } from './ProblemDetail';
 
 const meta: Meta<typeof ProblemDetail> = {
   title: 'Component Catalog/ProblemDetail',
