@@ -1,3 +1,9 @@
 {
-  "defaultCacheTTL": 300000
+  "defaultCacheTTL": 300000,
+  "basePath": "",
+  "navHomePath": "/",
+  "navExplorePath": "/explore",
+  "navProblemsPath": "/problems",
+  "navContestPath": "/contest",
+  "navDiscussPath": "/discuss"
 }

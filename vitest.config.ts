@@ -10,6 +10,13 @@ const dirname =
 
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@config': path.resolve(dirname, 'src/utils/config.ts'),
+      '@utils': path.resolve(dirname, 'src/utils'),
+      '@components': path.resolve(dirname, 'src/component-catalog'),
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',

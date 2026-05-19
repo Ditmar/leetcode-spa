@@ -23,7 +23,6 @@ module.exports = [
     },
     rules: {
       'prettier/prettier': 'error',
-      'import/no-unresolved': 'error',
       'import/named': 'error',
       'import/default': 'error',
       'import/no-duplicates': 'error',
@@ -92,6 +91,12 @@ module.exports = [
             'object',
             'type',
           ],
+          pathGroups: [
+            { pattern: '@config', group: 'internal', position: 'before' },
+            { pattern: '@utils/**', group: 'internal', position: 'before' },
+            { pattern: '@components/**', group: 'internal', position: 'before' },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
           'newlines-between': 'always',
           alphabetize: { order: 'asc', caseInsensitive: true },
         },

@@ -1,9 +1,9 @@
-﻿import ClientOnlyMuiProvider from '../../style-library/ClientOnlyMuiProvider';
+﻿import NavShell from './NavShell';
 
 export default function HomePage() {
   return (
-    <ClientOnlyMuiProvider>
+    <NavShell>
       <h1>HOME PAGE</h1>
-    </ClientOnlyMuiProvider>
+    </NavShell>
   );
 }

@@ -1,5 +1,10 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   integrations: [
@@ -8,6 +13,13 @@ export default defineConfig({
     }),
   ],
   vite: {
+    resolve: {
+      alias: {
+        '@config': path.resolve(__dirname, 'src/utils/config.ts'),
+        '@utils': path.resolve(__dirname, 'src/utils'),
+        '@components': path.resolve(__dirname, 'src/component-catalog'),
+      },
+    },
     optimizeDeps: {
       include: [
         '@mui/material',
