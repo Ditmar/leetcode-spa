@@ -44,11 +44,17 @@ describe('ProblemDetail', () => {
     render(<ProblemDetail problem={baseProblem} />);
 
     expect(screen.getByRole('heading', { name: 'Example 1:' })).toBeInTheDocument();
+
     expect(screen.getByRole('heading', { name: 'Example 2:' })).toBeInTheDocument();
-    expect(screen.getByText('nums = [2,7,11,15], target = 9')).toBeInTheDocument();
+
+    expect(screen.getByText(/nums = \[2,7,11,15], target = 9/i)).toBeInTheDocument();
+
     expect(screen.getByText('[0,1]')).toBeInTheDocument();
+
     expect(screen.getByText('Because nums[0] + nums[1] == 9.')).toBeInTheDocument();
-    expect(screen.getByText('nums = [3,2,4], target = 6')).toBeInTheDocument();
+
+    expect(screen.getByText(/nums = \[3,2,4], target = 6/i)).toBeInTheDocument();
+
     expect(screen.getByText('[1,2]')).toBeInTheDocument();
   });
 
@@ -56,7 +62,9 @@ describe('ProblemDetail', () => {
     render(<ProblemDetail problem={baseProblem} />);
 
     expect(screen.getByRole('heading', { name: 'Constraints' })).toBeInTheDocument();
+
     expect(screen.getByText('2 <= nums.length <= 10^4')).toBeInTheDocument();
+
     expect(screen.getByText('Only one valid answer exists.')).toBeInTheDocument();
   });
 
@@ -68,6 +76,7 @@ describe('ProblemDetail', () => {
     render(<ProblemDetail problem={{ ...baseProblem, difficulty }} />);
 
     const chip = screen.getByLabelText(`Difficulty: ${difficulty}`).closest('.MuiChip-root');
+
     expect(chip).toHaveClass(expectedClass);
   });
 });
