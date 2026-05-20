@@ -2,9 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { apiClient } from '../api/apiClient';
 
-import { ExecutionStatus } from './submissionsService.constants';
-
 import { submissionsService } from './submissionsService';
+import { ExecutionStatus } from './submissionsService.constants';
 
 vi.mock('../api/apiClient', () => ({
   apiClient: {
@@ -72,47 +71,47 @@ describe('submissionsService', () => {
   });
 
   it('should throw timeout error when polling exceeds max attempts', async () => {
-  vi.useFakeTimers();
+    vi.useFakeTimers();
 
-  vi.mocked(apiClient.post).mockResolvedValue({
-    data: {
-      submissionId: 'sub_timeout',
-      status: ExecutionStatus.PENDING,
-    },
+    vi.mocked(apiClient.post).mockResolvedValue({
+      data: {
+        submissionId: 'sub_timeout',
+        status: ExecutionStatus.PENDING,
+      },
+    });
+
+    vi.mocked(apiClient.get).mockResolvedValue({
+      data: {
+        id: 'sub_timeout',
+        status: ExecutionStatus.PENDING,
+        runtime: 0,
+        memory: 0,
+        testResults: [],
+        language: 'javascript',
+        code: 'test',
+        problemId: 1,
+        submittedAt: new Date().toISOString(),
+        totalTests: 10,
+        passedTests: 0,
+      },
+    });
+
+    const expectation = expect(
+      submissionsService.submit({
+        problemId: 1,
+        language: 'javascript',
+        code: 'while(true){}',
+      })
+    ).rejects.toMatchObject({
+      code: 'EXECUTION_TIMEOUT',
+    });
+
+    await vi.advanceTimersByTimeAsync(1500 * 20);
+
+    await expectation;
+
+    vi.useRealTimers();
   });
-
-  vi.mocked(apiClient.get).mockResolvedValue({
-    data: {
-      id: 'sub_timeout',
-      status: ExecutionStatus.PENDING,
-      runtime: 0,
-      memory: 0,
-      testResults: [],
-      language: 'javascript',
-      code: 'test',
-      problemId: 1,
-      submittedAt: new Date().toISOString(),
-      totalTests: 10,
-      passedTests: 0,
-    },
-  });
-
-  const expectation = expect(
-    submissionsService.submit({
-      problemId: 1,
-      language: 'javascript',
-      code: 'while(true){}',
-    })
-  ).rejects.toMatchObject({
-    code: 'EXECUTION_TIMEOUT',
-  });
-
-  await vi.advanceTimersByTimeAsync(1500 * 20);
-
-  await expectation;
-
-  vi.useRealTimers();
-});
 
   it('should get submission history with filters', async () => {
     vi.mocked(apiClient.get).mockResolvedValue({
@@ -131,9 +130,7 @@ describe('submissionsService', () => {
     });
 
     expect(result.page).toBe(1);
-    expect(apiClient.get).toHaveBeenCalledWith(
-      '/submissions?page=1&language=javascript'
-    );
+    expect(apiClient.get).toHaveBeenCalledWith('/submissions?page=1&language=javascript');
   });
 
   it('should throw when code exceeds 64KB', async () => {

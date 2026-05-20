@@ -1,9 +1,5 @@
+import type { AllowedLanguage, ExecutionStatus } from './submissionsService.constants';
 import type { ApiResponse } from '../api/apiClient.types';
-
-import type {
-  AllowedLanguage,
-  ExecutionStatus,
-} from './submissionsService.constants';
 
 export interface TestCase {
   input: string;
@@ -71,10 +67,6 @@ export interface QueuedSubmissionResponse {
   status: ExecutionStatus.PENDING | ExecutionStatus.RUNNING;
 }
 
-export type RunResponse =
-  | ApiResponse<ExecutionResult>
-  | ApiResponse<QueuedSubmissionResponse>;
+export type RunResponse = ApiResponse<ExecutionResult> | ApiResponse<QueuedSubmissionResponse>;
 
-export type SubmitResponse =
-  | ApiResponse<Submission>
-  | ApiResponse<QueuedSubmissionResponse>;
+export type SubmitResponse = ApiResponse<Submission> | ApiResponse<QueuedSubmissionResponse>;

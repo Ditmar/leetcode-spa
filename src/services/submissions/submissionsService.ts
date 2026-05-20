@@ -1,7 +1,5 @@
 import { apiClient } from '../api/apiClient';
 
-import type { ApiError } from '../api/apiClient.types';
-
 import {
   ALLOWED_LANGUAGES,
   ExecutionStatus,
@@ -14,13 +12,12 @@ import type {
   ExecutionResult,
   QueuedSubmissionResponse,
   RunPayload,
-  RunResponse,
   Submission,
   SubmissionFilters,
   SubmissionListResponse,
   SubmitPayload,
-  SubmitResponse,
 } from './submissionsService.types';
+import type { ApiError } from '../api/apiClient.types';
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => {
@@ -54,28 +51,19 @@ function sanitizeCode(code: string): string {
   return sanitized;
 }
 
-function isQueuedResponse(
-  data: unknown
-): data is QueuedSubmissionResponse {
+function isQueuedResponse(data: unknown): data is QueuedSubmissionResponse {
   if (!data || typeof data !== 'object') {
     return false;
   }
 
-  return (
-    'submissionId' in data &&
-    'status' in data
-  );
+  return 'submissionId' in data && 'status' in data;
 }
 
-async function pollSubmission(
-  submissionId: string
-): Promise<Submission> {
+async function pollSubmission(submissionId: string): Promise<Submission> {
   for (let attempt = 0; attempt < MAX_POLL_ATTEMPTS; attempt += 1) {
     await sleep(POLLING_INTERVAL_MS);
 
-    const response = await apiClient.get<Submission>(
-      `/submissions/${submissionId}`
-    );
+    const response = await apiClient.get<Submission>(`/submissions/${submissionId}`);
 
     const submission = response.data;
 
@@ -95,9 +83,7 @@ async function pollSubmission(
   } satisfies ApiError;
 }
 
-function buildQueryParams(
-  filters?: SubmissionFilters
-): string {
+function buildQueryParams(filters?: SubmissionFilters): string {
   if (!filters) {
     return '';
   }
@@ -138,9 +124,10 @@ export const submissionsService = {
       code: sanitizeCode(payload.code),
     };
 
-    const response = await apiClient.post<
-      ExecutionResult | QueuedSubmissionResponse
-    >('/submissions/run', sanitizedPayload);
+    const response = await apiClient.post<ExecutionResult | QueuedSubmissionResponse>(
+      '/submissions/run',
+      sanitizedPayload
+    );
 
     const data = response.data;
 
@@ -168,9 +155,10 @@ export const submissionsService = {
       code: sanitizeCode(payload.code),
     };
 
-    const response = await apiClient.post<
-      Submission | QueuedSubmissionResponse
-    >('/submissions', sanitizedPayload);
+    const response = await apiClient.post<Submission | QueuedSubmissionResponse>(
+      '/submissions',
+      sanitizedPayload
+    );
 
     const data = response.data;
 
@@ -181,23 +169,16 @@ export const submissionsService = {
     return data;
   },
 
-  async getHistory(
-    filters?: SubmissionFilters
-  ): Promise<SubmissionListResponse> {
+  async getHistory(filters?: SubmissionFilters): Promise<SubmissionListResponse> {
     const query = buildQueryParams(filters);
 
-    const response =
-      await apiClient.get<SubmissionListResponse>(
-        `/submissions${query}`
-      );
+    const response = await apiClient.get<SubmissionListResponse>(`/submissions${query}`);
 
     return response.data;
   },
 
   async getById(id: string): Promise<Submission> {
-    const response = await apiClient.get<Submission>(
-      `/submissions/${id}`
-    );
+    const response = await apiClient.get<Submission>(`/submissions/${id}`);
 
     return response.data;
   },
