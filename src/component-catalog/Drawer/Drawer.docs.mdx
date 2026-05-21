@@ -3,25 +3,27 @@ import {
   Controls,
   Meta,
 } from '@storybook/blocks';
-
 import * as DrawerStories from './Drawer.stories';
 
 <Meta of={DrawerStories} />
 
 # Drawer
 
-Responsive Drawer component built using Material UI Drawer and SwipeableDrawer primitives.
+Responsive Drawer component built on top of MUI `Drawer` and `SwipeableDrawer`.
+On mobile breakpoints it automatically switches to `SwipeableDrawer` for native swipe-to-close support.
 
 ## Features
 
 - Left, right, top and bottom anchors
 - Temporary, persistent and permanent variants
-- Mobile swipe support
-- Responsive bottom sheet
-- Optional close button
-- Accessibility support
-- Theme token support
+- Mobile swipe support via `SwipeableDrawer`
+- Responsive bottom sheet with drag handle
+- Optional close button (left/right anchors)
+- Accessibility support (focus trap, `aria-label`, `aria-hidden`)
+- Theme token support using responsive units and design tokens
 - Figma-aligned desktop and mobile layouts
+
+---
 
 ## Desktop Example
 
@@ -32,3 +34,94 @@ Responsive Drawer component built using Material UI Drawer and SwipeableDrawer p
 <Canvas of={DrawerStories.Bottom} />
 
 <Controls />
+
+---
+
+## Basic Usage
+
+```tsx
+import { useState } from 'react';
+import { Drawer } from '@/component-catalog/Drawer/Drawer';
+
+const MyComponent = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setOpen(true)}>Open</button>
+      <Drawer
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        anchor="right"
+        variant="temporary"
+        title="Edit profile"
+        description="Make changes to your profile here."
+      >
+        {/* Drawer content */}
+      </Drawer>
+    </>
+  );
+};
+```
+
+---
+
+## When to use each Variant
+
+| Variant | Use case |
+|---|---|
+| `temporary` | Modal-style overlays: filters, settings, contextual actions. Closes on backdrop click or swipe. |
+| `persistent` | Side panels that coexist with content, like navigation. User must explicitly close it. |
+| `permanent` | Always-visible sidebars for desktop layouts where persistent navigation is always required. |
+
+## When to use each Anchor
+
+| Anchor | Use case |
+|---|---|
+| `right` | Edit forms, detail panels, settings drawers. |
+| `left` | Navigation menus, sidebars. |
+| `bottom` | Mobile-first bottom sheets, action sheets. |
+| `top` | Contextual banners or filter panels sliding from the top. |
+
+---
+
+## Responsive Behavior
+
+The component adapts automatically based on the viewport:
+
+| Breakpoint | Behavior |
+|---|---|
+| `< 600px` (mobile) | Uses `SwipeableDrawer` — supports swipe-to-close gesture. Bottom anchor shows drag handle. |
+| `≥ 600px` (tablet/desktop) | Uses standard MUI `Drawer`. Side anchors use configured width (`drawerSize` or default `30%`). |
+
+Tested viewports: **320px**, **375px**, **768px**, **1024px**.
+
+---
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | `false` | Controls the drawer open state. |
+| `anchor` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'right'` | Edge the drawer slides from. |
+| `variant` | `'temporary' \| 'persistent' \| 'permanent'` | `'temporary'` | MUI drawer variant. |
+| `title` | `ReactNode` | — | Optional header title. |
+| `description` | `ReactNode` | — | Optional header description below the title. |
+| `showCloseButton` | `boolean` | `true` | Show/hide the close icon button (left/right anchors only). |
+| `showDragHandle` | `boolean` | `true` | Show/hide the drag handle indicator (top and bottom anchors). |
+| `drawerSize` | `` `${number}%` \| `${number}vh` \| `${number}vw` `` | `'30%'` / `'40vh'` | Width (left/right) or height (top/bottom). Relative units only. |
+| `swipeable` | `boolean` | `true` | Enables `SwipeableDrawer` on mobile breakpoints. |
+| `drawerAriaLabel` | `string` | `'drawer'` | Accessible label applied to the drawer root element. |
+| `onClose` | `MuiDrawerProps['onClose']` | — | Callback fired when the drawer requests to close. |
+| `onOpen` | `SwipeableDrawerProps['onOpen']` | — | Callback fired when the drawer opens via swipe interaction. |
+---
+
+## Accessibility
+
+- **Focus trap**: When the drawer is open, keyboard focus is trapped inside the panel. This is handled automatically by MUI's `Modal` primitive.
+- **aria-label**: Set a descriptive `drawerAriaLabel` for every instance so screen readers can identify the drawer.
+- **Close button**: The `IconButton` has `aria-label="close drawer"` so screen reader users can activate it.
+- **Drag handle**: Marked with `aria-hidden="true"` — purely decorative, invisible to assistive technologies.
+- **Color contrast**: All text colors use design tokens (`--foreground`, `--muted-foreground`) which must meet WCAG AA contrast requirements in your `colors.css`.
+- **Keyboard**: The drawer can be closed with the `Escape` key. Focus returns to the trigger element after closing.

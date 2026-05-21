@@ -2,10 +2,71 @@ import { Box, Button, Typography } from '@mui/material';
 import { useState } from 'react';
 
 import { Drawer } from './Drawer';
-import { formContainerSx, formFieldSx, formLabelSx, formRowSx } from './Drawer.styles';
+import { drawerStoryContainerSx, storyBodyTextSx } from './Drawer.styles';
 
 import type { CustomDrawerProps } from './Drawer.types';
+import type { SxProps, Theme } from '@mui/material/styles';
 import type { Meta, StoryObj } from '@storybook/react';
+
+const formContainerSx: SxProps<Theme> = {
+  display: 'grid',
+
+  gridTemplateColumns: '1fr',
+
+  gap: (theme) => theme.spacing(2),
+};
+
+const formRowSx: SxProps<Theme> = {
+  display: 'grid',
+
+  gridTemplateColumns: (theme) => `${theme.spacing(10.5)} 1fr`,
+
+  alignItems: 'center',
+
+  columnGap: (theme) => theme.spacing(1.5),
+};
+
+const formLabelSx: SxProps<Theme> = {
+  fontSize: '0.875rem',
+
+  lineHeight: '0.875rem',
+
+  fontWeight: 500,
+
+  color: 'var(--foreground)',
+
+  textAlign: 'left',
+};
+
+const formFieldSx: SxProps<Theme> = {
+  display: 'flex',
+
+  alignItems: 'center',
+
+  minHeight: (theme) => theme.spacing(4.5),
+
+  borderRadius: (theme) => theme.spacing(1),
+
+  backgroundColor: 'var(--input-background)',
+
+  border: '1px solid transparent',
+
+  paddingTop: 0.5,
+
+  paddingBottom: 0.5,
+
+  paddingLeft: 1.5,
+
+  paddingRight: 1.5,
+
+  fontSize: '0.875rem',
+
+  lineHeight: '1.25rem',
+
+  fontWeight: 400,
+
+  color: 'var(--foreground)',
+};
 
 const meta: Meta<typeof Drawer> = {
   title: 'component-catalog/Drawer',
@@ -25,39 +86,27 @@ export default meta;
 
 type Story = StoryObj<typeof Drawer>;
 
-const DrawerFormContent = () => {
-  return (
-    <Box sx={formContainerSx}>
-      <Box sx={formRowSx}>
-        <Typography sx={formLabelSx}>Name</Typography>
+const DrawerFormContent = () => (
+  <Box sx={formContainerSx}>
+    <Box sx={formRowSx}>
+      <Typography sx={formLabelSx}>Name</Typography>
 
-        <Box sx={formFieldSx}>Pedro Duarte</Box>
-      </Box>
-
-      <Box sx={formRowSx}>
-        <Typography sx={formLabelSx}>Username</Typography>
-
-        <Box sx={formFieldSx}>@peduarte</Box>
-      </Box>
+      <Box sx={formFieldSx}>Pedro Duarte</Box>
     </Box>
-  );
-};
+
+    <Box sx={formRowSx}>
+      <Typography sx={formLabelSx}>Username</Typography>
+
+      <Box sx={formFieldSx}>@peduarte</Box>
+    </Box>
+  </Box>
+);
 
 const DrawerTemplate = (args: CustomDrawerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-
-        minHeight: '100vh',
-
-        backgroundColor: 'var(--background)',
-      }}
-    >
+    <Box sx={drawerStoryContainerSx}>
       <Button variant="contained" onClick={() => setIsOpen(true)}>
         Open Drawer
       </Button>
@@ -114,15 +163,7 @@ export const Top: Story = {
     variant: 'temporary',
 
     children: (
-      <Typography
-        sx={{
-          fontSize: '0.875rem',
-
-          lineHeight: '1.25rem',
-
-          color: 'var(--muted-foreground)',
-        }}
-      >
+      <Typography sx={storyBodyTextSx}>
         Top drawers are useful for contextual navigation and actions.
       </Typography>
     ),
@@ -142,15 +183,7 @@ export const Bottom: Story = {
     variant: 'temporary',
 
     children: (
-      <Typography
-        sx={{
-          fontSize: '0.875rem',
-
-          lineHeight: '1.25rem',
-
-          color: 'var(--muted-foreground)',
-        }}
-      >
+      <Typography sx={storyBodyTextSx}>
         Drawers are useful for mobile experiences and bottom sheets.
       </Typography>
     ),

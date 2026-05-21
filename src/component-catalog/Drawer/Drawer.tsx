@@ -4,16 +4,15 @@ import { Box, Drawer as MuiDrawer, IconButton, SwipeableDrawer, Typography } fro
 import { DRAWER_ANCHORS, DRAWER_VARIANTS } from './Drawer.constants';
 import { useDrawer } from './Drawer.hook';
 import {
-  dragHandleContainerSx,
-  dragHandleSx,
   drawerContentSx,
   drawerDescriptionSx,
+  drawerDragIndicatorContainerSx,
+  drawerDragIndicatorSx,
   drawerHeaderSx,
   drawerPaperSx,
   drawerTitleSx,
-  drawerDragIndicatorContainerSx,
-  drawerDragIndicatorSx,
 } from './Drawer.styles';
+import { isBottomDrawer, isHorizontalDrawer } from './Drawer.utils';
 
 import type { CustomDrawerProps } from './Drawer.types';
 
@@ -23,6 +22,7 @@ const Drawer = (props: CustomDrawerProps) => {
     variant = DRAWER_VARIANTS.TEMPORARY,
     open = false,
     onClose,
+    onOpen,
     title,
     description,
     children,
@@ -36,7 +36,7 @@ const Drawer = (props: CustomDrawerProps) => {
 
   const { isMobile } = useDrawer();
 
-  const handleDrawerClose = (event: React.SyntheticEvent) => {
+  const handleCloseButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (onClose) {
       onClose(event, 'escapeKeyDown');
     }
@@ -45,21 +45,16 @@ const Drawer = (props: CustomDrawerProps) => {
   const paperSx = drawerPaperSx(anchor, drawerSize);
 
   const drawerContent = (
-    <Box>
-      {isMobile && anchor === DRAWER_ANCHORS.BOTTOM && showDragHandle && (
-        <Box sx={dragHandleContainerSx}>
-          <Box sx={dragHandleSx} aria-hidden="true" />
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      {/* Pill indicator para bottom — encima del título */}
+      {isBottomDrawer(anchor) && showDragHandle && (
+        <Box sx={drawerDragIndicatorContainerSx}>
+          <Box sx={drawerDragIndicatorSx} aria-hidden="true" />
         </Box>
       )}
 
       {(title || description) && (
         <Box sx={drawerHeaderSx}>
-          {anchor === DRAWER_ANCHORS.BOTTOM && (
-            <Box sx={drawerDragIndicatorContainerSx}>
-              <Box sx={drawerDragIndicatorSx} />
-            </Box>
-          )}
-
           <Box
             sx={{
               display: 'flex',
@@ -74,7 +69,6 @@ const Drawer = (props: CustomDrawerProps) => {
                   {title}
                 </Typography>
               )}
-
               {description && (
                 <Typography component="p" sx={drawerDescriptionSx}>
                   {description}
@@ -82,31 +76,32 @@ const Drawer = (props: CustomDrawerProps) => {
               )}
             </Box>
 
-            {(anchor === DRAWER_ANCHORS.LEFT || anchor === DRAWER_ANCHORS.RIGHT) &&
-              showCloseButton && (
-                <IconButton aria-label="close drawer" onClick={handleDrawerClose}>
-                  <CloseIcon />
-                </IconButton>
-              )}
+            {/* X button solo en left y right */}
+            {isHorizontalDrawer(anchor) && showCloseButton && (
+              <IconButton aria-label="close drawer" onClick={handleCloseButtonClick}>
+                <CloseIcon />
+              </IconButton>
+            )}
           </Box>
         </Box>
       )}
 
-      <>
-        <Box sx={drawerContentSx}>{children}</Box>
+      <Box sx={drawerContentSx}>{children}</Box>
 
-        {anchor === DRAWER_ANCHORS.TOP && (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              paddingBottom: 1,
-            }}
-          >
-            <Box sx={drawerDragIndicatorSx} />
-          </Box>
-        )}
-      </>
+      {/* Pill indicator para top — al fondo del panel */}
+      {anchor === DRAWER_ANCHORS.TOP && showDragHandle && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            paddingTop: (theme) => theme.spacing(1),
+            paddingBottom: (theme) => theme.spacing(1.5),
+            marginTop: 'auto',
+          }}
+        >
+          <Box sx={drawerDragIndicatorSx} aria-hidden="true" />
+        </Box>
+      )}
     </Box>
   );
 
@@ -115,11 +110,9 @@ const Drawer = (props: CustomDrawerProps) => {
       <SwipeableDrawer
         anchor={anchor}
         open={open}
-        onClose={handleDrawerClose}
-        onOpen={() => {}}
-        PaperProps={{
-          sx: paperSx,
-        }}
+        onClose={(event) => onClose?.(event as React.SyntheticEvent, 'escapeKeyDown')}
+        onOpen={onOpen ?? (() => {})}
+        PaperProps={{ sx: paperSx }}
         aria-label={drawerAriaLabel}
         {...rest}
       >
@@ -134,10 +127,11 @@ const Drawer = (props: CustomDrawerProps) => {
       variant={variant}
       open={open}
       onClose={onClose}
-      PaperProps={{
-        sx: paperSx,
-      }}
+      PaperProps={{ sx: paperSx }}
       aria-label={drawerAriaLabel}
+      role={
+        variant === DRAWER_VARIANTS.TEMPORARY ? undefined : 'complementary'
+      }
       {...rest}
     >
       {drawerContent}

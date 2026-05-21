@@ -3,8 +3,6 @@ import { DRAWER_ANCHORS, DRAWER_DEFAULTS } from './Drawer.constants';
 import type { DrawerProps } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material/styles';
 
-const DRAWER_BORDER = '1px solid var(--border)';
-
 export const drawerPaperSx = (
   anchor: DrawerProps['anchor'],
   drawerSize?: string
@@ -15,23 +13,39 @@ export const drawerPaperSx = (
 
   boxShadow: 'var(--shadow-md)',
 
-  overflow: 'hidden',
+  overflow: 'auto',
+
+  '& .MuiDivider-root': {
+    display: 'none',
+  },
 
   ...(anchor === DRAWER_ANCHORS.LEFT
     ? {
-        borderRight: DRAWER_BORDER,
+        borderRightWidth: 1,
+
+        borderRightStyle: 'solid',
+
+        borderRightColor: 'var(--border)',
       }
     : {}),
 
   ...(anchor === DRAWER_ANCHORS.RIGHT
     ? {
-        borderLeft: DRAWER_BORDER,
+        borderLeftWidth: 1,
+
+        borderLeftStyle: 'solid',
+
+        borderLeftColor: 'var(--border)',
       }
     : {}),
 
   ...(anchor === DRAWER_ANCHORS.TOP
     ? {
-        borderBottom: DRAWER_BORDER,
+        borderBottomWidth: 1,
+
+        borderBottomStyle: 'solid',
+
+        borderBottomColor: 'var(--border)',
 
         borderBottomLeftRadius: 'var(--radius-lg)',
 
@@ -41,7 +55,11 @@ export const drawerPaperSx = (
 
   ...(anchor === DRAWER_ANCHORS.BOTTOM
     ? {
-        borderTop: DRAWER_BORDER,
+        borderTopWidth: 1,
+
+        borderTopStyle: 'solid',
+
+        borderTopColor: 'var(--border)',
 
         borderTopLeftRadius: 'var(--radius-lg)',
 
@@ -51,10 +69,24 @@ export const drawerPaperSx = (
 
   ...(anchor === DRAWER_ANCHORS.LEFT || anchor === DRAWER_ANCHORS.RIGHT
     ? {
-        width: drawerSize ?? DRAWER_DEFAULTS.DESKTOP_WIDTH,
+        width: drawerSize ?? {
+          xs: '85vw',
+
+          sm: '60vw',
+
+          md: '40vw',
+
+          lg: '30%',
+        },
       }
     : {
-        height: drawerSize ?? DRAWER_DEFAULTS.MOBILE_BOTTOM_HEIGHT,
+        height: drawerSize ?? {
+          xs: '50vh',
+
+          sm: '45vh',
+
+          md: '40vh',
+        },
       }),
 });
 
@@ -80,18 +112,22 @@ export const drawerDragIndicatorContainerSx: SxProps<Theme> = {
   justifyContent: 'center',
 
   width: '100%',
+
+  paddingTop: (theme) => theme.spacing(1),
+
+  paddingBottom: (theme) => theme.spacing(0.5),
 };
 
 export const drawerDragIndicatorSx: SxProps<Theme> = {
-  width: '6.25rem',
+  width: (theme) => theme.spacing(12.5),
 
-  height: '0.5rem',
+  height: (theme) => theme.spacing(1),
 
   borderRadius: '999rem',
 
   backgroundColor: 'var(--muted)',
 
-  opacity: 1,
+  flexShrink: 0,
 };
 
 export const drawerTitleSx: SxProps<Theme> = {
@@ -124,82 +160,22 @@ export const drawerContentSx: SxProps<Theme> = {
   paddingRight: (theme) => theme.spacing(DRAWER_DEFAULTS.CONTENT_PADDING),
 };
 
-export const dragHandleContainerSx: SxProps<Theme> = {
-  display: 'flex',
-
-  justifyContent: 'center',
-
-  paddingTop: 1,
-};
-
-export const dragHandleSx: SxProps<Theme> = {
-  width: DRAWER_DEFAULTS.MOBILE_DRAG_HANDLE_WIDTH,
-
-  height: DRAWER_DEFAULTS.MOBILE_DRAG_HANDLE_HEIGHT,
-
-  borderRadius: 'var(--radius)',
-
-  backgroundColor: 'var(--muted-foreground)',
-
-  opacity: 0.4,
-};
-
-export const formContainerSx: SxProps<Theme> = {
-  display: 'grid',
-
-  gridTemplateColumns: '1fr',
-
-  gap: (theme) => theme.spacing(DRAWER_DEFAULTS.FORM_GAP),
-};
-
-export const formRowSx: SxProps<Theme> = {
-  display: 'grid',
-
-  gridTemplateColumns: '5.25rem 1fr',
-
-  alignItems: 'center',
-
-  columnGap: (theme) => theme.spacing(2),
-};
-
-export const formLabelSx: SxProps<Theme> = {
-  fontSize: '0.875rem',
-
-  lineHeight: '0.875rem',
-
-  fontWeight: 500,
-
-  color: 'var(--foreground)',
-
-  textAlign: 'left',
-};
-
-export const formFieldSx: SxProps<Theme> = {
-  display: 'flex',
-
-  alignItems: 'center',
-
-  minHeight: '2.25rem',
-
-  borderRadius: 'var(--radius-md)',
-
-  backgroundColor: 'var(--input-background)',
-
-  border: '1px solid transparent',
-
-  paddingTop: 0.5,
-
-  paddingBottom: 0.5,
-
-  paddingLeft: 1.5,
-
-  paddingRight: 1.5,
-
+export const storyBodyTextSx: SxProps<Theme> = {
   fontSize: '0.875rem',
 
   lineHeight: '1.25rem',
 
-  fontWeight: 400,
+  color: 'var(--muted-foreground)',
+};
 
-  color: 'var(--foreground)',
+export const drawerStoryContainerSx: SxProps<Theme> = {
+  display: 'flex',
+
+  justifyContent: 'center',
+
+  alignItems: 'center',
+
+  minHeight: '100vh',
+
+  backgroundColor: 'var(--background)',
 };

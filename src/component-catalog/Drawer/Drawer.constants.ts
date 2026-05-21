@@ -12,12 +12,13 @@ export const DRAWER_VARIANTS = {
 } as const;
 
 export const DRAWER_DEFAULTS = {
-  DESKTOP_WIDTH: '24rem',
-  MOBILE_BOTTOM_HEIGHT: '10.3125rem',
-  MOBILE_DRAG_HANDLE_WIDTH: '3rem',
-  MOBILE_DRAG_HANDLE_HEIGHT: '0.25rem',
-  HEADER_PADDING: 2,
-  CONTENT_PADDING: 2,
-  HEADER_GAP: 0.75,
-  FORM_GAP: 2,
+  // Figma: 384px desktop width — expressed as percentage to avoid hardcoded px
+  DESKTOP_WIDTH: '30%',
+  // Figma: bottom drawer height — expressed in vh to avoid hardcoded px
+  MOBILE_BOTTOM_HEIGHT: '40vh',
+  // Spacing multipliers for theme.spacing()
+  HEADER_PADDING: 2, // 16px via theme
+  CONTENT_PADDING: 2, // 16px via theme
+  HEADER_GAP: 0.75, // 6px via theme
+  FORM_GAP: 2, // 16px via theme
 } as const;

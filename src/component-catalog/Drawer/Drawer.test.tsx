@@ -4,8 +4,14 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { Drawer } from './Drawer';
 
+vi.mock('./Drawer.hook', () => ({
+  useDrawer: vi.fn(() => ({
+    isMobile: false,
+  })),
+}));
+
 describe('Drawer', () => {
-  it('renders title correctly', () => {
+  it('renders title when open', () => {
     render(
       <Drawer open title="Test Drawer">
         Content
@@ -13,6 +19,16 @@ describe('Drawer', () => {
     );
 
     expect(screen.getByText(/test drawer/i)).toBeInTheDocument();
+  });
+
+  it('does not render content when closed', () => {
+    render(
+      <Drawer open={false} title="Hidden Drawer">
+        Hidden Content
+      </Drawer>
+    );
+
+    expect(screen.queryByText(/hidden drawer/i)).not.toBeInTheDocument();
   });
 
   it('calls onClose when close button is clicked', async () => {
@@ -26,30 +42,106 @@ describe('Drawer', () => {
       </Drawer>
     );
 
-    const button = screen.getByLabelText(/close drawer/i);
-
-    await user.click(button);
+    await user.click(screen.getByLabelText(/close drawer/i));
 
     expect(onClose).toHaveBeenCalled();
   });
 
-  it('renders bottom drawer correctly', () => {
+  it('does not show close button when showCloseButton is false', () => {
     render(
-      <Drawer open anchor="bottom">
+      <Drawer open title="No Close" showCloseButton={false}>
         Content
       </Drawer>
     );
 
-    expect(screen.getByText(/content/i)).toBeInTheDocument();
+    expect(screen.queryByLabelText(/close drawer/i)).not.toBeInTheDocument();
   });
 
-  it('renders right drawer correctly', () => {
+  it('renders right anchor correctly', () => {
     render(
       <Drawer open anchor="right">
-        Content
+        Right Content
       </Drawer>
     );
 
-    expect(screen.getByText(/content/i)).toBeInTheDocument();
+    expect(screen.getByText(/right content/i)).toBeInTheDocument();
+  });
+
+  it('renders left anchor correctly', () => {
+    render(
+      <Drawer open anchor="left">
+        Left Content
+      </Drawer>
+    );
+
+    expect(screen.getByText(/left content/i)).toBeInTheDocument();
+  });
+
+  it('renders top anchor correctly', () => {
+    render(
+      <Drawer open anchor="top">
+        Top Content
+      </Drawer>
+    );
+
+    expect(screen.getByText(/top content/i)).toBeInTheDocument();
+  });
+
+  it('renders bottom anchor correctly', () => {
+    render(
+      <Drawer open anchor="bottom">
+        Bottom Content
+      </Drawer>
+    );
+
+    expect(screen.getByText(/bottom content/i)).toBeInTheDocument();
+  });
+
+  it('renders temporary variant correctly', () => {
+    render(
+      <Drawer open variant="temporary" anchor="right">
+        Temporary
+      </Drawer>
+    );
+
+    expect(screen.getByText(/temporary/i)).toBeInTheDocument();
+  });
+
+  it('renders persistent variant correctly', () => {
+    render(
+      <Drawer open variant="persistent" anchor="right">
+        Persistent
+      </Drawer>
+    );
+
+    expect(screen.getByText(/persistent/i)).toBeInTheDocument();
+  });
+
+  it('renders permanent variant correctly', () => {
+    render(
+      <Drawer open variant="permanent" anchor="right">
+        Permanent
+      </Drawer>
+    );
+
+    expect(screen.getByText(/permanent/i)).toBeInTheDocument();
+  });
+
+  it('renders SwipeableDrawer on mobile', async () => {
+    const { useDrawer } = await import('./Drawer.hook');
+
+    (useDrawer as ReturnType<typeof vi.fn>).mockReturnValue({
+      isMobile: true,
+    });
+
+    render(
+      <Drawer open swipeable variant="temporary" drawerAriaLabel="swipeable-drawer">
+        Swipe Content
+      </Drawer>
+    );
+
+    expect(screen.getByLabelText(/swipeable-drawer/i)).toBeInTheDocument();
+
+    expect(screen.getByText(/swipe content/i)).toBeInTheDocument();
   });
 });
