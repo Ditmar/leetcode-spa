@@ -5,7 +5,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Pagination from './Pagination';
 import { PAGINATION_TEST_ID, PREV_BUTTON_TEXT, NEXT_BUTTON_TEXT } from './Pagination.constants';
 
-// Safely mock useMediaQuery without breaking the rest of @mui/material components
 vi.mock('@mui/material', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@mui/material')>();
   return {
@@ -17,7 +16,6 @@ vi.mock('@mui/material', async (importOriginal) => {
 describe('Pagination Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Default to desktop view (isMobile = false)
     vi.mocked(useMediaQuery).mockReturnValue(false);
   });
 
@@ -119,14 +117,10 @@ describe('Pagination Component', () => {
   });
 
   it('reduces siblingCount on mobile viewport using useMediaQuery', () => {
-    // Simulate mobile viewport where useMediaQuery(down('sm')) returns true
     vi.mocked(useMediaQuery).mockReturnValue(true);
 
-    // With siblingCount dynamically reduced, fewer sibling pages should render
     render(<Pagination count={10} page={5} />);
 
-    // Page 5 is active. If siblingCount is reduced to 0/1 on mobile,
-    // distant siblings like 3 or 7 shouldn't be rendered.
     expect(screen.getByText('5')).toBeInTheDocument();
     expect(screen.queryByText('3')).not.toBeInTheDocument();
     expect(screen.queryByText('7')).not.toBeInTheDocument();
