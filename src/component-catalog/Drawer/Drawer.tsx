@@ -46,7 +46,7 @@ const Drawer = (props: CustomDrawerProps) => {
 
   const drawerContent = (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      {/* Pill indicator para bottom — encima del título */}
+      {/* Bottom drawer drag indicator above the header */}
       {isBottomDrawer(anchor) && showDragHandle && (
         <Box sx={drawerDragIndicatorContainerSx}>
           <Box sx={drawerDragIndicatorSx} aria-hidden="true" />
@@ -76,7 +76,7 @@ const Drawer = (props: CustomDrawerProps) => {
               )}
             </Box>
 
-            {/* X button solo en left y right */}
+            {/* Close button for horizontal drawers */}
             {isHorizontalDrawer(anchor) && showCloseButton && (
               <IconButton aria-label="close drawer" onClick={handleCloseButtonClick}>
                 <CloseIcon />
@@ -88,7 +88,7 @@ const Drawer = (props: CustomDrawerProps) => {
 
       <Box sx={drawerContentSx}>{children}</Box>
 
-      {/* Pill indicator para top — al fondo del panel */}
+      {/* Top drawer drag indicator */}
       {anchor === DRAWER_ANCHORS.TOP && showDragHandle && (
         <Box
           sx={{
@@ -129,9 +129,7 @@ const Drawer = (props: CustomDrawerProps) => {
       onClose={onClose}
       PaperProps={{ sx: paperSx }}
       aria-label={drawerAriaLabel}
-      role={
-        variant === DRAWER_VARIANTS.TEMPORARY ? undefined : 'complementary'
-      }
+      role={variant === DRAWER_VARIANTS.TEMPORARY ? undefined : 'complementary'}
       {...rest}
     >
       {drawerContent}
