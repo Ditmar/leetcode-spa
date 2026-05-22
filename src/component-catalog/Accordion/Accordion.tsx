@@ -1,6 +1,5 @@
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React from 'react';
 
 import { useAccordionState } from './Accordion.hook';
 import {

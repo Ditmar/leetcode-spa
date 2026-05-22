@@ -8,13 +8,13 @@ import { styled } from '@mui/material/styles';
 export const AccordionContainer = styled(Paper, {
   shouldForwardProp: (prop) => prop !== 'square',
 })<{ square?: boolean }>(({ theme, square }) => ({
-  maxWidth: 1216,
+  maxWidth: theme.spacing(152),
   width: '100%',
   padding: theme.spacing(3),
   backgroundColor: theme.palette.background.paper,
   border: `1px solid ${theme.palette.divider}`,
   ...(!square && {
-    borderRadius: theme.spacing(1.75),
+    borderRadius: theme.shape.borderRadius,
   }),
   transition: theme.transitions.create(['border-radius'], {
     duration: theme.transitions.duration.shortest,

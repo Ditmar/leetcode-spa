@@ -14,7 +14,7 @@ const meta: Meta<typeof Accordion> = {
   },
   decorators: [
     (Story) => (
-      <Box sx={{ width: '100%', maxWidth: 1216, mx: 'auto', p: 2 }}>
+      <Box sx={{ width: '100%', maxWidth: (theme) => theme.spacing(152), mx: 'auto', p: 2 }}>
         <Story />
       </Box>
     ),

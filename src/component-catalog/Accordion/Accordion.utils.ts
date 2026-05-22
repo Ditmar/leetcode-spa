@@ -1,4 +1,4 @@
-import type { AccordionItem } from './Accordion.types';
+import type { AccordionItem, AccordionVariant } from './Accordion.types';
 
 export function getDefaultExpandedIds(items: AccordionItem[]): string[] {
   return items.filter((item) => item.defaultExpanded).map((item) => item.id);
@@ -7,7 +7,7 @@ export function getDefaultExpandedIds(items: AccordionItem[]): string[] {
 export function toggleExpanded(
   expandedIds: string[],
   itemId: string,
-  variant: 'single' | 'multiple'
+  variant: AccordionVariant
 ): string[] {
   if (variant === 'single') {
     return expandedIds.includes(itemId) ? [] : [itemId];
