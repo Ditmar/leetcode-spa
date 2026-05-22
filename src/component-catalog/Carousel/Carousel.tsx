@@ -1,16 +1,16 @@
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { MobileStepper } from "@mui/material";
-import { useEffect, useState } from "react";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { MobileStepper } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 import {
   CarouselContainer,
   CarouselSlide,
- CarouselTrack,
+  CarouselTrack,
   LeftButton,
   RightButton,
-} from "./Carousel.styles";
-import type { CarouselProps } from "./Carousel.types";
+} from './Carousel.styles';
+import type { CarouselProps } from './Carousel.types';
 
 export const Carousel = ({
   children,
@@ -29,9 +29,7 @@ export const Carousel = ({
   };
 
   const handleBack = () => {
-    setActiveStep((prevStep) =>
-      prevStep === 0 ? maxSteps - 1 : prevStep - 1,
-    );
+    setActiveStep((prevStep) => (prevStep === 0 ? maxSteps - 1 : prevStep - 1));
   };
 
   const handleTouchStart = (event: React.TouchEvent) => {
@@ -64,19 +62,19 @@ export const Carousel = ({
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight") {
+      if (event.key === 'ArrowRight') {
         handleNext();
       }
 
-      if (event.key === "ArrowLeft") {
+      if (event.key === 'ArrowLeft') {
         handleBack();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
@@ -86,23 +84,15 @@ export const Carousel = ({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <LeftButton
-        onClick={handleBack}
-        aria-label="Previous slide"
-      >
+      <LeftButton onClick={handleBack} aria-label="Previous slide">
         <ChevronLeftIcon />
       </LeftButton>
 
       <CarouselTrack>
-        <CarouselSlide>
-          {slides[activeStep]}
-        </CarouselSlide>
+        <CarouselSlide>{slides[activeStep]}</CarouselSlide>
       </CarouselTrack>
 
-      <RightButton
-        onClick={handleNext}
-        aria-label="Next slide"
-      >
+      <RightButton onClick={handleNext} aria-label="Next slide">
         <ChevronRightIcon />
       </RightButton>
 
@@ -113,9 +103,9 @@ export const Carousel = ({
         nextButton={null}
         backButton={null}
         sx={{
-          width: "100%",
-          justifyContent: "center",
-          background: "transparent",
+          width: '100%',
+          justifyContent: 'center',
+          background: 'transparent',
           mt: 2,
         }}
       />
