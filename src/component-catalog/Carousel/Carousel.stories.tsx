@@ -1,28 +1,28 @@
-import { Box } from "@mui/material";
+import { Box } from '@mui/material';
 
-import { Carousel } from "./Carousel";
+import { Carousel } from './Carousel';
 
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from '@storybook/react';
 
 const slideStyle = {
-  width: "100%",
-  height: "100%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  fontSize: "48px",
-  fontWeight: "bold",
-  backgroundColor: "#fafafa",
-  borderRadius: "16px",
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: '48px',
+  fontWeight: 'bold',
+  backgroundColor: '#fafafa',
+  borderRadius: '16px',
 };
 
 const meta: Meta<typeof Carousel> = {
-  title: "Component Catalog/Carousel",
+  title: 'Component Catalog/Carousel',
   component: Carousel,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
-    autoPlay: { control: "boolean" },
-    autoPlayInterval: { control: "number" },
+    autoPlay: { control: 'boolean' },
+    autoPlayInterval: { control: 'number' },
   },
 };
 
