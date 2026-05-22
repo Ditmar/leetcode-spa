@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import type { SelectChangeEvent } from '@mui/material';
 import Pagination from './Pagination';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Pagination> = {
   title: 'component-catalog/Pagination',
@@ -14,12 +14,25 @@ const meta: Meta<typeof Pagination> = {
     onChange: { action: 'changed', description: 'Callback fired when the page is changed.' },
     showFirstButton: { control: 'boolean', description: 'If true, show the first-page button.' },
     showLastButton: { control: 'boolean', description: 'If true, show the last-page button.' },
-    siblingCount: { control: 'number', description: 'Number of always visible pages before and after the current page.' },
-    boundaryCount: { control: 'number', description: 'Number of always visible pages at the beginning and end.' },
+    siblingCount: {
+      control: 'number',
+      description: 'Number of always visible pages before and after the current page.',
+    },
+    boundaryCount: {
+      control: 'number',
+      description: 'Number of always visible pages at the beginning and end.',
+    },
     disabled: { control: 'boolean', description: 'If true, the component is disabled.' },
-    size: { control: 'radio', options: ['small', 'medium', 'large'], description: 'The size of the component.' },
+    size: {
+      control: 'radio',
+      options: ['small', 'medium', 'large'],
+      description: 'The size of the component.',
+    },
     rowsPerPage: { control: 'number', description: 'Current number of rows per page.' },
-    onRowsPerPageChange: { action: 'rowsPerPageChanged', description: 'Callback fired when the rows per page value changes.' },
+    onRowsPerPageChange: {
+      action: 'rowsPerPageChanged',
+      description: 'Callback fired when the rows per page value changes.',
+    },
   },
 };
 
@@ -53,8 +66,7 @@ export const WithRowsPerPage: Story = {
     count: 50,
     rowsPerPage: 10,
     rowsPerPageOptions: [10, 20, 50],
-    onRowsPerPageChange: (event: SelectChangeEvent<number>) => 
-      console.log('Rows per page:', event.target.value),
+    onRowsPerPageChange: () => {},
   },
 };
 
