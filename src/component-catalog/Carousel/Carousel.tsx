@@ -10,6 +10,7 @@ import {
   LeftButton,
   RightButton,
 } from './Carousel.styles';
+
 import type { CarouselProps } from './Carousel.types';
 
 export const Carousel = ({
