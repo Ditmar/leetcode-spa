@@ -1,11 +1,4 @@
-import {
-  Meta,
-  Canvas,
-  Controls,
-  Stories,
-  Subtitle,
-  Description,
-} from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Story } from '@storybook/addon-docs/blocks';
 
 import * as ProblemDetailStories from './ProblemDetail.stories';
 
@@ -13,63 +6,67 @@ import * as ProblemDetailStories from './ProblemDetail.stories';
 
 # ProblemDetail
 
-<Subtitle>
-Responsive page-level coding problem statement component built with Material UI and CDD architecture.
-</Subtitle>
-
-<Description>
-`ProblemDetail` is a fully responsive, presentational page-level component responsible for rendering the complete statement of a programming problem.
-
-The component follows Component-Driven Development (CDD) principles and is implemented using Material UI primitives to ensure consistency, scalability, accessibility, and maintainability.
-
-This component was designed to function as the central reading panel inside coding workspace applications such as algorithm platforms, interview preparation systems, online coding judges, or educational development environments.
-
-The component receives a fully structured `problem` object and renders all problem-related information in a readable and accessible layout.
-
-The component intentionally avoids internal business logic and asynchronous behavior in order to remain reusable, predictable, and easy to test.
-</Description>
+The `ProblemDetail` component is a responsive page-level content panel inspired by coding challenge platforms such as LeetCode. It is responsible for presenting complete problem information including title, difficulty, tags, examples, explanations, and constraints while maintaining accessibility, responsiveness, and consistency with the project's Material UI design system.
 
 ---
 
-# Architectural overview
+# Purpose
 
-The `ProblemDetail` component belongs to the presentation layer of the application.
+This component was designed to provide a clean and readable interface for algorithmic problem descriptions. The layout prioritizes readability, semantic structure, and responsive behaviour while integrating fully with the project's design token architecture.
 
-Its responsibility is strictly limited to UI rendering.
-
-The component:
-
-- Receives data through props.
-- Renders semantic and accessible UI.
-- Applies responsive behavior.
-- Uses centralized styling.
-- Delegates utility logic to helper functions.
-- Does not mutate data.
-- Does not fetch external resources.
-- Does not handle persistence.
-- Does not manage editor state.
-- Does not execute code.
-
-This separation improves:
-
-- Maintainability.
-- Reusability.
-- Testability.
-- Scalability.
-- Predictability.
-- Long-term project stability.
+The component supports:
+- Coding challenge descriptions
+- Example rendering
+- Constraint visualization
+- Difficulty indicators
+- Responsive layouts
+- Accessible semantic structure
 
 ---
 
-# Component role inside the application
+# Main Technologies
 
-The component is intended to work inside a larger coding workspace layout.
+The component was implemented using:
 
-Typical layout composition:
+- React
+- TypeScript
+- Material UI
+- Storybook
+- Vitest
+- Testing Library
 
-```txt
-Coding Workspace
-├── ProblemsSidebar
-├── ProblemDetail
-├── CodeEditor
-└── TestResults
+---
+
+# Material UI Components Used
+
+The implementation uses the following Material UI components:
+
+- `Box`
+- `Stack`
+- `Typography`
+- `Chip`
+- `Divider`
+- `Paper`
+
+These components were selected to maintain consistency with the existing project architecture and design system.
+
+---
+
+# Design System Integration
+
+The component follows the application's centralized design token system.
+
+Instead of hardcoded colors or spacing values, the component uses shared CSS variables and theme values.
+
+## Design Tokens Used
+
+```css
+var(--background)
+var(--foreground)
+var(--card)
+var(--card-foreground)
+var(--muted)
+var(--muted-foreground)
+var(--border)
+var(--radius-lg)
+var(--shadow-sm)

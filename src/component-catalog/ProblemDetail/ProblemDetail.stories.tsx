@@ -72,8 +72,7 @@ const addTwoNumbersProblem: Problem = {
   title: 'Add Two Numbers',
   difficulty: 'Medium',
   tags: ['Linked List', 'Math', 'Recursion'],
-  description:
-    'You are given two non-empty linked lists representing two non-negative integers.',
+  description: 'You are given two non-empty linked lists representing two non-negative integers.',
   examples: [
     {
       input: 'l1 = [2,4,3], l2 = [5,6,4]',
@@ -94,19 +93,14 @@ const medianProblem: Problem = {
   title: 'Median of Two Sorted Arrays',
   difficulty: 'Hard',
   tags: ['Array', 'Binary Search'],
-  description:
-    'Given two sorted arrays nums1 and nums2 of size m and n respectively.',
+  description: 'Given two sorted arrays nums1 and nums2 of size m and n respectively.',
   examples: [
     {
       input: 'nums1 = [1,3], nums2 = [2]',
       output: '2.00000',
     },
   ],
-  constraints: [
-    '0 <= m <= 1000',
-    '0 <= n <= 1000',
-    '1 <= m + n <= 2000',
-  ],
+  constraints: ['0 <= m <= 1000', '0 <= n <= 1000', '1 <= m + n <= 2000'],
   acceptance: 38.2,
   status: 'unsolved',
 };
