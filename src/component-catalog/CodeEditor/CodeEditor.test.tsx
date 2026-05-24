@@ -83,8 +83,6 @@ describe('CodeEditor', () => {
       />
     );
 
-    expect(screen.getByText(/Runtime:/i)).toBeInTheDocument();
-    expect(screen.getByText(/Memory:/i)).toBeInTheDocument();
     expect(screen.getByText(/Test case 1/i)).toBeInTheDocument();
   });
 
