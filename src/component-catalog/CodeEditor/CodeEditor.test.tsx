@@ -7,10 +7,7 @@ vi.mock('@monaco-editor/react', () => ({
   default: ({
     value,
     onChange,
-  }: {
-    value: string;
-    onChange: (value?: string) => void;
-  }) => (
+  }: { value: string; onChange: (value?: string) => void }) => (
     <textarea
       aria-label="code editor"
       value={value}
@@ -23,10 +20,16 @@ vi.mock('react-resizable-panels', () => ({
   PanelGroup: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),
-  Panel: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  PanelResizeHandle: ({ children }: { children: React.ReactNode }) => (
+
+  Panel: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
   ),
+
+  PanelResizeHandle: ({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) => <div>{children}</div>,
 }));
 
 describe('CodeEditor', () => {
@@ -93,7 +96,9 @@ describe('CodeEditor', () => {
     );
 
     expect(screen.getByText(/Runtime:/i)).toBeInTheDocument();
+
     expect(screen.getByText(/Memory:/i)).toBeInTheDocument();
+
     expect(screen.getByText(/Test case 1/i)).toBeInTheDocument();
   });
 
