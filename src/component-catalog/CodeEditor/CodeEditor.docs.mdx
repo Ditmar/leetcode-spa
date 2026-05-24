@@ -1,0 +1,321 @@
+import { Meta, Canvas, Story, Controls } from '@storybook/blocks';
+
+import * as CodeEditorStories from './CodeEditor.stories';
+
+<Meta of={CodeEditorStories} />
+
+# CodeEditor
+
+The `CodeEditor` component is an organism-level workspace component designed for solving coding challenges inside the platform.
+
+It combines:
+
+- Monaco Editor integration
+- Language selection
+- Execution controls
+- Output visualization
+- Runtime and memory reporting
+- Responsive layouts
+- Theme switching
+- Font size controls
+
+The component follows CDD (Component-Driven Development) principles and uses Material UI layout primitives and styling APIs.
+
+---
+
+# Component Responsibilities
+
+The component is responsible for:
+
+- Rendering the code editor
+- Managing editor state
+- Executing run and submit actions
+- Displaying execution feedback
+- Handling responsive behavior
+- Providing accessibility support
+- Managing editor theme state
+- Managing editor font size state
+
+---
+
+# File Structure
+
+```txt
+CodeEditor/
+├── CodeEditor.tsx
+├── CodeEditor.types.ts
+├── CodeEditor.constants.ts
+├── CodeEditor.hook.ts
+├── CodeEditor.styles.ts
+├── CodeEditor.utils.ts
+├── CodeEditor.test.tsx
+├── CodeEditor.stories.tsx
+└── CodeEditor.docs.mdx
+```
+
+---
+
+# Architecture Overview
+
+## CodeEditor.tsx
+
+Main rendering layer.
+
+Responsibilities:
+
+- Layout composition
+- Rendering Monaco Editor
+- Rendering toolbar controls
+- Rendering output panel
+- Responsive desktop/mobile layout
+- Connecting hook state to UI
+
+---
+
+## CodeEditor.hook.ts
+
+Contains all component state logic.
+
+Responsibilities:
+
+- Language state
+- Editor code state
+- Run/Submit loading states
+- Execution result state
+- Keyboard shortcuts
+- Theme toggle state
+- Font size state
+
+Keyboard shortcuts implemented:
+
+| Shortcut | Action |
+|---|---|
+| Ctrl + Enter | Run code |
+| Ctrl + Shift + Enter | Submit code |
+
+---
+
+## CodeEditor.styles.ts
+
+Contains reusable styled components using MUI `styled()` API.
+
+No external CSS files are used.
+
+Responsibilities:
+
+- Toolbar styling
+- Output panel styling
+- Resize handle styling
+- Layout containers
+- Theme-aware surfaces
+
+---
+
+## CodeEditor.utils.ts
+
+Contains reusable utility functions.
+
+Responsibilities:
+
+- Default code templates
+- Mock execution results
+- Result formatting helpers
+
+---
+
+## CodeEditor.types.ts
+
+Contains all TypeScript contracts.
+
+Responsibilities:
+
+- Language union types
+- Execution result models
+- Test case models
+- Component prop interfaces
+
+---
+
+# Supported Languages
+
+The editor supports:
+
+- Python
+- JavaScript
+- TypeScript
+- Java
+- C++
+
+Each language includes a default starter template.
+
+---
+
+# Toolbar Actions
+
+## Run Button
+
+- Uses outlined variant
+- Executes temporary code execution
+- Displays loading state
+- Triggers execution event
+
+## Submit Button
+
+- Uses contained variant
+- Executes submission flow
+- Displays loading state
+- Triggers submit event
+
+## Reset Button
+
+- Restores default template
+- Clears execution results
+
+---
+
+# Output Panel
+
+The output panel displays:
+
+- Runtime information
+- Memory usage
+- Success state
+- Error state
+- Test case results
+- Expected vs received output
+
+Failed tests show visual diffs using:
+
+- ✓ success indicator
+- ✗ failure indicator
+
+---
+
+# Responsive Behavior
+
+## Desktop
+
+Desktop uses:
+
+- Resizable split layout
+- Editor and output side-by-side resizing
+- `react-resizable-panels`
+
+## Mobile
+
+Mobile uses:
+
+- Stacked layout
+- Editor on top
+- Output panel below
+- `Collapse` component for responsive rendering
+
+Tested breakpoints:
+
+| Width | Behavior |
+|---|---|
+| 320px | Mobile |
+| 375px | Mobile |
+| 768px | Tablet |
+| 1024px | Desktop |
+
+---
+
+# Theme Support
+
+The component supports:
+
+- Dark editor theme
+- Light editor theme
+
+Theme switching is managed inside `useCodeEditor`.
+
+---
+
+# Font Size Controls
+
+Toolbar controls allow:
+
+- Increasing font size
+- Decreasing font size
+
+Limits are controlled using constants:
+
+- `MIN_FONT_SIZE`
+- `MAX_FONT_SIZE`
+- `DEFAULT_FONT_SIZE`
+
+---
+
+# Accessibility
+
+Accessibility support includes:
+
+- `aria-label` on toolbar buttons
+- `role="status"` on output panel
+- Keyboard shortcut support
+- Focusable controls
+- Responsive interaction areas
+
+---
+
+# Stories
+
+## Default
+
+<Canvas>
+  <Story of={CodeEditorStories.Default} />
+</Canvas>
+
+---
+
+## Running
+
+<Canvas>
+  <Story of={CodeEditorStories.Running} />
+</Canvas>
+
+---
+
+## Success
+
+<Canvas>
+  <Story of={CodeEditorStories.Success} />
+</Canvas>
+
+---
+
+## Error
+
+<Canvas>
+  <Story of={CodeEditorStories.Error} />
+</Canvas>
+
+---
+
+## Mobile
+
+<Canvas>
+  <Story of={CodeEditorStories.Mobile} />
+</Canvas>
+
+---
+
+# Controls
+
+<Controls />
+
+---
+
+# Future Improvements
+
+Possible future enhancements:
+
+- Real backend execution integration
+- Collapsible test sections
+- Multiple editor tabs
+- Persistent editor state
+- File upload support
+- Console output streaming
+- Custom Monaco themes
+- Execution history
