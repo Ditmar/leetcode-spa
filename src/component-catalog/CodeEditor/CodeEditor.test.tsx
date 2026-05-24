@@ -1,19 +1,41 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { CodeEditor } from './CodeEditor';
+
+vi.mock('@monaco-editor/react', () => ({
+  default: ({
+    value,
+    onChange,
+  }: {
+    value: string;
+    onChange: (value?: string) => void;
+  }) => (
+    <textarea
+      aria-label="code editor"
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+    />
+  ),
+}));
+
+vi.mock('react-resizable-panels', () => ({
+  PanelGroup: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
+  Panel: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  PanelResizeHandle: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
+}));
 
 describe('CodeEditor', () => {
   it('changes language correctly', async () => {
     render(<CodeEditor />);
 
-    const select = screen.getByRole('combobox');
+    fireEvent.mouseDown(screen.getByRole('combobox'));
 
-    fireEvent.mouseDown(select);
-
-    const option = await screen.findByText('Python');
-
-    fireEvent.click(option);
+    fireEvent.click(await screen.findByText('Python'));
 
     expect(screen.getByRole('combobox')).toHaveTextContent('Python');
   });
@@ -28,11 +50,11 @@ describe('CodeEditor', () => {
 
     render(<CodeEditor onRun={onRun} />);
 
-    const runButton = screen.getByLabelText('run code');
+    fireEvent.click(screen.getByLabelText('run code'));
 
-    fireEvent.click(runButton);
-
-    expect(onRun).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(onRun).toHaveBeenCalled();
+    });
   });
 
   it('calls submit action', async () => {
@@ -45,11 +67,11 @@ describe('CodeEditor', () => {
 
     render(<CodeEditor onSubmit={onSubmit} />);
 
-    const submitButton = screen.getByLabelText('submit code');
+    fireEvent.click(screen.getByLabelText('submit code'));
 
-    fireEvent.click(submitButton);
-
-    expect(onSubmit).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+    });
   });
 
   it('shows execution output', () => {
@@ -67,13 +89,11 @@ describe('CodeEditor', () => {
             },
           ],
         }}
-      />
+      />,
     );
 
     expect(screen.getByText(/Runtime:/i)).toBeInTheDocument();
-
     expect(screen.getByText(/Memory:/i)).toBeInTheDocument();
-
     expect(screen.getByText(/Test case 1/i)).toBeInTheDocument();
   });
 
@@ -82,9 +102,7 @@ describe('CodeEditor', () => {
 
     render(<CodeEditor onReset={onReset} />);
 
-    const resetButton = screen.getByLabelText('reset code');
-
-    fireEvent.click(resetButton);
+    fireEvent.click(screen.getByLabelText('reset code'));
 
     expect(onReset).toHaveBeenCalled();
   });
