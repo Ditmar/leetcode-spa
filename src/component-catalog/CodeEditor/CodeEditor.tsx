@@ -18,9 +18,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { lazy, Suspense } from 'react';
-import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-
+import { lazy, Suspense } from 'react'; 
 import { SUPPORTED_LANGUAGES } from './CodeEditor.constants';
 import { useCodeEditor } from './CodeEditor.hook';
 import {
@@ -142,26 +140,13 @@ export const CodeEditor = (props: CodeEditorProps) => {
         <Alert severity="error">{executionResult.errorMessage}</Alert>
       )}
 
-      {!isExecuting && executionResult && (
-        <Stack
-          direction="row"
-          spacing={2}
-          sx={{
-            color: 'var(--nav-text)',
-            fontSize: '0.82rem',
-            fontWeight: 500,
-          }}
-        >
-          <Typography variant="body2">Runtime: {executionResult.runtimeMs} ms</Typography>
-
-          <Typography variant="body2">Memory: {executionResult.memoryMb} MB</Typography>
-        </Stack>
-      )}
-
       {!isExecuting &&
         executionResult?.tests.map((test) => (
           <TestResultItem key={test.id}>
-            <Typography color={test.passed ? 'success.light' : 'error.light'} fontWeight={700}>
+            <Typography
+              color={test.passed ? 'success.light' : 'error.light'}
+              fontWeight={700}
+            >
               {test.passed ? '✓' : '✗'} {test.name}
             </Typography>
 
@@ -189,7 +174,8 @@ export const CodeEditor = (props: CodeEditorProps) => {
           width: theme.spacing(21),
           height: theme.spacing(4.5),
           padding: 0,
-          backgroundColor: 'color-mix(in srgb, var(--nav-text) 18%, transparent)',
+          backgroundColor:
+            'color-mix(in srgb, var(--nav-text) 18%, transparent)',
           borderRadius: 'var(--radius-xl)',
           alignItems: 'center',
         })}
@@ -201,7 +187,8 @@ export const CodeEditor = (props: CodeEditorProps) => {
             minWidth: 0,
             padding: 0,
             color: 'var(--foreground)',
-            backgroundColor: 'color-mix(in srgb, var(--nav-text) 26%, transparent)',
+            backgroundColor:
+              'color-mix(in srgb, var(--nav-text) 26%, transparent)',
             textTransform: 'none',
             borderRadius: 'var(--radius-xl)',
             fontWeight: 700,
@@ -210,7 +197,8 @@ export const CodeEditor = (props: CodeEditorProps) => {
             whiteSpace: 'nowrap',
 
             '&:hover': {
-              backgroundColor: 'color-mix(in srgb, var(--nav-text) 26%, transparent)',
+              backgroundColor:
+                'color-mix(in srgb, var(--nav-text) 26%, transparent)',
               boxShadow: 'none',
             },
           })}
@@ -234,7 +222,8 @@ export const CodeEditor = (props: CodeEditorProps) => {
             whiteSpace: 'nowrap',
 
             '&:hover': {
-              backgroundColor: 'color-mix(in srgb, var(--nav-text) 10%, transparent)',
+              backgroundColor:
+                'color-mix(in srgb, var(--nav-text) 10%, transparent)',
               boxShadow: 'none',
             },
           })}
@@ -269,7 +258,8 @@ export const CodeEditor = (props: CodeEditorProps) => {
                 px: 2,
                 color: 'var(--nav-text)',
                 backgroundColor: 'var(--nav-border)',
-                border: '1px solid color-mix(in srgb, var(--nav-text) 16%, transparent)',
+                border:
+                  '1px solid color-mix(in srgb, var(--nav-text) 16%, transparent)',
                 textTransform: 'none',
                 borderRadius: 'var(--radius-lg)',
                 fontWeight: 700,
@@ -300,7 +290,11 @@ export const CodeEditor = (props: CodeEditorProps) => {
                 void handleSubmit();
               }}
               startIcon={
-                isSubmitting ? <CircularProgress size={14} color="inherit" /> : <SubmitUploadIcon />
+                isSubmitting ? (
+                  <CircularProgress size={14} color="inherit" />
+                ) : (
+                  <SubmitUploadIcon />
+                )
               }
               aria-label="submit code"
               sx={(theme) => ({
@@ -345,7 +339,9 @@ export const CodeEditor = (props: CodeEditorProps) => {
             <Select
               value={language}
               IconComponent={KeyboardArrowDownRoundedIcon}
-              onChange={(event) => handleLanguageChange(event.target.value as Language)}
+              onChange={(event) =>
+                handleLanguageChange(event.target.value as Language)
+              }
               sx={(theme) => ({
                 width: {
                   xs: '100%',
@@ -353,10 +349,12 @@ export const CodeEditor = (props: CodeEditorProps) => {
                 },
                 height: theme.spacing(4.25),
                 color: 'var(--primary-foreground)',
-                backgroundColor: 'color-mix(in srgb, var(--nav-text) 20%, var(--nav-bg))',
+                backgroundColor:
+                  'color-mix(in srgb, var(--nav-text) 20%, var(--nav-bg))',
                 borderRadius: 'var(--radius-xl)',
                 fontWeight: 500,
-                border: '1px solid color-mix(in srgb, var(--nav-text) 26%, transparent)',
+                border:
+                  '1px solid color-mix(in srgb, var(--nav-text) 26%, transparent)',
 
                 '& .MuiOutlinedInput-notchedOutline': {
                   border: 'none',
@@ -370,13 +368,15 @@ export const CodeEditor = (props: CodeEditorProps) => {
                 },
 
                 '& .MuiSvgIcon-root': {
-                  color: 'color-mix(in srgb, var(--nav-text) 10%, transparent)',
+                  color:
+                    'color-mix(in srgb, var(--nav-text) 10%, transparent)',
                   fontSize: '1.4rem',
                   right: theme.spacing(0.5),
                 },
 
                 '&:hover': {
-                  backgroundColor: 'color-mix(in srgb, var(--nav-text) 14%, var(--nav-bg))',
+                  backgroundColor:
+                    'color-mix(in srgb, var(--nav-text) 14%, var(--nav-bg))',
                 },
               })}
             >
@@ -404,8 +404,10 @@ export const CodeEditor = (props: CodeEditorProps) => {
                   },
                   px: 2.4,
                   color: 'var(--primary-foreground)',
-                  backgroundColor: 'color-mix(in srgb, var(--nav-text) 20%, var(--nav-bg))',
-                  border: '1px solid color-mix(in srgb, var(--nav-text) 18%, transparent)',
+                  backgroundColor:
+                    'color-mix(in srgb, var(--nav-text) 20%, var(--nav-bg))',
+                  border:
+                    '1px solid color-mix(in srgb, var(--nav-text) 18%, transparent)',
                   textTransform: 'none',
                   borderRadius: 'var(--radius-xl)',
                   fontWeight: 500,
@@ -418,7 +420,8 @@ export const CodeEditor = (props: CodeEditorProps) => {
                   },
 
                   '&:hover': {
-                    backgroundColor: 'color-mix(in srgb, var(--nav-text) 10%, transparent)',
+                    backgroundColor:
+                      'color-mix(in srgb, var(--nav-text) 10%, transparent)',
                     boxShadow: 'none',
                   },
                 })}
@@ -429,61 +432,60 @@ export const CodeEditor = (props: CodeEditorProps) => {
           </Tooltip>
         </ToolbarContainer>
 
-        <PanelGroup direction="vertical">
-          <Panel defaultSize={isMobile ? 64 : 70} minSize={40}>
-            <EditorArea
+        <EditorArea
+          sx={{
+            height: isMobile ? '58%' : '66%',
+            backgroundColor: 'var(--editor-background)',
+
+            '& .monaco-editor': {
+              backgroundColor: 'var(--editor-background) !important',
+            },
+
+            '& .monaco-editor-background': {
+              backgroundColor: 'var(--editor-background) !important',
+            },
+
+            '& .margin': {
+              backgroundColor: 'var(--editor-background) !important',
+            },
+
+            '& .monaco-scrollable-element': {
+              backgroundColor: 'var(--editor-background) !important',
+            },
+          }}
+        >
+          {renderEditor()}
+        </EditorArea>
+
+        {!isMobile && <ResizeHandle />}
+
+        <Box
+          sx={{
+            height: isMobile ? '42%' : '34%',
+            minHeight: 0,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          {isMobile ? (
+            <Collapse
+              in={true}
+              timeout="auto"
+              unmountOnExit={false}
               sx={{
                 height: '100%',
-                backgroundColor: 'var(--editor-background)',
-
-                '& .monaco-editor': {
-                  backgroundColor: 'var(--editor-background) !important',
-                },
-
-                '& .monaco-editor-background': {
-                  backgroundColor: 'var(--editor-background) !important',
-                },
-
-                '& .margin': {
-                  backgroundColor: 'var(--editor-background) !important',
-                },
-
-                '& .monaco-scrollable-element': {
-                  backgroundColor: 'var(--editor-background) !important',
-                },
               }}
             >
-              {renderEditor()}
-            </EditorArea>
-          </Panel>
-
-          {!isMobile && (
-            <PanelResizeHandle>
-              <ResizeHandle />
-            </PanelResizeHandle>
+              {renderOutputToolbar()}
+              {renderOutput()}
+            </Collapse>
+          ) : (
+            <>
+              {renderOutputToolbar()}
+              {renderOutput()}
+            </>
           )}
-
-          <Panel defaultSize={isMobile ? 36 : 30} minSize={20}>
-            {isMobile ? (
-              <Collapse
-                in={true}
-                timeout="auto"
-                unmountOnExit={false}
-                sx={{
-                  height: '100%',
-                }}
-              >
-                {renderOutputToolbar()}
-                {renderOutput()}
-              </Collapse>
-            ) : (
-              <>
-                {renderOutputToolbar()}
-                {renderOutput()}
-              </>
-            )}
-          </Panel>
-        </PanelGroup>
+        </Box>
       </CodeEditorLayout>
     </CodeEditorRoot>
   );
