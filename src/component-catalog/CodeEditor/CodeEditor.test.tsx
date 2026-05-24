@@ -3,11 +3,10 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { CodeEditor } from './CodeEditor';
 
+import type { ReactNode } from 'react';
+
 vi.mock('@monaco-editor/react', () => ({
-  default: ({
-    value,
-    onChange,
-  }: { value: string; onChange: (value?: string) => void }) => (
+  default: ({ value, onChange }: { value: string; onChange: (value?: string) => void }) => (
     <textarea
       aria-label="code editor"
       value={value}
@@ -17,19 +16,9 @@ vi.mock('@monaco-editor/react', () => ({
 }));
 
 vi.mock('react-resizable-panels', () => ({
-  PanelGroup: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-
-  Panel: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-
-  PanelResizeHandle: ({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) => <div>{children}</div>,
+  PanelGroup: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+  Panel: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+  PanelResizeHandle: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));
 
 describe('CodeEditor', () => {
@@ -37,7 +26,6 @@ describe('CodeEditor', () => {
     render(<CodeEditor />);
 
     fireEvent.mouseDown(screen.getByRole('combobox'));
-
     fireEvent.click(await screen.findByText('Python'));
 
     expect(screen.getByRole('combobox')).toHaveTextContent('Python');
@@ -92,13 +80,11 @@ describe('CodeEditor', () => {
             },
           ],
         }}
-      />,
+      />
     );
 
     expect(screen.getByText(/Runtime:/i)).toBeInTheDocument();
-
     expect(screen.getByText(/Memory:/i)).toBeInTheDocument();
-
     expect(screen.getByText(/Test case 1/i)).toBeInTheDocument();
   });
 
