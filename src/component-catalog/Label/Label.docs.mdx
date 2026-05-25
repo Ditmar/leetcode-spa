@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls, ArgTypes } from '@storybook/blocks';
+import { Meta, Canvas, Controls } from '@storybook/blocks';
 import * as LabelStories from './Label.stories';
 
 <Meta of={LabelStories} />
@@ -26,22 +26,19 @@ with form controls and accessibility workflows.
 The `Label` component visually and programmatically associates itself
 with form controls through the `htmlFor` prop.
 
-| State      | Description                                      |
-| ----------- | ------------------------------------------------ |
+| State | Description |
+| --- | --- |
 | `required` | Displays required indicator and accessibility metadata |
-| `optional` | Displays optional helper text                    |
-| `error`    | Applies error styling from the theme             |
-| `disabled` | Applies disabled visual state                    |
-| `tooltip`  | Displays contextual helper information           |
+| `optional` | Displays optional helper text |
+| `error` | Applies error styling from the theme |
+| `disabled` | Applies disabled visual state |
+| `tooltip` | Displays contextual helper information |
 
 ---
 
 ## Installation
 
 ```bash
-# Already available in your project
-# Requires MUI v7
-
 yarn add @mui/material @emotion/react @emotion/styled
 ```
 
@@ -128,7 +125,7 @@ export default function Example() {
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `htmlFor` | `string` | — | **Required.** Associates label with input id |
+| `htmlFor` | `string` | — | Required. Associates label with input id |
 | `children` | `React.ReactNode` | — | Label content |
 | `required` | `boolean` | `false` | Displays required indicator |
 | `optional` | `boolean` | `false` | Displays optional helper text |
@@ -140,25 +137,24 @@ export default function Example() {
 
 ## Accessibility
 
-- `htmlFor` associates the label with its target form control.
-- Required fields propagate `aria-required="true"`.
-- Required indicators use `aria-hidden="true"` to prevent duplicate announcements.
-- Tooltip buttons expose accessible labels.
-- Tooltip interactions support keyboard navigation.
-- Accessibility behaviour was validated with keyboard navigation,
-- Testing Library interaction tests, and supported screen-reader interaction scenarios.
-- Wrapped labels remain readable in narrow layouts.
+- `htmlFor` associates the label with its target form control
+- Required fields propagate `aria-required="true"`
+- Required indicators use `aria-hidden="true"`
+- Tooltip buttons expose accessible labels
+- Tooltip interactions support keyboard navigation
+- Accessibility behaviour validated with Testing Library
+- Wrapped labels remain readable in narrow layouts
 
 ---
 
 ## Responsive Behaviour
 
 | Viewport | Behaviour |
-| -------- | ---------- |
-| 320 px | Wrapped label text without clipping |
-| 375 px | Comfortable spacing and inline layout |
-| 768 px | Stable alignment with form controls |
-| 1024 px+ | Inline layout within wider forms |
+| --- | --- |
+| `320px` | Wrapped label text without clipping |
+| `375px` | Comfortable spacing and inline layout |
+| `768px` | Stable alignment with form controls |
+| `1024px+` | Inline layout within wider forms |
 
 All spacing and typography values are derived from the MUI theme.
 
