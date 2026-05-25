@@ -1,7 +1,10 @@
 import { Meta, Canvas, Controls } from '@storybook/blocks';
 import * as LabelStories from './Label.stories';
 
-<Meta of={LabelStories} />
+<Meta
+  of={LabelStories}
+  title="Component Catalog/Label/Docs"
+/>
 
 # Label
 
@@ -21,7 +24,20 @@ with form controls and accessibility workflows.
 
 ---
 
-## Overview
+# Features
+
+- Accessible form labeling
+- Fully responsive layout
+- Theme-aware styling
+- Optional tooltip support
+- Required and optional indicators
+- Error and disabled states
+- Keyboard accessible interactions
+- Compatible with MUI form controls
+
+---
+
+# Overview
 
 The `Label` component visually and programmatically associates itself
 with form controls through the `htmlFor` prop.
@@ -36,7 +52,7 @@ with form controls through the `htmlFor` prop.
 
 ---
 
-## Installation
+# Installation
 
 ```bash
 yarn add @mui/material @emotion/react @emotion/styled
@@ -44,7 +60,7 @@ yarn add @mui/material @emotion/react @emotion/styled
 
 ---
 
-## Quick Start
+# Quick Start
 
 ```tsx
 import Label from './Label';
@@ -71,57 +87,75 @@ export default function Example() {
 
 ---
 
-## Stories
+# Stories
 
-### Default
+## Default
 
 <Canvas of={LabelStories.Default} />
 
-### Required
+---
+
+## Required
 
 <Canvas of={LabelStories.Required} />
 
-### Optional
+---
+
+## Optional
 
 <Canvas of={LabelStories.Optional} />
 
-### Error
+---
+
+## Error
 
 <Canvas of={LabelStories.Error} />
 
-### Disabled
+---
+
+## Disabled
 
 <Canvas of={LabelStories.Disabled} />
 
-### With Tooltip
+---
+
+## With Tooltip
 
 <Canvas of={LabelStories.WithTooltip} />
 
-### Required Error With Tooltip
+---
+
+## Required Error With Tooltip
 
 <Canvas of={LabelStories.RequiredErrorWithTooltip} />
 
-### Paired With Input
+---
+
+## Paired With Input
 
 <Canvas of={LabelStories.PairedWithInput} />
 
-### Narrow Viewport
+---
+
+## Narrow Viewport
 
 <Canvas of={LabelStories.NarrowViewport} />
 
-### All States
+---
+
+## All States
 
 <Canvas of={LabelStories.AllStates} />
 
 ---
 
-## Controls
+# Controls
 
 <Controls />
 
 ---
 
-## Prop Reference
+# Prop Reference
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -135,7 +169,7 @@ export default function Example() {
 
 ---
 
-## Accessibility
+# Accessibility
 
 - `htmlFor` associates the label with its target form control
 - Required fields propagate `aria-required="true"`
@@ -147,7 +181,7 @@ export default function Example() {
 
 ---
 
-## Responsive Behaviour
+# Responsive Behaviour
 
 | Viewport | Behaviour |
 | --- | --- |
@@ -162,7 +196,7 @@ No external CSS is required.
 
 ---
 
-## Design Notes
+# Design Notes
 
 The component uses:
 
@@ -176,7 +210,7 @@ The tooltip state is internally managed through a dedicated custom hook.
 
 ---
 
-## File Structure
+# File Structure
 
 ```txt
 Label/
@@ -193,7 +227,7 @@ Label/
 
 ---
 
-## Stack
+# Stack
 
 | Package | Role |
 | --- | --- |
@@ -204,3 +238,103 @@ Label/
 | `vitest` | Unit testing |
 | `@testing-library/react` | Accessibility and interaction testing |
 | `storybook` | Interactive component documentation |
+
+---
+
+# Troubleshooting
+
+## If the Storybook Docs page does not appear
+
+Verify the following:
+
+### 1. Story Export Exists
+
+Ensure all stories are exported correctly in:
+
+```txt
+Label.stories.tsx
+```
+
+Example:
+
+```tsx
+export const Default = {};
+```
+
+---
+
+### 2. Storybook Main Configuration
+
+Ensure `.storybook/main.ts` contains:
+
+```ts
+stories: [
+  '../src/**/*.mdx',
+  '../src/**/*.stories.@(js|jsx|ts|tsx)',
+];
+```
+
+---
+
+### 3. Build Validation
+
+Run:
+
+```bash
+yarn build-storybook
+```
+
+If this command fails, the PR preview deployment will fail as well.
+
+---
+
+### 4. Linux Filename Validation
+
+Ensure filenames match exactly:
+
+```txt
+Label.docs.mdx
+```
+
+Avoid mismatched casing like:
+
+```txt
+label.docs.mdx
+```
+
+---
+
+### 5. Verify Storybook Deploy
+
+Check GitHub Actions or Chromatic build logs for:
+
+- MDX parsing errors
+- Missing exports
+- Invalid imports
+- Story loading failures
+
+---
+
+# Recommended Story Export Structure
+
+```tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import Label from './Label';
+
+const meta: Meta<typeof Label> = {
+  title: 'Component Catalog/Label',
+  component: Label,
+  tags: ['autodocs'],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof Label>;
+
+export const Default: Story = {
+  args: {
+    children: 'Email',
+    htmlFor: 'email',
+  },
+};
+```
