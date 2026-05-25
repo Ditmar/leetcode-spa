@@ -35,11 +35,9 @@ const DemoContent = ({ label }: { label: string }) => (
 export const MultipleRatios: Story = {
   render: () => (
     <Box
-      sx={(theme) => ({
+      sx={{
         p: 3,
-        backgroundColor: theme.palette.grey[100],
-        minHeight: '100vh',
-      })}
+      }}
     >
       {/* Header */}
       <Typography variant="h5" gutterBottom>
