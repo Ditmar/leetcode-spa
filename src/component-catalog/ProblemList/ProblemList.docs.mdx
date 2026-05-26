@@ -1,0 +1,731 @@
+import { Canvas, Meta, Story, ArgTypes } from '@storybook/blocks';
+import * as ProblemListStories from './ProblemList.stories';
+
+<Meta of={ProblemListStories} />
+
+# ProblemList — Complete Technical Reference
+
+The `ProblemList` component is a left-side navigation sidebar for listing, displaying, and selecting coding problems in a LeetCode-style interface. It is built on **React + TypeScript + Material UI**, with pixel-perfect styles calibrated directly from Figma Dev Mode.
+
+---
+
+## Table of Contents
+
+1. [Overview](#overview)
+2. [File Structure](#file-structure)
+3. [Installation & Dependencies](#installation--dependencies)
+4. [Props & Types](#props--types)
+5. [Basic Usage](#basic-usage)
+6. [Internal Architecture](#internal-architecture)
+7. [Style System](#style-system)
+8. [Constants & Maps](#constants--maps)
+9. [Utilities](#utilities)
+10. [Internal Hook](#internal-hook)
+11. [Storybook Stories](#storybook-stories)
+12. [Tests](#tests)
+13. [Technical Decisions](#technical-decisions)
+14. [Extension Guide](#extension-guide)
+
+---
+
+## Overview
+
+`ProblemList` renders a fixed sidebar column with a scrollable list of coding problems. Each row displays:
+
+- A **status icon** (solved / attempted / unsolved)
+- The **sequential number** and **title** of the problem
+- A **colored difficulty tag** (Easy / Medium / Hard)
+- The **acceptance rate** percentage
+- A **vertical blue bar** on the currently selected item
+
+The component is **fully controlled**: it holds no selection state of its own. The parent component decides which problem is selected via the `selectedProblemId` prop and reacts to changes through the `onSelectProblem` callback.
+
+---
+
+## File Structure
+
+```
+ProblemList/
+├── ProblemList.tsx          # Main React component
+├── ProblemList.types.ts     # TypeScript interfaces and types
+├── ProblemList.styles.ts    # MUI style objects (sx props)
+├── ProblemList.constants.ts # Static maps: icons, colors
+├── ProblemList.utils.ts     # Pure helper functions
+├── ProblemList.hook.ts      # Hook for mobile drawer state
+├── ProblemList.stories.tsx  # Storybook stories
+├── ProblemList.test.tsx     # Tests with Vitest + Testing Library
+└── ProblemList.docs.mdx     # This reference
+```
+
+Each file has a single responsibility. This separation ensures that changes are isolated and that the linter does not penalize unnecessary cross-imports.
+
+---
+
+## Installation & Dependencies
+
+The component requires the following dependencies in your project:
+
+```bash
+# Material UI (base components and style system)
+npm install @mui/material @emotion/react @emotion/styled
+
+# Material UI icons
+npm install @mui/icons-material
+
+# React (peer dependency)
+npm install react react-dom
+```
+
+**Minimum recommended versions:**
+
+| Package | Minimum version |
+|---|---|
+| react | 18.x |
+| @mui/material | 5.x |
+| @mui/icons-material | 5.x |
+| typescript | 5.x |
+
+No custom context provider is required. If the project uses MUI's `ThemeProvider`, the component automatically respects the global theme for anything not overridden by local styles.
+
+---
+
+## Props & Types
+
+### `ProblemListProps`
+
+```typescript
+interface ProblemListProps {
+  problems: Problem[];
+  selectedProblemId?: number;
+  onSelectProblem: (id: number) => void;
+}
+```
+
+| Prop | Type | Required | Description |
+|---|---|---|---|
+| `problems` | `Problem[]` | ✅ Yes | Array of objects containing each problem's data |
+| `selectedProblemId` | `number` | ❌ No | ID of the currently selected problem. If omitted, no item is highlighted |
+| `onSelectProblem` | `(id: number) => void` | ✅ Yes | Callback fired when the user clicks an item. Receives the numeric `id` of the problem |
+
+---
+
+### `Problem`
+
+```typescript
+interface Problem {
+  id: number;
+  idNumber: number;
+  title: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  acceptanceRate: number;
+  status: 'solved' | 'attempted' | 'unsolved';
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | `number` | Unique numeric identifier for the problem. Used internally for selection and as React's `key` |
+| `idNumber` | `number` | Sequential number visible in the UI (e.g. `1`, `2`, `3`). May differ from `id` if the list is filtered |
+| `title` | `string` | Problem name. Truncated with `text-overflow: ellipsis` if too long |
+| `difficulty` | `ProblemDifficulty` | Difficulty level. Determines the color of the difficulty tag text |
+| `acceptanceRate` | `number` | Problem acceptance rate percentage. Displayed as-is with the `%` symbol |
+| `status` | `ProblemStatus` | The user's status on this problem. Determines the icon and its color |
+
+---
+
+### `ProblemDifficulty`
+
+```typescript
+type ProblemDifficulty = 'Easy' | 'Medium' | 'Hard';
+```
+
+### `ProblemStatus`
+
+```typescript
+type ProblemStatus = 'solved' | 'attempted' | 'unsolved';
+```
+
+---
+
+### Interactive Props Table (Storybook)
+
+<ArgTypes />
+
+---
+
+## Basic Usage
+
+### Minimal example
+
+```tsx
+import { ProblemList } from './ProblemList';
+
+const problems = [
+  {
+    id: 1,
+    idNumber: 1,
+    title: 'Two Sum',
+    difficulty: 'Easy',
+    acceptanceRate: 49.2,
+    status: 'solved',
+  },
+];
+
+function App() {
+  const [selectedId, setSelectedId] = useState<number>(1);
+
+  return (
+    <ProblemList
+      problems={problems}
+      selectedProblemId={selectedId}
+      onSelectProblem={(id) => setSelectedId(id)}
+    />
+  );
+}
+```
+
+### With external state (Zustand / Redux)
+
+The component is fully controlled, so it integrates seamlessly with any store:
+
+```tsx
+// With Zustand
+const selectedId = useStore((s) => s.selectedProblemId);
+const setSelected = useStore((s) => s.setSelectedProblem);
+
+<ProblemList
+  problems={problems}
+  selectedProblemId={selectedId}
+  onSelectProblem={setSelected}
+/>
+```
+
+### With an empty list
+
+When `problems` is an empty array, the component renders the "Problems" header and an empty scroll area without errors:
+
+```tsx
+<ProblemList
+  problems={[]}
+  selectedProblemId={undefined}
+  onSelectProblem={() => {}}
+/>
+```
+
+---
+
+## Internal Architecture
+
+### Component tree
+
+```
+ProblemList (ProblemList.tsx)
+└── Box [listContainerStyles]           ← Root container 344.15px
+    ├── Box [headerStyles]              ← "Problems" header
+    │   └── Typography                 ← "Problems" text
+    └── Box [scrollableBoxStyles]       ← Scrollable area
+        └── List (MUI, disablePadding)
+            └── Box × N [itemButtonStyles(isSelected)]  ← One row per problem
+                ├── Box [itemIconStyles]
+                │   └── StatusIcon                      ← Dynamic MUI icon
+                └── Box [contentContainerStyles]
+                    ├── Typography [titleTypographyStyles]   ← "1. Two Sum"
+                    └── Box [secondaryRowStyles]
+                        ├── Typography                       ← Colored difficulty tag
+                        ├── Typography [dotDividerStyles]    ← "•" separator
+                        └── Typography                       ← "49.2%"
+```
+
+### Data flow
+
+```
+props.problems (array)
+    │
+    ▼
+.map((problem) => ...)
+    │
+    ├── problem.status  →  STATUS_ICON_MAP  →  StatusIcon (MUI component)
+    ├── problem.status  →  iconColor (hex string)
+    ├── problem.id      →  isSelected (boolean)  →  itemButtonStyles(isSelected)
+    ├── problem.difficulty  →  getDifficultyChipColor()  →  tag color
+    └── onClick  →  onSelectProblem(problem.id)  →  callback to parent
+```
+
+---
+
+## Style System
+
+All styles are centralized in `ProblemList.styles.ts`. They are used as objects passed to MUI's `sx` prop, which gives access to the theming system without needing `styled()` or CSS modules.
+
+### `listContainerStyles`
+
+Root container of the sidebar.
+
+```typescript
+export const listContainerStyles = {
+  width: '344.15px',
+  minWidth: '344.15px',
+  maxWidth: '344.15px',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: '#ffffff',
+  borderRight: '1.17px solid #E5E7EB',
+  boxSizing: 'border-box',
+};
+```
+
+> **Why `344.15px`:** This measurement comes directly from Figma Dev Mode and ensures the layout fits precisely within the three-panel editor design (list / editor / output).
+
+---
+
+### `headerStyles`
+
+Header containing the "Problems" text.
+
+```typescript
+export const headerStyles = {
+  height: '51.98px',
+  minHeight: '51.98px',
+  maxHeight: '51.98px',
+  display: 'flex',
+  alignItems: 'center',
+  paddingTop: '16.37px',
+  paddingBottom: '16.37px',
+  paddingLeft: '24.56px',
+  paddingRight: '16.37px',
+  borderBottom: '1.17px solid #E5E7EB',
+  backgroundColor: '#ffffff',
+  boxSizing: 'border-box',
+};
+```
+
+---
+
+### `scrollableBoxStyles`
+
+Scroll area that grows to fill the remaining space.
+
+```typescript
+export const scrollableBoxStyles = {
+  flexGrow: 1,
+  overflowY: 'auto',
+  backgroundColor: '#ffffff',
+  '&::-webkit-scrollbar': {
+    width: '0px', // Scrollbar hidden by design
+  },
+};
+```
+
+---
+
+### `itemButtonStyles(isSelected: boolean)`
+
+The most important style function. It receives a boolean and returns the style object for each row, including the CSS pseudo-elements for the blue bar.
+
+```typescript
+export const itemButtonStyles = (isSelected: boolean): Record<string, unknown> => ({
+  // Fixed dimensions: ensures ALL items have the same height
+  height: '62.15px',
+  minHeight: '62.15px',
+  maxHeight: '62.15px',
+
+  // Uniform padding in all states
+  paddingTop: '12px',
+  paddingBottom: '12px',
+  paddingLeft: '12px',
+  paddingRight: '12px',
+
+  // Background color based on selection state
+  backgroundColor: isSelected ? '#EFF6FF' : '#ffffff',
+
+  // Left decorative bar (CSS pseudo-element via sx)
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: '3.52px',
+    backgroundColor: isSelected ? '#2B7FFF' : 'transparent',
+  },
+
+  // Hover only when not selected
+  '&:hover': {
+    backgroundColor: isSelected ? '#EFF6FF' : '#f9fafb',
+  },
+});
+```
+
+> **Note on `Record<string, unknown>`:** This type is used instead of `SxProps<Theme>` to avoid strict compilation conflicts with nested pseudo-element properties inside MUI `sx` objects built dynamically by a function. It is a pragmatic solution that maintains type safety without requiring `any`.
+
+---
+
+### Component color palette
+
+| Token | Value | Usage |
+|---|---|---|
+| Base background | `#ffffff` | Container, header, and row backgrounds |
+| Selected background | `#EFF6FF` | Active row |
+| Selection bar | `#2B7FFF` | Left vertical bar on selected item |
+| Border separator | `#E5E7EB` | Horizontal borders and right border |
+| Problem title | `#262626` | Problem name text |
+| Header text | `#1a1a1a` | "Problems" heading text |
+| Meta text (acceptance) | `#8a9298` | Acceptance rate percentage |
+| Dot divider | `#bcc1c4` | Separator dot in the secondary row |
+| Unsolved icon | `#bcc1c4` | Color of the `unsolved` icon |
+| Non-selected hover | `#f9fafb` | Background on hover for inactive items |
+
+---
+
+## Constants & Maps
+
+Defined in `ProblemList.constants.ts`.
+
+### `STATUS_ICON_MAP`
+
+Maps each status to its corresponding MUI icon component.
+
+```typescript
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+
+export const STATUS_ICON_MAP = {
+  solved: CheckCircleOutlineIcon,       // ✔ Green
+  attempted: RemoveCircleOutlineIcon,   // — Yellow
+  unsolved: RadioButtonUncheckedIcon,   // ○ Gray
+} as const;
+```
+
+The icon color is not defined here but inline in `ProblemList.tsx`, since it depends on the status evaluated per item:
+
+```typescript
+const iconColor =
+  problem.status === 'solved'
+    ? '#2db55d'
+    : problem.status === 'attempted'
+      ? '#feb800'
+      : '#bcc1c4';
+```
+
+---
+
+### `STATUS_COLOR_MAP`
+
+Semantic color map in case a MUI variant color is needed in the future instead of a direct hex value.
+
+```typescript
+export const STATUS_COLOR_MAP = {
+  solved: 'success',
+  attempted: 'warning',
+  unsolved: 'neutral',
+} as const;
+```
+
+> Not currently consumed in the main render, but available for future extensions (e.g. MUI Chips).
+
+---
+
+### `DIFFICULTY_COLOR_MAP`
+
+```typescript
+export const DIFFICULTY_COLOR_MAP: Record<ProblemDifficulty, string> = {
+  Easy: '#2db55d',    // Green
+  Medium: '#feb800',  // Yellow-orange
+  Hard: '#ef4743',    // Red
+};
+```
+
+---
+
+## Utilities
+
+Defined in `ProblemList.utils.ts`.
+
+### `getDifficultyChipColor`
+
+Pure function that returns the hex color corresponding to a given difficulty. Acts as a safe wrapper around `DIFFICULTY_COLOR_MAP` with a gray fallback for unexpected values.
+
+```typescript
+export const getDifficultyChipColor = (difficulty: ProblemDifficulty): string => {
+  return DIFFICULTY_COLOR_MAP[difficulty] || '#8c8c8c';
+};
+```
+
+**Usage examples:**
+
+```typescript
+getDifficultyChipColor('Easy');   // '#2db55d'
+getDifficultyChipColor('Medium'); // '#feb800'
+getDifficultyChipColor('Hard');   // '#ef4743'
+```
+
+Because it is typed with `ProblemDifficulty`, TypeScript prevents calls with invalid values at compile time. The `'#8c8c8c'` fallback only acts as a runtime safety net.
+
+---
+
+## Internal Hook
+
+Defined in `ProblemList.hook.ts`.
+
+### `useProblemList`
+
+Hook that encapsulates the mobile drawer state. Exposes a minimal, clean API:
+
+```typescript
+export const useProblemList = () => {
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+
+  const handleToggleMobileDrawer = () => {
+    setIsMobileDrawerOpen((prev) => !prev);
+  };
+
+  const handleCloseMobileDrawer = () => {
+    setIsMobileDrawerOpen(false);
+  };
+
+  return {
+    isMobileDrawerOpen,
+    handleToggleMobileDrawer,
+    handleCloseMobileDrawer,
+  };
+};
+```
+
+| Returned value | Type | Description |
+|---|---|---|
+| `isMobileDrawerOpen` | `boolean` | Current drawer open/closed state |
+| `handleToggleMobileDrawer` | `() => void` | Toggles between open and closed |
+| `handleCloseMobileDrawer` | `() => void` | Forces the drawer closed |
+
+> **Current status:** The hook exists and is available, but the current version of `ProblemList.tsx` consumes it optionally. It was prepared for when the responsive mobile drawer variant is implemented (screens < 768px).
+
+---
+
+## Storybook Stories
+
+Defined in `ProblemList.stories.tsx`. Each story represents a different usage scenario of the component.
+
+All stories share the same `sampleProblems` dataset with 6 problems of varying difficulties and statuses.
+
+### `Default`
+
+Normal initial state. The selected problem is `id: 1` (Two Sum).
+
+```tsx
+export const Default: Story = {
+  args: {
+    problems: sampleProblems,
+    selectedProblemId: 1,
+    onSelectProblem: () => {},
+  },
+};
+```
+
+### `AllStatuses`
+
+Displays all three status icon types simultaneously. The selected item is `id: 4` (Hard / unsolved).
+
+### `SelectedItem`
+
+Highlights the second item (`id: 2`, Medium / attempted) to verify the blue bar and background work correctly on intermediate items.
+
+### `MobileDrawer`
+
+Prepared for when the mobile variant is integrated. Currently renders the same as `Default`.
+
+### `EmptyList`
+
+Validates behavior with `problems: []`. The component should render the header without errors and with no items.
+
+---
+
+## Tests
+
+Defined in `ProblemList.test.tsx` using **Vitest** and **@testing-library/react**.
+
+### Mock strategy
+
+MUI icons are complex SVG components that can generate noise in tests. They are mocked with a dummy component:
+
+```tsx
+vi.mock('./ProblemList.constants', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('./ProblemList.constants')>();
+
+  const DummyIcon = ({ 'data-testid': testId }: { 'data-testid'?: string }) => (
+    <span data-testid={testId}>•</span>
+  );
+
+  return {
+    ...actual, // Preserves DIFFICULTY_COLOR_MAP and STATUS_COLOR_MAP
+    STATUS_ICON_MAP: {
+      solved: DummyIcon,
+      attempted: DummyIcon,
+      unsolved: DummyIcon,
+    },
+  };
+});
+```
+
+> `importOriginal` is used to preserve `DIFFICULTY_COLOR_MAP` and other constants. Only `STATUS_ICON_MAP` is replaced.
+
+---
+
+### Test cases
+
+#### ✅ Renders the header correctly
+
+```tsx
+test('should render the "Problems" heading correctly', () => {
+  render(<ProblemList problems={mockProblems} selectedProblemId={1} onSelectProblem={vi.fn()} />);
+  expect(screen.getByText('Problems')).toBeInTheDocument();
+});
+```
+
+#### ✅ Lists titles with sequential number
+
+```tsx
+test('should list problem titles with their numeric ID', () => {
+  render(<ProblemList problems={mockProblems} selectedProblemId={1} onSelectProblem={vi.fn()} />);
+  expect(screen.getByText('1. Two Sum')).toBeInTheDocument();
+  expect(screen.getByText('2. Add Two Numbers')).toBeInTheDocument();
+});
+```
+
+#### ✅ Fires the callback with the correct `id` on click
+
+```tsx
+test('should fire onSelectProblem when an item is clicked', () => {
+  const handleSelectProblem = vi.fn();
+  render(<ProblemList problems={mockProblems} selectedProblemId={1} onSelectProblem={handleSelectProblem} />);
+
+  const problemItem = screen.getByText('2. Add Two Numbers').closest('div');
+  if (problemItem) fireEvent.click(problemItem);
+
+  expect(handleSelectProblem).toHaveBeenCalledWith(2);
+});
+```
+
+---
+
+### How to run the tests
+
+```bash
+# Run all tests once
+npx vitest run
+
+# Watch mode during development
+npx vitest
+
+# With coverage report
+npx vitest run --coverage
+```
+
+---
+
+## Technical Decisions
+
+### Why are `id` and `idNumber` separate fields?
+
+- `id` is the database / system identifier. It is used for selection, React keys, and callbacks.
+- `idNumber` is the visual number the user sees in the list (e.g. "1. Two Sum"). When the list is filtered, `id` might be `47` but `idNumber` would still be `1` according to the filtered order.
+
+### Why a fixed width instead of `width: 100%`?
+
+The Figma design defines this sidebar as a fixed-width panel within a three-column layout (list / editor / output). Using `width: 100%` would break the overall editor grid. If responsive behavior is needed, it should be handled from the parent layout.
+
+### Why inline styles (`sx`) instead of `styled()` or CSS Modules?
+
+Centralized `sx` objects in a dedicated `.styles.ts` file offer the best of both worlds: semantic organization and access to MUI's theming system, without needing additional styled components or managing class names. The separation into a dedicated file prevents `ProblemList.tsx` from becoming unreadable.
+
+### Why `Record<string, unknown>` in `itemButtonStyles`?
+
+MUI's `SxProps<Theme>` is a highly restrictive type that sometimes rejects nested CSS pseudo-elements (`&::before`, `&:hover`) when the object is built dynamically by a function. `Record<string, unknown>` is the safest typed alternative without resorting to `any`.
+
+---
+
+## Extension Guide
+
+### Adding a new problem status
+
+1. Add the new value to the type in `ProblemList.types.ts`:
+
+```typescript
+export type ProblemStatus = 'solved' | 'attempted' | 'unsolved' | 'skipped';
+```
+
+2. Add the corresponding icon in `ProblemList.constants.ts`:
+
+```typescript
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+
+export const STATUS_ICON_MAP = {
+  solved: CheckCircleOutlineIcon,
+  attempted: RemoveCircleOutlineIcon,
+  unsolved: RadioButtonUncheckedIcon,
+  skipped: SkipNextIcon, // new
+} as const;
+```
+
+3. Add the color inline in `ProblemList.tsx`:
+
+```typescript
+const iconColor =
+  problem.status === 'solved' ? '#2db55d' :
+  problem.status === 'attempted' ? '#feb800' :
+  problem.status === 'skipped' ? '#a855f7' :
+  '#bcc1c4';
+```
+
+4. Update the mock in `ProblemList.test.tsx` if needed.
+
+---
+
+### Adding difficulty filters
+
+The component does not currently include filters. To add them without breaking the existing interface, it is recommended to handle filtering in the parent component and pass the already-filtered array:
+
+```tsx
+// In the parent component
+const [filter, setFilter] = useState<ProblemDifficulty | 'All'>('All');
+
+const filteredProblems = filter === 'All'
+  ? problems
+  : problems.filter((p) => p.difficulty === filter);
+
+<ProblemList
+  problems={filteredProblems}
+  selectedProblemId={selectedId}
+  onSelectProblem={setSelectedId}
+/>
+```
+
+---
+
+### Implementing the mobile Drawer variant
+
+The `useProblemList` hook already exposes the necessary state. Create a wrapper variant that wraps `ProblemList` inside an MUI `Drawer`:
+
+```tsx
+import { Drawer } from '@mui/material';
+import { useProblemList } from './ProblemList.hook';
+
+function ProblemListWithDrawer(props: ProblemListProps) {
+  const { isMobileDrawerOpen, handleCloseMobileDrawer } = useProblemList();
+
+  return (
+    <Drawer open={isMobileDrawerOpen} onClose={handleCloseMobileDrawer}>
+      <ProblemList {...props} />
+    </Drawer>
+  );
+}
+```
+
+---
+
+## Storybook Preview
+
+<Canvas of={ProblemListStories.Default} />
+<Canvas of={ProblemListStories.AllStatuses} />
+<Canvas of={ProblemListStories.EmptyList} />
