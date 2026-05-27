@@ -1,3 +1,5 @@
+import { theme } from '../../style-library';
+
 import { AspectRatioRoot, AspectRatioContent } from './AspectRatio.styles';
 import { parseRatio } from './AspectRatio.utils';
 
@@ -10,8 +12,7 @@ export const AspectRatio = ({ ratio = 1, children, sx }: AspectRatioProps) => {
     <AspectRatioRoot
       sx={{
         aspectRatio: computedRatio,
-        width: '100%',
-        minHeight: 120,
+        minHeight: theme.spacing(15),
         ...sx,
       }}
     >

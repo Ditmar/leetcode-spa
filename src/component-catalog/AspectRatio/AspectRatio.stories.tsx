@@ -25,7 +25,7 @@ const DemoContent = ({ label }: { label: string }) => (
       alignItems: 'center',
       justifyContent: 'center',
       color: theme.palette.text.secondary,
-      fontWeight: 600,
+      fontWeight: theme.typography.fontWeightMedium,
     })}
   >
     {label}
@@ -58,12 +58,12 @@ export const MultipleRatios: Story = {
           },
           gap: 3,
           width: '100%',
-          maxWidth: 900,
+          maxWidth: '900px',
         }}
       >
         {/* 16:9 */}
         <Box>
-          <Typography mb={1}>16:9 Ratio</Typography>
+          <Typography sx={{ mb: 1 }}>16:9 Ratio</Typography>
 
           <AspectRatio ratio="16/9">
             <DemoContent label="16:9" />
@@ -72,7 +72,7 @@ export const MultipleRatios: Story = {
 
         {/* 1:1 */}
         <Box>
-          <Typography mb={1}>1:1 Ratio</Typography>
+          <Typography sx={{ mb: 1 }}>1:1 Ratio</Typography>
 
           <AspectRatio ratio="1/1">
             <DemoContent label="1:1" />
