@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { exploreService } from './exploreService';
+import { exploreService, updateProgress } from './exploreService';
 
 import type {
   ExploreTopic,
@@ -137,7 +137,7 @@ describe('exploreService.updateProgress', () => {
     const fetchMock = mockFetchOk<TopicProgress>(progress);
     vi.stubGlobal('fetch', fetchMock);
 
-    const result = await exploreService.updateProgress(1, 101, false);
+    const result = await updateProgress(1, 101, false);
 
     expect(result).toEqual(progress);
 
@@ -156,7 +156,7 @@ describe('exploreService.updateProgress', () => {
       })
     );
 
-    await expect(exploreService.updateProgress(1, 101, true)).rejects.toMatchObject({
+    await expect(updateProgress(1, 101, true)).rejects.toMatchObject({
       status: 401,
       code: 'UNAUTHORIZED',
     });
