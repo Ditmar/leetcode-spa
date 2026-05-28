@@ -29,7 +29,6 @@ import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
 import React from 'react';
 
 import { ALL_DIFFICULTIES, ALL_STATUSES, ALL_TAGS_SENTINEL } from './ProblemsPage.constants';
