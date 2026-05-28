@@ -1,15 +1,8 @@
-/**
- * ProblemsPage unit tests — Vitest + Testing Library.
- * Works with the real problems dataset (no mock needed).
- */
-
-import React from 'react';
 import { vi, describe, it, expect, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ProblemsPage } from './ProblemsPage';
-
-// ─── Setup ────────────────────────────────────────────────────────────────────
 
 const theme = createTheme();
 afterEach(cleanup);
@@ -23,18 +16,10 @@ function setup() {
   );
   return props;
 }
-
-/**
- * Opens a MUI Select and picks an option.
- * mouseDown and click must stay in separate calls — wrapping both in a single
- * act() flushes React state between them and closes the popover too early.
- */
 function pick(labelRx: RegExp, option: string) {
   fireEvent.mouseDown(screen.getAllByLabelText(labelRx)[0]);
   fireEvent.click(screen.getByRole('option', { name: option }));
 }
-
-// ─── Tests ────────────────────────────────────────────────────────────────────
 
 describe('ProblemsPage', () => {
   it('renders problems on load', () => {
@@ -45,7 +30,6 @@ describe('ProblemsPage', () => {
 
   it('shows solved / total counter in header', () => {
     setup();
-    // Regex avoids coupling to specific counts from the real dataset.
     expect(screen.getByLabelText(/\d+ of \d+ problems solved/i)).toBeInTheDocument();
   });
 
@@ -54,7 +38,6 @@ describe('ProblemsPage', () => {
     fireEvent.change(screen.getAllByRole('textbox', { name: /search problems/i })[0], {
       target: { value: 'two sum' },
     });
-    // waitFor retries for 1 s — enough for the 300 ms debounce with real timers.
     await waitFor(
       () => {
         expect(screen.getByText('Two Sum')).toBeInTheDocument();
