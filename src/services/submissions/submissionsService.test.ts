@@ -1,9 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-
 import { apiClient } from '../api/apiClient';
-
 import { submissionsService } from './submissionsService';
-import { ExecutionStatus } from './submissionsService.constants';
+import {
+  ExecutionStatus,
+  POLLING_INTERVAL_MS,
+  MAX_POLL_ATTEMPTS,
+} from './submissionsService.constants';
 
 vi.mock('../api/apiClient', () => ({
   apiClient: {
@@ -106,10 +108,10 @@ describe('submissionsService', () => {
       code: 'EXECUTION_TIMEOUT',
     });
 
-    await vi.advanceTimersByTimeAsync(1500 * 20);
+    const totalPollingTimeMs = POLLING_INTERVAL_MS * MAX_POLL_ATTEMPTS;
+    await vi.advanceTimersByTimeAsync(totalPollingTimeMs);
 
     await expectation;
-
     vi.useRealTimers();
   });
 
