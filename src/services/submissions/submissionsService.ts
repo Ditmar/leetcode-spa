@@ -1,4 +1,5 @@
 import { apiClient } from '../api/apiClient';
+
 import {
   ALLOWED_LANGUAGES,
   ExecutionStatus,
@@ -6,6 +7,7 @@ import {
   MAX_POLL_ATTEMPTS,
   POLLING_INTERVAL_MS,
 } from './submissionsService.constants';
+
 import type {
   ExecutionResult,
   QueuedSubmissionResponse,
@@ -71,11 +73,11 @@ async function pollSubmission(submissionId: string): Promise<Submission> {
     const isFinished =
       submission.status !== ExecutionStatus.PENDING &&
       submission.status !== ExecutionStatus.RUNNING;
-    
+
     if (isFinished) {
       return submission;
     }
-    
+
     if (attempt < MAX_POLL_ATTEMPTS - 1) {
       await sleep(POLLING_INTERVAL_MS);
     }
