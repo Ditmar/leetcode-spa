@@ -78,6 +78,10 @@ const authService = {
   },
 
   async refreshToken(): Promise<AuthSession> {
+    if(!_session){
+      throw new Error('Cannot refresh token: no active session');
+    }
+    
     try {
       const session = await request<AuthSession>(AUTH_ENDPOINTS.REFRESH, {
         method: 'POST',
@@ -115,7 +119,8 @@ const authService = {
       const session = await request<AuthSession>(AUTH_ENDPOINTS.ME);
       _session = session;
       return session;
-    } catch {
+    } catch (err){
+      console.error('[authService] hydrateFromServer failed:', err);
       _session = null;
       return null;
     }

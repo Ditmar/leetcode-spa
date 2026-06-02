@@ -30,8 +30,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const initAuth = async () => {
       try {
-        const restotrd = await authService.hydrateFromServer();
-        if (!cancelled) setSession(restotrd);
+        const restored = await authService.hydrateFromServer();
+        if (!cancelled) setSession(restored);
       } catch {
         // hydration failed, user starts unauthenticated
       } finally {
