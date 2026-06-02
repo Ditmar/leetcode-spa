@@ -1,6 +1,12 @@
-export type ContestStatus = 'active' | 'upcoming' | 'past';
+export const CONTEST_STATUSES = ['active', 'upcoming', 'past'] as const;
 
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type ContestStatus = (typeof CONTEST_STATUSES)[number];
+
+export const CONTEST_DIFFICULTIES = ['easy', 'medium', 'hard'] as const;
+
+export type Difficulty = (typeof CONTEST_DIFFICULTIES)[number];
+
+export type IsoDateTimeString = string;
 
 export interface ContestFilters {
   status?: ContestStatus;
@@ -13,8 +19,8 @@ export interface Contest {
   title: string;
   description?: string;
   status: ContestStatus;
-  startTime: string;
-  endTime: string;
+  startTime: IsoDateTimeString;
+  endTime: IsoDateTimeString;
   participantsCount?: number;
 }
 
@@ -37,7 +43,7 @@ export interface LeaderboardEntry {
   username: string;
   avatarUrl?: string;
   score: number;
-  finishTime?: string;
+  finishTime?: IsoDateTimeString;
 }
 
 export interface PaginationMeta {

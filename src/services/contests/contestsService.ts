@@ -1,36 +1,26 @@
 import { apiClient } from '../api/apiClient';
 
 import type {
-  Contest,
   ContestDetail,
   ContestFilters,
   ContestListResponse,
   ContestRequestOptions,
-  LeaderboardEntry,
   LeaderboardResponse,
 } from './contestsService.types';
-import type { ApiError, RequestConfig } from '../api/apiClient';
+import type { ApiError, ApiResponse, RequestConfig } from '../api/apiClient';
 
-function buildQueryString(filters?: ContestFilters): string {
-  if (!filters) {
-    return '';
-  }
+type QueryParams = Record<string, string | number | undefined>;
 
-  const params = new URLSearchParams();
+function buildQueryString(params: QueryParams): string {
+  const searchParams = new URLSearchParams();
 
-  if (filters.status) {
-    params.set('status', filters.status);
-  }
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined) {
+      searchParams.set(key, String(value));
+    }
+  });
 
-  if (filters.page !== undefined) {
-    params.set('page', String(filters.page));
-  }
-
-  if (filters.pageSize !== undefined) {
-    params.set('pageSize', String(filters.pageSize));
-  }
-
-  const query = params.toString();
+  const query = searchParams.toString();
 
   return query ? `?${query}` : '';
 }
@@ -55,6 +45,24 @@ function createApiError(status: number, code: string, message: string): ApiError
   };
 }
 
+function normalizeContestListResponse(
+  response: ApiResponse<ContestListResponse>
+): ContestListResponse {
+  return {
+    contests: response.data.contests,
+    meta: response.data.meta ?? response.meta,
+  };
+}
+
+function normalizeLeaderboardResponse(
+  response: ApiResponse<LeaderboardResponse>
+): LeaderboardResponse {
+  return {
+    entries: response.data.entries,
+    meta: response.data.meta ?? response.meta,
+  };
+}
+
 async function fetchContestById(
   id: number,
   options?: ContestRequestOptions
@@ -67,8 +75,12 @@ async function fetchContestById(
   return response.data;
 }
 
-async function ensureUpcomingContest(contestId: number, error: ApiError): Promise<ContestDetail> {
-  const contest = await fetchContestById(contestId);
+async function ensureUpcomingContest(
+  contestId: number,
+  error: ApiError,
+  options?: ContestRequestOptions
+): Promise<ContestDetail> {
+  const contest = await fetchContestById(contestId, options);
 
   if (contest.status !== 'upcoming') {
     throw error;
@@ -77,52 +89,23 @@ async function ensureUpcomingContest(contestId: number, error: ApiError): Promis
   return contest;
 }
 
-function normalizeContestListResponse(
-  data: ContestListResponse | Contest[],
-  meta?: ContestListResponse['meta']
-): ContestListResponse {
-  if (Array.isArray(data)) {
-    return {
-      contests: data,
-      meta,
-    };
-  }
-
-  return {
-    contests: data.contests,
-    meta: data.meta ?? meta,
-  };
-}
-
-function normalizeLeaderboardResponse(
-  data: LeaderboardResponse | LeaderboardEntry[],
-  meta?: LeaderboardResponse['meta']
-): LeaderboardResponse {
-  if (Array.isArray(data)) {
-    return {
-      entries: data,
-      meta,
-    };
-  }
-
-  return {
-    entries: data.entries,
-    meta: data.meta ?? meta,
-  };
-}
-
 export const contestsService = {
   async getContests(
     filters?: ContestFilters,
     options?: ContestRequestOptions
   ): Promise<ContestListResponse> {
-    const query = buildQueryString(filters);
-    const response = await apiClient.get<ContestListResponse | Contest[]>(
+    const query = buildQueryString({
+      status: filters?.status,
+      page: filters?.page,
+      pageSize: filters?.pageSize,
+    });
+
+    const response = await apiClient.get<ContestListResponse>(
       `/contests${query}`,
       buildRequestConfig(options)
     );
 
-    return normalizeContestListResponse(response.data, response.meta);
+    return normalizeContestListResponse(response);
   },
 
   async getContestById(id: number, options?: ContestRequestOptions): Promise<ContestDetail> {
@@ -134,33 +117,41 @@ export const contestsService = {
     page = 1,
     options?: ContestRequestOptions
   ): Promise<LeaderboardResponse> {
-    const response = await apiClient.get<LeaderboardResponse | LeaderboardEntry[]>(
-      `/contests/${contestId}/leaderboard?page=${page}`,
+    const query = buildQueryString({ page });
+
+    const response = await apiClient.get<LeaderboardResponse>(
+      `/contests/${contestId}/leaderboard${query}`,
       buildRequestConfig(options)
     );
 
-    return normalizeLeaderboardResponse(response.data, response.meta);
+    return normalizeLeaderboardResponse(response);
   },
 
-  async joinContest(contestId: number): Promise<void> {
+  async joinContest(contestId: number, options?: ContestRequestOptions): Promise<void> {
     await ensureUpcomingContest(
       contestId,
-      createApiError(409, 'CONTEST_CLOSED', 'Contest is not open for registration')
+      createApiError(409, 'CONTEST_CLOSED', 'Contest is not open for registration'),
+      options
     );
 
-    await apiClient.post<null>(`/contests/${contestId}/register`, null);
+    await apiClient.post<null>(
+      `/contests/${contestId}/register`,
+      null,
+      buildRequestConfig(options)
+    );
   },
 
-  async leaveContest(contestId: number): Promise<void> {
+  async leaveContest(contestId: number, options?: ContestRequestOptions): Promise<void> {
     await ensureUpcomingContest(
       contestId,
       createApiError(
         409,
         'CONTEST_NOT_UPCOMING',
         'Contest registration can only be cancelled for upcoming contests'
-      )
+      ),
+      options
     );
 
-    await apiClient.delete<null>(`/contests/${contestId}/register`);
+    await apiClient.delete<null>(`/contests/${contestId}/register`, buildRequestConfig(options));
   },
 };

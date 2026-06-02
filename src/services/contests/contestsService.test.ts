@@ -4,6 +4,15 @@ import { apiClient } from '../api/apiClient';
 
 import { contestsService } from './contestsService';
 
+import type {
+  Contest,
+  ContestDetail,
+  ContestListResponse,
+  LeaderboardEntry,
+  LeaderboardResponse,
+} from './contestsService.types';
+import type { ApiError, ApiResponse } from '../api/apiClient';
+
 vi.mock('../api/apiClient', () => ({
   apiClient: {
     get: vi.fn(),
@@ -16,66 +25,110 @@ const mockedGet = vi.mocked(apiClient.get);
 const mockedPost = vi.mocked(apiClient.post);
 const mockedDelete = vi.mocked(apiClient.delete);
 
+const defaultMeta = {
+  totalCount: 1,
+  currentPage: 1,
+  pageCount: 1,
+  perPage: 10,
+};
+
+function createApiResponse<T>(data: T, meta?: ApiResponse<T>['meta']): ApiResponse<T> {
+  return {
+    data,
+    ...(meta ? { meta } : {}),
+  };
+}
+
+function createApiError(overrides: Partial<ApiError> = {}): ApiError {
+  return {
+    status: 500,
+    code: 'INTERNAL_SERVER_ERROR',
+    message: 'Unexpected server error',
+    ...overrides,
+  };
+}
+
+function createContest(overrides: Partial<Contest> = {}): Contest {
+  return {
+    id: 1,
+    title: 'Weekly Contest 1',
+    description: 'Contest description',
+    status: 'upcoming',
+    startTime: '2026-05-10T10:00:00.000Z',
+    endTime: '2026-05-10T12:00:00.000Z',
+    participantsCount: 0,
+    ...overrides,
+  };
+}
+
+function createContestDetail(overrides: Partial<ContestDetail> = {}): ContestDetail {
+  return {
+    ...createContest(),
+    problems: [],
+    ...overrides,
+  };
+}
+
+function createLeaderboardEntry(overrides: Partial<LeaderboardEntry> = {}): LeaderboardEntry {
+  return {
+    rank: 1,
+    userId: 'user-1',
+    username: 'alice',
+    avatarUrl: 'https://example.com/avatar.png',
+    score: 400,
+    finishTime: '2026-05-10T11:30:00.000Z',
+    ...overrides,
+  };
+}
+
 describe('contestsService', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('returns contests without filters by default', async () => {
-    mockedGet.mockResolvedValueOnce({
-      data: [
+    const contests = [
+      createContest({
+        id: 1,
+        title: 'Weekly Contest 1',
+        status: 'active',
+      }),
+    ];
+
+    mockedGet.mockResolvedValueOnce(
+      createApiResponse<ContestListResponse>(
         {
-          id: 1,
-          title: 'Weekly Contest 1',
-          status: 'active',
-          startTime: '2026-05-10T10:00:00.000Z',
-          endTime: '2026-05-10T12:00:00.000Z',
+          contests,
         },
-      ],
-      meta: {
-        totalCount: 1,
-        currentPage: 1,
-        pageCount: 1,
-        perPage: 10,
-      },
-    });
+        defaultMeta
+      )
+    );
 
     const result = await contestsService.getContests();
 
     expect(mockedGet).toHaveBeenCalledWith('/contests', undefined);
     expect(result).toEqual({
-      contests: [
-        {
-          id: 1,
-          title: 'Weekly Contest 1',
-          status: 'active',
-          startTime: '2026-05-10T10:00:00.000Z',
-          endTime: '2026-05-10T12:00:00.000Z',
-        },
-      ],
-      meta: {
-        totalCount: 1,
-        currentPage: 1,
-        pageCount: 1,
-        perPage: 10,
-      },
+      contests,
+      meta: defaultMeta,
     });
   });
 
   it('returns contests using filters and forwards cookie in SSR requests', async () => {
-    mockedGet.mockResolvedValueOnce({
-      data: {
-        contests: [
-          {
-            id: 2,
-            title: 'Weekly Contest 2',
-            status: 'active',
-            startTime: '2026-05-11T10:00:00.000Z',
-            endTime: '2026-05-11T12:00:00.000Z',
-          },
-        ],
-      },
-    });
+    const contests = [
+      createContest({
+        id: 2,
+        title: 'Weekly Contest 2',
+        status: 'active',
+        startTime: '2026-05-11T10:00:00.000Z',
+        endTime: '2026-05-11T12:00:00.000Z',
+      }),
+    ];
+
+    mockedGet.mockResolvedValueOnce(
+      createApiResponse<ContestListResponse>({
+        contests,
+      })
+    );
 
     await contestsService.getContests(
       {
@@ -96,17 +149,15 @@ describe('contestsService', () => {
   });
 
   it('returns contest detail and forwards cookie in SSR requests', async () => {
-    mockedGet.mockResolvedValueOnce({
-      data: {
-        id: 7,
-        title: 'Weekly Contest 7',
-        status: 'upcoming',
-        startTime: '2026-05-20T10:00:00.000Z',
-        endTime: '2026-05-20T12:00:00.000Z',
-        isRegistered: true,
-        problems: [],
-      },
-    });
+    mockedGet.mockResolvedValueOnce(
+      createApiResponse<ContestDetail>(
+        createContestDetail({
+          id: 7,
+          title: 'Weekly Contest 7',
+          isRegistered: true,
+        })
+      )
+    );
 
     const result = await contestsService.getContestById(7, {
       cookie: 'auth_token=test-token',
@@ -121,11 +172,11 @@ describe('contestsService', () => {
   });
 
   it('throws when getContestById fails', async () => {
-    const apiError = {
+    const apiError = createApiError({
       status: 404,
       code: 'NOT_FOUND',
       message: 'Contest not found',
-    };
+    });
 
     mockedGet.mockRejectedValueOnce(apiError);
 
@@ -134,37 +185,48 @@ describe('contestsService', () => {
   });
 
   it('joins a contest successfully', async () => {
-    mockedGet.mockResolvedValueOnce({
-      data: {
-        id: 10,
-        title: 'Weekly Contest 10',
-        status: 'upcoming',
-        startTime: '2026-05-25T10:00:00.000Z',
-        endTime: '2026-05-25T12:00:00.000Z',
-        problems: [],
-      },
-    });
+    mockedGet.mockResolvedValueOnce(
+      createApiResponse<ContestDetail>(
+        createContestDetail({
+          id: 10,
+          title: 'Weekly Contest 10',
+          status: 'upcoming',
+          startTime: '2026-05-25T10:00:00.000Z',
+          endTime: '2026-05-25T12:00:00.000Z',
+        })
+      )
+    );
 
-    mockedPost.mockResolvedValueOnce({
-      data: null,
-    });
+    mockedPost.mockResolvedValueOnce(createApiResponse<null>(null));
 
     await expect(contestsService.joinContest(10)).resolves.toBeUndefined();
     expect(mockedGet).toHaveBeenCalledWith('/contests/10', undefined);
-    expect(mockedPost).toHaveBeenCalledWith('/contests/10/register', null);
+    expect(mockedPost).toHaveBeenCalledWith('/contests/10/register', null, undefined);
+  });
+
+  it('does not attempt registration when contest detail request fails in joinContest', async () => {
+    const apiError = createApiError({
+      status: 404,
+      code: 'NOT_FOUND',
+      message: 'Contest not found',
+    });
+
+    mockedGet.mockRejectedValueOnce(apiError);
+
+    await expect(contestsService.joinContest(10)).rejects.toEqual(apiError);
+    expect(mockedPost).not.toHaveBeenCalled();
   });
 
   it('throws when contest is closed in joinContest', async () => {
-    mockedGet.mockResolvedValueOnce({
-      data: {
-        id: 11,
-        title: 'Weekly Contest 11',
-        status: 'active',
-        startTime: '2026-05-10T10:00:00.000Z',
-        endTime: '2026-05-10T12:00:00.000Z',
-        problems: [],
-      },
-    });
+    mockedGet.mockResolvedValueOnce(
+      createApiResponse<ContestDetail>(
+        createContestDetail({
+          id: 11,
+          title: 'Weekly Contest 11',
+          status: 'active',
+        })
+      )
+    );
 
     await expect(contestsService.joinContest(11)).rejects.toEqual({
       status: 409,
@@ -175,63 +237,52 @@ describe('contestsService', () => {
   });
 
   it('throws when user is already registered in joinContest', async () => {
-    mockedGet.mockResolvedValueOnce({
-      data: {
-        id: 10,
-        title: 'Weekly Contest 10',
-        status: 'upcoming',
-        startTime: '2026-05-25T10:00:00.000Z',
-        endTime: '2026-05-25T12:00:00.000Z',
-        problems: [],
-      },
-    });
+    mockedGet.mockResolvedValueOnce(
+      createApiResponse<ContestDetail>(
+        createContestDetail({
+          id: 10,
+          title: 'Weekly Contest 10',
+          status: 'upcoming',
+          startTime: '2026-05-25T10:00:00.000Z',
+          endTime: '2026-05-25T12:00:00.000Z',
+        })
+      )
+    );
 
-    const apiError = {
+    const apiError = createApiError({
       status: 409,
       code: 'ALREADY_REGISTERED',
       message: 'User already registered',
-    };
+    });
 
     mockedPost.mockRejectedValueOnce(apiError);
 
     await expect(contestsService.joinContest(10)).rejects.toEqual(apiError);
-    expect(mockedPost).toHaveBeenCalledWith('/contests/10/register', null);
+    expect(mockedPost).toHaveBeenCalledWith('/contests/10/register', null, undefined);
   });
 
   it('returns leaderboard entries with pagination metadata', async () => {
-    mockedGet.mockResolvedValueOnce({
-      data: [
+    const entries = [createLeaderboardEntry()];
+
+    mockedGet.mockResolvedValueOnce(
+      createApiResponse<LeaderboardResponse>(
         {
-          rank: 1,
-          userId: 'user-1',
-          username: 'alice',
-          avatarUrl: 'https://example.com/avatar.png',
-          score: 400,
-          finishTime: '2026-05-10T11:30:00.000Z',
+          entries,
         },
-      ],
-      meta: {
-        totalCount: 20,
-        currentPage: 2,
-        pageCount: 4,
-        perPage: 5,
-      },
-    });
+        {
+          totalCount: 20,
+          currentPage: 2,
+          pageCount: 4,
+          perPage: 5,
+        }
+      )
+    );
 
     const result = await contestsService.getLeaderboard(5, 2);
 
     expect(mockedGet).toHaveBeenCalledWith('/contests/5/leaderboard?page=2', undefined);
     expect(result).toEqual({
-      entries: [
-        {
-          rank: 1,
-          userId: 'user-1',
-          username: 'alice',
-          avatarUrl: 'https://example.com/avatar.png',
-          score: 400,
-          finishTime: '2026-05-10T11:30:00.000Z',
-        },
-      ],
+      entries,
       meta: {
         totalCount: 20,
         currentPage: 2,
@@ -242,37 +293,58 @@ describe('contestsService', () => {
   });
 
   it('leaves a contest successfully', async () => {
-    mockedGet.mockResolvedValueOnce({
-      data: {
-        id: 15,
-        title: 'Weekly Contest 15',
-        status: 'upcoming',
-        startTime: '2026-05-30T10:00:00.000Z',
-        endTime: '2026-05-30T12:00:00.000Z',
-        problems: [],
-      },
-    });
+    mockedGet.mockResolvedValueOnce(
+      createApiResponse<ContestDetail>(
+        createContestDetail({
+          id: 15,
+          title: 'Weekly Contest 15',
+          status: 'upcoming',
+          startTime: '2026-05-30T10:00:00.000Z',
+          endTime: '2026-05-30T12:00:00.000Z',
+        })
+      )
+    );
 
-    mockedDelete.mockResolvedValueOnce({
-      data: null,
-    });
+    mockedDelete.mockResolvedValueOnce(createApiResponse<null>(null));
 
     await expect(contestsService.leaveContest(15)).resolves.toBeUndefined();
     expect(mockedGet).toHaveBeenCalledWith('/contests/15', undefined);
-    expect(mockedDelete).toHaveBeenCalledWith('/contests/15/register');
+    expect(mockedDelete).toHaveBeenCalledWith('/contests/15/register', undefined);
+  });
+
+  it('propagates delete API errors in leaveContest', async () => {
+    mockedGet.mockResolvedValueOnce(
+      createApiResponse<ContestDetail>(
+        createContestDetail({
+          id: 15,
+          title: 'Weekly Contest 15',
+          status: 'upcoming',
+        })
+      )
+    );
+
+    const apiError = createApiError({
+      status: 500,
+      code: 'DELETE_FAILED',
+      message: 'Failed to cancel registration',
+    });
+
+    mockedDelete.mockRejectedValueOnce(apiError);
+
+    await expect(contestsService.leaveContest(15)).rejects.toEqual(apiError);
+    expect(mockedDelete).toHaveBeenCalledWith('/contests/15/register', undefined);
   });
 
   it('throws early when leaveContest is called for a non-upcoming contest', async () => {
-    mockedGet.mockResolvedValueOnce({
-      data: {
-        id: 16,
-        title: 'Weekly Contest 16',
-        status: 'active',
-        startTime: '2026-05-10T10:00:00.000Z',
-        endTime: '2026-05-10T12:00:00.000Z',
-        problems: [],
-      },
-    });
+    mockedGet.mockResolvedValueOnce(
+      createApiResponse<ContestDetail>(
+        createContestDetail({
+          id: 16,
+          title: 'Weekly Contest 16',
+          status: 'active',
+        })
+      )
+    );
 
     await expect(contestsService.leaveContest(16)).rejects.toEqual({
       status: 409,
