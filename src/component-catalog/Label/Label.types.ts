@@ -23,4 +23,4 @@ type RequiredStateProps =
       optional?: boolean;
     };
 
-export type LabelProps = BaseLabelProps & RequiredStateProps;
+export type LabelComponentProps = BaseLabelProps & RequiredStateProps;

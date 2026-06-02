@@ -14,9 +14,9 @@ import {
 } from './Label.styles';
 import { resolveRequiredOptional } from './Label.utils';
 
-import type { LabelProps } from './Label.types';
+import type { LabelComponentProps } from './Label.types';
 
-const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
+const Label = React.forwardRef<HTMLLabelElement, LabelComponentProps>(
   ({ htmlFor, children, required, optional, error, disabled, tooltip, ...rest }, ref) => {
     const { showRequired, showOptional } = resolveRequiredOptional(required, optional);
 
@@ -31,7 +31,6 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
         error={error}
         disabled={disabled}
         aria-required={showRequired ? true : undefined}
-        required={false}
         {...rest}
       >
         {children}
