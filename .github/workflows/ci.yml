@@ -176,6 +176,9 @@ jobs:
           node-version: '>=22.22.2 <=22.22.2'
           cache: 'yarn'
 
+      - id: check version
+        run: echo "VERSION=$(node -p -e "require('./package.json').version")" >> $GITHUB_OUTPUT
+
       - name: Install specific Yarn version
         run: |
           corepack enable
