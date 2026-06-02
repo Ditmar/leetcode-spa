@@ -11,18 +11,18 @@ export type ContestDifficulty = 'Easy' | 'Medium' | 'Hard';
 export interface Contest {
   id: string;
   title: string;
-  status: ContestStatus;              
+  status: ContestStatus;
   difficulty: ContestDifficulty;
-  startTime: string;                  
+  startTime: string;
   duration: string;
   participants: number;
   problemCount: number;
-  hasPrizePool: boolean;              
+  hasPrizePool: boolean;
 }
 
 export interface ContestPageProps {
   initialContests?: Contest[];
-  loading?: boolean; 
+  loading?: boolean;
 }
 
 export interface UseContestPageReturn {

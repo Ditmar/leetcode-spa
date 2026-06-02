@@ -1,4 +1,5 @@
-import { ContestStatus } from './ContestPage.types'; // CORREGIDO: Sin el 'type' para poder usar el Enum
+import { ContestStatus } from './ContestPage.types';
+
 import type { Contest } from './ContestPage.types';
 
 export const TAB_LABELS = ['Live Now', 'Upcoming', 'Past'];
@@ -39,7 +40,7 @@ export const MOCK_CONTESTS: Contest[] = [
     duration: '90 min',
     participants: 4500,
     problemCount: 4,
-    hasPrizePool: true, 
+    hasPrizePool: true,
   },
   {
     id: '3',
@@ -50,6 +51,6 @@ export const MOCK_CONTESTS: Contest[] = [
     duration: '60 min',
     participants: 23100,
     problemCount: 3,
-    hasPrizePool: false, 
+    hasPrizePool: false,
   },
 ];

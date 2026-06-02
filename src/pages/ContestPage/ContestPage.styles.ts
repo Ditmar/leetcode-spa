@@ -14,11 +14,11 @@ export const StatsCard = styled(Paper)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(2),
-  borderRadius: theme.shape.borderRadius,          
-  boxShadow: theme.shadows[1],                     
-  border: `1px solid ${theme.palette.divider}`,    
-  backgroundColor: theme.palette.background.paper, 
-  
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[1],
+  border: `1px solid ${theme.palette.divider}`,
+  backgroundColor: theme.palette.background.paper,
+
   '& .icon-container': {
     display: 'flex',
     padding: theme.spacing(1),
@@ -27,16 +27,15 @@ export const StatsCard = styled(Paper)(({ theme }) => ({
   },
 }));
 
-
 export const StyledContestCard = styled(Card)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,          
-  boxShadow: theme.shadows[2],                     
-  border: `1px solid ${theme.palette.divider}`,    
-  padding: theme.spacing(2.5),                     
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[2],
+  border: `1px solid ${theme.palette.divider}`,
+  padding: theme.spacing(2.5),
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1.5),
-  backgroundColor: theme.palette.background.paper, 
+  backgroundColor: theme.palette.background.paper,
   height: '100%',
   boxSizing: 'border-box',
 }));

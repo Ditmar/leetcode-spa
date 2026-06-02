@@ -1,23 +1,14 @@
-import React from 'react';
-import {
-  Typography,
-  Tabs,
-  Tab,
-  Box,
-  Chip,
-  Button,
-  Skeleton,
-  Stack,
-  Paper,
-} from '@mui/material';
-import Grid from '@mui/material/Grid';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import { MOCK_CONTESTS, STATS_CONFIG, SKELETON_COUNT, TAB_STATUS_MAP } from './ContestPage.constants';
+import { Typography, Tabs, Tab, Box, Chip, Button, Skeleton, Stack, Paper } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import React from 'react';
+
+import { MOCK_CONTESTS, STATS_CONFIG, SKELETON_COUNT } from './ContestPage.constants';
 import { useContestPage } from './ContestPage.hook';
 import * as S from './ContestPage.styles';
 import {
@@ -28,6 +19,7 @@ import {
   formatDate,
   a11yProps,
 } from './ContestPage.utils';
+
 import type { Contest, ContestPageProps } from './ContestPage.types';
 
 interface TabPanelProps {
@@ -73,12 +65,21 @@ const ContestCard = ({ contest }: { contest: Contest }) => {
             />
           )}
         </Stack>
-        <Typography variant="caption" fontWeight="bold" sx={{ color: getDifficultyColor(contest.difficulty) }}>
+        <Typography
+          variant="caption"
+          fontWeight="bold"
+          sx={{ color: getDifficultyColor(contest.difficulty) }}
+        >
           {contest.difficulty}
         </Typography>
       </Box>
 
-      <Typography variant="subtitle1" fontWeight="bold" color="text.primary" sx={{ lineHeight: 1.4, mt: 0.5 }}>
+      <Typography
+        variant="subtitle1"
+        fontWeight="bold"
+        color="text.primary"
+        sx={{ lineHeight: 1.4, mt: 0.5 }}
+      >
         {contest.title}
       </Typography>
 
@@ -93,7 +94,9 @@ const ContestCard = ({ contest }: { contest: Contest }) => {
         </Box>
         <Box display="flex" alignItems="center" gap={1}>
           <GroupsOutlinedIcon fontSize="small" sx={{ color: 'action.active' }} />
-          <Typography variant="caption">{formatParticipants(contest.participants)} participants</Typography>
+          <Typography variant="caption">
+            {formatParticipants(contest.participants)} participants
+          </Typography>
         </Box>
         <Box display="flex" alignItems="center" gap={1}>
           <AssignmentOutlinedIcon fontSize="small" sx={{ color: 'action.active' }} />
@@ -103,21 +106,41 @@ const ContestCard = ({ contest }: { contest: Contest }) => {
 
       <Box mt="auto" pt={1.5}>
         {contest.status === 'active' && (
-          <Button variant="contained" color="success" fullWidth sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+          <Button
+            variant="contained"
+            color="success"
+            fullWidth
+            sx={{ textTransform: 'none', fontWeight: 'bold' }}
+          >
             Join Contest
           </Button>
         )}
         {contest.status === 'upcoming' && (
-          <Button variant="contained" color="primary" fullWidth sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ textTransform: 'none', fontWeight: 'bold' }}
+          >
             Register
           </Button>
         )}
         {contest.status === 'past' && (
           <Stack direction="row" spacing={1}>
-            <Button variant="outlined" size="small" fullWidth sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+            <Button
+              variant="outlined"
+              size="small"
+              fullWidth
+              sx={{ textTransform: 'none', fontWeight: 'bold' }}
+            >
               Problems
             </Button>
-            <Button variant="outlined" size="small" fullWidth sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+            <Button
+              variant="outlined"
+              size="small"
+              fullWidth
+              sx={{ textTransform: 'none', fontWeight: 'bold' }}
+            >
               Leaderboard
             </Button>
           </Stack>
@@ -127,17 +150,25 @@ const ContestCard = ({ contest }: { contest: Contest }) => {
   );
 };
 
-export const ContestPage = ({ initialContests = MOCK_CONTESTS, loading: forceLoading = false }: ContestPageProps) => {
+export const ContestPage = ({
+  initialContests = MOCK_CONTESTS,
+  loading: forceLoading = false,
+}: ContestPageProps) => {
   const hookData = useContestPage(initialContests);
   const loading = forceLoading || hookData.loading;
   const { tabValue, handleTabChange, filteredContests } = hookData;
 
-  const renderStatsIcon = (icon: string, color: any) => {
+  const renderStatsIcon = (icon: string, color: string) => {
+    const iconColor = color as 'success' | 'primary' | 'secondary' | 'action';
     switch (icon) {
-      case 'live': return <EmojiEventsOutlinedIcon color={color} />;
-      case 'calendar': return <CalendarMonthOutlinedIcon color={color} />;
-      case 'ranking': return <TrendingUpIcon color={color} />;
-      default: return <GroupsOutlinedIcon color={color} />;
+      case 'live':
+        return <EmojiEventsOutlinedIcon color={iconColor} />;
+      case 'calendar':
+        return <CalendarMonthOutlinedIcon color={iconColor} />;
+      case 'ranking':
+        return <TrendingUpIcon color={iconColor} />;
+      default:
+        return <GroupsOutlinedIcon color={iconColor} />;
     }
   };
 
@@ -159,8 +190,12 @@ export const ContestPage = ({ initialContests = MOCK_CONTESTS, loading: forceLoa
             <S.StatsCard elevation={0}>
               <Box className="icon-container">{renderStatsIcon(stat.icon, stat.color)}</Box>
               <Box>
-                <Typography variant="h6" fontWeight="bold" color="text.primary">{stat.count}</Typography>
-                <Typography variant="caption" color="text.secondary">{stat.label}</Typography>
+                <Typography variant="h6" fontWeight="bold" color="text.primary">
+                  {stat.count}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {stat.label}
+                </Typography>
               </Box>
             </S.StatsCard>
           </Grid>
@@ -169,8 +204,16 @@ export const ContestPage = ({ initialContests = MOCK_CONTESTS, loading: forceLoa
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mt: 5, mb: 1 }}>
         <Tabs value={tabValue} onChange={handleTabChange} aria-label="programming contests tabs">
-          <Tab label="Live Now" sx={{ textTransform: 'none', fontWeight: 'bold' }} {...a11yProps(0)} />
-          <Tab label="Upcoming" sx={{ textTransform: 'none', fontWeight: 'bold' }} {...a11yProps(1)} />
+          <Tab
+            label="Live Now"
+            sx={{ textTransform: 'none', fontWeight: 'bold' }}
+            {...a11yProps(0)}
+          />
+          <Tab
+            label="Upcoming"
+            sx={{ textTransform: 'none', fontWeight: 'bold' }}
+            {...a11yProps(1)}
+          />
           <Tab label="Past" sx={{ textTransform: 'none', fontWeight: 'bold' }} {...a11yProps(2)} />
         </Tabs>
       </Box>
@@ -181,7 +224,14 @@ export const ContestPage = ({ initialContests = MOCK_CONTESTS, loading: forceLoa
           {loading ? (
             Array.from(new Array(SKELETON_COUNT)).map((_, index) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={`skeleton-${index}`}>
-                <Box sx={{ bgcolor: 'background.paper', p: 3, borderRadius: (theme) => theme.shape.borderRadius, border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                <Box
+                  sx={{
+                    bgcolor: 'background.paper',
+                    p: 3,
+                    borderRadius: (theme) => theme.shape.borderRadius,
+                    border: (theme) => `1px solid ${theme.palette.divider}`,
+                  }}
+                >
                   <Skeleton variant="text" width="40%" height={24} />
                   <Skeleton variant="rectangular" height={120} sx={{ my: 2, borderRadius: 1 }} />
                   <Skeleton variant="text" width="80%" />
