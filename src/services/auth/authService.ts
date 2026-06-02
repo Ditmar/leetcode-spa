@@ -78,10 +78,6 @@ const authService = {
   },
 
   async refreshToken(): Promise<AuthSession> {
-    if (!_session) {
-      throw new Error('Cannot refresh token: no active session');
-    }
-
     try {
       const session = await request<AuthSession>(AUTH_ENDPOINTS.REFRESH, {
         method: 'POST',
@@ -91,6 +87,7 @@ const authService = {
       return session;
     } catch (err) {
       if (isApiError(err) && err.status === 401) {
+        _session = null;
         await authService.signOut();
         if (typeof window !== 'undefined') {
           window.location.href = '/';
