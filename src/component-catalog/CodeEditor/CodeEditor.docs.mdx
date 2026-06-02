@@ -6,139 +6,29 @@ import * as CodeEditorStories from './CodeEditor.stories';
 
 # CodeEditor
 
-The `CodeEditor` component is an organism-level workspace component designed for solving coding challenges inside the platform.
+The `CodeEditor` component provides an interactive coding workspace for solving programming challenges.
 
-It combines:
+It combines a Monaco-based editor, language selection, execution controls, and test case visualization in a responsive layout that adapts to desktop and mobile screens.
+
+---
+
+## Features
 
 - Monaco Editor integration
-- Language selection
-- Execution controls
-- Output visualization
-- Runtime and memory reporting
-- Responsive layouts
-- Theme switching
-- Font size controls
-
-The component follows CDD (Component-Driven Development) principles and uses Material UI layout primitives and styling APIs.
-
----
-
-# Component Responsibilities
-
-The component is responsible for:
-
-- Rendering the code editor
-- Managing editor state
-- Executing run and submit actions
-- Displaying execution feedback
-- Handling responsive behavior
-- Providing accessibility support
-- Managing editor theme state
-- Managing editor font size state
-
----
-
-# File Structure
-
-```txt
-CodeEditor/
-├── CodeEditor.tsx
-├── CodeEditor.types.ts
-├── CodeEditor.constants.ts
-├── CodeEditor.hook.ts
-├── CodeEditor.styles.ts
-├── CodeEditor.utils.ts
-├── CodeEditor.test.tsx
-├── CodeEditor.stories.tsx
-└── CodeEditor.docs.mdx
-```
-
----
-
-# Architecture Overview
-
-## CodeEditor.tsx
-
-Main rendering layer.
-
-Responsibilities:
-
-- Layout composition
-- Rendering Monaco Editor
-- Rendering toolbar controls
-- Rendering output panel
-- Responsive desktop/mobile layout
-- Connecting hook state to UI
-
----
-
-## CodeEditor.hook.ts
-
-Contains all component state logic.
-
-Responsibilities:
-
-- Language state
-- Editor code state
-- Run/Submit loading states
-- Execution result state
+- Multiple programming languages
+- Run, Submit, and Reset actions
+- Loading states for code execution
+- Test case visualization
+- Error feedback
+- Responsive desktop and mobile layouts
 - Keyboard shortcuts
-- Theme toggle state
-- Font size state
-
-Keyboard shortcuts implemented:
-
-| Shortcut | Action |
-|---|---|
-| Ctrl + Enter | Run code |
-| Ctrl + Shift + Enter | Submit code |
+- Accessibility support
 
 ---
 
-## CodeEditor.styles.ts
+## Supported Languages
 
-Contains reusable styled components using MUI `styled()` API.
-
-No external CSS files are used.
-
-Responsibilities:
-
-- Toolbar styling
-- Output panel styling
-- Resize handle styling
-- Layout containers
-- Theme-aware surfaces
-
----
-
-## CodeEditor.utils.ts
-
-Contains reusable utility functions.
-
-Responsibilities:
-
-- Default code templates
-- Mock execution results
-- Result formatting helpers
-
----
-
-## CodeEditor.types.ts
-
-Contains all TypeScript contracts.
-
-Responsibilities:
-
-- Language union types
-- Execution result models
-- Test case models
-- Component prop interfaces
-
----
-
-# Supported Languages
-
-The editor supports:
+The editor currently supports:
 
 - Python
 - JavaScript
@@ -146,154 +36,139 @@ The editor supports:
 - Java
 - C++
 
-Each language includes a default starter template.
+Each language automatically loads a starter template when selected.
 
 ---
 
-# Toolbar Actions
+## User Actions
 
-## Run Button
+### Run
 
-- Uses outlined variant
-- Executes temporary code execution
-- Displays loading state
-- Triggers execution event
+Executes the current solution and displays the resulting test output.
 
-## Submit Button
+### Submit
 
-- Uses contained variant
-- Executes submission flow
-- Displays loading state
-- Triggers submit event
+Submits the current solution and displays execution feedback.
 
-## Reset Button
+### Reset
 
-- Restores default template
-- Clears execution results
+Restores the default template for the selected language and clears the current result.
 
 ---
 
-# Output Panel
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|---------|
+| Ctrl + Enter | Run code |
+| Ctrl + Shift + Enter | Submit code |
+
+---
+
+## Execution Output
 
 The output panel displays:
 
-- Runtime information
-- Memory usage
-- Success state
-- Error state
 - Test case results
-- Expected vs received output
+- Success and failure states
+- Error messages
+- Expected vs received values for failed tests
 
-Failed tests show visual diffs using:
+### Success Example
 
-- ✓ success indicator
-- ✗ failure indicator
+- ✓ Test case 1
+- ✓ Test case 2
+
+### Failure Example
+
+- ✗ Test case 1
+- Expected: `[0,1]`
+- Received: `[1,0]`
 
 ---
 
-# Responsive Behavior
+## Responsive Behavior
 
-## Desktop
+### Desktop
 
-Desktop uses:
+- Full editor workspace
+- Dedicated output panel
+- Visual separator between sections
 
-- Resizable split layout
-- Editor and output side-by-side resizing
-- `react-resizable-panels`
-
-## Mobile
-
-Mobile uses:
+### Mobile
 
 - Stacked layout
-- Editor on top
-- Output panel below
-- `Collapse` component for responsive rendering
-
-Tested breakpoints:
-
-| Width | Behavior |
-|---|---|
-| 320px | Mobile |
-| 375px | Mobile |
-| 768px | Tablet |
-| 1024px | Desktop |
+- Optimized spacing
+- Collapsible output section
 
 ---
 
-# Theme Support
+## Accessibility
 
-The component supports:
+The component includes:
 
-- Dark editor theme
-- Light editor theme
-
-Theme switching is managed inside `useCodeEditor`.
-
----
-
-# Font Size Controls
-
-Toolbar controls allow:
-
-- Increasing font size
-- Decreasing font size
-
-Limits are controlled using constants:
-
-- `MIN_FONT_SIZE`
-- `MAX_FONT_SIZE`
-- `DEFAULT_FONT_SIZE`
+- Accessible button labels
+- Keyboard navigation support
+- Live region updates for execution results
+- Tooltip descriptions for actions
 
 ---
 
-# Accessibility
+## Architecture
 
-Accessibility support includes:
+### CodeEditor.tsx
 
-- `aria-label` on toolbar buttons
-- `role="status"` on output panel
-- Keyboard shortcut support
-- Focusable controls
-- Responsive interaction areas
+Responsible for rendering the UI and connecting user interactions with component state.
+
+### CodeEditor.hook.ts
+
+Contains editor state management and execution logic.
+
+### CodeEditor.constants.ts
+
+Defines supported languages and default code templates.
+
+### CodeEditor.utils.ts
+
+Provides helper functions and mock execution results.
+
+### CodeEditor.types.ts
+
+Contains TypeScript contracts used throughout the component.
+
+### CodeEditor.styles.ts
+
+Contains reusable styled components built with Material UI.
 
 ---
 
-# Stories
+## Stories
 
-## Default
+### Default
 
 <Canvas>
   <Story of={CodeEditorStories.Default} />
 </Canvas>
 
----
-
-## Running
+### Running
 
 <Canvas>
   <Story of={CodeEditorStories.Running} />
 </Canvas>
 
----
-
-## Success
+### Success
 
 <Canvas>
   <Story of={CodeEditorStories.Success} />
 </Canvas>
 
----
-
-## Error
+### Error
 
 <Canvas>
   <Story of={CodeEditorStories.Error} />
 </Canvas>
 
----
-
-## Mobile
+### Mobile
 
 <Canvas>
   <Story of={CodeEditorStories.Mobile} />
@@ -301,21 +176,19 @@ Accessibility support includes:
 
 ---
 
-# Controls
+## Controls
 
 <Controls />
 
 ---
 
-# Future Improvements
+## Future Improvements
 
-Possible future enhancements:
+Potential enhancements:
 
-- Real backend execution integration
-- Collapsible test sections
-- Multiple editor tabs
+- Real backend execution service
 - Persistent editor state
-- File upload support
-- Console output streaming
-- Custom Monaco themes
+- Multiple editor tabs
 - Execution history
+- Custom Monaco themes
+- Advanced test case management

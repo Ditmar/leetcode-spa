@@ -3,8 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { CodeEditor } from './CodeEditor';
 
-import type { ReactNode } from 'react';
-
 vi.mock('@monaco-editor/react', () => ({
   default: ({ value, onChange }: { value: string; onChange: (value?: string) => void }) => (
     <textarea
@@ -13,12 +11,6 @@ vi.mock('@monaco-editor/react', () => ({
       onChange={(event) => onChange(event.target.value)}
     />
   ),
-}));
-
-vi.mock('react-resizable-panels', () => ({
-  PanelGroup: ({ children }: { children: ReactNode }) => <div>{children}</div>,
-  Panel: ({ children }: { children: ReactNode }) => <div>{children}</div>,
-  PanelResizeHandle: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));
 
 describe('CodeEditor', () => {
@@ -34,8 +26,6 @@ describe('CodeEditor', () => {
   it('calls run action', async () => {
     const onRun = vi.fn().mockResolvedValue({
       status: 'success',
-      runtimeMs: 20,
-      memoryMb: 10,
       tests: [],
     });
 
@@ -51,8 +41,6 @@ describe('CodeEditor', () => {
   it('calls submit action', async () => {
     const onSubmit = vi.fn().mockResolvedValue({
       status: 'success',
-      runtimeMs: 20,
-      memoryMb: 10,
       tests: [],
     });
 
@@ -70,8 +58,6 @@ describe('CodeEditor', () => {
       <CodeEditor
         result={{
           status: 'success',
-          runtimeMs: 24,
-          memoryMb: 12,
           tests: [
             {
               id: '1',
@@ -84,6 +70,63 @@ describe('CodeEditor', () => {
     );
 
     expect(screen.getByText(/Test case 1/i)).toBeInTheDocument();
+  });
+
+  it('shows error message when execution fails', () => {
+    render(
+      <CodeEditor
+        result={{
+          status: 'error',
+          errorMessage: 'Compilation failed',
+          tests: [],
+        }}
+      />
+    );
+
+    expect(screen.getByText('Compilation failed')).toBeInTheDocument();
+  });
+
+  it('shows failed test details', () => {
+    render(
+      <CodeEditor
+        result={{
+          status: 'error',
+          tests: [
+            {
+              id: '1',
+              name: 'Test case 1',
+              passed: false,
+              expected: '[0,1]',
+              received: '[1,0]',
+            },
+          ],
+        }}
+      />
+    );
+
+    expect(screen.getByText(/✗ Test case 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/Expected:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Received:/i)).toBeInTheDocument();
+  });
+
+  it('handles run without onRun callback', async () => {
+    render(<CodeEditor />);
+
+    fireEvent.click(screen.getByLabelText('run code'));
+
+    await waitFor(() => {
+      expect(screen.getByText(/Test case 1/i)).toBeInTheDocument();
+    });
+  });
+
+  it('handles submit without onSubmit callback', async () => {
+    render(<CodeEditor />);
+
+    fireEvent.click(screen.getByLabelText('submit code'));
+
+    await waitFor(() => {
+      expect(screen.getByText(/Test case 1/i)).toBeInTheDocument();
+    });
   });
 
   it('resets editor correctly', () => {

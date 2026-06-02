@@ -66,7 +66,6 @@ export const CodeEditor = (props: CodeEditorProps) => {
     isRunning,
     isSubmitting,
     isExecuting,
-    fontSize,
     setCode,
     handleLanguageChange,
     handleRun,
@@ -82,7 +81,7 @@ export const CodeEditor = (props: CodeEditorProps) => {
         theme="vs-dark"
         value={code}
         options={{
-          fontSize,
+          fontSize: 14,
           minimap: { enabled: false },
           automaticLayout: true,
           lineNumbers: 'off',

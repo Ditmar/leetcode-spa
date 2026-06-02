@@ -1,9 +1,86 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 
-import { DEFAULT_FONT_SIZE, MAX_FONT_SIZE, MIN_FONT_SIZE } from './CodeEditor.constants';
 import { createSuccessResult, getCodeTemplate } from './CodeEditor.utils';
 
 import type { CodeEditorProps, ExecutionResult, Language } from './CodeEditor.types';
+
+interface CodeEditorState {
+  language: Language;
+  code: string;
+  executionResult?: ExecutionResult;
+  isRunning: boolean;
+  isSubmitting: boolean;
+  isOutputOpen: boolean;
+}
+
+type CodeEditorAction =
+  | { type: 'CHANGE_LANGUAGE'; language: Language }
+  | { type: 'SET_CODE'; code: string }
+  | { type: 'RUN_START' }
+  | { type: 'RUN_FINISH'; result: ExecutionResult }
+  | { type: 'SUBMIT_START' }
+  | { type: 'SUBMIT_FINISH'; result: ExecutionResult }
+  | { type: 'RESET'; language: Language }
+  | { type: 'SET_OUTPUT_OPEN'; isOpen: boolean };
+
+const codeEditorReducer = (state: CodeEditorState, action: CodeEditorAction): CodeEditorState => {
+  switch (action.type) {
+    case 'CHANGE_LANGUAGE':
+      return {
+        ...state,
+        language: action.language,
+        code: getCodeTemplate(action.language),
+      };
+
+    case 'SET_CODE':
+      return {
+        ...state,
+        code: action.code,
+      };
+
+    case 'RUN_START':
+      return {
+        ...state,
+        isRunning: true,
+      };
+
+    case 'RUN_FINISH':
+      return {
+        ...state,
+        isRunning: false,
+        executionResult: action.result,
+      };
+
+    case 'SUBMIT_START':
+      return {
+        ...state,
+        isSubmitting: true,
+      };
+
+    case 'SUBMIT_FINISH':
+      return {
+        ...state,
+        isSubmitting: false,
+        executionResult: action.result,
+      };
+
+    case 'RESET':
+      return {
+        ...state,
+        code: getCodeTemplate(action.language),
+        executionResult: undefined,
+      };
+
+    case 'SET_OUTPUT_OPEN':
+      return {
+        ...state,
+        isOutputOpen: action.isOpen,
+      };
+
+    default:
+      return state;
+  }
+};
 
 export const useCodeEditor = ({
   initialLanguage = 'javascript',
@@ -13,61 +90,90 @@ export const useCodeEditor = ({
   onSubmit,
   onReset,
 }: CodeEditorProps) => {
-  const [language, setLanguage] = useState<Language>(initialLanguage);
-  const [code, setCode] = useState(initialCode ?? getCodeTemplate(initialLanguage));
-  const [executionResult, setExecutionResult] = useState<ExecutionResult | undefined>(result);
-  const [isRunning, setIsRunning] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [fontSize, setFontSize] = useState(DEFAULT_FONT_SIZE);
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
-  const [isOutputOpen, setIsOutputOpen] = useState(true);
+  const [state, dispatch] = useReducer(codeEditorReducer, {
+    language: initialLanguage,
+    code: initialCode ?? getCodeTemplate(initialLanguage),
+    executionResult: result,
+    isRunning: false,
+    isSubmitting: false,
+    isOutputOpen: true,
+  });
 
-  const isExecuting = isRunning || isSubmitting;
+  const isExecuting = state.isRunning || state.isSubmitting;
 
   const handleLanguageChange = useCallback((nextLanguage: Language) => {
-    setLanguage(nextLanguage);
-    setCode(getCodeTemplate(nextLanguage));
+    dispatch({
+      type: 'CHANGE_LANGUAGE',
+      language: nextLanguage,
+    });
+  }, []);
+
+  const setCode = useCallback((code: string) => {
+    dispatch({
+      type: 'SET_CODE',
+      code,
+    });
+  }, []);
+
+  const setIsOutputOpen = useCallback((isOpen: boolean) => {
+    dispatch({
+      type: 'SET_OUTPUT_OPEN',
+      isOpen,
+    });
   }, []);
 
   const handleRun = useCallback(async () => {
-    setIsRunning(true);
+    dispatch({ type: 'RUN_START' });
 
     try {
-      const response = await onRun?.(code, language);
-      setExecutionResult(response ?? createSuccessResult());
-    } finally {
-      setIsRunning(false);
+      const response = await onRun?.(state.code, state.language);
+
+      dispatch({
+        type: 'RUN_FINISH',
+        result: response ?? createSuccessResult(),
+      });
+    } catch (error) {
+      dispatch({
+        type: 'RUN_FINISH',
+        result: {
+          status: 'error',
+          errorMessage: error instanceof Error ? error.message : 'Unexpected execution error',
+          tests: [],
+        },
+      });
     }
-  }, [code, language, onRun]);
+  }, [onRun, state.code, state.language]);
 
   const handleSubmit = useCallback(async () => {
-    setIsSubmitting(true);
+    dispatch({ type: 'SUBMIT_START' });
 
     try {
-      const response = await onSubmit?.(code, language);
-      setExecutionResult(response ?? createSuccessResult());
-    } finally {
-      setIsSubmitting(false);
+      const response = await onSubmit?.(state.code, state.language);
+
+      dispatch({
+        type: 'SUBMIT_FINISH',
+        result: response ?? createSuccessResult(),
+      });
+    } catch (error) {
+      dispatch({
+        type: 'SUBMIT_FINISH',
+        result: {
+          status: 'error',
+          errorMessage: error instanceof Error ? error.message : 'Unexpected submit error',
+          tests: [],
+        },
+      });
     }
-  }, [code, language, onSubmit]);
+  }, [onSubmit, state.code, state.language]);
 
   const handleReset = useCallback(() => {
-    setCode(getCodeTemplate(language));
-    setExecutionResult(undefined);
+    dispatch({
+      type: 'RESET',
+      language: state.language,
+    });
+
     onReset?.();
-  }, [language, onReset]);
-
-  const increaseFontSize = () => {
-    setFontSize((current) => Math.min(current + 1, MAX_FONT_SIZE));
-  };
-
-  const decreaseFontSize = () => {
-    setFontSize((current) => Math.max(current - 1, MIN_FONT_SIZE));
-  };
-
-  const toggleEditorTheme = () => {
-    setIsDarkTheme((current) => !current);
-  };
+  }, [onReset, state.language]);
 
   useEffect(() => {
     const handleShortcut = (event: KeyboardEvent) => {
@@ -91,23 +197,18 @@ export const useCodeEditor = ({
   }, [handleRun, handleSubmit]);
 
   return {
-    language,
-    code,
-    executionResult,
-    isRunning,
-    isSubmitting,
+    language: state.language,
+    code: state.code,
+    executionResult: state.executionResult,
+    isRunning: state.isRunning,
+    isSubmitting: state.isSubmitting,
     isExecuting,
-    fontSize,
-    isDarkTheme,
-    isOutputOpen,
+    isOutputOpen: state.isOutputOpen,
     setCode,
     setIsOutputOpen,
     handleLanguageChange,
     handleRun,
     handleSubmit,
     handleReset,
-    increaseFontSize,
-    decreaseFontSize,
-    toggleEditorTheme,
   };
 };

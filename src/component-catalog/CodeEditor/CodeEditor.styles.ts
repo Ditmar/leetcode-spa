@@ -84,7 +84,7 @@ export const TestResultItem = styled(Paper)(({ theme }) => ({
 }));
 
 export const ResizeHandle = styled(Box)(() => ({
-  height: '0px',
+  height: '0',
 
   backgroundColor: 'color-mix(in srgb, var(--nav-text) 12%, transparent)',
 
