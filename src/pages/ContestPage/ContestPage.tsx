@@ -1,12 +1,6 @@
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
-import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import React from 'react';
 import {
   Typography,
-  Grid,
   Tabs,
   Tab,
   Box,
@@ -16,143 +10,114 @@ import {
   Stack,
   Paper,
 } from '@mui/material';
-import React from 'react';
-
-import { MOCK_CONTESTS } from './ContestPage.constants';
+import Grid from '@mui/material/Grid';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import { MOCK_CONTESTS, STATS_CONFIG, SKELETON_COUNT, TAB_STATUS_MAP } from './ContestPage.constants';
 import { useContestPage } from './ContestPage.hook';
 import * as S from './ContestPage.styles';
-import { getStatusChipColor, getDifficultyColor } from './ContestPage.utils';
+import {
+  getStatusChipColor,
+  getDifficultyColor,
+  getStatusLabel,
+  formatParticipants,
+  formatDate,
+  a11yProps,
+} from './ContestPage.utils';
+import type { Contest, ContestPageProps } from './ContestPage.types';
 
-import type { Contest } from './ContestPage.types';
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+const CustomTabPanel = ({ children, value, index, ...other }: TabPanelProps) => {
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`contest-tabpanel-${index}`}
+      aria-labelledby={`contest-tab-${index}`}
+      {...other}
+      style={{ width: '100%' }}
+    >
+      {value === index && <Box sx={{ pt: 3 }}>{children}</Box>}
+    </div>
+  );
+};
 
 const ContestCard = ({ contest }: { contest: Contest }) => {
   return (
     <S.StyledContestCard>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" spacing={1} alignItems="center">
           <Chip
-            label={
-              contest.status === 'active'
-                ? 'Live Now'
-                : contest.status === 'upcoming'
-                  ? 'Upcoming'
-                  : 'Past'
-            }
+            label={getStatusLabel(contest.status)}
             color={getStatusChipColor(contest.status)}
             size="small"
-            sx={{
-              fontWeight: 'bold',
-              fontSize: '0.65rem',
-              height: '20px',
-              textTransform: 'uppercase',
-            }}
+            sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}
           />
+          {contest.hasPrizePool && (
+            <Chip
+              icon={<EmojiEventsOutlinedIcon fontSize="small" />}
+              label="Prize Pool"
+              size="small"
+              color="warning"
+              variant="outlined"
+              sx={{ fontWeight: 'bold' }}
+            />
+          )}
         </Stack>
-        <Typography
-          variant="caption"
-          fontWeight="bold"
-          sx={{ color: getDifficultyColor(contest.difficulty), fontSize: '0.75rem' }}
-        >
+        <Typography variant="caption" fontWeight="bold" sx={{ color: getDifficultyColor(contest.difficulty) }}>
           {contest.difficulty}
         </Typography>
       </Box>
 
-      <Typography
-        variant="subtitle1"
-        fontWeight="bold"
-        sx={{ lineHeight: 1.4, mt: 0.5, color: '#1a1a1a' }}
-      >
+      <Typography variant="subtitle1" fontWeight="bold" color="text.primary" sx={{ lineHeight: 1.4, mt: 0.5 }}>
         {contest.title}
       </Typography>
 
       <Stack spacing={1} sx={{ color: 'text.secondary', mt: 1 }}>
         <Box display="flex" alignItems="center" gap={1}>
-          <CalendarMonthOutlinedIcon sx={{ fontSize: '16px', color: '#868e96' }} />
-          <Typography variant="caption" sx={{ color: '#495057' }}>
-            {contest.startTime}
-          </Typography>
+          <CalendarMonthOutlinedIcon fontSize="small" sx={{ color: 'action.active' }} />
+          <Typography variant="caption">{formatDate(contest.startTime)}</Typography>
         </Box>
         <Box display="flex" alignItems="center" gap={1}>
-          <AccessTimeIcon sx={{ fontSize: '16px', color: '#868e96' }} />
-          <Typography variant="caption" sx={{ color: '#495057' }}>
-            {contest.duration}
-          </Typography>
+          <AccessTimeIcon fontSize="small" sx={{ color: 'action.active' }} />
+          <Typography variant="caption">{contest.duration}</Typography>
         </Box>
         <Box display="flex" alignItems="center" gap={1}>
-          <GroupsOutlinedIcon sx={{ fontSize: '16px', color: '#868e96' }} />
-          <Typography variant="caption" sx={{ color: '#495057' }}>
-            {contest.participants.toLocaleString()} participants
-          </Typography>
+          <GroupsOutlinedIcon fontSize="small" sx={{ color: 'action.active' }} />
+          <Typography variant="caption">{formatParticipants(contest.participants)} participants</Typography>
         </Box>
         <Box display="flex" alignItems="center" gap={1}>
-          <AssignmentOutlinedIcon sx={{ fontSize: '16px', color: '#868e96' }} />
-          <Typography variant="caption" sx={{ color: '#495057' }}>
-            {contest.problemCount} Problems
-          </Typography>
+          <AssignmentOutlinedIcon fontSize="small" sx={{ color: 'action.active' }} />
+          <Typography variant="caption">{contest.problemCount} Problems</Typography>
         </Box>
       </Stack>
 
       <Box mt="auto" pt={1.5}>
         {contest.status === 'active' && (
-          <Button
-            variant="contained"
-            color="success"
-            fullWidth
-            sx={{
-              textTransform: 'none',
-              fontWeight: 'bold',
-              borderRadius: '6px',
-              fontSize: '0.85rem',
-            }}
-          >
+          <Button variant="contained" color="success" fullWidth sx={{ textTransform: 'none', fontWeight: 'bold' }}>
             Join Contest
           </Button>
         )}
         {contest.status === 'upcoming' && (
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{
-              textTransform: 'none',
-              fontWeight: 'bold',
-              borderRadius: '6px',
-              fontSize: '0.85rem',
-            }}
-          >
+          <Button variant="contained" color="primary" fullWidth sx={{ textTransform: 'none', fontWeight: 'bold' }}>
             Register
           </Button>
         )}
         {contest.status === 'past' && (
           <Stack direction="row" spacing={1}>
-            <Button
-              variant="outlined"
-              size="small"
-              fullWidth
-              sx={{
-                textTransform: 'none',
-                fontWeight: 'bold',
-                borderRadius: '6px',
-                color: '#495057',
-                borderColor: '#ced4da',
-                fontSize: '0.8rem',
-              }}
-            >
+            <Button variant="outlined" size="small" fullWidth sx={{ textTransform: 'none', fontWeight: 'bold' }}>
               Problems
             </Button>
-            <Button
-              variant="outlined"
-              size="small"
-              fullWidth
-              sx={{
-                textTransform: 'none',
-                fontWeight: 'bold',
-                borderRadius: '6px',
-                color: '#495057',
-                borderColor: '#ced4da',
-                fontSize: '0.8rem',
-              }}
-            >
+            <Button variant="outlined" size="small" fullWidth sx={{ textTransform: 'none', fontWeight: 'bold' }}>
               Leaderboard
             </Button>
           </Stack>
@@ -162,22 +127,24 @@ const ContestCard = ({ contest }: { contest: Contest }) => {
   );
 };
 
-interface ContestPageProps {
-  initialData?: Contest[];
-}
+export const ContestPage = ({ initialContests = MOCK_CONTESTS, loading: forceLoading = false }: ContestPageProps) => {
+  const hookData = useContestPage(initialContests);
+  const loading = forceLoading || hookData.loading;
+  const { tabValue, handleTabChange, filteredContests } = hookData;
 
-export const ContestPage = ({ initialData = MOCK_CONTESTS }: ContestPageProps) => {
-  const { tabValue, handleTabChange, filteredContests, loading } = useContestPage(initialData);
+  const renderStatsIcon = (icon: string, color: any) => {
+    switch (icon) {
+      case 'live': return <EmojiEventsOutlinedIcon color={color} />;
+      case 'calendar': return <CalendarMonthOutlinedIcon color={color} />;
+      case 'ranking': return <TrendingUpIcon color={color} />;
+      default: return <GroupsOutlinedIcon color={color} />;
+    }
+  };
 
   return (
     <S.PageContainer>
       <Box mb={4}>
-        <Typography
-          variant="h4"
-          fontWeight="bold"
-          gutterBottom
-          sx={{ color: '#1a1a1a', letterSpacing: '-0.5px' }}
-        >
+        <Typography variant="h4" fontWeight="bold" gutterBottom color="text.primary">
           Contests
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -185,114 +152,76 @@ export const ContestPage = ({ initialData = MOCK_CONTESTS }: ContestPageProps) =
         </Typography>
       </Box>
 
+      {/* Grid2 simplificado sin propiedad item */}
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={3}>
-          <S.StatsCard elevation={0}>
-            <Box className="icon-container">
-              <EmojiEventsOutlinedIcon color="success" />
-            </Box>
-            <Box>
-              <Typography variant="h6" fontWeight="bold">
-                1
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                Live Now
-              </Typography>
-            </Box>
-          </S.StatsCard>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <S.StatsCard elevation={0}>
-            <Box className="icon-container">
-              <CalendarMonthOutlinedIcon color="primary" />
-            </Box>
-            <Box>
-              <Typography variant="h6" fontWeight="bold">
-                3
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                Upcoming
-              </Typography>
-            </Box>
-          </S.StatsCard>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <S.StatsCard elevation={0}>
-            <Box className="icon-container">
-              <TrendingUpIcon color="secondary" />
-            </Box>
-            <Box>
-              <Typography variant="h6" fontWeight="bold">
-                1,247
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                Your Ranking
-              </Typography>
-            </Box>
-          </S.StatsCard>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <S.StatsCard elevation={0}>
-            <Box className="icon-container">
-              <GroupsOutlinedIcon color="action" />
-            </Box>
-            <Box>
-              <Typography variant="h6" fontWeight="bold">
-                12
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                Contests Joined
-              </Typography>
-            </Box>
-          </S.StatsCard>
-        </Grid>
+        {STATS_CONFIG.map((stat) => (
+          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={stat.id}>
+            <S.StatsCard elevation={0}>
+              <Box className="icon-container">{renderStatsIcon(stat.icon, stat.color)}</Box>
+              <Box>
+                <Typography variant="h6" fontWeight="bold" color="text.primary">{stat.count}</Typography>
+                <Typography variant="caption" color="text.secondary">{stat.label}</Typography>
+              </Box>
+            </S.StatsCard>
+          </Grid>
+        ))}
       </Grid>
 
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', mt: 5, mb: 3 }}>
-        <Tabs value={tabValue} onChange={handleTabChange} aria-label="contest tabs">
-          <Tab label="Live Now (1)" sx={{ textTransform: 'none', fontWeight: 'bold' }} />
-          <Tab label="Upcoming (3)" sx={{ textTransform: 'none', fontWeight: 'bold' }} />
-          <Tab label="Past (4)" sx={{ textTransform: 'none', fontWeight: 'bold' }} />
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mt: 5, mb: 1 }}>
+        <Tabs value={tabValue} onChange={handleTabChange} aria-label="programming contests tabs">
+          <Tab label="Live Now" sx={{ textTransform: 'none', fontWeight: 'bold' }} {...a11yProps(0)} />
+          <Tab label="Upcoming" sx={{ textTransform: 'none', fontWeight: 'bold' }} {...a11yProps(1)} />
+          <Tab label="Past" sx={{ textTransform: 'none', fontWeight: 'bold' }} {...a11yProps(2)} />
         </Tabs>
       </Box>
 
-      <Grid container spacing={3}>
-        {loading ? (
-          Array.from(new Array(3)).map((_, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Box sx={{ bgcolor: '#fff', p: 3, borderRadius: 2 }}>
-                <Skeleton variant="text" width="40%" height={24} />
-                <Skeleton variant="rectangular" height={120} sx={{ my: 2, borderRadius: 1 }} />
-                <Skeleton variant="text" width="80%" />
-              </Box>
+      {/* Un solo TabPanel dinámico que maneja el contenido con la accesibilidad requerida */}
+      <CustomTabPanel value={tabValue} index={tabValue}>
+        <Grid container spacing={3}>
+          {loading ? (
+            Array.from(new Array(SKELETON_COUNT)).map((_, index) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={`skeleton-${index}`}>
+                <Box sx={{ bgcolor: 'background.paper', p: 3, borderRadius: (theme) => theme.shape.borderRadius, border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                  <Skeleton variant="text" width="40%" height={24} />
+                  <Skeleton variant="rectangular" height={120} sx={{ my: 2, borderRadius: 1 }} />
+                  <Skeleton variant="text" width="80%" />
+                </Box>
+              </Grid>
+            ))
+          ) : filteredContests.length === 0 ? (
+            <Grid size={12}>
+              <Paper
+                elevation={0}
+                role="region"
+                aria-live="polite"
+                aria-label="No contests available message"
+                sx={{
+                  p: 5,
+                  textAlign: 'center',
+                  color: 'text.secondary',
+                  bgcolor: 'background.paper',
+                  borderRadius: (theme) => theme.shape.borderRadius,
+                  border: (theme) => `1px solid ${theme.palette.divider}`,
+                }}
+              >
+                <EmojiEventsOutlinedIcon sx={{ fontSize: 40, color: 'text.disabled', mb: 2 }} />
+                <Typography variant="h6" fontWeight="medium" color="text.primary" gutterBottom>
+                  No contests available
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  There are currently no contests listed under this section.
+                </Typography>
+              </Paper>
             </Grid>
-          ))
-        ) : filteredContests.length === 0 ? (
-          <Grid item xs={12}>
-            <Paper
-              sx={{
-                p: 5,
-                textAlign: 'center',
-                color: 'text.secondary',
-                bgcolor: '#fff',
-                borderRadius: 2,
-                boxShadow: 'none',
-                border: '1px solid #eef2f6',
-              }}
-            >
-              <Typography variant="h6" fontWeight="medium">
-                No contests available in this section
-              </Typography>
-            </Paper>
-          </Grid>
-        ) : (
-          filteredContests.map((contest) => (
-            <Grid item xs={12} sm={6} md={4} key={contest.id}>
-              <ContestCard contest={contest} />
-            </Grid>
-          ))
-        )}
-      </Grid>
+          ) : (
+            filteredContests.map((contest) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={contest.id}>
+                <ContestCard contest={contest} />
+              </Grid>
+            ))
+          )}
+        </Grid>
+      </CustomTabPanel>
     </S.PageContainer>
   );
 };

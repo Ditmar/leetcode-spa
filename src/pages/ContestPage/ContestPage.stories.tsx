@@ -1,7 +1,6 @@
-import { ContestPage } from './ContestPage';
-import { MOCK_CONTESTS } from './ContestPage.constants';
-
 import type { Meta, StoryObj } from '@storybook/react';
+import { ContestPage } from './ContestPage';
+import { ContestStatus } from './ContestPage.types';
 
 const meta: Meta<typeof ContestPage> = {
   title: 'Pages/ContestPage',
@@ -14,14 +13,19 @@ const meta: Meta<typeof ContestPage> = {
 export default meta;
 type Story = StoryObj<typeof ContestPage>;
 
-export const WithAllStatuses: Story = {
+export const Default: Story = {
   args: {
-    initialData: MOCK_CONTESTS,
+    loading: false,
   },
 };
-
+export const Loading: Story = {
+  args: {
+    loading: true,
+  },
+};
 export const EmptyState: Story = {
   args: {
-    initialData: [],
+    initialContests: [],
+    loading: false,
   },
 };
