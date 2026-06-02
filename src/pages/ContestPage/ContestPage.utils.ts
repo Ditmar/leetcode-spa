@@ -16,10 +16,9 @@ export const getStatusLabel = (status: ContestStatus): string => {
     case 'past':
       return 'Past';
     default:
-      return 'Unknown'; 
+      return 'Unknown';
   }
 };
-
 
 export const getStatusChipColor = (status: ContestStatus): 'success' | 'primary' | 'default' => {
   switch (status) {
@@ -30,7 +29,7 @@ export const getStatusChipColor = (status: ContestStatus): 'success' | 'primary'
     case 'past':
       return 'default';
     default:
-      return 'default'; 
+      return 'default';
   }
 };
 
@@ -43,7 +42,7 @@ export const getDifficultyColor = (difficulty: ContestDifficulty): string => {
     case 'Hard':
       return 'error.main';
     default:
-      return 'text.secondary'; 
+      return 'text.secondary';
   }
 };
 
@@ -56,7 +55,7 @@ export const formatParticipants = (count: number): string => {
 
 export const formatDate = (isoString: string): string => {
   const date = new Date(isoString);
-  
+
   if (isNaN(date.getTime())) {
     return 'Invalid Date';
   }
