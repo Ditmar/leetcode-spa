@@ -1,0 +1,11 @@
+node_modules
+dist
+.git
+.storybook
+storybook-static
+.vscode
+.idea
+coverage
+*.log
+.env
+.env.*
