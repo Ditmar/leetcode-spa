@@ -13,7 +13,7 @@
     "requireBranch": false,
     "requireCleanWorkingDir": true,
     "requireUpstream": false,
-    "push": false
+    "push": true
   },
   "npm": {
     "publish": false

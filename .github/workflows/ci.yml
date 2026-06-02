@@ -121,6 +121,49 @@ jobs:
         run: |
           echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}"
 
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: quality-checks
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '>=20.3.0'
+          cache: 'yarn'
+
+      - name: Install specific Yarn version
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+
+      - name: Release stable version (master)
+        if: github.ref_name == 'master'
+        run: yarn release --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release candidate version (feature branch)
+        if: github.ref_name != 'master'
+        run: yarn release:rc --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-and-push-docker-image:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
