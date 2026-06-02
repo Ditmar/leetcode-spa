@@ -82,6 +82,47 @@ describe('userService', () => {
   });
 
   describe('validations', () => {
+    it('throws when updateProfile payload is empty', async () => {
+      await expect(userService.updateProfile({})).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+        message: 'Payload cannot be empty.',
+      });
+    });
+
+    it('throws when updatePreferences payload is empty', async () => {
+      await expect(userService.updatePreferences({})).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+        message: 'Payload cannot be empty.',
+      });
+    });
+
+    it('throws when defaultLanguage selection is invalid', async () => {
+      await expect(
+        userService.updatePreferences({ defaultLanguage: 'ruby' as unknown as 'javascript' })
+      ).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+        message: 'Invalid language selection.',
+      });
+    });
+
+    it('throws when deleteAccount confirmationPassword is only whitespaces', async () => {
+      await expect(
+        userService.deleteAccount({ confirmationPassword: '     ' })
+      ).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+        message: 'Confirmation password is required for account deletion.',
+      });
+    });
+
+    it('throws when deleteAccount confirmationPassword is below 6 characters', async () => {
+      await expect(
+        userService.deleteAccount({ confirmationPassword: '12345' })
+      ).rejects.toMatchObject({
+        code: 'VALIDATION_ERROR',
+        message: 'Confirmation password must be at least 6 characters long.',
+      });
+    });
+
     it('throws when displayName exceeds 50 characters', async () => {
       await expect(
         userService.updateProfile({ displayName: 'a'.repeat(51) })

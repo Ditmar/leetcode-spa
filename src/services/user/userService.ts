@@ -2,6 +2,7 @@ import { apiClient } from '../api/apiClient';
 
 import type {
   DeleteAccountPayload,
+  SupportedLanguage,
   UpdateProfilePayload,
   UploadAvatarResponse,
   UserPreferences,
@@ -16,6 +17,8 @@ const MAX_AVATAR_SIZE_BYTES = 2 * 1024 * 1024;
 const ALLOWED_AVATAR_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const AVATAR_FILE_NAME = 'avatar';
 const DAYS_IN_YEAR = 365;
+const MIN_PASSWORD_LENGTH = 6;
+const ALLOWED_LANGUAGES: SupportedLanguage[] = ['javascript', 'python', 'java', 'cpp'];
 
 const DEFAULT_PREFERENCES: UserPreferences = {
   defaultLanguage: 'javascript',
@@ -89,6 +92,10 @@ export const userService = {
   },
 
   updateProfile: async (payload: UpdateProfilePayload): Promise<UserProfile> => {
+    if (!payload || Object.keys(payload).length === 0) {
+      throw createValidationError('Payload cannot be empty.');
+    }
+
     if (payload.displayName !== undefined && payload.displayName.length > MAX_DISPLAY_NAME_LENGTH) {
       throw createValidationError(`Display name exceeds ${MAX_DISPLAY_NAME_LENGTH} chars.`);
     }
@@ -101,6 +108,17 @@ export const userService = {
   },
 
   updatePreferences: async (payload: Partial<UserPreferences>): Promise<UserPreferences> => {
+    if (!payload || Object.keys(payload).length === 0) {
+      throw createValidationError('Payload cannot be empty.');
+    }
+
+    if (
+      payload.defaultLanguage !== undefined &&
+      !ALLOWED_LANGUAGES.includes(payload.defaultLanguage)
+    ) {
+      throw createValidationError('Invalid language selection.');
+    }
+
     if (
       payload.editorFontSize !== undefined &&
       (payload.editorFontSize < 12 || payload.editorFontSize > 24)
@@ -140,8 +158,14 @@ export const userService = {
   },
 
   deleteAccount: async (payload: DeleteAccountPayload): Promise<void> => {
-    if (!payload || !payload.confirmationPassword) {
+    if (!payload || !payload.confirmationPassword || !payload.confirmationPassword.trim()) {
       throw createValidationError('Confirmation password is required for account deletion.');
+    }
+
+    if (payload.confirmationPassword.trim().length < MIN_PASSWORD_LENGTH) {
+      throw createValidationError(
+        `Confirmation password must be at least ${MIN_PASSWORD_LENGTH} characters long.`
+      );
     }
 
     await apiClient.delete('/users/me', {
