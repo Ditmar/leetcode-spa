@@ -1,16 +1,28 @@
-export type ContestStatus = 'active' | 'upcoming' | 'past';
-export type Difficulty = 'Easy' | 'Medium' | 'Hard';
+import React from 'react';
+
+export enum ContestStatus {
+  ACTIVE = 'active',
+  UPCOMING = 'upcoming',
+  PAST = 'past',
+}
+
+export type ContestDifficulty = 'Easy' | 'Medium' | 'Hard';
 
 export interface Contest {
   id: string;
   title: string;
-  status: ContestStatus;
-  difficulty: Difficulty;
-  startTime: string;
+  status: ContestStatus;              
+  difficulty: ContestDifficulty;
+  startTime: string;                  
   duration: string;
   participants: number;
   problemCount: number;
-  hasPrize?: boolean;
+  hasPrizePool: boolean;              
+}
+
+export interface ContestPageProps {
+  initialContests?: Contest[];
+  loading?: boolean; 
 }
 
 export interface UseContestPageReturn {
