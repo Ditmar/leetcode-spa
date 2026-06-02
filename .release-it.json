@@ -11,7 +11,9 @@
     "tagName": "v${version}",
     "tagAnnotation": "Release v${version}",
     "requireBranch": false,
-    "requireCleanWorkingDir": true
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "push": false
   },
   "npm": {
     "publish": false
