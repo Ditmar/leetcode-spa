@@ -1,4 +1,3 @@
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Tooltip from '@mui/material/Tooltip';
 import React from 'react';
 
@@ -19,7 +18,6 @@ import type { LabelComponentProps } from './Label.types';
 const Label = React.forwardRef<HTMLLabelElement, LabelComponentProps>(
   ({ htmlFor, children, required, optional, error, disabled, tooltip, ...rest }, ref) => {
     const { showRequired, showOptional } = resolveRequiredOptional(required, optional);
-
     const { open, handleOpen, handleClose, handleToggle } = useLabelTooltip();
 
     const normalizedTooltip = typeof tooltip === 'string' ? tooltip.trim() : '';
@@ -33,13 +31,16 @@ const Label = React.forwardRef<HTMLLabelElement, LabelComponentProps>(
         aria-required={showRequired ? true : undefined}
         {...rest}
       >
-        {children}
+        <span>{children}</span>
 
-        {showRequired && <RequiredIndicator aria-hidden="true">*</RequiredIndicator>}
+        {showRequired && (
+          <RequiredIndicator aria-hidden="true" data-testid="required-indicator">
+            *
+          </RequiredIndicator>
+        )}
 
         {showOptional && (
-          <OptionalHint component="span" variant="caption">
-            &nbsp;
+          <OptionalHint component="span" variant="caption" data-testid="optional-hint">
             {OPTIONAL_INDICATOR}
           </OptionalHint>
         )}
@@ -48,7 +49,7 @@ const Label = React.forwardRef<HTMLLabelElement, LabelComponentProps>(
           <TooltipIconWrapper>
             <Tooltip
               title={normalizedTooltip}
-              open={open}
+              open={disabled ? false : open}
               onClose={handleClose}
               onOpen={handleOpen}
               arrow
@@ -60,10 +61,10 @@ const Label = React.forwardRef<HTMLLabelElement, LabelComponentProps>(
                 aria-label={TOOLTIP_ICON_ARIA_LABEL}
                 onClick={handleToggle}
                 type="button"
-                tabIndex={0}
+                tabIndex={disabled ? -1 : 0}
                 disabled={disabled}
               >
-                <TooltipInfoIcon as={InfoOutlinedIcon} fontSize="inherit" />
+                <TooltipInfoIcon fontSize="inherit" />
               </TooltipIconButton>
             </Tooltip>
           </TooltipIconWrapper>

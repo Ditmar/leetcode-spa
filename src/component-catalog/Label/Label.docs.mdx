@@ -1,340 +1,71 @@
 import { Meta, Canvas, Controls } from '@storybook/blocks';
 import * as LabelStories from './Label.stories';
 
-<Meta
-  of={LabelStories}
-  title="Component Catalog/Label/Docs"
-/>
+<Meta of={LabelStories} />
 
 # Label
 
-An **accessible**, **responsive**, and **theme-aware** form label component
-built on top of MUI `InputLabel`.
-
-The component supports common form-label states such as:
-
-- required
-- optional
-- error
-- disabled
-- tooltip messaging
-
-It is designed as a lightweight presentational atom that integrates seamlessly
-with form controls and accessibility workflows.
+An accessible, responsive, and theme-aware form label component built on top 
+of MUI's `InputLabel` family. It links text with form controls programmatically.
 
 ---
 
-# Features
+## Overview
 
-- Accessible form labeling
-- Fully responsive layout
-- Theme-aware styling
-- Optional tooltip support
-- Required and optional indicators
-- Error and disabled states
-- Keyboard accessible interactions
-- Compatible with MUI form controls
+The `Label` component provides proper HTML association via `htmlFor`, manages 
+mutually exclusive indicators (required vs. optional), handles error and disabled visual states, 
+and supports an optional contextual help tooltip.
 
 ---
 
-# Overview
-
-The `Label` component visually and programmatically associates itself
-with form controls through the `htmlFor` prop.
-
-| State | Description |
-| --- | --- |
-| `required` | Displays required indicator and accessibility metadata |
-| `optional` | Displays optional helper text |
-| `error` | Applies error styling from the theme |
-| `disabled` | Applies disabled visual state |
-| `tooltip` | Displays contextual helper information |
-
----
-
-# Installation
-
-```bash
-yarn add @mui/material @emotion/react @emotion/styled
-```
-
----
-
-# Quick Start
+## Quick Start
 
 ```tsx
 import Label from './Label';
 
-export default function Example() {
+function Example() {
   return (
     <>
-      <Label
-        htmlFor="email-input"
-        required
-      >
+      <Label htmlFor="email-input" required>
         Email address
       </Label>
-
-      <input
-        id="email-input"
-        type="email"
-        required
-      />
+      <input id="email-input" type="email" required />
     </>
   );
 }
-```
 
----
+Stories 
+DefaultThe baseline presentation of a structural form label.
 
-# Stories
+Required
+Appends an asterisk and forces screen reader compliance.
 
-## Default
+Optional
+Displays a fallback indicator text when fields are non-mandatory.
 
-<Canvas of={LabelStories.Default} />
+Error
+Applies semantic error feedback colors derived from the active theme palette.
 
----
+Disabled
+Reduces parent element opacity to 60% and strips nested element interactivity.
 
-## Required
+With Tooltip
+Includes an interactive help icon trigger for contextual descriptions.
 
-<Canvas of={LabelStories.Required} />
+Narrow Viewport
+Validates wrap thresholds at 320px screen boundaries under 200% font scaling.
 
----
+Prop Reference
+LabelComponentProps
 
-## Optional
 
-<Canvas of={LabelStories.Optional} />
 
----
-
-## Error
-
-<Canvas of={LabelStories.Error} />
-
----
-
-## Disabled
-
-<Canvas of={LabelStories.Disabled} />
-
----
-
-## With Tooltip
-
-<Canvas of={LabelStories.WithTooltip} />
-
----
-
-## Required Error With Tooltip
-
-<Canvas of={LabelStories.RequiredErrorWithTooltip} />
-
----
-
-## Paired With Input
-
-<Canvas of={LabelStories.PairedWithInput} />
-
----
-
-## Narrow Viewport
-
-<Canvas of={LabelStories.NarrowViewport} />
-
----
-
-## All States
-
-<Canvas of={LabelStories.AllStates} />
-
----
-
-# Controls
-
-<Controls />
-
----
-
-# Prop Reference
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `htmlFor` | `string` | — | Required. Associates label with input id |
-| `children` | `React.ReactNode` | — | Label content |
-| `required` | `boolean` | `false` | Displays required indicator |
-| `optional` | `boolean` | `false` | Displays optional helper text |
-| `error` | `boolean` | `false` | Applies error visual state |
-| `disabled` | `boolean` | `false` | Applies disabled state |
-| `tooltip` | `string` | — | Tooltip helper content |
-
----
-
-# Accessibility
-
-- `htmlFor` associates the label with its target form control
-- Required fields propagate `aria-required="true"`
-- Required indicators use `aria-hidden="true"`
-- Tooltip buttons expose accessible labels
-- Tooltip interactions support keyboard navigation
-- Accessibility behaviour validated with Testing Library
-- Wrapped labels remain readable in narrow layouts
-
----
-
-# Responsive Behaviour
-
-| Viewport | Behaviour |
-| --- | --- |
-| `320px` | Wrapped label text without clipping |
-| `375px` | Comfortable spacing and inline layout |
-| `768px` | Stable alignment with form controls |
-| `1024px+` | Inline layout within wider forms |
-
-All spacing and typography values are derived from the MUI theme.
-
-No external CSS is required.
-
----
-
-# Design Notes
-
-The component uses:
-
-- MUI `InputLabel`
-- MUI `styled()`
-- Theme typography tokens
-- Theme spacing tokens
-- Theme palette values
-
-The tooltip state is internally managed through a dedicated custom hook.
-
----
-
-# File Structure
-
-```txt
-Label/
-├── Label.tsx
-├── Label.types.ts
-├── Label.constants.ts
-├── Label.hook.ts
-├── Label.styles.ts
-├── Label.utils.ts
-├── Label.test.tsx
-├── Label.stories.tsx
-└── Label.docs.mdx
-```
-
----
-
-# Stack
-
-| Package | Role |
-| --- | --- |
-| `@mui/material` v7 | InputLabel, Tooltip, IconButton |
-| `@emotion/react` | CSS-in-JS runtime |
-| `@emotion/styled` | Styled components |
-| `react` | Component rendering |
-| `vitest` | Unit testing |
-| `@testing-library/react` | Accessibility and interaction testing |
-| `storybook` | Interactive component documentation |
-
----
-
-# Troubleshooting
-
-## If the Storybook Docs page does not appear
-
-Verify the following:
-
-### 1. Story Export Exists
-
-Ensure all stories are exported correctly in:
-
-```txt
-Label.stories.tsx
-```
-
-Example:
-
-```tsx
-export const Default = {};
-```
-
----
-
-### 2. Storybook Main Configuration
-
-Ensure `.storybook/main.ts` contains:
-
-```ts
-stories: [
-  '../src/**/*.mdx',
-  '../src/**/*.stories.@(js|jsx|ts|tsx)',
-];
-```
-
----
-
-### 3. Build Validation
-
-Run:
-
-```bash
-yarn build-storybook
-```
-
-If this command fails, the PR preview deployment will fail as well.
-
----
-
-### 4. Linux Filename Validation
-
-Ensure filenames match exactly:
-
-```txt
-Label.docs.mdx
-```
-
-Avoid mismatched casing like:
-
-```txt
-label.docs.mdx
-```
-
----
-
-### 5. Verify Storybook Deploy
-
-Check GitHub Actions or Chromatic build logs for:
-
-- MDX parsing errors
-- Missing exports
-- Invalid imports
-- Story loading failures
-
----
-
-# Recommended Story Export Structure
-
-```tsx
-import type { Meta, StoryObj } from '@storybook/react';
-import Label from './Label';
-
-const meta: Meta<typeof Label> = {
-  title: 'Component Catalog/Label',
-  component: Label,
-  tags: ['autodocs'],
-};
-
-export default meta;
-
-type Story = StoryObj<typeof Label>;
-
-export const Default: Story = {
-  args: {
-    children: 'Email',
-    htmlFor: 'email',
-  },
-};
-```
+├── Label.tsx            # Component logic & JSX layout
+├── Label.types.ts       # TypeScript interface rules and unions
+├── Label.constants.ts   # Core string templates and indicator symbols
+├── Label.hook.ts        # Isolated state control managing tooltips
+├── Label.styles.ts      # MUI styled() styling declarations — no external CSS
+├── Label.utils.ts       # Logic resolving exclusive visual parameters
+├── Label.test.tsx       # Vitest + Testing Library structural test suite
+├── Label.stories.tsx    # Component Story Format stories configuration
+└── Label.docs.mdx       # This fileStackPackageRole@mui/materialv7InputLabel, Tooltip, IconButton, styled@mui/icons-materialContextual helper icons@emotion/reactCSS-in-JS style runtime environmentreactFunctional hooks and rendering engine

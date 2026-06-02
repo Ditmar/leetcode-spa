@@ -3,19 +3,15 @@ import type React from 'react';
 
 interface BaseLabelProps extends Omit<InputLabelProps, 'required'> {
   htmlFor: string;
-
   children: React.ReactNode;
-
   error?: boolean;
-
   disabled?: boolean;
-
   tooltip?: string;
 }
 
 type RequiredStateProps =
   | {
-      required?: true;
+      required: true;
       optional?: never;
     }
   | {

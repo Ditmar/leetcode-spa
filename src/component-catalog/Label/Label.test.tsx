@@ -2,12 +2,15 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import Label from './Label';
 import { OPTIONAL_INDICATOR, TOOLTIP_ICON_ARIA_LABEL } from './Label.constants';
 
+import type { LabelComponentProps } from './Label.types';
+
 const INPUT_ID = 'test-input';
+const theme = createTheme();
 
 interface RenderLabelProps {
   required?: boolean;
@@ -18,100 +21,93 @@ interface RenderLabelProps {
 }
 
 function renderLabel(props: RenderLabelProps = {}) {
-  const theme = createTheme();
-
   return render(
     <ThemeProvider theme={theme}>
       <>
-        <Label htmlFor={INPUT_ID} {...props}>
+        <Label htmlFor={INPUT_ID} {...(props as LabelComponentProps)}>
           Email address
         </Label>
-
         <input id={INPUT_ID} required={props.required} disabled={props.disabled} />
       </>
     </ThemeProvider>
   );
 }
 
-describe('Label — rendering', () => {
-  it('renders label text', () => {
+describe('Label — Rendering & Structural Integrity', () => {
+  it('renders visual label content correctly', () => {
     renderLabel();
-
     expect(screen.getByText('Email address')).toBeInTheDocument();
   });
 
-  it('renders a label element', () => {
+  it('renders a semantic html label element', () => {
     renderLabel();
-
     expect(screen.getByText('Email address').closest('label')).toBeInTheDocument();
   });
 
-  it('associates htmlFor with the input', () => {
+  it('strictly associates htmlFor with the target input ID', () => {
     renderLabel();
-
     expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
   });
 });
 
-describe('Label — required and optional states', () => {
-  it('shows required asterisk when required=true', () => {
+describe('Label — Required and Optional Indicators', () => {
+  it('shows required asterisk indicator when required=true', () => {
     renderLabel({ required: true });
-
-    expect(screen.getByText('*', { exact: false })).toBeInTheDocument();
+    expect(screen.getByTestId('required-indicator')).toBeInTheDocument();
+    expect(screen.getByText('*')).toBeInTheDocument();
   });
 
-  it('adds aria-required=true when required=true', () => {
+  it('correctly propagates aria-required="true" to the parent element when required=true', () => {
     renderLabel({ required: true });
-
     const label = screen.getByText('Email address').closest('label');
-
     expect(label).toHaveAttribute('aria-required', 'true');
   });
 
-  it('shows optional text when optional=true', () => {
-    renderLabel({ optional: true });
+  it('hides the visual asterisk from screen readers using aria-hidden="true"', () => {
+    renderLabel({ required: true });
+    expect(screen.getByTestId('required-indicator')).toHaveAttribute('aria-hidden', 'true');
+  });
 
+  it('shows formatting helper text when optional=true', () => {
+    renderLabel({ optional: true });
+    expect(screen.getByTestId('optional-hint')).toBeInTheDocument();
     expect(screen.getByText(OPTIONAL_INDICATOR)).toBeInTheDocument();
   });
 
-  it('required takes precedence over optional', () => {
-    renderLabel({
+  it('guarantees required indicator takes absolute precedence over optional indicator', () => {
+    const conflictingProps = {
       required: true,
       optional: true,
-    });
+    } as unknown as LabelComponentProps;
 
-    expect(screen.getByText('*', { exact: false })).toBeInTheDocument();
+    renderLabel(conflictingProps);
 
+    expect(screen.getByTestId('required-indicator')).toBeInTheDocument();
+    expect(screen.queryByTestId('optional-hint')).not.toBeInTheDocument();
     expect(screen.queryByText(OPTIONAL_INDICATOR)).not.toBeInTheDocument();
   });
 });
 
-describe('Label — visual states', () => {
-  it('renders label in error state', () => {
+describe('Label — Operational and Theme States', () => {
+  it('renders label with appropriate Material UI error classes', () => {
     renderLabel({ error: true });
-
     const label = screen.getByText('Email address').closest('label');
-
-    expect(label).toBeInTheDocument();
+    expect(label).toHaveClass('Mui-error');
   });
 
-  it('renders disabled state correctly', () => {
+  it('renders disabled state correctly and disables interaction', () => {
     renderLabel({ disabled: true });
-
     const input = screen.getByLabelText(/email address/i);
-
     expect(input).toBeDisabled();
+
+    const label = screen.getByText('Email address').closest('label');
+    expect(label).toHaveClass('Mui-disabled');
   });
 });
 
-describe('Label — tooltip', () => {
-  beforeEach(() => {
-    renderLabel({
-      tooltip: 'Helpful information',
-    });
-  });
-
-  it('renders tooltip button', () => {
+describe('Label — Contextual Tooltip Interactions', () => {
+  it('renders a compliant contextual button for the tooltip', () => {
+    renderLabel({ tooltip: 'Helpful information' });
     expect(
       screen.getByRole('button', {
         name: TOOLTIP_ICON_ARIA_LABEL,
@@ -119,85 +115,56 @@ describe('Label — tooltip', () => {
     ).toBeInTheDocument();
   });
 
-  it('opens tooltip on click', async () => {
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: TOOLTIP_ICON_ARIA_LABEL,
-      })
-    );
+  it('opens tooltip content upon user click trigger', async () => {
+    renderLabel({ tooltip: 'Helpful information' });
+    const button = screen.getByRole('button', { name: TOOLTIP_ICON_ARIA_LABEL });
 
+    await userEvent.click(button);
     expect(await screen.findByText('Helpful information')).toBeInTheDocument();
   });
 
-  it('closes tooltip on second click', async () => {
-    const button = screen.getByRole('button', {
-      name: TOOLTIP_ICON_ARIA_LABEL,
-    });
+  it('closes tooltip display gracefully upon secondary click trigger', async () => {
+    renderLabel({ tooltip: 'Helpful information' });
+    const button = screen.getByRole('button', { name: TOOLTIP_ICON_ARIA_LABEL });
 
     await userEvent.click(button);
-
     const tooltip = await screen.findByText('Helpful information');
-
     expect(tooltip).toBeVisible();
 
     await userEvent.click(button);
-
     await waitFor(() => {
       expect(tooltip).not.toBeVisible();
     });
-
     expect(button).toHaveFocus();
   });
 
-  it('opens tooltip with keyboard (Enter)', async () => {
+  it('safely opens the tooltip using keyboard focus sequences (Enter)', async () => {
+    renderLabel({ tooltip: 'Helpful information' });
     await userEvent.tab();
 
-    const button = screen.getByRole('button', {
-      name: TOOLTIP_ICON_ARIA_LABEL,
-    });
-
+    const button = screen.getByRole('button', { name: TOOLTIP_ICON_ARIA_LABEL });
     expect(button).toHaveFocus();
 
     await userEvent.keyboard('{Enter}');
-
     expect(await screen.findByText('Helpful information')).toBeInTheDocument();
   });
 
-  it('opens tooltip with keyboard (Space)', async () => {
+  it('safely opens the tooltip using keyboard focus sequences (Space)', async () => {
+    renderLabel({ tooltip: 'Helpful information' });
     await userEvent.tab();
 
-    const button = screen.getByRole('button', {
-      name: TOOLTIP_ICON_ARIA_LABEL,
-    });
-
+    const button = screen.getByRole('button', { name: TOOLTIP_ICON_ARIA_LABEL });
     expect(button).toHaveFocus();
 
     await userEvent.keyboard(' ');
-
     expect(await screen.findByText('Helpful information')).toBeInTheDocument();
   });
-});
 
-describe('Label — accessibility', () => {
-  it('tooltip button has role="button"', () => {
-    renderLabel({ tooltip: 'Info' });
+  it('strictly isolates keyboard focus sequences when the component is disabled (Axe compliance)', () => {
+    renderLabel({ disabled: true, tooltip: 'Helpful information' });
+    const button = screen.getByRole('button', { name: TOOLTIP_ICON_ARIA_LABEL });
 
-    expect(
-      screen.getByRole('button', {
-        name: TOOLTIP_ICON_ARIA_LABEL,
-      })
-    ).toBeInTheDocument();
-  });
-
-  it('label remains associated with input when required', () => {
-    renderLabel({ required: true });
-
-    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
-  });
-
-  it('label remains associated with input when disabled', () => {
-    renderLabel({ disabled: true });
-
-    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute('tabindex', '-1');
   });
 });

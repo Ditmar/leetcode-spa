@@ -62,7 +62,6 @@ const meta: Meta<typeof Label> = {
     htmlFor: 'label-default-input',
     children: 'Email address',
     required: false,
-    optional: false,
     error: false,
     disabled: false,
     tooltip: '',
@@ -124,24 +123,6 @@ export const RequiredErrorWithTooltip: Story = {
   },
 };
 
-export const RequiredOverridesOptional: Story = {
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'This story intentionally demonstrates an invalid prop combination to validate precedence behavior. The required state should override the optional state.',
-      },
-    },
-  },
-  args: {
-    htmlFor: 'label-required-optional',
-    children: 'Username',
-    required: true,
-    optional: true,
-    tooltip: 'Required takes precedence over optional.',
-  },
-};
-
 export const PairedWithInput: Story = {
   render: (args) => (
     <Box
@@ -176,7 +157,6 @@ export const NarrowViewport: Story = {
     (Story: React.ComponentType) => (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-
         <Box
           sx={{
             width: 320,
@@ -191,63 +171,8 @@ export const NarrowViewport: Story = {
   ],
   args: {
     htmlFor: 'label-narrow-viewport',
-    children: 'A very long label that might wrap on narrow screens',
+    children: 'A very long label text to safely test 200% mobile system font scale stability',
     required: true,
-    tooltip: 'Helpful tooltip content for this field',
+    tooltip: 'Helpful responsive validation tooltip content for this field layout.',
   },
-};
-
-export const AllStates: Story = {
-  render: () => (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-      }}
-    >
-      {/* Basic states */}
-      <Box>
-        <Label htmlFor="s1">Default</Label>
-      </Box>
-
-      <Box>
-        <Label htmlFor="s2" required>
-          Required
-        </Label>
-      </Box>
-
-      <Box>
-        <Label htmlFor="s3" optional>
-          Optional
-        </Label>
-      </Box>
-
-      {/* Validation states */}
-      <Box>
-        <Label htmlFor="s4" error>
-          Error
-        </Label>
-      </Box>
-
-      <Box>
-        <Label htmlFor="s5" disabled>
-          Disabled
-        </Label>
-      </Box>
-
-      {/* Tooltip states */}
-      <Box>
-        <Label htmlFor="s6" tooltip="Extra context here">
-          With Tooltip
-        </Label>
-      </Box>
-
-      <Box>
-        <Label htmlFor="s7" required error tooltip="Fix this field">
-          Required + Error + Tooltip
-        </Label>
-      </Box>
-    </Box>
-  ),
 };
