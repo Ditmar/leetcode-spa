@@ -120,6 +120,21 @@ jobs:
       - name: Show Storybook URL
         run: |
           echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}"
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: quality-checks
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '>=20.3.0'
+          cache: 'yarn'
 
   build-and-push-docker-image:
     name: Build and Push Docker Image
