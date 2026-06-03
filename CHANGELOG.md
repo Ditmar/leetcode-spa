@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.3.0](https://github.com/Ditmar/leetcode-spa/compare/v0.2.0...v0.3.0) (2026-06-03)
+
+
+### Features
+
+* update docker port ([#290](https://github.com/Ditmar/leetcode-spa/issues/290)) ([fbaa056](https://github.com/Ditmar/leetcode-spa/commit/fbaa056ec310366da2d359a619aa21aad9997639))
+
 # [0.2.0](https://github.com/Ditmar/leetcode-spa/compare/v0.1.11...v0.2.0) (2026-06-03)
 
 
