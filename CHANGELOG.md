@@ -1,5 +1,13 @@
 # Changelog
 
+# [0.2.0](https://github.com/Ditmar/leetcode-spa/compare/v0.1.11...v0.2.0) (2026-06-03)
+
+
+### Features
+
+* fix release ([#288](https://github.com/Ditmar/leetcode-spa/issues/288)) ([d556be3](https://github.com/Ditmar/leetcode-spa/commit/d556be33868bf5c12df94ea6cef1de568e5cc056))
+* update test pipeline ([#289](https://github.com/Ditmar/leetcode-spa/issues/289)) ([775d21f](https://github.com/Ditmar/leetcode-spa/commit/775d21f106d4b3606c6a5c5aa8ef5701569d6171))
+
 ## [0.1.11](https://github.com/Ditmar/leetcode-spa/compare/v0.1.10...v0.1.11) (2026-06-03)
 
 ## [0.1.10](https://github.com/Ditmar/leetcode-spa/compare/v0.1.9...v0.1.10) (2026-06-03)
