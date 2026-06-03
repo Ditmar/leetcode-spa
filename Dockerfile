@@ -34,7 +34,7 @@ COPY --from=builder /app/dist ./dist
 # astro preview reads this config for host/port settings
 COPY astro.config.mjs ./
 
-EXPOSE 4321
+EXPOSE 8080
 
 # `astro preview` serves the dist/ folder on 0.0.0.0:4321 (configured in astro.config.mjs)
 CMD ["node_modules/.bin/astro", "preview"]
