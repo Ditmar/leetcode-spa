@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.1.0-rc.2](https://github.com/Ditmar/leetcode-spa/compare/v0.1.0-rc.1...v0.1.0-rc.2) (2026-06-03)
+
+
+### Features
+
+* fix pipeline ([d8b8b44](https://github.com/Ditmar/leetcode-spa/commit/d8b8b44ed4f6bc2c6099e8804bddf3fba3eabb34))
+
 # 0.1.0-rc.1 (2026-06-03)
 
 
