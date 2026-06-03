@@ -163,7 +163,7 @@ jobs:
   build-and-push-docker-image:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
-    needs: release
+    needs: [release, build-storybook]
     outputs:
       VERSION: ${{ steps.set_outputs.outputs.VERSION }}
     steps:
