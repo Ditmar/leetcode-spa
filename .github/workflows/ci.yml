@@ -24,7 +24,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '>=24.0.0'
+          node-version: '>=20.3.0'
           cache: 'yarn'
 
       - name: Install specific Yarn version
@@ -39,7 +39,7 @@ jobs:
         run: yarn lint
 
       - name: Run test
-        run: yarn test
+        run: yarn test:run
 
   build-storybook:
     name: Build and Deploy Storybook
@@ -54,7 +54,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '>=24.0.0'
+          node-version: '>=20.3.0'
           cache: 'yarn'
 
       - name: Install specific Yarn version
@@ -134,7 +134,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '>=24.0.0'
+          node-version: '>=20.3.0'
           cache: 'yarn'
 
       - name: Install specific Yarn version
@@ -173,10 +173,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '>=24.0.0'
+          node-version: '>=22.22.2 <=22.22.2'
           cache: 'yarn'
 
-      - id: check version
+      - id: check_version
         run: echo "VERSION=$(node -p -e "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Install specific Yarn version
