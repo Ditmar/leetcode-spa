@@ -68,5 +68,4 @@ export interface QueuedSubmissionResponse {
 }
 
 export type RunResponse = ApiResponse<ExecutionResult> | ApiResponse<QueuedSubmissionResponse>;
-
 export type SubmitResponse = ApiResponse<Submission> | ApiResponse<QueuedSubmissionResponse>;

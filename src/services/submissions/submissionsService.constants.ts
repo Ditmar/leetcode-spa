@@ -1,8 +1,17 @@
-export const POLLING_INTERVAL_MS = 1500;
+const getEnvNumber = (value: string | undefined, fallback: number): number => {
+  const parsed = Number(value);
 
-export const MAX_POLL_ATTEMPTS = 20;
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+};
 
-export const MAX_CODE_SIZE_BYTES = 64 * 1024;
+export const POLLING_INTERVAL_MS = getEnvNumber(import.meta.env.VITE_POLLING_INTERVAL_MS, 1500);
+
+export const MAX_POLL_ATTEMPTS = getEnvNumber(import.meta.env.VITE_MAX_POLL_ATTEMPTS, 20);
+
+export const MAX_CODE_SIZE_BYTES = getEnvNumber(
+  import.meta.env.VITE_MAX_CODE_SIZE_BYTES,
+  64 * 1024
+);
 
 export const ALLOWED_LANGUAGES = ['javascript', 'python', 'java', 'cpp'] as const;
 

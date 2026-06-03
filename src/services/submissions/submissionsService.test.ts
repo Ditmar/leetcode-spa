@@ -117,6 +117,30 @@ describe('submissionsService', () => {
     vi.useRealTimers();
   });
 
+  it('should build filters correctly', async () => {
+    vi.mocked(apiClient.get).mockResolvedValue({
+      data: {
+        items: [],
+        page: 1,
+        limit: 10,
+        total: 0,
+        totalPages: 0,
+      },
+    });
+
+    await submissionsService.getHistory({
+      page: 1,
+      limit: 10,
+      problemId: 5,
+      language: 'javascript',
+      status: ExecutionStatus.ACCEPTED,
+    });
+
+    expect(apiClient.get).toHaveBeenCalledWith(
+      '/submissions?page=1&limit=10&problemId=5&language=javascript&status=accepted'
+    );
+  });
+
   it('should get submission history with filters', async () => {
     vi.mocked(apiClient.get).mockResolvedValue({
       data: {
@@ -161,5 +185,56 @@ describe('submissionsService', () => {
     ).rejects.toMatchObject({
       code: 'INVALID_LANGUAGE',
     });
+  });
+
+  it('should submit successfully without polling', async () => {
+    vi.mocked(apiClient.post).mockResolvedValue({
+      data: {
+        id: 'sub_1',
+        status: ExecutionStatus.ACCEPTED,
+        runtime: 10,
+        memory: 1000,
+        testResults: [],
+        language: 'javascript',
+        code: 'test',
+        problemId: 1,
+        submittedAt: new Date().toISOString(),
+        totalTests: 10,
+        passedTests: 10,
+      },
+    });
+
+    const result = await submissionsService.submit({
+      problemId: 1,
+      language: 'javascript',
+      code: 'console.log("hello")',
+    });
+
+    expect(result.status).toBe(ExecutionStatus.ACCEPTED);
+    expect(apiClient.get).not.toHaveBeenCalled();
+  });
+
+  it('should trim code before sending', async () => {
+    vi.mocked(apiClient.post).mockResolvedValue({
+      data: {
+        status: ExecutionStatus.ACCEPTED,
+        runtime: 1,
+        memory: 1,
+        testResults: [],
+      },
+    });
+
+    await submissionsService.run({
+      problemId: 1,
+      language: 'javascript',
+      code: '   console.log("hi");   ',
+    });
+
+    expect(apiClient.post).toHaveBeenCalledWith(
+      '/submissions/run',
+      expect.objectContaining({
+        code: 'console.log("hi");',
+      })
+    );
   });
 });
