@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.8.0](https://github.com/Ditmar/leetcode-spa/compare/v0.7.0...v0.8.0) (2026-06-04)
+
+
+### Features
+
+* feature fix ([#295](https://github.com/Ditmar/leetcode-spa/issues/295)) ([cfdc940](https://github.com/Ditmar/leetcode-spa/commit/cfdc94030cb6be3a5df833b586b1fc95aa5f37d8))
+
 # [0.7.0](https://github.com/Ditmar/leetcode-spa/compare/v0.6.0...v0.7.0) (2026-06-04)
 
 
