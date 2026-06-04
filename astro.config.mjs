@@ -24,7 +24,7 @@ export default defineConfig({
   ],
   vite: {
     preview: {
-      allowedHosts: true,
+      allowedHosts: ['leetcode-spa-production.up.railway.app'],
     },
     optimizeDeps: {
       include: [
