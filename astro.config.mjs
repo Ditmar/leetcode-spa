@@ -11,11 +11,14 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: Number(process.env.PORT) || 4321,
+    allowedHosts: [
+      'leetcode-spa-production.up.railway.app',
+      process.env.RAILWAY_PUBLIC_DOMAIN,
+    ].filter(Boolean),
   },
   preview: {
     host: '0.0.0.0',
     port: Number(process.env.PORT) || 4321,
-    allowedHosts: [process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost'],
   },
   integrations: [
     react({
@@ -23,9 +26,6 @@ export default defineConfig({
     }),
   ],
   vite: {
-    preview: {
-      allowedHosts: [process.env.RAILWAY_PUBLIC_DOMAIN || 'leetcode-spa-production.up.railway.app'],
-    },
     optimizeDeps: {
       include: [
         '@mui/material',
