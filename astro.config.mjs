@@ -15,7 +15,7 @@ export default defineConfig({
   preview: {
     host: '0.0.0.0',
     port: Number(process.env.PORT) || 4321,
-    allowedHosts: true,
+    allowedHosts: [process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost'],
   },
   integrations: [
     react({
@@ -24,7 +24,7 @@ export default defineConfig({
   ],
   vite: {
     preview: {
-      allowedHosts: ['leetcode-spa-production.up.railway.app'],
+      allowedHosts: [process.env.RAILWAY_PUBLIC_DOMAIN || 'leetcode-spa-production.up.railway.app'],
     },
     optimizeDeps: {
       include: [

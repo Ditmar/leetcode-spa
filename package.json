@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview --host 0.0.0.0 --port 8080",
+    "preview": "astro preview --host 0.0.0.0 --port 8080 --allowed-hosts $RAILWAY_PUBLIC_DOMAIN",
     "start": "astro",
     "astro": "astro",
     "lint": "eslint . --ext .js,.mjs,.cjs,.ts,.tsx,.jsx,.astro",
