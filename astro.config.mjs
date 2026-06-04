@@ -23,6 +23,9 @@ export default defineConfig({
     }),
   ],
   vite: {
+    preview: {
+      allowedHosts: true,
+    },
     optimizeDeps: {
       include: [
         '@mui/material',
