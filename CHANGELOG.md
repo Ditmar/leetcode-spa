@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.7.0](https://github.com/Ditmar/leetcode-spa/compare/v0.6.0...v0.7.0) (2026-06-04)
+
+
+### Features
+
+* update allowedHosts ([#294](https://github.com/Ditmar/leetcode-spa/issues/294)) ([1ad510a](https://github.com/Ditmar/leetcode-spa/commit/1ad510a66ce65bf8d18a038ca5353d28f7d98c4f))
+
 # [0.6.0](https://github.com/Ditmar/leetcode-spa/compare/v0.5.0...v0.6.0) (2026-06-04)
 
 
