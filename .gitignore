@@ -25,3 +25,4 @@ pnpm-debug.log*
 
 *storybook.log
 storybook-static
+.claude
