@@ -97,10 +97,13 @@ export const userService = {
     }
 
     if (payload.displayName !== undefined && payload.displayName.length > MAX_DISPLAY_NAME_LENGTH) {
-      throw createValidationError(`Display name exceeds ${MAX_DISPLAY_NAME_LENGTH} chars.`);
+      throw createValidationError(
+        `Display name cannot exceed ${MAX_DISPLAY_NAME_LENGTH} characters.`
+      );
     }
+
     if (payload.bio && payload.bio.length > MAX_BIO_LENGTH) {
-      throw createValidationError(`Bio exceeds ${MAX_BIO_LENGTH} chars.`);
+      throw createValidationError(`Bio cannot exceed ${MAX_BIO_LENGTH} characters.`);
     }
 
     const response = await apiClient.put<UserProfile>('/users/me', payload);
@@ -144,10 +147,10 @@ export const userService = {
 
   uploadAvatar: async (file: File): Promise<{ avatarUrl: string }> => {
     if (!ALLOWED_AVATAR_TYPES.includes(file.type)) {
-      throw createValidationError('Invalid image format (JPEG, PNG, WEBP only).');
+      throw createValidationError('Invalid image format. Only JPEG, PNG, and WEBP are allowed.');
     }
     if (file.size > MAX_AVATAR_SIZE_BYTES) {
-      throw createValidationError('Image too large (Max 2MB).');
+      throw createValidationError('Image size exceeds the maximum limit of 2MB.');
     }
 
     const formData = new FormData();

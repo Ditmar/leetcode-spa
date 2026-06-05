@@ -128,21 +128,25 @@ describe('userService', () => {
         userService.updateProfile({ displayName: 'a'.repeat(51) })
       ).rejects.toMatchObject({
         code: 'VALIDATION_ERROR',
+        message: 'Display name cannot exceed 50 characters.',
       });
     });
 
     it('throws when bio exceeds 256 characters', async () => {
       await expect(userService.updateProfile({ bio: 'a'.repeat(257) })).rejects.toMatchObject({
         code: 'VALIDATION_ERROR',
+        message: 'Bio cannot exceed 256 characters.',
       });
     });
 
     it('throws when editorFontSize is below 12 or above 24', async () => {
       await expect(userService.updatePreferences({ editorFontSize: 11 })).rejects.toMatchObject({
         code: 'VALIDATION_ERROR',
+        message: 'Font size must be between 12 and 24.',
       });
       await expect(userService.updatePreferences({ editorFontSize: 25 })).rejects.toMatchObject({
         code: 'VALIDATION_ERROR',
+        message: 'Font size must be between 12 and 24.',
       });
     });
 
@@ -159,6 +163,7 @@ describe('userService', () => {
         userService.updatePreferences({ editorTabSize: 3 as unknown as 2 })
       ).rejects.toMatchObject({
         code: 'VALIDATION_ERROR',
+        message: 'Tab size must be either 2 or 4.',
       });
     });
 
@@ -166,6 +171,7 @@ describe('userService', () => {
       const invalidFile = new File([''], 'malicious.exe', { type: 'application/x-msdownload' });
       await expect(userService.uploadAvatar(invalidFile)).rejects.toMatchObject({
         code: 'VALIDATION_ERROR',
+        message: 'Invalid image format. Only JPEG, PNG, and WEBP are allowed.',
       });
     });
 
@@ -174,6 +180,7 @@ describe('userService', () => {
       const largeFile = new File([heavyPayload], 'avatar.png', { type: 'image/png' });
       await expect(userService.uploadAvatar(largeFile)).rejects.toMatchObject({
         code: 'VALIDATION_ERROR',
+        message: 'Image size exceeds the maximum limit of 2MB.',
       });
     });
 
