@@ -62,6 +62,11 @@ function validateLanguage(language: string): asserts language is AllowedLanguage
 
 function sanitizeCode(code: string): string {
   const sanitized = code.trim();
+
+  if (sanitized.length === 0) {
+    throw new SubmissionServiceError(400, 'EMPTY_CODE', 'Code cannot be empty');
+  }
+
   const size = new TextEncoder().encode(sanitized).length;
 
   if (size > MAX_CODE_SIZE_BYTES) {
@@ -119,6 +124,7 @@ async function pollSubmission(submissionId: string): Promise<Submission> {
       'Execution polling timeout exceeded'
     );
   } catch (error) {
+    //console.error(`[pollSubmission] Error polling submission ${submissionId}:`, error);
     handleSubmissionError(error);
   }
 }

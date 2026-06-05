@@ -175,6 +175,18 @@ describe('submissionsService', () => {
     });
   });
 
+  it('should throw when code is empty', async () => {
+    await expect(
+      submissionsService.run({
+        problemId: 1,
+        language: 'javascript',
+        code: '     ',
+      })
+    ).rejects.toMatchObject({
+      code: 'EMPTY_CODE',
+    });
+  });
+
   it('should throw on invalid language', async () => {
     await expect(
       submissionsService.run({
