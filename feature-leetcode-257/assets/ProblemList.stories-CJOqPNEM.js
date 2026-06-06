@@ -1,0 +1,31 @@
+import{A as e}from"./iframe-xvRzzvKz.js";import{C as h}from"./CheckCircleOutline-BiWRA20I.js";import{R as y}from"./RadioButtonUnchecked-Co83yzfs.js";import{c as S}from"./createSvgIcon-BIBJb9ki.js";import{B as s}from"./Box-BAGg5x5t.js";import{T as r}from"./Typography-C5SFJJdj.js";import{L as P}from"./List-W91ywiNF.js";const I=S(e.jsx("path",{d:"M7 11v2h10v-2zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"})),m={solved:h,attempted:I,unsolved:y},v={Easy:"#2db55d",Medium:"#feb800",Hard:"#ef4743"},w={width:"344.15px",minWidth:"344.15px",maxWidth:"344.15px",height:"100%",display:"flex",flexDirection:"column",backgroundColor:"#ffffff",borderRight:"1.17px solid #E5E7EB",boxSizing:"border-box"},C={height:"51.98px",minHeight:"51.98px",maxHeight:"51.98px",display:"flex",alignItems:"center",paddingTop:"16.37px",paddingBottom:"16.37px",paddingLeft:"24.56px",paddingRight:"16.37px",borderBottom:"1.17px solid #E5E7EB",backgroundColor:"#ffffff",boxSizing:"border-box"},j={flexGrow:1,overflowY:"auto",backgroundColor:"#ffffff","&::-webkit-scrollbar":{width:"0px"}},E=o=>({display:"flex",alignItems:"center",justifyContent:"flex-start",width:"344.15px",height:"62.15px",minHeight:"62.15px",maxHeight:"62.15px",paddingTop:"12px",paddingBottom:"12px",paddingLeft:"12px",paddingRight:"12px",backgroundColor:o?"#EFF6FF":"#ffffff",borderBottom:"1.17px solid #E5E7EB",position:"relative",cursor:"pointer",boxSizing:"border-box",transition:"background-color 0.1s ease","&::before":{content:'""',position:"absolute",left:0,top:0,bottom:0,width:"3.52px",backgroundColor:o?"#2B7FFF":"transparent"},"&:hover":{backgroundColor:o?"#EFF6FF":"#f9fafb"}}),F={width:"15.98px",height:"15.98px",display:"flex",alignItems:"center",justifyContent:"center",marginRight:"8px",flexShrink:0},R={fontFamily:'"Inter", -apple-system, BlinkMacSystemFont, sans-serif',fontSize:"14px",fontWeight:500,color:"#262626",lineHeight:"20px",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"},T={display:"flex",alignItems:"center",height:"16px",gap:"6px",marginTop:"2px"},k={fontSize:"10px",color:"#bcc1c4",lineHeight:"16px",userSelect:"none",display:"flex",alignItems:"center",justifyContent:"center",width:"5px",transform:"translateY(0.5px)"},B=o=>v[o]||"#8c8c8c",p=({problems:o,selectedProblemId:f,onSelectProblem:u})=>e.jsxs(s,{sx:w,children:[e.jsx(s,{sx:C,children:e.jsx(r,{variant:"h6",component:"h2",sx:{fontFamily:"Inter, sans-serif",fontWeight:600,fontSize:"16px",color:"#1a1a1a",letterSpacing:"-0.2px"},children:"Problems"})}),e.jsx(s,{sx:j,children:e.jsx(P,{disablePadding:!0,children:o.map(t=>{const x=f===t.id,b=m[t.status]||m.unsolved,g=t.status==="solved"?"#2db55d":t.status==="attempted"?"#feb800":"#bcc1c4";return e.jsxs(s,{sx:E(x),onClick:()=>u(t.id),children:[e.jsx(s,{sx:F,children:e.jsx(b,{sx:{color:g,fontSize:"18px"}})}),e.jsxs(s,{sx:{flexGrow:1,overflow:"hidden"},children:[e.jsxs(r,{sx:R,children:[t.idNumber,". ",t.title]}),e.jsxs(s,{sx:T,children:[e.jsx(r,{sx:{fontFamily:"Inter, sans-serif",fontSize:"12px",fontWeight:600,color:B(t.difficulty)},children:t.difficulty}),e.jsx(r,{sx:k,children:"•"}),e.jsxs(r,{sx:{fontFamily:"Inter, sans-serif",fontSize:"12px",fontWeight:400,color:"#8a9298"},children:[t.acceptanceRate,"%"]})]})]})]},t.id)})})})]});p.__docgenInfo={description:"",methods:[],displayName:"ProblemList",props:{problems:{required:!0,tsType:{name:"Array",elements:[{name:"Problem"}],raw:"Problem[]"},description:""},selectedProblemId:{required:!1,tsType:{name:"number"},description:""},onSelectProblem:{required:!0,tsType:{name:"signature",type:"function",raw:"(id: number) => void",signature:{arguments:[{type:{name:"number"},name:"id"}],return:{name:"void"}}},description:""}}};const L={title:"Components/ProblemList",component:p,decorators:[o=>e.jsx(s,{sx:{height:"90vh",display:"flex",bgcolor:"background.default"},children:e.jsx(o,{})})]},d=[{id:1,idNumber:1,title:"Two Sum",difficulty:"Easy",acceptanceRate:49.2,status:"solved"},{id:2,idNumber:2,title:"Add Two Numbers",difficulty:"Medium",acceptanceRate:41.8,status:"attempted"},{id:3,idNumber:3,title:"Longest Substring Without Repeating Characters",difficulty:"Medium",acceptanceRate:33.9,status:"attempted"},{id:4,idNumber:4,title:"Median of Two Sorted Arrays",difficulty:"Hard",acceptanceRate:38.2,status:"unsolved"},{id:5,idNumber:5,title:"Valid Parentheses",difficulty:"Easy",acceptanceRate:40.1,status:"solved"},{id:6,idNumber:6,title:"Merge Two Sorted Lists",difficulty:"Easy",acceptanceRate:62.3,status:"unsolved"}],n={args:{problems:d,selectedProblemId:1,onSelectProblem:()=>{}}},i={args:{problems:d,selectedProblemId:4,onSelectProblem:()=>{}}},a={args:{problems:d,selectedProblemId:2,onSelectProblem:()=>{}}},l={args:{problems:d,selectedProblemId:1,onSelectProblem:()=>{}}},c={args:{problems:[],selectedProblemId:0,onSelectProblem:()=>{}}};n.parameters={...n.parameters,docs:{...n.parameters?.docs,source:{originalSource:`{
+  args: {
+    problems: sampleProblems,
+    selectedProblemId: 1,
+    onSelectProblem: () => {}
+  }
+}`,...n.parameters?.docs?.source}}};i.parameters={...i.parameters,docs:{...i.parameters?.docs,source:{originalSource:`{
+  args: {
+    problems: sampleProblems,
+    selectedProblemId: 4,
+    onSelectProblem: () => {}
+  }
+}`,...i.parameters?.docs?.source}}};a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  args: {
+    problems: sampleProblems,
+    selectedProblemId: 2,
+    onSelectProblem: () => {}
+  }
+}`,...a.parameters?.docs?.source}}};l.parameters={...l.parameters,docs:{...l.parameters?.docs,source:{originalSource:`{
+  args: {
+    problems: sampleProblems,
+    selectedProblemId: 1,
+    onSelectProblem: () => {}
+  }
+}`,...l.parameters?.docs?.source}}};c.parameters={...c.parameters,docs:{...c.parameters?.docs,source:{originalSource:`{
+  args: {
+    problems: [],
+    selectedProblemId: 0,
+    onSelectProblem: () => {}
+  }
+}`,...c.parameters?.docs?.source}}};const M=["Default","AllStatuses","SelectedItem","MobileDrawer","EmptyList"],W=Object.freeze(Object.defineProperty({__proto__:null,AllStatuses:i,Default:n,EmptyList:c,MobileDrawer:l,SelectedItem:a,__namedExportsOrder:M,default:L},Symbol.toStringTag,{value:"Module"}));export{i as A,n as D,c as E,W as P};
