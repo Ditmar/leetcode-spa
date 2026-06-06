@@ -12,20 +12,29 @@ import type { ProblemDifficulty, ProblemStatus, UseProblemListReturn } from './P
 export function useProblemList(selectedProblemId: number): UseProblemListReturn {
   const iconSx = { fontSize: `${problemListTokens.dimensions.statusIconSize}px` };
 
-  const getStatusIcon = React.useCallback(
-    (status: ProblemStatus): React.ReactElement => {
-      const color = getStatusIconColor(status);
+  const getStatusIcon = React.useCallback((status: ProblemStatus): React.ReactElement => {
+    const color = getStatusIconColor(status);
 
-      if (status === 'solved') {
-        return React.createElement(CheckCircleOutlineIcon, { color, sx: iconSx, 'aria-label': 'Solved' });
-      }
-      if (status === 'attempted') {
-        return React.createElement(RemoveCircleOutlineIcon, { color, sx: iconSx, 'aria-label': 'Attempted' });
-      }
-      return React.createElement(RadioButtonUncheckedIcon, { color, sx: iconSx, 'aria-label': 'Unsolved' });
-    },
-    []
-  );
+    if (status === 'solved') {
+      return React.createElement(CheckCircleOutlineIcon, {
+        color,
+        sx: iconSx,
+        'aria-label': 'Solved',
+      });
+    }
+    if (status === 'attempted') {
+      return React.createElement(RemoveCircleOutlineIcon, {
+        color,
+        sx: iconSx,
+        'aria-label': 'Attempted',
+      });
+    }
+    return React.createElement(RadioButtonUncheckedIcon, {
+      color,
+      sx: iconSx,
+      'aria-label': 'Unsolved',
+    });
+  }, []);
 
   const getDifficultyColor = React.useCallback(
     (difficulty: ProblemDifficulty): 'success' | 'warning' | 'error' =>
