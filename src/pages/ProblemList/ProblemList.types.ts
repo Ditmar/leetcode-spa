@@ -1,9 +1,8 @@
-export type ProblemDifficulty = 'Easy' | 'Medium' | 'Hard';
 export type ProblemStatus = 'solved' | 'attempted' | 'unsolved';
+export type ProblemDifficulty = 'Easy' | 'Medium' | 'Hard';
 
 export interface Problem {
   id: number;
-  idNumber: number;
   title: string;
   difficulty: ProblemDifficulty;
   acceptanceRate: number;
@@ -14,4 +13,10 @@ export interface ProblemListProps {
   problems: Problem[];
   selectedProblemId?: number;
   onSelectProblem: (id: number) => void;
+}
+
+export interface UseProblemListReturn {
+  getStatusIcon: (status: ProblemStatus) => React.ReactElement;
+  getDifficultyColor: (difficulty: ProblemDifficulty) => 'success' | 'warning' | 'error';
+  isSelected: (id: number) => boolean;
 }

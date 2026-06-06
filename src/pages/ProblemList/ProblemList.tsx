@@ -1,103 +1,222 @@
-import { Box, Typography, List } from '@mui/material';
-import React from 'react';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import { Box, Drawer, Fab, List, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { useState } from 'react';
 
-import { STATUS_ICON_MAP } from './ProblemList.constants';
+import { problemListTokens as T } from '../../style-library/theme/theme';
+
+import { useProblemList } from './ProblemList.hook';
 import {
-  listContainerStyles,
-  headerStyles,
-  scrollableBoxStyles,
-  itemButtonStyles,
-  itemIconStyles,
-  titleTypographyStyles,
-  secondaryRowStyles,
-  dotDividerStyles,
+  StyledContainer,
+  StyledHeader,
+  StyledIconWrapper,
+  StyledListItemButton,
+  StyledListWrapper,
+  StyledMetaRow,
+  StyledTextColumn,
+  StyledTitleRow,
 } from './ProblemList.styles';
-import { getDifficultyChipColor } from './ProblemList.utils';
+import { formatAcceptanceRate, getDifficultyTextColor } from './ProblemList.utils';
 
-import type { ProblemListProps } from './ProblemList.types';
+import type { Problem, ProblemListProps } from './ProblemList.types';
 
-export const ProblemList: React.FC<ProblemListProps> = ({
-  problems,
-  selectedProblemId,
-  onSelectProblem,
-}) => {
-  return (
-    <Box sx={listContainerStyles}>
-      <Box sx={headerStyles}>
+const ProblemList = ({ problems, selectedProblemId, onSelectProblem }: ProblemListProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { getStatusIcon, isSelected } = useProblemList(selectedProblemId ?? -1);
+
+  const renderProblemItem = (problem: Problem) => {
+    const selected = isSelected(problem.id);
+    const difficultyColor = getDifficultyTextColor(problem.difficulty);
+
+    return (
+      <StyledListItemButton
+        key={problem.id}
+        isSelected={selected}
+        onClick={() => {
+          onSelectProblem(problem.id);
+          if (isMobile) setDrawerOpen(false);
+        }}
+        aria-current={selected ? 'true' : undefined}
+        aria-label={`Problem ${problem.id}: ${problem.title}, ${problem.difficulty}, ${formatAcceptanceRate(problem.acceptanceRate)} acceptance rate`}
+        data-testid={`problem-item-${problem.id}`}
+      >
+        {/* Status icon */}
+        <StyledIconWrapper>{getStatusIcon(problem.status)}</StyledIconWrapper>
+
+        {/* Text content */}
+        <StyledTextColumn>
+          {/* Title row: index number + problem name */}
+          <StyledTitleRow>
+            <Typography
+              component="span"
+              sx={{
+                fontFamily: T.typography.fontFamily,
+                fontSize: T.typography.problemNumber.fontSize,
+                fontWeight: T.typography.problemNumber.fontWeight,
+                lineHeight: T.typography.problemNumber.lineHeight,
+                letterSpacing: T.typography.problemNumber.letterSpacing,
+                color: T.colors.problemNumber,
+                flexShrink: 0,
+              }}
+            >
+              {problem.id}.
+            </Typography>
+
+            <Typography
+              component="span"
+              sx={{
+                fontFamily: T.typography.fontFamily,
+                fontSize: T.typography.problemTitle.fontSize,
+                fontWeight: T.typography.problemTitle.fontWeight,
+                lineHeight: T.typography.problemTitle.lineHeight,
+                letterSpacing: T.typography.problemTitle.letterSpacing,
+                color: T.colors.problemTitle,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {problem.title}
+            </Typography>
+          </StyledTitleRow>
+
+          {/* Meta row: difficulty • acceptance rate */}
+          <StyledMetaRow>
+            <Typography
+              component="span"
+              sx={{
+                fontFamily: T.typography.fontFamily,
+                fontSize: T.typography.meta.fontSize,
+                fontWeight: T.typography.meta.fontWeight,
+                lineHeight: T.typography.meta.lineHeight,
+                letterSpacing: T.typography.meta.letterSpacing,
+                color: difficultyColor,
+              }}
+            >
+              {problem.difficulty}
+            </Typography>
+
+            <Typography
+              component="span"
+              sx={{
+                fontFamily: T.typography.fontFamily,
+                fontSize: T.typography.meta.fontSize,
+                fontWeight: T.typography.meta.fontWeight,
+                lineHeight: T.typography.meta.lineHeight,
+                color: T.colors.bullet,
+              }}
+            >
+              •
+            </Typography>
+
+            <Typography
+              component="span"
+              sx={{
+                fontFamily: T.typography.fontFamily,
+                fontSize: T.typography.meta.fontSize,
+                fontWeight: T.typography.meta.fontWeight,
+                lineHeight: T.typography.meta.lineHeight,
+                letterSpacing: T.typography.meta.letterSpacing,
+                color: T.colors.acceptanceRate,
+              }}
+            >
+              {formatAcceptanceRate(problem.acceptanceRate)}
+            </Typography>
+          </StyledMetaRow>
+        </StyledTextColumn>
+      </StyledListItemButton>
+    );
+  };
+
+  // ── Shared header + list ───────────────────────────────────────────────────
+  const listContent = (
+    <>
+      <StyledHeader>
         <Typography
-          variant="h6"
-          component="h2"
           sx={{
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 600,
-            fontSize: '16px',
-            color: '#1a1a1a',
-            letterSpacing: '-0.2px',
+            fontFamily: T.typography.fontFamily,
+            fontSize: T.typography.header.fontSize,
+            fontWeight: T.typography.header.fontWeight,
+            lineHeight: T.typography.header.lineHeight,
+            letterSpacing: T.typography.header.letterSpacing,
+            color: T.colors.headerText,
           }}
         >
           Problems
         </Typography>
-      </Box>
+      </StyledHeader>
 
-      <Box sx={scrollableBoxStyles}>
-        <List disablePadding>
-          {problems.map((problem) => {
-            const isSelected = selectedProblemId === problem.id;
-            const StatusIcon = STATUS_ICON_MAP[problem.status] || STATUS_ICON_MAP.unsolved;
-
-            const iconColor =
-              problem.status === 'solved'
-                ? '#2db55d'
-                : problem.status === 'attempted'
-                  ? '#feb800'
-                  : '#bcc1c4';
-
-            return (
-              <Box
-                key={problem.id}
-                sx={itemButtonStyles(isSelected)}
-                onClick={() => onSelectProblem(problem.id)}
+      <StyledListWrapper>
+        <List disablePadding aria-label="Problems list">
+          {problems.length === 0 ? (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: theme.spacing(20),
+              }}
+            >
+              <Typography
+                sx={{
+                  fontFamily: T.typography.fontFamily,
+                  fontSize: T.typography.problemNumber.fontSize,
+                  color: T.colors.problemNumber,
+                }}
               >
-                <Box sx={itemIconStyles}>
-                  <StatusIcon sx={{ color: iconColor, fontSize: '18px' }} />
-                </Box>
-
-                <Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
-                  <Typography sx={titleTypographyStyles}>
-                    {problem.idNumber}. {problem.title}
-                  </Typography>
-
-                  <Box sx={secondaryRowStyles}>
-                    <Typography
-                      sx={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        color: getDifficultyChipColor(problem.difficulty),
-                      }}
-                    >
-                      {problem.difficulty}
-                    </Typography>
-
-                    <Typography sx={dotDividerStyles}>•</Typography>
-
-                    <Typography
-                      sx={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '12px',
-                        fontWeight: 400,
-                        color: '#8a9298',
-                      }}
-                    >
-                      {problem.acceptanceRate}%
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-            );
-          })}
+                No problems found.
+              </Typography>
+            </Box>
+          ) : (
+            problems.map(renderProblemItem)
+          )}
         </List>
-      </Box>
-    </Box>
+      </StyledListWrapper>
+    </>
   );
+
+  if (isMobile) {
+    return (
+      <>
+        <Fab
+          size="medium"
+          color="primary"
+          aria-label="Open problems list"
+          onClick={() => setDrawerOpen(true)}
+          data-testid="problem-list-fab"
+          sx={{
+            position: 'fixed',
+            bottom: theme.spacing(3),
+            left: theme.spacing(3),
+            zIndex: theme.zIndex.fab,
+          }}
+        >
+          <FormatListBulletedIcon />
+        </Fab>
+
+        <Drawer
+          anchor="left"
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          data-testid="problem-list-drawer"
+          PaperProps={{
+            sx: {
+              // Use theme.spacing to avoid hardcoded px — token is a multiplier
+              width: theme.spacing(T.dimensions.drawerWidth),
+              backgroundColor: T.colors.background,
+              ...T.layout.hideScrollbar,
+            },
+          }}
+        >
+          {listContent}
+        </Drawer>
+      </>
+    );
+  }
+
+  return <StyledContainer>{listContent}</StyledContainer>;
 };
+
+export { ProblemList };

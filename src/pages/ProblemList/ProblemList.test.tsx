@@ -1,89 +1,81 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import React from 'react';
-import { describe, test, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
 
 import { ProblemList } from './ProblemList';
+import { MOCK_PROBLEMS } from './ProblemList.constants';
 
-vi.mock('./ProblemList.constants', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('./ProblemList.constants')>();
+const defaultProps = {
+  problems: MOCK_PROBLEMS,
+  selectedProblemId: 1,
+  onSelectProblem: vi.fn(),
+};
 
-  const DummyIcon = ({ 'data-testid': testId }: { 'data-testid'?: string }) => (
-    <span data-testid={testId}>•</span>
-  );
+describe('ProblemList', () => {
+  it('renders all problems', () => {
+    render(<ProblemList {...defaultProps} />);
+    MOCK_PROBLEMS.forEach((problem) => {
+      expect(screen.getByText(problem.title)).toBeInTheDocument();
+    });
+  });
 
-  return {
-    ...actual,
-    STATUS_ICON_MAP: {
-      solved: DummyIcon,
-      attempted: DummyIcon,
-      unsolved: DummyIcon,
-    },
-  };
-});
-
-// 🔴 CORRECCIÓN AQUÍ: Cambiamos '1' y '2' a números (1 y 2) para cumplir con el tipo original de Problem
-const mockProblems = [
-  {
-    id: 1,
-    idNumber: 1,
-    title: 'Two Sum',
-    difficulty: 'Easy' as const,
-    acceptanceRate: 49.5,
-    status: 'solved' as const,
-  },
-  {
-    id: 2,
-    idNumber: 2,
-    title: 'Add Two Numbers',
-    difficulty: 'Medium' as const,
-    acceptanceRate: 41.2,
-    status: 'attempted' as const,
-  },
-];
-
-describe('ProblemList Component', () => {
-  test('debe renderizar el encabezado "Problems" correctamente', () => {
-    render(
-      <ProblemList
-        problems={mockProblems}
-        selectedProblemId={1} // Cambiado a número también
-        onSelectProblem={vi.fn()}
-      />
-    );
-
+  it('renders the Problems header', () => {
+    render(<ProblemList {...defaultProps} />);
     expect(screen.getByText('Problems')).toBeInTheDocument();
   });
 
-  test('debe listar los títulos de los problemas con su ID numérico', () => {
-    render(
-      <ProblemList
-        problems={mockProblems}
-        selectedProblemId={1} // Cambiado a número también
-        onSelectProblem={vi.fn()}
-      />
-    );
+  it('calls onSelectProblem with the correct id on click', async () => {
+    const user = userEvent.setup();
+    const onSelectProblem = vi.fn();
+    render(<ProblemList {...defaultProps} onSelectProblem={onSelectProblem} />);
 
-    expect(screen.getByText('1. Two Sum')).toBeInTheDocument();
-    expect(screen.getByText('2. Add Two Numbers')).toBeInTheDocument();
+    await user.click(screen.getByTestId('problem-item-2'));
+
+    expect(onSelectProblem).toHaveBeenCalledTimes(1);
+    expect(onSelectProblem).toHaveBeenCalledWith(2);
   });
 
-  test('debe disparar la función onSelectProblem al hacer clic en un ítem', () => {
-    const handleSelectProblem = vi.fn();
+  it('marks the selected item with aria-current="true"', () => {
+    render(<ProblemList {...defaultProps} selectedProblemId={3} />);
+    expect(screen.getByTestId('problem-item-3')).toHaveAttribute('aria-current', 'true');
+  });
 
-    render(
-      <ProblemList
-        problems={mockProblems}
-        selectedProblemId={1} // Cambiado a número también
-        onSelectProblem={handleSelectProblem}
-      />
-    );
+  it('does not set aria-current on non-selected items', () => {
+    render(<ProblemList {...defaultProps} selectedProblemId={1} />);
+    expect(screen.getByTestId('problem-item-2')).not.toHaveAttribute('aria-current');
+  });
 
-    const problemItem = screen.getByText('2. Add Two Numbers').closest('div');
-    if (problemItem) {
-      fireEvent.click(problemItem);
-    }
+  it('renders correct status icon — solved', () => {
+    render(<ProblemList {...defaultProps} />);
+    expect(screen.getByLabelText('Solved')).toBeInTheDocument();
+  });
 
-    // Al hacer clic en el segundo ítem, esperamos que devuelva el número entero 2
-    expect(handleSelectProblem).toHaveBeenCalledWith(2);
+  it('renders correct status icon — attempted', () => {
+    render(<ProblemList {...defaultProps} />);
+    expect(screen.getByLabelText('Attempted')).toBeInTheDocument();
+  });
+
+  it('renders correct status icons — unsolved (4 items)', () => {
+    render(<ProblemList {...defaultProps} />);
+    expect(screen.getAllByLabelText('Unsolved')).toHaveLength(4);
+  });
+
+  it('renders acceptance rates for all problems', () => {
+    render(<ProblemList {...defaultProps} />);
+    expect(screen.getByText('49.2%')).toBeInTheDocument();
+    expect(screen.getByText('41.8%')).toBeInTheDocument();
+    expect(screen.getByText('33.9%')).toBeInTheDocument();
+  });
+
+  it('renders the empty state when problems array is empty', () => {
+    render(<ProblemList problems={[]} selectedProblemId={-1} onSelectProblem={vi.fn()} />);
+    expect(screen.getByText('No problems found.')).toBeInTheDocument();
+  });
+
+  it('items are keyboard-focusable', () => {
+    render(<ProblemList {...defaultProps} />);
+    const firstItem = screen.getByTestId('problem-item-1');
+    firstItem.focus();
+    expect(firstItem).toHaveFocus();
   });
 });
