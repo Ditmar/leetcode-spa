@@ -6,57 +6,60 @@ import * as ProblemDetailStories from './ProblemDetail.stories';
 
 # ProblemDetail
 
-The `ProblemDetail` component is a responsive page-level content panel inspired by coding challenge platforms such as LeetCode. It is responsible for presenting complete problem information including title, difficulty, tags, examples, explanations, and constraints while maintaining accessibility, responsiveness, and consistency with the project's Material UI design system.
+The `ProblemDetail` component is a responsive page-level component inspired by coding challenge platforms such as LeetCode. It provides a structured and accessible way to display coding problems, including metadata, descriptions, examples, explanations, and constraints.
+
+The component was implemented using Material UI and follows the project's design system, styling conventions, accessibility requirements, and responsive design guidelines.
 
 ---
 
 # Purpose
 
-This component was designed to provide a clean and readable interface for algorithmic problem descriptions. The layout prioritizes readability, semantic structure, and responsive behaviour while integrating fully with the project's design token architecture.
+The main goal of this component is to present coding challenge information in a clear and user-friendly format while maintaining consistency with the rest of the application.
 
-The component supports:
+The component is designed to support:
+
 - Coding challenge descriptions
-- Example rendering
-- Constraint visualization
 - Difficulty indicators
+- Problem tags
+- Examples and explanations
+- Constraints
 - Responsive layouts
-- Accessible semantic structure
+- Accessibility requirements
+- Design system integration
 
 ---
 
-# Main Technologies
+# Technologies Used
 
-The component was implemented using:
+The component was developed using:
 
 - React
 - TypeScript
 - Material UI
 - Storybook
 - Vitest
-- Testing Library
+- React Testing Library
 
 ---
 
-# Material UI Components Used
+# Material UI Components
 
 The implementation uses the following Material UI components:
 
-- `Box`
-- `Stack`
-- `Typography`
-- `Chip`
-- `Divider`
-- `Paper`
+- Box
+- Stack
+- Typography
+- Chip
+- Divider
+- Paper
 
-These components were selected to maintain consistency with the existing project architecture and design system.
+These components provide consistency with the project's architecture and design system.
 
 ---
 
 # Design System Integration
 
-The component follows the application's centralized design token system.
-
-Instead of hardcoded colors or spacing values, the component uses shared CSS variables and theme values.
+The component uses the centralized design token system instead of hardcoded colors.
 
 ## Design Tokens Used
 
@@ -70,3 +73,367 @@ var(--muted-foreground)
 var(--border)
 var(--radius-lg)
 var(--shadow-sm)
+```
+
+Benefits:
+
+- Consistent UI
+- Easier maintenance
+- Shared styling patterns
+- Theme compatibility
+- Better scalability
+
+---
+
+# Typography
+
+The component follows the project's typography system.
+
+```css
+font-family: 'Syne', sans-serif;
+```
+
+Typography hierarchy:
+
+- h1 → Problem title
+- h2 → Section headings
+- h3 → Example headings
+- body2 → Problem description
+
+---
+
+# Component Structure
+
+The component is divided into the following sections:
+
+1. Problem Header
+2. Difficulty and Tags
+3. Description
+4. Examples
+5. Constraints
+
+---
+
+# Problem Header
+
+The header displays:
+
+- Problem number
+- Problem title
+- Difficulty chip
+- Associated tags
+
+The title uses semantic heading structure and responsive typography.
+
+---
+
+# Difficulty Indicator
+
+Difficulty is represented using Material UI Chips.
+
+Difficulty levels:
+
+| Difficulty | MUI Color |
+|------------|------------|
+| Easy | success |
+| Medium | warning |
+| Hard | error |
+
+The color is determined through a utility function instead of hardcoded values.
+
+```ts
+getDifficultyChipColor()
+```
+
+This improves maintainability and separation of concerns.
+
+---
+
+# Tags Section
+
+Tags are rendered dynamically using Chip components.
+
+Features:
+
+- Responsive wrapping
+- Consistent spacing
+- Outlined appearance
+- Safe rendering
+
+---
+
+# Description Section
+
+The description section provides the full problem statement.
+
+Features:
+
+- Readable typography
+- Responsive spacing
+- Muted foreground colors
+- Consistent line height
+
+---
+
+# Examples Section
+
+Examples are displayed inside styled Paper containers.
+
+Each example supports:
+
+- Input
+- Output
+- Optional explanation
+
+Example numbering is generated dynamically.
+
+---
+
+# Code Formatting
+
+Example code blocks use:
+
+```tsx
+Paper component="pre"
+```
+
+Features:
+
+- Monospace typography
+- Preserved whitespace
+- Horizontal scrolling
+- Responsive overflow handling
+
+---
+
+# Constraints Section
+
+Constraints are displayed inside a Paper container using semantic unordered lists.
+
+Features:
+
+- Semantic HTML
+- Monospace formatting
+- Consistent spacing
+- Design token styling
+
+The implementation uses:
+
+```html
+<ul>
+<li>
+```
+
+for accessibility and semantic correctness.
+
+---
+
+# Accessibility
+
+The component follows accessibility best practices.
+
+Implemented features:
+
+- Semantic heading hierarchy
+- Accessible labels
+- Section landmarks
+- Keyboard accessibility
+- Responsive overflow support
+
+ARIA attributes include:
+
+- aria-labelledby
+- aria-label
+
+---
+
+# Responsive Design
+
+The component was designed and tested for multiple screen sizes.
+
+| Breakpoint | Device |
+|------------|---------|
+| 320px | Small Mobile |
+| 375px | Mobile |
+| 768px | Tablet |
+| 1024px+ | Desktop |
+
+Responsive features:
+
+- Flexible chip wrapping
+- Adaptive spacing
+- Responsive typography
+- Scrollable code examples
+- Overflow-safe layout
+
+---
+
+# Error Handling and Edge Cases
+
+The component includes defensive rendering strategies to avoid runtime failures.
+
+Implemented safeguards:
+
+- Undefined problem handling
+- Null problem handling
+- Empty examples handling
+- Empty constraints handling
+- Safe rendering for incomplete data
+
+Fallback states:
+
+### Missing problem
+
+```txt
+No problem data available.
+```
+
+### Missing examples
+
+```txt
+No examples available.
+```
+
+### Missing constraints
+
+The Constraints section is not rendered when no constraints exist.
+
+These protections improve robustness and user experience.
+
+---
+
+# Architecture
+
+The implementation follows separation of concerns principles.
+
+## Business Logic
+
+```txt
+ProblemDetail.hook.ts
+```
+
+Contains:
+
+- difficulty color mapping integration
+- reusable component logic
+
+## Styling
+
+```txt
+ProblemDetail.styles.ts
+```
+
+Contains:
+
+- centralized sx styles
+- responsive styling
+- design token integration
+
+## Constants
+
+```txt
+ProblemDetail.constants.ts
+```
+
+Contains:
+
+- difficulty color mappings
+- reusable configuration
+
+## Utilities
+
+```txt
+ProblemDetail.utils.ts
+```
+
+Contains:
+
+- reusable helper functions
+- difficulty color utilities
+
+---
+
+# Testing
+
+Unit tests were implemented using Vitest and React Testing Library.
+
+Covered scenarios:
+
+- Renders title correctly
+- Renders difficulty chip
+- Renders tags
+- Renders examples
+- Renders explanations
+- Renders constraints
+- Validates chip color mapping
+- Verifies semantic structure
+- Supports multiple difficulty levels
+
+Testing helps prevent regressions and ensures component stability.
+
+---
+
+# Storybook Scenarios
+
+The component includes the following stories:
+
+- EasyProblem
+- MediumProblem
+- HardProblem
+
+These stories allow visual verification across different problem configurations.
+
+---
+
+# Visual Design Goals
+
+The visual design is inspired by modern coding platforms.
+
+Goals:
+
+- Clean layout
+- Readable content
+- Strong visual hierarchy
+- Responsive usability
+- Consistent spacing
+- Design system compliance
+
+---
+
+# Default Example
+
+<Canvas of={ProblemDetailStories.EasyProblem} />
+
+---
+
+# Medium Difficulty Example
+
+<Canvas of={ProblemDetailStories.MediumProblem} />
+
+---
+
+# Hard Difficulty Example
+
+<Canvas of={ProblemDetailStories.HardProblem} />
+
+---
+
+# Controls
+
+<Controls />
+
+---
+
+# Individual Stories
+
+## Easy Problem
+
+<Story of={ProblemDetailStories.EasyProblem} />
+
+## Medium Problem
+
+<Story of={ProblemDetailStories.MediumProblem} />
+
+## Hard Problem
+
+<Story of={ProblemDetailStories.HardProblem} />

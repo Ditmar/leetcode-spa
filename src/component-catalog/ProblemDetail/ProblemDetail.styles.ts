@@ -127,3 +127,13 @@ export const constraintItemSx: SxProps<Theme> = {
     mb: 0,
   },
 };
+
+export const emptyStateSx: SxProps<Theme> = {
+  p: 2,
+  borderRadius: 'var(--radius-lg)',
+  bgcolor: 'var(--muted)',
+  color: 'var(--muted-foreground)',
+  border: 1,
+  borderColor: 'var(--border)',
+  textAlign: 'center',
+}; 

@@ -15,7 +15,7 @@ export interface Problem {
 }
 
 export interface ProblemDetailProps {
-  problem: Problem;
+  problem?: Problem | null;
 }
 
 export type ProblemDifficulty = Problem['difficulty'];
