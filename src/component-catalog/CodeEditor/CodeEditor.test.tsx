@@ -3,6 +3,8 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { CodeEditor } from './CodeEditor';
 
+import type { ExecutionResult } from './CodeEditor.types';
+
 vi.mock('@monaco-editor/react', () => ({
   default: ({ value, onChange }: { value: string; onChange: (value?: string) => void }) => (
     <textarea
@@ -126,6 +128,34 @@ describe('CodeEditor', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/Test case 1/i)).toBeInTheDocument();
+    });
+  });
+
+  it('disables run, submit and reset buttons while execution is in progress', async () => {
+    const onRun = vi.fn().mockImplementation(
+      () =>
+        new Promise<ExecutionResult>((resolve) => {
+          setTimeout(() => {
+            resolve({
+              status: 'success',
+              tests: [],
+            });
+          }, 100);
+        })
+    );
+
+    render(<CodeEditor onRun={onRun} />);
+
+    const runButton = screen.getByLabelText('run code');
+    const submitButton = screen.getByLabelText('submit code');
+    const resetButton = screen.getByLabelText('reset code');
+
+    fireEvent.click(runButton);
+
+    await waitFor(() => {
+      expect(runButton).toBeDisabled();
+      expect(submitButton).toBeDisabled();
+      expect(resetButton).toBeDisabled();
     });
   });
 

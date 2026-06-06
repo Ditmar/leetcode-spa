@@ -18,7 +18,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useCallback, useRef, useState } from 'react';
 
 import { SUPPORTED_LANGUAGES } from './CodeEditor.constants';
 import { useCodeEditor } from './CodeEditor.hook';
@@ -34,6 +34,7 @@ import {
 } from './CodeEditor.styles';
 
 import type { CodeEditorProps, Language } from './CodeEditor.types';
+import type { PointerEvent as ReactPointerEvent } from 'react';
 
 const MonacoEditor = lazy(() => import('@monaco-editor/react'));
 
@@ -58,6 +59,8 @@ const SubmitUploadIcon = () => (
 export const CodeEditor = (props: CodeEditorProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const splitContainerRef = useRef<HTMLDivElement | null>(null);
+  const [editorPanelSize, setEditorPanelSize] = useState(66);
 
   const {
     language,
@@ -66,12 +69,60 @@ export const CodeEditor = (props: CodeEditorProps) => {
     isRunning,
     isSubmitting,
     isExecuting,
+    isOutputOpen,
     setCode,
+    setIsOutputOpen,
     handleLanguageChange,
     handleRun,
     handleSubmit,
     handleReset,
   } = useCodeEditor(props);
+
+  const testResults = Array.isArray(executionResult?.tests) ? executionResult.tests : [];
+
+  const hasRuntime = typeof executionResult?.runtimeMs === 'number';
+  const hasMemory = typeof executionResult?.memoryMb === 'number';
+  const hasMetrics = hasRuntime || hasMemory;
+
+  const outputPanelSize = 100 - editorPanelSize;
+
+  const handleResizePointerDown = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      if (isMobile) {
+        return;
+      }
+
+      event.preventDefault();
+
+      const updateEditorSize = (pointerEvent: PointerEvent) => {
+        const container = splitContainerRef.current;
+
+        if (!container) {
+          return;
+        }
+
+        const rect = container.getBoundingClientRect();
+        const nextSize = ((pointerEvent.clientY - rect.top) / rect.height) * 100;
+        const clampedSize = Math.min(Math.max(nextSize, 45), 78);
+
+        setEditorPanelSize(clampedSize);
+      };
+
+      const handlePointerMove = (pointerEvent: PointerEvent) => {
+        updateEditorSize(pointerEvent);
+      };
+
+      const handlePointerUp = () => {
+        window.removeEventListener('pointermove', handlePointerMove);
+        window.removeEventListener('pointerup', handlePointerUp);
+      };
+
+      updateEditorSize(event.nativeEvent);
+      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointerup', handlePointerUp);
+    },
+    [isMobile]
+  );
 
   const renderEditor = () => (
     <Suspense fallback={<Skeleton variant="rectangular" height="100%" />}>
@@ -140,8 +191,28 @@ export const CodeEditor = (props: CodeEditorProps) => {
         <Alert severity="error">{executionResult.errorMessage}</Alert>
       )}
 
+      {!isExecuting && executionResult && hasMetrics && (
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            color: 'var(--nav-text)',
+            fontSize: '0.82rem',
+            fontWeight: 500,
+          }}
+        >
+          {hasRuntime && (
+            <Typography variant="body2">Runtime: {executionResult.runtimeMs} ms</Typography>
+          )}
+
+          {hasMemory && (
+            <Typography variant="body2">Memory: {executionResult.memoryMb} MB</Typography>
+          )}
+        </Stack>
+      )}
+
       {!isExecuting &&
-        executionResult?.tests.map((test) => (
+        testResults.map((test) => (
           <TestResultItem key={test.id}>
             <Typography color={test.passed ? 'success.light' : 'error.light'} fontWeight={700}>
               {test.passed ? '✓' : '✗'} {test.name}
@@ -411,59 +482,111 @@ export const CodeEditor = (props: CodeEditorProps) => {
           </Tooltip>
         </ToolbarContainer>
 
-        <EditorArea
-          sx={{
-            height: isMobile ? '58%' : '66%',
-            backgroundColor: 'var(--editor-background)',
-
-            '& .monaco-editor': {
-              backgroundColor: 'var(--editor-background) !important',
-            },
-
-            '& .monaco-editor-background': {
-              backgroundColor: 'var(--editor-background) !important',
-            },
-
-            '& .margin': {
-              backgroundColor: 'var(--editor-background) !important',
-            },
-
-            '& .monaco-scrollable-element': {
-              backgroundColor: 'var(--editor-background) !important',
-            },
-          }}
-        >
-          {renderEditor()}
-        </EditorArea>
-
-        {!isMobile && <ResizeHandle />}
-
         <Box
+          ref={splitContainerRef}
           sx={{
-            height: isMobile ? '42%' : '34%',
+            flex: 1,
             minHeight: 0,
             display: 'flex',
             flexDirection: 'column',
           }}
         >
-          {isMobile ? (
-            <Collapse
-              in={true}
-              timeout="auto"
-              unmountOnExit={false}
-              sx={{
-                height: '100%',
-              }}
-            >
-              {renderOutputToolbar()}
-              {renderOutput()}
-            </Collapse>
-          ) : (
-            <>
-              {renderOutputToolbar()}
-              {renderOutput()}
-            </>
+          <EditorArea
+            sx={{
+              height: isMobile ? '58%' : `${editorPanelSize}%`,
+              backgroundColor: 'var(--editor-background)',
+
+              '& .monaco-editor': {
+                backgroundColor: 'var(--editor-background) !important',
+              },
+
+              '& .monaco-editor-background': {
+                backgroundColor: 'var(--editor-background) !important',
+              },
+
+              '& .margin': {
+                backgroundColor: 'var(--editor-background) !important',
+              },
+
+              '& .monaco-scrollable-element': {
+                backgroundColor: 'var(--editor-background) !important',
+              },
+            }}
+          >
+            {renderEditor()}
+          </EditorArea>
+
+          {!isMobile && (
+            <ResizeHandle
+              role="separator"
+              aria-orientation="horizontal"
+              aria-label="Resize editor and output panels"
+              onPointerDown={handleResizePointerDown}
+              sx={(theme) => ({
+                height: theme.spacing(0.75),
+                cursor: 'row-resize',
+                touchAction: 'none',
+              })}
+            />
           )}
+
+          <Box
+            sx={{
+              height: isMobile ? '42%' : `${outputPanelSize}%`,
+              minHeight: 0,
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {isMobile ? (
+              <>
+                <Button
+                  type="button"
+                  aria-expanded={isOutputOpen}
+                  aria-controls="code-editor-mobile-output"
+                  onClick={() => setIsOutputOpen(!isOutputOpen)}
+                  sx={(theme) => ({
+                    width: '100%',
+                    justifyContent: 'space-between',
+                    color: 'var(--nav-text)',
+                    backgroundColor: 'color-mix(in srgb, var(--nav-text) 8%, var(--nav-bg))',
+                    borderRadius: 0,
+                    borderTop: '1px solid color-mix(in srgb, var(--nav-text) 18%, transparent)',
+                    textTransform: 'none',
+                    fontWeight: 700,
+                    padding: theme.spacing(1, 2),
+
+                    '&:hover': {
+                      backgroundColor: 'color-mix(in srgb, var(--nav-text) 12%, var(--nav-bg))',
+                    },
+                  })}
+                >
+                  Output
+                  <Typography component="span" fontWeight={700}>
+                    {isOutputOpen ? 'Hide' : 'Show'}
+                  </Typography>
+                </Button>
+
+                <Collapse
+                  id="code-editor-mobile-output"
+                  in={isOutputOpen}
+                  timeout="auto"
+                  unmountOnExit={false}
+                  sx={{
+                    height: isOutputOpen ? '100%' : 0,
+                  }}
+                >
+                  {renderOutputToolbar()}
+                  {renderOutput()}
+                </Collapse>
+              </>
+            ) : (
+              <>
+                {renderOutputToolbar()}
+                {renderOutput()}
+              </>
+            )}
+          </Box>
         </Box>
       </CodeEditorLayout>
     </CodeEditorRoot>
