@@ -7,11 +7,47 @@ import type {
   TopicFilters,
   TopicProgress,
 } from './exploreService.types';
+import type { ApiError } from '../api/apiClient';
 
+const DEFAULT_EXPLORE_API_PATH = '/explore';
+const TOPIC_DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced'];
 const env = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env;
-const EXPLORE_API_PATH = env?.PUBLIC_EXPLORE_API_PATH ?? '/explore';
+const EXPLORE_API_PATH = normalizeExploreApiPath(env?.PUBLIC_EXPLORE_API_PATH);
+
+function isApiError(error: unknown): error is ApiError {
+  if (!error || typeof error !== 'object') return false;
+
+  const apiError = error as Partial<ApiError>;
+  return (
+    typeof apiError.status === 'number' &&
+    typeof apiError.code === 'string' &&
+    typeof apiError.message === 'string'
+  );
+}
+
+function createBadRequestError(message: string, details?: unknown): ApiError {
+  return {
+    status: 400,
+    code: 'BAD_REQUEST',
+    message,
+    details,
+  };
+}
+
+function normalizeExploreApiPath(path?: string): string {
+  if (typeof path !== 'string') return DEFAULT_EXPLORE_API_PATH;
+
+  const trimmedPath = path.trim();
+  if (!trimmedPath || trimmedPath.includes(' ') || !trimmedPath.startsWith('/')) {
+    return DEFAULT_EXPLORE_API_PATH;
+  }
+
+  return trimmedPath;
+}
 
 function buildTopicQuery(filters?: TopicFilters): string {
+  validateTopicFilters(filters);
+
   const searchParams = new URLSearchParams();
 
   if (filters?.category) {
@@ -24,6 +60,21 @@ function buildTopicQuery(filters?: TopicFilters): string {
 
   const query = searchParams.toString();
   return query ? `?${query}` : '';
+}
+
+function validateTopicFilters(filters?: TopicFilters): void {
+  if (!filters) return;
+
+  if (filters.category !== undefined && typeof filters.category !== 'string') {
+    throw createBadRequestError('Topic category filter must be a string', filters.category);
+  }
+
+  if (filters.difficulty !== undefined && !TOPIC_DIFFICULTIES.includes(filters.difficulty)) {
+    throw createBadRequestError(
+      'Topic difficulty filter must be Beginner, Intermediate, or Advanced',
+      filters.difficulty
+    );
+  }
 }
 
 function sortFiltersMetadata(metadata: FiltersMetadata): FiltersMetadata {
@@ -67,12 +118,27 @@ export async function updateProgress(
   problemId: number,
   completed: boolean
 ): Promise<TopicProgress> {
-  const response = await apiClient.patch<TopicProgress>(
-    buildExplorePath(`/topics/${topicId}/problems/${problemId}`),
-    { completed }
-  );
+  try {
+    const response = await apiClient.patch<TopicProgress>(
+      buildExplorePath(`/topics/${topicId}/problems/${problemId}`),
+      { completed }
+    );
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    if (isApiError(error)) {
+      throw error;
+    }
+
+    const updateError: ApiError = {
+      status: 500,
+      code: 'UPDATE_PROGRESS_FAILED',
+      message: 'Failed to update topic progress',
+      details: error,
+    };
+
+    throw updateError;
+  }
 }
 
 export const exploreService = {

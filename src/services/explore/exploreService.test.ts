@@ -1,11 +1,14 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { apiClient } from '../api/apiClient';
+
 import { exploreService, updateProgress } from './exploreService';
 
 import type {
   ExploreTopic,
   FiltersMetadata,
   TopicDetail,
+  TopicFilters,
   TopicProgress,
 } from './exploreService.types';
 
@@ -78,6 +81,32 @@ describe('exploreService.getTopics', () => {
 
     const [url] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(url).toBe('/api/explore/topics?category=Data+Structures&difficulty=Beginner');
+  });
+
+  it('throws BAD_REQUEST before calling the API when category has an invalid type', async () => {
+    const fetchMock = mockFetchOk<ExploreTopic[]>([topic]);
+    vi.stubGlobal('fetch', fetchMock);
+
+    const invalidFilters = { category: 123 } as unknown as TopicFilters;
+
+    await expect(exploreService.getTopics(invalidFilters)).rejects.toMatchObject({
+      status: 400,
+      code: 'BAD_REQUEST',
+    });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('throws BAD_REQUEST before calling the API when difficulty is not supported', async () => {
+    const fetchMock = mockFetchOk<ExploreTopic[]>([topic]);
+    vi.stubGlobal('fetch', fetchMock);
+
+    const invalidFilters = { difficulty: 'Expert' } as unknown as TopicFilters;
+
+    await expect(exploreService.getTopics(invalidFilters)).rejects.toMatchObject({
+      status: 400,
+      code: 'BAD_REQUEST',
+    });
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });
 
@@ -159,6 +188,16 @@ describe('exploreService.updateProgress', () => {
     await expect(updateProgress(1, 101, true)).rejects.toMatchObject({
       status: 401,
       code: 'UNAUTHORIZED',
+    });
+  });
+
+  it('wraps unexpected update errors with meaningful feedback', async () => {
+    vi.spyOn(apiClient, 'patch').mockRejectedValue('network unavailable');
+
+    await expect(updateProgress(1, 101, true)).rejects.toMatchObject({
+      status: 500,
+      code: 'UPDATE_PROGRESS_FAILED',
+      message: 'Failed to update topic progress',
     });
   });
 });
