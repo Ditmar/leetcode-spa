@@ -27,6 +27,10 @@ export function Popover({
 
   const arrowSide = useMemo(() => getArrowSide(activePlacement), [activePlacement]);
 
+  if (trigger == null) {
+    return null;
+  }
+
   return (
     <>
       <PopoverTriggerWrapper

@@ -23,14 +23,18 @@ export function usePopover({
   const handleOpen = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
       setAnchorEl(event.currentTarget);
-      onOpenChange?.(true);
+      if (onOpenChange) {
+        onOpenChange(true);
+      }
     },
     [onOpenChange]
   );
 
   const handleClose = useCallback(() => {
     setAnchorEl(null);
-    onOpenChange?.(false);
+    if (onOpenChange) {
+      onOpenChange(false);
+    }
   }, [onOpenChange]);
 
   useEffect(() => {
