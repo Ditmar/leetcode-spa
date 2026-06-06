@@ -61,23 +61,30 @@ function validateLanguage(language: string): asserts language is AllowedLanguage
 }
 
 function sanitizeCode(code: string): string {
-  const sanitized = code.trim();
+  try {
+    const sanitized = code.trim();
 
-  if (sanitized.length === 0) {
-    throw new SubmissionServiceError(400, 'EMPTY_CODE', 'Code cannot be empty');
+    if (sanitized.length === 0) {
+      throw new SubmissionServiceError(400, 'EMPTY_CODE', 'Code cannot be empty');
+    }
+
+    const size = new TextEncoder().encode(sanitized).length;
+
+    if (size > MAX_CODE_SIZE_BYTES) {
+      throw new SubmissionServiceError(
+        400,
+        'CODE_TOO_LARGE',
+        'Code exceeds maximum allowed size of 64 KB'
+      );
+    }
+
+    return sanitized;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error sanitizing code:', error);
+
+    throw error;
   }
-
-  const size = new TextEncoder().encode(sanitized).length;
-
-  if (size > MAX_CODE_SIZE_BYTES) {
-    throw new SubmissionServiceError(
-      400,
-      'CODE_TOO_LARGE',
-      'Code exceeds maximum allowed size of 64 KB'
-    );
-  }
-
-  return sanitized;
 }
 
 function isQueuedResponse(data: unknown): data is QueuedSubmissionResponse {
@@ -124,7 +131,8 @@ async function pollSubmission(submissionId: string): Promise<Submission> {
       'Execution polling timeout exceeded'
     );
   } catch (error) {
-    //console.error(`[pollSubmission] Error polling submission ${submissionId}:`, error);
+    // eslint-disable-next-line no-console
+    console.error(`[pollSubmission] Error polling submission ${submissionId}:`, error);
     handleSubmissionError(error);
   }
 }
