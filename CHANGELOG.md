@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/Ditmar/leetcode-spa/compare/v0.9.0...v0.9.1) (2026-06-06)
+
+
+### Reverts
+
+* Revert "feature/leetcode-199: Implement Popover component (#240)" ([eb9963c](https://github.com/Ditmar/leetcode-spa/commit/eb9963c463489f8f090d76041a463cb1e2775084)), closes [#240](https://github.com/Ditmar/leetcode-spa/issues/240)
+
 # [0.9.0](https://github.com/Ditmar/leetcode-spa/compare/v0.8.0...v0.9.0) (2026-06-04)
 
 
