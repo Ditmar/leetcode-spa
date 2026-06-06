@@ -136,4 +136,4 @@ export const emptyStateSx: SxProps<Theme> = {
   border: 1,
   borderColor: 'var(--border)',
   textAlign: 'center',
-}; 
+};
