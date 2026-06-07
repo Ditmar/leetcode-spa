@@ -38,7 +38,7 @@ const Drawer = (props: CustomDrawerProps) => {
 
   const handleCloseButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (onClose) {
-      onClose(event, 'escapeKeyDown');
+      onClose(event, 'backdropClick');
     }
   };
 
@@ -129,7 +129,13 @@ const Drawer = (props: CustomDrawerProps) => {
       onClose={onClose}
       PaperProps={{ sx: paperSx }}
       aria-label={drawerAriaLabel}
-      role={variant === DRAWER_VARIANTS.TEMPORARY ? undefined : 'complementary'}
+      role={
+        variant === DRAWER_VARIANTS.PERMANENT
+          ? 'navigation'
+          : variant === DRAWER_VARIANTS.PERSISTENT
+            ? 'complementary'
+            : undefined
+      }
       {...rest}
     >
       {drawerContent}

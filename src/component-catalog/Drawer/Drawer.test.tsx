@@ -30,21 +30,24 @@ describe('Drawer', () => {
 
     expect(screen.queryByText(/hidden drawer/i)).not.toBeInTheDocument();
   });
-
   it('calls onClose when close button is clicked', async () => {
     const user = userEvent.setup();
-
     const onClose = vi.fn();
-
-    render(
+    const { rerender } = render(
       <Drawer open title="Test" onClose={onClose}>
         Content
       </Drawer>
     );
-
     await user.click(screen.getByLabelText(/close drawer/i));
-
     expect(onClose).toHaveBeenCalled();
+
+    // Verify drawer closes after onClose is triggered
+    rerender(
+      <Drawer open={false} title="Test" onClose={onClose}>
+        Content
+      </Drawer>
+    );
+    expect(screen.queryByRole('heading', { name: /^test$/i })).not.toBeInTheDocument();
   });
 
   it('does not show close button when showCloseButton is false', () => {
