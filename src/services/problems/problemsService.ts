@@ -30,8 +30,10 @@ function buildQueryString(filters: ProblemFilters = {}): string {
     params.set('tag', filters.tag);
   }
 
-  const page = filters.page ?? 1;
-  const pageSize = filters.pageSize ?? 20;
+  const page = typeof filters.page === 'number' && !Number.isNaN(filters.page) ? filters.page : 1;
+
+  const pageSize =
+    typeof filters.pageSize === 'number' && !Number.isNaN(filters.pageSize) ? filters.pageSize : 20;
 
   params.set('page', String(Math.max(1, page)));
 
@@ -60,6 +62,10 @@ async function getProblemById(id: number, config?: RequestConfig): Promise<Probl
 async function getTags(config?: RequestConfig): Promise<string[]> {
   const response = await apiClient.get<string[]>('/problems/tags', config);
 
+  if (!Array.isArray(response.data)) {
+    throw new Error('Invalid tags response');
+  }
+
   return [...new Set(response.data)].sort((a, b) => a.localeCompare(b));
 }
 
@@ -69,9 +75,13 @@ async function getStats(cookiesOrConfig?: string | RequestConfig): Promise<Probl
       ? { headers: { cookie: cookiesOrConfig } }
       : cookiesOrConfig;
 
-  const response = await apiClient.get<ProblemStats>('/problems/stats', config);
+  try {
+    const response = await apiClient.get<ProblemStats>('/problems/stats', config);
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to fetch problem stats');
+  }
 }
 
 export const problemsService = {
