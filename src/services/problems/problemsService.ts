@@ -79,7 +79,7 @@ async function getStats(cookiesOrConfig?: string | RequestConfig): Promise<Probl
     const response = await apiClient.get<ProblemStats>('/problems/stats', config);
 
     return response.data;
-  } catch (error) {
+  } catch {
     throw new Error('Failed to fetch problem stats');
   }
 }
