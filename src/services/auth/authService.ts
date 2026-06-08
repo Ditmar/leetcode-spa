@@ -35,7 +35,14 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     throw error;
   }
 
-  return res.json() as Promise<T>;
+  return res.json().catch(() => {
+    throw {
+      message: 'Invalif response format',
+      code: 'PARSE_ERROR',
+      status: res.status,
+      details: null,
+    } satisfies ApiError;
+  }) as Promise<T>;
 }
 
 function buildAuthHeaders(accessToken: string): HeadersInit {
@@ -67,7 +74,10 @@ const authService = {
       await request<void>(AUTH_ENDPOINTS.SIGN_OUT, {
         method: 'POST',
         headers: buildAuthHeaders(_session.accessToken),
-      }).catch(() => {});
+      }).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error('[authService] signOut request failed, clearing session anyway:', err);
+      });
     }
 
     _session = null;
@@ -117,8 +127,10 @@ const authService = {
       _session = session;
       return session;
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error('[authService] hydrateFromServer failed:', err);
+      if (process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line no-console
+        console.error('[authService] hydrateFromServer failed:', err);
+      }
       _session = null;
       return null;
     }

@@ -32,8 +32,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       try {
         const restored = await authService.hydrateFromServer();
         if (!cancelled) setSession(restored);
-      } catch {
-        // hydration failed, user starts unauthenticated
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('[AuthProvider] Session hydration failed, starting unauthenticated:', err);
       } finally {
         if (!cancelled) setIsLoading(false);
       }
