@@ -19,7 +19,7 @@ export interface AuthModalProps {
    */
   onClose: () => void;
   /**
-   * Optional initial mode when the modal opens. 
+   * Optional initial mode when the modal opens.
    * Defaults to AuthMode.SIGN_IN.
    */
   initialMode?: AuthMode;

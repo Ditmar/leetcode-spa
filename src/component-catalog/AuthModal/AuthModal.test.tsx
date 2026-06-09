@@ -34,7 +34,7 @@ describe('AuthModal Component', () => {
   it('displays validation errors on empty submit', async () => {
     render(<AuthModal isOpen={true} onClose={mockOnClose} />);
     const submitBtn = screen.getByRole('button', { name: 'Sign In' });
-    
+
     fireEvent.click(submitBtn);
 
     await waitFor(() => {
@@ -45,14 +45,14 @@ describe('AuthModal Component', () => {
 
   it('handles submit flow and shows loading state', async () => {
     render(<AuthModal isOpen={true} onClose={mockOnClose} />);
-    
+
     const emailInput = screen.getByLabelText(/Email/i);
     const passwordInput = screen.getByLabelText(/Password/i);
     const submitBtn = screen.getByRole('button', { name: 'Sign In' });
 
     fireEvent.change(emailInput, { target: { value: 'dev@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'ValidPassword123!' } });
-    
+
     fireEvent.click(submitBtn);
 
     await waitFor(() => {

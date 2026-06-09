@@ -1,8 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { within, fireEvent } from '@testing-library/react';
 
 import { AuthModal } from './AuthModal';
 import { AuthMode } from './AuthModal.types';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof AuthModal> = {
   title: 'Components/AuthModal',
@@ -37,7 +38,7 @@ export const WithErrors: Story = {
   play: async () => {
     const canvas = within(document.body);
     const submitButton = await canvas.findByRole('button', { name: 'Sign In' });
-    
+
     fireEvent.click(submitButton);
   },
 };
@@ -54,7 +55,7 @@ export const Loading: Story = {
 
     fireEvent.change(emailInput, { target: { value: 'dev@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'ValidPassword123!' } });
-    
+
     fireEvent.click(submitButton);
   },
 };

@@ -1,6 +1,6 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 import { AUTH_MODAL_DEFAULTS } from './AuthModal.constants';
 import { type AuthFormValues, AuthMode } from './AuthModal.types';
@@ -24,8 +24,10 @@ export const useAuthModal = (initialMode: AuthMode = AuthMode.SIGN_IN) => {
   const onSubmit = async () => {
     setIsLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000)); 
+      // TODO: Implement actual authentication logic here
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock API call
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Authentication error:', error);
     } finally {
       setIsLoading(false);
