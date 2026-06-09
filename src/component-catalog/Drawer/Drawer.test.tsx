@@ -1,6 +1,6 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { Drawer } from './Drawer';
@@ -61,37 +61,65 @@ describe('Drawer', () => {
   });
 
   it('renders right anchor correctly', () => {
-    render(<Drawer open anchor="right">Right Content</Drawer>);
+    render(
+      <Drawer open anchor="right">
+        Right Content
+      </Drawer>
+    );
     expect(screen.getByText(/right content/i)).toBeInTheDocument();
   });
 
   it('renders left anchor correctly', () => {
-    render(<Drawer open anchor="left">Left Content</Drawer>);
+    render(
+      <Drawer open anchor="left">
+        Left Content
+      </Drawer>
+    );
     expect(screen.getByText(/left content/i)).toBeInTheDocument();
   });
 
   it('renders top anchor correctly', () => {
-    render(<Drawer open anchor="top">Top Content</Drawer>);
+    render(
+      <Drawer open anchor="top">
+        Top Content
+      </Drawer>
+    );
     expect(screen.getByText(/top content/i)).toBeInTheDocument();
   });
 
   it('renders bottom anchor correctly', () => {
-    render(<Drawer open anchor="bottom">Bottom Content</Drawer>);
+    render(
+      <Drawer open anchor="bottom">
+        Bottom Content
+      </Drawer>
+    );
     expect(screen.getByText(/bottom content/i)).toBeInTheDocument();
   });
 
   it('renders temporary variant correctly', () => {
-    render(<Drawer open variant="temporary" anchor="right">Temporary</Drawer>);
+    render(
+      <Drawer open variant="temporary" anchor="right">
+        Temporary
+      </Drawer>
+    );
     expect(screen.getByText(/temporary/i)).toBeInTheDocument();
   });
 
   it('renders persistent variant correctly', () => {
-    render(<Drawer open variant="persistent" anchor="right">Persistent</Drawer>);
+    render(
+      <Drawer open variant="persistent" anchor="right">
+        Persistent
+      </Drawer>
+    );
     expect(screen.getByText(/persistent/i)).toBeInTheDocument();
   });
 
   it('renders permanent variant correctly', () => {
-    render(<Drawer open variant="permanent" anchor="right">Permanent</Drawer>);
+    render(
+      <Drawer open variant="permanent" anchor="right">
+        Permanent
+      </Drawer>
+    );
     expect(screen.getByText(/permanent/i)).toBeInTheDocument();
   });
 
