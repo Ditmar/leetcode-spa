@@ -36,17 +36,10 @@ const Drawer = (props: CustomDrawerProps) => {
 
   const { isMobile } = useDrawer();
 
-  const handleCloseButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (onClose) {
-      onClose(event, 'backdropClick');
-    }
-  };
-
   const paperSx = drawerPaperSx(anchor, drawerSize);
 
   const drawerContent = (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      {/* Bottom drawer drag indicator above the header */}
       {isBottomDrawer(anchor) && showDragHandle && (
         <Box sx={drawerDragIndicatorContainerSx}>
           <Box sx={drawerDragIndicatorSx} aria-hidden="true" />
@@ -76,9 +69,12 @@ const Drawer = (props: CustomDrawerProps) => {
               )}
             </Box>
 
-            {/* Close button for horizontal drawers */}
+            {/* Sin handler intermedio, sin string hardcodeado */}
             {isHorizontalDrawer(anchor) && showCloseButton && (
-              <IconButton aria-label="close drawer" onClick={handleCloseButtonClick}>
+              <IconButton
+                aria-label="close drawer"
+                onClick={onClose as React.MouseEventHandler<HTMLButtonElement>}
+              >
                 <CloseIcon />
               </IconButton>
             )}
@@ -88,7 +84,6 @@ const Drawer = (props: CustomDrawerProps) => {
 
       <Box sx={drawerContentSx}>{children}</Box>
 
-      {/* Top drawer drag indicator */}
       {anchor === DRAWER_ANCHORS.TOP && showDragHandle && (
         <Box
           sx={{
@@ -110,7 +105,7 @@ const Drawer = (props: CustomDrawerProps) => {
       <SwipeableDrawer
         anchor={anchor}
         open={open}
-        onClose={(event) => onClose?.(event as React.SyntheticEvent, 'escapeKeyDown')}
+        onClose={onClose as unknown as (event: React.SyntheticEvent) => void}
         onOpen={onOpen ?? (() => {})}
         PaperProps={{ sx: paperSx }}
         aria-label={drawerAriaLabel}
