@@ -1,5 +1,4 @@
 import { useMediaQuery, useTheme, Select, MenuItem, Typography, Box } from '@mui/material';
-import type { SelectChangeEvent } from '@mui/material';
 
 import {
   PrevIcon,
@@ -11,6 +10,7 @@ import {
 import { PaginationContainer, StyledPagination, StyledPaginationItem } from './Pagination.styles';
 
 import type { PaginationProps } from './Pagination.types';
+import type { SelectChangeEvent } from '@mui/material';
 
 const Pagination = (props: PaginationProps) => {
   const theme = useTheme();
@@ -38,6 +38,7 @@ const Pagination = (props: PaginationProps) => {
 
   const handleRowsPerPageChange = (event: SelectChangeEvent<number>) => {
     if (rowsPerPage !== undefined && onRowsPerPageChange) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onRowsPerPageChange(event as any);
     }
   };

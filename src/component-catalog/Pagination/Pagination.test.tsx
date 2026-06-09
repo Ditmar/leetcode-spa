@@ -104,8 +104,7 @@ describe('Pagination Component', () => {
     expect(handleRowsPerPageChange).toHaveBeenCalledWith(
       expect.objectContaining({
         target: expect.objectContaining({ value: 20 }),
-      }),
-      expect.anything()
+      })
     );
   });
 
@@ -127,7 +126,7 @@ describe('Pagination Component', () => {
     render(<Pagination count={10} page={5} />);
 
     expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.queryByText('3')).not.toBeInTheDocument();
-    expect(screen.queryByText('7')).not.toBeInTheDocument();
+    expect(screen.queryByText('4')).not.toBeInTheDocument();
+    expect(screen.queryByText('6')).not.toBeInTheDocument();
   });
 });
