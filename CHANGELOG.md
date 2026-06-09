@@ -1,5 +1,15 @@
 # Changelog
 
+# [0.10.0](https://github.com/Ditmar/leetcode-spa/compare/v0.9.1...v0.10.0) (2026-06-09)
+
+
+### Features
+
+* add explore service ([#273](https://github.com/Ditmar/leetcode-spa/issues/273)) ([559b893](https://github.com/Ditmar/leetcode-spa/commit/559b893ef78f7883bd1051978e05e99b95e85d83))
+* implement AspectRatio component ([#242](https://github.com/Ditmar/leetcode-spa/issues/242)) ([2a1281b](https://github.com/Ditmar/leetcode-spa/commit/2a1281b4a2ca28d78923567e8e0446f1913eb0e9))
+* implement ProblemDetail MUI CDD component ([#276](https://github.com/Ditmar/leetcode-spa/issues/276)) ([aa7cf9d](https://github.com/Ditmar/leetcode-spa/commit/aa7cf9d4127cd897a2dc29b800adae31e9b282be))
+* implement userService (SSR, stats & profile) [#246](https://github.com/Ditmar/leetcode-spa/issues/246) ([#269](https://github.com/Ditmar/leetcode-spa/issues/269)) ([b380b30](https://github.com/Ditmar/leetcode-spa/commit/b380b303eb8a681e4ac14deab09ac8b1933a077a))
+
 ## [0.9.1](https://github.com/Ditmar/leetcode-spa/compare/v0.9.0...v0.9.1) (2026-06-06)
 
 
