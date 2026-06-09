@@ -87,25 +87,25 @@ const authService = {
     }
   },
 
-async refreshToken(): Promise<AuthSession> {
-  try {
-    const session = await request<AuthSession>(AUTH_ENDPOINTS.REFRESH, {
-      method: 'POST',
-      ...(_session ? { headers: buildAuthHeaders(_session.accessToken) } : {}),
-    });
-    _session = session;
-    return session;
-  } catch (err) {
-    if (isApiError(err) && err.status === 401) {
-      _session = null;
-      await authService.signOut();
-      if (typeof window !== 'undefined') {
-        window.location.href = '/';
+  async refreshToken(): Promise<AuthSession> {
+    try {
+      const session = await request<AuthSession>(AUTH_ENDPOINTS.REFRESH, {
+        method: 'POST',
+        ...(_session ? { headers: buildAuthHeaders(_session.accessToken) } : {}),
+      });
+      _session = session;
+      return session;
+    } catch (err) {
+      if (isApiError(err) && err.status === 401) {
+        _session = null;
+        await authService.signOut();
+        if (typeof window !== 'undefined') {
+          window.location.href = '/';
+        }
       }
+      throw err;
     }
-    throw err;
-  }
-},
+  },
 
   getSession(): AuthSession | null {
     if (!_session) return null;
