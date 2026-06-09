@@ -1,8 +1,10 @@
 import { type AuthFormValues, AuthMode } from './AuthModal.types';
 
 export const AUTH_MODAL_DEFAULTS: AuthFormValues = {
+  fullName: '',
   email: '',
   password: '',
+  confirmPassword: '',
   rememberMe: false,
 };
 

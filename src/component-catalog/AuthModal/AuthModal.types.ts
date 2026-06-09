@@ -19,7 +19,7 @@ export interface AuthModalProps {
    */
   onClose: () => void;
   /**
-   * Optional initial mode when the modal opens.
+   * Optional initial mode when the modal opens. 
    * Defaults to AuthMode.SIGN_IN.
    */
   initialMode?: AuthMode;
@@ -27,10 +27,12 @@ export interface AuthModalProps {
 
 /**
  * Form values shape for the authentication process.
- * Reused across both Sign In and Sign Up modes.
+ * Reused and extended conditionally across both Sign In and Sign Up modes.
  */
 export interface AuthFormValues {
+  fullName?: string;
   email: string;
   password: string;
+  confirmPassword?: string;
   rememberMe?: boolean;
 }

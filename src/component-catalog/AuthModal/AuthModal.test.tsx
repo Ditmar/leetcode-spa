@@ -1,17 +1,6 @@
-declare let describe: (name: string, fn: () => void) => void;
-declare let it: (name: string, fn: () => void) => void;
-declare let expect: (actual: unknown) => {
-  toBeInTheDocument: () => void;
-  toHaveBeenCalledTimes: (times: number) => void;
-};
-declare let beforeEach: (fn: () => void) => void;
-declare let vi: {
-  fn: () => () => void;
-  clearAllMocks: () => void;
-};
-
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 import { AuthModal } from './AuthModal';
 
@@ -40,5 +29,34 @@ describe('AuthModal Component', () => {
     const closeBtn = screen.getByRole('button', { name: /close modal/i });
     fireEvent.click(closeBtn);
     expect(mockOnClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('displays validation errors on empty submit', async () => {
+    render(<AuthModal isOpen={true} onClose={mockOnClose} />);
+    const submitBtn = screen.getByRole('button', { name: 'Sign In' });
+    
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(screen.getByText('Email is required')).toBeInTheDocument();
+    });
+    expect(screen.getByText('Password must be at least 8 characters')).toBeInTheDocument();
+  });
+
+  it('handles submit flow and shows loading state', async () => {
+    render(<AuthModal isOpen={true} onClose={mockOnClose} />);
+    
+    const emailInput = screen.getByLabelText(/Email/i);
+    const passwordInput = screen.getByLabelText(/Password/i);
+    const submitBtn = screen.getByRole('button', { name: 'Sign In' });
+
+    fireEvent.change(emailInput, { target: { value: 'dev@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'ValidPassword123!' } });
+    
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(submitBtn).toBeDisabled();
+    });
   });
 });

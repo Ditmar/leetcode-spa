@@ -1,34 +1,156 @@
-import { Meta, Story, Canvas } from '@storybook/blocks';
+import { Meta, Story, Canvas, Controls } from '@storybook/blocks';
 import * as AuthModalStories from './AuthModal.stories';
 
-<Meta of={AuthModalStories} />
+<Meta of="{AuthModalStories}"/>
 
 # AuthModal
 
-The `AuthModal` component provides a unified interface for user authentication, supporting both Sign In and Sign Up flows within a responsive Material UI Dialog.
+The `AuthModal` component provides a unified, highly accessible interface for user authentication. It seamlessly supports both **Sign In** and **Sign Up** flows within a responsive Material UI `Dialog`, following strict Component-Driven Development (CDD) principles.
 
-## Features
-- **CDD Architecture**: Separated logic (hooks), styles, and types.
-- **Form Validation**: Powered by `react-hook-form` and `zod`.
-- **Responsive**: Fullscreen on mobile devices (`< 600px`) and max-width 480px on desktop.
-- **Accessibility (a11y)**: Focus trapped, valid aria-labels for social buttons, and 44px minimum touch targets on mobile.
+---
+
+## Table of Contents
+1. [Usage](#usage)
+2. [Props Reference](#props-reference)
+3. [Dual-Mode Behavior](#dual-mode-behavior)
+4. [Form Validation](#form-validation)
+5. [Accessibility (a11y)](#accessibility-a11y)
+6. [Responsive Behavior](#responsive-behavior)
+7. [Architecture & File Structure](#architecture--file-structure)
+8. [Stack & Dependencies](#stack--dependencies)
+
+---
 
 ## Usage
 
+To use the `AuthModal`, you need to manage its `isOpen` state from the parent component. 
+
 ```tsx
 import { useState } from 'react';
-import { AuthModal } from './AuthModal';
-import { AuthMode } from './AuthModal.types';
+import { Button } from '@mui/material';
+import { AuthModal, AuthMode } from './AuthModal';
 
 export const App = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)}>Login</button>
-      <AuthModal isOpen="{isOpen}" onClose="{()"> setIsOpen(false)} 
+      <Button onClick={() => setIsModalOpen(true)} variant="contained">
+        Login
+      </Button>
+
+      <AuthModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
         initialMode={AuthMode.SIGN_IN} 
       />
     </>
   );
 };
+```
+
+---
+
+## Props Reference
+
+The component accepts the following properties to control its behavior and initial state:
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| **`isOpen`** | `boolean` | `false` | **Required.** Controls the visibility of the modal dialog. |
+| **`onClose`** | `() => void` | `undefined` | **Required.** Callback fired when the component requests to be closed (e.g., backdrop click, escape key, or close button click). |
+| **`initialMode`** | `AuthMode` | `AuthMode.SIGN_IN` | Optional. Determines which form (Sign In or Sign Up) is rendered when the modal initially opens. |
+
+---
+
+## Dual-Mode Behavior
+
+The `AuthModal` encapsulates two distinct user flows without requiring a page navigation or modal unmount, improving perceived performance.
+
+### Sign In Mode
+- **Fields:** Email, Password.
+- **Features:** Includes a "Remember me" checkbox and a "Forgot password?" hyperlink.
+- **Action:** Authenticates returning users.
+
+### Sign Up Mode
+- **Fields:** Email, Password (Note: Full Name and Confirm Password fields are planned for upcoming iterations).
+- **Features:** Focuses purely on account creation. Hides the "Remember me" and "Forgot password?" elements to reduce cognitive load.
+- **Action:** Registers new users.
+
+*State persistence:* Toggling between modes triggers a form reset, clearing any previous inputs and validation errors to ensure a clean state.
+
+---
+
+## Form Validation
+
+Form state and validation are handled robustly via `react-hook-form` and mapped to a strict schema using `zod`. Errors are displayed in real-time (`mode: 'onTouched'`) via MUI's `helperText`.
+
+**Validation Rules:**
+*   **Email:** 
+    *   Must be a non-empty string.
+    *   Must match a valid email format.
+*   **Password:** 
+    *   Minimum of 8 characters.
+    *   Must contain at least one uppercase letter (`/[A-Z]/`).
+    *   Must contain at least one number (`/[0-9]/`).
+*   **Remember Me:** Optional boolean.
+
+---
+
+## Accessibility (a11y)
+
+Accessibility is a primary concern for authentication flows. This component implements the following WAI-ARIA standards:
+
+*   **Focus Management:** Utilizes MUI's native `Dialog` focus trap. Focus is automatically shifted to the first interactive element upon opening and returned to the triggering element upon closing.
+*   **Roles & Attributes:** 
+    *   The container has `role="dialog"` and `aria-modal="true"`.
+    *   The title is linked via `aria-labelledby="auth-modal-title"`.
+*   **Keyboard Navigation:** 
+    *   Pressing `Escape` triggers the `onClose` callback.
+    *   `Tab` navigation cycles logically through inputs, checkboxes, and buttons.
+*   **Touch Targets:** The top-right close `IconButton` strictly adheres to mobile guidelines, featuring a minimum `44x44px` touch target area.
+*   **Social Buttons:** Social authentication buttons (Google, GitHub) include explicit `aria-label` attributes to ensure screen readers announce their specific function.
+
+---
+
+## Responsive Behavior
+
+The modal adapts fluidly across device sizes, controlled via MUI's `useMediaQuery`:
+
+*   **Mobile (`< 600px`, `sm` down):** 
+    *   Renders in `fullScreen` mode.
+    *   Border radius is removed (`0px`) to blend seamlessly with the device viewport.
+*   **Tablet & Desktop (`>= 600px`, `sm` up):** 
+    *   Constrained to a maximum width of `480px` (`maxWidth="xs"`).
+    *   Centered vertically and horizontally with a subtle backdrop shadow.
+    *   Features a rounded aesthetic with `border-radius: 12px`.
+
+---
+
+## Architecture & File Structure
+
+This component adheres to the **Component-Driven Development (CDD)** methodology. Logic, types, styles, and tests are heavily encapsulated.
+
+```text
+src/component-catalog/AuthModal/
+ ├── AuthModal.tsx           # Main JSX and UI structure
+ ├── AuthModal.hook.ts       # State management, form handling, and submit logic
+ ├── AuthModal.styles.ts     # Styled components and MUI sx definitions
+ ├── AuthModal.types.ts      # TypeScript interfaces and Enums
+ ├── AuthModal.constants.ts  # Default values and static label configurations
+ ├── AuthModal.utils.ts      # Zod validation schemas
+ ├── AuthModal.test.tsx      # RTL and Vitest unit testing
+ ├── AuthModal.stories.tsx   # Storybook CSF configuration
+ └── AuthModal.docs.mdx      # This documentation file
+```
+
+---
+
+## Stack & Dependencies
+
+*   **UI Framework:** `@mui/material` (v5)
+*   **Icons:** `@mui/icons-material`
+*   **Form State:** `react-hook-form`
+*   **Schema Validation:** `zod` & `@hookform/resolvers/zod`
+*   **Testing:** `vitest` & `@testing-library/react`
+*   **Documentation:** Storybook Blocks (`MDX`)

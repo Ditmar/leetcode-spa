@@ -1,5 +1,5 @@
 import { Box, DialogContent } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 
 export const StyledDialogContent = styled(DialogContent)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -19,8 +19,8 @@ export const HeaderContainer = styled(Box)(({ theme }) => ({
 export const IconCircle = styled(Box)(({ theme }) => ({
   width: theme.spacing(7),
   height: theme.spacing(7),
-  backgroundColor: '#d1fae5', // Light green from original design
-  color: '#059669', // Primary green from original design
+  backgroundColor: alpha(theme.palette.success.main, 0.12),
+  color: theme.palette.success.main,
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',

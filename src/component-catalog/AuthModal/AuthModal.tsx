@@ -4,6 +4,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import GoogleIcon from '@mui/icons-material/Google';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import {
   Dialog,
@@ -33,7 +34,7 @@ import {
 } from './AuthModal.styles';
 import { type AuthModalProps, AuthMode } from './AuthModal.types';
 
-export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode }) => {
+export function AuthModal({ isOpen, onClose, initialMode }: AuthModalProps): React.ReactElement {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -67,7 +68,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
           top: 16,
           width: 44,
           height: 44,
-          color: theme.palette.text.secondary,
+          color: 'text.secondary',
         }}
       >
         <CloseIcon />
@@ -92,6 +93,32 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
           noValidate
           sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
+          {mode === AuthMode.SIGN_UP && (
+            <Controller
+              name="fullName"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  id="fullName"
+                  label="Full Name"
+                  type="text"
+                  autoComplete="name"
+                  error={!!errors.fullName}
+                  helperText={errors.fullName?.message}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PersonOutlineIcon fontSize="small" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+            />
+          )}
+
           <Controller
             name="email"
             control={control}
@@ -140,6 +167,32 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
             )}
           />
 
+          {mode === AuthMode.SIGN_UP && (
+            <Controller
+              name="confirmPassword"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  id="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  autoComplete="new-password"
+                  error={!!errors.confirmPassword}
+                  helperText={errors.confirmPassword?.message}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockOutlinedIcon fontSize="small" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+            />
+          )}
+
           {mode === AuthMode.SIGN_IN && (
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Controller
@@ -157,7 +210,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
                 component="a"
                 href="#"
                 sx={{
-                  color: '#059669',
+                  color: 'success.main',
                   textDecoration: 'none',
                   fontWeight: 500,
                   '&:hover': { textDecoration: 'underline' },
@@ -175,9 +228,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
             disabled={isLoading}
             endIcon={!isLoading && <ArrowForwardIcon />}
             sx={{
-              bgcolor: '#059669',
+              bgcolor: 'success.main',
               py: 1.5,
-              '&:hover': { bgcolor: '#047857' },
+              '&:hover': { bgcolor: 'success.dark' },
             }}
           >
             {isLoading ? <CircularProgress size={24} color="inherit" /> : labels.submitText}
@@ -217,7 +270,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
             component="span"
             onClick={toggleMode}
             sx={{
-              color: '#059669',
+              color: 'success.main',
               cursor: 'pointer',
               fontWeight: 500,
               '&:hover': { textDecoration: 'underline' },
@@ -229,4 +282,4 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
       </StyledDialogContent>
     </Dialog>
   );
-};
+}
