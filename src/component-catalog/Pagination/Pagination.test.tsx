@@ -101,7 +101,12 @@ describe('Pagination Component', () => {
     fireEvent.click(option20);
 
     expect(handleRowsPerPageChange).toHaveBeenCalledTimes(1);
-    expect(handleRowsPerPageChange).toHaveBeenCalledWith(expect.anything(), expect.anything());
+    expect(handleRowsPerPageChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({ value: 20 }),
+      }),
+      expect.anything()
+    );
   });
 
   it('disables all buttons when disabled prop is true', () => {

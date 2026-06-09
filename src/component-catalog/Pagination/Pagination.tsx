@@ -1,4 +1,5 @@
 import { useMediaQuery, useTheme, Select, MenuItem, Typography, Box } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material';
 
 import {
   PrevIcon,
@@ -22,7 +23,7 @@ const Pagination = (props: PaginationProps) => {
     dataTestId = PAGINATION_TEST_ID,
     showFirstButton = false,
     showLastButton = false,
-    siblingCount = isMobile ? 1 : 1,
+    siblingCount = isMobile ? 0 : 1,
     boundaryCount = 1,
     disabled = false,
     size = 'medium',
@@ -35,6 +36,12 @@ const Pagination = (props: PaginationProps) => {
     ...rest
   } = props;
 
+  const handleRowsPerPageChange = (event: SelectChangeEvent<number>) => {
+    if (rowsPerPage !== undefined && onRowsPerPageChange) {
+      onRowsPerPageChange(event as any);
+    }
+  };
+
   return (
     <PaginationContainer data-testid={dataTestId}>
       {onRowsPerPageChange && rowsPerPage !== undefined && (
@@ -44,7 +51,7 @@ const Pagination = (props: PaginationProps) => {
           </Typography>
           <Select
             value={rowsPerPage}
-            onChange={onRowsPerPageChange}
+            onChange={handleRowsPerPageChange}
             size="small"
             disabled={disabled}
             sx={{
