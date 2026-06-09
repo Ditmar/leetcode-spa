@@ -10,6 +10,7 @@ export interface AuthContextValue {
   user: AuthUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  hydrationError: Error | null;
   signIn: (payload: SignInPayload) => Promise<void>;
   signUp: (payload: SignUpPayload) => Promise<void>;
   signOut: () => Promise<void>;
@@ -24,6 +25,7 @@ export interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<AuthSession | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [hydrationError, setHydrationError] = useState<Error | null>(null); // ✅ agregar
 
   useEffect(() => {
     let cancelled = false;
@@ -34,7 +36,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
         if (!cancelled) setSession(restored);
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.error('[AuthProvider] Session hydration failed, starting unauthenticated:', err);
+        console.error('[AuthProvider] Session hydration failed:', err);
+        if (!cancelled) {
+          setHydrationError(err instanceof Error ? err : new Error('Session hydration failed'));
+        }
       } finally {
         if (!cancelled) setIsLoading(false);
       }
@@ -73,11 +78,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       user: session?.user ?? null,
       isAuthenticated: authService.isAuthenticated(),
       isLoading,
+      hydrationError,
       signIn,
       signUp,
       signOut,
     }),
-    [session, isLoading, signIn, signUp, signOut]
+    [session, isLoading, hydrationError, signIn, signUp, signOut]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

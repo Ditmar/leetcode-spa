@@ -88,11 +88,19 @@ const authService = {
   },
 
   async refreshToken(): Promise<AuthSession> {
+    if (!_session) {
+      throw {
+        message: 'No active session to refresh',
+        code: 'NO_SESSION',
+        status: 401,
+      } satisfies ApiError;
+    }
+
     try {
       const session = await request<AuthSession>(AUTH_ENDPOINTS.REFRESH, {
         method: 'POST',
+        headers: buildAuthHeaders(_session.accessToken),
       });
-
       _session = session;
       return session;
     } catch (err) {
@@ -127,10 +135,16 @@ const authService = {
       _session = session;
       return session;
     } catch (err) {
-      if (process.env.NODE_ENV !== 'production') {
-        // eslint-disable-next-line no-console
-        console.error('[authService] hydrateFromServer failed:', err);
+      if (isApiError(err) && err.status === 401) {
+        _session = null;
+        return null;
       }
+      // eslint-disable-next-line no-console
+      console.error(
+        '[authService] hydrateFromServer: unexpected error —',
+        isApiError(err) ? `status=${err.status} code=${err.code} message=${err.message}` : err
+      );
+
       _session = null;
       return null;
     }
