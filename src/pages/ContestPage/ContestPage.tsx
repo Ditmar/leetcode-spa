@@ -154,9 +154,10 @@ export const ContestPage = ({
   initialContests = MOCK_CONTESTS,
   loading: forceLoading = false,
 }: ContestPageProps) => {
-  const hookData = useContestPage(initialContests);
-  const loading = forceLoading || hookData.loading;
-  const { tabValue, handleTabChange, filteredContests } = hookData;
+  const { tabValue, handleTabChange, filteredContests, loading } = useContestPage(
+    initialContests,
+    forceLoading
+  );
 
   const renderStatsIcon = (icon: string, color: string) => {
     const iconColor = color as 'success' | 'primary' | 'secondary' | 'action';
@@ -183,7 +184,6 @@ export const ContestPage = ({
         </Typography>
       </Box>
 
-      {/* Grid2 simplificado sin propiedad item */}
       <Grid container spacing={3}>
         {STATS_CONFIG.map((stat) => (
           <Grid size={{ xs: 12, sm: 6, md: 3 }} key={stat.id}>
@@ -218,7 +218,6 @@ export const ContestPage = ({
         </Tabs>
       </Box>
 
-      {/* Un solo TabPanel dinámico que maneja el contenido con la accesibilidad requerida */}
       <CustomTabPanel value={tabValue} index={tabValue}>
         <Grid container spacing={3}>
           {loading ? (
