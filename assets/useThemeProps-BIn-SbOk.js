@@ -1,0 +1,1 @@
+import{g as t}from"./getThemeProps-CJ-SKEMl.js";import{Q as p}from"./iframe-CDL2S81d.js";function i({props:o,name:m,defaultTheme:s,themeId:r}){let e=p(s);return r&&(e=e[r]||e),t({theme:e,name:m,props:o})}export{i as u};
