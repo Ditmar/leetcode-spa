@@ -45,6 +45,24 @@ function createApiError(status: number, code: string, message: string): ApiError
   };
 }
 
+function isContestServiceApiError(error: unknown): error is ApiError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    'code' in error &&
+    'message' in error
+  );
+}
+
+function normalizeContestStatusCheckError(error: unknown): ApiError {
+  if (isContestServiceApiError(error)) {
+    return error;
+  }
+
+  return createApiError(500, 'CONTEST_STATUS_CHECK_FAILED', 'Failed to validate contest status');
+}
+
 function normalizeContestListResponse(
   response: ApiResponse<ContestListResponse>
 ): ContestListResponse {
@@ -80,13 +98,17 @@ async function ensureUpcomingContest(
   error: ApiError,
   options?: ContestRequestOptions
 ): Promise<ContestDetail> {
-  const contest = await fetchContestById(contestId, options);
+  try {
+    const contest = await fetchContestById(contestId, options);
 
-  if (contest.status !== 'upcoming') {
-    throw error;
+    if (contest.status !== 'upcoming') {
+      throw error;
+    }
+
+    return contest;
+  } catch (caughtError) {
+    throw normalizeContestStatusCheckError(caughtError);
   }
-
-  return contest;
 }
 
 export const contestsService = {
