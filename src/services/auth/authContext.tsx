@@ -25,7 +25,7 @@ export interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<AuthSession | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [hydrationError, setHydrationError] = useState<Error | null>(null); // ✅ agregar
+  const [hydrationError, setHydrationError] = useState<Error | null>(null);
 
   useEffect(() => {
     let cancelled = false;
