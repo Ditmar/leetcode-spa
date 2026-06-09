@@ -47,20 +47,20 @@ export interface LeaderboardEntry {
 }
 
 export interface PaginationMeta {
-  totalCount?: number;
-  pageCount?: number;
-  currentPage?: number;
-  perPage?: number;
+  totalCount: number;
+  pageCount: number;
+  currentPage: number;
+  perPage: number;
 }
 
 export interface ContestListResponse {
   contests: Contest[];
-  meta?: PaginationMeta;
+  meta: PaginationMeta;
 }
 
 export interface LeaderboardResponse {
   entries: LeaderboardEntry[];
-  meta?: PaginationMeta;
+  meta: PaginationMeta;
 }
 
 export interface ContestRequestOptions {

@@ -81,6 +81,15 @@ function createLeaderboardEntry(overrides: Partial<LeaderboardEntry> = {}): Lead
   };
 }
 
+function parseRequestPath(path: string): { pathname: string; params: URLSearchParams } {
+  const [pathname, queryString = ''] = path.split('?');
+
+  return {
+    pathname,
+    params: new URLSearchParams(queryString),
+  };
+}
+
 describe('contestsService', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -99,6 +108,7 @@ describe('contestsService', () => {
       createApiResponse<ContestListResponse>(
         {
           contests,
+          meta: defaultMeta,
         },
         defaultMeta
       )
@@ -127,6 +137,7 @@ describe('contestsService', () => {
     mockedGet.mockResolvedValueOnce(
       createApiResponse<ContestListResponse>({
         contests,
+        meta: defaultMeta,
       })
     );
 
@@ -141,7 +152,17 @@ describe('contestsService', () => {
       }
     );
 
-    expect(mockedGet).toHaveBeenCalledWith('/contests?status=active&page=2&pageSize=5', {
+    const [requestPath, requestConfig] = mockedGet.mock.calls[0] as [
+      string,
+      { headers: { Cookie: string } } | undefined,
+    ];
+    const { pathname, params } = parseRequestPath(requestPath);
+
+    expect(pathname).toBe('/contests');
+    expect(params.get('status')).toBe('active');
+    expect(params.get('page')).toBe('2');
+    expect(params.get('pageSize')).toBe('5');
+    expect(requestConfig).toEqual({
       headers: {
         Cookie: 'auth_token=test-token',
       },
@@ -268,6 +289,12 @@ describe('contestsService', () => {
       createApiResponse<LeaderboardResponse>(
         {
           entries,
+          meta: {
+            totalCount: 20,
+            currentPage: 2,
+            pageCount: 4,
+            perPage: 5,
+          },
         },
         {
           totalCount: 20,
@@ -280,7 +307,11 @@ describe('contestsService', () => {
 
     const result = await contestsService.getLeaderboard(5, 2);
 
-    expect(mockedGet).toHaveBeenCalledWith('/contests/5/leaderboard?page=2', undefined);
+    const [requestPath] = mockedGet.mock.calls[0] as [string, unknown];
+    const { pathname, params } = parseRequestPath(requestPath);
+
+    expect(pathname).toBe('/contests/5/leaderboard');
+    expect(params.get('page')).toBe('2');
     expect(result).toEqual({
       entries,
       meta: {

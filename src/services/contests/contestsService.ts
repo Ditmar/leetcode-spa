@@ -37,11 +37,17 @@ function buildRequestConfig(options?: ContestRequestOptions): RequestConfig | un
   };
 }
 
-function createApiError(status: number, code: string, message: string): ApiError {
+function createApiError(
+  status: number,
+  code: string,
+  message: string,
+  details?: unknown
+): ApiError {
   return {
     status,
     code,
     message,
+    ...(details !== undefined ? { details } : {}),
   };
 }
 
@@ -60,7 +66,12 @@ function normalizeContestStatusCheckError(error: unknown): ApiError {
     return error;
   }
 
-  return createApiError(500, 'CONTEST_STATUS_CHECK_FAILED', 'Failed to validate contest status');
+  return createApiError(
+    500,
+    'CONTEST_STATUS_CHECK_FAILED',
+    'Failed to validate contest status',
+    error
+  );
 }
 
 function normalizeContestListResponse(
