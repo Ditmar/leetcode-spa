@@ -3,10 +3,14 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 
 import { ProblemList } from './ProblemList';
-import { MOCK_PROBLEMS } from './ProblemList.constants';
+import { MOCK_PROBLEMS, STATUS_COLOR_MAP } from './ProblemList.constants';
+
+import type { Problem } from './ProblemList.types';
+
+const mockProblems: Problem[] = MOCK_PROBLEMS;
 
 const defaultProps = {
-  problems: MOCK_PROBLEMS,
+  problems: mockProblems,
   selectedProblemId: 1,
   onSelectProblem: vi.fn(),
 };
@@ -14,7 +18,7 @@ const defaultProps = {
 describe('ProblemList', () => {
   it('renders all problems', () => {
     render(<ProblemList {...defaultProps} />);
-    MOCK_PROBLEMS.forEach((problem) => {
+    mockProblems.forEach((problem) => {
       expect(screen.getByText(problem.title)).toBeInTheDocument();
     });
   });
@@ -77,5 +81,12 @@ describe('ProblemList', () => {
     const firstItem = screen.getByTestId('problem-item-1');
     firstItem.focus();
     expect(firstItem).toHaveFocus();
+  });
+
+  it('STATUS_COLOR_MAP covers all ProblemStatus values', () => {
+    const allStatuses: string[] = ['solved', 'attempted', 'unsolved'];
+    allStatuses.forEach((status) => {
+      expect(STATUS_COLOR_MAP).toHaveProperty(status);
+    });
   });
 });

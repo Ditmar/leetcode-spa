@@ -130,7 +130,6 @@ const ProblemList = ({ problems, selectedProblemId, onSelectProblem }: ProblemLi
     );
   };
 
-  // ── Shared header + list ───────────────────────────────────────────────────
   const listContent = (
     <>
       <StyledHeader>
@@ -203,7 +202,6 @@ const ProblemList = ({ problems, selectedProblemId, onSelectProblem }: ProblemLi
           data-testid="problem-list-drawer"
           PaperProps={{
             sx: {
-              // Use theme.spacing to avoid hardcoded px — token is a multiplier
               width: theme.spacing(T.dimensions.drawerWidth),
               backgroundColor: T.colors.background,
               ...T.layout.hideScrollbar,
