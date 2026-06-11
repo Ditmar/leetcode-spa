@@ -1,9 +1,337 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HomePage from '../ui/components/HomePage';
+import HomeAuthGate from '../app/components/HomeAuthGate/HomeAuthGate';
+import { problemsService } from '../services/problems/problemsService';
+
+export const prerender = false;
+
+const pageTitle = 'LeetCode Clone - Practice Coding Interviews';
+const pageDescription =
+  'Practice coding interview problems, compete in contests, and master data structures and algorithms.';
+
+const { config = null, user = null } = Astro.locals as {
+  config?: unknown;
+  user?: unknown;
+};
+
+const stats = await problemsService
+  .getStats(Astro.request.headers.get('cookie') ?? '')
+  .catch(() => null);
+const authRequired = Astro.url.searchParams.get('authRequired') === 'true';
+
+const statItems = [
+  { label: 'Problems', value: stats?.total },
+  { label: 'Solved', value: stats?.solved },
+  { label: 'Attempted', value: stats?.attempted },
+];
+
+const solvedToday = stats?.solved;
+const solvedProgress =
+  stats && stats.total > 0 ? Math.min(100, (stats.solved / stats.total) * 100) : 0;
+
+const quickLinks = [
+  {
+    title: 'Problems',
+    href: '/problems',
+    icon: '[]',
+    description: 'Practice curated challenges by status, difficulty, and topic.',
+  },
+  {
+    title: 'Contests',
+    href: '/contest',
+    icon: '<>',
+    description: 'Join timed events and sharpen your interview speed.',
+  },
+  {
+    title: 'Explore',
+    href: '/explore',
+    icon: '{}',
+    description: 'Follow guided tracks for algorithms, data structures, and patterns.',
+  },
+];
 ---
 
-<BaseLayout title="LeetCode SPA" description="Interactive coding practice platform">
-  test
-  <HomePage client:load />
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <main class="home-page">
+    <section class="hero" aria-labelledby="home-title">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Coding interview practice</p>
+        <h1 id="home-title">Build skill one problem at a time.</h1>
+        <p class="hero__copy">
+          Prepare for technical interviews with focused problems, contest practice, and guided
+          exploration across core data structures and algorithms.
+        </p>
+        <div class="hero__actions" aria-label="Primary actions">
+          <a class="button button--primary" href="/problems">Start solving</a>
+          <a class="button button--secondary" href="/contest">View contests</a>
+        </div>
+      </div>
+      <div class="hero__panel" aria-label="Platform snapshot">
+        <div class="panel__header">
+          <span>Today</span>
+          <strong>{solvedToday?.toLocaleString('en-US') ?? '--'}</strong>
+        </div>
+        <p>Problems solved by the platform community.</p>
+        <div class="progress" aria-hidden="true">
+          <span style={`width: ${solvedProgress}%`}></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-bar" aria-label="Global platform stats">
+      {
+        statItems.map((item) => (
+          <article class="stat-card">
+            <strong>{item.value?.toLocaleString('en-US') ?? '--'}</strong>
+            <span>{item.label}</span>
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="quick-links" aria-label="Quick access links">
+      {
+        quickLinks.map((link) => (
+          <a class="quick-card" href={link.href}>
+            <span class="quick-card__icon" aria-hidden="true">{link.icon}</span>
+            <span class="quick-card__body">
+              <strong>{link.title}</strong>
+              <span>{link.description}</span>
+            </span>
+          </a>
+        ))
+      }
+    </section>
+  </main>
+
+  <HomeAuthGate config={config} user={user} isOpen={authRequired} client:load />
 </BaseLayout>
+
+<style>
+  .home-page {
+    min-height: 100vh;
+    background:
+      linear-gradient(135deg, rgba(248, 250, 252, 0.96), rgba(239, 246, 255, 0.82)),
+      url('../assets/background.svg');
+    color: #101828;
+    padding: 32px clamp(16px, 4vw, 64px) 48px;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
+    align-items: center;
+    gap: clamp(24px, 5vw, 72px);
+    max-width: 1160px;
+    min-height: 58vh;
+    margin: 0 auto;
+  }
+
+  .hero__eyebrow {
+    color: #2563eb;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    max-width: 760px;
+    margin-top: 14px;
+    font-family: 'Syne', 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 5.8rem);
+    line-height: 0.95;
+    letter-spacing: 0;
+  }
+
+  .hero__copy {
+    max-width: 660px;
+    margin-top: 22px;
+    color: #475467;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.08rem;
+    line-height: 1.8;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .button,
+  .quick-card {
+    text-decoration: none;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0 20px;
+    font-weight: 700;
+  }
+
+  .button--primary {
+    background: #111827;
+    color: #ffffff;
+  }
+
+  .button--secondary {
+    border-color: #cbd5e1;
+    background: #ffffff;
+    color: #111827;
+  }
+
+  .hero__panel,
+  .stat-card,
+  .quick-card {
+    border: 1px solid #d8e0ea;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  }
+
+  .hero__panel {
+    padding: 24px;
+  }
+
+  .panel__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .panel__header span,
+  .stat-card span,
+  .quick-card__body span {
+    color: #667085;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .panel__header strong {
+    font-size: 3rem;
+  }
+
+  .hero__panel p {
+    margin-top: 16px;
+    color: #475467;
+    line-height: 1.6;
+  }
+
+  .progress {
+    height: 10px;
+    margin-top: 22px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e2e8f0;
+  }
+
+  .progress span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: #2563eb;
+  }
+
+  .stats-bar,
+  .quick-links {
+    display: grid;
+    max-width: 1160px;
+    margin: 0 auto;
+    gap: 16px;
+  }
+
+  .stats-bar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .stat-card {
+    padding: 22px;
+  }
+
+  .stat-card strong {
+    display: block;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+  }
+
+  .quick-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 16px;
+  }
+
+  .quick-card {
+    display: flex;
+    gap: 16px;
+    min-height: 136px;
+    padding: 22px;
+    color: inherit;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .quick-card:hover {
+    transform: translateY(-2px);
+    border-color: #93c5fd;
+    box-shadow: 0 24px 60px rgba(37, 99, 235, 0.12);
+  }
+
+  .quick-card__icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 800;
+  }
+
+  .quick-card__body {
+    display: grid;
+    gap: 8px;
+  }
+
+  .quick-card__body strong {
+    font-size: 1.1rem;
+  }
+
+  .quick-card__body span {
+    line-height: 1.55;
+  }
+
+  @media (max-width: 900px) {
+    .hero,
+    .stats-bar,
+    .quick-links {
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      min-height: auto;
+      padding: 40px 0 24px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .home-page {
+      padding-inline: 14px;
+    }
+
+    .hero h1 {
+      font-size: 2.45rem;
+    }
+
+    .button {
+      width: 100%;
+    }
+  }
+</style>
