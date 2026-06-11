@@ -1,37 +1,27 @@
-{/* ProblemsPage.docs.mdx — Storybook MDX documentation */}
+{/* ProblemsPage.docs.mdx */}
 
-import { Meta, Canvas, Controls, ArgTypes, Story, Source } from '@storybook/blocks';
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/blocks';
 import * as ProblemsPageStories from './ProblemsPage.stories';
 
 <Meta of={ProblemsPageStories} />
 
 # ProblemsPage
 
-`ProblemsPage` is a full-page organism component that renders a searchable,
-filterable, and paginated browser for coding problems. It is built entirely with
-**Material UI** and follows the project's Component-Driven Development (CDD)
-conventions.
+Full-page organism that renders a searchable, filterable problem browser built with **Material UI**.
 
 ---
 
-## Overview
+## Layout
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  Problems                          2 / 10 Solved    │  ← Header
-├─────────────────────────────────────────────────────┤
-│  🔍 Search…   Difficulty ▾  Status ▾  Tag ▾  Clear  │  ← Filter bar (desktop)
-│  [Filters]  🔍 Search…                              │  ← Filter bar (mobile)
-├─────────────────────────────────────────────────────┤
-│  #   Title               Difficulty  Accept  Action │  ← Table (desktop)
-│  ✅  Two Sum             Easy        49.2%   Review  │
-│  ─   Add Two Numbers     Medium      41.8%   Solve   │
-│  ○   Longest Substring   Medium      33.9%   Solve   │
-│  …                                                  │
-│                                                     │
-│         No problems match your filters              │  ← Empty state
-│               [ Clear Filters ]                     │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│ Problems                            X / Y Solved      │  header
+│ 🔍 Search…  Difficulty ▾  Status ▾  Tag ▾  Clear      │  filter bar (desktop)
+│ [Filters]   🔍 Search…                                │  filter bar (mobile)
+│ # │ Title │ Difficulty │ Acceptance │ Status │ Action  │  table  (md+)
+│ ● 1. Title   Easy • 49.2%                   [Solve]   │  list   (xs/sm)
+│         No problems match your filters                │  empty state
+└──────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -40,49 +30,22 @@ conventions.
 
 ### Default
 
-All problems are displayed with no active filters.
-
 <Canvas of={ProblemsPageStories.Default} />
 <Controls of={ProblemsPageStories.Default} />
 
----
-
 ### All Filters Applied
-
-Difficulty, Status, and Tag filters are all active simultaneously. Only problems
-that match every criterion are shown.
 
 <Canvas of={ProblemsPageStories.AllFiltersApplied} />
 
----
-
 ### Empty State
-
-When no problems match the current filters, a centred message is displayed along
-with a **Clear Filters** button that resets all filter controls to their default
-values.
 
 <Canvas of={ProblemsPageStories.EmptyState} />
 
----
-
 ### Loading State
-
-A dimmed visual representation of the loading state. In production, replace the
-overlay with MUI `Skeleton` components inside each table row or list item.
 
 <Canvas of={ProblemsPageStories.LoadingState} />
 
----
-
 ### Mobile View
-
-On screens narrower than the `md` breakpoint (< 900 px):
-
-- The filter bar collapses into a **Filters** button that opens a right-anchored
-  `Drawer` (width `theme.spacing(36)`).
-- The desktop `Table` is replaced by a `List` of `ListItemButton` rows.
-- A full-width `TextField` for search remains always visible above the list.
 
 <Canvas of={ProblemsPageStories.MobileView} />
 
@@ -92,44 +55,42 @@ On screens narrower than the `md` breakpoint (< 900 px):
 
 <ArgTypes of={ProblemsPageStories} />
 
-| Prop               | Type                   | Required | Description                                             |
-| ------------------ | ---------------------- | -------- | ------------------------------------------------------- |
-| `onSelectProblem`  | `(id: number) => void` | ✅       | Called when the user clicks **Solve** on a problem row. |
-| `onNavigateToCode` | `() => void`           | ✅       | Called when the user clicks **Review** on a solved row. |
-
----
-
-## File Structure
-
-```
-ProblemsPage/
-├── ProblemsPage.tsx             # Main page component
-├── ProblemsPage.types.ts        # Props, filter state, and hook return interfaces
-├── ProblemsPage.constants.ts    # Filter option arrays and config constants
-├── ProblemsPage.hook.ts         # useProblemsPage — all business logic
-├── ProblemsPage.styles.ts       # MUI styled() components and sx helpers
-├── ProblemsPage.utils.ts        # getDifficultyChipColor, getStatusIconName, formatAcceptance
-├── ProblemsPage.test.tsx        # Jest / Testing Library unit tests
-├── ProblemsPage.stories.tsx     # Storybook stories in CSF format
-└── ProblemsPage.docs.mdx        # This file
-```
+| Prop               | Type                   | Required | Description                                                                             |
+| ------------------ | ---------------------- | -------- | --------------------------------------------------------------------------------------- |
+| `onSelectProblem`  | `(id: number) => void` | ✅       | Fired when Solve is clicked                                                             |
+| `onNavigateToCode` | `() => void`           | ✅       | Fired when Review is clicked                                                            |
+| `problems`         | `Problem[]`            | —        | Dataset to display. Defaults to the static file; pass API data or a fixture to override |
 
 ---
 
 ## Architecture
 
-### Hook — `useProblemsPage`
+### Data injection via props
 
-All filter state and derived data live in the `useProblemsPage` hook so the
-component template stays declarative and easy to test in isolation.
+The component accepts a `problems` prop so the data source is fully decoupled:
+
+```tsx
+// Default — uses the static dataset
+<ProblemsPage onSelectProblem={fn} onNavigateToCode={fn} />
+
+// API data — fetched by a parent, passed as prop
+<ProblemsPage problems={apiProblems} onSelectProblem={fn} onNavigateToCode={fn} />
+
+// Tests — inject a fixture directly, no module mocks needed
+<ProblemsPage problems={FIXTURE} onSelectProblem={fn} onNavigateToCode={fn} />
+```
+
+### Hook — `useProblemsPage({ problems })`
+
+All state and derived data live in the hook. It receives `problems` as a parameter and exposes:
 
 ```ts
 const {
-  filteredProblems, // Problem[] — result of applying all active filters
-  solvedCount, // number — problems with status === 'solved'
-  totalCount, // number — full dataset length
-  tagOptions, // string[] — unique tags derived from all problems
-  filterState, // FilterState — { searchQuery, difficultyFilter, statusFilter, tagFilter }
+  filteredProblems,
+  solvedCount,
+  totalCount,
+  tagOptions,
+  filterState,
   handleSearchChange,
   handleDifficultyChange,
   handleStatusChange,
@@ -138,146 +99,97 @@ const {
   drawerOpen,
   handleDrawerOpen,
   handleDrawerClose,
-} = useProblemsPage();
+} = useProblemsPage({ problems });
 ```
 
-**Search debounce** — the raw `searchQuery` is debounced by **300 ms** inside
-`useProblemsPage` before it is applied to `filteredProblems`, preventing
-expensive re-renders on every keystroke.
+### Status filter — `STATUS_FILTER_MAP`
 
-**Tag options** — derived at hook initialisation via:
+Status matching uses a Record instead of scattered string comparisons.
+Adding a new status only requires updating one object:
 
 ```ts
-const tagOptions = useMemo(() => Array.from(new Set(PROBLEMS.flatMap((p) => p.tags))).sort(), []);
+const STATUS_FILTER_MAP: Record<Exclude<StatusFilter, 'All'>, ProblemStatus> = {
+  Solved: 'solved',
+  Attempted: 'attempted',
+  Unsolved: 'unsolved',
+};
+```
+
+### Tag sentinel — `ALL_TAGS_SENTINEL`
+
+The "no tag filter" state is handled in a single `matchesTagFilter` helper.
+The sentinel never appears in the component template.
+
+```ts
+function matchesTagFilter(p: Problem, tagFilter: TagFilter): boolean {
+  if (tagFilter === ALL_TAGS_SENTINEL) return true;
+  return p.tags.includes(tagFilter);
+}
 ```
 
 ---
 
-## Filtering Logic
+## Filtering logic
 
-All four filters are applied with a logical `&&` chain. A problem must satisfy
-every active criterion to appear in the list.
+All four filters are applied with `&&`. A problem must match every active criterion.
 
-```ts
-PROBLEMS.filter(
-  (p) =>
-    matchesSearch(p, debouncedSearch) &&
-    matchesDifficulty(p, difficultyFilter) &&
-    matchesStatus(p, statusFilter) &&
-    matchesTag(p, tagFilter)
-);
-```
-
-| Filter     | Default | Options                             |
-| ---------- | ------- | ----------------------------------- |
-| Search     | `""`    | Free-text substring (title)         |
-| Difficulty | `"All"` | All · Easy · Medium · Hard          |
-| Status     | `"All"` | All · Solved · Attempted · Unsolved |
-| Tag        | `"All"` | All · _derived from dataset_        |
+| Filter     | Default | Options                                       |
+| ---------- | ------- | --------------------------------------------- |
+| Search     | `""`    | Free-text substring (title), debounced 300 ms |
+| Difficulty | `"All"` | All · Easy · Medium · Hard                    |
+| Status     | `"All"` | All · Solved · Attempted · Unsolved           |
+| Tag        | `"All"` | All · _derived from dataset_                  |
 
 ---
 
-## Visual Design
+## Visual design
 
-### Difficulty Chips
+| Difficulty | Chip colour  | Status    | Icon                          |
+| ---------- | ------------ | --------- | ----------------------------- |
+| Easy       | `success` 🟢 | solved    | `CheckCircleOutline` (green)  |
+| Medium     | `warning` 🟡 | attempted | `RemoveCircleOutline` (amber) |
+| Hard       | `error` 🔴   | unsolved  | `RadioButtonUnchecked` (grey) |
 
-| Difficulty | MUI Chip colour | Visual   |
-| ---------- | --------------- | -------- |
-| Easy       | `success`       | 🟢 Green |
-| Medium     | `warning`       | 🟡 Amber |
-| Hard       | `error`         | 🔴 Red   |
-
-```ts
-// ProblemsPage.utils.ts
-getDifficultyChipColor('Easy'); // → 'success'
-getDifficultyChipColor('Medium'); // → 'warning'
-getDifficultyChipColor('Hard'); // → 'error'
-```
-
-### Status Icons
-
-| Status      | Icon component             | Colour     |
-| ----------- | -------------------------- | ---------- |
-| `solved`    | `CheckCircleOutlineIcon`   | `success`  |
-| `attempted` | `RemoveCircleOutlineIcon`  | `warning`  |
-| `unsolved`  | `RadioButtonUncheckedIcon` | `disabled` |
-
-### Solved Row Accent
-
-Desktop table rows and mobile list items where `status === 'solved'` receive a
-**4 px left border** in `theme.palette.success.main` and a subtle
-`theme.palette.action.selected` background tint — matching the Figma reference.
+Solved rows have a **4 px left border** in `theme.palette.success.main`.
 
 ---
 
-## Responsive Behaviour
+## Responsive behaviour
 
-| Breakpoint                | Filter UI               | Problem UI                |
-| ------------------------- | ----------------------- | ------------------------- |
-| `xs` / `sm` (< 900 px)    | Filters button → Drawer | `List` + `ListItemButton` |
-| `md` and above (≥ 900 px) | Inline filter bar       | `Table` with 6 columns    |
+| Breakpoint         | Filters               | Problems                  |
+| ------------------ | --------------------- | ------------------------- |
+| xs / sm (< 900 px) | Button → right Drawer | `List` + `ListItemButton` |
+| md+ (≥ 900 px)     | Inline filter bar     | `Table` with 6 columns    |
 
-All tap targets meet the **44 × 44 px minimum** (enforced via
-`minHeight: theme.spacing(5.5)` on every interactive element).
+All tap targets: `minHeight: theme.spacing(5.5)` (≥ 44 px).
 
 ---
 
 ## Accessibility
 
-| Element             | ARIA attribute / scope                               |
-| ------------------- | ---------------------------------------------------- |
-| Search `TextField`  | `inputProps={{ 'aria-label': 'Search problems' }}`   |
-| Difficulty `Select` | `inputProps={{ 'aria-label': 'Difficulty filter' }}` |
-| Status `Select`     | `inputProps={{ 'aria-label': 'Status filter' }}`     |
-| Tag `Select`        | `inputProps={{ 'aria-label': 'Tag filter' }}`        |
-| Table header cells  | `scope="col"` on every `<StickyHeaderCell>`          |
-| Solved/total `Chip` | `aria-label="X of Y problems solved"`                |
-| Filter `Drawer`     | `aria-label="Filter drawer"`                         |
-| Close `IconButton`  | `aria-label="Close filters"`                         |
+| Element           | ARIA                                  |
+| ----------------- | ------------------------------------- |
+| Search field      | `aria-label="Search problems"`        |
+| Difficulty select | `aria-label="Difficulty filter"`      |
+| Status select     | `aria-label="Status filter"`          |
+| Tag select        | `aria-label="Tag filter"`             |
+| Table headers     | `scope="col"`                         |
+| Solved/total chip | `aria-label="X of Y problems solved"` |
+| Filter drawer     | `aria-label="Filter drawer"`          |
 
-The component passes `axe` / `jest-axe` checks out of the box. Run:
+---
 
-```bash
-npx axe-cli http://localhost:6006/iframe.html?id=pages-problemspage--default
+## File structure
+
 ```
-
----
-
-## Styling Conventions
-
-- **No hardcoded `px` values** — all spacing uses `theme.spacing()`.
-- **No external CSS files** — all styles live in `ProblemsPage.styles.ts` via
-  MUI `styled()` components or exported `sx` objects.
-- `styled()` components accept a `isSolved` transient prop
-  (`shouldForwardProp`) to avoid forwarding it to the DOM.
-
----
-
-## Unit Tests
-
-Run the test suite with:
-
-```bash
-npx jest ProblemsPage/ProblemsPage.test.tsx --coverage
+ProblemsPage/
+├── ProblemsPage.tsx          # Page component
+├── ProblemsPage.types.ts     # All TypeScript interfaces
+├── ProblemsPage.constants.ts # Filter options, sentinel, config
+├── ProblemsPage.hook.ts      # useProblemsPage — state & derived data
+├── ProblemsPage.styles.ts    # MUI styled() / sx — no external CSS
+├── ProblemsPage.utils.ts     # Pure helpers (chip colour, status icon, format)
+├── ProblemsPage.test.tsx     # Vitest + Testing Library
+├── ProblemsPage.stories.tsx  # Storybook CSF stories
+└── ProblemsPage.docs.mdx     # This file
 ```
-
-| Test case                                 | What it asserts                                   |
-| ----------------------------------------- | ------------------------------------------------- |
-| Renders all problems by default           | All 5 mock problems visible on mount              |
-| Displays solved / total counter           | Header chip reads "1 / 5 Solved"                  |
-| Search filter (debounced)                 | Only matching titles remain after 300 ms          |
-| Difficulty filter                         | Only Hard problems shown after selecting Hard     |
-| Status filter                             | Only Solved problems shown after selecting Solved |
-| Combined filters                          | Easy + Unsolved leaves only Valid Parentheses     |
-| Empty state                               | Message shown when nothing matches                |
-| `onSelectProblem` called on Solve click   | Mock function receives the correct problem id     |
-| `onNavigateToCode` called on Review click | Mock function invoked for a solved problem        |
-| Clear Filters resets state                | All problems visible again after clearing         |
-
----
-
-## Changelog
-
-| Version | Change                                                        |
-| ------- | ------------------------------------------------------------- |
-| 1.0.0   | Initial implementation — MUI migration from Tailwind / shadcn |

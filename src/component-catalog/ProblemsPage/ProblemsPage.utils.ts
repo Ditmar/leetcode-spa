@@ -2,42 +2,32 @@ import type { Difficulty, ProblemStatus } from './ProblemsPage.types';
 import type { ChipProps } from '@mui/material/Chip';
 
 export function getDifficultyChipColor(difficulty: Difficulty): ChipProps['color'] {
-  switch (difficulty) {
-    case 'Easy':
-      return 'success';
-    case 'Medium':
-      return 'warning';
-    case 'Hard':
-      return 'error';
-    default:
-      return 'default';
-  }
+  const map: Record<Difficulty, ChipProps['color']> = {
+    Easy: 'success',
+    Medium: 'warning',
+    Hard: 'error',
+  };
+  return map[difficulty] ?? 'default';
 }
 
 export type StatusIconName = 'CheckCircleOutline' | 'RemoveCircleOutline' | 'RadioButtonUnchecked';
 
 export function getStatusIconName(status: ProblemStatus): StatusIconName {
-  switch (status) {
-    case 'solved':
-      return 'CheckCircleOutline';
-    case 'attempted':
-      return 'RemoveCircleOutline';
-    case 'unsolved':
-    default:
-      return 'RadioButtonUnchecked';
-  }
+  const map: Record<ProblemStatus, StatusIconName> = {
+    solved: 'CheckCircleOutline',
+    attempted: 'RemoveCircleOutline',
+    unsolved: 'RadioButtonUnchecked',
+  };
+  return map[status];
 }
 
 export function getStatusIconColor(status: ProblemStatus): 'success' | 'warning' | 'disabled' {
-  switch (status) {
-    case 'solved':
-      return 'success';
-    case 'attempted':
-      return 'warning';
-    case 'unsolved':
-    default:
-      return 'disabled';
-  }
+  const map: Record<ProblemStatus, 'success' | 'warning' | 'disabled'> = {
+    solved: 'success',
+    attempted: 'warning',
+    unsolved: 'disabled',
+  };
+  return map[status];
 }
 
 export function formatAcceptance(rate: number): string {

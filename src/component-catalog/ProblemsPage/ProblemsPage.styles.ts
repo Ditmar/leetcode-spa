@@ -10,9 +10,7 @@ export const PageWrapper = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
   backgroundColor: theme.palette.background.default,
   padding: theme.spacing(3, 2),
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4, 3),
-  },
+  [theme.breakpoints.up('sm')]: { padding: theme.spacing(4, 3) },
   [theme.breakpoints.up('md')]: {
     padding: theme.spacing(5, 4),
     maxWidth: theme.breakpoints.values.xl,
@@ -39,24 +37,19 @@ export const FilterBarWrapper = styled(Box)(({ theme }) => ({
 
 export const filterSelectSx: SxProps<Theme> = {
   minWidth: 120,
-  minHeight: (theme: Theme) => theme.spacing(5.5),
-  '& .MuiSelect-select': {
-    py: 1,
-  },
+  minHeight: (t: Theme) => t.spacing(5.5),
+  '& .MuiSelect-select': { py: 1 },
 };
 
 export const searchFieldSx: SxProps<Theme> = {
   flex: 1,
   minWidth: 180,
-  '& .MuiInputBase-root': {
-    minHeight: (theme: Theme) => theme.spacing(5.5),
-  },
+  '& .MuiInputBase-root': { minHeight: (t: Theme) => t.spacing(5.5) },
 };
 
-export const mobileFilterButtonSx: SxProps<Theme> = {
-  minHeight: (theme: Theme) => theme.spacing(5.5),
-  minWidth: (theme: Theme) => theme.spacing(5.5),
-  mb: 2,
+export const filterButtonSx: SxProps<Theme> = {
+  minHeight: (t: Theme) => t.spacing(5.5),
+  minWidth: (t: Theme) => t.spacing(5.5),
 };
 
 export const StickyHeaderCell = styled(TableCell)(({ theme }) => ({
@@ -72,22 +65,17 @@ export const StickyHeaderCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export const StyledTableRow = styled(TableRow, {
-  shouldForwardProp: (prop) => prop !== 'isSolved',
+  shouldForwardProp: (p) => p !== 'isSolved',
 })<{ isSolved?: boolean }>(({ theme, isSolved }) => ({
   cursor: 'pointer',
   borderLeft: isSolved ? `4px solid ${theme.palette.success.main}` : '4px solid transparent',
-  transition: 'background-color 150ms ease, border-color 150ms ease',
-  '&:hover': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  '& td': {
-    padding: theme.spacing(1.5, 2),
-    verticalAlign: 'middle',
-  },
+  transition: 'background-color 150ms ease',
+  '&:hover': { backgroundColor: theme.palette.action.hover },
+  '& td': { padding: theme.spacing(1.5, 2), verticalAlign: 'middle' },
 }));
 
 export const StyledListItemButton = styled(ListItemButton, {
-  shouldForwardProp: (prop) => prop !== 'isSolved',
+  shouldForwardProp: (p) => p !== 'isSolved',
 })<{ isSolved?: boolean }>(({ theme, isSolved }) => ({
   borderLeft: isSolved ? `4px solid ${theme.palette.success.main}` : '4px solid transparent',
   backgroundColor: isSolved ? theme.palette.action.selected : 'transparent',
@@ -96,21 +84,19 @@ export const StyledListItemButton = styled(ListItemButton, {
   paddingBottom: theme.spacing(1.5),
   gap: theme.spacing(1.5),
   transition: 'background-color 150ms ease',
-  '&:hover': {
-    backgroundColor: theme.palette.action.hover,
-  },
+  '&:hover': { backgroundColor: theme.palette.action.hover },
 }));
 
 export const actionButtonSx: SxProps<Theme> = {
-  minHeight: (theme: Theme) => theme.spacing(5.5),
-  minWidth: (theme: Theme) => theme.spacing(10),
+  minHeight: (t: Theme) => t.spacing(5.5),
+  minWidth: (t: Theme) => t.spacing(10),
   textTransform: 'none',
   fontWeight: 600,
   whiteSpace: 'nowrap',
 };
 
 export const drawerContentSx: SxProps<Theme> = {
-  width: (theme: Theme) => theme.spacing(36),
+  width: (t: Theme) => t.spacing(36),
   p: 2.5,
   display: 'flex',
   flexDirection: 'column',

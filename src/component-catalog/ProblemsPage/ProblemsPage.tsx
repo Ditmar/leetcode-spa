@@ -4,7 +4,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
@@ -12,7 +11,6 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
@@ -43,9 +41,8 @@ import {
   drawerContentSx,
   emptyStateSx,
   filterSelectSx,
+  filterButtonSx,
   headerSx,
-  mobileFilterButtonSx,
-  searchFieldSx,
 } from './ProblemsPage.styles';
 import {
   getDifficultyChipColor,
@@ -64,13 +61,28 @@ import type {
 import type { SelectChangeEvent } from '@mui/material/Select';
 
 function StatusIcon({ status }: { status: Problem['status'] }) {
-  const iconName = getStatusIconName(status);
+  const name = getStatusIconName(status);
   const color = getStatusIconColor(status);
-  const commonProps = { color, fontSize: 'small' } as const;
+  if (name === 'CheckCircleOutline')
+    return <CheckCircleOutlineIcon color={color} fontSize="small" />;
+  if (name === 'RemoveCircleOutline')
+    return <RemoveCircleOutlineIcon color={color} fontSize="small" />;
+  return <RadioButtonUncheckedIcon color={color} fontSize="small" />;
+}
 
-  if (iconName === 'CheckCircleOutline') return <CheckCircleOutlineIcon {...commonProps} />;
-  if (iconName === 'RemoveCircleOutline') return <RemoveCircleOutlineIcon {...commonProps} />;
-  return <RadioButtonUncheckedIcon {...commonProps} />;
+interface EmptyStateProps {
+  onClearFilters: () => void;
+}
+
+function EmptyState({ onClearFilters }: EmptyStateProps) {
+  return (
+    <Box sx={emptyStateSx}>
+      <Typography variant="h6">No problems match your filters</Typography>
+      <Button variant="outlined" onClick={onClearFilters}>
+        Clear Filters
+      </Button>
+    </Box>
+  );
 }
 
 interface FilterControlsProps {
@@ -92,10 +104,10 @@ function FilterControls({
   onClearFilters,
   orientation = 'row',
 }: FilterControlsProps) {
-  const makeChangeHandler =
-    <T extends string>(handler: (v: T) => void) =>
+  const mkHandler =
+    <T extends string>(fn: (v: T) => void) =>
     (e: SelectChangeEvent) =>
-      handler(e.target.value as T);
+      fn(e.target.value as T);
 
   return (
     <Stack
@@ -110,7 +122,7 @@ function FilterControls({
           labelId="difficulty-label"
           label="Difficulty"
           value={filterState.difficultyFilter}
-          onChange={makeChangeHandler(onDifficultyChange)}
+          onChange={mkHandler<DifficultyFilter>(onDifficultyChange)}
           inputProps={{ 'aria-label': 'Difficulty filter' }}
         >
           {ALL_DIFFICULTIES.map((d) => (
@@ -127,7 +139,7 @@ function FilterControls({
           labelId="status-label"
           label="Status"
           value={filterState.statusFilter}
-          onChange={makeChangeHandler(onStatusChange)}
+          onChange={mkHandler<StatusFilter>(onStatusChange)}
           inputProps={{ 'aria-label': 'Status filter' }}
         >
           {ALL_STATUSES.map((s) => (
@@ -144,7 +156,7 @@ function FilterControls({
           labelId="tag-label"
           label="Tag"
           value={filterState.tagFilter}
-          onChange={makeChangeHandler(onTagChange)}
+          onChange={mkHandler<TagFilter>(onTagChange)}
           inputProps={{ 'aria-label': 'Tag filter' }}
         >
           <MenuItem value={ALL_TAGS_SENTINEL}>All</MenuItem>
@@ -161,7 +173,7 @@ function FilterControls({
         size="small"
         startIcon={<ClearAllIcon />}
         onClick={onClearFilters}
-        sx={{ ...mobileFilterButtonSx, color: 'text.secondary' }}
+        sx={{ ...filterButtonSx, color: 'text.secondary' }}
       >
         Clear
       </Button>
@@ -169,7 +181,18 @@ function FilterControls({
   );
 }
 
-export function ProblemsPage({ onSelectProblem, onNavigateToCode }: ProblemsPageProps) {
+function SearchField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <TextField
+      placeholder="Search problems…"
+      size="small"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    />
+  );
+}
+
+export function ProblemsPage({ onSelectProblem, onNavigateToCode, problems }: ProblemsPageProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -187,26 +210,10 @@ export function ProblemsPage({ onSelectProblem, onNavigateToCode }: ProblemsPage
     drawerOpen,
     handleDrawerOpen,
     handleDrawerClose,
-  } = useProblemsPage();
+  } = useProblemsPage({ problems });
 
-  const getActionLabel = (p: Problem) => (p.status === 'solved' ? 'Review' : 'Solve');
-
-  const handleAction = (p: Problem) => {
-    if (p.status === 'solved') {
-      onNavigateToCode();
-    } else {
-      onSelectProblem(p.id);
-    }
-  };
-
-  const EmptyState = (
-    <Box sx={emptyStateSx}>
-      <Typography variant="h6">No problems match your filters</Typography>
-      <Button variant="outlined" onClick={handleClearFilters}>
-        Clear Filters
-      </Button>
-    </Box>
-  );
+  const handleAction = (p: Problem) =>
+    p.status === 'solved' ? onNavigateToCode() : onSelectProblem(p.id);
 
   const DesktopTable = (
     <TableContainer>
@@ -232,49 +239,49 @@ export function ProblemsPage({ onSelectProblem, onNavigateToCode }: ProblemsPage
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredProblems.map((problem) => (
+          {filteredProblems.map((p) => (
             <StyledTableRow
-              key={problem.id}
-              isSolved={problem.status === 'solved'}
-              onClick={() => handleAction(problem)}
+              key={p.id}
+              isSolved={p.status === 'solved'}
+              onClick={() => handleAction(p)}
             >
               <TableCell>
                 <Typography variant="body2" color="text.secondary">
-                  {problem.id}
+                  {p.id}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="body2" fontWeight={500}>
-                  {problem.title}
+                  {p.title}
                 </Typography>
               </TableCell>
               <TableCell>
                 <Chip
-                  label={problem.difficulty}
-                  color={getDifficultyChipColor(problem.difficulty)}
+                  label={p.difficulty}
+                  color={getDifficultyChipColor(p.difficulty)}
                   size="small"
                   variant="outlined"
                 />
               </TableCell>
               <TableCell>
                 <Typography variant="body2" color="text.secondary">
-                  {formatAcceptance(problem.acceptance)}
+                  {formatAcceptance(p.acceptance)}
                 </Typography>
               </TableCell>
               <TableCell align="center">
-                <StatusIcon status={problem.status} />
+                <StatusIcon status={p.status} />
               </TableCell>
               <TableCell>
                 <Button
-                  variant={problem.status === 'solved' ? 'outlined' : 'contained'}
+                  variant={p.status === 'solved' ? 'outlined' : 'contained'}
                   size="small"
                   sx={actionButtonSx}
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleAction(problem);
+                    handleAction(p);
                   }}
                 >
-                  {getActionLabel(problem)}
+                  {p.status === 'solved' ? 'Review' : 'Solve'}
                 </Button>
               </TableCell>
             </StyledTableRow>
@@ -286,25 +293,21 @@ export function ProblemsPage({ onSelectProblem, onNavigateToCode }: ProblemsPage
 
   const MobileList = (
     <List disablePadding>
-      {filteredProblems.map((problem, idx) => (
-        <React.Fragment key={problem.id}>
-          <StyledListItemButton
-            isSolved={problem.status === 'solved'}
-            onClick={() => handleAction(problem)}
-          >
-            <StatusIcon status={problem.status} />
-
+      {filteredProblems.map((p, i) => (
+        <React.Fragment key={p.id}>
+          <StyledListItemButton isSolved={p.status === 'solved'} onClick={() => handleAction(p)}>
+            <StatusIcon status={p.status} />
             <ListItemText
               primary={
                 <Typography variant="body2" fontWeight={500}>
-                  {problem.id}.&nbsp;{problem.title}
+                  {p.id}.&nbsp;{p.title}
                 </Typography>
               }
               secondary={
                 <Stack direction="row" spacing={0.75} alignItems="center" mt={0.25}>
                   <Chip
-                    label={problem.difficulty}
-                    color={getDifficultyChipColor(problem.difficulty)}
+                    label={p.difficulty}
+                    color={getDifficultyChipColor(p.difficulty)}
                     size="small"
                     variant="outlined"
                     sx={{ height: 20, fontSize: '0.7rem' }}
@@ -313,13 +316,13 @@ export function ProblemsPage({ onSelectProblem, onNavigateToCode }: ProblemsPage
                     •
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    {formatAcceptance(problem.acceptance)}
+                    {formatAcceptance(p.acceptance)}
                   </Typography>
                 </Stack>
               }
             />
           </StyledListItemButton>
-          {idx < filteredProblems.length - 1 && <Divider component="li" sx={{ ml: 7 }} />}
+          {i < filteredProblems.length - 1 && <Divider component="li" sx={{ ml: 7 }} />}
         </React.Fragment>
       ))}
     </List>
@@ -327,6 +330,7 @@ export function ProblemsPage({ onSelectProblem, onNavigateToCode }: ProblemsPage
 
   return (
     <PageWrapper>
+      {/* Header */}
       <Box sx={headerSx}>
         <Typography variant="h5" fontWeight={700} component="h1">
           Problems
@@ -344,29 +348,14 @@ export function ProblemsPage({ onSelectProblem, onNavigateToCode }: ProblemsPage
           variant="outlined"
           startIcon={<FilterListIcon />}
           onClick={handleDrawerOpen}
-          sx={mobileFilterButtonSx}
+          sx={filterButtonSx}
           aria-label="Open filters"
         >
           Filters
         </Button>
       ) : (
         <FilterBarWrapper>
-          {/* Search */}
-          <TextField
-            placeholder="Search problems…"
-            size="small"
-            value={filterState.searchQuery}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            sx={searchFieldSx}
-            inputProps={{ 'aria-label': 'Search problems' }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon fontSize="small" />
-                </InputAdornment>
-              ),
-            }}
-          />
+          <SearchField value={filterState.searchQuery} onChange={handleSearchChange} />
           <FilterControls
             filterState={filterState}
             tagOptions={tagOptions}
@@ -379,42 +368,36 @@ export function ProblemsPage({ onSelectProblem, onNavigateToCode }: ProblemsPage
       )}
 
       {isMobile && (
-        <TextField
-          placeholder="Search problems…"
-          size="small"
-          fullWidth
-          value={filterState.searchQuery}
-          onChange={(e) => handleSearchChange(e.target.value)}
-          sx={{ mb: 1.5 }}
-          inputProps={{ 'aria-label': 'Search problems' }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
-        />
+        <Box sx={{ mb: 1.5 }}>
+          <SearchField value={filterState.searchQuery} onChange={handleSearchChange} />
+        </Box>
       )}
 
-      {filteredProblems.length === 0 ? EmptyState : isMobile ? MobileList : DesktopTable}
+      {/* Content */}
+      {filteredProblems.length === 0 ? (
+        <EmptyState onClearFilters={handleClearFilters} />
+      ) : isMobile ? (
+        MobileList
+      ) : (
+        DesktopTable
+      )}
 
       <Drawer
         anchor="right"
         open={drawerOpen}
-        onClose={handleDrawerClose}
+        onClose={() => handleDrawerClose()}
         aria-label="Filter drawer"
+        keepMounted={false}
       >
         <Box sx={drawerContentSx} role="presentation">
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="subtitle1" fontWeight={600}>
               Filters
             </Typography>
-            <IconButton onClick={handleDrawerClose} aria-label="Close filters" size="small">
+            <IconButton onClick={() => handleDrawerClose()} aria-label="Close filters" size="small">
               <CloseIcon fontSize="small" />
             </IconButton>
           </Stack>
-
           <FilterControls
             filterState={filterState}
             tagOptions={tagOptions}

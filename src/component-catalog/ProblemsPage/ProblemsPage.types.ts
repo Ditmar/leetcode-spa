@@ -24,6 +24,12 @@ export interface FilterState {
 export interface ProblemsPageProps {
   onSelectProblem: (id: number) => void;
   onNavigateToCode: () => void;
+
+  problems: Problem[];
+}
+
+export interface UseProblemsPageOptions {
+  problems: Problem[];
 }
 
 export interface UseProblemsPageReturn {
