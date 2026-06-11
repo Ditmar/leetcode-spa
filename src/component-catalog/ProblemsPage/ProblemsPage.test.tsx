@@ -1,6 +1,5 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
-import React from 'react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { vi, describe, it, expect, afterEach } from 'vitest';
 
 import { ProblemsPage } from './ProblemsPage';
