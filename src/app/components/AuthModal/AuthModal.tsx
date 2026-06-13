@@ -1,3 +1,4 @@
+import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from 'react';
 
 import { useAuth } from '../../../services/auth/useAuth';
@@ -28,6 +29,24 @@ export default function AuthModal({ isOpen }: AuthModalProps) {
   useEffect(() => {
     setOpen(isOpen);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!open) {
+      return undefined;
+    }
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [open]);
 
   if (!open) {
     return null;
@@ -69,13 +88,19 @@ export default function AuthModal({ isOpen }: AuthModalProps) {
   };
 
   return (
-    <div className="auth-modal" role="presentation">
-      <div className="auth-modal__backdrop" onClick={handleClose} />
+    <div className="auth-modal">
+      <button
+        className="auth-modal__backdrop"
+        type="button"
+        onClick={handleClose}
+        aria-label="Close authentication dialog"
+      />
       <section
         className="auth-modal__dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="auth-modal-title"
+        aria-busy={isSubmitting}
       >
         <button
           className="auth-modal__close"
@@ -83,7 +108,7 @@ export default function AuthModal({ isOpen }: AuthModalProps) {
           onClick={handleClose}
           aria-label="Close"
         >
-          x
+          <CloseIcon fontSize="small" aria-hidden="true" />
         </button>
         <p className="auth-modal__eyebrow">Protected route</p>
         <h2 id="auth-modal-title">{title}</h2>
@@ -92,11 +117,10 @@ export default function AuthModal({ isOpen }: AuthModalProps) {
           sync.
         </p>
 
-        <div className="auth-modal__tabs" role="tablist" aria-label="Authentication mode">
+        <div className="auth-modal__tabs" aria-label="Authentication mode">
           <button
             type="button"
-            role="tab"
-            aria-selected={mode === 'signin'}
+            aria-pressed={mode === 'signin'}
             onClick={() => {
               setMode('signin');
               setError(null);
@@ -106,8 +130,7 @@ export default function AuthModal({ isOpen }: AuthModalProps) {
           </button>
           <button
             type="button"
-            role="tab"
-            aria-selected={mode === 'signup'}
+            aria-pressed={mode === 'signup'}
             onClick={() => {
               setMode('signup');
               setError(null);
@@ -117,27 +140,32 @@ export default function AuthModal({ isOpen }: AuthModalProps) {
           </button>
         </div>
 
-        <form className="auth-modal__form" onSubmit={handleSubmit}>
+        <form className="auth-modal__form" onSubmit={handleSubmit} aria-busy={isSubmitting}>
           {mode === 'signup' && (
-            <label>
+            <label htmlFor="auth-username">
               Username
-              <input name="username" autoComplete="username" required />
+              <input id="auth-username" name="username" autoComplete="username" required />
             </label>
           )}
-          <label>
+          <label htmlFor="auth-email">
             Email
-            <input name="email" type="email" autoComplete="email" required />
+            <input id="auth-email" name="email" type="email" autoComplete="email" required />
           </label>
-          <label>
+          <label htmlFor="auth-password">
             Password
             <input
+              id="auth-password"
               name="password"
               type="password"
               autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
               required
             />
           </label>
-          {error && <p className="auth-modal__error">{error}</p>}
+          {error && (
+            <p className="auth-modal__error" role="alert">
+              {error}
+            </p>
+          )}
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Please wait...' : actionLabel}
           </button>
