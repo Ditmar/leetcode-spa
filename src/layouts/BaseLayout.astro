@@ -4,12 +4,19 @@ import '../style-library/theme/colors.css';
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
+  noIndex?: boolean;
 }
 
 const {
-  title = 'LeetCode SPA',
-  description = 'Interactive coding practice platform',
+  title = 'LeetCode Clone',
+  description = 'Practice coding problems, explore challenges, join contests, and discuss solutions.',
+  ogImage,
+  noIndex = false,
 } = Astro.props;
+
+const canonicalUrl = Astro.url.href;
+const themeColor = '#ffffff';
 ---
 
 <!doctype html>
@@ -17,103 +24,85 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content={themeColor} />
     <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- MUI Emotion insertion point must be declared before application styles. -->
+    <meta name="emotion-insertion-point" content="" />
+
+    {noIndex && <meta name="robots" content="noindex" />}
+
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Application font is loaded through HTML links, not client JavaScript. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    />
+
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta name="generator" content={Astro.generator} />
-    <!-- MUI Emotion insertion point – must come before any other styles -->
-    <meta name="emotion-insertion-point" content="" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
     <title>{title}</title>
+
+    <slot name="head" />
   </head>
+
   <body>
     <slot />
   </body>
 </html>
 
 <style is:global>
-  /* ── Local font faces ─────────────────────────────────── */
-  @font-face {
-    font-family: 'Montserrat';
-    src: url('/fonts/Montserrat-Light.woff2') format('woff2');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Montserrat';
-    src: url('/fonts/Montserrat-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Montserrat';
-    src: url('/fonts/Montserrat-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Poppins';
-    src: url('/fonts/Poppins-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Syne';
-    src: url('/fonts/Syne-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Syne';
-    src: url('/fonts/Syne-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Syne';
-    src: url('/fonts/Syne-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Syne';
-    src: url('/fonts/Syne-700.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Syne';
-    src: url('/fonts/Syne-Bold.woff2') format('woff2');
-    font-weight: 800;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  /* ── Reset / base ─────────────────────────────────────── */
   *,
   *::before,
   *::after {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
   }
 
   html,
   body {
-    height: 100%;
-    font-family: 'Poppins', 'Montserrat', 'Syne', 'Inter', 'Roboto', 'Helvetica', 'Arial',
+    min-height: 100%;
+    margin: 0;
+    font-family:
+      'Inter',
+      'Poppins',
+      'Montserrat',
+      'Syne',
+      'Roboto',
+      'Helvetica',
+      'Arial',
       sans-serif;
-    background-color: #ffffff;
-    color: #0a0a0a;
+    background-color: var(--background);
+    color: var(--foreground);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  img,
+  picture,
+  svg,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 </style>
