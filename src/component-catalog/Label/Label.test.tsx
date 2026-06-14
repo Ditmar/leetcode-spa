@@ -170,10 +170,10 @@ describe('Label — Contextual Tooltip Interactions', () => {
 
   it('ensures tooltip content remains completely closed and hidden when the label is disabled', async () => {
     renderLabel({ disabled: true, tooltip: 'Helpful information' });
-    
+
     // Intenta buscar el texto del tooltip de manera segura en el DOM
     const tooltipContent = screen.queryByText('Helpful information');
-    
+
     // Comprueba que no se renderice de forma predeterminada ni sea visible
     expect(tooltipContent).not.toBeInTheDocument();
   });
