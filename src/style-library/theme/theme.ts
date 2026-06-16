@@ -1,3 +1,6 @@
+import InterMedium from '../../assets/fonts/Inter-Medium.woff2';
+import InterRegular from '../../assets/fonts/Inter-Regular.woff2';
+import InterSemiBold from '../../assets/fonts/Inter-SemiBold.woff2';
 import MontserratLight from '../../assets/fonts/Montserrat-Light.woff2';
 import MontserratRegular from '../../assets/fonts/Montserrat-Regular.woff2';
 import MontserratSemiBold from '../../assets/fonts/Montserrat-SemiBold.woff2';
@@ -751,6 +754,27 @@ theme.components = {
         font-style: normal;
         font-display: swap;
       }
+        @font-face {
+       font-family: 'Inter';
+       src: url(${InterRegular}) format('woff2');
+       font-weight: 400;
+       font-style: normal;
+       font-display: swap;
+      }
+       @font-face {
+       font-family: 'Inter';
+       src: url(${InterMedium}) format('woff2');
+       font-weight: 500;
+       font-style: normal;
+       font-display: swap;
+      }
+       @font-face {
+       font-family: 'Inter';
+       src: url(${InterSemiBold}) format('woff2');
+       font-weight: 600;
+       font-style: normal;
+       font-display: swap;
+      } 
     `,
   },
 };
@@ -860,6 +884,120 @@ export const typographyTokens = {
     letterSpacing: 0 as const,
     minWidth: '96px' as const,
     minHeight: '22px' as const,
+  },
+} as const;
+
+export const problemListTokens = {
+  colors: {
+    background: 'var(--problem-list-bg)',
+    border: 'var(--problem-list-border)',
+    headerText: 'var(--problem-list-header-text)',
+    itemBackground: 'var(--problem-list-bg)',
+    selectedBackground: 'var(--problem-list-selected-bg)',
+    selectedBorderColor: 'var(--problem-list-selected-border)',
+    solvedIcon: 'var(--problem-list-solved)',
+    attemptedIcon: 'var(--problem-list-attempted)',
+    unsolvedIcon: 'var(--problem-list-unsolved)',
+
+    easy: 'var(--problem-list-easy)',
+    medium: 'var(--problem-list-medium)',
+    hard: 'var(--problem-list-hard)',
+
+    problemNumber: 'var(--problem-list-number-text)',
+    problemTitle: 'var(--problem-list-title-text)',
+    acceptanceRate: 'var(--problem-list-acceptance)',
+    bullet: 'var(--problem-list-bullet)',
+  },
+
+  typography: {
+    fontFamily: '"Inter"',
+
+    header: {
+      fontSize: '14px' as const,
+      fontWeight: 600 as const,
+      lineHeight: '20px' as const,
+      letterSpacing: '0px' as const,
+    },
+    problemNumber: {
+      fontSize: '12px' as const,
+      fontWeight: 500 as const,
+      lineHeight: '16px' as const,
+      letterSpacing: '0px' as const,
+    },
+    problemTitle: {
+      fontSize: '12px' as const,
+      fontWeight: 500 as const,
+      lineHeight: '16px' as const,
+      letterSpacing: '0px' as const,
+    },
+    meta: {
+      fontSize: '10px' as const,
+      fontWeight: 500 as const,
+      lineHeight: '15px' as const,
+      letterSpacing: '0px' as const,
+    },
+  },
+
+  dimensions: {
+    containerWidth: 331.96 as const,
+    containerHeight: 735.47 as const,
+    borderRightWidth: '1.17px' as const,
+
+    headerHeight: 45.14 as const,
+    headerPadding: '11.99px 11.99px 1.17px 11.99px' as const,
+    headerBorderBottomWidth: '1.17px' as const,
+
+    itemHeight: 62.15 as const,
+    itemBorderBottomWidth: '1.17px' as const,
+    itemPaddingX: '11.99px' as const,
+
+    selectedBorderLeftWidth: '3.52px' as const,
+    selectedPaddingLeft: '8.47px' as const,
+
+    statusIconSize: 15.98 as const,
+    iconBorderWidth: '1.33px' as const,
+    unsolvedCircleSize: 13.32 as const,
+
+    rowGap: '5.99px' as const,
+    iconTextGap: '8px' as const,
+
+    drawerWidth: 36 as const,
+  },
+
+  // ── Layout helpers ────────────────────────────────────────────────────────
+  layout: {
+    container: {
+      display: 'flex' as const,
+      flexDirection: 'column' as const,
+      overflow: 'hidden' as const,
+      flexShrink: 0,
+    },
+    listWrapper: {
+      flex: 1,
+      overflowY: 'auto' as const,
+      overflowX: 'hidden' as const,
+    },
+    hideScrollbar: {
+      '&::-webkit-scrollbar': { display: 'none' as const },
+      msOverflowStyle: 'none' as const,
+      scrollbarWidth: 'none' as const,
+    },
+    itemButton: {
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+      padding: 0,
+      transition: 'background-color 150ms ease-in-out, border-left-color 150ms ease-in-out',
+    },
+    textColumn: {
+      display: 'flex' as const,
+      flexDirection: 'column' as const,
+      flex: 1,
+      minWidth: 0,
+    },
+    inlineRow: {
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+    },
   },
 } as const;
 

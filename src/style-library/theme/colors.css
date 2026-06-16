@@ -90,6 +90,24 @@
   --nav-border: #1e2939;
   --nav-text: #d1d5dc;
   --nav-accent-green: #00c950;
+  
+  /* ProblemList */
+  --problem-list-bg: #ffffff;
+  --problem-list-border: #e5e7eb;
+  --problem-list-header-text: #101828;
+  --problem-list-selected-bg: #eff6ff;
+  --problem-list-selected-border: #2b7fff;
+  --problem-list-solved: #00c950;
+  --problem-list-attempted: #f0b100;
+  --problem-list-unsolved: #99a1af;
+  --problem-list-easy: #00c950;
+  --problem-list-medium: #f0b100;
+  --problem-list-hard: #fb2c36;
+  --problem-list-number-text: #6a7282;
+  --problem-list-title-text: #101828;
+  --problem-list-acceptance: #6a7282;
+  --problem-list-bullet: #99a1af;
+
 }
 
 .dark {
@@ -146,4 +164,21 @@
   --sidebar-accent-foreground: #fafafa;
   --sidebar-border: #2a2a2a;
   --sidebar-ring: #4a4a4a;
+
+  /* ProblemList */
+  --problem-list-bg: #1e2939;
+  --problem-list-border: #2d3a4a;
+  --problem-list-header-text: #f9fafb;
+  --problem-list-selected-bg: #1e3a5f;
+  --problem-list-selected-border: #2b7fff;
+  --problem-list-solved: #00c950;
+  --problem-list-attempted: #f0b100;
+  --problem-list-unsolved: #6a7282;
+  --problem-list-easy: #00c950;
+  --problem-list-medium: #f0b100;
+  --problem-list-hard: #fb2c36;
+  --problem-list-number-text: #9ca3af;
+  --problem-list-title-text: #f9fafb;
+  --problem-list-acceptance: #9ca3af;
+  --problem-list-bullet: #6a7282;
 }
