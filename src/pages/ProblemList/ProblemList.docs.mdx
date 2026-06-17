@@ -1,0 +1,169 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as ProblemListStories from './ProblemList.stories';
+
+<Meta of={ProblemListStories} />
+
+# ProblemList
+
+A **scrollable sidebar** organism that renders a list of coding problems with status
+indicators, difficulty labels, and acceptance rates.
+Built with **Material UI** and the project's centralised design-token system.
+
+---
+
+## Overview
+
+| Feature | Detail |
+| ------- | ------ |
+| Status icons | Solved → green `CheckCircleOutline`, Attempted → amber `RemoveCircleOutline`, Unsolved → grey `RadioButtonUnchecked` |
+| Difficulty | Coloured plain text — Easy `#00C950`, Medium `#F0B100`, Hard `#FB2C36` |
+| Selection | Active item: `3.52 px` blue left border + `#EFF6FF` background |
+| Responsive | Desktop ≥ 768 px: fixed sidebar. Mobile < 768 px: Drawer toggled by a Fab |
+| Accessibility | `aria-current`, icon `aria-label`, keyboard navigation |
+| Font | **Inter** (500 / 600) — registered in `theme.ts` `@font-face` |
+
+---
+
+## Quick Start
+
+```tsx
+import { ProblemList } from '@/pages/ProblemList';
+import type { Problem } from '@/pages/ProblemList/ProblemList.types';
+
+const problems: Problem[] = [
+  { id: 1, title: 'Two Sum', difficulty: 'Easy', acceptanceRate: 49.2, status: 'solved' },
+  { id: 2, title: 'Add Two Numbers', difficulty: 'Medium', acceptanceRate: 41.8, status: 'attempted' },
+];
+
+export function App() {
+  const [selected, setSelected] = React.useState(1);
+  return (
+    <ProblemList
+      problems={problems}
+      selectedProblemId={selected}
+      onSelectProblem={setSelected}
+    />
+  );
+}
+```
+
+---
+
+## Stories
+
+### Default
+
+Full list with mixed statuses; problem 1 selected.
+
+<Canvas of={ProblemListStories.Default} />
+
+### All Statuses
+
+Shows all three status icon variants.
+
+<Canvas of={ProblemListStories.AllStatuses} />
+
+### Selected Item
+
+Problem 3 pre-selected — blue left border + light blue background.
+
+<Canvas of={ProblemListStories.SelectedItem} />
+
+### Mobile Drawer
+
+Viewport below 768 px: sidebar replaced by Drawer + Fab.
+
+<Canvas of={ProblemListStories.MobileDrawer} />
+
+### Empty List
+
+Empty state when `problems` is an empty array.
+
+<Canvas of={ProblemListStories.EmptyList} />
+
+---
+
+## Controls
+
+<Controls />
+
+---
+
+## Prop Reference
+
+### ProblemListProps
+
+| Prop | Type | Required | Description |
+| ---- | ---- | :------: | ----------- |
+| `problems` | `Problem[]` | ✓ | Array of problem objects to display |
+| `selectedProblemId` | `number` | ✓ | ID of the currently highlighted problem |
+| `onSelectProblem` | `(id: number) => void` | ✓ | Callback fired when a row is clicked |
+
+### Problem
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| `id` | `number` | Unique identifier |
+| `title` | `string` | Display name |
+| `difficulty` | `'Easy' \| 'Medium' \| 'Hard'` | Difficulty level |
+| `acceptanceRate` | `number` | Percentage value (e.g. `49.2`) |
+| `status` | `'solved' \| 'attempted' \| 'unsolved'` | User progress |
+
+---
+
+## Design Tokens
+
+Tokens live in **`src/style-library/theme/theme.ts`** → `problemListTokens`.
+CSS custom properties live in **`src/style-library/theme/colors.css`** → `--problem-list-*`.
+
+| Token path | Figma value | Purpose |
+| ---------- | ----------- | ------- |
+| `dimensions.containerWidth` | `331.96 px` | Sidebar width |
+| `dimensions.containerHeight` | `735.47 px` | Sidebar height |
+| `dimensions.borderRightWidth` | `1.17 px` | Right edge border |
+| `dimensions.headerHeight` | `45.14 px` | Header bar height |
+| `dimensions.itemHeight` | `62.15 px` | Each problem row height |
+| `dimensions.itemBorderBottomWidth` | `1.17 px` | Row separator |
+| `dimensions.selectedBorderLeftWidth` | `3.52 px` | Active left border |
+| `dimensions.drawerWidth` | `36` (× `theme.spacing`) | Mobile drawer width |
+| `colors.selectedBackground` | `#EFF6FF` | Active row background |
+| `colors.selectedBorderColor` | `#2B7FFF` | Active left border color |
+| `colors.easy / medium / hard` | `#00C950 / #F0B100 / #FB2C36` | Difficulty text colors |
+| `typography.header` | Inter 600 14 px / 20 px | "Problems" title |
+| `typography.problemNumber` | Inter 500 12 px / 16 px | Index prefix (e.g. `1.`) |
+| `typography.problemTitle` | Inter 500 12 px / 16 px | Problem name |
+| `typography.meta` | Inter 500 10 px / 15 px | Difficulty + acceptance row |
+
+---
+
+## Accessibility
+
+- Every `ListItemButton` has a descriptive `aria-label` including title, difficulty, and acceptance rate.
+- The selected item receives `aria-current="true"`.
+- Status icons carry `aria-label`: `"Solved"`, `"Attempted"`, `"Unsolved"`.
+- All items are keyboard-focusable and activatable via `Enter` / `Space`.
+- Mobile Fab: `aria-label="Open problems list"`.
+
+---
+
+## File Structure
+
+```
+src/pages/ProblemList/
+├── ProblemList.tsx           # Main component
+├── ProblemList.types.ts      # TypeScript interfaces
+├── ProblemList.constants.ts  # Mock data (tokens live in theme.ts)
+├── ProblemList.hook.ts       # useProblemList hook
+├── ProblemList.styles.ts     # MUI styled() — imports problemListTokens
+├── ProblemList.utils.ts      # Pure helpers — imports problemListTokens
+├── ProblemList.test.tsx      # Vitest + Testing Library
+├── ProblemList.stories.tsx   # Storybook 9 CSF
+└── ProblemList.docs.mdx      # This file
+```
+
+## Related files modified
+
+```
+src/style-library/theme/theme.ts    # Added: problemListTokens export + Inter @font-face
+src/style-library/theme/colors.css  # Added: --problem-list-* CSS custom properties
+```
