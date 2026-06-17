@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import ErrorBoundary from './ErrorBoundary';
 
@@ -10,6 +10,10 @@ const BrokenComponent = () => {
 };
 
 describe('ErrorBoundary', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('renders children when there is no error', () => {
     render(
       <ErrorBoundary>
@@ -35,7 +39,6 @@ describe('ErrorBoundary', () => {
 
   it('calls onError callback when a child throws', () => {
     const onError = vi.fn();
-
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     render(
@@ -46,5 +49,7 @@ describe('ErrorBoundary', () => {
 
     expect(onError).toHaveBeenCalledTimes(1);
     expect(onError.mock.calls[0][0]).toBeInstanceOf(Error);
+    expect(onError.mock.calls[0][0].message).toBe('Test render error');
+    expect(onError.mock.calls[0][1]).toHaveProperty('componentStack');
   });
 });

@@ -13,51 +13,52 @@ export default function ErrorFallback({ error, errorInfo, onReload }: ErrorFallb
       elevation={0}
       role="alert"
       sx={{
-        p: 3,
+        width: '100%',
+        maxWidth: 720,
+        mx: 'auto',
+        p: { xs: 3, md: 4 },
         border: 1,
-        borderColor: 'var(--border)',
-        borderRadius: 'var(--radius-lg)',
-        bgcolor: 'var(--card)',
-        color: 'var(--foreground)',
-        boxShadow: 'var(--shadow-sm)',
+        borderColor: 'divider',
+        borderRadius: 3,
+        bgcolor: 'background.paper',
+        color: 'text.primary',
+        textAlign: 'center',
       }}
     >
-      <Stack spacing={2}>
-        <Typography variant="h5" component="h2" fontWeight={700}>
+      <Stack spacing={2.5} alignItems="center">
+        <Typography variant="h4" component="h2" fontWeight={800}>
           Something went wrong
         </Typography>
 
-        <Typography variant="body2" color="text.secondary">
-          The interface could not be rendered correctly. Please reload the page and try again.
-        </Typography>
+        {isDevelopment ? (
+          <Typography variant="body2" color="text.secondary">
+            The interface could not be rendered correctly. Development details are shown below.
+          </Typography>
+        ) : null}
 
         {isDevelopment && error ? (
-          <Stack spacing={1}>
-            <Typography variant="subtitle2" component="h3">
-              Development details
-            </Typography>
-
-            <Paper
-              component="pre"
-              elevation={0}
-              sx={{
-                m: 0,
-                p: 2,
-                overflowX: 'auto',
-                bgcolor: 'var(--muted)',
-                borderRadius: 'var(--radius-lg)',
-                fontFamily: '"Fira Code", "Courier New", monospace',
-                fontSize: '0.75rem',
-                whiteSpace: 'pre-wrap',
-              }}
-            >
-              {`${error.name}: ${error.message}
+          <Paper
+            component="pre"
+            elevation={0}
+            sx={{
+              width: '100%',
+              m: 0,
+              p: 2,
+              overflowX: 'auto',
+              bgcolor: 'action.hover',
+              borderRadius: 2,
+              fontFamily: '"Fira Code", "Courier New", monospace',
+              fontSize: '0.75rem',
+              whiteSpace: 'pre-wrap',
+              textAlign: 'left',
+            }}
+          >
+            {`${error.name}: ${error.message}
 
 ${error.stack ?? ''}
 
 ${errorInfo?.componentStack ?? ''}`}
-            </Paper>
-          </Stack>
+          </Paper>
         ) : null}
 
         <Button variant="contained" onClick={onReload}>

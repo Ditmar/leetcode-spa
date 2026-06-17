@@ -2,11 +2,7 @@ import { Component } from 'react';
 
 import ErrorFallback from './ErrorFallback';
 
-import type {
-  ErrorBoundaryProps,
-  ErrorBoundaryState,
-  ErrorFallbackRender,
-} from './ErrorBoundary.types';
+import type { ErrorBoundaryProps, ErrorBoundaryState } from './ErrorBoundary.types';
 import type { ErrorInfo, ReactNode } from 'react';
 
 export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -24,7 +20,10 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    this.setState({ errorInfo: info });
+    this.setState({
+      errorInfo: info,
+    });
+
     this.props.onError?.(error, info);
   }
 
@@ -41,7 +40,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     }
 
     if (typeof fallback === 'function') {
-      return (fallback as ErrorFallbackRender)(error, errorInfo, this.handleReload);
+      return fallback(error, errorInfo, this.handleReload);
     }
 
     if (fallback) {

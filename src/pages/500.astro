@@ -1,53 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ErrorPage from '../component-catalog/ErrorBoundary/ErrorPage';
 
 Astro.response.status = 500;
 ---
 
-<BaseLayout title="Something went wrong" description="An internal server error occurred">
-  <main
-    style="
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      background: var(--background);
-      color: var(--foreground);
-      font-family: 'Syne', sans-serif;
-    "
-  >
-    <section
-      style="
-        max-width: 520px;
-        text-align: center;
-        padding: 2rem;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        background: var(--card);
-        box-shadow: var(--shadow-sm);
-      "
-    >
-      <h1 style="font-size: 2rem; margin-bottom: 1rem;">
-        Something went wrong on our end
-      </h1>
-      <p style="margin-bottom: 1.5rem; color: var(--muted-foreground);">
-        We could not complete your request. Please try again or return to the home page.
-      </p>
-      <a
-        href="/"
-        style="
-          display: inline-block;
-          padding: 0.75rem 1rem;
-          border-radius: var(--radius-lg);
-          background: var(--primary);
-          color: var(--primary-foreground);
-          text-decoration: none;
-          font-weight: 600;
-        "
-      >
-        Go back home
-      </a>
-    </section>
-  </main>
+<BaseLayout
+  title="Service temporarily unavailable"
+  description="An internal server error occurred"
+>
+  <ErrorPage
+    client:load
+    code="500"
+    title="Service temporarily unavailable"
+    description="We are experiencing an unexpected issue. Our team has been notified and is working to restore service. Please try again later or return to the home page."
+    actionLabel="Return to Home"
+    actionHref="/"
+  />
 </BaseLayout>
