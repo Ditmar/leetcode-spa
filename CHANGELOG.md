@@ -1,5 +1,15 @@
 # Changelog
 
+# [0.11.0](https://github.com/Ditmar/leetcode-spa/compare/v0.10.0...v0.11.0) (2026-06-17)
+
+
+### Features
+
+* add /sysinfo page with package version ([#302](https://github.com/Ditmar/leetcode-spa/issues/302)) ([ac1a6fd](https://github.com/Ditmar/leetcode-spa/commit/ac1a6fdc6c9f10e5b3c3156b024fbd4cdcc3ab3c))
+* add route home page ([#303](https://github.com/Ditmar/leetcode-spa/issues/303)) ([2ace0c5](https://github.com/Ditmar/leetcode-spa/commit/2ace0c589ed5576ec4f328ca6f7934457172f161))
+* Create CDD component [PAGE-006] ProblemList [#257](https://github.com/Ditmar/leetcode-spa/issues/257) ([#281](https://github.com/Ditmar/leetcode-spa/issues/281)) ([ae18cf9](https://github.com/Ditmar/leetcode-spa/commit/ae18cf91b413adc685118b04fe0c8a372bf29f0d))
+* implement contestsService for SSR and client-side contest interactions ([#278](https://github.com/Ditmar/leetcode-spa/issues/278)) ([b2358cf](https://github.com/Ditmar/leetcode-spa/commit/b2358cf384e49c854716043e59a963e2bb5d55dd))
+
 # [0.10.0](https://github.com/Ditmar/leetcode-spa/compare/v0.9.1...v0.10.0) (2026-06-09)
 
 
