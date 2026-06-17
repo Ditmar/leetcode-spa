@@ -17,28 +17,16 @@ const meta: Meta<typeof CodeEditor> = {
           height: '100dvh',
 
           display: 'grid',
+          justifyContent: 'center',
 
           gridTemplateColumns: {
             xs: '1fr',
-            md: '1fr 540px',
+            md: '540px',
           },
 
           backgroundColor: 'var(--background)',
         }}
       >
-        <Box
-          sx={{
-            display: {
-              xs: 'none',
-              md: 'block',
-            },
-
-            borderRight: '1px solid var(--border)',
-
-            backgroundColor: 'var(--background)',
-          }}
-        />
-
         <Box
           sx={{
             display: 'flex',
