@@ -1,0 +1,45 @@
+import{A as i}from"./iframe-JE2ONMOY.js";import{useMDXComponents as r}from"./index-BnOTTbXA.js";import{b as o,T as t,d as l,D as c,P as a,a as d,S as h}from"./index-DNBqwlUX.js";import{A as p}from"./AlertDialog.stories-BnSK_kMk.js";import"./preload-helper-C7gaCUf1.js";import"./index-bszqak52.js";import"./index-DQGKt2H_.js";import"./index-DgnwKjkX.js";import"./memoTheme-Mo_wMwy1.js";import"./DialogContent-DnSIXfOK.js";import"./useTheme-DOz576ky.js";import"./useSlot-moTtzk32.js";import"./mergeSlotProps-BmFB0Zi3.js";import"./useForkRef-CIh3xqTS.js";import"./Paper-C4znx9Do.js";import"./Fade-B7MUw2IT.js";import"./useTimeout-wiYbnaer.js";import"./getReactElementRef-drxaz0dx.js";import"./Modal-ouolEN7J.js";import"./ownerWindow-HamBuRYV.js";import"./Portal-BnBoDkeu.js";import"./createChainedFunction-BO_9K8Jh.js";import"./DialogTitle-DbKJP0ri.js";import"./Typography-CUl7cWJ_.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";import"./Box-N76dapMe.js";import"./Button-rlcjSxLK.js";import"./ButtonBase-pbbkxlis.js";import"./CircularProgress-BBDZcIvo.js";import"./Stack-BTj36hmr.js";import"./useThemeProps-jASruoz3.js";import"./getThemeProps-BTerWf-V.js";function s(n){const e={code:"code",h2:"h2",li:"li",p:"p",strong:"strong",ul:"ul",...r(),...n.components};return i.jsxs(i.Fragment,{children:[i.jsx(o,{of:p}),`
+`,i.jsx(t,{}),`
+`,i.jsx(l,{children:"A modal component for critical messages and required user decisions."}),`
+`,i.jsx(c,{children:i.jsxs(e.p,{children:[i.jsx(e.code,{children:"AlertDialog"}),` is a Material UI based modal component used when a user must acknowledge important
+information or explicitly confirm an action before continuing.`]})}),`
+`,i.jsx(e.h2,{id:"use-cases",children:"Use cases"}),`
+`,i.jsxs(e.p,{children:["Use ",i.jsx(e.code,{children:"AlertDialog"})," when the interface must:"]}),`
+`,i.jsxs(e.ul,{children:[`
+`,i.jsx(e.li,{children:"confirm a destructive or sensitive action"}),`
+`,i.jsx(e.li,{children:"block the flow until the user acknowledges important information"}),`
+`,i.jsx(e.li,{children:"present critical feedback that requires an explicit decision"}),`
+`]}),`
+`,i.jsx(e.p,{children:"Do not use this component for passive inline feedback. For non-blocking messages, use a standard alert component instead."}),`
+`,i.jsx(e.h2,{id:"severity-variants",children:"Severity variants"}),`
+`,i.jsx(e.p,{children:"The component supports the following severity variants:"}),`
+`,i.jsxs(e.ul,{children:[`
+`,i.jsx(e.li,{children:i.jsx(e.code,{children:"info"})}),`
+`,i.jsx(e.li,{children:i.jsx(e.code,{children:"success"})}),`
+`,i.jsx(e.li,{children:i.jsx(e.code,{children:"warning"})}),`
+`,i.jsx(e.li,{children:i.jsx(e.code,{children:"error"})}),`
+`]}),`
+`,i.jsx(e.p,{children:"Severity changes the visual emphasis of the dialog and its primary action."}),`
+`,i.jsx(e.h2,{id:"action-patterns",children:"Action patterns"}),`
+`,i.jsx(e.p,{children:"The component supports these action patterns:"}),`
+`,i.jsxs(e.ul,{children:[`
+`,i.jsx(e.li,{children:i.jsx(e.strong,{children:"Confirm / Cancel"})}),`
+`,i.jsx(e.li,{children:i.jsx(e.strong,{children:"Acknowledge"})}),`
+`]}),`
+`,i.jsx(e.p,{children:"This allows the dialog to cover both decision-based flows and blocking informational messages."}),`
+`,i.jsx(e.h2,{id:"accessibility",children:"Accessibility"}),`
+`,i.jsx(e.p,{children:"The component includes:"}),`
+`,i.jsxs(e.ul,{children:[`
+`,i.jsx(e.li,{children:i.jsx(e.code,{children:'role="alertdialog"'})}),`
+`,i.jsx(e.li,{children:i.jsx(e.code,{children:"aria-labelledby"})}),`
+`,i.jsx(e.li,{children:i.jsx(e.code,{children:"aria-describedby"})}),`
+`]}),`
+`,i.jsx(e.p,{children:"These attributes improve compatibility with assistive technologies."}),`
+`,i.jsx(e.h2,{id:"responsive-behavior",children:"Responsive behavior"}),`
+`,i.jsx(e.p,{children:"On small screens, the dialog is rendered at the bottom of the viewport and expands to the available width to improve mobile usability."}),`
+`,i.jsx(e.h2,{id:"primary-example",children:"Primary example"}),`
+`,i.jsx(a,{}),`
+`,i.jsx(e.h2,{id:"controls",children:"Controls"}),`
+`,i.jsx(d,{}),`
+`,i.jsx(e.h2,{id:"additional-stories",children:"Additional stories"}),`
+`,i.jsx(h,{includePrimary:!1})]})}function J(n={}){const{wrapper:e}={...r(),...n.components};return e?i.jsx(e,{...n,children:i.jsx(s,{...n})}):s(n)}export{J as default};
