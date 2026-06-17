@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { describe, expect, it, vi } from 'vitest';
@@ -48,7 +48,9 @@ describe('Drawer', () => {
 
     await user.click(screen.getByLabelText(/close drawer/i));
 
-    expect(screen.queryByRole('heading', { name: /^test$/i })).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByRole('heading', { name: /^test$/i })).not.toBeInTheDocument();
+    });
   });
 
   it('does not show close button when showCloseButton is false', () => {
