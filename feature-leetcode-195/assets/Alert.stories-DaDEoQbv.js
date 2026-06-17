@@ -1,0 +1,23 @@
+import{B as r}from"./iframe-D4NL2jQP.js";import{C as h}from"./CheckCircleOutline-CDaJK1Cb.js";import{c}from"./createSvgIcon-BSO3t1BD.js";import{I as x}from"./InfoOutlined-DfFBKB2T.js";import{e as s}from"./memoTheme-D8RofDGO.js";import{B as o}from"./Box-gFKjZ2qA.js";import{T as d}from"./Typography-Dtns6REN.js";import"./preload-helper-BmzZtkUX.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";const y=c(r.jsx("path",{d:"M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"})),v=c(r.jsx("path",{d:"M12 5.99 19.53 19H4.47zM12 2 1 21h22zm1 14h-2v2h2zm0-6h-2v4h2z"})),w={info:x,success:h,warning:v,error:y},S=s(o,{shouldForwardProp:e=>e!=="severity"})(({theme:e})=>({display:"flex",flexDirection:"row",alignItems:"flex-start",padding:`${e.spacing(1.5)} ${e.spacing(2)}`,gap:e.spacing(1.5),width:"100%",maxWidth:e.breakpoints.values.lg,boxSizing:"border-box",borderRadius:e.shape.borderRadius})),A=s(o,{shouldForwardProp:e=>e!=="severity"})(({theme:e})=>({display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,width:e.spacing(2),height:e.spacing(2),marginTop:e.spacing(.25)})),j=s(o)(({theme:e})=>({display:"flex",flexDirection:"column",alignItems:"flex-start",padding:0,gap:e.spacing(.25)})),b=s(d,{shouldForwardProp:e=>e!=="severity"})(({theme:e})=>({...e.typography.subtitle2,fontStyle:"normal"})),I=s(d,{shouldForwardProp:e=>e!=="severity"})(({theme:e})=>({...e.typography.body2,fontStyle:"normal"})),t=({severity:e="info",title:a,children:n,icon:l,className:p,...m})=>{const u=w[e],g=e==="error"?"alert":"status",f=e==="error"?"assertive":"polite";return r.jsxs(S,{severity:e,className:p,role:g,"aria-live":f,"data-testid":`alert-${e}`,...m,children:[r.jsx(A,{severity:e,"aria-hidden":"true",children:l||r.jsx(u,{"data-testid":"alert-default-icon"})}),r.jsxs(j,{children:[r.jsx(b,{severity:e,children:a}),n&&r.jsx(I,{severity:e,children:n})]})]})};t.__docgenInfo={description:"",methods:[],displayName:"Alert",props:{severity:{required:!1,tsType:{name:"union",raw:"'info' | 'success' | 'warning' | 'error'",elements:[{name:"literal",value:"'info'"},{name:"literal",value:"'success'"},{name:"literal",value:"'warning'"},{name:"literal",value:"'error'"}]},description:"",defaultValue:{value:"'info'",computed:!1}},title:{required:!0,tsType:{name:"string"},description:""},children:{required:!1,tsType:{name:"ReactNode"},description:""},icon:{required:!1,tsType:{name:"ReactElement"},description:""}},composes:["Omit"]};const C=e=>r.jsx(o,{sx:{p:4,width:"100%",maxWidth:a=>a.breakpoints.values.lg,margin:"0 auto"},children:r.jsx(e,{})}),W={title:"Component-Catalog/Alert",component:t,decorators:[C],argTypes:{severity:{control:"select",options:["info","success","warning","error"]}}},i={args:{title:"Stacked Alerts"},render:()=>r.jsxs(o,{sx:{display:"flex",flexDirection:"column",gap:2},children:[r.jsx(t,{severity:"info",title:"Information",children:"This is a standard informational alert message."}),r.jsx(t,{severity:"success",title:"Success",children:"Your changes have been saved successfully!"}),r.jsx(t,{severity:"warning",title:"Warning",children:"Please review your information before submitting."}),r.jsx(t,{severity:"error",title:"Error",children:"Something went wrong. Please try again."})]})};i.parameters={...i.parameters,docs:{...i.parameters?.docs,source:{originalSource:`{
+  args: {
+    title: 'Stacked Alerts'
+  },
+  render: () => <Box sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2
+  }}>
+      <Alert severity="info" title="Information">
+        This is a standard informational alert message.
+      </Alert>
+      <Alert severity="success" title="Success">
+        Your changes have been saved successfully!
+      </Alert>
+      <Alert severity="warning" title="Warning">
+        Please review your information before submitting.
+      </Alert>
+      <Alert severity="error" title="Error">
+        Something went wrong. Please try again.
+      </Alert>
+    </Box>
+}`,...i.parameters?.docs?.source}}};const _=["AllAlertsStacked"];export{i as AllAlertsStacked,_ as __namedExportsOrder,W as default};
