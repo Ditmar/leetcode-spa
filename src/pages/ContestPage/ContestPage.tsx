@@ -185,8 +185,8 @@ export const ContestPage = ({
 
       <Box display="flex" flexWrap="wrap" gap={3} width="100%">
         {STATS_CONFIG.map((stat) => (
-          <Box 
-            key={stat.id} 
+          <Box
+            key={stat.id}
             flex={{ xs: '1 1 100%', sm: '1 1 calc(50% - 24px)', md: '1 1 calc(25% - 24px)' }}
           >
             <S.StatsCard elevation={0}>
@@ -224,9 +224,13 @@ export const ContestPage = ({
         <Box display="flex" flexWrap="wrap" gap={3} width="100%">
           {loading ? (
             Array.from(new Array(SKELETON_COUNT)).map((_, index) => (
-              <Box 
+              <Box
                 key={`skeleton-${index}`}
-                flex={{ xs: '1 1 100%', sm: '1 1 calc(50% - 24px)', md: '1 1 calc(33.333% - 24px)' }}
+                flex={{
+                  xs: '1 1 100%',
+                  sm: '1 1 calc(50% - 24px)',
+                  md: '1 1 calc(33.333% - 24px)',
+                }}
               >
                 <Box
                   sx={{
@@ -269,9 +273,13 @@ export const ContestPage = ({
             </Box>
           ) : (
             filteredContests.map((contest) => (
-              <Box 
+              <Box
                 key={contest.id}
-                flex={{ xs: '1 1 100%', sm: '1 1 calc(50% - 24px)', md: '1 1 calc(33.333% - 24px)' }}
+                flex={{
+                  xs: '1 1 100%',
+                  sm: '1 1 calc(50% - 24px)',
+                  md: '1 1 calc(33.333% - 24px)',
+                }}
               >
                 <ContestCard contest={contest} />
               </Box>
