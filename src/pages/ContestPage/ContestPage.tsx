@@ -5,7 +5,6 @@ import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { Typography, Tabs, Tab, Box, Chip, Button, Skeleton, Stack, Paper } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import React from 'react';
 
 import { MOCK_CONTESTS, STATS_CONFIG, SKELETON_COUNT } from './ContestPage.constants';
@@ -184,9 +183,12 @@ export const ContestPage = ({
         </Typography>
       </Box>
 
-      <Grid container spacing={3}>
+      <Box display="flex" flexWrap="wrap" gap={3} width="100%">
         {STATS_CONFIG.map((stat) => (
-          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={stat.id}>
+          <Box 
+            key={stat.id} 
+            flex={{ xs: '1 1 100%', sm: '1 1 calc(50% - 24px)', md: '1 1 calc(25% - 24px)' }}
+          >
             <S.StatsCard elevation={0}>
               <Box className="icon-container">{renderStatsIcon(stat.icon, stat.color)}</Box>
               <Box>
@@ -198,9 +200,9 @@ export const ContestPage = ({
                 </Typography>
               </Box>
             </S.StatsCard>
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mt: 5, mb: 1 }}>
         <Tabs value={tabValue} onChange={handleTabChange} aria-label="programming contests tabs">
@@ -219,10 +221,13 @@ export const ContestPage = ({
       </Box>
 
       <CustomTabPanel value={tabValue} index={tabValue}>
-        <Grid container spacing={3}>
+        <Box display="flex" flexWrap="wrap" gap={3} width="100%">
           {loading ? (
             Array.from(new Array(SKELETON_COUNT)).map((_, index) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={`skeleton-${index}`}>
+              <Box 
+                key={`skeleton-${index}`}
+                flex={{ xs: '1 1 100%', sm: '1 1 calc(50% - 24px)', md: '1 1 calc(33.333% - 24px)' }}
+              >
                 <Box
                   sx={{
                     bgcolor: 'background.paper',
@@ -235,10 +240,10 @@ export const ContestPage = ({
                   <Skeleton variant="rectangular" height={120} sx={{ my: 2, borderRadius: 1 }} />
                   <Skeleton variant="text" width="80%" />
                 </Box>
-              </Grid>
+              </Box>
             ))
           ) : filteredContests.length === 0 ? (
-            <Grid size={12}>
+            <Box width="100%">
               <Paper
                 elevation={0}
                 role="region"
@@ -261,15 +266,18 @@ export const ContestPage = ({
                   There are currently no contests listed under this section.
                 </Typography>
               </Paper>
-            </Grid>
+            </Box>
           ) : (
             filteredContests.map((contest) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={contest.id}>
+              <Box 
+                key={contest.id}
+                flex={{ xs: '1 1 100%', sm: '1 1 calc(50% - 24px)', md: '1 1 calc(33.333% - 24px)' }}
+              >
                 <ContestCard contest={contest} />
-              </Grid>
+              </Box>
             ))
           )}
-        </Grid>
+        </Box>
       </CustomTabPanel>
     </S.PageContainer>
   );
