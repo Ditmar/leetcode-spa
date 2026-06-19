@@ -2,8 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeAuthGate from '../app/components/HomeAuthGate/HomeAuthGate';
 import { problemsService } from '../services/problems/problemsService';
-import type { AuthUser } from '../services/auth/authService.types';
-import type { AppConfig } from '../utils/config.types';
 
 export const prerender = false;
 
@@ -11,10 +9,7 @@ const pageTitle = 'LeetCode Clone - Practice Coding Interviews';
 const pageDescription =
   'Practice coding interview problems, compete in contests, and master data structures and algorithms.';
 
-const { config = null, user = null } = Astro.locals as {
-  config?: AppConfig | null;
-  user?: AuthUser | null;
-};
+const { config, user } = Astro.locals;
 
 const stats = await problemsService
   .getStats(Astro.request.headers.get('cookie') ?? '')
