@@ -1,0 +1,11 @@
+---
+import { AppProvider } from '../../context/AppConfigContext';
+import ProblemsPage from '../../ui/components/Problems';
+
+const { config, user } = Astro.locals;
+---
+
+<!-- Single AppProvider wraps the whole React island tree for this page -->
+<AppProvider config={config} user={user} client:load>
+  <ProblemsPage client:load />
+</AppProvider>
