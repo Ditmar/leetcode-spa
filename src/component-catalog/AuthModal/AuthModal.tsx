@@ -47,10 +47,16 @@ export function AuthModal({ isOpen, onClose, initialMode }: AuthModalProps): Rea
 
   const labels = AUTH_MODAL_LABELS[mode];
 
+  const handleClose = () => {
+    if (typeof onClose === 'function') {
+      onClose();
+    }
+  };
+
   return (
     <Dialog
       open={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       fullScreen={isMobile}
       maxWidth="xs"
       fullWidth
@@ -61,7 +67,7 @@ export function AuthModal({ isOpen, onClose, initialMode }: AuthModalProps): Rea
     >
       <IconButton
         aria-label="close modal"
-        onClick={onClose}
+        onClick={handleClose}
         sx={{
           position: 'absolute',
           right: 16,
