@@ -1,9 +1,7 @@
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import CloseIcon from '@mui/icons-material/Close';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
@@ -11,6 +9,7 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
@@ -46,8 +45,7 @@ import {
 } from './ProblemsPage.styles';
 import {
   getDifficultyChipColor,
-  getStatusIconColor,
-  getStatusIconName,
+  getStatusIconConfig,
   formatAcceptance,
 } from './ProblemsPage.utils';
 
@@ -61,13 +59,8 @@ import type {
 import type { SelectChangeEvent } from '@mui/material/Select';
 
 function StatusIcon({ status }: { status: Problem['status'] }) {
-  const name = getStatusIconName(status);
-  const color = getStatusIconColor(status);
-  if (name === 'CheckCircleOutline')
-    return <CheckCircleOutlineIcon color={color} fontSize="small" />;
-  if (name === 'RemoveCircleOutline')
-    return <RemoveCircleOutlineIcon color={color} fontSize="small" />;
-  return <RadioButtonUncheckedIcon color={color} fontSize="small" />;
+  const { Icon, color } = getStatusIconConfig(status);
+  return <Icon color={color} fontSize="small" />;
 }
 
 interface EmptyStateProps {
@@ -188,11 +181,23 @@ function SearchField({ value, onChange }: { value: string; onChange: (v: string)
       size="small"
       value={value}
       onChange={(e) => onChange(e.target.value)}
+      inputProps={{ 'aria-label': 'Search problems' }}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon fontSize="small" />
+          </InputAdornment>
+        ),
+      }}
     />
   );
 }
 
-export function ProblemsPage({ onSelectProblem, onNavigateToCode, problems }: ProblemsPageProps) {
+export function ProblemsPage({
+  onSelectProblem,
+  onNavigateToCode,
+  problems = [],
+}: ProblemsPageProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -343,6 +348,7 @@ export function ProblemsPage({ onSelectProblem, onNavigateToCode, problems }: Pr
         />
       </Box>
 
+      {/* Filter bar — desktop inline / mobile Filters button */}
       {isMobile ? (
         <Button
           variant="outlined"
@@ -367,6 +373,7 @@ export function ProblemsPage({ onSelectProblem, onNavigateToCode, problems }: Pr
         </FilterBarWrapper>
       )}
 
+      {/* Mobile search (always visible on small screens) */}
       {isMobile && (
         <Box sx={{ mb: 1.5 }}>
           <SearchField value={filterState.searchQuery} onChange={handleSearchChange} />
@@ -382,6 +389,9 @@ export function ProblemsPage({ onSelectProblem, onNavigateToCode, problems }: Pr
         DesktopTable
       )}
 
+      {/* Mobile filter drawer
+          keepMounted={false} ensures FilterControls is unmounted when closed,
+          preventing duplicate aria-label elements alongside the desktop bar. */}
       <Drawer
         anchor="right"
         open={drawerOpen}

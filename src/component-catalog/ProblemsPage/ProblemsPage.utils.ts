@@ -1,4 +1,9 @@
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+
 import type { Difficulty, ProblemStatus } from './ProblemsPage.types';
+import type { SvgIconComponent } from '@mui/icons-material';
 import type { ChipProps } from '@mui/material/Chip';
 
 export function getDifficultyChipColor(difficulty: Difficulty): ChipProps['color'] {
@@ -10,22 +15,16 @@ export function getDifficultyChipColor(difficulty: Difficulty): ChipProps['color
   return map[difficulty] ?? 'default';
 }
 
-export type StatusIconName = 'CheckCircleOutline' | 'RemoveCircleOutline' | 'RadioButtonUnchecked';
-
-export function getStatusIconName(status: ProblemStatus): StatusIconName {
-  const map: Record<ProblemStatus, StatusIconName> = {
-    solved: 'CheckCircleOutline',
-    attempted: 'RemoveCircleOutline',
-    unsolved: 'RadioButtonUnchecked',
-  };
-  return map[status];
+export interface StatusIconConfig {
+  Icon: SvgIconComponent;
+  color: 'success' | 'warning' | 'disabled';
 }
 
-export function getStatusIconColor(status: ProblemStatus): 'success' | 'warning' | 'disabled' {
-  const map: Record<ProblemStatus, 'success' | 'warning' | 'disabled'> = {
-    solved: 'success',
-    attempted: 'warning',
-    unsolved: 'disabled',
+export function getStatusIconConfig(status: ProblemStatus): StatusIconConfig {
+  const map: Record<ProblemStatus, StatusIconConfig> = {
+    solved: { Icon: CheckCircleOutlineIcon, color: 'success' },
+    attempted: { Icon: RemoveCircleOutlineIcon, color: 'warning' },
+    unsolved: { Icon: RadioButtonUncheckedIcon, color: 'disabled' },
   };
   return map[status];
 }

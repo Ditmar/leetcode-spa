@@ -99,7 +99,6 @@ export function useProblemsPage({ problems }: UseProblemsPageOptions): UseProble
 
   return {
     filteredProblems,
-    allProblems: problems,
     solvedCount,
     totalCount: problems.length,
     tagOptions,

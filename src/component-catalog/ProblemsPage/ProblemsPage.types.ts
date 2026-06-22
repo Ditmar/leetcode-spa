@@ -25,7 +25,7 @@ export interface ProblemsPageProps {
   onSelectProblem: (id: number) => void;
   onNavigateToCode: () => void;
 
-  problems: Problem[];
+  problems?: Problem[];
 }
 
 export interface UseProblemsPageOptions {
@@ -34,19 +34,15 @@ export interface UseProblemsPageOptions {
 
 export interface UseProblemsPageReturn {
   filteredProblems: Problem[];
-  allProblems: Problem[];
   solvedCount: number;
   totalCount: number;
   tagOptions: string[];
-
   filterState: FilterState;
-
   handleSearchChange: (value: string) => void;
   handleDifficultyChange: (value: DifficultyFilter) => void;
   handleStatusChange: (value: StatusFilter) => void;
   handleTagChange: (value: TagFilter) => void;
   handleClearFilters: () => void;
-
   drawerOpen: boolean;
   handleDrawerOpen: () => void;
   handleDrawerClose: () => void;

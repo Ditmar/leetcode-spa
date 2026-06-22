@@ -1,7 +1,17 @@
 import type { DifficultyFilter, StatusFilter } from './ProblemsPage.types';
 
-export const ALL_DIFFICULTIES: DifficultyFilter[] = ['All', 'Easy', 'Medium', 'Hard'];
-export const ALL_STATUSES: StatusFilter[] = ['All', 'Solved', 'Attempted', 'Unsolved'];
+export const ALL_DIFFICULTIES = [
+  'All',
+  'Easy',
+  'Medium',
+  'Hard',
+] as const satisfies readonly DifficultyFilter[];
+export const ALL_STATUSES = [
+  'All',
+  'Solved',
+  'Attempted',
+  'Unsolved',
+] as const satisfies readonly StatusFilter[];
 
 export const ALL_TAGS_SENTINEL = 'All';
 
