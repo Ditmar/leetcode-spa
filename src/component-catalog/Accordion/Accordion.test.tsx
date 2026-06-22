@@ -76,4 +76,22 @@ describe('Accordion', () => {
     const summary = screen.getByRole('button', { name: 'Summary 1' });
     expect(summary).toHaveAttribute('aria-expanded', 'false');
   });
+
+  it('respects disableAnimation prop without breaking toggle interaction', async () => {
+    const user = userEvent.setup();
+    render(<Accordion items={mockItems} disableAnimation />);
+    const summary1 = screen.getByTestId('accordion-summary-1');
+
+    expect(summary1).toHaveAttribute('aria-expanded', 'false');
+    await user.click(summary1);
+    expect(summary1).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('renders custom expandIcon when provided via props', () => {
+    render(
+      <Accordion items={mockItems} expandIcon={<span data-testid="custom-test-icon">icon</span>} />
+    );
+    const customIcons = screen.getAllByTestId('custom-test-icon');
+    expect(customIcons).toHaveLength(mockItems.length);
+  });
 });

@@ -27,6 +27,7 @@ export interface AccordionProps {
   variant?: AccordionVariant;
   disableAnimation?: boolean;
   square?: boolean;
+  expandIcon?: ReactNode;
   slotProps?: {
     accordion?: Partial<MuiAccordionProps>;
     summary?: Partial<AccordionSummaryProps>;

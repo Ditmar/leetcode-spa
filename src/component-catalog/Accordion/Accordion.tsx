@@ -14,39 +14,41 @@ import type { AccordionProps } from './Accordion.types';
 
 export const Accordion = (props: AccordionProps) => {
   const { itemsWithState } = useAccordionState(props);
-  const { disableAnimation, square, slotProps } = props;
+  const { disableAnimation, square, slotProps, expandIcon } = props;
 
   return (
     <AccordionContainer square={square} data-testid="accordion-container">
-      {itemsWithState.map((item) => (
-        <StyledAccordion
-          key={item.id}
-          expanded={item.expanded}
-          onChange={item.onChange}
-          disabled={item.disabled}
-          disableGutters
-          square={square}
-          TransitionProps={{ timeout: disableAnimation ? 0 : undefined }}
-          {...slotProps?.accordion}
-          data-testid={`accordion-${item.id}`}
-        >
-          <StyledAccordionSummary
-            expandIcon={
-              <TouchTarget>{item.expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}</TouchTarget>
-            }
-            {...slotProps?.summary}
-            data-testid={`accordion-summary-${item.id}`}
+      {itemsWithState.map((item) => {
+        const summaryIcon = expandIcon || (item.expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />);
+
+        return (
+          <StyledAccordion
+            key={item.id}
+            disableGutters
+            square={square}
+            TransitionProps={{ timeout: disableAnimation ? 0 : undefined }}
+            {...slotProps?.accordion}
+            expanded={item.expanded}
+            onChange={item.onChange}
+            disabled={item.disabled}
+            data-testid={`accordion-${item.id}`}
           >
-            {item.summary}
-          </StyledAccordionSummary>
-          <StyledAccordionDetails
-            {...slotProps?.details}
-            data-testid={`accordion-details-${item.id}`}
-          >
-            {item.details}
-          </StyledAccordionDetails>
-        </StyledAccordion>
-      ))}
+            <StyledAccordionSummary
+              {...slotProps?.summary}
+              expandIcon={<TouchTarget>{summaryIcon}</TouchTarget>}
+              data-testid={`accordion-summary-${item.id}`}
+            >
+              {item.summary}
+            </StyledAccordionSummary>
+            <StyledAccordionDetails
+              {...slotProps?.details}
+              data-testid={`accordion-details-${item.id}`}
+            >
+              {item.details}
+            </StyledAccordionDetails>
+          </StyledAccordion>
+        );
+      })}
     </AccordionContainer>
   );
 };
