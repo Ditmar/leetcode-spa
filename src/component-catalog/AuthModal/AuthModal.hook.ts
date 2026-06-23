@@ -6,7 +6,7 @@ import { AUTH_MODAL_DEFAULTS } from './AuthModal.constants';
 import { type AuthFormValues, AuthMode } from './AuthModal.types';
 import { signInSchema, signUpSchema } from './AuthModal.utils';
 
-export const useAuthModal = (initialMode: AuthMode = AuthMode.SIGN_IN) => {
+export const useAuthModal = (initialMode: AuthMode = AuthMode.SIGN_IN, onClose?: () => void) => {
   const [mode, setMode] = useState<AuthMode>(initialMode);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,6 +26,11 @@ export const useAuthModal = (initialMode: AuthMode = AuthMode.SIGN_IN) => {
     try {
       // TODO: Implement actual authentication logic here
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock API call
+
+      // Close modal on successful submission
+      if (onClose) {
+        onClose();
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Authentication error:', error);

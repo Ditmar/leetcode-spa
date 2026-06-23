@@ -19,7 +19,7 @@ export const AUTH_MODAL_LABELS = {
   [AuthMode.SIGN_UP]: {
     title: 'Create Account',
     subtitle: 'Join us to start your coding journey',
-    submitText: 'Sign Up',
+    submitText: 'Create Account',
     toggleText: 'Already have an account?',
     toggleAction: 'Sign In',
   },

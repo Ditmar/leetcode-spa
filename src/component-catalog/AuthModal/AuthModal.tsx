@@ -21,7 +21,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Controller } from 'react-hook-form';
 
 import { AUTH_MODAL_LABELS } from './AuthModal.constants';
@@ -38,7 +38,16 @@ export function AuthModal({ isOpen, onClose, initialMode }: AuthModalProps): Rea
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const { mode, formMethods, isLoading, toggleMode, onSubmit } = useAuthModal(initialMode);
+  const handleClose = useCallback(() => {
+    if (typeof onClose === 'function') {
+      onClose();
+    }
+  }, [onClose]);
+
+  const { mode, formMethods, isLoading, toggleMode, onSubmit } = useAuthModal(
+    initialMode,
+    handleClose
+  );
   const {
     control,
     handleSubmit,
@@ -46,12 +55,6 @@ export function AuthModal({ isOpen, onClose, initialMode }: AuthModalProps): Rea
   } = formMethods;
 
   const labels = AUTH_MODAL_LABELS[mode];
-
-  const handleClose = () => {
-    if (typeof onClose === 'function') {
-      onClose();
-    }
-  };
 
   return (
     <Dialog
@@ -225,6 +228,44 @@ export function AuthModal({ isOpen, onClose, initialMode }: AuthModalProps): Rea
                 Forgot password?
               </Typography>
             </Box>
+          )}
+
+          {}
+          {mode === AuthMode.SIGN_UP && (
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              align="center"
+              sx={{ mt: 1, px: 2 }}
+            >
+              By signing up, you agree to our{' '}
+              <Box
+                component="a"
+                href="#"
+                sx={{
+                  color: 'success.main',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  '&:hover': { textDecoration: 'underline' },
+                }}
+              >
+                Terms of Service
+              </Box>{' '}
+              and{' '}
+              <Box
+                component="a"
+                href="#"
+                sx={{
+                  color: 'success.main',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  '&:hover': { textDecoration: 'underline' },
+                }}
+              >
+                Privacy Policy
+              </Box>
+              .
+            </Typography>
           )}
 
           <Button

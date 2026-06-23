@@ -13,7 +13,7 @@ describe('AuthModal Component', () => {
 
   it('renders sign in mode by default', () => {
     render(<AuthModal isOpen={true} onClose={mockOnClose} />);
-    expect(screen.getByText('Welcome Back')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Welcome Back' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Sign In' })).toBeInTheDocument();
   });
 
@@ -21,7 +21,7 @@ describe('AuthModal Component', () => {
     render(<AuthModal isOpen={true} onClose={mockOnClose} />);
     const toggleButton = screen.getByText('Sign Up');
     fireEvent.click(toggleButton);
-    expect(screen.getByText('Create Account')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Create Account' })).toBeInTheDocument();
   });
 
   it('calls onClose when close icon is clicked', () => {
@@ -58,5 +58,42 @@ describe('AuthModal Component', () => {
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
+  });
+
+  it('handles full sign up flow submission', async () => {
+    render(<AuthModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText('Sign Up'));
+
+    fireEvent.change(screen.getByLabelText('Full Name'), { target: { value: 'John Doe' } });
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'newuser@example.com' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'SecurePass123!' } });
+    fireEvent.change(screen.getByLabelText('Confirm Password'), {
+      target: { value: 'SecurePass123!' },
+    });
+
+    const submitBtn = screen.getByRole('button', { name: 'Create Account' });
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(submitBtn).toBeDisabled();
+    });
+  });
+
+  it('calls onClose after successful authentication submission', async () => {
+    render(<AuthModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'dev@example.com' } });
+    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'ValidPassword123!' } });
+
+    const submitBtn = screen.getByRole('button', { name: 'Sign In' });
+    fireEvent.click(submitBtn);
+
+    await waitFor(
+      () => {
+        expect(mockOnClose).toHaveBeenCalledTimes(1);
+      },
+      { timeout: 2000 }
+    );
   });
 });
