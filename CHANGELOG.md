@@ -1,7 +1,5 @@
 # Changelog
 
-## [0.11.1](https://github.com/Ditmar/leetcode-spa/compare/v0.11.0...v0.11.1) (2026-06-24)
-
 # [0.11.0](https://github.com/Ditmar/leetcode-spa/compare/v0.10.0...v0.11.0) (2026-06-17)
 
 
