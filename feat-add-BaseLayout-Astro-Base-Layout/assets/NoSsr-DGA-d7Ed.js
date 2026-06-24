@@ -1,0 +1,1 @@
+import{H as s,Q as o}from"./iframe-DrmYn44i.js";function c(a){const{children:f,defer:e=!1,fallback:r=null}=a,[n,t]=s.useState(!1);return o(()=>{e||t(!0)},[e]),s.useEffect(()=>{e&&t(!0)},[e]),n?f:r}export{c as N};
