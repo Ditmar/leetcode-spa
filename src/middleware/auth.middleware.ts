@@ -1,13 +1,23 @@
-import { apiClient } from '../services/api/apiClient';
+import { apiClient, isApiError } from '../services/api/apiClient';
 import { AUTH_ENDPOINTS } from '../services/auth/authService.constants';
+
+import { PROTECTED_PATHS } from './protected-routes.config';
 
 import type { AuthSession } from '../services/auth/authService.types';
 import type { MiddlewareHandler } from 'astro';
 
-const protectedPaths = ['/profile', '/settings'];
-
-function isProtectedPath(pathname: string): boolean {
+function isProtectedPath(pathname: string, protectedPaths = PROTECTED_PATHS): boolean {
   return protectedPaths.some((path) => pathname === path || pathname.startsWith(`${path}/`));
+}
+
+function handleSessionValidationError(error: unknown): null {
+  if (isApiError(error) && error.status === 401) {
+    return null;
+  }
+
+  // eslint-disable-next-line no-console
+  console.warn('[authMiddleware] Session validation failed; continuing unauthenticated.', error);
+  return null;
 }
 
 export async function validateSessionCookie(cookieHeader: string): Promise<AuthSession | null> {
@@ -19,8 +29,8 @@ export async function validateSessionCookie(cookieHeader: string): Promise<AuthS
     });
 
     return response.data;
-  } catch {
-    return null;
+  } catch (error) {
+    return handleSessionValidationError(error);
   }
 }
 

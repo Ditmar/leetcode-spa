@@ -12,6 +12,11 @@ vi.mock('../services/api/apiClient', () => ({
   apiClient: {
     get: vi.fn(),
   },
+  isApiError: (error: unknown) =>
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    typeof (error as { status?: unknown }).status === 'number',
 }));
 
 const mockSession: AuthSession = {
@@ -57,9 +62,26 @@ describe('validateSessionCookie', () => {
   });
 
   it('returns null when validation fails', async () => {
-    vi.mocked(apiClient.get).mockRejectedValue(new Error('Unauthorized'));
+    vi.mocked(apiClient.get).mockRejectedValue({
+      code: 'UNAUTHORIZED',
+      message: 'Unauthorized',
+      status: 401,
+    });
 
     await expect(validateSessionCookie('auth_token=expired')).resolves.toBeNull();
+  });
+
+  it('handles unexpected validation errors without rejecting', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    vi.mocked(apiClient.get).mockRejectedValue(new Error('Network unavailable'));
+
+    await expect(validateSessionCookie('auth_token=test-token')).resolves.toBeNull();
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[authMiddleware] Session validation failed; continuing unauthenticated.',
+      expect.any(Error)
+    );
+    warnSpy.mockRestore();
   });
 });
 
@@ -93,6 +115,17 @@ describe('authMiddleware', () => {
 
   it('redirects unauthenticated protected paths', async () => {
     const ctx = createContext('/profile/settings');
+    const next = vi.fn(() => new Response('ok')) as unknown as MiddlewareNext;
+
+    const response = await authMiddleware(ctx, next);
+
+    expect(response).toBeInstanceOf(Response);
+    expect((response as Response).headers.get('location')).toBe('/?authRequired=true');
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  it('redirects additional configured protected route prefixes', async () => {
+    const ctx = createContext('/settings/security');
     const next = vi.fn(() => new Response('ok')) as unknown as MiddlewareNext;
 
     const response = await authMiddleware(ctx, next);
