@@ -10,7 +10,7 @@ interface Props {
 
 const {
   title = 'LeetCode Clone',
-  description = 'Practice coding problems, explore challenges, join contests, and discuss solutions.',
+  description = 'Interactive coding practice platform',
   ogImage,
   noIndex = false,
 } = Astro.props;
@@ -61,10 +61,84 @@ const themeColor = '#ffffff';
 </html>
 
 <style is:global>
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('/fonts/Montserrat-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('/fonts/Montserrat-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('/fonts/Montserrat-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Syne';
+    src: url('/fonts/Syne-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Syne';
+    src: url('/fonts/Syne-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Syne';
+    src: url('/fonts/Syne-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Syne';
+    src: url('/fonts/Syne-700.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Syne';
+    src: url('/fonts/Syne-Bold.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+
   *,
   *::before,
   *::after {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
 
   html,
@@ -72,10 +146,10 @@ const themeColor = '#ffffff';
     min-height: 100%;
     margin: 0;
     font-family:
-      'Inter',
       'Poppins',
       'Montserrat',
       'Syne',
+      'Inter',
       'Roboto',
       'Helvetica',
       'Arial',
