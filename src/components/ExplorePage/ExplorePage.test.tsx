@@ -62,7 +62,7 @@ describe('ExplorePage', () => {
 
     expect(
       screen.getAllByRole('button', {
-        name: 'Start Learning',
+        name: /start learning/i,
       }).length
     ).toBeGreaterThan(0);
   });
@@ -72,7 +72,7 @@ describe('ExplorePage', () => {
 
     expect(
       screen.getAllByRole('button', {
-        name: 'Continue Learning',
+        name: /continue learning/i,
       }).length
     ).toBeGreaterThan(0);
   });

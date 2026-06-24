@@ -82,7 +82,8 @@ export const ExplorePage = ({
 
   const totalProblems = EXPLORE_TOPICS.reduce((acc, topic) => acc + topic.totalProblems, 0);
 
-  const overallProgress = Math.round((solvedProblems / totalProblems) * 100);
+  const overallProgress =
+    totalProblems > 0 ? Math.round((solvedProblems / totalProblems) * 100) : 0;
 
   return (
     <ExplorePageRoot>
@@ -246,7 +247,16 @@ export const ExplorePage = ({
                   </TopicCardContent>
 
                   <TopicCardAction>
-                    <Button fullWidth variant="text" size="small">
+                    <Button
+                      fullWidth
+                      variant="text"
+                      size="small"
+                      aria-label={
+                        topic.progress > 0
+                          ? `Continue learning ${topic.title}`
+                          : `Start learning ${topic.title}`
+                      }
+                    >
                       {topic.progress > 0 ? 'Continue Learning' : 'Start Learning'}
                     </Button>
                   </TopicCardAction>
