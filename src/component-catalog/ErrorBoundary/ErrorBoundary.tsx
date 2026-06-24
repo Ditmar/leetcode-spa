@@ -20,10 +20,15 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
+    // Always log React errors for debugging and monitoring purposes.
+    // eslint-disable-next-line no-console
+    console.error('ErrorBoundary caught an error:', error, info);
+
     this.setState({
       errorInfo: info,
     });
 
+    // Allow consumers to forward the error to external monitoring services.
     this.props.onError?.(error, info);
   }
 
