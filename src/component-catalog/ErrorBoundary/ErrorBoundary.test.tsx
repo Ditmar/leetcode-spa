@@ -39,6 +39,7 @@ describe('ErrorBoundary', () => {
 
   it('calls onError callback when a child throws', () => {
     const onError = vi.fn();
+
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     render(
@@ -69,9 +70,7 @@ describe('ErrorBoundary', () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     render(
-      <ErrorBoundary
-        fallback={(error) => <p>Custom fallback render: {error.message}</p>}
-      >
+      <ErrorBoundary fallback={(error) => <p>Custom fallback render: {error.message}</p>}>
         <BrokenComponent />
       </ErrorBoundary>
     );
