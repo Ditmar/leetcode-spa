@@ -75,8 +75,6 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     );
 
-    expect(
-      screen.getByText('Custom fallback render: Test render error')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Custom fallback render: Test render error')).toBeInTheDocument();
   });
 });
