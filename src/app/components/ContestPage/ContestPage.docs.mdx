@@ -1,0 +1,21 @@
+import { Meta } from '@storybook/blocks';
+import * as ContestPageStories from './ContestPage.stories';
+
+<Meta of={ContestPageStories} />
+
+# ContestPage
+
+Page component that displays all contests grouped by status.
+
+## Usage
+
+The page fetches contests server-side and renders them in three sections:
+- **Active**: Currently running contests
+- **Upcoming**: Contests open for registration
+- **Past**: Completed contests (limited to 10 on SSR)
+
+## Notes
+
+- Contest status is derived from the backend, never computed from timestamps
+- Join/Register actions require authentication
+- Past contests load more via API route on scroll

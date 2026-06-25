@@ -13,6 +13,12 @@ export const configSchema = z.object({
       })
     )
     .describe('Navigation menu structure'),
+  featureFlags: z
+    .object({
+      contests: z.boolean(),
+    })
+    .default({ contests: true })
+    .describe('Feature flags to enable or disable sections of the app'),
 });
 // We automatically extract the TypeScript type from Zod
 export type Config = z.infer<typeof configSchema>;
