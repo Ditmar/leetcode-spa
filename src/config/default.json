@@ -27,5 +27,8 @@
       "label": "Discuss",
       "href": "/discuss"
     }
-  ]
+  ],
+  "featureFlags": {
+    "contests": true
+  }
 }
