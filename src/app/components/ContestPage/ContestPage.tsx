@@ -47,12 +47,8 @@ function ContestCard({
   return (
     <div className="contest-card">
       <h3 className="contest-card__title">{contest.title}</h3>
-      {contest.description && (
-        <p className="contest-card__description">{contest.description}</p>
-      )}
-      <p className="contest-card__meta">
-        {contest.participantsCount ?? 0} participants
-      </p>
+      {contest.description && <p className="contest-card__description">{contest.description}</p>}
+      <p className="contest-card__meta">{contest.participantsCount ?? 0} participants</p>
       {/* Button disabled with tooltip when not authenticated */}
       <span
         className="contest-card__action"
@@ -88,11 +84,7 @@ function ContestSection({
       <h2 className="contest-section__title">{title}</h2>
       <div className="contest-section__grid">
         {contests.map((contest) => (
-          <ContestCard
-            key={contest.id}
-            contest={contest}
-            onAuthRequired={onAuthRequired}
-          />
+          <ContestCard key={contest.id} contest={contest} onAuthRequired={onAuthRequired} />
         ))}
       </div>
     </section>
