@@ -1,7 +1,9 @@
 import { useState } from 'react';
+
 import { useAppConfig } from '../../../context/AppConfigContext';
 import { contestsService } from '../../../services/contests/contestsService';
 import AuthModal from '../AuthModal/AuthModal';
+
 import type { ContestPageProps } from './ContestPage.types';
 import type { ContestDetail } from '../../../services/contests/contestsService.types';
 
