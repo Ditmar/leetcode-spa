@@ -52,4 +52,32 @@ describe('ErrorBoundary', () => {
     expect(onError.mock.calls[0][0].message).toBe('Test render error');
     expect(onError.mock.calls[0][1]).toHaveProperty('componentStack');
   });
+
+  it('renders a custom fallback node when provided', () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    render(
+      <ErrorBoundary fallback={<p>Custom fallback</p>}>
+        <BrokenComponent />
+      </ErrorBoundary>
+    );
+
+    expect(screen.getByText('Custom fallback')).toBeInTheDocument();
+  });
+
+  it('renders a custom fallback render function when provided', () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    render(
+      <ErrorBoundary
+        fallback={(error) => <p>Custom fallback render: {error.message}</p>}
+      >
+        <BrokenComponent />
+      </ErrorBoundary>
+    );
+
+    expect(
+      screen.getByText('Custom fallback render: Test render error')
+    ).toBeInTheDocument();
+  });
 });

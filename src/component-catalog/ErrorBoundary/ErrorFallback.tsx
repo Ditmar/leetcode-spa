@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 import type { ErrorFallbackProps } from './ErrorBoundary.types';
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
+const shouldShowDevelopmentDetails = process.env.NODE_ENV !== 'production';
 
 export default function ErrorFallback({ error, errorInfo, onReload }: ErrorFallbackProps) {
   return (
@@ -30,13 +30,11 @@ export default function ErrorFallback({ error, errorInfo, onReload }: ErrorFallb
           Something went wrong
         </Typography>
 
-        {isDevelopment ? (
-          <Typography variant="body2" color="text.secondary">
-            The interface could not be rendered correctly. Development details are shown below.
-          </Typography>
-        ) : null}
+        <Typography variant="body2" color="text.secondary">
+          Please reload the page and try again.
+        </Typography>
 
-        {isDevelopment && error ? (
+        {shouldShowDevelopmentDetails && error ? (
           <Paper
             component="pre"
             elevation={0}
