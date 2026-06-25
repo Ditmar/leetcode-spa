@@ -1,0 +1,15 @@
+# robots.txt — leetcode-spa
+# Production: https://leetcode-spa.railway.app
+ 
+# Allow all major crawlers on production
+User-agent: *
+Allow: /
+ 
+# Block sensitive/internal routes from indexing
+Disallow: /api/
+Disallow: /sysinfo
+Disallow: /sysinfo/
+ 
+# Sitemap
+Sitemap: https://leetcode-spa.railway.app/sitemap.xml
+ 
