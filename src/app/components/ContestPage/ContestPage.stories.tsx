@@ -1,4 +1,5 @@
 import AppProvider from '../../../context/AppConfigContext';
+
 import ContestPage from './ContestPage';
 
 import type { Meta, StoryObj } from '@storybook/react';
