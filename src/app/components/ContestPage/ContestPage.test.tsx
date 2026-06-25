@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import AppProvider from '../../../context/AppConfigContext';
+
 import ContestPage from './ContestPage';
 
 // Mock contest data for testing
