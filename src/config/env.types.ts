@@ -1,17 +1,23 @@
+/// <reference types="astro/client" />
+
 /**
- * Environment variable key constants.
- * Single source of truth — no magic strings anywhere else in the codebase.
+ * Private environment variable key constants.
+ * Server-side only — never sent to the browser.
  */
-export const ENV_KEYS = {
-  // Private — server only, never sent to the browser
+export const SERVER_ENV_KEYS = {
   API_BASE_URL: 'API_BASE_URL',
   API_TIMEOUT_MS: 'API_TIMEOUT_MS',
   JWT_SECRET: 'JWT_SECRET',
   COOKIE_DOMAIN: 'COOKIE_DOMAIN',
   APP_ENV: 'APP_ENV',
   APP_VERSION: 'APP_VERSION',
+} as const;
 
-  // Public — safe to expose to the browser
+/**
+ * Public environment variable key constants.
+ * Safe to expose to the browser via Astro.locals.
+ */
+export const PUBLIC_ENV_KEYS = {
   PUBLIC_API_BASE_URL: 'PUBLIC_API_BASE_URL',
   PUBLIC_FEATURE_CONTESTS: 'PUBLIC_FEATURE_CONTESTS',
   PUBLIC_FEATURE_EXPLORE: 'PUBLIC_FEATURE_EXPLORE',

@@ -17,6 +17,9 @@ const VALID_ENV: Record<string, string> = {
   PUBLIC_FEATURE_EXPLORE: 'true',
 };
 
+/**
+ * Stubs the full environment using vi.stubEnv for each key in the map.
+ */
 function stubEnv(overrides: Record<string, string | undefined> = {}): void {
   const env = { ...VALID_ENV, ...overrides };
   for (const [key, value] of Object.entries(env)) {
@@ -26,6 +29,18 @@ function stubEnv(overrides: Record<string, string | undefined> = {}): void {
       vi.stubEnv(key, value);
     }
   }
+}
+
+/**
+ * Dynamically imports createConfig after stubs are applied.
+ * Centralizes the dynamic import logic in a single reusable function,
+ * reducing repetition across all test cases and making each test's
+ * intent clearer — each test focuses on asserting behavior rather
+ * than managing imports.
+ */
+async function loadCreateConfig() {
+  const { createConfig } = await import('./env');
+  return createConfig;
 }
 
 // ── Suite ─────────────────────────────────────────────────────────────────────
@@ -43,7 +58,7 @@ describe('createConfig()', () => {
 
   describe('valid environment', () => {
     it('returns a fully populated ServerConfig object', async () => {
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
 
       expect(cfg.apiBaseUrl).toBe('http://localhost:4000/api/v1');
@@ -55,7 +70,7 @@ describe('createConfig()', () => {
     });
 
     it('populates config.public with only browser-safe fields', async () => {
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
 
       expect(cfg.public.apiBaseUrl).toBe('http://localhost:4000/api/v1');
@@ -66,18 +81,18 @@ describe('createConfig()', () => {
     });
 
     it('config.public does not contain jwtSecret', async () => {
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
 
       expect(cfg.public).not.toHaveProperty('jwtSecret');
     });
 
     it('accepts all valid appEnv values', async () => {
-      const { createConfig } = await import('./env');
       const envValues = ['development', 'staging', 'production'] as const;
 
       for (const appEnv of envValues) {
         stubEnv({ APP_ENV: appEnv });
+        const createConfig = await loadCreateConfig();
         const cfg = createConfig();
         expect(cfg.appEnv).toBe(appEnv);
         expect(cfg.public.appEnv).toBe(appEnv);
@@ -90,25 +105,25 @@ describe('createConfig()', () => {
   describe('missing required variables — fail-fast behaviour', () => {
     it('throws when API_BASE_URL is missing', async () => {
       stubEnv({ API_BASE_URL: undefined });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       expect(() => createConfig()).toThrow(/API_BASE_URL/);
     });
 
     it('throws when JWT_SECRET is missing', async () => {
       stubEnv({ JWT_SECRET: undefined });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       expect(() => createConfig()).toThrow(/JWT_SECRET/);
     });
 
     it('throws when PUBLIC_API_BASE_URL is missing', async () => {
       stubEnv({ PUBLIC_API_BASE_URL: undefined });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       expect(() => createConfig()).toThrow(/PUBLIC_API_BASE_URL/);
     });
 
     it('error message includes variable name and guidance', async () => {
       stubEnv({ API_BASE_URL: undefined });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       expect(() => createConfig()).toThrow(
         '[config] Missing required environment variable: API_BASE_URL'
       );
@@ -120,35 +135,35 @@ describe('createConfig()', () => {
   describe('optional variables fall back to defaults', () => {
     it('defaults apiTimeoutMs to 10000 when API_TIMEOUT_MS is absent', async () => {
       stubEnv({ API_TIMEOUT_MS: undefined });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.apiTimeoutMs).toBe(10_000);
     });
 
     it('defaults cookieDomain to "localhost" when COOKIE_DOMAIN is absent', async () => {
       stubEnv({ COOKIE_DOMAIN: undefined });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.cookieDomain).toBe('localhost');
     });
 
     it('defaults appEnv to "development" when APP_ENV is absent', async () => {
       stubEnv({ APP_ENV: undefined });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.appEnv).toBe('development');
     });
 
     it('defaults appVersion to "0.0.0" when APP_VERSION is absent', async () => {
       stubEnv({ APP_VERSION: undefined });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.appVersion).toBe('0.0.0');
     });
 
     it('defaults feature flags to true when PUBLIC_FEATURE_* vars are absent', async () => {
       stubEnv({ PUBLIC_FEATURE_CONTESTS: undefined, PUBLIC_FEATURE_EXPLORE: undefined });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.public.featureFlags.contests).toBe(true);
       expect(cfg.public.featureFlags.explore).toBe(true);
@@ -160,19 +175,19 @@ describe('createConfig()', () => {
   describe('appEnv validation', () => {
     it('throws when APP_ENV is an invalid value', async () => {
       stubEnv({ APP_ENV: 'local' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       expect(() => createConfig()).toThrow(/APP_ENV/);
     });
 
     it('throws when APP_ENV is an empty string', async () => {
       stubEnv({ APP_ENV: '' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       expect(() => createConfig()).toThrow(/APP_ENV/);
     });
 
     it('error message lists the allowed values', async () => {
       stubEnv({ APP_ENV: 'test' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       expect(() => createConfig()).toThrow(/development.*staging.*production/);
     });
   });
@@ -182,35 +197,35 @@ describe('createConfig()', () => {
   describe('apiTimeoutMs numeric parsing', () => {
     it('parses a valid numeric string correctly', async () => {
       stubEnv({ API_TIMEOUT_MS: '5000' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.apiTimeoutMs).toBe(5_000);
     });
 
     it('falls back to 10000 when API_TIMEOUT_MS is not a number', async () => {
       stubEnv({ API_TIMEOUT_MS: 'not-a-number' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.apiTimeoutMs).toBe(10_000);
     });
 
     it('falls back to 10000 when API_TIMEOUT_MS is zero', async () => {
       stubEnv({ API_TIMEOUT_MS: '0' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.apiTimeoutMs).toBe(10_000);
     });
 
     it('falls back to 10000 when API_TIMEOUT_MS is negative', async () => {
       stubEnv({ API_TIMEOUT_MS: '-500' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.apiTimeoutMs).toBe(10_000);
     });
 
     it('apiTimeoutMs is always a finite number — never NaN', async () => {
       stubEnv({ API_TIMEOUT_MS: 'NaN' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(Number.isFinite(cfg.apiTimeoutMs)).toBe(true);
     });
@@ -221,7 +236,7 @@ describe('createConfig()', () => {
   describe('feature flags parsing', () => {
     it('parses "true" as true', async () => {
       stubEnv({ PUBLIC_FEATURE_CONTESTS: 'true', PUBLIC_FEATURE_EXPLORE: 'true' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.public.featureFlags.contests).toBe(true);
       expect(cfg.public.featureFlags.explore).toBe(true);
@@ -229,7 +244,7 @@ describe('createConfig()', () => {
 
     it('parses "false" as false', async () => {
       stubEnv({ PUBLIC_FEATURE_CONTESTS: 'false', PUBLIC_FEATURE_EXPLORE: 'false' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.public.featureFlags.contests).toBe(false);
       expect(cfg.public.featureFlags.explore).toBe(false);
@@ -237,7 +252,7 @@ describe('createConfig()', () => {
 
     it('treats any non-"true" string as false', async () => {
       stubEnv({ PUBLIC_FEATURE_CONTESTS: '1', PUBLIC_FEATURE_EXPLORE: 'yes' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.public.featureFlags.contests).toBe(false);
       expect(cfg.public.featureFlags.explore).toBe(false);
@@ -245,7 +260,7 @@ describe('createConfig()', () => {
 
     it('is case-insensitive for feature flag parsing', async () => {
       stubEnv({ PUBLIC_FEATURE_CONTESTS: 'TRUE', PUBLIC_FEATURE_EXPLORE: 'True' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.public.featureFlags.contests).toBe(true);
       expect(cfg.public.featureFlags.explore).toBe(true);
@@ -260,7 +275,7 @@ describe('createConfig()', () => {
         API_BASE_URL: 'http://internal-api/v1',
         PUBLIC_API_BASE_URL: 'http://public-api/v1',
       });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.apiBaseUrl).toBe('http://internal-api/v1');
       expect(cfg.public.apiBaseUrl).toBe('http://public-api/v1');
@@ -268,7 +283,7 @@ describe('createConfig()', () => {
 
     it('config.public shares appEnv and appVersion with the root config', async () => {
       stubEnv({ APP_ENV: 'staging', APP_VERSION: '2.5.0' });
-      const { createConfig } = await import('./env');
+      const createConfig = await loadCreateConfig();
       const cfg = createConfig();
       expect(cfg.appEnv).toBe(cfg.public.appEnv);
       expect(cfg.appVersion).toBe(cfg.public.appVersion);

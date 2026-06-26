@@ -1,18 +1,20 @@
 /// <reference types="astro/client" />
 import {
   APP_ENV_VALUES,
-  ENV_KEYS,
+  PUBLIC_ENV_KEYS,
+  SERVER_ENV_KEYS,
   type AppEnv,
   type PublicConfig,
   type ServerConfig,
 } from './env.types';
+
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
 /**
  * Reads an environment variable by key.
  * Throws a descriptive error at startup if a required variable is missing.
  *
- * @param key - The environment variable key (use ENV_KEYS constants).
+ * @param key - The environment variable key (use SERVER_ENV_KEYS or PUBLIC_ENV_KEYS constants).
  * @param defaultValue - Optional fallback value. If omitted, the variable is required.
  * @returns The resolved string value.
  * @throws {Error} If the variable is missing and no default is provided.
@@ -79,18 +81,26 @@ function parseFeatureFlag(raw: string): boolean {
 // ── Public config builder ─────────────────────────────────────────────────────
 
 /**
- * Builds the public configuration subset.
+ * Builds the public configuration subset from already-resolved values.
+ * Receives resolved values from createConfig instead of reading
+ * import.meta.env directly, keeping a single source of truth flow.
  * This object is the only part of ServerConfig safe to forward to the browser.
  * JWT_SECRET and other private vars must never appear here.
  */
-function buildPublicConfig(appEnv: AppEnv, appVersion: string): PublicConfig {
+function buildPublicConfig(
+  appEnv: AppEnv,
+  appVersion: string,
+  publicApiBaseUrl: string,
+  featureContests: string,
+  featureExplore: string
+): PublicConfig {
   return {
-    apiBaseUrl: getEnv(ENV_KEYS.PUBLIC_API_BASE_URL),
+    apiBaseUrl: publicApiBaseUrl,
     appEnv,
     appVersion,
     featureFlags: {
-      contests: parseFeatureFlag(getEnv(ENV_KEYS.PUBLIC_FEATURE_CONTESTS, 'true')),
-      explore: parseFeatureFlag(getEnv(ENV_KEYS.PUBLIC_FEATURE_EXPLORE, 'true')),
+      contests: parseFeatureFlag(featureContests),
+      explore: parseFeatureFlag(featureExplore),
     },
   };
 }
@@ -108,24 +118,35 @@ function buildPublicConfig(appEnv: AppEnv, appVersion: string): PublicConfig {
  * @returns Fully validated and typed ServerConfig object.
  */
 export function createConfig(): ServerConfig {
-  const appEnv = validateAppEnv(getEnv(ENV_KEYS.APP_ENV, 'development'));
-  const appVersion = getEnv(ENV_KEYS.APP_VERSION, '0.0.0');
+  const appEnv = validateAppEnv(getEnv(SERVER_ENV_KEYS.APP_ENV, 'development'));
+  const appVersion = getEnv(SERVER_ENV_KEYS.APP_VERSION, '0.0.0');
+  const publicApiBaseUrl = getEnv(PUBLIC_ENV_KEYS.PUBLIC_API_BASE_URL);
+  const featureContests = getEnv(PUBLIC_ENV_KEYS.PUBLIC_FEATURE_CONTESTS, 'true');
+  const featureExplore = getEnv(PUBLIC_ENV_KEYS.PUBLIC_FEATURE_EXPLORE, 'true');
 
   return {
     // ── API ──────────────────────────────────────────────────────────────────
-    apiBaseUrl: getEnv(ENV_KEYS.API_BASE_URL),
-    apiTimeoutMs: parseTimeoutMs(getEnv(ENV_KEYS.API_TIMEOUT_MS, '10000'), 10_000),
+    apiBaseUrl: getEnv(SERVER_ENV_KEYS.API_BASE_URL),
+    apiTimeoutMs: parseTimeoutMs(getEnv(SERVER_ENV_KEYS.API_TIMEOUT_MS, '10000'), 10_000),
 
     // ── Auth ─────────────────────────────────────────────────────────────────
-    jwtSecret: getEnv(ENV_KEYS.JWT_SECRET),
-    cookieDomain: getEnv(ENV_KEYS.COOKIE_DOMAIN, 'localhost'),
+    jwtSecret: getEnv(SERVER_ENV_KEYS.JWT_SECRET),
+    cookieDomain: getEnv(SERVER_ENV_KEYS.COOKIE_DOMAIN, 'localhost'),
 
     // ── App ──────────────────────────────────────────────────────────────────
     appEnv,
     appVersion,
 
     // ── Public subset ─────────────────────────────────────────────────────────
-    public: buildPublicConfig(appEnv, appVersion),
+    // Only this object should ever be assigned to Astro.locals.config.
+    // Never spread the full ServerConfig into locals.
+    public: buildPublicConfig(
+      appEnv,
+      appVersion,
+      publicApiBaseUrl,
+      featureContests,
+      featureExplore
+    ),
   };
 }
 
