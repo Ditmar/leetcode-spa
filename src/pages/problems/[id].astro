@@ -4,9 +4,11 @@ import AppProvider from '../../context/AppConfigContext';
 import ProblemDetail from '../../component-catalog/ProblemDetail/ProblemDetail';
 import { CodeEditor } from '../../component-catalog/CodeEditor/CodeEditor';
 import { problemsService } from '../../services/problems/problemsService';
+import { userService } from '../../services/user/userService';
 
 const { config, user } = Astro.locals;
 const { id } = Astro.params;
+const cookie = Astro.request.headers.get('cookie') ?? '';
 
 if (!id || Number.isNaN(Number(id))) {
   return Astro.redirect('/404');
@@ -17,7 +19,7 @@ let problem;
 try {
   problem = await problemsService.getProblemById(Number(id), {
     headers: {
-      cookie: Astro.request.headers.get('cookie') ?? '',
+      cookie,
     },
   });
 } catch (err: unknown) {
@@ -55,7 +57,10 @@ const problemDetail = {
   }),
 };
 
-const defaultLanguage = 'javascript' as const;
+const defaultLanguage = user
+  ? (await userService.getPreferences(cookie)).defaultLanguage
+  : 'javascript';
+
 const metaDescription = (problemDetail.description ?? '').replace(/<[^>]*>/g, '').slice(0, 160);
 ---
 
