@@ -15,6 +15,7 @@ import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -22,13 +23,19 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
-import { ALL_DIFFICULTIES, ALL_STATUSES, ALL_TAGS_SENTINEL } from './ProblemsPage.constants';
+import {
+  ALL_DIFFICULTIES,
+  ALL_STATUSES,
+  ALL_TAGS_SENTINEL,
+  ROWS_PER_PAGE_OPTIONS,
+} from './ProblemsPage.constants';
 import { useProblemsPage } from './ProblemsPage.hook';
 import {
   PageWrapper,
@@ -42,6 +49,7 @@ import {
   filterSelectSx,
   filterButtonSx,
   headerSx,
+  visuallyHiddenSx,
 } from './ProblemsPage.styles';
 import {
   getDifficultyChipColor,
@@ -78,6 +86,73 @@ function EmptyState({ onClearFilters }: EmptyStateProps) {
   );
 }
 
+function DesktopTableSkeleton({ rows }: { rows: number }) {
+  return (
+    <TableContainer>
+      <Table aria-hidden="true">
+        <TableHead>
+          <TableRow>
+            <StickyHeaderCell sx={{ width: 56 }}>#</StickyHeaderCell>
+            <StickyHeaderCell>Title</StickyHeaderCell>
+            <StickyHeaderCell sx={{ width: 110 }}>Difficulty</StickyHeaderCell>
+            <StickyHeaderCell sx={{ width: 110 }}>Acceptance</StickyHeaderCell>
+            <StickyHeaderCell sx={{ width: 72 }}>Status</StickyHeaderCell>
+            <StickyHeaderCell sx={{ width: 120 }}>Action</StickyHeaderCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {Array.from({ length: rows }).map((_, i) => (
+            <TableRow key={i}>
+              <TableCell>
+                <Skeleton variant="text" width={20} />
+              </TableCell>
+              <TableCell>
+                <Skeleton variant="text" width="60%" />
+              </TableCell>
+              <TableCell>
+                <Skeleton variant="rounded" width={64} height={24} />
+              </TableCell>
+              <TableCell>
+                <Skeleton variant="text" width={50} />
+              </TableCell>
+              <TableCell align="center">
+                <Skeleton variant="circular" width={20} height={20} sx={{ mx: 'auto' }} />
+              </TableCell>
+              <TableCell>
+                <Skeleton variant="rounded" width={72} height={32} />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
+function MobileListSkeleton({ rows }: { rows: number }) {
+  return (
+    <Stack aria-hidden="true" divider={<Divider />}>
+      {Array.from({ length: rows }).map((_, i) => (
+        <Stack key={i} direction="row" spacing={1.5} alignItems="center" sx={{ py: 1.5 }}>
+          <Skeleton variant="circular" width={20} height={20} />
+          <Box sx={{ flex: 1 }}>
+            <Skeleton variant="text" width="70%" />
+            <Skeleton variant="text" width="40%" />
+          </Box>
+        </Stack>
+      ))}
+    </Stack>
+  );
+}
+
+function LoadingStatus() {
+  return (
+    <Typography role="status" aria-live="polite" sx={visuallyHiddenSx}>
+      Loading problems…
+    </Typography>
+  );
+}
+
 interface FilterControlsProps {
   filterState: ReturnType<typeof useProblemsPage>['filterState'];
   tagOptions: string[];
@@ -86,6 +161,7 @@ interface FilterControlsProps {
   onTagChange: (v: TagFilter) => void;
   onClearFilters: () => void;
   orientation?: 'row' | 'column';
+  disabled?: boolean;
 }
 
 function FilterControls({
@@ -96,6 +172,7 @@ function FilterControls({
   onTagChange,
   onClearFilters,
   orientation = 'row',
+  disabled = false,
 }: FilterControlsProps) {
   const mkHandler =
     <T extends string>(fn: (v: T) => void) =>
@@ -109,7 +186,7 @@ function FilterControls({
       flexWrap={orientation === 'row' ? 'wrap' : 'nowrap'}
       alignItems={orientation === 'row' ? 'center' : 'stretch'}
     >
-      <FormControl size="small" sx={filterSelectSx}>
+      <FormControl size="small" sx={filterSelectSx} disabled={disabled}>
         <InputLabel id="difficulty-label">Difficulty</InputLabel>
         <Select
           labelId="difficulty-label"
@@ -126,7 +203,7 @@ function FilterControls({
         </Select>
       </FormControl>
 
-      <FormControl size="small" sx={filterSelectSx}>
+      <FormControl size="small" sx={filterSelectSx} disabled={disabled}>
         <InputLabel id="status-label">Status</InputLabel>
         <Select
           labelId="status-label"
@@ -143,7 +220,7 @@ function FilterControls({
         </Select>
       </FormControl>
 
-      <FormControl size="small" sx={filterSelectSx}>
+      <FormControl size="small" sx={filterSelectSx} disabled={disabled}>
         <InputLabel id="tag-label">Tag</InputLabel>
         <Select
           labelId="tag-label"
@@ -166,6 +243,7 @@ function FilterControls({
         size="small"
         startIcon={<ClearAllIcon />}
         onClick={onClearFilters}
+        disabled={disabled}
         sx={{ ...filterButtonSx, color: 'text.secondary' }}
       >
         Clear
@@ -174,12 +252,21 @@ function FilterControls({
   );
 }
 
-function SearchField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+function SearchField({
+  value,
+  onChange,
+  disabled = false,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  disabled?: boolean;
+}) {
   return (
     <TextField
       placeholder="Search problems…"
       size="small"
       value={value}
+      disabled={disabled}
       onChange={(e) => onChange(e.target.value)}
       inputProps={{ 'aria-label': 'Search problems' }}
       InputProps={{
@@ -197,12 +284,14 @@ export function ProblemsPage({
   onSelectProblem,
   onNavigateToCode,
   problems = [],
+  isLoading = false,
 }: ProblemsPageProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const {
     filteredProblems,
+    paginatedProblems,
     solvedCount,
     totalCount,
     tagOptions,
@@ -212,6 +301,10 @@ export function ProblemsPage({
     handleStatusChange,
     handleTagChange,
     handleClearFilters,
+    page,
+    rowsPerPage,
+    handleChangePage,
+    handleChangeRowsPerPage,
     drawerOpen,
     handleDrawerOpen,
     handleDrawerClose,
@@ -244,7 +337,7 @@ export function ProblemsPage({
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredProblems.map((p) => (
+          {paginatedProblems.map((p) => (
             <StyledTableRow
               key={p.id}
               isSolved={p.status === 'solved'}
@@ -298,7 +391,7 @@ export function ProblemsPage({
 
   const MobileList = (
     <List disablePadding>
-      {filteredProblems.map((p, i) => (
+      {paginatedProblems.map((p, i) => (
         <React.Fragment key={p.id}>
           <StyledListItemButton isSolved={p.status === 'solved'} onClick={() => handleAction(p)}>
             <StatusIcon status={p.status} />
@@ -327,10 +420,23 @@ export function ProblemsPage({
               }
             />
           </StyledListItemButton>
-          {i < filteredProblems.length - 1 && <Divider component="li" sx={{ ml: 7 }} />}
+          {i < paginatedProblems.length - 1 && <Divider component="li" sx={{ ml: 7 }} />}
         </React.Fragment>
       ))}
     </List>
+  );
+
+  const Pagination = (
+    <TablePagination
+      component="div"
+      count={filteredProblems.length}
+      page={page}
+      onPageChange={handleChangePage}
+      rowsPerPage={rowsPerPage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
+      rowsPerPageOptions={[...ROWS_PER_PAGE_OPTIONS]}
+      labelRowsPerPage={isMobile ? 'Rows:' : 'Rows per page:'}
+    />
   );
 
   return (
@@ -340,15 +446,18 @@ export function ProblemsPage({
         <Typography variant="h5" fontWeight={700} component="h1">
           Problems
         </Typography>
-        <Chip
-          label={`${solvedCount} / ${totalCount} Solved`}
-          color="primary"
-          variant="outlined"
-          aria-label={`${solvedCount} of ${totalCount} problems solved`}
-        />
+        {isLoading ? (
+          <Skeleton variant="rounded" width={120} height={32} aria-hidden="true" />
+        ) : (
+          <Chip
+            label={`${solvedCount} / ${totalCount} Solved`}
+            color="primary"
+            variant="outlined"
+            aria-label={`${solvedCount} of ${totalCount} problems solved`}
+          />
+        )}
       </Box>
 
-      {/* Filter bar — desktop inline / mobile Filters button */}
       {isMobile ? (
         <Button
           variant="outlined"
@@ -356,12 +465,17 @@ export function ProblemsPage({
           onClick={handleDrawerOpen}
           sx={filterButtonSx}
           aria-label="Open filters"
+          disabled={isLoading}
         >
           Filters
         </Button>
       ) : (
         <FilterBarWrapper>
-          <SearchField value={filterState.searchQuery} onChange={handleSearchChange} />
+          <SearchField
+            value={filterState.searchQuery}
+            onChange={handleSearchChange}
+            disabled={isLoading}
+          />
           <FilterControls
             filterState={filterState}
             tagOptions={tagOptions}
@@ -369,29 +483,39 @@ export function ProblemsPage({
             onStatusChange={handleStatusChange}
             onTagChange={handleTagChange}
             onClearFilters={handleClearFilters}
+            disabled={isLoading}
           />
         </FilterBarWrapper>
       )}
 
-      {/* Mobile search (always visible on small screens) */}
       {isMobile && (
         <Box sx={{ mb: 1.5 }}>
-          <SearchField value={filterState.searchQuery} onChange={handleSearchChange} />
+          <SearchField
+            value={filterState.searchQuery}
+            onChange={handleSearchChange}
+            disabled={isLoading}
+          />
         </Box>
       )}
 
-      {/* Content */}
-      {filteredProblems.length === 0 ? (
+      {isLoading ? (
+        <>
+          <LoadingStatus />
+          {isMobile ? (
+            <MobileListSkeleton rows={rowsPerPage} />
+          ) : (
+            <DesktopTableSkeleton rows={rowsPerPage} />
+          )}
+        </>
+      ) : filteredProblems.length === 0 ? (
         <EmptyState onClearFilters={handleClearFilters} />
-      ) : isMobile ? (
-        MobileList
       ) : (
-        DesktopTable
+        <>
+          {isMobile ? MobileList : DesktopTable}
+          {Pagination}
+        </>
       )}
 
-      {/* Mobile filter drawer
-          keepMounted={false} ensures FilterControls is unmounted when closed,
-          preventing duplicate aria-label elements alongside the desktop bar. */}
       <Drawer
         anchor="right"
         open={drawerOpen}
@@ -419,6 +543,7 @@ export function ProblemsPage({
               handleDrawerClose();
             }}
             orientation="column"
+            disabled={isLoading}
           />
         </Box>
       </Drawer>

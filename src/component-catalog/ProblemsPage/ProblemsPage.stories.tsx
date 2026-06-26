@@ -1,16 +1,10 @@
-const action = (name: string) => () => {
-  return `action: ${name}`;
-};
-
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import React from 'react';
 
 import { ProblemsPage } from './ProblemsPage';
 
 import type { Problem } from './ProblemsPage.types';
 import type { Meta, StoryObj } from '@storybook/react';
-
 const SAMPLE_PROBLEMS: Problem[] = [
   {
     id: 1,
@@ -68,6 +62,46 @@ const SAMPLE_PROBLEMS: Problem[] = [
     status: 'unsolved',
     tags: ['Dynamic Programming'],
   },
+  {
+    id: 8,
+    title: 'Climbing Stairs',
+    difficulty: 'Easy',
+    acceptance: 51.8,
+    status: 'unsolved',
+    tags: ['Dynamic Programming'],
+  },
+  {
+    id: 9,
+    title: 'Binary Tree Inorder Traversal',
+    difficulty: 'Easy',
+    acceptance: 73.5,
+    status: 'unsolved',
+    tags: ['Tree', 'Stack'],
+  },
+  {
+    id: 10,
+    title: 'Best Time to Buy and Sell Stock',
+    difficulty: 'Easy',
+    acceptance: 54.1,
+    status: 'attempted',
+    tags: ['Array'],
+  },
+  {
+    id: 11,
+    title: 'Word Break',
+    difficulty: 'Medium',
+    acceptance: 45.0,
+    status: 'unsolved',
+    tags: ['Dynamic Programming'],
+  },
+  {
+    id: 12,
+    title: 'Number of Islands',
+    difficulty: 'Medium',
+    acceptance: 58.7,
+    status: 'unsolved',
+    tags: ['Depth-First Search'],
+  },
 ];
 
 const meta: Meta<typeof ProblemsPage> = {
@@ -83,8 +117,9 @@ const meta: Meta<typeof ProblemsPage> = {
   ],
   args: {
     problems: SAMPLE_PROBLEMS,
-    onSelectProblem: action('onSelectProblem'),
-    onNavigateToCode: action('onNavigateToCode'),
+    isLoading: false,
+    //onSelectProblem: (_id: number) => {},
+    onNavigateToCode: () => {},
   },
   parameters: { layout: 'fullscreen' },
 };
@@ -96,9 +131,7 @@ export const Default: Story = {};
 
 export const AllFiltersApplied: Story = {
   parameters: {
-    docs: {
-      description: { story: 'All filter dropdowns active simultaneously.' },
-    },
+    docs: { description: { story: 'All filter dropdowns active simultaneously.' } },
   },
 };
 
@@ -114,16 +147,15 @@ export const EmptyState: Story = {
 };
 
 export const LoadingState: Story = {
-  decorators: [
-    (Story) => (
-      <ThemeProvider theme={createTheme()}>
-        <CssBaseline />
-        <div style={{ opacity: 0.4, pointerEvents: 'none' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
-    ),
-  ],
+  args: { isLoading: true, problems: [] },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'isLoading=true — skeleton placeholders replace real rows and all controls are disabled.',
+      },
+    },
+  },
 };
 
 export const MobileView: Story = {

@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { ALL_TAGS_SENTINEL, SEARCH_DEBOUNCE_MS } from './ProblemsPage.constants';
+import {
+  ALL_TAGS_SENTINEL,
+  DEFAULT_ROWS_PER_PAGE,
+  SEARCH_DEBOUNCE_MS,
+} from './ProblemsPage.constants';
 
 import type {
   DifficultyFilter,
@@ -12,6 +16,7 @@ import type {
   UseProblemsPageOptions,
   UseProblemsPageReturn,
 } from './ProblemsPage.types';
+import type { ChangeEvent, MouseEvent } from 'react';
 
 const STATUS_FILTER_MAP: Record<Exclude<StatusFilter, 'All'>, ProblemStatus> = {
   Solved: 'solved',
@@ -55,6 +60,9 @@ export function useProblemsPage({ problems }: UseProblemsPageOptions): UseProble
   const [drawerOpen, setDrawerOpen] = useState(false);
   const debouncedSearch = useDebounce(filterState.searchQuery, SEARCH_DEBOUNCE_MS);
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE);
+
   const tagOptions = useMemo<string[]>(() => {
     return Array.from(new Set(problems.flatMap((p) => p.tags))).sort();
   }, [problems]);
@@ -77,6 +85,21 @@ export function useProblemsPage({ problems }: UseProblemsPageOptions): UseProble
     );
   }, [problems, filterState, debouncedSearch]);
 
+  useEffect(() => {
+    setPage(0);
+  }, [
+    problems,
+    filterState.difficultyFilter,
+    filterState.statusFilter,
+    filterState.tagFilter,
+    debouncedSearch,
+  ]);
+
+  const paginatedProblems = useMemo(() => {
+    const start = page * rowsPerPage;
+    return filteredProblems.slice(start, start + rowsPerPage);
+  }, [filteredProblems, page, rowsPerPage]);
+
   const handleSearchChange = useCallback(
     (v: string) => setFilterState((s) => ({ ...s, searchQuery: v })),
     []
@@ -97,8 +120,22 @@ export function useProblemsPage({ problems }: UseProblemsPageOptions): UseProble
   const handleDrawerOpen = useCallback(() => setDrawerOpen(true), []);
   const handleDrawerClose = useCallback(() => setDrawerOpen(false), []);
 
+  const handleChangePage = useCallback(
+    (_event: MouseEvent<HTMLButtonElement> | null, newPage: number) => setPage(newPage),
+    []
+  );
+
+  const handleChangeRowsPerPage = useCallback(
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    },
+    []
+  );
+
   return {
     filteredProblems,
+    paginatedProblems,
     solvedCount,
     totalCount: problems.length,
     tagOptions,
@@ -108,6 +145,10 @@ export function useProblemsPage({ problems }: UseProblemsPageOptions): UseProble
     handleStatusChange,
     handleTagChange,
     handleClearFilters,
+    page,
+    rowsPerPage,
+    handleChangePage,
+    handleChangeRowsPerPage,
     drawerOpen,
     handleDrawerOpen,
     handleDrawerClose,

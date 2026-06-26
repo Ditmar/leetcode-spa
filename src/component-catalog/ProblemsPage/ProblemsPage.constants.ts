@@ -18,3 +18,7 @@ export const ALL_TAGS_SENTINEL = 'All';
 export const SEARCH_DEBOUNCE_MS = 300;
 
 export const DRAWER_SPACING_WIDTH = 36;
+
+export const ROWS_PER_PAGE_OPTIONS = [5, 10, 25] as const;
+
+export const DEFAULT_ROWS_PER_PAGE = 10;
