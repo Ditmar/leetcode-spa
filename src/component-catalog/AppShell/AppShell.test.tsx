@@ -37,7 +37,11 @@ describe('AppShell Component', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'location', {
       writable: true,
-      value: { pathname: '/problems/two-sum', href: '' },
+      value: {
+        pathname: '/problems/two-sum',
+        href: '',
+        replace: vi.fn(),
+      },
     });
     vi.clearAllMocks();
   });
@@ -58,7 +62,6 @@ describe('AppShell Component', () => {
   });
 
   it('renders avatar when authenticated', () => {
-    // 🌟 Aseguramos que tenga una URL simulada para que MUI renderice la etiqueta <img> con su 'alt'
     const mockUser = { username: 'TestUser', avatarUrl: 'avatar.png' } as AuthUser;
     renderWithAuth(<AppShell currentPath="/problems/two-sum" />, mockUser);
     expect(screen.getByAltText('TestUser')).toBeInTheDocument();
@@ -71,7 +74,6 @@ describe('AppShell Component', () => {
   });
 
   it('sign-out calls service and redirects to home', async () => {
-    // 🌟 CORREGIDO: Le ponemos 'avatar.png' para que la imagen e imágene-alt existan físicamente en el DOM de prueba
     const mockUser = { username: 'TestUser', avatarUrl: 'avatar.png' } as AuthUser;
     renderWithAuth(<AppShell currentPath="/problems/two-sum" />, mockUser);
 
@@ -83,7 +85,7 @@ describe('AppShell Component', () => {
 
     await waitFor(() => {
       expect(authService.signOut).toHaveBeenCalled();
-      expect(window.location.href).toBe('/');
+      expect(window.location.replace).toHaveBeenCalledWith('/');
     });
   });
 });

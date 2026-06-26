@@ -110,7 +110,11 @@ export const AppShell: React.FC<AppShellProps> = ({
 
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('darkMode') === 'true';
+      try {
+        return localStorage.getItem('darkMode') === 'true';
+      } catch {
+        return false;
+      }
     }
     return false;
   });
@@ -139,13 +143,17 @@ export const AppShell: React.FC<AppShellProps> = ({
   const handleToggleDarkMode = () => {
     const nextMode = !darkMode;
     setDarkMode(nextMode);
-    localStorage.setItem('darkMode', String(nextMode));
+    try {
+      localStorage.setItem('darkMode', String(nextMode));
+    } catch {
+      // Silent fallback if localStorage is not available
+    }
   };
 
   const handleSignOut = async () => {
     setAnchorElUser(null);
     await authService.signOut();
-    window.location.href = '/';
+    window.location.replace('/');
   };
 
   const theme = useMemo(
