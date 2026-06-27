@@ -96,7 +96,12 @@ function LegacyAppProvider({ children, config = null, user = null }: LegacyAppPr
   return (
     <LegacyAppConfigContext.Provider value={{ config, user }}>
       <AppConfigContext.Provider
-        value={{ config: config as unknown as PublicConfig, user, isAuthenticated: user !== null, __contextVersion: APP_CONTEXT_VERSION }}
+        value={{
+          config: config as unknown as PublicConfig,
+          user,
+          isAuthenticated: user !== null,
+          __contextVersion: APP_CONTEXT_VERSION,
+        }}
       >
         <AuthProvider>{children}</AuthProvider>
       </AppConfigContext.Provider>
