@@ -1,9 +1,14 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, type ReactNode } from 'react';
 
+import { AuthProvider as AuthProviderBase } from '../services/auth/authContext';
+
+import type { AuthUser } from '../services/auth/authService.types';
+import type { AppConfig } from '../utils/config.types';
 import type { PublicConfig } from '@/config/env.types';
-import type { AuthUser } from '@/services/auth/authService.types';
-import type { AppConfig } from '@/utils/config.types';
-import type { ReactNode } from 'react';
+import type { AuthUser as AuthUserAlias } from '@/services/auth/authService.types';
+import type { AppConfig as AppConfigAlias } from '@/utils/config.types';
+
+const APP_CONTEXT_VERSION = '1';
 
 interface AuthContextValue {
   user: AuthUser | null;
@@ -17,8 +22,8 @@ interface AuthContextValue {
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export function AuthProvider({ children }: { children: ReactNode }) {
+  return <AuthProviderBase>{children}</AuthProviderBase>;
 }
 
 interface AppContextValue {
@@ -35,7 +40,7 @@ interface AppConfigContextValue {
 interface AppProviderProps {
   config: PublicConfig;
   user: AuthUser | null;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 interface LegacyAppProviderProps {
@@ -44,11 +49,20 @@ interface LegacyAppProviderProps {
   user?: AuthUser | null;
 }
 
-const AppConfigContext = createContext<AppContextValue | null>(null);
+const AppConfigContext = createContext<AppContextValue | undefined>(undefined);
 const LegacyAppConfigContext = createContext<AppConfigContextValue>({
   config: null,
   user: null,
 });
+
+export function useAppConfig() {
+  const ctx = useContext(AppConfigContext);
+
+  return {
+    ...ctx,
+    __contextVersion: APP_CONTEXT_VERSION,
+  } as AppContextValue & { __contextVersion: string };
+}
 
 export function AppProvider({ config, user, children }: AppProviderProps) {
   const value: AppContextValue = {
@@ -57,10 +71,14 @@ export function AppProvider({ config, user, children }: AppProviderProps) {
     isAuthenticated: user !== null,
   };
 
-  return <AppConfigContext.Provider value={value}>{children}</AppConfigContext.Provider>;
+  return (
+    <AppConfigContext.Provider value={value}>
+      <AuthProvider>{children}</AuthProvider>
+    </AppConfigContext.Provider>
+  );
 }
 
-function useAppContext(): AppContextValue {
+export function useAppContext(): AppContextValue {
   const ctx = useContext(AppConfigContext);
 
   if (!ctx) {
@@ -77,12 +95,15 @@ function legacyUseAppConfig() {
 function LegacyAppProvider({ children, config = null, user = null }: LegacyAppProviderProps) {
   return (
     <LegacyAppConfigContext.Provider value={{ config, user }}>
-      <AuthProvider>{children}</AuthProvider>
+      <AppConfigContext.Provider
+        value={{ config: config as unknown as PublicConfig, user, isAuthenticated: user !== null }}
+      >
+        <AuthProvider>{children}</AuthProvider>
+      </AppConfigContext.Provider>
     </LegacyAppConfigContext.Provider>
   );
 }
 
-export { AppConfigContext, useAppContext };
+export { AppConfigContext };
 export { LegacyAppConfigContext, legacyUseAppConfig };
-
 export default LegacyAppProvider;
