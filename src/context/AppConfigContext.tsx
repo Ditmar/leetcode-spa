@@ -5,10 +5,8 @@ import { AuthProvider as AuthProviderBase } from '../services/auth/authContext';
 import type { AuthUser } from '../services/auth/authService.types';
 import type { AppConfig } from '../utils/config.types';
 import type { PublicConfig } from '@/config/env.types';
-import type { AuthUser as AuthUserAlias } from '@/services/auth/authService.types';
-import type { AppConfig as AppConfigAlias } from '@/utils/config.types';
 
-const APP_CONTEXT_VERSION = '1';
+const APP_CONTEXT_VERSION = '1.0.0';
 
 interface AuthContextValue {
   user: AuthUser | null;
@@ -30,6 +28,7 @@ interface AppContextValue {
   config: PublicConfig;
   user: AuthUser | null;
   isAuthenticated: boolean;
+  __contextVersion?: string;
 }
 
 interface AppConfigContextValue {
@@ -69,6 +68,7 @@ export function AppProvider({ config, user, children }: AppProviderProps) {
     config,
     user,
     isAuthenticated: user !== null,
+    __contextVersion: APP_CONTEXT_VERSION,
   };
 
   return (
@@ -96,7 +96,7 @@ function LegacyAppProvider({ children, config = null, user = null }: LegacyAppPr
   return (
     <LegacyAppConfigContext.Provider value={{ config, user }}>
       <AppConfigContext.Provider
-        value={{ config: config as unknown as PublicConfig, user, isAuthenticated: user !== null }}
+        value={{ config: config as unknown as PublicConfig, user, isAuthenticated: user !== null, __contextVersion: APP_CONTEXT_VERSION }}
       >
         <AuthProvider>{children}</AuthProvider>
       </AppConfigContext.Provider>
