@@ -9,6 +9,9 @@ if (process.env.ENV !== 'production') {
 
 export default defineConfig({
   output: 'server',
+  site: process.env.RAILWAY_PUBLIC_DOMAIN
+    ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+    : 'https://leetcode-spa-production.up.railway.app',
   adapter: node({
     mode: 'standalone',
   }),
