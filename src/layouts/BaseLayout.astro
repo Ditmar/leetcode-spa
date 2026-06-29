@@ -4,27 +4,50 @@ import '../style-library/theme/colors.css';
 interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
+  robots?: string;
+  keywords?: string;
+  author?: string;
+  themeColor?: string;
 }
 
 const {
   title = 'LeetCode SPA',
   description = 'Interactive coding practice platform',
+  canonical = Astro.url.href,
+  robots = 'index, follow',
+  keywords = 'leetcode, algorithms, data structures, practice',
+  author = 'Ditmar',
+  themeColor = '#ffffff',
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Base -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content={themeColor} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Primary -->
+    <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content={author} />
+    <meta name="robots" content={robots} />
+
+    <!-- OpenGraph (Manteniendo los existentes) -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta name="generator" content={Astro.generator} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonical} />
+
     <!-- MUI Emotion insertion point – must come before any other styles -->
     <meta name="emotion-insertion-point" content="" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
   </head>
   <body>
     <slot />
