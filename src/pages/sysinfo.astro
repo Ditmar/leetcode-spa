@@ -1,6 +1,7 @@
 ---
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
 const packageJsonPath = resolve(process.cwd(), "package.json");
 const { version } = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
@@ -10,12 +11,6 @@ const sysinfo = {
 };
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Sysinfo</title>
-  </head>
-  <body>
-    <pre>{JSON.stringify(sysinfo, null, 2)}</pre>
-  </body>
-</html>
+<BaseLayout title="Sysinfo" robots="noindex, nofollow">
+  <pre>{JSON.stringify(sysinfo, null, 2)}</pre>
+</BaseLayout>
