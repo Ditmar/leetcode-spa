@@ -106,6 +106,24 @@ describe('AppConfigContext', () => {
   });
 
   describe('Feature flags', () => {
+    it('should not expose __contextVersion in the returned config', () => {
+      let capturedConfig: PublicConfig | null = null;
+
+      function TestComponent() {
+        const config = useAppConfig();
+        capturedConfig = config;
+        return <div>Config loaded</div>;
+      }
+
+      render(
+        <AppProvider config={mockConfig} user={null}>
+          <TestComponent />
+        </AppProvider>
+      );
+
+      expect(capturedConfig).not.toHaveProperty('__contextVersion');
+    });
+
     it('should expose featureFlags through useAppConfig and preserve injected values', () => {
       let capturedFeatureFlags: Record<string, unknown> | null = null;
 

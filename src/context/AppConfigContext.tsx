@@ -6,8 +6,6 @@ import type { AuthUser } from '../services/auth/authService.types';
 import type { AppConfig } from '../utils/config.types';
 import type { PublicConfig } from '@/config/env.types';
 
-const APP_CONTEXT_VERSION = '1.0.0';
-
 interface AuthContextValue {
   user: AuthUser | null;
   isAuthenticated: boolean;
@@ -28,7 +26,6 @@ interface AppContextValue {
   config: PublicConfig;
   user: AuthUser | null;
   isAuthenticated: boolean;
-  __contextVersion?: string;
 }
 
 interface AppConfigContextValue {
@@ -54,13 +51,10 @@ const LegacyAppConfigContext = createContext<AppConfigContextValue>({
   user: null,
 });
 
-export function useAppConfig() {
+export function useAppConfig(): PublicConfig {
   const ctx = useContext(AppConfigContext);
 
-  return {
-    ...ctx,
-    __contextVersion: APP_CONTEXT_VERSION,
-  } as AppContextValue & { __contextVersion: string };
+  return ctx?.config as PublicConfig;
 }
 
 export function AppProvider({ config, user, children }: AppProviderProps) {
@@ -68,7 +62,6 @@ export function AppProvider({ config, user, children }: AppProviderProps) {
     config,
     user,
     isAuthenticated: user !== null,
-    __contextVersion: APP_CONTEXT_VERSION,
   };
 
   return (
@@ -100,7 +93,6 @@ function LegacyAppProvider({ children, config = null, user = null }: LegacyAppPr
           config: config as unknown as PublicConfig,
           user,
           isAuthenticated: user !== null,
-          __contextVersion: APP_CONTEXT_VERSION,
         }}
       >
         <AuthProvider>{children}</AuthProvider>
