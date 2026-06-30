@@ -4,6 +4,7 @@ import HomeAuthGate from '../app/components/HomeAuthGate/HomeAuthGate';
 import { problemsService } from '../services/problems/problemsService';
 import type { AuthUser } from '../services/auth/authService.types';
 import type { AppConfig } from '../utils/config.types';
+import { HOME_NAVIGATION_LINKS } from './index.constants';
 
 export const prerender = false;
 
@@ -52,13 +53,7 @@ const quickLinks = [
   },
 ];
 
-const navigationLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'Explore', href: '/explore' },
-  { label: 'Problems', href: '/problems' },
-  { label: 'Contests', href: '/contest' },
-  { label: 'Discuss', href: '/discuss' },
-];
+
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -66,9 +61,9 @@ const navigationLinks = [
     <header class="top-nav" aria-label="Main navigation">
       <a class="top-nav__brand" href="/">leetcode-spa</a>
 
-      <nav class="top-nav__links" aria-label="Primary">
-        {
-          navigationLinks.map((link) => (
+      <nav class="top-nav__links" aria-label="Home page navigation links">
+       {
+  HOME_NAVIGATION_LINKS.map((link) => (
             <a href={link.href} class:list={{ active: Astro.url.pathname === link.href }}>
               {link.label}
             </a>
@@ -140,8 +135,7 @@ const navigationLinks = [
       linear-gradient(135deg, rgba(248, 250, 252, 0.96), rgba(239, 246, 255, 0.82)),
       url('../assets/background.svg');
     color: #101828;
-    padding: 20px clamp(16px, 4vw, 64px) 48px;
-  }
+    padding: 32px clamp(16px, 4vw, 64px) 48px;  }
 
   .top-nav {
     display: flex;
