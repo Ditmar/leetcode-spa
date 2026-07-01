@@ -229,7 +229,7 @@ export const DarkMode: Story = {
       try {
         localStorage.setItem('darkMode', 'true');
       } catch {
-        // Anti-bloqueo si la sandbox de Storybook restringe el almacenamiento
+        // Prevent blocking if the Storybook sandbox restricts storage
       }
       if (typeof window !== 'undefined') {
         document.documentElement.classList.add('dark');
