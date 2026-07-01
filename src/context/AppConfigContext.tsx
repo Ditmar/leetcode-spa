@@ -3,7 +3,6 @@ import { createContext, useContext, type ReactNode } from 'react';
 import { AuthProvider as AuthProviderBase } from '../services/auth/authContext';
 
 import type { AuthUser } from '../services/auth/authService.types';
-import type { AppConfig } from '../utils/config.types';
 import type { PublicConfig } from '@/config/env.types';
 
 interface AuthContextValue {
@@ -28,33 +27,22 @@ interface AppContextValue {
   isAuthenticated: boolean;
 }
 
-interface AppConfigContextValue {
-  config: AppConfig | null;
-  user: AuthUser | null;
-}
-
 interface AppProviderProps {
   config: PublicConfig;
   user: AuthUser | null;
   children: ReactNode;
 }
 
-interface LegacyAppProviderProps {
-  children: ReactNode;
-  config?: AppConfig | null;
-  user?: AuthUser | null;
-}
-
-const AppConfigContext = createContext<AppContextValue | undefined>(undefined);
-const LegacyAppConfigContext = createContext<AppConfigContextValue>({
-  config: null,
+const DEFAULT_APP_CONTEXT_VALUE: AppContextValue = {
+  config: {} as PublicConfig,
   user: null,
-});
+  isAuthenticated: false,
+};
+
+const AppConfigContext = createContext<AppContextValue>(DEFAULT_APP_CONTEXT_VALUE);
 
 export function useAppConfig(): PublicConfig {
-  const ctx = useContext(AppConfigContext);
-
-  return ctx?.config as PublicConfig;
+  return useAppContext().config;
 }
 
 export function AppProvider({ config, user, children }: AppProviderProps) {
@@ -74,33 +62,12 @@ export function AppProvider({ config, user, children }: AppProviderProps) {
 export function useAppContext(): AppContextValue {
   const ctx = useContext(AppConfigContext);
 
-  if (!ctx) {
+  if (ctx === DEFAULT_APP_CONTEXT_VALUE) {
     throw new Error('useAppContext must be used inside <AppProvider>');
   }
 
   return ctx;
 }
 
-function legacyUseAppConfig() {
-  return useContext(LegacyAppConfigContext);
-}
-
-function LegacyAppProvider({ children, config = null, user = null }: LegacyAppProviderProps) {
-  return (
-    <LegacyAppConfigContext.Provider value={{ config, user }}>
-      <AppConfigContext.Provider
-        value={{
-          config: config as unknown as PublicConfig,
-          user,
-          isAuthenticated: user !== null,
-        }}
-      >
-        <AuthProvider>{children}</AuthProvider>
-      </AppConfigContext.Provider>
-    </LegacyAppConfigContext.Provider>
-  );
-}
-
 export { AppConfigContext };
-export { LegacyAppConfigContext, legacyUseAppConfig };
-export default LegacyAppProvider;
+export default AppProvider;
