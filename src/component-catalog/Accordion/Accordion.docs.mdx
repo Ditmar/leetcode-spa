@@ -63,3 +63,18 @@ The component implements standard WAI-ARIA patterns:
 ## Additional stories
 
 <Stories includePrimary={false} />
+
+## Code Examples
+
+### Standard Implementation
+A quick example of how to implement the uncontrolled version of the component:
+
+```tsx
+import { Accordion } from './Accordion';
+
+const faqItems = [
+  { id: 'item-1', summary: 'What is CDD?', details: 'Component-Driven Development is...' },
+  { id: 'item-2', summary: 'Is it accessible?', details: 'Yes, it follows WAI-ARIA guidelines.' }
+];
+
+export const MyFAQ = () => <Accordion items="{faqItems}" variant="single"/>;
