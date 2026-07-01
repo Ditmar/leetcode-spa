@@ -25,8 +25,10 @@ function getEnv(key: string, defaultValue?: string): string {
   if (value === undefined) {
     throw new Error(
       `[config] Missing required environment variable: ${key}\n` +
-        `  Add it to your .env file or deployment environment.\n` +
-        `  See .env.example for all required variables.`
+        `  How to fix:\n` +
+        `  1. Copy .env.example to .env in the project root.\n` +
+        `  2. Set a value for ${key} in your .env file.\n` +
+        `  3. For production, set it in your deployment environment (e.g. Railway).`
     );
   }
 
@@ -155,6 +157,11 @@ export function createConfig(): ServerConfig {
 /**
  * Application configuration singleton.
  * Evaluated once per server process — safe to import anywhere server-side.
+ *
+ * Thread safety: Node.js runs on a single-threaded event loop, so this
+ * singleton is inherently safe from race conditions in standard Astro/Node
+ * deployments. If this code is ever run in a multi-threaded environment
+ * (e.g. worker threads), ensure createConfig() is called per-thread instead.
  *
  * @example
  * ```ts
