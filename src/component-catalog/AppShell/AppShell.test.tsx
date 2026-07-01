@@ -74,18 +74,21 @@ describe('AppShell Component', () => {
   });
 
   it('sign-out calls service and redirects to home', async () => {
+    const pushStateSpy = vi.spyOn(window.history, 'pushState').mockImplementation(() => {});
     const mockUser = { username: 'TestUser', avatarUrl: 'avatar.png' } as AuthUser;
+
     renderWithAuth(<AppShell currentPath="/problems/two-sum" />, mockUser);
 
-    const avatarButton = screen.getByAltText('TestUser');
-    fireEvent.click(avatarButton);
+    const avatar = screen.getByAltText('TestUser');
+    fireEvent.click(avatar);
 
-    const signOutMenu = screen.getByText(/sign out/i);
-    fireEvent.click(signOutMenu);
+    const signOutButton = await screen.findByText('Sign Out');
+    fireEvent.click(signOutButton);
 
     await waitFor(() => {
       expect(authService.signOut).toHaveBeenCalled();
-      expect(window.location.replace).toHaveBeenCalledWith('/');
+      expect(pushStateSpy).toHaveBeenCalledWith(null, '', '/');
     });
+    pushStateSpy.mockRestore();
   });
 });

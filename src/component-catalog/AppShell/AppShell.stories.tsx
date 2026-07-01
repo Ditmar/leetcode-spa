@@ -226,7 +226,14 @@ export const DarkMode: Story = {
   decorators: [
     authProviderMock(null),
     (StoryComponent: React.ComponentType) => {
-      localStorage.setItem('darkMode', 'true');
+      try {
+        localStorage.setItem('darkMode', 'true');
+      } catch {
+        // Anti-bloqueo si la sandbox de Storybook restringe el almacenamiento
+      }
+      if (typeof window !== 'undefined') {
+        document.documentElement.classList.add('dark');
+      }
       return <StoryComponent />;
     },
   ],

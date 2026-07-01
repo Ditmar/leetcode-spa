@@ -95,6 +95,8 @@ export interface AppShellProps {
   onOpenAuthModal?: () => void;
 }
 
+let memoryStorageFallback: string | null = null;
+
 export const AppShell: React.FC<AppShellProps> = ({
   children,
   currentPath: customPath,
@@ -111,10 +113,12 @@ export const AppShell: React.FC<AppShellProps> = ({
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       try {
-        return localStorage.getItem('darkMode') === 'true';
+        const savedMode = localStorage.getItem('darkMode');
+        if (savedMode !== null) return savedMode === 'true';
       } catch {
-        return false;
+        if (memoryStorageFallback !== null) return memoryStorageFallback === 'true';
       }
+      return window.matchMedia?.('prefers-color-scheme: dark').matches ?? false;
     }
     return false;
   });
@@ -146,14 +150,18 @@ export const AppShell: React.FC<AppShellProps> = ({
     try {
       localStorage.setItem('darkMode', String(nextMode));
     } catch {
-      // Silent fallback if localStorage is not available
+      memoryStorageFallback = String(nextMode);
     }
   };
 
   const handleSignOut = async () => {
     setAnchorElUser(null);
     await authService.signOut();
-    window.location.replace('/');
+    if (typeof window !== 'undefined') {
+      window.history.pushState(null, '', '/');
+      const navEvent = new PopStateEvent('popstate');
+      window.dispatchEvent(navEvent);
+    }
   };
 
   const theme = useMemo(
