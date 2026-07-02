@@ -14,7 +14,7 @@ interface Props {
 const {
   title = 'LeetCode SPA',
   description = 'Interactive coding practice platform',
-  canonical = Astro.url.href,
+  canonical,
   robots = 'index, follow',
   keywords = 'leetcode, algorithms, data structures, practice',
   author = 'Ditmar',
@@ -43,7 +43,7 @@ const {
     <meta property="og:description" content={description} />
 
     <!-- Canonical -->
-    <link rel="canonical" href={canonical} />
+    {canonical && <link rel="canonical" href={canonical} />}
 
     <!-- MUI Emotion insertion point – must come before any other styles -->
     <meta name="emotion-insertion-point" content="" />
