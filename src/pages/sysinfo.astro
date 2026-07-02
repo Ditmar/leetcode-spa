@@ -5,9 +5,38 @@ import { resolve } from "node:path";
 const packageJsonPath = resolve(process.cwd(), "package.json");
 const { version } = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
 
-const sysinfo = {
-  packageVersion: version,
+const bytesToMBString = (bytes: number | undefined): string => {
+  if (typeof bytes !== "number" || isNaN(bytes)) {
+    return "0 MB";
+  }
+  return `${bytes / (1024 * 1024)} MB`;
 };
+
+const memUsage = process.memoryUsage() || {};
+
+const rawBuildTag = process.env.BUILD_TAG;
+const isValidBuildTag = typeof rawBuildTag === "string" && rawBuildTag.trim().length > 0;
+const finalBuildTag = isValidBuildTag ? rawBuildTag : `${version}-local-dev`;
+
+const sysinfo = {
+  leetcode: {
+    packageVersion: version,
+    buildTag: finalBuildTag,
+  },
+  homepage: {
+    packageVersion: version,
+  },
+  memory: {
+    rss: bytesToMBString(memUsage.rss),
+    heapTotal: bytesToMBString(memUsage.heapTotal),
+    heapUsed: bytesToMBString(memUsage.heapUsed),
+    external: bytesToMBString(memUsage.external),
+    arrayBuffers: bytesToMBString(memUsage.arrayBuffers),
+  }
+};
+
+delete (sysinfo as Record<string, unknown>)["SAC"];
+delete (sysinfo as Record<string, unknown>)["SAS"];
 ---
 
 <html lang="en">
