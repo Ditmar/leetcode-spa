@@ -7,7 +7,22 @@ import type { ErrorFallbackProps } from './ErrorBoundary.types';
 
 const shouldShowDevelopmentDetails = process.env.NODE_ENV !== 'production';
 
+const sanitizeErrorDetails = (value: string) =>
+  value.replace(
+    /(password|token|secret|api[_-]?key|authorization)(=|:)\s*([^\s,;]+)/gi,
+    '$1$2 [REDACTED]'
+  );
+
 export default function ErrorFallback({ error, errorInfo, onReload }: ErrorFallbackProps) {
+  const developmentDetails =
+    shouldShowDevelopmentDetails && error
+      ? sanitizeErrorDetails(`${error.name}: ${error.message}
+
+${error.stack ?? ''}
+
+${errorInfo?.componentStack ?? ''}`)
+      : null;
+
   return (
     <Paper
       elevation={0}
@@ -34,7 +49,7 @@ export default function ErrorFallback({ error, errorInfo, onReload }: ErrorFallb
           Please reload the page and try again.
         </Typography>
 
-        {shouldShowDevelopmentDetails && error ? (
+        {developmentDetails ? (
           <Paper
             component="pre"
             elevation={0}
@@ -51,11 +66,7 @@ export default function ErrorFallback({ error, errorInfo, onReload }: ErrorFallb
               textAlign: 'left',
             }}
           >
-            {`${error.name}: ${error.message}
-
-${error.stack ?? ''}
-
-${errorInfo?.componentStack ?? ''}`}
+            {developmentDetails}
           </Paper>
         ) : null}
 
