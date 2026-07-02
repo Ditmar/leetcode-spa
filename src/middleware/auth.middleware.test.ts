@@ -48,6 +48,7 @@ function createContext(pathname: string, cookie = ''): APIContext {
 describe('validateSessionCookie', () => {
   beforeEach(() => {
     vi.mocked(apiClient.get).mockReset();
+    vi.restoreAllMocks();
   });
 
   it('calls /auth/me with the incoming cookie header', async () => {
@@ -61,7 +62,8 @@ describe('validateSessionCookie', () => {
     expect(session).toEqual(mockSession);
   });
 
-  it('returns null when validation fails', async () => {
+  it('returns null without logging when session validation returns 401', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     vi.mocked(apiClient.get).mockRejectedValue({
       code: 'UNAUTHORIZED',
       message: 'Unauthorized',
@@ -69,19 +71,59 @@ describe('validateSessionCookie', () => {
     });
 
     await expect(validateSessionCookie('auth_token=expired')).resolves.toBeNull();
+    expect(warnSpy).not.toHaveBeenCalled();
   });
 
-  it('handles unexpected validation errors without rejecting', async () => {
+  it('logs API errors that are not authentication failures', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    vi.mocked(apiClient.get).mockRejectedValue({
+      code: 'BAD_GATEWAY',
+      message: 'Bad Gateway',
+      status: 502,
+      details: { requestId: 'request-1' },
+    });
+
+    await expect(validateSessionCookie('auth_token=test-token')).resolves.toBeNull();
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[authMiddleware] Session validation failed: API error. Continuing unauthenticated.',
+      {
+        status: 502,
+        code: 'BAD_GATEWAY',
+        message: 'Bad Gateway',
+        details: { requestId: 'request-1' },
+      }
+    );
+  });
+
+  it('logs network or runtime validation errors without rejecting', async () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     vi.mocked(apiClient.get).mockRejectedValue(new Error('Network unavailable'));
 
     await expect(validateSessionCookie('auth_token=test-token')).resolves.toBeNull();
 
     expect(warnSpy).toHaveBeenCalledWith(
-      '[authMiddleware] Session validation failed; continuing unauthenticated.',
-      expect.any(Error)
+      '[authMiddleware] Session validation failed: network or runtime error. Continuing unauthenticated.',
+      expect.objectContaining({
+        name: 'Error',
+        message: 'Network unavailable',
+        stack: expect.any(String),
+      })
     );
-    warnSpy.mockRestore();
+  });
+
+  it('logs unexpected /auth/me response shapes without rejecting', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    vi.mocked(apiClient.get).mockResolvedValue({
+      data: { unexpected: true } as unknown as AuthSession,
+    });
+
+    await expect(validateSessionCookie('auth_token=test-token')).resolves.toBeNull();
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[authMiddleware] Session validation failed: unexpected /auth/me response shape. Continuing unauthenticated.',
+      { responseData: { unexpected: true } }
+    );
   });
 });
 
