@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ErrorPage from '../component-catalog/ErrorBoundary/ErrorPage';
+
+Astro.response.status = 500;
+---
+
+<BaseLayout
+  title="Service temporarily unavailable"
+  description="An internal server error occurred"
+>
+  <ErrorPage
+    client:load
+    code="500"
+    title="Service temporarily unavailable"
+    description="We are experiencing an unexpected issue. Our team has been notified and is working to restore service. Please try again later or return to the home page."
+    actionLabel="Return to Home"
+    actionHref="/"
+  />
+</BaseLayout>
