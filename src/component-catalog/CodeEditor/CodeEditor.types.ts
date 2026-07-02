@@ -16,7 +16,15 @@ export interface ExecutionResult {
   tests: TestCaseResult[];
 }
 
+export interface CodeEditorProblem {
+  id: number;
+  starterCode?: string | Partial<Record<Language, string>>;
+}
+
 export interface CodeEditorProps {
+  problem?: CodeEditorProblem;
+  defaultLanguage?: Language;
+
   initialLanguage?: Language;
   initialCode?: string;
   result?: ExecutionResult;

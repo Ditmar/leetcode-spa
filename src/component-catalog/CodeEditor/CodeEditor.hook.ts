@@ -1,8 +1,16 @@
 import { useCallback, useEffect, useReducer } from 'react';
 
+import { submissionsService } from '../../services/submissions/submissionsService';
+import { ExecutionStatus } from '../../services/submissions/submissionsService.constants';
+
 import { createSuccessResult, getCodeTemplate } from './CodeEditor.utils';
 
 import type { CodeEditorProps, ExecutionResult, Language } from './CodeEditor.types';
+import type { AllowedLanguage } from '../../services/submissions/submissionsService.constants';
+import type {
+  ExecutionResult as SubmissionExecutionResult,
+  Submission,
+} from '../../services/submissions/submissionsService.types';
 
 interface CodeEditorState {
   language: Language;
@@ -14,14 +22,41 @@ interface CodeEditorState {
 }
 
 type CodeEditorAction =
-  | { type: 'CHANGE_LANGUAGE'; language: Language }
+  | { type: 'CHANGE_LANGUAGE'; language: Language; code: string }
   | { type: 'SET_CODE'; code: string }
   | { type: 'RUN_START' }
   | { type: 'RUN_FINISH'; result: ExecutionResult }
   | { type: 'SUBMIT_START' }
   | { type: 'SUBMIT_FINISH'; result: ExecutionResult }
-  | { type: 'RESET'; language: Language }
+  | { type: 'RESET'; language: Language; code: string }
   | { type: 'SET_OUTPUT_OPEN'; isOpen: boolean };
+
+const getStarterCode = (
+  problem: CodeEditorProps['problem'],
+  language: Language,
+  fallbackCode?: string
+): string => {
+  if (typeof problem?.starterCode === 'string') {
+    return problem.starterCode;
+  }
+
+  return problem?.starterCode?.[language] ?? fallbackCode ?? getCodeTemplate(language);
+};
+
+const mapSubmissionResult = (result: SubmissionExecutionResult | Submission): ExecutionResult => ({
+  status: result.status === ExecutionStatus.ACCEPTED ? 'success' : 'error',
+  runtimeMs: result.runtime,
+  memoryMb: result.memory,
+  errorMessage: result.stderr,
+  tests:
+    result.testResults?.map((test, index) => ({
+      id: String(index + 1),
+      name: `Case ${index + 1}`,
+      passed: test.passed,
+      expected: test.expectedOutput,
+      received: test.actualOutput,
+    })) ?? [],
+});
 
 const codeEditorReducer = (state: CodeEditorState, action: CodeEditorAction): CodeEditorState => {
   switch (action.type) {
@@ -29,7 +64,7 @@ const codeEditorReducer = (state: CodeEditorState, action: CodeEditorAction): Co
       return {
         ...state,
         language: action.language,
-        code: getCodeTemplate(action.language),
+        code: action.code,
       };
 
     case 'SET_CODE':
@@ -67,7 +102,8 @@ const codeEditorReducer = (state: CodeEditorState, action: CodeEditorAction): Co
     case 'RESET':
       return {
         ...state,
-        code: getCodeTemplate(action.language),
+        language: action.language,
+        code: action.code,
         executionResult: undefined,
       };
 
@@ -83,16 +119,20 @@ const codeEditorReducer = (state: CodeEditorState, action: CodeEditorAction): Co
 };
 
 export const useCodeEditor = ({
-  initialLanguage = 'javascript',
+  problem,
+  defaultLanguage,
+  initialLanguage,
   initialCode,
   result,
   onRun,
   onSubmit,
   onReset,
 }: CodeEditorProps) => {
+  const language = defaultLanguage ?? initialLanguage ?? 'javascript';
+
   const [state, dispatch] = useReducer(codeEditorReducer, {
-    language: initialLanguage,
-    code: initialCode ?? getCodeTemplate(initialLanguage),
+    language,
+    code: getStarterCode(problem, language, initialCode),
     executionResult: result,
     isRunning: false,
     isSubmitting: false,
@@ -101,12 +141,16 @@ export const useCodeEditor = ({
 
   const isExecuting = state.isRunning || state.isSubmitting;
 
-  const handleLanguageChange = useCallback((nextLanguage: Language) => {
-    dispatch({
-      type: 'CHANGE_LANGUAGE',
-      language: nextLanguage,
-    });
-  }, []);
+  const handleLanguageChange = useCallback(
+    (nextLanguage: Language) => {
+      dispatch({
+        type: 'CHANGE_LANGUAGE',
+        language: nextLanguage,
+        code: getStarterCode(problem, nextLanguage, initialCode),
+      });
+    },
+    [problem, initialCode]
+  );
 
   const setCode = useCallback((code: string) => {
     dispatch({
@@ -126,11 +170,21 @@ export const useCodeEditor = ({
     dispatch({ type: 'RUN_START' });
 
     try {
-      const response = await onRun?.(state.code, state.language);
+      const response = onRun
+        ? await onRun(state.code, state.language)
+        : problem
+          ? mapSubmissionResult(
+              await submissionsService.run({
+                problemId: problem.id,
+                code: state.code,
+                language: state.language as AllowedLanguage,
+              })
+            )
+          : createSuccessResult();
 
       dispatch({
         type: 'RUN_FINISH',
-        result: response ?? createSuccessResult(),
+        result: response,
       });
     } catch (error) {
       dispatch({
@@ -142,17 +196,27 @@ export const useCodeEditor = ({
         },
       });
     }
-  }, [onRun, state.code, state.language]);
+  }, [onRun, problem, state.code, state.language]);
 
   const handleSubmit = useCallback(async () => {
     dispatch({ type: 'SUBMIT_START' });
 
     try {
-      const response = await onSubmit?.(state.code, state.language);
+      const response = onSubmit
+        ? await onSubmit(state.code, state.language)
+        : problem
+          ? mapSubmissionResult(
+              await submissionsService.submit({
+                problemId: problem.id,
+                code: state.code,
+                language: state.language as AllowedLanguage,
+              })
+            )
+          : createSuccessResult();
 
       dispatch({
         type: 'SUBMIT_FINISH',
-        result: response ?? createSuccessResult(),
+        result: response,
       });
     } catch (error) {
       dispatch({
@@ -164,16 +228,17 @@ export const useCodeEditor = ({
         },
       });
     }
-  }, [onSubmit, state.code, state.language]);
+  }, [onSubmit, problem, state.code, state.language]);
 
   const handleReset = useCallback(() => {
     dispatch({
       type: 'RESET',
       language: state.language,
+      code: getStarterCode(problem, state.language, initialCode),
     });
 
     onReset?.();
-  }, [onReset, state.language]);
+  }, [onReset, problem, initialCode, state.language]);
 
   useEffect(() => {
     const handleShortcut = (event: KeyboardEvent) => {
