@@ -24,24 +24,15 @@ function mockFetchError(status: number, statusText: string, body?: Record<string
   });
 }
 
-// ---------------------------------------------------------------------------
-// Setup / teardown
-// ---------------------------------------------------------------------------
-
 beforeEach(() => {
   setAuthToken(null);
   localStorage.clear();
-  // Clear auth_token cookie
-  document.cookie = 'auth_token=; Max-Age=0';
+  document.cookie = 'auth_access_token=; Max-Age=0';
 });
 
 afterEach(() => {
   vi.restoreAllMocks();
 });
-
-// ---------------------------------------------------------------------------
-// GET
-// ---------------------------------------------------------------------------
 
 describe('apiClient.get', () => {
   it('returns the parsed ApiResponse on success', async () => {
@@ -107,10 +98,6 @@ describe('apiClient.get', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// POST
-// ---------------------------------------------------------------------------
-
 describe('apiClient.post', () => {
   it('returns the parsed ApiResponse on success', async () => {
     const created = { id: 99, slug: 'new-problem' };
@@ -137,10 +124,6 @@ describe('apiClient.post', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// PUT / PATCH / DELETE — method propagation
-// ---------------------------------------------------------------------------
-
 describe('apiClient method propagation', () => {
   it.each([
     ['put', 'PUT'],
@@ -166,10 +149,6 @@ describe('apiClient method propagation', () => {
     expect(init.body).toBeUndefined();
   });
 });
-
-// ---------------------------------------------------------------------------
-// 4xx error normalisation
-// ---------------------------------------------------------------------------
 
 describe('4xx error normalisation', () => {
   it('throws a normalised ApiError for a 404 response', async () => {
@@ -216,10 +195,6 @@ describe('4xx error normalisation', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// 5xx error normalisation
-// ---------------------------------------------------------------------------
-
 describe('5xx error normalisation', () => {
   it('throws a normalised ApiError for a 500 response', async () => {
     vi.stubGlobal(
@@ -251,15 +226,11 @@ describe('5xx error normalisation', () => {
 
     await expect(apiClient.get('/problems')).rejects.toMatchObject({
       status: 502,
-      code: 'UNKNOWN_ERROR', // 502 not in statusToCode map → UNKNOWN_ERROR
+      code: 'UNKNOWN_ERROR',
       message: 'Bad Gateway',
     });
   });
 });
-
-// ---------------------------------------------------------------------------
-// Network errors (fetch throws)
-// ---------------------------------------------------------------------------
 
 describe('network errors', () => {
   it('throws a normalised ApiError when fetch rejects with a TypeError', async () => {
@@ -287,10 +258,6 @@ describe('network errors', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// JSON parse failure on 200 response
-// ---------------------------------------------------------------------------
-
 describe('JSON parse failure', () => {
   it('throws ApiError with code PARSE_ERROR when a 200 body is not valid JSON', async () => {
     vi.stubGlobal(
@@ -310,10 +277,6 @@ describe('JSON parse failure', () => {
     });
   });
 });
-
-// ---------------------------------------------------------------------------
-// Authentication
-// ---------------------------------------------------------------------------
 
 describe('authentication', () => {
   it('sends no Authorization header when no token source is available', async () => {
@@ -341,7 +304,7 @@ describe('authentication', () => {
   });
 
   it('reads the token from localStorage when setAuthToken has not been called', async () => {
-    localStorage.setItem('auth_token', 'storage-token');
+    localStorage.setItem('auth_access_token', 'storage-token');
 
     const fetchMock = mockFetchOk({});
     vi.stubGlobal('fetch', fetchMock);
@@ -354,7 +317,7 @@ describe('authentication', () => {
   });
 
   it('reads the token from a cookie when localStorage has no token', async () => {
-    document.cookie = 'auth_token=cookie-token';
+    document.cookie = 'auth_access_token=cookie-token';
 
     const fetchMock = mockFetchOk({});
     vi.stubGlobal('fetch', fetchMock);
@@ -368,8 +331,8 @@ describe('authentication', () => {
 
   it('prefers setAuthToken over localStorage and cookie', async () => {
     setAuthToken('module-token');
-    localStorage.setItem('auth_token', 'storage-token');
-    document.cookie = 'auth_token=cookie-token';
+    localStorage.setItem('auth_access_token', 'storage-token');
+    document.cookie = 'auth_access_token=cookie-token';
 
     const fetchMock = mockFetchOk({});
     vi.stubGlobal('fetch', fetchMock);
@@ -382,8 +345,8 @@ describe('authentication', () => {
   });
 
   it('prefers localStorage over cookie when both are present', async () => {
-    localStorage.setItem('auth_token', 'storage-token');
-    document.cookie = 'auth_token=cookie-token';
+    localStorage.setItem('auth_access_token', 'storage-token');
+    document.cookie = 'auth_access_token=cookie-token';
 
     const fetchMock = mockFetchOk({});
     vi.stubGlobal('fetch', fetchMock);
@@ -395,10 +358,6 @@ describe('authentication', () => {
     expect(headers['Authorization']).toBe('Bearer storage-token');
   });
 });
-
-// ---------------------------------------------------------------------------
-// isApiError type guard
-// ---------------------------------------------------------------------------
 
 describe('isApiError', () => {
   it('returns true for an instance of Error', () => {

@@ -144,3 +144,22 @@ const authService = {
 };
 
 export default authService;
+
+export async function getServerSession(cookie: string): Promise<AuthSession | null> {
+  if (!cookie) return null;
+
+  const base = process.env.API_BASE_URL || 'http://localhost:3000';
+  const url = `${base}${AUTH_ENDPOINTS.ME}`;
+
+  try {
+    const res = await fetch(url, {
+      headers: { Cookie: cookie },
+    });
+
+    if (!res.ok) return null;
+
+    return (await res.json()) as AuthSession;
+  } catch {
+    return null;
+  }
+}

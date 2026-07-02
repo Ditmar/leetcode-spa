@@ -7,7 +7,6 @@ import AuthModal from '../AuthModal/AuthModal';
 import type { ContestPageProps } from './ContestPage.types';
 import type { ContestDetail } from '../../../services/contests/contestsService.types';
 
-// Individual contest card with join action and auth gating
 function ContestCard({
   contest,
   onAuthRequired,
@@ -20,7 +19,6 @@ function ContestCard({
   const [isRegistered, setIsRegistered] = useState(contest.isRegistered ?? false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Handle join with optimistic update — reverts on error
   async function handleJoin() {
     if (isLoading) return;
 
@@ -44,14 +42,13 @@ function ContestCard({
   }
 
   const buttonLabel = isRegistered ? 'Registered' : 'Join';
-  const isDisabled = isRegistered || isLoading;
+  const isDisabled = isRegistered || isLoading || !isAuthenticated;
 
   return (
     <div className="contest-card">
       <h3 className="contest-card__title">{contest.title}</h3>
       {contest.description && <p className="contest-card__description">{contest.description}</p>}
       <p className="contest-card__meta">{contest.participantsCount ?? 0} participants</p>
-      {/* Button disabled with tooltip when not authenticated */}
       <span
         className="contest-card__action"
         title={!isAuthenticated ? 'Sign in to join this contest' : undefined}
@@ -69,7 +66,6 @@ function ContestCard({
   );
 }
 
-// Section grouping contests by status
 function ContestSection({
   title,
   contests,
@@ -93,7 +89,6 @@ function ContestSection({
   );
 }
 
-// Main page component that displays contests grouped by status
 export default function ContestPage({
   activeContests,
   upcomingContests,
@@ -125,11 +120,9 @@ export default function ContestPage({
         onAuthRequired={handleAuthRequired}
       />
 
-      {/* Auth modal — opens when unauthenticated user attempts to join */}
       <AuthModal isOpen={authModalOpen} />
 
       <style>{`
-        /* Base — 320px */
         .contest-page {
           padding: 12px;
           max-width: 1200px;
@@ -200,14 +193,12 @@ export default function ContestPage({
           cursor: not-allowed;
         }
 
-        /* 375px — small phones */
         @media (min-width: 375px) {
           .contest-page {
             padding: 16px;
           }
         }
 
-        /* 768px — tablets */
         @media (min-width: 768px) {
           .contest-page {
             padding: 24px;
@@ -226,7 +217,6 @@ export default function ContestPage({
           }
         }
 
-        /* 1024px — desktop */
         @media (min-width: 1024px) {
           .contest-page {
             padding: 32px;

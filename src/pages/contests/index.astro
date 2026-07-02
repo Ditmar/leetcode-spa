@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AppProvider from '../../context/AppConfigContext';
 import ContestPage from '../../app/components/ContestPage/ContestPage';
 import { contestsService } from '../../services/contests/contestsService';
+import { getServerSession } from '../../services/auth/authService';
 import { getConfig } from '../../utils/config';
 import type { ContestDetail } from '../../services/contests/contestsService.types';
 
@@ -15,6 +16,9 @@ if (!config.featureFlags.contests) {
 const cookie = Astro.request.headers.get('cookie') ?? '';
 const options = { cookie };
 
+const session = cookie ? await getServerSession(cookie) : null;
+const user = session?.user ?? null;
+
 const [active, upcoming, past] = await Promise.all([
   contestsService.getContests({ status: 'active' }, options),
   contestsService.getContests({ status: 'upcoming' }, options),
@@ -23,7 +27,7 @@ const [active, upcoming, past] = await Promise.all([
 ---
 
 <BaseLayout title="Contests — LeetCode Clone">
-  <AppProvider client:load>
+  <AppProvider client:load user={user}>
     <ContestPage
       activeContests={active.contests as ContestDetail[]}
       upcomingContests={upcoming.contests as ContestDetail[]}
