@@ -6,62 +6,93 @@ import { CodeEditor } from '../../component-catalog/CodeEditor/CodeEditor';
 import { problemsService } from '../../services/problems/problemsService';
 import { userService } from '../../services/user/userService';
 
+import type { Language } from '../../component-catalog/CodeEditor/CodeEditor.types';
+import type { ProblemDetail as ServiceProblemDetail } from '../../services/problems/problemsService.types';
+
 const { config, user } = Astro.locals;
 const { id } = Astro.params;
 const cookie = Astro.request.headers.get('cookie') ?? '';
+const problemId = Number(id);
 
-if (!id || Number.isNaN(Number(id))) {
+const isApiStatusError = (err: unknown, status: number): boolean =>
+  typeof err === 'object' &&
+  err !== null &&
+  'status' in err &&
+  typeof (err as { status?: unknown }).status === 'number' &&
+  (err as { status: number }).status === status;
+
+const sanitizeMetaDescription = (value: string): string =>
+  value
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 160);
+
+if (!id || Number.isNaN(problemId)) {
+  console.warn('[ProblemDetailPage] Invalid problem id:', id);
   return Astro.redirect('/404');
 }
 
-let problem;
+let problem: ServiceProblemDetail;
 
 try {
-  problem = await problemsService.getProblemById(Number(id), {
+  problem = await problemsService.getProblemById(problemId, {
     headers: {
       cookie,
     },
   });
+
+  if (!problem) {
+    console.warn('[ProblemDetailPage] Problem not found:', problemId);
+    return Astro.redirect('/404');
+  }
 } catch (err: unknown) {
-  if (
-    typeof err === 'object' &&
-    err !== null &&
-    'status' in err &&
-    (err as { status: number }).status === 404
-  ) {
+  if (isApiStatusError(err, 404)) {
     return Astro.redirect('/404');
   }
 
+  console.error('[ProblemDetailPage] Unexpected problem fetch error:', err);
   throw err;
-}
-
-if (!problem) {
-  return Astro.redirect('/404');
 }
 
 const problemDetail = {
   ...problem,
-  acceptance:
-    'acceptance' in problem && typeof problem.acceptance === 'number'
-      ? problem.acceptance
-      : 0,
-  examples: problem.examples.map((example) => {
-    if (typeof example === 'string') {
-      return {
-        input: example,
-        output: '',
-      };
-    }
+  acceptance: problem.acceptance ?? 0,
+  examples: Array.isArray(problem.examples)
+    ? problem.examples.map((example) => {
+        if (typeof example === 'string') {
+          return {
+            input: example,
+            output: example,
+          };
+        }
 
-    return example;
-  }),
+        return {
+          input: example.input,
+          output: example.output,
+          explanation: example.explanation,
+        };
+      })
+    : [],
 };
 
-const defaultLanguage = user
-  ? (await userService.getPreferences(cookie)).defaultLanguage
-  : 'javascript';
+let defaultLanguage: Language = 'javascript';
 
-const metaDescription = (problemDetail.description ?? '').replace(/<[^>]*>/g, '').slice(0, 160);
+if (user) {
+  try {
+    const preferences = await userService.getPreferences(cookie);
+    defaultLanguage = preferences.defaultLanguage;
+  } catch (err: unknown) {
+    console.warn('[ProblemDetailPage] Failed to load user preferences:', err);
+  }
+}
+
+const prevId = problem.prevId;
+const nextId = problem.nextId;
+
+const metaDescription = sanitizeMetaDescription(problemDetail.description ?? '');
 ---
 
 <BaseLayout title={`${problemDetail.id}. ${problemDetail.title} — LeetCode Clone`}>
@@ -70,8 +101,66 @@ const metaDescription = (problemDetail.description ?? '').replace(/<[^>]*>/g, ''
   <AppProvider config={config} user={user} client:load>
     <main class="problem-page">
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        Problems &gt; {problemDetail.id}. {problemDetail.title}
+        <div class="breadcrumb-text">
+          Problems &gt; {problemDetail.id}. {problemDetail.title}
+        </div>
+
+        <div class="problem-navigation" aria-label="Problem navigation">
+          {
+            prevId ? (
+              <a
+                class="nav-arrow"
+                href={`/problems/${prevId}`}
+                data-astro-prefetch
+                aria-label="Previous problem"
+              >
+                ←
+              </a>
+            ) : (
+              <span class="nav-arrow nav-arrow-disabled" aria-hidden="true">
+                ←
+              </span>
+            )
+          }
+
+          {
+            nextId ? (
+              <a
+                class="nav-arrow"
+                href={`/problems/${nextId}`}
+                data-astro-prefetch
+                aria-label="Next problem"
+              >
+                →
+              </a>
+            ) : (
+              <span class="nav-arrow nav-arrow-disabled" aria-hidden="true">
+                →
+              </span>
+            )
+          }
+        </div>
       </nav>
+
+      <input
+        class="mobile-tab-input"
+        type="radio"
+        name="problem-tab"
+        id="description-tab"
+        checked
+      />
+
+      <input
+        class="mobile-tab-input"
+        type="radio"
+        name="problem-tab"
+        id="code-tab"
+      />
+
+      <div class="mobile-tabs" aria-label="Problem page tabs">
+        <label class="mobile-tab" for="description-tab">Description</label>
+        <label class="mobile-tab" for="code-tab">Code</label>
+      </div>
 
       <section class="split-layout">
         <aside class="problem-panel">
@@ -79,7 +168,11 @@ const metaDescription = (problemDetail.description ?? '').replace(/<[^>]*>/g, ''
         </aside>
 
         <aside class="editor-panel">
-          <CodeEditor problem={problemDetail} defaultLanguage={defaultLanguage} client:load />
+          <CodeEditor
+            problem={problemDetail}
+            defaultLanguage={defaultLanguage}
+            client:load
+          />
         </aside>
       </section>
     </main>
@@ -102,6 +195,44 @@ const metaDescription = (problemDetail.description ?? '').replace(/<[^>]*>/g, ''
     font-weight: 700;
     box-sizing: border-box;
     border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .breadcrumb-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .problem-navigation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-arrow {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--foreground);
+    text-decoration: none;
+    display: grid;
+    place-items: center;
+  }
+
+  .nav-arrow-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .mobile-tab-input,
+  .mobile-tabs {
+    display: none;
   }
 
   .split-layout {
@@ -149,13 +280,57 @@ const metaDescription = (problemDetail.description ?? '').replace(/<[^>]*>/g, ''
   }
 
   @media (max-width: 767px) {
+    .problem-page {
+      overflow: hidden;
+    }
+
     .breadcrumb {
       font-size: 13px;
     }
 
+    .mobile-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 44px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-tab {
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--muted-foreground);
+    }
+
+    .split-layout {
+      height: calc(100vh - 92px);
+      display: block;
+    }
+
     .problem-panel,
     .editor-panel {
-      min-height: 520px;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      border: none;
+      display: none;
+    }
+
+    #description-tab:checked ~ .split-layout .problem-panel {
+      display: block;
+      overflow: auto;
+    }
+
+    #code-tab:checked ~ .split-layout .editor-panel {
+      display: block;
+      overflow: hidden;
+    }
+
+    #description-tab:checked ~ .mobile-tabs label[for='description-tab'],
+    #code-tab:checked ~ .mobile-tabs label[for='code-tab'] {
+      color: var(--foreground);
+      border-bottom: 2px solid var(--primary);
     }
   }
 </style>

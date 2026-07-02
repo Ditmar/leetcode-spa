@@ -3,17 +3,17 @@ import { createContext, useContext } from 'react';
 import { AuthProvider } from '../services/auth/authContext';
 
 import type { AuthUser } from '../services/auth/authService.types';
-import type { AppConfig } from '../utils/config.types';
+import type { PublicConfig } from '../utils/config.types';
 import type { ReactNode } from 'react';
 
 interface AppConfigContextValue {
-  config: AppConfig | null;
+  config: PublicConfig | null;
   user: AuthUser | null;
 }
 
 interface AppProviderProps {
   children: ReactNode;
-  config?: AppConfig | null;
+  config?: PublicConfig | null;
   user?: AuthUser | null;
 }
 
