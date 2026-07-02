@@ -204,65 +204,65 @@ export const ExplorePage = ({
           </EmptyState>
         ) : (
           <Grid container spacing={2}>
-            {filteredTopics.map((topic) => (
-              <Grid key={topic.id} size={{ xs: 12, md: 6, lg: 4 }}>
-                <TopicCard elevation={1}>
-                  <TopicCardContent>
-                    <TopicCardHeader>
-                      <TopicIcon>{renderTopicIcon(topic.icon)}</TopicIcon>
+            {filteredTopics.map((topic) => {
+              const ctaLabel = topic.progress > 0 ? 'Continue Learning' : 'Start Learning';
 
-                      <Chip
-                        label={topic.difficulty}
-                        color={getDifficultyColor(topic.difficulty)}
-                        size="small"
-                      />
-                    </TopicCardHeader>
+              const accessibleCtaLabel =
+                topic.progress > 0
+                  ? 'Continue learning selected coding topic'
+                  : 'Start learning selected coding topic';
 
-                    <Typography variant="subtitle1" fontWeight={700}>
-                      {topic.title}
-                    </Typography>
+              return (
+                <Grid key={topic.id} size={{ xs: 12, md: 6, lg: 4 }}>
+                  <TopicCard elevation={1}>
+                    <TopicCardContent>
+                      <TopicCardHeader>
+                        <TopicIcon>{renderTopicIcon(topic.icon)}</TopicIcon>
 
-                    <TopicDescription variant="body2" color="text.secondary">
-                      {topic.description}
-                    </TopicDescription>
+                        <Chip
+                          label={topic.difficulty}
+                          color={getDifficultyColor(topic.difficulty)}
+                          size="small"
+                        />
+                      </TopicCardHeader>
 
-                    <ProgressHeader>
-                      <Typography variant="caption">Progress</Typography>
-
-                      <Typography variant="caption">
-                        {topic.progress}/{topic.totalProblems}
+                      <Typography variant="subtitle1" fontWeight={700}>
+                        {topic.title}
                       </Typography>
-                    </ProgressHeader>
 
-                    <LinearProgress
-                      value={getProgressPercent(topic.progress, topic.totalProblems)}
-                      variant="determinate"
-                      sx={{
-                        height: 6,
-                        borderRadius: 1,
-                      }}
-                    />
+                      <TopicDescription variant="body2" color="text.secondary">
+                        {topic.description}
+                      </TopicDescription>
 
-                    <Chip label={topic.category} size="small" variant="outlined" />
-                  </TopicCardContent>
+                      <ProgressHeader>
+                        <Typography variant="caption">Progress</Typography>
 
-                  <TopicCardAction>
-                    <Button
-                      fullWidth
-                      variant="text"
-                      size="small"
-                      aria-label={
-                        topic.progress > 0
-                          ? `Continue learning ${topic.title}`
-                          : `Start learning ${topic.title}`
-                      }
-                    >
-                      {topic.progress > 0 ? 'Continue Learning' : 'Start Learning'}
-                    </Button>
-                  </TopicCardAction>
-                </TopicCard>
-              </Grid>
-            ))}
+                        <Typography variant="caption">
+                          {topic.progress}/{topic.totalProblems}
+                        </Typography>
+                      </ProgressHeader>
+
+                      <LinearProgress
+                        value={getProgressPercent(topic.progress, topic.totalProblems)}
+                        variant="determinate"
+                        sx={{
+                          height: 6,
+                          borderRadius: 1,
+                        }}
+                      />
+
+                      <Chip label={topic.category} size="small" variant="outlined" />
+                    </TopicCardContent>
+
+                    <TopicCardAction>
+                      <Button fullWidth variant="text" size="small" aria-label={accessibleCtaLabel}>
+                        {ctaLabel}
+                      </Button>
+                    </TopicCardAction>
+                  </TopicCard>
+                </Grid>
+              );
+            })}
           </Grid>
         )}
       </ExploreContent>
