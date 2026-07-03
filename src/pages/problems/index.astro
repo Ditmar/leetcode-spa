@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AppProvider from '../../context/AppConfigContext';
+import ProblemsPage from '../../app/components/ProblemsPage/ProblemsPage';
+import { problemsService } from '../../services/problems/problemsService';
+
+import type { AuthUser } from '../../services/auth/authService.types';
+import type {
+  ProblemDifficulty,
+  ProblemFilters,
+  ProblemStatus,
+} from '../../services/problems/problemsService.types';
+import type { AppConfig } from '../../utils/config.types';
+
+const { config, user } = Astro.locals as { config?: AppConfig | null; user?: AuthUser | null };
+
+// Parse query params for server-side initial render with filters applied
+const url = Astro.url;
+const filters: ProblemFilters = {
+  search: url.searchParams.get('search') ?? undefined,
+  difficulty: (url.searchParams.get('difficulty') as ProblemDifficulty) ?? undefined,
+  status: (url.searchParams.get('status') as ProblemStatus) ?? undefined,
+  tag: url.searchParams.get('tag') ?? undefined,
+  page: Number(url.searchParams.get('page') ?? '1'),
+};
+
+const initialData = await problemsService.getProblems(filters, {
+  headers: { cookie: Astro.request.headers.get('cookie') ?? '' },
+});
+---
+
+<BaseLayout title="Problems — LeetCode Clone">
+  <AppProvider config={config} user={user} client:load>
+    <ProblemsPage
+      initialProblems={initialData.data}
+      initialMeta={initialData.meta}
+      initialFilters={filters}
+      client:load
+    />
+  </AppProvider>
+</BaseLayout>
