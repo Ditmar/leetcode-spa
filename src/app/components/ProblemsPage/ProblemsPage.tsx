@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import type { ProblemsPageProps } from './ProblemsPage.types';
 import type { ProblemFilters } from '../../../services/problems/problemsService.types';
+
 import './ProblemsPage.css';
 
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard'] as const;
@@ -67,6 +68,15 @@ export function ProblemsPage({
     fetchProblems({ ...filters, page });
   }
 
+  function handleSelectProblem(id: number) {
+    if (onSelectProblem) {
+      onSelectProblem(id);
+      return;
+    }
+
+    window.location.href = `/problems/${id}`;
+  }
+
   return (
     <section className="problems-page" aria-label="Problems list">
       <h1>Problems</h1>
@@ -76,7 +86,7 @@ export function ProblemsPage({
           type="search"
           aria-label="Search problems"
           placeholder="Search problems..."
-          defaultValue={filters.search ?? ''}
+          value={filters.search ?? ''}
           onChange={(event) => handleFilterChange({ search: event.target.value || undefined })}
         />
 
@@ -118,7 +128,7 @@ export function ProblemsPage({
           type="text"
           aria-label="Filter by tag"
           placeholder="Tag..."
-          defaultValue={filters.tag ?? ''}
+          value={filters.tag ?? ''}
           onChange={(event) => handleFilterChange({ tag: event.target.value || undefined })}
         />
       </div>
@@ -149,7 +159,7 @@ export function ProblemsPage({
             problems.map((problem) => (
               <tr
                 key={problem.id}
-                onClick={() => onSelectProblem?.(problem.id)}
+                onClick={() => handleSelectProblem(problem.id)}
                 className="problems-page__row"
               >
                 <td>{problem.title}</td>

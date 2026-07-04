@@ -14,6 +14,18 @@ import type { AppConfig } from '../../utils/config.types';
 
 const { config, user } = Astro.locals as { config?: AppConfig | null; user?: AuthUser | null };
 
+function buildCanonicalQuery(activeFilters: ProblemFilters): string {
+  const params = new URLSearchParams();
+
+  if (activeFilters.search) params.set('search', activeFilters.search);
+  if (activeFilters.difficulty) params.set('difficulty', activeFilters.difficulty);
+  if (activeFilters.status) params.set('status', activeFilters.status);
+  if (activeFilters.tag) params.set('tag', activeFilters.tag);
+  if (activeFilters.page && activeFilters.page > 1) params.set('page', String(activeFilters.page));
+
+  return params.toString();
+}
+
 // Parse query params for server-side initial render with filters applied
 const url = Astro.url;
 const filters: ProblemFilters = {
@@ -27,9 +39,13 @@ const filters: ProblemFilters = {
 const initialData = await problemsService.getProblems(filters, {
   headers: { cookie: Astro.request.headers.get('cookie') ?? '' },
 });
+
+const canonicalQuery = buildCanonicalQuery(filters);
+const canonicalUrl = `${url.origin}/problems${canonicalQuery ? `?${canonicalQuery}` : ''}`;
 ---
 
 <BaseLayout title="Problems — LeetCode Clone">
+  <link rel="canonical" href={canonicalUrl} />
   <AppProvider config={config} user={user} client:load>
     <ProblemsPage
       initialProblems={initialData.data}
