@@ -27,51 +27,48 @@ const canonicalUrl = Astro.url.href;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content={themeColor} />
     <meta name="description" content={description} />
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content={themeColor} />
-  <meta name="description" content={description} />
-  <meta name="generator" content={Astro.generator} />
+    <meta name="generator" content={Astro.generator} />
 
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="LeetCode SPA" />
-  <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="LeetCode SPA" />
+    <meta name="mobile-web-app-capable" content="yes" />
 
-  <!-- MUI Emotion insertion point must be declared before application styles. -->
-  <meta name="emotion-insertion-point" content="" />
+    <!-- MUI Emotion insertion point must be declared before application styles. -->
+    <meta name="emotion-insertion-point" content="" />
 
-  {noIndex && <meta name="robots" content="noindex" />}
+    {noIndex && <meta name="robots" content="noindex" />}
 
-  <link rel="canonical" href={canonicalUrl} />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
 
-  <!-- Application font is loaded through HTML links, not client JavaScript. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-  />
+    <!-- Application font is loaded through HTML links, not client JavaScript. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    />
 
-  <title>{title}</title>
+    <title>{title}</title>
 
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:url" content={canonicalUrl} />
-  <meta property="og:type" content="website" />
-  {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
 
-  <slot name="head" />
-</head>
+    <slot name="head" />
+  </head>
 
   <body>
     <slot />
+
     <script>
       import { registerServiceWorker } from '../utils/pwa';
+
       registerServiceWorker();
     </script>
   </body>
@@ -163,10 +160,10 @@ const canonicalUrl = Astro.url.href;
     min-height: 100%;
     margin: 0;
     font-family:
+      'Inter',
       'Poppins',
       'Montserrat',
       'Syne',
-      'Inter',
       'Roboto',
       'Helvetica',
       'Arial',
