@@ -1000,7 +1000,7 @@ export const problemListTokens = {
     },
   },
 } as const;
-
+export const lightTheme = theme;
 export default theme;
 export { themeConfig };
 
