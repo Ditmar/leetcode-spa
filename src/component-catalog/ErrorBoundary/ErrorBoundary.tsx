@@ -32,6 +32,14 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     this.props.onError?.(error, info);
   }
 
+  private readonly resetErrorBoundary = () => {
+    this.setState({
+      hasError: false,
+      error: null,
+      errorInfo: null,
+    });
+  };
+
   private readonly handleReload = () => {
     window.location.reload();
   };
@@ -45,7 +53,7 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     }
 
     if (typeof fallback === 'function') {
-      return fallback(error, errorInfo, this.handleReload);
+      return fallback(error, errorInfo, this.resetErrorBoundary);
     }
 
     if (fallback) {

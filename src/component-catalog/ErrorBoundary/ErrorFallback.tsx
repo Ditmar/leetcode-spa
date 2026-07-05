@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 import type { ErrorFallbackProps } from './ErrorBoundary.types';
 
-const shouldShowDevelopmentDetails = process.env.NODE_ENV !== 'production';
+const shouldShowDevelopmentDetails = import.meta.env.DEV;
 
 const sanitizeErrorDetails = (value: string) =>
   value.replace(

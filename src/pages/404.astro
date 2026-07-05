@@ -5,15 +5,12 @@ import ErrorPage from '../component-catalog/ErrorBoundary/ErrorPage';
 Astro.response.status = 404;
 ---
 
-<BaseLayout
-  title="Page not found"
-  description="The requested page could not be found"
->
+<BaseLayout title="Page not found" description="The requested page could not be found">
   <ErrorPage
     client:load
     code="404"
     title="Page not found"
-    description="The page you are looking for is not available, may have been moved, or no longer exists. Please return to the home page to continue browsing."
+    description="The page you are looking for is not available or may have been moved."
     actionLabel="Return to Home"
     actionHref="/"
   />

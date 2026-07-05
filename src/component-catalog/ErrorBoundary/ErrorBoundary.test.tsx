@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/vitest';
 
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import ErrorBoundary from './ErrorBoundary';
@@ -52,6 +52,36 @@ describe('ErrorBoundary', () => {
     expect(onError.mock.calls[0][0]).toBeInstanceOf(Error);
     expect(onError.mock.calls[0][0].message).toBe('Test render error');
     expect(onError.mock.calls[0][1]).toHaveProperty('componentStack');
+  });
+
+  it('calls window.location.reload when the Reload button is clicked', () => {
+    const reloadMock = vi.fn();
+    const originalLocation = window.location;
+
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: {
+        ...originalLocation,
+        reload: reloadMock,
+      },
+    });
+
+    render(
+      <ErrorBoundary>
+        <BrokenComponent />
+      </ErrorBoundary>
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /reload/i }));
+
+    expect(reloadMock).toHaveBeenCalledTimes(1);
+
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: originalLocation,
+    });
   });
 
   it('renders a custom fallback node when provided', () => {
