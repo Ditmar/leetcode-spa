@@ -1,6 +1,9 @@
 import type { APIRoute } from 'astro';
 
-const SITE_URL = import.meta.env.PUBLIC_SITE_URL ?? 'https://leetcode-spa.railway.app';
+const SITE_URL = process.env.RAILWAY_PUBLIC_DOMAIN
+  ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+  : 'https://leetcode-spa-production.up.railway.app';
+
 const PRODUCTION_HOST = new URL(SITE_URL).host;
 
 export const GET: APIRoute = ({ request }) => {
@@ -17,8 +20,6 @@ export const GET: APIRoute = ({ request }) => {
         '',
         'Disallow: /api/',
         'Disallow: /sysinfo',
-        '',
-        `Sitemap: ${SITE_URL}/sitemap.xml`,
         '',
       ].join('\n')
     : [
