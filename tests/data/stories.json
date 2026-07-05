@@ -1,0 +1,356 @@
+[
+  {
+    "id": "component-catalog-alert--all-alerts-stacked"
+  },
+  {
+    "id": "components-alertdialog--confirm-cancel"
+  },
+  {
+    "id": "components-alertdialog--acknowledge"
+  },
+  {
+    "id": "components-alertdialog--error-state"
+  },
+  {
+    "id": "components-alertdialog--info-state"
+  },
+  {
+    "id": "components-aspectratio--multiple-ratios"
+  },
+  {
+    "id": "component-catalog-avatar--default"
+  },
+  {
+    "id": "component-catalog-avatar--primary"
+  },
+  {
+    "id": "component-catalog-avatar--success"
+  },
+  {
+    "id": "component-catalog-avatar--showcase"
+  },
+  {
+    "id": "component-catalog-badges--numeric"
+  },
+  {
+    "id": "component-catalog-badges--max-overflow"
+  },
+  {
+    "id": "component-catalog-badges--dot-variant"
+  },
+  {
+    "id": "component-catalog-badges--color-variants"
+  },
+  {
+    "id": "component-catalog-badges--top-left"
+  },
+  {
+    "id": "component-catalog-badges--top-right"
+  },
+  {
+    "id": "component-catalog-badges--bottom-left"
+  },
+  {
+    "id": "component-catalog-badges--bottom-right"
+  },
+  {
+    "id": "component-catalog-badges--position-examples"
+  },
+  {
+    "id": "component-catalog-badges--playground"
+  },
+  {
+    "id": "components-breadcrumb--default"
+  },
+  {
+    "id": "component-catalog-carousel--default"
+  },
+  {
+    "id": "component-catalog-carousel--auto-play"
+  },
+  {
+    "id": "component-catalog-carousel--single-slide"
+  },
+  {
+    "id": "component-catalog-chart--bar"
+  },
+  {
+    "id": "component-catalog-chart--line"
+  },
+  {
+    "id": "component-catalog-chart--pie"
+  },
+  {
+    "id": "component-catalog-chart--loading"
+  },
+  {
+    "id": "component-catalog-chart--bar-no-legend"
+  },
+  {
+    "id": "components-checkbox--material-style"
+  },
+  {
+    "id": "components-collapsible--figma-match"
+  },
+  {
+    "id": "component-catalog-command--default"
+  },
+  {
+    "id": "component-catalog-contextmenu--default"
+  },
+  {
+    "id": "component-catalog-contextmenu--with-groups"
+  },
+  {
+    "id": "component-catalog-contextmenu--with-disabled"
+  },
+  {
+    "id": "component-catalog-dropdownmenu--playground"
+  },
+  {
+    "id": "component-catalog-inputotp--primary"
+  },
+  {
+    "id": "component-catalog-inputotp--disabled"
+  },
+  {
+    "id": "component-catalog-inputotp--error"
+  },
+  {
+    "id": "component-catalog-menubar--default"
+  },
+  {
+    "id": "component-catalog-menubar--with-logo"
+  },
+  {
+    "id": "component-catalog-menubar--with-disabled-items"
+  },
+  {
+    "id": "component-catalog-navigationmenu--default"
+  },
+  {
+    "id": "component-catalog-navigationmenu--with-logo"
+  },
+  {
+    "id": "component-catalog-navigationmenu--desktop"
+  },
+  {
+    "id": "component-catalog-navigationmenu--mobile"
+  },
+  {
+    "id": "component-catalog-navigationmenu--active-state"
+  },
+  {
+    "id": "component-catalog-navigationmenu--size-small"
+  },
+  {
+    "id": "component-catalog-navigationmenu--size-large"
+  },
+  {
+    "id": "component-catalog-navigationmenu--variant-secondary"
+  },
+  {
+    "id": "component-catalog-navigationmenu--custom-labels"
+  },
+  {
+    "id": "component-catalog-pagination--default"
+  },
+  {
+    "id": "component-catalog-pagination--many-pages"
+  },
+  {
+    "id": "component-catalog-pagination--with-first-last-buttons"
+  },
+  {
+    "id": "component-catalog-pagination--with-rows-per-page"
+  },
+  {
+    "id": "component-catalog-pagination--disabled"
+  },
+  {
+    "id": "component-catalog-pagination--with-custom-styling"
+  },
+  {
+    "id": "component-catalog-pagination--mobile-view"
+  },
+  {
+    "id": "component-catalog-popover--primary"
+  },
+  {
+    "id": "component-catalog-popover--top-placement"
+  },
+  {
+    "id": "component-catalog-popover--bottom-start-placement"
+  },
+  {
+    "id": "component-catalog-popover--bottom-end-placement"
+  },
+  {
+    "id": "component-catalog-popover--left-placement"
+  },
+  {
+    "id": "component-catalog-popover--right-placement"
+  },
+  {
+    "id": "component-catalog-popover--top-start-placement"
+  },
+  {
+    "id": "component-catalog-popover--top-end-placement"
+  },
+  {
+    "id": "component-catalog-popover--without-arrow"
+  },
+  {
+    "id": "component-catalog-problemdetail--easy-problem"
+  },
+  {
+    "id": "component-catalog-problemdetail--medium-problem"
+  },
+  {
+    "id": "component-catalog-problemdetail--hard-problem"
+  },
+  {
+    "id": "component-catalog-progress--linear-determinate"
+  },
+  {
+    "id": "component-catalog-progress--linear-indeterminate"
+  },
+  {
+    "id": "component-catalog-progress--circular-determinate"
+  },
+  {
+    "id": "component-catalog-progress--circular-indeterminate"
+  },
+  {
+    "id": "component-catalog-progress--with-custom-colors"
+  },
+  {
+    "id": "component-catalog-progress--without-label"
+  },
+  {
+    "id": "component-catalog-progress--circular-custom-size-and-thickness"
+  },
+  {
+    "id": "component-catalog-radiogroup--default"
+  },
+  {
+    "id": "component-catalog-radiogroup--row"
+  },
+  {
+    "id": "component-catalog-radiogroup--with-helper-text"
+  },
+  {
+    "id": "component-catalog-radiogroup--error-state"
+  },
+  {
+    "id": "component-catalog-radiogroup--with-disabled-option"
+  },
+  {
+    "id": "component-catalog-radiogroup--group-disabled"
+  },
+  {
+    "id": "component-catalog-button--contained"
+  },
+  {
+    "id": "component-catalog-button--outlined"
+  },
+  {
+    "id": "component-catalog-button--text"
+  },
+  {
+    "id": "component-catalog-button--contained-small"
+  },
+  {
+    "id": "component-catalog-button--contained-icon"
+  },
+  {
+    "id": "component-catalog-calendar--single-date"
+  },
+  {
+    "id": "component-catalog-calendar--date-range"
+  },
+  {
+    "id": "component-catalog-calendar--multi-date"
+  },
+  {
+    "id": "component-catalog-calendar--disabled-weekends"
+  },
+  {
+    "id": "component-catalog-calendar--min-max-bounds"
+  },
+  {
+    "id": "component-catalog-calendar--full-width-mobile"
+  },
+  {
+    "id": "component-catalog-calendar--range-interactive"
+  },
+  {
+    "id": "component-catalog-dialog--base"
+  },
+  {
+    "id": "component-catalog-dialog--only-content"
+  },
+  {
+    "id": "component-catalog-dialog--only-buttons"
+  },
+  {
+    "id": "component-catalog-dialog--complete"
+  },
+  {
+    "id": "component-catalog-form--default"
+  },
+  {
+    "id": "component-catalog-form--all-field-types"
+  },
+  {
+    "id": "component-catalog-hovercard--figma-demo"
+  },
+  {
+    "id": "component-catalog-hovercard--default"
+  },
+  {
+    "id": "component-catalog-hovercard--no-delay"
+  },
+  {
+    "id": "component-catalog-input--basic"
+  },
+  {
+    "id": "component-catalog-input--error-state"
+  },
+  {
+    "id": "component-catalog-input--disabled"
+  },
+  {
+    "id": "component-catalog-input--character-count"
+  },
+  {
+    "id": "component-catalog-input--responsive-showcase"
+  },
+  {
+    "id": "pages-problemlist--default"
+  },
+  {
+    "id": "pages-problemlist--all-statuses"
+  },
+  {
+    "id": "pages-problemlist--selected-item"
+  },
+  {
+    "id": "pages-problemlist--mobile-drawer"
+  },
+  {
+    "id": "pages-problemlist--empty-list"
+  },
+  {
+    "id": "components-muiexample--default"
+  },
+  {
+    "id": "components-muiexample--with-dark-background"
+  },
+  {
+    "id": "theme-simplemuiexample--default"
+  },
+  {
+    "id": "theme-simplemuiexample--with-dark-background"
+  }
+]

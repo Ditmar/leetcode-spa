@@ -26,3 +26,7 @@ pnpm-debug.log*
 *storybook.log
 storybook-static
 .claude
+
+# Playwright
+playwright-report/
+test-results/
