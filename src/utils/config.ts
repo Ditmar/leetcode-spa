@@ -3,6 +3,8 @@ import envMapping from '../config/env.json';
 
 import { configSchema, type Config } from './config.schema';
 
+import type { PublicConfig } from './config.types';
+
 let envGetter = (key: string): string | undefined => {
   const env = import.meta.env as Record<string, string | undefined>;
   return env[key];
@@ -62,6 +64,16 @@ export function getConfig(): Config {
     cachedConfig = validateConfig(raw);
   }
   return cachedConfig;
+}
+
+export function getPublicConfig(): PublicConfig {
+  const config = getConfig();
+
+  return {
+    defaultCacheTTL: config.defaultCacheTTL,
+    basePath: config.basePath,
+    navShell: config.navShell,
+  };
 }
 
 export function getCachedConfig(): Config {

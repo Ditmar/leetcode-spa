@@ -1,8 +1,9 @@
-import { apiClient, isApiError } from '../services/api/apiClient';
+import { apiClient } from '../services/api/apiClient';
 import { AUTH_ENDPOINTS } from '../services/auth/authService.constants';
 
 import { PROTECTED_PATHS } from './protected-routes.config';
 
+import type { ApiError } from '../services/api/apiClient.types';
 import type { AuthSession } from '../services/auth/authService.types';
 import type { MiddlewareHandler } from 'astro';
 
@@ -36,12 +37,25 @@ function handleInvalidSessionResponse(responseData: unknown): null {
   return null;
 }
 
+function isSessionApiError(error: unknown): error is ApiError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    typeof (error as ApiError).status === 'number' &&
+    'code' in error &&
+    typeof (error as ApiError).code === 'string' &&
+    'message' in error &&
+    typeof (error as ApiError).message === 'string'
+  );
+}
+
 function handleSessionValidationError(error: unknown): null {
-  if (isApiError(error) && error.status === 401) {
+  if (isSessionApiError(error) && error.status === 401) {
     return null;
   }
 
-  if (isApiError(error)) {
+  if (isSessionApiError(error)) {
     logSessionValidationWarning('API error', {
       status: error.status,
       code: error.code,
