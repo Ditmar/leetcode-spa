@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AppProvider from '../../context/AppConfigContext';
+import ProblemsPage from '../../app/components/ProblemsPage/ProblemsPage';
+import { problemsService } from '../../services/problems/problemsService';
+
+import type { AuthUser } from '../../services/auth/authService.types';
+import type {
+  ProblemDifficulty,
+  ProblemFilters,
+  ProblemStatus,
+} from '../../services/problems/problemsService.types';
+import type { AppConfig } from '../../utils/config.types';
+
+const { config, user } = Astro.locals as { config?: AppConfig | null; user?: AuthUser | null };
+
+function buildCanonicalQuery(activeFilters: ProblemFilters): string {
+  const params = new URLSearchParams();
+
+  if (activeFilters.search) params.set('search', activeFilters.search);
+  if (activeFilters.difficulty) params.set('difficulty', activeFilters.difficulty);
+  if (activeFilters.status) params.set('status', activeFilters.status);
+  if (activeFilters.tag) params.set('tag', activeFilters.tag);
+  if (activeFilters.page && activeFilters.page > 1) params.set('page', String(activeFilters.page));
+
+  return params.toString();
+}
+
+// Parse query params for server-side initial render with filters applied
+const url = Astro.url;
+const filters: ProblemFilters = {
+  search: url.searchParams.get('search') ?? undefined,
+  difficulty: (url.searchParams.get('difficulty') as ProblemDifficulty) ?? undefined,
+  status: (url.searchParams.get('status') as ProblemStatus) ?? undefined,
+  tag: url.searchParams.get('tag') ?? undefined,
+  page: Number(url.searchParams.get('page') ?? '1'),
+};
+
+const initialData = await problemsService.getProblems(filters, {
+  headers: { cookie: Astro.request.headers.get('cookie') ?? '' },
+});
+
+// Canonical URL with active filters (SEO requirement).
+// BaseLayout does not yet support head injection (pending PR #304),
+// so the canonical is declared via the standard HTTP Link header instead.
+const canonicalQuery = buildCanonicalQuery(filters);
+const canonicalUrl = `${url.origin}/problems${canonicalQuery ? `?${canonicalQuery}` : ''}`;
+
+Astro.response.headers.set('Link', `<${canonicalUrl}>; rel="canonical"`);
+---
+
+<BaseLayout title="Problems — LeetCode Clone">
+  <AppProvider config={config} user={user} client:load>
+    <ProblemsPage
+      initialProblems={initialData.data}
+      initialMeta={initialData.meta}
+      initialFilters={filters}
+      client:load
+    />
+  </AppProvider>
+</BaseLayout>

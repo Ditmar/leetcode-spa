@@ -1,6 +1,7 @@
 {
   "defaultCacheTTL": 300000,
   "basePath": "",
+  "apiBaseUrl": "http://localhost:3000",
   "navShell": [
     {
       "id": "home",

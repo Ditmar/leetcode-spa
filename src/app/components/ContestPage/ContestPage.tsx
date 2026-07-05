@@ -41,7 +41,7 @@ function ContestCard({
     }
   }
 
-  const buttonLabel = isRegistered ? 'Registered' : 'Join';
+  const buttonLabel = isRegistered ? 'Registered' : isAuthenticated ? 'Join' : 'Sign in to join';
   const isDisabled = isRegistered || isLoading || !isAuthenticated;
 
   return (
