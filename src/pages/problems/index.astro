@@ -40,12 +40,16 @@ const initialData = await problemsService.getProblems(filters, {
   headers: { cookie: Astro.request.headers.get('cookie') ?? '' },
 });
 
+// Canonical URL with active filters (SEO requirement).
+// BaseLayout does not yet support head injection (pending PR #304),
+// so the canonical is declared via the standard HTTP Link header instead.
 const canonicalQuery = buildCanonicalQuery(filters);
 const canonicalUrl = `${url.origin}/problems${canonicalQuery ? `?${canonicalQuery}` : ''}`;
+
+Astro.response.headers.set('Link', `<${canonicalUrl}>; rel="canonical"`);
 ---
 
 <BaseLayout title="Problems — LeetCode Clone">
-  <link rel="canonical" href={canonicalUrl} />
   <AppProvider config={config} user={user} client:load>
     <ProblemsPage
       initialProblems={initialData.data}
