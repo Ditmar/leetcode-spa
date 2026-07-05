@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { apiClient } from '../services/api/apiClient';
-import { AUTH_ENDPOINTS } from '../services/auth/authService.constants';
+import { AUTH_ENDPOINTS, TOKEN_KEY } from '../services/auth/authService.constants';
 
 import { authMiddleware, validateSessionCookie } from './auth.middleware';
 
@@ -12,11 +12,6 @@ vi.mock('../services/api/apiClient', () => ({
   apiClient: {
     get: vi.fn(),
   },
-  isApiError: (error: unknown) =>
-    typeof error === 'object' &&
-    error !== null &&
-    'status' in error &&
-    typeof (error as { status?: unknown }).status === 'number',
 }));
 
 const mockSession: AuthSession = {
@@ -29,6 +24,9 @@ const mockSession: AuthSession = {
     role: 'user',
   },
 };
+
+const authCookie = `${TOKEN_KEY}=test-token`;
+const expiredAuthCookie = `${TOKEN_KEY}=expired`;
 
 function createContext(pathname: string, cookie = ''): APIContext {
   const request = new Request(`http://localhost${pathname}`, {
@@ -54,10 +52,10 @@ describe('validateSessionCookie', () => {
   it('calls /auth/me with the incoming cookie header', async () => {
     vi.mocked(apiClient.get).mockResolvedValue({ data: mockSession });
 
-    const session = await validateSessionCookie('auth_token=test-token');
+    const session = await validateSessionCookie(authCookie);
 
     expect(apiClient.get).toHaveBeenCalledWith(AUTH_ENDPOINTS.ME, {
-      headers: { cookie: 'auth_token=test-token' },
+      headers: { cookie: authCookie },
     });
     expect(session).toEqual(mockSession);
   });
@@ -70,7 +68,7 @@ describe('validateSessionCookie', () => {
       status: 401,
     });
 
-    await expect(validateSessionCookie('auth_token=expired')).resolves.toBeNull();
+    await expect(validateSessionCookie(expiredAuthCookie)).resolves.toBeNull();
     expect(warnSpy).not.toHaveBeenCalled();
   });
 
@@ -83,7 +81,7 @@ describe('validateSessionCookie', () => {
       details: { requestId: 'request-1' },
     });
 
-    await expect(validateSessionCookie('auth_token=test-token')).resolves.toBeNull();
+    await expect(validateSessionCookie(authCookie)).resolves.toBeNull();
 
     expect(warnSpy).toHaveBeenCalledWith(
       '[authMiddleware] Session validation failed: API error. Continuing unauthenticated.',
@@ -100,7 +98,7 @@ describe('validateSessionCookie', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     vi.mocked(apiClient.get).mockRejectedValue(new Error('Network unavailable'));
 
-    await expect(validateSessionCookie('auth_token=test-token')).resolves.toBeNull();
+    await expect(validateSessionCookie(authCookie)).resolves.toBeNull();
 
     expect(warnSpy).toHaveBeenCalledWith(
       '[authMiddleware] Session validation failed: network or runtime error. Continuing unauthenticated.',
@@ -118,7 +116,7 @@ describe('validateSessionCookie', () => {
       data: { unexpected: true } as unknown as AuthSession,
     });
 
-    await expect(validateSessionCookie('auth_token=test-token')).resolves.toBeNull();
+    await expect(validateSessionCookie(authCookie)).resolves.toBeNull();
 
     expect(warnSpy).toHaveBeenCalledWith(
       '[authMiddleware] Session validation failed: unexpected /auth/me response shape. Continuing unauthenticated.',
@@ -134,7 +132,7 @@ describe('authMiddleware', () => {
 
   it('sets an authenticated user in locals and continues', async () => {
     vi.mocked(apiClient.get).mockResolvedValue({ data: mockSession });
-    const ctx = createContext('/problems', 'auth_token=test-token');
+    const ctx = createContext('/problems', authCookie);
     const next = vi.fn(() => new Response('ok')) as unknown as MiddlewareNext;
 
     await authMiddleware(ctx, next);
