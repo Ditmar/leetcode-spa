@@ -1,18 +1,18 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { getConfig } from '../utils/config';
+import { getPublicConfig } from '../utils/config';
 
 import { configMiddleware } from './config.middleware';
 
 import type { APIContext, MiddlewareNext } from 'astro';
 
 vi.mock('../utils/config', () => ({
-  getConfig: vi.fn(),
+  getPublicConfig: vi.fn(),
 }));
 
 describe('configMiddleware', () => {
   beforeEach(() => {
-    vi.mocked(getConfig).mockReset();
+    vi.mocked(getPublicConfig).mockReset();
   });
 
   it('populates locals.config on every request before continuing', async () => {
@@ -21,7 +21,7 @@ describe('configMiddleware', () => {
       basePath: '',
       navShell: [],
     };
-    vi.mocked(getConfig).mockReturnValue(config);
+    vi.mocked(getPublicConfig).mockReturnValue(config);
 
     const ctx = { locals: {} } as APIContext;
     const next = vi.fn(() => new Response('ok')) as unknown as MiddlewareNext;
