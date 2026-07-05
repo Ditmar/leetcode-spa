@@ -1,0 +1,1 @@
+import{g as t}from"./getThemeProps-C8o4DB5h.js";import{S as p}from"./iframe-CpG-JEmx.js";function i({props:o,name:m,defaultTheme:s,themeId:r}){let e=p(s);return r&&(e=e[r]||e),t({theme:e,name:m,props:o})}export{i as u};
