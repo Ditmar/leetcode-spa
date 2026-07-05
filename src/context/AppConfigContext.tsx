@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react';
 
+import { ToastProvider } from '../components/feedback';
 import { AuthProvider } from '../services/auth/authContext';
 
 import type { AuthUser } from '../services/auth/authService.types';
@@ -29,7 +30,9 @@ export function useAppConfig() {
 export default function AppProvider({ children, config = null, user = null }: AppProviderProps) {
   return (
     <AppConfigContext.Provider value={{ config, user }}>
-      <AuthProvider>{children}</AuthProvider>
+      <ToastProvider>
+        <AuthProvider>{children}</AuthProvider>
+      </ToastProvider>
     </AppConfigContext.Provider>
   );
 }

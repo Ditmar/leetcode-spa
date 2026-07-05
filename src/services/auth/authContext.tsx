@@ -1,5 +1,7 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { useToast } from '../../components/feedback';
+
 import authService from './authService';
 import { AUTH_SIGN_OUT_EVENT } from './authService.constants';
 //import authService from './authService.mock';
@@ -26,6 +28,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<AuthSession | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hydrationError, setHydrationError] = useState<Error | null>(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     let cancelled = false;
@@ -58,21 +61,39 @@ export function AuthProvider({ children }: AuthProviderProps) {
     };
   }, []);
 
-  const signIn = useCallback(async (payload: SignInPayload) => {
-    const newSession = await authService.signIn(payload);
-    setSession(newSession);
-  }, []);
+  const signIn = useCallback(
+    async (payload: SignInPayload) => {
+      try {
+        const newSession = await authService.signIn(payload);
+        setSession(newSession);
+        showToast('Login successful', { type: 'success' });
+      } catch (error) {
+        showToast('Login failed', { type: 'error' });
+        throw error;
+      }
+    },
+    [showToast]
+  );
 
-  const signUp = useCallback(async (payload: SignUpPayload) => {
-    const newSession = await authService.signUp(payload);
-    setSession(newSession);
-  }, []);
+  const signUp = useCallback(
+    async (payload: SignUpPayload) => {
+      try {
+        const newSession = await authService.signUp(payload);
+        setSession(newSession);
+        showToast('Account created successfully', { type: 'success' });
+      } catch (error) {
+        showToast('Sign up failed', { type: 'error' });
+        throw error;
+      }
+    },
+    [showToast]
+  );
 
   const signOut = useCallback(async () => {
     await authService.signOut();
     setSession(null);
-  }, []);
-
+    showToast('Logged out successfully', { type: 'info' });
+  }, [showToast]);
   const value = useMemo<AuthContextValue>(
     () => ({
       user: session?.user ?? null,

@@ -1,3 +1,5 @@
+import { showGlobalToast } from '../../components/feedback/toastService';
+
 import { normalizeError, statusToCode } from './apiClient.utils';
 
 import type { ApiError, ApiResponse, RequestConfig } from './apiClient.types';
@@ -95,11 +97,18 @@ async function request<T>(
   try {
     response = await fetch(url, init);
   } catch (error) {
+    showGlobalToast('Network error. Please try again.', { type: 'error' });
     throw normalizeError(error);
   }
 
   if (!response.ok) {
-    throw await normalizeHttpError(response);
+    const error = await normalizeHttpError(response);
+
+    showGlobalToast(error.message, {
+      type: 'error',
+    });
+
+    throw error;
   }
 
   try {
