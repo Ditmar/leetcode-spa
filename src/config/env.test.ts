@@ -21,13 +21,18 @@ const VALID_ENV: Record<string, string> = {
  * Stubs the full environment using vi.stubEnv for each key in the map.
  */
 function stubEnv(overrides: Record<string, string | undefined> = {}): void {
+  // First restore all stubs, then re-stub only the variables that should exist.
+  // This avoids forcing undefined via type-lie casts (undefined as unknown as string).
+  vi.unstubAllEnvs();
+
   const env = { ...VALID_ENV, ...overrides };
+
   for (const [key, value] of Object.entries(env)) {
-    if (value === undefined) {
-      vi.stubEnv(key, undefined as unknown as string);
-    } else {
+    if (value !== undefined) {
       vi.stubEnv(key, value);
     }
+    // Variables with undefined value are intentionally left unstubbed —
+    // this simulates a missing environment variable for fail-fast tests.
   }
 }
 
