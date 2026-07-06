@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { LeaderboardPage } from '../component-catalog/Leaderboard/Leaderboard';
+---
+
+<BaseLayout
+  title="Leaderboard — LeetCode SPA"
+  description="Ranking global de usuarios por puntuación y problemas resueltos"
+>
+  <LeaderboardPage client:load />
+</BaseLayout>
