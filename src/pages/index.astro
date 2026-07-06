@@ -41,7 +41,7 @@ const quickLinks = [
   },
   {
     title: 'Contests',
-    href: '/contest',
+    href: '/contests',
     icon: '<>',
     description: 'Join timed events and sharpen your interview speed.',
   },
@@ -71,7 +71,15 @@ const quickLinks = [
         }
       </nav>
 
-      <a class="top-nav__signin" href="/?authRequired=true">Sign In</a>
+      {
+  user ? (
+    <a class="top-nav__user" href={`/profile/${user.username}`}>
+      {user.username}
+    </a>
+  ) : (
+    <a class="top-nav__signin" href="/?authRequired=true">Sign In</a>
+  )
+}
     </header>
 
     <section class="hero" aria-labelledby="home-title">
@@ -84,7 +92,7 @@ const quickLinks = [
         </p>
         <div class="hero__actions" aria-label="Primary actions">
           <a class="button button--primary" href="/problems">Start solving</a>
-          <a class="button button--secondary" href="/contest">View contests</a>
+          <a class="button button--secondary" href="/contests">View contests</a>
         </div>
       </div>
       <div class="hero__panel" aria-label="Platform snapshot">
@@ -152,11 +160,12 @@ const quickLinks = [
     box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
   }
 
-  .top-nav__brand,
-  .top-nav__links a,
-  .top-nav__signin {
-    text-decoration: none;
-  }
+  ..top-nav__brand,
+.top-nav__links a,
+.top-nav__signin,
+.top-nav__user {
+  text-decoration: none;
+}
 
   .top-nav__brand {
     color: #ffffff;

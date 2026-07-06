@@ -7,6 +7,6 @@ export const HOME_NAVIGATION_LINKS: HomeNavigationLink[] = [
   { label: 'Home', href: '/' },
   { label: 'Explore', href: '/explore' },
   { label: 'Problems', href: '/problems' },
-  { label: 'Contests', href: '/contest' },
+  { label: 'Contests', href: '/contests' },
   { label: 'Discuss', href: '/discuss' },
 ];
