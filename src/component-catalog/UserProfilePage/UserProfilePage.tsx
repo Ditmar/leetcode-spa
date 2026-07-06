@@ -51,7 +51,7 @@ export function UserProfilePage({ profile, stats }: UserProfilePageProps) {
       </Typography>
 
       <Grid container spacing={2} mb={4}>
-        <Grid item xs={6} sm={3}>
+        <Grid size={{ xs: 6, sm: 3 }}>
           <Paper elevation={1} sx={statCardSx}>
             <Typography variant="h5" fontWeight={700}>
               {solvedCount}
@@ -61,7 +61,7 @@ export function UserProfilePage({ profile, stats }: UserProfilePageProps) {
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid size={{ xs: 6, sm: 3 }}>
           <Paper elevation={1} sx={statCardSx}>
             <Typography variant="h5" fontWeight={700} color="success.main">
               {easyCount}
@@ -71,7 +71,7 @@ export function UserProfilePage({ profile, stats }: UserProfilePageProps) {
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid size={{ xs: 6, sm: 3 }}>
           <Paper elevation={1} sx={statCardSx}>
             <Typography variant="h5" fontWeight={700} color="warning.main">
               {mediumCount}
@@ -81,7 +81,7 @@ export function UserProfilePage({ profile, stats }: UserProfilePageProps) {
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid size={{ xs: 6, sm: 3 }}>
           <Paper elevation={1} sx={statCardSx}>
             <Typography variant="h5" fontWeight={700} color="error.main">
               {hardCount}
@@ -94,7 +94,7 @@ export function UserProfilePage({ profile, stats }: UserProfilePageProps) {
       </Grid>
 
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <Paper elevation={1} sx={statCardSx}>
             <Typography variant="h5" fontWeight={700}>
               {streak}
@@ -104,7 +104,7 @@ export function UserProfilePage({ profile, stats }: UserProfilePageProps) {
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <Paper elevation={1} sx={statCardSx}>
             <Typography variant="h5" fontWeight={700}>
               {acceptanceRate.toFixed(1)}%
