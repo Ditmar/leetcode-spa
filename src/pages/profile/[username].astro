@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AppProvider from '../../context/AppConfigContext';
+import { UserProfilePage } from '../../component-catalog/UserProfilePage/UserProfilePage';
+import { userService } from '../../services/user/userService';
+import type { AuthUser } from '../../services/auth/authService.types';
+import type { AppConfig } from '../../utils/config.types';
+import type { UserProfile, UserStats } from '../../services/user/userService.types';
+
+const locals = Astro.locals as { config: AppConfig | null; user: AuthUser | null };
+const { config, user } = locals;
+
+const { username } = Astro.params;
+const cookie = Astro.request.headers.get('cookie') ?? '';
+
+if (!username) {
+  return Astro.redirect('/404');
+}
+
+let profile: UserProfile;
+let stats: UserStats | null = null;
+
+try {
+  profile = await userService.getProfile(username, cookie);
+
+  if (!profile) {
+    return Astro.redirect('/404');
+  }
+} catch (err: unknown) {
+  const isNotFound =
+    typeof err === 'object' &&
+    err !== null &&
+    'status' in err &&
+    (err as { status: number }).status === 404;
+
+  if (isNotFound) {
+    return Astro.redirect('/404');
+  }
+
+  console.error('[ProfilePage] Unexpected error fetching profile:', err);
+  throw err;
+}
+
+try {
+  stats = await userService.getStats(username, cookie);
+} catch {
+  console.warn('[ProfilePage] Failed to load stats for:', username);
+}
+
+const metaTitle = `${profile.displayName ?? profile.username} — LeetCode Clone`;
+Astro.response.headers.set('Link', `<${Astro.url.href}>; rel="canonical"`);
+---
+
+<BaseLayout title={metaTitle}>
+  <AppProvider config={config} user={user} client:load>
+    <UserProfilePage profile={profile} stats={stats} client:load />
+  </AppProvider>
+</BaseLayout>
