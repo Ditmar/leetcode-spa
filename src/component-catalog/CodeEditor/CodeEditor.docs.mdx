@@ -1,0 +1,194 @@
+import { Meta, Canvas, Story, Controls } from '@storybook/blocks';
+
+import * as CodeEditorStories from './CodeEditor.stories';
+
+<Meta of={CodeEditorStories} />
+
+# CodeEditor
+
+The `CodeEditor` component provides an interactive coding workspace for solving programming challenges.
+
+It combines a Monaco-based editor, language selection, execution controls, and test case visualization in a responsive layout that adapts to desktop and mobile screens.
+
+---
+
+## Features
+
+- Monaco Editor integration
+- Multiple programming languages
+- Run, Submit, and Reset actions
+- Loading states for code execution
+- Test case visualization
+- Error feedback
+- Responsive desktop and mobile layouts
+- Keyboard shortcuts
+- Accessibility support
+
+---
+
+## Supported Languages
+
+The editor currently supports:
+
+- Python
+- JavaScript
+- TypeScript
+- Java
+- C++
+
+Each language automatically loads a starter template when selected.
+
+---
+
+## User Actions
+
+### Run
+
+Executes the current solution and displays the resulting test output.
+
+### Submit
+
+Submits the current solution and displays execution feedback.
+
+### Reset
+
+Restores the default template for the selected language and clears the current result.
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|---------|
+| Ctrl + Enter | Run code |
+| Ctrl + Shift + Enter | Submit code |
+
+---
+
+## Execution Output
+
+The output panel displays:
+
+- Test case results
+- Success and failure states
+- Error messages
+- Expected vs received values for failed tests
+
+### Success Example
+
+- ✓ Test case 1
+- ✓ Test case 2
+
+### Failure Example
+
+- ✗ Test case 1
+- Expected: `[0,1]`
+- Received: `[1,0]`
+
+---
+
+## Responsive Behavior
+
+### Desktop
+
+- Full editor workspace
+- Dedicated output panel
+- Visual separator between sections
+
+### Mobile
+
+- Stacked layout
+- Optimized spacing
+- output section displayed below the editor
+
+---
+
+## Accessibility
+
+The component includes:
+
+- Accessible button labels
+- Keyboard navigation support
+- Live region updates for execution results
+- Tooltip descriptions for actions
+
+---
+
+## Architecture
+
+### CodeEditor.tsx
+
+Responsible for rendering the UI and connecting user interactions with component state.
+
+### CodeEditor.hook.ts
+
+Contains editor state management and execution logic.
+
+### CodeEditor.constants.ts
+
+Defines supported languages and default code templates.
+
+### CodeEditor.utils.ts
+
+Provides helper functions and mock execution results.
+
+### CodeEditor.types.ts
+
+Contains TypeScript contracts used throughout the component.
+
+### CodeEditor.styles.ts
+
+Contains reusable styled components built with Material UI.
+
+---
+
+## Stories
+
+### Default
+
+<Canvas>
+  <Story of={CodeEditorStories.Default} />
+</Canvas>
+
+### Running
+
+<Canvas>
+  <Story of={CodeEditorStories.Running} />
+</Canvas>
+
+### Success
+
+<Canvas>
+  <Story of={CodeEditorStories.Success} />
+</Canvas>
+
+### Error
+
+<Canvas>
+  <Story of={CodeEditorStories.Error} />
+</Canvas>
+
+### Mobile
+
+<Canvas>
+  <Story of={CodeEditorStories.Mobile} />
+</Canvas>
+
+---
+
+## Controls
+
+<Controls />
+
+---
+
+## Future Improvements
+
+Potential enhancements:
+
+- Real backend execution service
+- Persistent editor state
+- Multiple editor tabs
+- Execution history
+- Custom Monaco themes
+- Advanced test case management
