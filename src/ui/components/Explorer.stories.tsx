@@ -1,18 +1,42 @@
+import ClientOnlyMuiProvider from '../../style-library/ClientOnlyMuiProvider';
+
 import ExplorePage from './Explorer';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
+const NAV_ROUTES = ['/', '/explore', '/problems', '/contest', '/discuss'];
+
 const meta: Meta<typeof ExplorePage> = {
   title: 'pages/ExplorePage',
   component: ExplorePage,
+  decorators: [
+    (Story) => (
+      <ClientOnlyMuiProvider>
+        <Story />
+      </ClientOnlyMuiProvider>
+    ),
+  ],
   parameters: {
-    layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'Explore landing page. Renders inside the shared NavShell (top NavigationMenu built from the navShell entries in src/config/default.json) wrapped by ClientOnlyMuiProvider. The page currently takes no props; its navigation data comes from the app configuration.',
+          'Explore landing page. Renders inside the shared NavShell (top NavigationMenu built from the navShell entries in src/config/default.json) wrapped by ClientOnlyMuiProvider. The active route is injectable through the currentPath prop so navigation state can be simulated from the Storybook controls panel instead of being read from window.location.',
       },
     },
+  },
+  argTypes: {
+    currentPath: {
+      control: 'select',
+      options: NAV_ROUTES,
+      description: 'Route highlighted as active in the NavShell navigation bar',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: '/explore' },
+      },
+    },
+  },
+  args: {
+    currentPath: '/explore',
   },
 };
 
@@ -21,10 +45,26 @@ type Story = StoryObj<typeof ExplorePage>;
 
 export const Default: Story = {
   parameters: {
+    layout: 'fullscreen',
     docs: {
       description: {
         story:
-          'Default desktop state — NavShell navigation bar (Home, Explore, Problems, Contest, Discuss) with the page content below.',
+          'Default desktop state — NavShell navigation bar (Home, Explore, Problems, Contest, Discuss) with "Explore" marked as the active route.',
+      },
+    },
+  },
+};
+
+export const InactiveNavigation: Story = {
+  args: {
+    currentPath: '/',
+  },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story:
+          'Navigation state simulated from controls — a different route ("/") is active, so the Explore item renders in its inactive state.',
       },
     },
   },
@@ -32,6 +72,7 @@ export const Default: Story = {
 
 export const MobileViewport: Story = {
   parameters: {
+    layout: 'fullscreen',
     viewport: { defaultViewport: 'mobile1' },
     docs: {
       description: {
