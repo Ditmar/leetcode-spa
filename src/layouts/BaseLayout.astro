@@ -7,6 +7,8 @@ interface Props {
   ogImage?: string;
   noIndex?: boolean;
   themeColor?: string;
+  ogUrl?: string;
+  ogType?: string;
 }
 
 const {
@@ -15,6 +17,8 @@ const {
   ogImage,
   noIndex = false,
   themeColor = '#0f172a',
+  ogUrl,
+  ogType = 'website',
 } = Astro.props;
 
 const canonicalUrl = Astro.url.href;
@@ -34,6 +38,19 @@ const canonicalUrl = Astro.url.href;
     <meta name="apple-mobile-web-app-title" content="LeetCode SPA" />
     <meta name="mobile-web-app-capable" content="yes" />
 
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    {ogUrl && <meta property="og:url" content={ogUrl} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
     <!-- MUI Emotion insertion point must be declared before application styles. -->
     <meta name="emotion-insertion-point" content="" />
 
@@ -44,7 +61,6 @@ const canonicalUrl = Astro.url.href;
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
 
-    <!-- Application font is loaded through HTML links, not client JavaScript. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -53,12 +69,6 @@ const canonicalUrl = Astro.url.href;
     />
 
     <title>{title}</title>
-
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:type" content="website" />
-    {ogImage && <meta property="og:image" content={ogImage} />}
 
     <slot name="head" />
   </head>
