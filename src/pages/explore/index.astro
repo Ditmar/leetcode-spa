@@ -1,0 +1,29 @@
+---
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ExplorePage } from '../../components/ExplorePage/ExplorePage';
+import { exploreService } from '../../services/explore/exploreService';
+
+export const prerender = false;
+
+
+const cookieHeader = Astro.request.headers.get('cookie') ?? '';
+
+//if (config?.featureFlags?.explore === false) {
+  //return Astro.redirect('/?feature=explore');
+//}
+
+const [topics, filtersMetadata] = await Promise.all([
+  exploreService.getTopics({}, cookieHeader),
+  exploreService.getFiltersMetadata(),
+]);
+---
+
+<BaseLayout title="Explore – LeetCode Clone" description="Explore coding topics by category and difficulty.">
+  <ExplorePage
+  initialTopics={topics}
+  categories={filtersMetadata.categories}
+  difficulties={filtersMetadata.difficulties}
+  client:load
+/>
+</BaseLayout>
