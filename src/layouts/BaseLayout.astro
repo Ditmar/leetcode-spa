@@ -4,7 +4,9 @@ import '../style-library/theme/colors.css';
 interface Props {
   title?: string;
   description?: string;
+  /** Explicit canonical URL for the page to prevent duplicate content penalization. */
   canonical?: string;
+  /** Controls search engine indexing. Defaults to 'index, follow'. Overwrite with 'noindex, nofollow' for private or system pages (like sysinfo). */
   robots?: string;
   keywords?: string;
   author?: string;
@@ -38,10 +40,6 @@ const {
     <meta name="keywords" content={keywords} />
     <meta name="author" content={author} />
     <meta name="robots" content={robots} />
-
-    <!-- OpenGraph (Manteniendo los existentes) -->
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
 
     <!-- Canonical -->
     {canonical && <link rel="canonical" href={canonical} />}
