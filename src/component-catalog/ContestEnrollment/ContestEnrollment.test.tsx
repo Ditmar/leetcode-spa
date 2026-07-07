@@ -63,8 +63,8 @@ describe('ContestEnrollment', () => {
   });
 
   it('muestra chip "Finalizado" para concurso past', () => {
-  setup(mockPast);
-  expect(screen.getAllByText('Finalizado').length).toBeGreaterThan(0);
+    setup(mockPast);
+    expect(screen.getAllByText('Finalizado').length).toBeGreaterThan(0);
   });
 
   it('abre modal al hacer clic en Inscribirse', () => {
