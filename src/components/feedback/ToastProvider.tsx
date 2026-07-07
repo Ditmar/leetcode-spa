@@ -1,6 +1,6 @@
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import { registerToastListener } from './toastService';
 
@@ -31,19 +31,23 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const [duration, setDuration] = useState(3000);
   const [position, setPosition] = useState<SnackbarOrigin>(defaultPosition);
 
-  const showToast = (message: string, options?: ToastOptions) => {
+  const showToast = useCallback((message: string, options?: ToastOptions) => {
     setMessage(message);
     setType(options?.type ?? 'info');
     setDuration(options?.duration ?? 3000);
     setPosition(options?.position ?? defaultPosition);
     setOpen(true);
-  };
+  }, []);
 
   const handleClose = () => {
     setOpen(false);
   };
   useEffect(() => {
     registerToastListener(showToast);
+
+    return () => {
+      registerToastListener(null);
+    };
   }, [showToast]);
   return (
     <ToastContext.Provider value={{ showToast }}>

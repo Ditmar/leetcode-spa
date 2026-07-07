@@ -10,7 +10,7 @@ type ToastListener = (message: string, options?: ToastOptions) => void;
 
 let listener: ToastListener | null = null;
 
-export function registerToastListener(callback: ToastListener) {
+export function registerToastListener(callback: ToastListener | null) {
   listener = callback;
 }
 
