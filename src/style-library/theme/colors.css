@@ -108,6 +108,13 @@
   --problem-list-acceptance: #6a7282;
   --problem-list-bullet: #99a1af;
 
+  /* Leaderboard */
+--leaderboard-medal-gold: #FFD700;
+--leaderboard-medal-silver: #C0C0C0;
+--leaderboard-medal-bronze: #CD7F32;
+--leaderboard-rank-text: #6a7282;
+--leaderboard-score-text: #101828;
+
 }
 
 .dark {
@@ -181,4 +188,11 @@
   --problem-list-title-text: #f9fafb;
   --problem-list-acceptance: #9ca3af;
   --problem-list-bullet: #6a7282;
+
+  /* Leaderboard */
+--leaderboard-medal-gold: #FFD700;
+--leaderboard-medal-silver: #9ca3af;
+--leaderboard-medal-bronze: #b87333;
+--leaderboard-rank-text: #9ca3af;
+--leaderboard-score-text: #f9fafb;
 }

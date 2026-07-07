@@ -12,12 +12,14 @@ import {
   Typography,
 } from '@mui/material';
 
+import { leaderboardTokens as T } from './Leaderboard.styles';
+
 import type { LeaderboardTableProps } from './Leaderboard.types';
 
 const MEDAL_COLORS: Record<number, string> = {
-  1: '#FFD700',
-  2: '#C0C0C0',
-  3: '#CD7F32',
+  1: T.colors.medalGold,
+  2: T.colors.medalSilver,
+  3: T.colors.medalBronze,
 };
 
 const LeaderboardTable = ({ users }: LeaderboardTableProps) => (
