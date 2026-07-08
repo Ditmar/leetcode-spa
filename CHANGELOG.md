@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.11.2](https://github.com/Ditmar/leetcode-spa/compare/v0.11.1...v0.11.2) (2026-07-08)
+
+
+### Reverts
+
+* Revert "chore: release v0.11.1" ([631da80](https://github.com/Ditmar/leetcode-spa/commit/631da803c61f197d76da500dfec6ffcdc585baef))
+* Revert "feacture:page creation 003 (#274)" ([631de3d](https://github.com/Ditmar/leetcode-spa/commit/631de3df4054a98dccd64c6444087e79aa262360)), closes [#274](https://github.com/Ditmar/leetcode-spa/issues/274)
+
 * Merge pull request #319 from Ditmar/revert (3c253205)
 * Revert "chore: release v0.11.1" (631da803)
 * Revert "feacture:page creation 003 (#274)" (631de3df)
