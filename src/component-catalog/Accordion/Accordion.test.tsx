@@ -94,4 +94,28 @@ describe('Accordion', () => {
     const customIcons = screen.getAllByTestId('custom-test-icon');
     expect(customIcons).toHaveLength(mockItems.length);
   });
+
+  it('does not let slotProps override internal controlled accordion props', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Accordion
+        items={mockItems}
+        slotProps={{
+          accordion: {
+            expanded: true,
+            onChange: vi.fn(),
+            disabled: true,
+          },
+        }}
+      />
+    );
+
+    const summary1 = screen.getByTestId('accordion-summary-1');
+    expect(summary1).toHaveAttribute('aria-expanded', 'false');
+
+    await user.click(summary1);
+
+    expect(summary1).toHaveAttribute('aria-expanded', 'true');
+  });
 });

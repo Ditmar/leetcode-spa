@@ -17,9 +17,13 @@ export const Accordion = (props: AccordionProps) => {
   const { disableAnimation, square, slotProps, expandIcon } = props;
 
   const getValidSlotProps = () => {
-    const accordionProps = { ...slotProps?.accordion };
-    const summaryProps = { ...slotProps?.summary };
-    const detailsProps = { ...slotProps?.details };
+    if (!slotProps) {
+      return { accordionProps: {}, summaryProps: {}, detailsProps: {} };
+    }
+
+    const accordionProps = { ...slotProps.accordion };
+    const summaryProps = { ...slotProps.summary };
+    const detailsProps = { ...slotProps.details };
 
     delete accordionProps.expanded;
     delete accordionProps.onChange;

@@ -35,8 +35,11 @@ This behavior is controlled via the `variant` prop.
 ## Key Features
 
 - **Custom Icons**: Support for overriding the default expand/collapse icon.
-- **Controlled/Uncontrolled**: Can be used with an internal state or controlled externally via the `expanded` prop.
+- **Controlled/Uncontrolled Modes**: 
+  - **Uncontrolled**: Default behavior where the component manages its own state internally.
+  - **Controlled**: Pass `expandedIds` prop to control which items are expanded and `onExpandedChange` callback to handle state updates.
 - **Smooth Transitions**: Built-in animations for a fluid user experience when toggling content.
+- **Validated Props**: `slotProps` are validated to prevent unwanted prop overrides. `onExpandedChange` callbacks are validated as functions before invocation.
 
 ## Accessibility
 
@@ -66,7 +69,7 @@ The component implements standard WAI-ARIA patterns:
 
 ## Code Examples
 
-### Standard Implementation
+### Uncontrolled Implementation
 A quick example of how to implement the uncontrolled version of the component:
 
 ```tsx
@@ -77,4 +80,45 @@ const faqItems = [
   { id: 'item-2', summary: 'Is it accessible?', details: 'Yes, it follows WAI-ARIA guidelines.' }
 ];
 
-export const MyFAQ = () => <Accordion items="{faqItems}" variant="single"/>;
+export const MyFAQ = () => <Accordion items={faqItems} variant="single"/>;
+```
+
+### Controlled Implementation
+Example of controlled mode with state management:
+
+```tsx
+import { useState } from 'react';
+import { Accordion } from './Accordion';
+
+const faqItems = [
+  { id: 'item-1', summary: 'What is CDD?', details: 'Component-Driven Development is...' },
+  { id: 'item-2', summary: 'Is it accessible?', details: 'Yes, it follows WAI-ARIA guidelines.' }
+];
+
+export const ControlledFAQ = () => {
+  const [expanded, setExpanded] = useState<string[]>(['item-1']);
+
+  return (
+    <Accordion
+      items={faqItems}
+      expandedIds={expanded}
+      onExpandedChange={setExpanded}
+      variant="single"
+    />
+  );
+};
+```
+
+### Custom SlotProps with Validation
+Example using validated `slotProps`:
+
+```tsx
+<Accordion
+  items={faqItems}
+  slotProps={{
+    accordion: { TransitionProps: { timeout: 300 } },
+    summary: { sx: { fontWeight: 600 } },
+    details: { sx: { padding: 3 } }
+  }}
+/>
+```

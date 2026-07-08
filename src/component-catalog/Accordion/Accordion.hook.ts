@@ -19,7 +19,7 @@ export const useAccordionState = (props: AccordionProps) => {
     (itemId: string) => () => {
       const newExpandedIds = toggleExpanded(expandedIds, itemId, variant);
       setExpandedIds(newExpandedIds);
-      if (onExpandedChange) {
+      if (typeof onExpandedChange === 'function') {
         onExpandedChange(newExpandedIds);
       }
     },
