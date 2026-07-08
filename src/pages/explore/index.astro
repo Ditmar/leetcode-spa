@@ -1,29 +1,46 @@
 ---
-
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { ExplorePage } from '../../components/ExplorePage/ExplorePage';
+import AppProvider from '../../context/AppConfigContext';
+import ExplorePage from '../../components/ExplorePage/ExplorePage';
 import { exploreService } from '../../services/explore/exploreService';
 
-export const prerender = false;
+const { config, user } = Astro.locals;
 
+// Feature flag validation
+if (config?.featureFlags?.explore === false) {
+  return Astro.redirect('/?info=coming-soon', 302);
+}
 
 const cookieHeader = Astro.request.headers.get('cookie') ?? '';
 
-//if (config?.featureFlags?.explore === false) {
-  //return Astro.redirect('/?feature=explore');
-//}
+let initialTopics = [];
+let categories = [];
+let difficulties = [];
 
-const [topics, filtersMetadata] = await Promise.all([
-  exploreService.getTopics({}, cookieHeader),
-  exploreService.getFiltersMetadata(),
-]);
+try {
+  // Fetch from backend using Promise.all as requested
+  const [topicsResponse, filtersMetadata] = await Promise.all([
+    exploreService.getTopics({}, cookieHeader),
+    exploreService.getFiltersMetadata(),
+  ]);
+
+  initialTopics = topicsResponse?.data || [];
+  categories = filtersMetadata?.categories || [];
+  difficulties = filtersMetadata?.difficulties || [];
+} catch (error) {
+  console.error('[SSR Error] Failed to fetch explore data:', error);
+}
 ---
 
-<BaseLayout title="Explore – LeetCode Clone" description="Explore coding topics by category and difficulty.">
-  <ExplorePage
-  initialTopics={topics}
-  categories={filtersMetadata.categories}
-  difficulties={filtersMetadata.difficulties}
-  client:load
-/>
+<BaseLayout title="Explore — LeetCode Clone">
+  <AppProvider config={config} user={user} client:load>
+    {/* Pasamos los props que exige el ticket. 
+        Nota: El componente React actual no los leerá hasta que sea actualizado por el otro dev. */}
+    <ExplorePage
+      initialTopics={initialTopics}
+      categories={categories}
+      difficulties={difficulties}
+      client:load
+    />
+  </AppProvider>
 </BaseLayout>

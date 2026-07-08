@@ -1,38 +1,34 @@
+import { exploreService } from '../../../services/explore/exploreService';
+
 import type { APIRoute } from 'astro';
 
-export const GET: APIRoute = async () => {
-  return Response.json({
-    data: [
-      {
-        id: 1,
-        icon: 'arrays',
-        title: 'Arrays 101',
-        description: 'Learn the basics of array manipulation, traversal, and common patterns.',
-        category: 'Data Structures',
-        difficulty: 'Beginner',
-        progress: 0,
-        totalProblems: 12,
+export const GET: APIRoute = async ({ request }) => {
+  try {
+    const url = new URL(request.url);
+    const category = url.searchParams.get('category') || undefined;
+
+    const difficultyParam = url.searchParams.get('difficulty');
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const difficulty = difficultyParam ? (difficultyParam as any) : undefined;
+
+    const cookieHeader = request.headers.get('cookie') ?? '';
+
+    const topics = await exploreService.getTopics({ category, difficulty }, cookieHeader);
+
+    return new Response(JSON.stringify({ data: topics }), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
       },
-      {
-        id: 2,
-        icon: 'search',
-        title: 'Binary Search',
-        description: 'Understand binary search and its applications in various scenarios.',
-        category: 'Algorithms',
-        difficulty: 'Intermediate',
-        progress: 0,
-        totalProblems: 15,
-      },
-      {
-        id: 3,
-        icon: 'dp',
-        title: 'Dynamic Programming',
-        description: 'Learn DP patterns and solve optimization problems efficiently.',
-        category: 'Algorithms',
-        difficulty: 'Advanced',
-        progress: 0,
-        totalProblems: 20,
-      },
-    ],
-  });
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('[API Error] Failed to fetch filtered topics:', error);
+
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
 };
