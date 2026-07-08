@@ -19,14 +19,21 @@ function buildNavSections(): NavSection[] {
   ];
   return navigationStructure;
 }
-export default function NavShell({ children }: { children: React.ReactNode }) {
-  const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+export interface NavShellProps {
+  children: React.ReactNode;
+  /** Route highlighted as active in the navigation bar. Falls back to the browser location. */
+  currentPath?: string;
+}
+
+export default function NavShell({ children, currentPath }: NavShellProps) {
+  const resolvedPath =
+    currentPath ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
   const navigationStructure = buildNavSections();
   return (
     <ClientOnlyMuiProvider>
       <NavigationMenu
         navSections={navigationStructure}
-        currentPath={currentPath}
+        currentPath={resolvedPath}
         size="medium"
         variant="primary"
       />
