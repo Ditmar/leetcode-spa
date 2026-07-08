@@ -51,6 +51,9 @@ const meta: Meta<typeof NavigationMenu> = {
     logo: {
       table: { disable: true },
     },
+    rightContent: {
+      table: { disable: true },
+    },
   },
 };
 
@@ -170,4 +173,18 @@ export const CustomLabels: Story = {
       },
     },
   },
+};
+
+export const WithRightContent: Story = {
+  args: {
+    navSections: createNavSections(defaultNavItems),
+    size: 'medium',
+    variant: 'primary',
+    rightContent: (
+      <button type="button" aria-label="Language selector">
+        EN
+      </button>
+    ),
+  },
+  render: createStoryRender(),
 };

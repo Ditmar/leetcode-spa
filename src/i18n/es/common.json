@@ -1,0 +1,16 @@
+{
+  "navigation": {
+    "ariaLabel": "Navegación principal",
+    "home": "Inicio",
+    "explore": "Explorar",
+    "problems": "Problemas",
+    "contest": "Concursos",
+    "discuss": "Discusión",
+    "signIn": "Iniciar sesión"
+  },
+  "language": {
+    "label": "Idioma",
+    "english": "Inglés",
+    "spanish": "Español"
+  }
+}

@@ -63,4 +63,21 @@ describe('NavigationMenu', () => {
     await user.click(homeItem);
     expect(onItemClick).toHaveBeenCalled();
   });
+
+  it('renders custom right content', () => {
+    render(
+      <NavigationMenu
+        navSections={MOCK_NAV_SECTIONS}
+        rightContent={<button type="button">Language selector</button>}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /language selector/i })).toBeInTheDocument();
+  });
+
+  it('renders a custom sign in label', () => {
+    render(<NavigationMenu navSections={MOCK_NAV_SECTIONS} signInLabel="Iniciar sesión" />);
+
+    expect(screen.getByRole('button', { name: /iniciar sesión/i })).toBeInTheDocument();
+  });
 });

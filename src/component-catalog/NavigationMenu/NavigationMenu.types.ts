@@ -39,6 +39,7 @@ interface NavigationMenuProps extends Omit<MuiAppBarProps, 'children' | 'color'>
   forceHamburger?: boolean;
   size?: NavigationMenuSize;
   variant?: NavigationMenuVariant;
+  signInLabel?: string;
 }
 
 export type { NavItem, NavSection, NavigationMenuProps };

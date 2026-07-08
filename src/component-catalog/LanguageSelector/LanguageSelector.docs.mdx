@@ -1,0 +1,28 @@
+﻿import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as LanguageSelectorStories from './LanguageSelector.stories';
+
+<Meta of={LanguageSelectorStories} />
+
+# LanguageSelector
+
+Reusable language selector for switching between English and Spanish.
+
+It integrates with `i18next`, persists the selected language in `localStorage`,
+and updates the document `lang` attribute.
+
+## Default
+
+<Canvas of={LanguageSelectorStories.Default} />
+<Controls of={LanguageSelectorStories.Default} />
+
+## Compact
+
+Designed for navigation bars and constrained layouts.
+
+<Canvas of={LanguageSelectorStories.Compact} />
+
+## Accessibility
+
+- Accessible label through MUI `InputLabel` or `aria-label`.
+- Keyboard interaction provided by MUI Select.
+- Minimum touch target follows the project spacing system.

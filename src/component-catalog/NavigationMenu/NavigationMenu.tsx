@@ -42,6 +42,8 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     onItemClick,
     currentPath = DEFAULT_NAVIGATION_MENU_STATE_PROPS.currentPath,
     ariaLabel = DEFAULT_ARIA_LABEL,
+    rightContent,
+    signInLabel = 'Sign In',
     size = 'medium',
     variant = 'primary',
     useScrollHide = DEFAULT_NAVIGATION_MENU_STATE_PROPS.useScrollHide,
@@ -288,8 +290,10 @@ const NavigationMenu = (props: NavigationMenuProps) => {
             </StyledDesktopNav>
           )}
 
+          {rightContent}
+
           <Button variant="contained" sx={signInButtonSx} onKeyDown={handleKeyDown}>
-            Sign In
+            {signInLabel}
           </Button>
         </StyledNavContainer>
       </StyledToolbar>
