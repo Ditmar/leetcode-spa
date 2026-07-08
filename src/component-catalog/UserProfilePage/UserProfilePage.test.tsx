@@ -73,4 +73,15 @@ describe('UserProfilePage', () => {
     setup({ stats: null });
     expect(screen.getByText('Test User')).toBeInTheDocument();
   });
+
+  it('renders default values (0) when stats is null', () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <UserProfilePage profile={mockProfile} stats={null} />
+      </ThemeProvider>
+    );
+    const zeros = screen.getAllByText('0');
+    expect(zeros.length).toBeGreaterThan(0);
+    expect(screen.getByText('0.0%')).toBeInTheDocument();
+  });
 });

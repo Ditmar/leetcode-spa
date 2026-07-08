@@ -22,6 +22,12 @@ export function UserProfilePage({ profile, stats }: UserProfilePageProps) {
   const { displayName, solvedCount, easyCount, mediumCount, hardCount, streak, acceptanceRate } =
     useUserProfilePage({ profile, stats });
 
+  const joinedDate = new Date(profile.joinedAt).toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
   return (
     <Box sx={containerSx}>
       <Stack sx={headerSx}>
@@ -39,7 +45,7 @@ export function UserProfilePage({ profile, stats }: UserProfilePageProps) {
             </Typography>
           )}
           <Typography variant="caption" color="text.secondary">
-            Miembro desde {new Date(profile.joinedAt).getFullYear()}
+            Miembro desde {joinedDate}
           </Typography>
         </Stack>
       </Stack>
