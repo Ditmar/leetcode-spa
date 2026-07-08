@@ -1,0 +1,60 @@
+import{B as e}from"./iframe-BkVu22rR.js";import{useMDXComponents as o}from"./index-BavlUV_U.js";import{b as i}from"./index-BHvZB39i.js";import{L as a}from"./Label.stories-B9JnJF0v.js";import"./preload-helper-B1AL8F-k.js";import"./index-DtsAeJc3.js";import"./index-B0Eb2HjE.js";import"./index-Ds1uVTpQ.js";import"./InfoOutlined-B2uyIn16.js";import"./createSvgIcon-DcEoO8Wm.js";import"./memoTheme-D5n3dAhp.js";import"./TextField-D0sKOKSG.js";import"./useSlot-BlpUzweX.js";import"./mergeSlotProps-3s5QGGwb.js";import"./useForkRef-D3lCvmT4.js";import"./Select-BCSrTvA_.js";import"./Menu-BoHZ_FGP.js";import"./useSlotProps-BVMZhlVE.js";import"./Popover-hABSBJcI.js";import"./ownerDocument-DW-IO8s5.js";import"./ownerWindow-HkKU3E4x.js";import"./debounce-Be36O1Ab.js";import"./Grow-tLRgOkXg.js";import"./useTheme-BedyvpZC.js";import"./Fade-CHmYeNib.js";import"./useTimeout-CheQkSF3.js";import"./getReactElementRef-C0Xt61iS.js";import"./mergeSlotProps-BYper1w7.js";import"./Modal-DB_AVF2M.js";import"./createChainedFunction-BO_9K8Jh.js";import"./Portal-CfmkBtZk.js";import"./Paper-BFa39VDq.js";import"./List-xGbFPM-C.js";import"./utils-DkavyF_n.js";import"./useControlled-BRM_HKhF.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";import"./FormLabel-DnCfWkIu.js";import"./FormHelperText-BsWNlMkE.js";import"./FormControl-DZWMF3qt.js";import"./Typography-kIFuKlJC.js";import"./IconButton-BHtc0oiH.js";import"./ButtonBase-BcfdldOF.js";import"./CircularProgress-CQhi6o2A.js";import"./Tooltip-jSjoe-ew.js";import"./Popper-CySacN-G.js";import"./Box-C5qDw21Z.js";function r(n){const t={code:"code",h1:"h1",h2:"h2",hr:"hr",p:"p",pre:"pre",...o(),...n.components};return e.jsxs(e.Fragment,{children:[e.jsx(i,{of:a}),`
+`,e.jsx(t.h1,{id:"label",children:"Label"}),`
+`,e.jsxs(t.p,{children:[`An accessible, responsive, and theme-aware form label component built on top
+of MUI's `,e.jsx(t.code,{children:"InputLabel"})," family. It links text with form controls programmatically."]}),`
+`,e.jsx(t.hr,{}),`
+`,e.jsx(t.h2,{id:"overview",children:"Overview"}),`
+`,e.jsxs(t.p,{children:["The ",e.jsx(t.code,{children:"Label"})," component provides proper HTML association via ",e.jsx(t.code,{children:"htmlFor"}),`, manages
+mutually exclusive indicators (required vs. optional), handles error and disabled visual states,
+and supports an optional contextual help tooltip.`]}),`
+`,e.jsx(t.hr,{}),`
+`,e.jsx(t.h2,{id:"quick-start",children:"Quick Start"}),`
+`,e.jsx(t.pre,{children:e.jsx(t.code,{className:"language-tsx",children:`import Label from './Label';
+
+function Example() {
+  return (
+    <>
+      <Label htmlFor="email-input" required>
+        Email address
+      </Label>
+      <input id="email-input" type="email" required />
+    </>
+  );
+}
+
+Stories 
+DefaultThe baseline presentation of a structural form label.
+
+Required
+Appends an asterisk and forces screen reader compliance.
+
+Optional
+Displays a fallback indicator text when fields are non-mandatory.
+
+Error
+Applies semantic error feedback colors derived from the active theme palette.
+
+Disabled
+Reduces parent element opacity to 60% and strips nested element interactivity.
+
+With Tooltip
+Includes an interactive help icon trigger for contextual descriptions.
+
+Narrow Viewport
+Validates wrap thresholds at 320px screen boundaries under 200% font scaling.
+
+Prop Reference
+LabelComponentProps
+
+
+
+├── Label.tsx            # Component logic & JSX layout
+├── Label.types.ts       # TypeScript interface rules and unions
+├── Label.constants.ts   # Core string templates and indicator symbols
+├── Label.hook.ts        # Isolated state control managing tooltips
+├── Label.styles.ts      # MUI styled() styling declarations — no external CSS
+├── Label.utils.ts       # Logic resolving exclusive visual parameters
+├── Label.test.tsx       # Vitest + Testing Library structural test suite
+├── Label.stories.tsx    # Component Story Format stories configuration
+└── Label.docs.mdx       # This fileStackPackageRole@mui/materialv7InputLabel, Tooltip, IconButton, styled@mui/icons-materialContextual helper icons@emotion/reactCSS-in-JS style runtime environmentreactFunctional hooks and rendering engine
+`})})]})}function $(n={}){const{wrapper:t}={...o(),...n.components};return t?e.jsx(t,{...n,children:e.jsx(r,{...n})}):r(n)}export{$ as default};
