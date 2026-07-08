@@ -10,13 +10,15 @@ import {
   Chip,
   Grid,
   LinearProgress,
+  Pagination,
   Skeleton,
+  TextField,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
 
-import { EXPLORE_CATEGORIES, EXPLORE_DIFFICULTIES, EXPLORE_TOPICS } from './ExplorePage.constants';
+import { EXPLORE_CATEGORIES, EXPLORE_DIFFICULTIES } from './ExplorePage.constants';
 import { useExplorePage } from './ExplorePage.hook';
 import {
   EmptyState,
@@ -38,9 +40,9 @@ import {
 } from './ExplorePage.styles';
 import { getDifficultyColor, getProgressPercent } from './ExplorePage.utils';
 
-import type { ExploreIcon, ExplorePageProps } from './ExplorePage.types';
+import type { ExplorePageProps } from './ExplorePage.types';
 
-const renderTopicIcon = (icon: ExploreIcon) => {
+const renderTopicIcon = (icon: string) => {
   switch (icon) {
     case 'arrays':
       return <ShowChartOutlinedIcon color="primary" />;
@@ -73,14 +75,22 @@ export const ExplorePage = ({
   const {
     selectedCategory,
     selectedDifficulty,
+    searchQuery,
     filteredTopics,
+    paginatedTopics,
+    currentPage,
+    totalPages,
+    isLoadingTopics,
+    topicsError,
     setSelectedCategory,
     setSelectedDifficulty,
+    setSearchQuery,
+    setCurrentPage,
   } = useExplorePage();
 
-  const solvedProblems = EXPLORE_TOPICS.reduce((acc, topic) => acc + topic.progress, 0);
+  const solvedProblems = filteredTopics.reduce((acc, topic) => acc + topic.progress, 0);
 
-  const totalProblems = EXPLORE_TOPICS.reduce((acc, topic) => acc + topic.totalProblems, 0);
+  const totalProblems = filteredTopics.reduce((acc, topic) => acc + topic.totalProblems, 0);
 
   const overallProgress =
     totalProblems > 0 ? Math.round((solvedProblems / totalProblems) * 100) : 0;
@@ -106,7 +116,7 @@ export const ExplorePage = ({
 
             <div>
               <Typography variant="h6" fontWeight={700}>
-                {EXPLORE_TOPICS.length}
+                {filteredTopics.length}
               </Typography>
 
               <Typography variant="caption" color="text.secondary">
@@ -151,6 +161,20 @@ export const ExplorePage = ({
         <FiltersCard elevation={1}>
           <FilterGroup>
             <Typography variant="caption" fontWeight={600}>
+              Search
+            </Typography>
+
+            <TextField
+              fullWidth
+              size="small"
+              value={searchQuery}
+              placeholder="Search by topic, problem, or category"
+              onChange={(event) => setSearchQuery(event.target.value)}
+            />
+          </FilterGroup>
+
+          <FilterGroup>
+            <Typography variant="caption" fontWeight={600}>
               Category
             </Typography>
 
@@ -188,7 +212,7 @@ export const ExplorePage = ({
           </FilterGroup>
         </FiltersCard>
 
-        {isLoading ? (
+        {isLoading || isLoadingTopics ? (
           <Grid container spacing={2}>
             {Array.from({ length: 6 }).map((_, index) => (
               <Grid key={index} size={{ xs: 12, md: 6, lg: 4 }}>
@@ -196,6 +220,12 @@ export const ExplorePage = ({
               </Grid>
             ))}
           </Grid>
+        ) : topicsError ? (
+          <EmptyState>
+            <Typography variant="h6">Unable to load topics</Typography>
+
+            <Typography color="text.secondary">{topicsError}</Typography>
+          </EmptyState>
         ) : filteredTopics.length === 0 ? (
           <EmptyState>
             <Typography variant="h6">No topics found</Typography>
@@ -203,67 +233,83 @@ export const ExplorePage = ({
             <Typography color="text.secondary">Try adjusting your filters.</Typography>
           </EmptyState>
         ) : (
-          <Grid container spacing={2}>
-            {filteredTopics.map((topic) => {
-              const ctaLabel = topic.progress > 0 ? 'Continue Learning' : 'Start Learning';
+          <>
+            <Grid container spacing={2}>
+              {paginatedTopics.map((topic) => {
+                const ctaLabel = topic.progress > 0 ? 'Continue Learning' : 'Start Learning';
 
-              const accessibleCtaLabel =
-                topic.progress > 0
-                  ? 'Continue learning selected coding topic'
-                  : 'Start learning selected coding topic';
+                const accessibleCtaLabel =
+                  topic.progress > 0
+                    ? 'Continue learning selected coding topic'
+                    : 'Start learning selected coding topic';
 
-              return (
-                <Grid key={topic.id} size={{ xs: 12, md: 6, lg: 4 }}>
-                  <TopicCard elevation={1}>
-                    <TopicCardContent>
-                      <TopicCardHeader>
-                        <TopicIcon>{renderTopicIcon(topic.icon)}</TopicIcon>
+                return (
+                  <Grid key={topic.id} size={{ xs: 12, md: 6, lg: 4 }}>
+                    <TopicCard elevation={1}>
+                      <TopicCardContent>
+                        <TopicCardHeader>
+                          <TopicIcon>{renderTopicIcon(topic.icon)}</TopicIcon>
 
-                        <Chip
-                          label={topic.difficulty}
-                          color={getDifficultyColor(topic.difficulty)}
-                          size="small"
-                        />
-                      </TopicCardHeader>
+                          <Chip
+                            label={topic.difficulty}
+                            color={getDifficultyColor(topic.difficulty)}
+                            size="small"
+                          />
+                        </TopicCardHeader>
 
-                      <Typography variant="subtitle1" fontWeight={700}>
-                        {topic.title}
-                      </Typography>
-
-                      <TopicDescription variant="body2" color="text.secondary">
-                        {topic.description}
-                      </TopicDescription>
-
-                      <ProgressHeader>
-                        <Typography variant="caption">Progress</Typography>
-
-                        <Typography variant="caption">
-                          {topic.progress}/{topic.totalProblems}
+                        <Typography variant="subtitle1" fontWeight={700}>
+                          {topic.title}
                         </Typography>
-                      </ProgressHeader>
 
-                      <LinearProgress
-                        value={getProgressPercent(topic.progress, topic.totalProblems)}
-                        variant="determinate"
-                        sx={{
-                          height: 6,
-                          borderRadius: 1,
-                        }}
-                      />
+                        <TopicDescription variant="body2" color="text.secondary">
+                          {topic.description}
+                        </TopicDescription>
 
-                      <Chip label={topic.category} size="small" variant="outlined" />
-                    </TopicCardContent>
+                        <ProgressHeader>
+                          <Typography variant="caption">Progress</Typography>
 
-                    <TopicCardAction>
-                      <Button fullWidth variant="text" size="small" aria-label={accessibleCtaLabel}>
-                        {ctaLabel}
-                      </Button>
-                    </TopicCardAction>
-                  </TopicCard>
-                </Grid>
-              );
-            })}
-          </Grid>
+                          <Typography variant="caption">
+                            {topic.progress}/{topic.totalProblems}
+                          </Typography>
+                        </ProgressHeader>
+
+                        <LinearProgress
+                          value={getProgressPercent(topic.progress, topic.totalProblems)}
+                          variant="determinate"
+                          sx={{
+                            height: 6,
+                            borderRadius: 1,
+                          }}
+                        />
+
+                        <Chip label={topic.category} size="small" variant="outlined" />
+                      </TopicCardContent>
+
+                      <TopicCardAction>
+                        <Button
+                          fullWidth
+                          variant="text"
+                          size="small"
+                          aria-label={accessibleCtaLabel}
+                        >
+                          {ctaLabel}
+                        </Button>
+                      </TopicCardAction>
+                    </TopicCard>
+                  </Grid>
+                );
+              })}
+            </Grid>
+
+            {totalPages > 1 && (
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                color="primary"
+                onChange={(_, page) => setCurrentPage(page)}
+              />
+            )}
+          </>
         )}
       </ExploreContent>
     </ExplorePageRoot>
