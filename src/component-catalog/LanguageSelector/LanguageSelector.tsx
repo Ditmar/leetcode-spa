@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import i18n, {
   DEFAULT_LANGUAGE,
+  getPreferredLanguage,
   persistLanguage,
   setDocumentLanguage,
   type SupportedLanguage,
@@ -30,8 +31,37 @@ export function LanguageSelector({ value, onChange, compact = false }: LanguageS
   const selectedLanguage = value ?? internalLanguage;
 
   useEffect(() => {
+    if (value !== undefined) {
+      return;
+    }
+
+    const preferredLanguage = getPreferredLanguage();
+
+    setInternalLanguage(preferredLanguage);
+    setDocumentLanguage(preferredLanguage);
+
+    if (i18n.resolvedLanguage !== preferredLanguage) {
+      void i18n.changeLanguage(preferredLanguage);
+    }
+  }, [value]);
+
+  useEffect(() => {
     setDocumentLanguage(selectedLanguage);
   }, [selectedLanguage]);
+
+  useEffect(() => {
+    const handleLanguageChanged = (language: string) => {
+      if (value === undefined && isSupportedLanguage(language)) {
+        setInternalLanguage(language);
+      }
+    };
+
+    i18n.on('languageChanged', handleLanguageChanged);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChanged);
+    };
+  }, [value]);
 
   const handleChange = (event: SelectChangeEvent<SupportedLanguage>) => {
     const nextLanguage = event.target.value;

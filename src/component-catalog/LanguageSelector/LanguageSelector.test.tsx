@@ -1,4 +1,4 @@
-﻿import { render, screen, waitFor } from '@testing-library/react';
+﻿import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -56,5 +56,29 @@ describe('LanguageSelector', () => {
     render(<LanguageSelector compact />);
 
     expect(screen.getByRole('combobox', { name: /language/i })).toHaveTextContent('EN');
+  });
+
+  it('applies the stored language after mounting', async () => {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, 'es');
+
+    render(<LanguageSelector />);
+
+    await waitFor(() => {
+      expect(i18n.language).toBe('es');
+    });
+
+    expect(screen.getByRole('combobox', { name: /idioma/i })).toHaveTextContent('Español');
+    expect(document.documentElement.lang).toBe('es');
+  });
+
+  it('updates when the language changes externally', async () => {
+    render(<LanguageSelector />);
+
+    await act(async () => {
+      await i18n.changeLanguage('es');
+    });
+
+    expect(screen.getByRole('combobox', { name: /idioma/i })).toHaveTextContent('Español');
+    expect(document.documentElement.lang).toBe('es');
   });
 });

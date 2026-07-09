@@ -20,7 +20,7 @@ const resources = {
   },
 };
 
-const getInitialLanguage = (): SupportedLanguage => {
+export const getPreferredLanguage = (): SupportedLanguage => {
   if (typeof window === 'undefined') {
     return DEFAULT_LANGUAGE;
   }
@@ -37,7 +37,7 @@ const getInitialLanguage = (): SupportedLanguage => {
 if (!i18n.isInitialized) {
   void i18n.use(initReactI18next).init({
     resources,
-    lng: getInitialLanguage(),
+    lng: DEFAULT_LANGUAGE,
     fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: SUPPORTED_LANGUAGES,
     interpolation: {
