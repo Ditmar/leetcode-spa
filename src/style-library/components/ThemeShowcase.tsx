@@ -210,7 +210,7 @@ export default function ThemeShowcase() {
                   sx={{
                     width: 120,
                     height: 80,
-                    backgroundColor: 'background.paper',
+                    backgroundColor: 'var(--background)',
                     boxShadow: shadow as string,
                     borderRadius: 2,
                     display: 'flex',

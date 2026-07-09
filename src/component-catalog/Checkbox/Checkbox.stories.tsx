@@ -36,7 +36,7 @@ export const MaterialStyle: Story = {
         sx={{
           p: 2,
           borderRadius: (theme) => theme.spacing(1),
-          backgroundColor: 'background.paper',
+          backgroundColor: 'var(--background)', // 🌟 Mapeo dinámico para el fondo del área de detalles
           border: '1px solid',
           borderColor: 'divider',
           maxWidth: (theme) => theme.spacing(45),
