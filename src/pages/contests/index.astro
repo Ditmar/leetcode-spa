@@ -19,19 +19,30 @@ const options = { cookie };
 const session = cookie ? await getServerSession(cookie) : null;
 const user = session?.user ?? null;
 
-const [active, upcoming, past] = await Promise.all([
-  contestsService.getContests({ status: 'active' }, options),
-  contestsService.getContests({ status: 'upcoming' }, options),
-  contestsService.getContests({ status: 'past', pageSize: 10 }, options),
-]);
+let active: ContestDetail[] = [];
+let upcoming: ContestDetail[] = [];
+let past: ContestDetail[] = [];
+
+try {
+  const [activeRes, upcomingRes, pastRes] = await Promise.all([
+    contestsService.getContests({ status: 'active' }, options),
+    contestsService.getContests({ status: 'upcoming' }, options),
+    contestsService.getContests({ status: 'past', pageSize: 10 }, options),
+  ]);
+  active = activeRes.contests as ContestDetail[];
+  upcoming = upcomingRes.contests as ContestDetail[];
+  past = pastRes.contests as ContestDetail[];
+} catch {
+  console.warn('[ContestsPage] Failed to load contests, rendering with empty lists');
+}
 ---
 
 <BaseLayout title="Contests — LeetCode Clone">
   <AppProvider client:load user={user}>
     <ContestPage
-      activeContests={active.contests as ContestDetail[]}
-      upcomingContests={upcoming.contests as ContestDetail[]}
-      pastContests={past.contests as ContestDetail[]}
+      activeContests={active}
+      upcomingContests={upcoming}
+      pastContests={past}
       client:load
     />
   </AppProvider>

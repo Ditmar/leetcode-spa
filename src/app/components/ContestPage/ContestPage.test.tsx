@@ -26,7 +26,7 @@ describe('ContestPage', () => {
       wrapper: Wrapper,
     });
     expect(screen.getByText('Active Contests')).toBeInTheDocument();
-    expect(screen.getByText('Test Contest')).toBeInTheDocument();
+    expect(screen.getAllByText('Test Contest').length).toBeGreaterThan(0);
   });
 
   it('renders upcoming contests section', () => {

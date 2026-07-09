@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { ContestEnrollment } from '../../../component-catalog/ContestEnrollment/ContestEnrollment';
 import { useAppConfig } from '../../../context/AppConfigContext';
 import { contestsService } from '../../../services/contests/contestsService';
 import AuthModal from '../AuthModal/AuthModal';
@@ -16,52 +17,29 @@ function ContestCard({
 }) {
   const { user } = useAppConfig();
   const isAuthenticated = !!user;
-  const [isRegistered, setIsRegistered] = useState(contest.isRegistered ?? false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  async function handleJoin() {
-    if (isLoading) return;
-
+  async function handleEnroll(contestId: number) {
     if (!isAuthenticated) {
       onAuthRequired();
       return;
     }
-
-    if (isRegistered) return;
-
-    setIsRegistered(true);
-    setIsLoading(true);
-
-    try {
-      await contestsService.joinContest(contest.id);
-    } catch {
-      setIsRegistered(false);
-    } finally {
-      setIsLoading(false);
-    }
+    await contestsService.joinContest(contestId);
   }
 
-  const buttonLabel = isRegistered ? 'Registered' : isAuthenticated ? 'Join' : 'Sign in to join';
-  const isDisabled = isRegistered || isLoading || !isAuthenticated;
+  function handleStartContest(contestId: number) {
+    globalThis.location.href = `/problems?contest=${contestId}`;
+  }
 
   return (
     <div className="contest-card">
       <h3 className="contest-card__title">{contest.title}</h3>
       {contest.description && <p className="contest-card__description">{contest.description}</p>}
       <p className="contest-card__meta">{contest.participantsCount ?? 0} participants</p>
-      <span
-        className="contest-card__action"
-        title={!isAuthenticated ? 'Sign in to join this contest' : undefined}
-      >
-        <button
-          className="contest-card__btn"
-          onClick={handleJoin}
-          disabled={isDisabled}
-          aria-disabled={isDisabled}
-        >
-          {buttonLabel}
-        </button>
-      </span>
+      <ContestEnrollment
+        contest={contest}
+        onEnroll={handleEnroll}
+        onStartContest={handleStartContest}
+      />
     </div>
   );
 }
@@ -172,25 +150,6 @@ export default function ContestPage({
           font-size: 0.75rem;
           color: #999;
           margin-bottom: 10px;
-        }
-
-        .contest-card__action {
-          display: inline-block;
-        }
-
-        .contest-card__btn {
-          padding: 6px 14px;
-          border-radius: 4px;
-          border: none;
-          background-color: #1a73e8;
-          color: white;
-          cursor: pointer;
-          font-size: 0.875rem;
-          }
-
-        .contest-card__btn:disabled {
-          background-color: #ccc;
-          cursor: not-allowed;
         }
 
         @media (min-width: 375px) {

@@ -9,18 +9,22 @@ export function useContestEnrollment(
   const [isRegistered, setIsRegistered] = useState(contest.isRegistered ?? false);
   const [isLoading, setIsLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [enrollError, setEnrollError] = useState<string | null>(null);
 
   const handleOpenModal = useCallback(() => setModalOpen(true), []);
   const handleCloseModal = useCallback(() => setModalOpen(false), []);
+  const handleCloseError = useCallback(() => setEnrollError(null), []);
 
   const handleConfirmEnroll = useCallback(async () => {
     setIsLoading(true);
     setIsRegistered(true);
+    setEnrollError(null);
     handleCloseModal();
     try {
       await onEnroll(contest.id);
     } catch {
       setIsRegistered(false);
+      setEnrollError('No se pudo completar la inscripción. Por favor intenta de nuevo.');
     } finally {
       setIsLoading(false);
     }
@@ -30,8 +34,10 @@ export function useContestEnrollment(
     isRegistered,
     isLoading,
     modalOpen,
+    enrollError,
     handleOpenModal,
     handleCloseModal,
+    handleCloseError,
     handleConfirmEnroll,
   };
 }

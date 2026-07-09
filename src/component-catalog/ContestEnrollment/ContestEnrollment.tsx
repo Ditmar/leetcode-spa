@@ -1,8 +1,10 @@
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import Modal from '@mui/material/Modal';
+import Snackbar from '@mui/material/Snackbar';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
@@ -31,8 +33,10 @@ export function ContestEnrollment({ contest, onEnroll, onStartContest }: Contest
     isRegistered,
     isLoading,
     modalOpen,
+    enrollError,
     handleOpenModal,
     handleCloseModal,
+    handleCloseError,
     handleConfirmEnroll,
   } = useContestEnrollment(contest, onEnroll);
 
@@ -67,19 +71,16 @@ export function ContestEnrollment({ contest, onEnroll, onStartContest }: Contest
             Inscribirse
           </Button>
         )}
-
         {contest.status === 'upcoming' && isRegistered && (
           <Button variant="outlined" disabled>
             Inscrito ✓
           </Button>
         )}
-
         {contest.status === 'active' && (
           <Button variant="contained" color="success" onClick={() => onStartContest(contest.id)}>
             Iniciar concurso
           </Button>
         )}
-
         {contest.status === 'past' && (
           <Button variant="outlined" disabled>
             Finalizado
@@ -105,6 +106,17 @@ export function ContestEnrollment({ contest, onEnroll, onStartContest }: Contest
           </Stack>
         </Box>
       </Modal>
+
+      <Snackbar
+        open={!!enrollError}
+        autoHideDuration={5000}
+        onClose={handleCloseError}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseError} severity="error" variant="filled">
+          {enrollError}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
