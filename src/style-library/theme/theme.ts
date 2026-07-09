@@ -46,6 +46,16 @@ declare module '@mui/material/styles' {
 
     neutralBg: { main: string };
     dark: { main: string; contrastText: string };
+
+    difficulty: {
+      easy: string;
+      medium: string;
+      hard: string;
+    };
+
+    codeEditor: {
+      background: string;
+    };
   }
 
   interface PaletteOptions {
@@ -60,7 +70,18 @@ declare module '@mui/material/styles' {
 
     neutralBg?: { main: string };
     dark?: { main: string; contrastText?: string };
+
+    difficulty?: {
+      easy?: string;
+      medium?: string;
+      hard?: string;
+    };
+
+    codeEditor?: {
+      background?: string;
+    };
   }
+
   interface Theme {
     gradients?: {
       background: (palette: Palette) => string;
@@ -844,6 +865,19 @@ theme.palette = {
     main: '#030213',
     contrastText: '#FFFFFF',
   },
+  difficulty: {
+    easy: '#00B894',
+    medium: '#F39C12',
+    hard: '#E74C3C',
+  },
+
+  codeEditor: {
+    background: '#1E1E1E',
+  },
+  background: {
+    default: '#F5F5F5',
+    paper: '#FFFFFF',
+  },
 
   customAccent1: { main: '#FBFF49' },
   customAccent2: { main: '#8E49FF' },
@@ -1000,7 +1034,7 @@ export const problemListTokens = {
     },
   },
 } as const;
-
+export const lightTheme = theme;
 export default theme;
 export { themeConfig };
 
@@ -1008,6 +1042,31 @@ export const darkTheme = createCustomTheme({
   ...themeConfig,
   mode: 'dark',
 });
+
+darkTheme.palette = {
+  ...darkTheme.palette,
+
+  background: {
+    default: '#121212',
+    paper: '#1A1A1A',
+  },
+
+  text: {
+    primary: '#FFFFFF',
+    secondary: '#BDBDBD',
+    disabled: '#757575',
+  },
+
+  difficulty: {
+    easy: '#00B894',
+    medium: '#F39C12',
+    hard: '#E74C3C',
+  },
+
+  codeEditor: {
+    background: '#1E1E1E',
+  },
+};
 
 export const modernTheme = createCustomTheme({
   mode: 'light',
