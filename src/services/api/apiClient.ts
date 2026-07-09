@@ -23,25 +23,41 @@ function getCookieToken(): string | null {
     const match = document.cookie
       .split(';')
       .map((c) => c.trim())
-      .find((c) => c.startsWith('auth_token='));
+      .find((c) => c.startsWith('auth_access_token='));
     return match ? decodeURIComponent(match.split('=')[1]) : null;
   } catch {
     return null;
   }
 }
 
-function getAuthToken(): string | null {
+function extractAuthTokenFromCookieHeader(cookieHeader: string): string | null {
+  try {
+    const match = cookieHeader
+      .split(';')
+      .map((c) => c.trim())
+      .find((c) => c.startsWith('auth_access_token='));
+    return match ? decodeURIComponent(match.split('=')[1]) : null;
+  } catch {
+    return null;
+  }
+}
+
+function getAuthToken(forwardedCookie?: string): string | null {
   if (_authToken) return _authToken;
 
   if (!isServer) {
     try {
-      const fromStorage = localStorage.getItem('auth_token');
+      const fromStorage = localStorage.getItem('auth_access_token');
       if (fromStorage) return fromStorage;
     } catch {
       // eslint-disable-next-line no-console
       console.warn('Failed to access localStorage for auth token retrieval');
     }
     return getCookieToken();
+  }
+
+  if (forwardedCookie) {
+    return extractAuthTokenFromCookieHeader(forwardedCookie);
   }
 
   return null;
@@ -76,7 +92,10 @@ async function request<T>(
   config: RequestConfig = {}
 ): Promise<ApiResponse<T>> {
   const url = resolveUrl(path);
-  const token = getAuthToken();
+
+  const forwardedCookie = config.headers?.['Cookie'] ?? config.headers?.['cookie'];
+  const token = getAuthToken(forwardedCookie);
+
   const hasBody = body !== undefined && body !== null;
 
   const headers: Record<string, string> = { ...config.headers };

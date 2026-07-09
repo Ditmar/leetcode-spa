@@ -1,5 +1,4 @@
 export const TOKEN_KEY = 'auth_access_token' as const;
-
 export const REFRESH_KEY = 'auth_refresh_token' as const;
 
 export const REFRESH_THRESHOLD_MS = 60_000;

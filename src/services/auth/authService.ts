@@ -1,3 +1,5 @@
+import { getConfig } from '../../utils/config';
+
 import { AUTH_ENDPOINTS, AUTH_SIGN_OUT_EVENT, REFRESH_THRESHOLD_MS } from './authService.constants';
 
 import type { AuthSession, SignInPayload, SignUpPayload } from './authService.types';
@@ -144,3 +146,22 @@ const authService = {
 };
 
 export default authService;
+
+export async function getServerSession(cookie: string): Promise<AuthSession | null> {
+  if (!cookie) return null;
+
+  const { apiBaseUrl } = getConfig();
+  const url = `${apiBaseUrl}${AUTH_ENDPOINTS.ME}`;
+
+  try {
+    const res = await fetch(url, {
+      headers: { Cookie: cookie },
+    });
+
+    if (!res.ok) return null;
+
+    return (await res.json()) as AuthSession;
+  } catch {
+    return null;
+  }
+}
