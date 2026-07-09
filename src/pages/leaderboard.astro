@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { LeaderboardPage } from '../component-catalog/Leaderboard/Leaderboard';
+import { leaderboardService } from '../services/leaderboard/leaderboardService';
+import type { LeaderboardEntry } from '../services/leaderboard/leaderboardService.types';
+ 
+let initialUsers: LeaderboardEntry[] = [];
+try {
+  initialUsers = await leaderboardService.getTopUsers(Astro.request.headers.get('cookie') ?? undefined);
+} catch {
+  initialUsers = [];
+}
+---
+ 
+<BaseLayout
+  title="Leaderboard — LeetCode SPA"
+  description="Ranking global de usuarios por puntuación y problemas resueltos"
+  ogType="website"
+>
+  <LeaderboardPage initialUsers={initialUsers} client:load />
+</BaseLayout>
