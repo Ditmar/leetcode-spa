@@ -8,7 +8,6 @@ import { userService } from '../../services/user/userService';
 
 import type { Language } from '../../component-catalog/CodeEditor/CodeEditor.types';
 import type { ProblemDetail as ServiceProblemDetail } from '../../services/problems/problemsService.types';
-import type { AppConfig } from '../../utils/config.types';
 
 const { config, user } = Astro.locals;
 const { id } = Astro.params;
@@ -62,7 +61,6 @@ const problemDetail = {
   ...problem,
   acceptance: problem.acceptance ?? 0,
   examples: Array.isArray(problem.examples)
-<<<<<<< HEAD
     ? problem.examples.map((example) => {
         if (typeof example === 'string') {
           return {
@@ -77,12 +75,6 @@ const problemDetail = {
           explanation: example.explanation,
         };
       })
-=======
-    ? problem.examples.map((example) => ({
-        input: example,
-        output: '',
-      }))
->>>>>>> c4659500 (Implement problem detail page and integrate CodeEditor)
     : [],
 };
 
@@ -97,21 +89,11 @@ if (user) {
   }
 }
 
-<<<<<<< HEAD
 const prevId = problem.prevId;
 const nextId = problem.nextId;
-=======
-const navigationProblem = problem as ServiceProblemDetail & {
-  prevId?: number;
-  nextId?: number;
-};
-
-const prevId = navigationProblem.prevId;
-const nextId = navigationProblem.nextId;
->>>>>>> c4659500 (Implement problem detail page and integrate CodeEditor)
 
 const metaDescription = sanitizeMetaDescription(problemDetail.description ?? '');
----git
+---
 
 <BaseLayout title={`${problemDetail.id}. ${problemDetail.title} — LeetCode Clone`}>
   <meta name="description" content={metaDescription} />
