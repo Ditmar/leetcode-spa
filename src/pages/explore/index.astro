@@ -1,0 +1,45 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import AppProvider from '@/context/AppConfigContext';
+import ExplorePage from '@/components/ExplorePage/ExplorePage';
+import { exploreService } from '@/services/explore/exploreService';
+import { apiClient } from '@/services/api/apiClient';
+
+const { config, user } = Astro.locals;
+
+if (config?.featureFlags?.explore === false) {
+  return Astro.redirect('/?info=coming-soon', 302);
+}
+
+const cookieHeader = Astro.request.headers.get('cookie') ?? '';
+
+let initialTopics = [];
+let categories = [];
+let difficulties = [];
+
+try {
+  const [topicsResponse, filtersMetadata] = await Promise.all([
+    apiClient.get('/explore/topics', {
+      headers: cookieHeader ? { Cookie: cookieHeader } : undefined,
+    }),
+    exploreService.getFiltersMetadata(),
+  ]);
+
+  initialTopics = Array.isArray(topicsResponse.data) ? topicsResponse.data : [];
+  categories = filtersMetadata?.categories ?? [];
+  difficulties = filtersMetadata?.difficulties ?? [];
+} catch (error) {
+  console.error('[SSR Error] Failed to fetch explore data:', error);
+}
+---
+
+<BaseLayout title="Explore — LeetCode Clone">
+  <AppProvider config={config} user={user} client:load>
+    <ExplorePage
+      initialTopics={initialTopics}
+      categories={categories}
+      difficulties={difficulties}
+      client:load
+    />
+  </AppProvider>
+</BaseLayout>
