@@ -58,6 +58,8 @@ const quickLinks = [
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
+  <meta slot="head" property="og:site_name" content="LeetCode Clone" />
+
   <main class="home-page">
     <header class="top-nav" aria-label="Main navigation">
       <a class="top-nav__brand" href="/">leetcode-spa</a>
@@ -136,4 +138,3 @@ const quickLinks = [
 
   <HomeAuthGate config={config} user={user} isOpen={authRequired} client:load />
 </BaseLayout>
-
