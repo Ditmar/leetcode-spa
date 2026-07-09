@@ -1,0 +1,61 @@
+import{B as a,H as v}from"./iframe-C5ADcRmE.js";import{c as T}from"./createSvgIcon-BaFNsBK7.js";import{E as W}from"./ExpandMore-_jNfGaWc.js";import{u as q}from"./useControlled-DYVWVYCL.js";import{e as A}from"./memoTheme-DCf9ne4O.js";import{P as w}from"./Paper-YAh7usVz.js";import{A as C,b as B,a as E}from"./AccordionSummary-Bit1O8r2.js";import{B as P}from"./Box-BNDL-s8h.js";import{T as n}from"./Typography-Cet348xw.js";import{B as j}from"./Button-DMcHqva3.js";const M=T(a.jsx("path",{d:"m12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"}));function D(e){return e.filter(r=>r.defaultExpanded).map(r=>r.id)}function k(e,r,l){return l==="single"?e.includes(r)?[]:[r]:e.includes(r)?e.filter(t=>t!==r):[...e,r]}const _=e=>{const{items:r,expandedIds:l,onExpandedChange:t,variant:i="multiple"}=e,[m,S]=q({controlled:l,default:D(r),name:"Accordion",state:"expandedIds"}),p=v.useCallback(o=>()=>{const b=k(m,o,i);S(b),typeof t=="function"&&t(b)},[m,i,S,t]);return{itemsWithState:r.map(o=>({...o,expanded:m.includes(o.id),onChange:p(o.id)}))}},z=A(w,{shouldForwardProp:e=>e!=="square"})(({theme:e,square:r})=>({maxWidth:e.spacing(152),width:"100%",padding:e.spacing(3),backgroundColor:e.palette.background.paper,border:`1px solid ${e.palette.divider}`,...!r&&{borderRadius:e.shape.borderRadius},transition:e.transitions.create(["border-radius"],{duration:e.transitions.duration.shortest})})),$=A(P)(({theme:e})=>({display:"flex",alignItems:"center",minHeight:e.spacing(5.5),minWidth:e.spacing(5.5)})),R=A(C,{shouldForwardProp:e=>e!=="square"})(({theme:e,square:r})=>({backgroundColor:"transparent",boxShadow:"none",margin:0,"&:before":{display:"none"},"&:not(:last-child)":{borderBottom:`1px solid ${e.palette.divider}`},...!r&&{borderRadius:0},[e.breakpoints.down("sm")]:{margin:0}})),F=A(B)(({theme:e})=>({padding:e.spacing(0,2),minHeight:e.spacing(5.5),"& .MuiAccordionSummary-content":{margin:e.spacing(1.5,0),"&.Mui-expanded":{margin:e.spacing(1.5,0)}},"& .MuiTypography-root":{color:e.palette.grey[900]},"& .MuiAccordionSummary-expandIconWrapper":{transition:e.transitions.create(["opacity","transform"],{duration:e.transitions.duration.short}),transform:"scale(1)"},"&.Mui-expanded .MuiAccordionSummary-expandIconWrapper":{transform:"scale(1.1)"},[e.breakpoints.down("sm")]:{padding:e.spacing(0,1.5),"& .MuiAccordionSummary-content":{margin:e.spacing(1,0)}}})),L=A(E)(({theme:e})=>({padding:e.spacing(2),[e.breakpoints.down("sm")]:{padding:e.spacing(1.5)}})),I=e=>{const{itemsWithState:r}=_(e),{disableAnimation:l,square:t,slotProps:i,expandIcon:m}=e,p=(()=>{if(!i)return{accordionProps:{},summaryProps:{},detailsProps:{}};const s={...i.accordion},o={...i.summary},b={...i.details};return delete s.expanded,delete s.onChange,delete s.disabled,delete o.expandIcon,{accordionProps:s,summaryProps:o,detailsProps:b}})();return a.jsx(z,{square:t,"data-testid":"accordion-container",children:r.map(s=>{const o=m||(s.expanded?a.jsx(M,{}):a.jsx(W,{}));return a.jsxs(R,{disableGutters:!0,square:t,TransitionProps:{timeout:l?0:void 0},...p.accordionProps,expanded:s.expanded,onChange:s.onChange,disabled:s.disabled,"data-testid":`accordion-${s.id}`,children:[a.jsx(F,{...p.summaryProps,expandIcon:a.jsx($,{children:o}),"data-testid":`accordion-summary-${s.id}`,children:s.summary}),a.jsx(L,{...p.detailsProps,"data-testid":`accordion-details-${s.id}`,children:s.details})]},s.id)})})};I.__docgenInfo={description:"",methods:[],displayName:"Accordion",props:{items:{required:!0,tsType:{name:"Array",elements:[{name:"AccordionItem"}],raw:"AccordionItem[]"},description:""},expandedIds:{required:!1,tsType:{name:"Array",elements:[{name:"string"}],raw:"string[]"},description:""},onExpandedChange:{required:!1,tsType:{name:"signature",type:"function",raw:"(expandedIds: string[]) => void",signature:{arguments:[{type:{name:"Array",elements:[{name:"string"}],raw:"string[]"},name:"expandedIds"}],return:{name:"void"}}},description:""},variant:{required:!1,tsType:{name:"union",raw:"'single' | 'multiple'",elements:[{name:"literal",value:"'single'"},{name:"literal",value:"'multiple'"}]},description:""},disableAnimation:{required:!1,tsType:{name:"boolean"},description:""},square:{required:!1,tsType:{name:"boolean"},description:""},expandIcon:{required:!1,tsType:{name:"ReactNode"},description:""},slotProps:{required:!1,tsType:{name:"signature",type:"object",raw:`{
+  accordion?: Partial<MuiAccordionProps>;
+  summary?: Partial<AccordionSummaryProps>;
+  details?: Partial<AccordionDetailsProps>;
+}`,signature:{properties:[{key:"accordion",value:{name:"Partial",elements:[{name:"MuiAccordionProps"}],raw:"Partial<MuiAccordionProps>",required:!1}},{key:"summary",value:{name:"Partial",elements:[{name:"AccordionSummaryProps"}],raw:"Partial<AccordionSummaryProps>",required:!1}},{key:"details",value:{name:"Partial",elements:[{name:"AccordionDetailsProps"}],raw:"Partial<AccordionDetailsProps>",required:!1}}]}},description:""}}};const N={title:"Components/Accordion",component:I,parameters:{layout:"centered"},decorators:[e=>a.jsx(P,{sx:{width:"100%",maxWidth:r=>r.spacing(152),mx:"auto",p:2},children:a.jsx(e,{})})]},c="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",d=[{id:"1",summary:a.jsx(n,{fontWeight:"medium",children:"Is it accessible?"}),details:a.jsx(n,{color:"text.secondary",children:c})},{id:"2",summary:a.jsx(n,{fontWeight:"medium",children:"Is it styled?"}),details:a.jsx(n,{color:"text.secondary",children:c}),defaultExpanded:!0},{id:"3",summary:a.jsx(n,{fontWeight:"medium",children:"Is it animated?"}),details:a.jsx(n,{color:"text.secondary",children:c})}],u={args:{items:d,variant:"multiple"}},g={args:{items:d,variant:"single"}},V=[...d,{id:"4",summary:a.jsx(n,{fontWeight:"medium",children:"Fourth panel"}),details:a.jsx(n,{color:"text.secondary",children:c})},{id:"5",summary:a.jsx(n,{fontWeight:"medium",children:"Fifth panel"}),details:a.jsx(n,{color:"text.secondary",children:c})}],y={args:{items:V,variant:"multiple"}},x={args:{items:d,square:!0,disableAnimation:!0}},f={args:{items:[...d,{id:"disabled",summary:a.jsx(n,{fontWeight:"medium",children:"Disabled panel"}),details:a.jsx(n,{color:"text.secondary",children:"You cannot expand this."}),disabled:!0}]}},h={args:{items:[d[0],d[1],{id:"actions",summary:a.jsx(n,{fontWeight:"medium",children:"Accordion Actions"}),details:a.jsxs(P,{children:[a.jsx(n,{color:"text.secondary",sx:{mb:2},children:c}),a.jsxs(P,{sx:{display:"flex",gap:1,justifyContent:"flex-end"},children:[a.jsx(j,{variant:"outlined",size:"small",children:"Cancel"}),a.jsx(j,{variant:"contained",size:"small",children:"Agree"})]})]})}]}};u.parameters={...u.parameters,docs:{...u.parameters?.docs,source:{originalSource:`{
+  args: {
+    items: defaultItems,
+    variant: 'multiple'
+  }
+}`,...u.parameters?.docs?.source}}};g.parameters={...g.parameters,docs:{...g.parameters?.docs,source:{originalSource:`{
+  args: {
+    items: defaultItems,
+    variant: 'single'
+  }
+}`,...g.parameters?.docs?.source}}};y.parameters={...y.parameters,docs:{...y.parameters?.docs,source:{originalSource:`{
+  args: {
+    items: manyItems,
+    variant: 'multiple'
+  }
+}`,...y.parameters?.docs?.source}}};x.parameters={...x.parameters,docs:{...x.parameters?.docs,source:{originalSource:`{
+  args: {
+    items: defaultItems,
+    square: true,
+    disableAnimation: true
+  }
+}`,...x.parameters?.docs?.source}}};f.parameters={...f.parameters,docs:{...f.parameters?.docs,source:{originalSource:`{
+  args: {
+    items: [...defaultItems, {
+      id: 'disabled',
+      summary: <Typography fontWeight="medium">Disabled panel</Typography>,
+      details: <Typography color="text.secondary">You cannot expand this.</Typography>,
+      disabled: true
+    }]
+  }
+}`,...f.parameters?.docs?.source}}};h.parameters={...h.parameters,docs:{...h.parameters?.docs,source:{originalSource:`{
+  args: {
+    items: [defaultItems[0], defaultItems[1], {
+      id: 'actions',
+      summary: <Typography fontWeight="medium">Accordion Actions</Typography>,
+      details: <Box>
+            <Typography color="text.secondary" sx={{
+          mb: 2
+        }}>
+              {lorem}
+            </Typography>
+            <Box sx={{
+          display: 'flex',
+          gap: 1,
+          justifyContent: 'flex-end'
+        }}>
+              <Button variant="outlined" size="small">
+                Cancel
+              </Button>
+              <Button variant="contained" size="small">
+                Agree
+              </Button>
+            </Box>
+          </Box>
+    }]
+  }
+}`,...h.parameters?.docs?.source}}};const H=["Default","SingleVariant","WithManyItems","SquareNoAnimation","DisabledItem","WithActions"],ae=Object.freeze(Object.defineProperty({__proto__:null,Default:u,DisabledItem:f,SingleVariant:g,SquareNoAnimation:x,WithActions:h,WithManyItems:y,__namedExportsOrder:H,default:N},Symbol.toStringTag,{value:"Module"}));export{ae as A};
