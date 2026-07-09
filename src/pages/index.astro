@@ -1,9 +1,7 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeAuthGate from '../app/components/HomeAuthGate/HomeAuthGate';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import { problemsService } from '../services/problems/problemsService';
-import type { AuthUser } from '../services/auth/authService.types';
-import type { AppConfig } from '../utils/config.types';
 import { HOME_NAVIGATION_LINKS } from './index.constants';
 import './index.css';
 
@@ -13,10 +11,7 @@ const pageTitle = 'LeetCode Clone - Practice Coding Interviews';
 const pageDescription =
   'Practice coding interview problems, compete in contests, and master data structures and algorithms.';
 
-const { config = null, user = null } = Astro.locals as {
-  config?: AppConfig | null;
-  user?: AuthUser | null;
-};
+const { config, user } = Astro.locals;
 
 const stats = await problemsService
   .getStats(Astro.request.headers.get('cookie') ?? '')
@@ -32,29 +27,6 @@ const statItems = [
 const solvedToday = stats?.solved;
 const solvedProgress =
   stats && stats.total > 0 ? Math.min(100, (stats.solved / stats.total) * 100) : 0;
-
-const quickLinks = [
-  {
-    title: 'Problems',
-    href: '/problems',
-    icon: '[]',
-    description: 'Practice curated challenges by status, difficulty, and topic.',
-  },
-  {
-    title: 'Contests',
-    href: '/contests',
-    icon: '<>',
-    description: 'Join timed events and sharpen your interview speed.',
-  },
-  {
-    title: 'Explore',
-    href: '/explore',
-    icon: '{}',
-    description: 'Follow guided tracks for algorithms, data structures, and patterns.',
-  },
-];
-
-
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -63,8 +35,8 @@ const quickLinks = [
       <a class="top-nav__brand" href="/">leetcode-spa</a>
 
       <nav class="top-nav__links" aria-label="Home page navigation links">
-       {
-  HOME_NAVIGATION_LINKS.map((link) => (
+        {
+          HOME_NAVIGATION_LINKS.map((link) => (
             <a href={link.href} class:list={{ active: Astro.url.pathname === link.href }}>
               {link.label}
             </a>
@@ -73,14 +45,14 @@ const quickLinks = [
       </nav>
 
       {
-  user ? (
-    <a class="top-nav__user" href={`/profile/${user.username}`}>
-      {user.username}
-    </a>
-  ) : (
-    <a class="top-nav__signin" href="/?authRequired=true">Sign In</a>
-  )
-}
+        user ? (
+          <a class="top-nav__user" href={`/profile/${user.username}`}>
+            {user.username}
+          </a>
+        ) : (
+          <a class="top-nav__signin" href="/?authRequired=true">Sign In</a>
+        )
+      }
     </header>
 
     <section class="hero" aria-labelledby="home-title">
@@ -96,6 +68,7 @@ const quickLinks = [
           <a class="button button--secondary" href="/contests">View contests</a>
         </div>
       </div>
+
       <div class="hero__panel" aria-label="Platform snapshot">
         <div class="panel__header">
           <span>Today</span>
@@ -118,22 +91,7 @@ const quickLinks = [
         ))
       }
     </section>
-
-    <section class="quick-links" aria-label="Quick access links">
-      {
-        quickLinks.map((link) => (
-          <a class="quick-card" href={link.href}>
-            <span class="quick-card__icon" aria-hidden="true">{link.icon}</span>
-            <span class="quick-card__body">
-              <strong>{link.title}</strong>
-              <span>{link.description}</span>
-            </span>
-          </a>
-        ))
-      }
-    </section>
   </main>
 
   <HomeAuthGate config={config} user={user} isOpen={authRequired} client:load />
 </BaseLayout>
-

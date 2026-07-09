@@ -93,10 +93,14 @@ function buildExplorePath(path: string): string {
   return `${basePath}${nestedPath}`;
 }
 
-export async function getTopics(filters?: TopicFilters): Promise<ExploreTopic[]> {
+export async function getTopics(filters?: TopicFilters, cookies?: string): Promise<ExploreTopic[]> {
   const response = await apiClient.get<ExploreTopic[]>(
-    `${buildExplorePath('/topics')}${buildTopicQuery(filters)}`
+    `${buildExplorePath('/topics')}${buildTopicQuery(filters)}`,
+    {
+      headers: cookies ? { Cookie: cookies } : undefined,
+    }
   );
+
   return response.data;
 }
 
