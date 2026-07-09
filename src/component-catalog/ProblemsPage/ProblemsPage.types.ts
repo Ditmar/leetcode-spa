@@ -7,7 +7,7 @@ export interface Problem {
   id: number;
   title: string;
   difficulty: Difficulty;
-  acceptance: number;
+  acceptance?: number;
   status: ProblemStatus;
   tags: string[];
 }

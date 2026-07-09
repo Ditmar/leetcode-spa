@@ -51,7 +51,7 @@ export function ProblemsMobileList({ problems, onAction }: ProblemsMobileListPro
                     •
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    {formatAcceptance(p.acceptance)}
+                    {p.acceptance != null ? formatAcceptance(p.acceptance) : '—'}
                   </Typography>
                 </Stack>
               }

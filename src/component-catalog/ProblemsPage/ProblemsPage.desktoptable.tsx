@@ -91,7 +91,7 @@ export function ProblemsDesktopTable({ problems, onAction }: ProblemsDesktopTabl
               </TableCell>
               <TableCell>
                 <Typography variant="body2" color="text.secondary">
-                  {formatAcceptance(p.acceptance)}
+                  {p.acceptance != null ? formatAcceptance(p.acceptance) : '—'}
                 </Typography>
               </TableCell>
               <TableCell align="center">
