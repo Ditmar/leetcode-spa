@@ -22,10 +22,18 @@ const {
   ogImageHeight = 630,
   ogUrl = Astro.url.href,
 } = Astro.props;
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> e89e8d94 (fix: resolve merge conflict markers in BaseLayout)
 
 const canonicalUrl = Astro.url.href;
 
 const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
+<<<<<<< HEAD
+=======
+
+>>>>>>> e89e8d94 (fix: resolve merge conflict markers in BaseLayout)
 ---
 
 <!doctype html>
@@ -35,6 +43,10 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <meta name="description" content={description} />
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> e89e8d94 (fix: resolve merge conflict markers in BaseLayout)
     <meta name="theme-color" content={themeColor} />
     <meta name="generator" content={Astro.generator} />
 
@@ -42,7 +54,10 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="LeetCode SPA" />
     <meta name="mobile-web-app-capable" content="yes" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> e89e8d94 (fix: resolve merge conflict markers in BaseLayout)
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="LeetCode SPA" />
     <meta property="og:title" content={title} />
