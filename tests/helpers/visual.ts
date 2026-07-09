@@ -11,8 +11,8 @@ export async function testStoryScreenshot(
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(300);
   // Small tolerance to avoid false positives across CI environments.
-  await expect(page).toHaveScreenshot(snapshotName, { 
-    animations: 'disabled', 
+  await expect(page).toHaveScreenshot(snapshotName, {
+    animations: 'disabled',
     caret: 'hide',
     maxDiffPixelRatio: 0.01,
   });
