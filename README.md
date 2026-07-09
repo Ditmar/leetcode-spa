@@ -169,3 +169,15 @@ interface ApiResponse<T> {
 ```sh
 npx vitest run src/services/api/apiClient.test.ts
 ```
+## Visual Regression Testing
+
+This project uses Playwright for visual regression testing against the Storybook catalog.
+
+See:
+
+- PLAYWRIGHT.md
+
+Useful commands:
+
+```bash
+yarn test:visual
