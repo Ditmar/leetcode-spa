@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AppProvider from '../../context/AppConfigContext';
-import { ProblemsPage } from '../../component-catalog/ProblemsPage/ProblemsPage';
-import { problemsService } from '../../services/problems/problemsService';
+// import { ProblemsPage } from '../../component-catalog/ProblemsPage/ProblemsPage';
+// import { problemsService } from '../../services/problems/problemsService';
+// TODO: restore once PR #284 is merged into next
 import type { AuthUser } from '../../services/auth/authService.types';
 import type {
   ProblemDifficulty,
@@ -32,31 +33,28 @@ const filters: ProblemFilters = {
   page: Number(url.searchParams.get('page') ?? '1'),
 };
 
-const initialData = await problemsService.getProblems(filters, {
-  headers: { cookie: Astro.request.headers.get('cookie') ?? '' },
-});
+// const initialData = await problemsService.getProblems(filters, {
+//   headers: { cookie: Astro.request.headers.get('cookie') ?? '' },
+// });
+// TODO: restore once PR #284 is merged into next
 
 const canonicalQuery = buildCanonicalQuery(filters);
 const canonicalUrl = `${url.origin}/problems${canonicalQuery ? `?${canonicalQuery}` : ''}`;
 Astro.response.headers.set('Link', `<${canonicalUrl}>; rel="canonical"`);
 
-// Map API problems to component-catalog Problem type
-const problems = initialData.data.map((p) => ({
-  id: p.id,
-  title: p.title,
-  difficulty: p.difficulty as 'Easy' | 'Medium' | 'Hard',
-  status: (p.status ?? 'unsolved') as 'solved' | 'attempted' | 'unsolved',
-  tags: p.tags,
-}));
+// const problems = initialData.data.map((p) => ({
+//   id: p.id,
+//   title: p.title,
+//   difficulty: p.difficulty as 'Easy' | 'Medium' | 'Hard',
+//   status: (p.status ?? 'unsolved') as 'solved' | 'attempted' | 'unsolved',
+//   tags: p.tags,
+// }));
+// TODO: restore once PR #284 is merged into next
 ---
 
 <BaseLayout title="Problems — LeetCode Clone">
   <AppProvider config={config} user={user} client:load>
-    <ProblemsPage
-      problems={problems}
-      onSelectProblem={(id: number) => { globalThis.location.href = `/problems/${id}`; }}
-      onNavigateToCode={() => { globalThis.location.href = '/problems'; }}
-      client:load
-    />
+    {/* TODO: restore once PR #284 is merged into next */}
+    <div>Lista de problemas disponible próximamente.</div>
   </AppProvider>
 </BaseLayout>
