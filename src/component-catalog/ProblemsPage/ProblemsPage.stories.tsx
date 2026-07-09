@@ -118,7 +118,6 @@ const meta: Meta<typeof ProblemsPage> = {
   args: {
     problems: SAMPLE_PROBLEMS,
     isLoading: false,
-    //onSelectProblem: (_id: number) => {},
     onNavigateToCode: () => {},
   },
   parameters: { layout: 'fullscreen' },
