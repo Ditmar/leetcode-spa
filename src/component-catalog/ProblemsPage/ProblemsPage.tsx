@@ -11,39 +11,23 @@ import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
-import List from '@mui/material/List';
-import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React from 'react';
 
-import {
-  ALL_DIFFICULTIES,
-  ALL_STATUSES,
-  ALL_TAGS_SENTINEL,
-  ROWS_PER_PAGE_OPTIONS,
-} from './ProblemsPage.constants';
+import { ALL_DIFFICULTIES, ALL_STATUSES, ALL_TAGS_SENTINEL } from './ProblemsPage.constants';
+import { ProblemsDesktopTable, DesktopTableSkeleton } from './ProblemsPage.desktoptable';
 import { useProblemsPage } from './ProblemsPage.hook';
+import { ProblemsMobileList } from './ProblemsPage.mobilelist';
+import { ProblemsPagination } from './ProblemsPage.pagination';
 import {
   PageWrapper,
   FilterBarWrapper,
-  StickyHeaderCell,
-  StyledTableRow,
-  StyledListItemButton,
-  actionButtonSx,
   drawerContentSx,
   emptyStateSx,
   filterSelectSx,
@@ -51,11 +35,6 @@ import {
   headerSx,
   visuallyHiddenSx,
 } from './ProblemsPage.styles';
-import {
-  getDifficultyChipColor,
-  getStatusIconConfig,
-  formatAcceptance,
-} from './ProblemsPage.utils';
 
 import type {
   DifficultyFilter,
@@ -65,11 +44,6 @@ import type {
   TagFilter,
 } from './ProblemsPage.types';
 import type { SelectChangeEvent } from '@mui/material/Select';
-
-function StatusIcon({ status }: { status: Problem['status'] }) {
-  const { Icon, color } = getStatusIconConfig(status);
-  return <Icon color={color} fontSize="small" />;
-}
 
 interface EmptyStateProps {
   onClearFilters: () => void;
@@ -86,58 +60,21 @@ function EmptyState({ onClearFilters }: EmptyStateProps) {
   );
 }
 
-function DesktopTableSkeleton({ rows }: { rows: number }) {
-  return (
-    <TableContainer>
-      <Table aria-hidden="true">
-        <TableHead>
-          <TableRow>
-            <StickyHeaderCell sx={{ width: 56 }}>#</StickyHeaderCell>
-            <StickyHeaderCell>Title</StickyHeaderCell>
-            <StickyHeaderCell sx={{ width: 110 }}>Difficulty</StickyHeaderCell>
-            <StickyHeaderCell sx={{ width: 110 }}>Acceptance</StickyHeaderCell>
-            <StickyHeaderCell sx={{ width: 72 }}>Status</StickyHeaderCell>
-            <StickyHeaderCell sx={{ width: 120 }}>Action</StickyHeaderCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {Array.from({ length: rows }).map((_, i) => (
-            <TableRow key={i}>
-              <TableCell>
-                <Skeleton variant="text" width={20} />
-              </TableCell>
-              <TableCell>
-                <Skeleton variant="text" width="60%" />
-              </TableCell>
-              <TableCell>
-                <Skeleton variant="rounded" width={64} height={24} />
-              </TableCell>
-              <TableCell>
-                <Skeleton variant="text" width={50} />
-              </TableCell>
-              <TableCell align="center">
-                <Skeleton variant="circular" width={20} height={20} sx={{ mx: 'auto' }} />
-              </TableCell>
-              <TableCell>
-                <Skeleton variant="rounded" width={72} height={32} />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-}
-
 function MobileListSkeleton({ rows }: { rows: number }) {
   return (
     <Stack aria-hidden="true" divider={<Divider />}>
       {Array.from({ length: rows }).map((_, i) => (
         <Stack key={i} direction="row" spacing={1.5} alignItems="center" sx={{ py: 1.5 }}>
-          <Skeleton variant="circular" width={20} height={20} />
+          {/* Status icon placeholder — matches the circular icon size */}
+          <Skeleton
+            variant="circular"
+            sx={{ width: (t) => t.spacing(2.5), height: (t) => t.spacing(2.5) }}
+          />
           <Box sx={{ flex: 1 }}>
-            <Skeleton variant="text" width="70%" />
-            <Skeleton variant="text" width="40%" />
+            {/* Title line — 70% of available width */}
+            <Skeleton variant="text" sx={{ width: '70%' }} />
+            {/* Difficulty + acceptance line — 40% of available width */}
+            <Skeleton variant="text" sx={{ width: '40%' }} />
           </Box>
         </Stack>
       ))}
@@ -313,141 +250,18 @@ export function ProblemsPage({
   const handleAction = (p: Problem) =>
     p.status === 'solved' ? onNavigateToCode() : onSelectProblem(p.id);
 
-  const DesktopTable = (
-    <TableContainer>
-      <Table aria-label="Problems table">
-        <TableHead>
-          <TableRow>
-            <StickyHeaderCell scope="col" sx={{ width: 56 }}>
-              #
-            </StickyHeaderCell>
-            <StickyHeaderCell scope="col">Title</StickyHeaderCell>
-            <StickyHeaderCell scope="col" sx={{ width: 110 }}>
-              Difficulty
-            </StickyHeaderCell>
-            <StickyHeaderCell scope="col" sx={{ width: 110 }}>
-              Acceptance
-            </StickyHeaderCell>
-            <StickyHeaderCell scope="col" sx={{ width: 72 }}>
-              Status
-            </StickyHeaderCell>
-            <StickyHeaderCell scope="col" sx={{ width: 120 }}>
-              Action
-            </StickyHeaderCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {paginatedProblems.map((p) => (
-            <StyledTableRow
-              key={p.id}
-              isSolved={p.status === 'solved'}
-              onClick={() => handleAction(p)}
-            >
-              <TableCell>
-                <Typography variant="body2" color="text.secondary">
-                  {p.id}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="body2" fontWeight={500}>
-                  {p.title}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Chip
-                  label={p.difficulty}
-                  color={getDifficultyChipColor(p.difficulty)}
-                  size="small"
-                  variant="outlined"
-                />
-              </TableCell>
-              <TableCell>
-                <Typography variant="body2" color="text.secondary">
-                  {formatAcceptance(p.acceptance)}
-                </Typography>
-              </TableCell>
-              <TableCell align="center">
-                <StatusIcon status={p.status} />
-              </TableCell>
-              <TableCell>
-                <Button
-                  variant={p.status === 'solved' ? 'outlined' : 'contained'}
-                  size="small"
-                  sx={actionButtonSx}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAction(p);
-                  }}
-                >
-                  {p.status === 'solved' ? 'Review' : 'Solve'}
-                </Button>
-              </TableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-
-  const MobileList = (
-    <List disablePadding>
-      {paginatedProblems.map((p, i) => (
-        <React.Fragment key={p.id}>
-          <StyledListItemButton isSolved={p.status === 'solved'} onClick={() => handleAction(p)}>
-            <StatusIcon status={p.status} />
-            <ListItemText
-              primary={
-                <Typography variant="body2" fontWeight={500}>
-                  {p.id}.&nbsp;{p.title}
-                </Typography>
-              }
-              secondary={
-                <Stack direction="row" spacing={0.75} alignItems="center" mt={0.25}>
-                  <Chip
-                    label={p.difficulty}
-                    color={getDifficultyChipColor(p.difficulty)}
-                    size="small"
-                    variant="outlined"
-                    sx={{ height: 20, fontSize: '0.7rem' }}
-                  />
-                  <Typography variant="caption" color="text.secondary">
-                    •
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    {formatAcceptance(p.acceptance)}
-                  </Typography>
-                </Stack>
-              }
-            />
-          </StyledListItemButton>
-          {i < paginatedProblems.length - 1 && <Divider component="li" sx={{ ml: 7 }} />}
-        </React.Fragment>
-      ))}
-    </List>
-  );
-
-  const Pagination = (
-    <TablePagination
-      component="div"
-      count={filteredProblems.length}
-      page={page}
-      onPageChange={handleChangePage}
-      rowsPerPage={rowsPerPage}
-      onRowsPerPageChange={handleChangeRowsPerPage}
-      rowsPerPageOptions={[...ROWS_PER_PAGE_OPTIONS]}
-      labelRowsPerPage={isMobile ? 'Rows:' : 'Rows per page:'}
-    />
-  );
-
   return (
     <PageWrapper>
-      {/* Header */}
       <Box sx={headerSx}>
         <Typography variant="h5" fontWeight={700} component="h1">
           Problems
         </Typography>
         {isLoading ? (
-          <Skeleton variant="rounded" width={120} height={32} aria-hidden="true" />
+          <Skeleton
+            variant="rounded"
+            aria-hidden="true"
+            sx={{ width: (t) => t.spacing(15), height: (t) => t.spacing(4) }}
+          />
         ) : (
           <Chip
             label={`${solvedCount} / ${totalCount} Solved`}
@@ -498,6 +312,7 @@ export function ProblemsPage({
         </Box>
       )}
 
+      {/* Content */}
       {isLoading ? (
         <>
           <LoadingStatus />
@@ -511,8 +326,19 @@ export function ProblemsPage({
         <EmptyState onClearFilters={handleClearFilters} />
       ) : (
         <>
-          {isMobile ? MobileList : DesktopTable}
-          {Pagination}
+          {isMobile ? (
+            <ProblemsMobileList problems={paginatedProblems} onAction={handleAction} />
+          ) : (
+            <ProblemsDesktopTable problems={paginatedProblems} onAction={handleAction} />
+          )}
+          <ProblemsPagination
+            count={filteredProblems.length}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            isMobile={isMobile}
+          />
         </>
       )}
 
