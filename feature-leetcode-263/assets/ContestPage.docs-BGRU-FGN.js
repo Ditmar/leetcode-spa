@@ -1,0 +1,11 @@
+import{B as t}from"./iframe-BbykMG82.js";import{useMDXComponents as i}from"./index-DHHWr0JA.js";import{b as n}from"./index-Bc87X3KD.js";import"./ContestPage.stories-DFfNWxQ1.js";import"./preload-helper-ASOJwovS.js";import"./index-B_1iNWBo.js";import"./index-CJ9vniZT.js";import"./index-BE3XwSDK.js";import"./createSvgIcon-wTCxzxKu.js";import"./memoTheme-D-RVRwN3.js";import"./EmojiEventsOutlined-DQyiYRzP.js";import"./Box-BFon9JSF.js";import"./Paper-B9IIe3sc.js";import"./useTheme-CPxnHitt.js";import"./Card-iLTjG7GZ.js";import"./Typography-qQZWH-26.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";import"./debounce-Be36O1Ab.js";import"./ownerWindow-HkKU3E4x.js";import"./ownerDocument-DW-IO8s5.js";import"./useSlot-Dp-5tXxC.js";import"./mergeSlotProps-B_yFJcKl.js";import"./useForkRef-BC332ZW7.js";import"./useSlotProps-0TmLh-mh.js";import"./useTimeout-Dw-9lZuh.js";import"./ButtonBase-DpFOdCfR.js";import"./Skeleton-BSfXSxUt.js";import"./Stack-BQFXb01z.js";import"./styled-B-5tK6GI.js";import"./useThemeProps-BQp3ahLd.js";import"./getThemeProps-DVcRFzTN.js";import"./Chip-C0C9biwt.js";import"./Button-VcNffCnW.js";import"./CircularProgress-BSVAw7kv.js";function r(o){const e={code:"code",h1:"h1",h2:"h2",hr:"hr",p:"p",pre:"pre",...i(),...o.components};return t.jsxs(t.Fragment,{children:[t.jsx(n,{title:"Pages/ContestPage"}),`
+`,t.jsx(e.h1,{id:"contestpage--page-level-contest-dashboard",children:"ContestPage — Page-Level Contest Dashboard"}),`
+`,t.jsxs(e.p,{children:["The ",t.jsx(e.code,{children:"ContestPage"})," is a page-level organism component built with Material UI (MUI), TypeScript, and responsive design principles following Component-Driven Development (CDD) architecture. It serves as the main dashboard for developers to explore, register for, and review programming contests."]}),`
+`,t.jsx(e.hr,{}),`
+`,t.jsx(e.h2,{id:"basic-usage",children:"Basic Usage"}),`
+`,t.jsx(e.pre,{children:t.jsx(e.code,{className:"language-tsx",children:`import ContestPage from './ContestPage';
+
+export default function App() {
+  return <ContestPage/>;
+}
+`})})]})}function k(o={}){const{wrapper:e}={...i(),...o.components};return e?t.jsx(e,{...o,children:t.jsx(r,{...o})}):r(o)}export{k as default};
