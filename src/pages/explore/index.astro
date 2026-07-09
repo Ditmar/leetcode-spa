@@ -1,17 +1,16 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import AppProvider from '../../context/AppConfigContext';
-import ExplorePage from '../../components/ExplorePage/ExplorePage';
-import { exploreService } from '../../services/explore/exploreService';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import AppProvider from '@/context/AppConfigContext';
+import ExplorePage from '@/components/ExplorePage/ExplorePage';
+import { exploreService } from '@/services/explore/exploreService';
 
 const { config, user } = Astro.locals;
 
-// Feature flag validation: Fail fast with a 302 temporary redirect
+// Check feature flag before processing
 if (config?.featureFlags?.explore === false) {
-  return Astro.redirect('/?info=coming-soon', 302);
+  return Astro.redirect('/', 302);
 }
 
-// Extract cookie for authenticated progress rendering as required by the ticket
 const cookieHeader = Astro.request.headers.get('cookie') ?? '';
 
 let initialTopics = [];
@@ -19,19 +18,17 @@ let categories = [];
 let difficulties = [];
 
 try {
-  // Fetch topics and filter metadata in parallel via SSR
+  // Parallel fetch for optimal performance
   const [topicsResponse, filtersMetadata] = await Promise.all([
     exploreService.getTopics({}, cookieHeader),
     exploreService.getFiltersMetadata(),
   ]);
 
-  // Safe unwrapping to prevent hydration mismatches
-  initialTopics = topicsResponse?.data || topicsResponse || [];
+  initialTopics = topicsResponse?.data || [];
   categories = filtersMetadata?.categories || [];
   difficulties = filtersMetadata?.difficulties || [];
 } catch (error) {
-  // Graceful degradation: The React island receives empty arrays instead of crashing
-  console.error('[SSR Error] Failed to fetch explore page data:', error);
+  console.error('[Explore SSR] Failed to fetch data:', error);
 }
 ---
 
