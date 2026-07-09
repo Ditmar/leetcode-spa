@@ -42,7 +42,10 @@ const LeaderboardTable = ({ users }: LeaderboardTableProps) => (
           <TableRow key={user.username} hover>
             <TableCell>
               {user.rank <= 3 ? (
-                <EmojiEventsIcon sx={{ color: MEDAL_COLORS[user.rank] }} />
+                <EmojiEventsIcon
+                  sx={{ color: MEDAL_COLORS[user.rank], verticalAlign: 'middle' }}
+                  aria-label={`Medalla posición ${user.rank}`}
+                />
               ) : (
                 <Typography variant="body2" color="text.secondary">
                   {user.rank}
@@ -52,10 +55,11 @@ const LeaderboardTable = ({ users }: LeaderboardTableProps) => (
             <TableCell>
               <Box display="flex" alignItems="center" gap={1}>
                 <Avatar src={user.avatar} sx={{ width: 32, height: 32 }}>
-                  {user.username[0].toUpperCase()}
+                  {/* Fix defensivo: fallback si username está vacío */}
+                  {user.username ? user.username[0].toUpperCase() : '?'}
                 </Avatar>
                 <Typography variant="body2" fontWeight={500}>
-                  {user.username}
+                  {user.username || 'Anónimo'}
                 </Typography>
               </Box>
             </TableCell>

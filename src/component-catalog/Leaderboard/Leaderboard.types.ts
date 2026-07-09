@@ -1,11 +1,5 @@
-export interface LeaderboardUser {
-  rank: number;
-  username: string;
-  score: number;
-  solvedCount: number;
-  avatar?: string;
-}
+export type { LeaderboardEntry } from '../../services/leaderboard/leaderboardService.types';
 
 export interface LeaderboardTableProps {
-  users: LeaderboardUser[];
+  users: import('../../services/leaderboard/leaderboardService.types').LeaderboardEntry[];
 }

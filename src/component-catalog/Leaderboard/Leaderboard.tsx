@@ -3,10 +3,10 @@ import { Box, CircularProgress, Container, Typography } from '@mui/material';
 import { useLeaderboard } from './Leaderboard.hook';
 import { LeaderboardTable } from './LeaderboardTable';
 
-import type { LeaderboardUser } from './Leaderboard.types';
+import type { LeaderboardEntry } from '../../services/leaderboard/leaderboardService.types';
 
 interface LeaderboardPageProps {
-  initialUsers?: LeaderboardUser[];
+  initialUsers?: LeaderboardEntry[];
 }
 
 const LeaderboardPage = ({ initialUsers = [] }: LeaderboardPageProps) => {
