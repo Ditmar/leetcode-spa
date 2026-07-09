@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import AppProvider from '@/context/AppConfigContext';
 import ExplorePage from '@/components/ExplorePage/ExplorePage';
 import { exploreService } from '@/services/explore/exploreService';
+import { apiClient } from '@/services/api/apiClient';
 
 const { config, user } = Astro.locals;
 
@@ -18,17 +19,17 @@ let difficulties = [];
 
 try {
   const [topicsResponse, filtersMetadata] = await Promise.all([
-    // @ts-expect-error: API service requires cookie forwarding per PR requirements
-    exploreService.getTopics({}, cookieHeader),
+    apiClient.get('/explore/topics', {
+      headers: cookieHeader ? { Cookie: cookieHeader } : undefined,
+    }),
     exploreService.getFiltersMetadata(),
   ]);
 
-  initialTopics = Array.isArray(topicsResponse) ? topicsResponse : (topicsResponse?.data ?? []);
+  initialTopics = Array.isArray(topicsResponse.data) ? topicsResponse.data : [];
   categories = filtersMetadata?.categories ?? [];
   difficulties = filtersMetadata?.difficulties ?? [];
-// FÍJATE AQUÍ: Solo "catch", sin paréntesis
-} catch {
-  // Ignorado intencionalmente: Los arreglos vacíos actuarán como fallback en React
+} catch (error) {
+  console.error('[SSR Error] Failed to fetch explore data:', error);
 }
 ---
 
