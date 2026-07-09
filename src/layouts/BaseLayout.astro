@@ -7,6 +7,8 @@ interface Props {
   ogImage?: string;
   noIndex?: boolean;
   themeColor?: string;
+  ogUrl?: string;
+  ogType?: string;
 }
 
 const {
@@ -15,6 +17,8 @@ const {
   ogImage,
   noIndex = false,
   themeColor = '#0f172a',
+  ogUrl,
+  ogType = 'website',
 } = Astro.props;
 
 const canonicalUrl = Astro.url.href;
@@ -33,8 +37,20 @@ const canonicalUrl = Astro.url.href;
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="LeetCode SPA" />
     <meta name="mobile-web-app-capable" content="yes" />
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    {ogUrl && <meta property="og:url" content={ogUrl} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
 
     <!-- MUI Emotion insertion point must be declared before application styles. -->
+    <meta name="generator" content={Astro.generator} />
     <meta name="emotion-insertion-point" content="" />
 
     {noIndex && <meta name="robots" content="noindex" />}
@@ -44,7 +60,6 @@ const canonicalUrl = Astro.url.href;
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
 
-    <!-- Application font is loaded through HTML links, not client JavaScript. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -53,12 +68,6 @@ const canonicalUrl = Astro.url.href;
     />
 
     <title>{title}</title>
-
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:type" content="website" />
-    {ogImage && <meta property="og:image" content={ogImage} />}
 
     <slot name="head" />
   </head>
@@ -75,6 +84,7 @@ const canonicalUrl = Astro.url.href;
 </html>
 
 <style is:global>
+  /* ── Local font faces ─────────────────────────────────── */
   @font-face {
     font-family: 'Montserrat';
     src: url('/fonts/Montserrat-Light.woff2') format('woff2');
@@ -82,7 +92,6 @@ const canonicalUrl = Astro.url.href;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
     font-family: 'Montserrat';
     src: url('/fonts/Montserrat-Regular.woff2') format('woff2');
@@ -90,7 +99,6 @@ const canonicalUrl = Astro.url.href;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
     font-family: 'Montserrat';
     src: url('/fonts/Montserrat-SemiBold.woff2') format('woff2');
@@ -98,7 +106,6 @@ const canonicalUrl = Astro.url.href;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
     font-family: 'Poppins';
     src: url('/fonts/Poppins-SemiBold.woff2') format('woff2');
@@ -106,7 +113,6 @@ const canonicalUrl = Astro.url.href;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
     font-family: 'Syne';
     src: url('/fonts/Syne-Regular.woff2') format('woff2');
@@ -114,7 +120,6 @@ const canonicalUrl = Astro.url.href;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
     font-family: 'Syne';
     src: url('/fonts/Syne-Medium.woff2') format('woff2');
@@ -122,7 +127,6 @@ const canonicalUrl = Astro.url.href;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
     font-family: 'Syne';
     src: url('/fonts/Syne-SemiBold.woff2') format('woff2');
@@ -130,7 +134,6 @@ const canonicalUrl = Astro.url.href;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
     font-family: 'Syne';
     src: url('/fonts/Syne-700.woff2') format('woff2');
@@ -138,7 +141,6 @@ const canonicalUrl = Astro.url.href;
     font-style: normal;
     font-display: swap;
   }
-
   @font-face {
     font-family: 'Syne';
     src: url('/fonts/Syne-Bold.woff2') format('woff2');
@@ -147,6 +149,7 @@ const canonicalUrl = Astro.url.href;
     font-display: swap;
   }
 
+  /* ── Reset / base ─────────────────────────────────────── */
   *,
   *::before,
   *::after {
@@ -157,40 +160,12 @@ const canonicalUrl = Astro.url.href;
 
   html,
   body {
-    min-height: 100%;
-    margin: 0;
-    font-family:
-      'Inter',
-      'Poppins',
-      'Montserrat',
-      'Syne',
-      'Roboto',
-      'Helvetica',
-      'Arial',
+    height: 100%;
+    font-family: 'Poppins', 'Montserrat', 'Syne', 'Inter', 'Roboto', 'Helvetica', 'Arial',
       sans-serif;
-    background-color: var(--background);
-    color: var(--foreground);
+    background-color: #ffffff;
+    color: #0a0a0a;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  button,
-  input,
-  textarea,
-  select {
-    font: inherit;
-  }
-
-  img,
-  picture,
-  svg,
-  canvas {
-    display: block;
-    max-width: 100%;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
   }
 </style>
