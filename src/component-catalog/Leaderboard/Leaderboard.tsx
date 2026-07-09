@@ -1,14 +1,26 @@
 import { Box, CircularProgress, Container, Typography } from '@mui/material';
 
-import { useLeaderboard } from '../../component-catalog/Leaderboard/Leaderboard.hook';
-import { LeaderboardTable } from '../../component-catalog/Leaderboard/LeaderboardTable';
+import { useLeaderboard } from './Leaderboard.hook';
+import { LeaderboardTable } from './LeaderboardTable';
 
-const LeaderboardPage = () => {
-  const { users, loading, error } = useLeaderboard();
+import type { LeaderboardUser } from './Leaderboard.types';
+
+interface LeaderboardPageProps {
+  initialUsers?: LeaderboardUser[];
+}
+
+const LeaderboardPage = ({ initialUsers = [] }: LeaderboardPageProps) => {
+  const { users, loading, error } = useLeaderboard(initialUsers);
 
   if (loading) {
     return (
-      <Box display="flex" alignItems="center" justifyContent="center" minHeight="60vh">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="60vh"
+        aria-label="Cargando leaderboard"
+      >
         <CircularProgress />
       </Box>
     );

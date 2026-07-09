@@ -4,14 +4,23 @@ import '../style-library/theme/colors.css';
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
+  ogType?: string;
+  canonical?: string;
 }
 
 const {
   title = 'LeetCode SPA',
   description = 'Interactive coding practice platform',
+  ogImage = '/favicon.svg',
+  ogType = 'website',
+  canonical,
 } = Astro.props;
 
 const themeColor = '#0f172a';
+const canonicalURL = canonical
+  ? new URL(canonical, Astro.site)
+  : new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -25,8 +34,16 @@ const themeColor = '#0f172a';
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="LeetCode SPA" />
     <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <!-- MUI Emotion insertion point – must come before any other styles -->
     <meta name="emotion-insertion-point" content="" />

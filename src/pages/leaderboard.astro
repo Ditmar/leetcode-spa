@@ -1,11 +1,33 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { LeaderboardPage } from '../component-catalog/Leaderboard/Leaderboard';
+import type { LeaderboardUser } from '../component-catalog/Leaderboard/Leaderboard.types';
+
+interface ApiUser {
+  username: string;
+}
+
+let initialUsers: LeaderboardUser[] = [];
+try {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  if (res.ok) {
+    const data: ApiUser[] = await res.json();
+    initialUsers = data.map((u, i) => ({
+      rank: i + 1,
+      username: u.username,
+      score: Math.floor(Math.random() * 9000) + 1000,
+      solvedCount: Math.floor(Math.random() * 300) + 50,
+    }));
+  }
+} catch {
+  initialUsers = [];
+}
 ---
 
 <BaseLayout
   title="Leaderboard — LeetCode SPA"
   description="Ranking global de usuarios por puntuación y problemas resueltos"
+  ogType="website"
 >
-  <LeaderboardPage client:load />
+  <LeaderboardPage initialUsers={initialUsers} client:load />
 </BaseLayout>
