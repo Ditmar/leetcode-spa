@@ -7,17 +7,25 @@ interface Props {
   ogImage?: string;
   noIndex?: boolean;
   themeColor?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
+  ogUrl?: string;
 }
 
 const {
   title = 'LeetCode Clone',
   description = 'Interactive coding practice platform',
-  ogImage,
+  ogImage = '/og-image.png',
   noIndex = false,
   themeColor = '#0f172a',
+  ogImageWidth = 1200,
+  ogImageHeight = 630,
+  ogUrl = Astro.url.href,
 } = Astro.props;
 
 const canonicalUrl = Astro.url.href;
+
+const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
 ---
 
 <!doctype html>
@@ -25,8 +33,9 @@ const canonicalUrl = Astro.url.href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content={themeColor} />
+
     <meta name="description" content={description} />
+    <meta name="theme-color" content={themeColor} />
     <meta name="generator" content={Astro.generator} />
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,7 +43,20 @@ const canonicalUrl = Astro.url.href;
     <meta name="apple-mobile-web-app-title" content="LeetCode SPA" />
     <meta name="mobile-web-app-capable" content="yes" />
 
-    <!-- MUI Emotion insertion point must be declared before application styles. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="LeetCode SPA" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content={String(ogImageWidth)} />
+    <meta property="og:image:height" content={String(ogImageHeight)} />
+    <meta property="og:url" content={ogUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+
+    <!-- MUI Emotion insertion point – must come before any other styles -->
     <meta name="emotion-insertion-point" content="" />
 
     {noIndex && <meta name="robots" content="noindex" />}
@@ -54,12 +76,6 @@ const canonicalUrl = Astro.url.href;
 
     <title>{title}</title>
 
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:type" content="website" />
-    {ogImage && <meta property="og:image" content={ogImage} />}
-
     <slot name="head" />
   </head>
 
@@ -75,6 +91,7 @@ const canonicalUrl = Astro.url.href;
 </html>
 
 <style is:global>
+
   @font-face {
     font-family: 'Montserrat';
     src: url('/fonts/Montserrat-Light.woff2') format('woff2');
@@ -147,6 +164,9 @@ const canonicalUrl = Astro.url.href;
     font-display: swap;
   }
 
+
+  /* ── Reset / base ─────────────────────────────────────── */
+
   *,
   *::before,
   *::after {
@@ -192,5 +212,12 @@ const canonicalUrl = Astro.url.href;
   a {
     color: inherit;
     text-decoration: none;
+    height: 100%;
+    font-family: 'Poppins', 'Montserrat', 'Syne', 'Inter', 'Roboto', 'Helvetica', 'Arial',
+      sans-serif;
+    background-color: #ffffff;
+    color: #0a0a0a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 </style>
