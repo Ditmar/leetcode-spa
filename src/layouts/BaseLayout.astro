@@ -22,18 +22,10 @@ const {
   ogImageHeight = 630,
   ogUrl = Astro.url.href,
 } = Astro.props;
-<<<<<<< HEAD
-=======
- 
->>>>>>> e89e8d94 (fix: resolve merge conflict markers in BaseLayout)
 
 const canonicalUrl = Astro.url.href;
 
 const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
-<<<<<<< HEAD
-=======
-
->>>>>>> e89e8d94 (fix: resolve merge conflict markers in BaseLayout)
 ---
 
 <!doctype html>
@@ -43,13 +35,6 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <meta name="description" content={description} />
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
- 
->>>>>>> e89e8d94 (fix: resolve merge conflict markers in BaseLayout)
-=======
->>>>>>> 58dea4f7 (feat rebase astro)
     <meta name="theme-color" content={themeColor} />
     <meta name="generator" content={Astro.generator} />
 
@@ -57,10 +42,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="LeetCode SPA" />
     <meta name="mobile-web-app-capable" content="yes" />
-<<<<<<< HEAD
 
-=======
->>>>>>> e89e8d94 (fix: resolve merge conflict markers in BaseLayout)
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="LeetCode SPA" />
     <meta property="og:title" content={title} />
@@ -109,10 +91,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
 </html>
 
 <style is:global>
-<<<<<<< HEAD
-=======
-  /* ── Local font faces ─────────────────────────────────── */
->>>>>>> c2a9ad85 (feat:unforeseen error)
+
   @font-face {
     font-family: 'Montserrat';
     src: url('/fonts/Montserrat-Light.woff2') format('woff2');
@@ -120,10 +99,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     font-style: normal;
     font-display: swap;
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> c2a9ad85 (feat:unforeseen error)
   @font-face {
     font-family: 'Montserrat';
     src: url('/fonts/Montserrat-Regular.woff2') format('woff2');
@@ -131,10 +107,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     font-style: normal;
     font-display: swap;
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> c2a9ad85 (feat:unforeseen error)
   @font-face {
     font-family: 'Montserrat';
     src: url('/fonts/Montserrat-SemiBold.woff2') format('woff2');
@@ -142,10 +115,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     font-style: normal;
     font-display: swap;
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> c2a9ad85 (feat:unforeseen error)
   @font-face {
     font-family: 'Poppins';
     src: url('/fonts/Poppins-SemiBold.woff2') format('woff2');
@@ -153,10 +123,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     font-style: normal;
     font-display: swap;
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> c2a9ad85 (feat:unforeseen error)
   @font-face {
     font-family: 'Syne';
     src: url('/fonts/Syne-Regular.woff2') format('woff2');
@@ -164,10 +131,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     font-style: normal;
     font-display: swap;
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> c2a9ad85 (feat:unforeseen error)
   @font-face {
     font-family: 'Syne';
     src: url('/fonts/Syne-Medium.woff2') format('woff2');
@@ -175,10 +139,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     font-style: normal;
     font-display: swap;
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> c2a9ad85 (feat:unforeseen error)
   @font-face {
     font-family: 'Syne';
     src: url('/fonts/Syne-SemiBold.woff2') format('woff2');
@@ -186,10 +147,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     font-style: normal;
     font-display: swap;
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> c2a9ad85 (feat:unforeseen error)
   @font-face {
     font-family: 'Syne';
     src: url('/fonts/Syne-700.woff2') format('woff2');
@@ -197,10 +155,7 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     font-style: normal;
     font-display: swap;
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> c2a9ad85 (feat:unforeseen error)
   @font-face {
     font-family: 'Syne';
     src: url('/fonts/Syne-Bold.woff2') format('woff2');
@@ -209,10 +164,9 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     font-display: swap;
   }
 
-<<<<<<< HEAD
-=======
+
   /* ── Reset / base ─────────────────────────────────────── */
->>>>>>> c2a9ad85 (feat:unforeseen error)
+
   *,
   *::before,
   *::after {
@@ -223,7 +177,6 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
 
   html,
   body {
-<<<<<<< HEAD
     min-height: 100%;
     margin: 0;
     font-family:
@@ -259,8 +212,6 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
   a {
     color: inherit;
     text-decoration: none;
-  }
-=======
     height: 100%;
     font-family: 'Poppins', 'Montserrat', 'Syne', 'Inter', 'Roboto', 'Helvetica', 'Arial',
       sans-serif;
@@ -269,5 +220,4 @@ const absoluteOgImage = new URL(ogImage, Astro.site ?? Astro.url.origin).href;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
->>>>>>> c2a9ad85 (feat:unforeseen error)
 </style>
