@@ -1,8 +1,7 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
-import authService from './authService';
+import realAuthService from './authService';
 import { AUTH_SIGN_OUT_EVENT } from './authService.constants';
-//import authService from './authService.mock';
 
 import type { AuthSession, AuthUser, SignInPayload, SignUpPayload } from './authService.types';
 
@@ -32,7 +31,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const initAuth = async () => {
       try {
-        const restored = await authService.hydrateFromServer();
+        const hasStoredSession =
+          typeof window !== 'undefined' && !!window.localStorage.getItem('auth_token');
+
+        if (!hasStoredSession) {
+          if (!cancelled) setSession(null);
+          if (!cancelled) setIsLoading(false);
+          return;
+        }
+
+        const restored = await realAuthService.hydrateFromServer();
         if (!cancelled) setSession(restored);
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -59,24 +67,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const signIn = useCallback(async (payload: SignInPayload) => {
-    const newSession = await authService.signIn(payload);
+    const newSession = await realAuthService.signIn(payload);
     setSession(newSession);
   }, []);
 
   const signUp = useCallback(async (payload: SignUpPayload) => {
-    const newSession = await authService.signUp(payload);
+    const newSession = await realAuthService.signUp(payload);
     setSession(newSession);
   }, []);
 
   const signOut = useCallback(async () => {
-    await authService.signOut();
+    await realAuthService.signOut();
     setSession(null);
   }, []);
 
   const value = useMemo<AuthContextValue>(
     () => ({
       user: session?.user ?? null,
-      isAuthenticated: authService.isAuthenticated(),
+      isAuthenticated: realAuthService.isAuthenticated(),
       isLoading,
       hydrationError,
       signIn,

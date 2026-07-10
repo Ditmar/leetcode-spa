@@ -1,5 +1,3 @@
-import { getConfig } from '../../utils/config';
-
 import { AUTH_ENDPOINTS, AUTH_SIGN_OUT_EVENT, REFRESH_THRESHOLD_MS } from './authService.constants';
 
 import type { AuthSession, SignInPayload, SignUpPayload } from './authService.types';
@@ -49,6 +47,26 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 
 function buildAuthHeaders(accessToken: string): HeadersInit {
   return { Authorization: `Bearer ${accessToken}` };
+}
+
+async function getServerSession(cookie: string): Promise<AuthSession | null> {
+  try {
+    const response = await fetch(AUTH_ENDPOINTS.ME, {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: cookie,
+      },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return (await response.json()) as AuthSession;
+  } catch {
+    return null;
+  }
 }
 
 const authService = {
@@ -129,13 +147,14 @@ const authService = {
       _session = session;
       return session;
     } catch (err) {
-      if (isApiError(err) && err.status === 401) {
+      if (isApiError(err) && (err.status === 401 || err.status === 404)) {
         _session = null;
         return null;
       }
+
       // eslint-disable-next-line no-console
-      console.error(
-        '[authService] hydrateFromServer: unexpected error —',
+      console.warn(
+        '[authService] hydrateFromServer: continuing without session —',
         isApiError(err) ? `status=${err.status} code=${err.code} message=${err.message}` : err
       );
 
@@ -145,23 +164,5 @@ const authService = {
   },
 };
 
+export { getServerSession };
 export default authService;
-
-export async function getServerSession(cookie: string): Promise<AuthSession | null> {
-  if (!cookie) return null;
-
-  const { apiBaseUrl } = getConfig();
-  const url = `${apiBaseUrl}${AUTH_ENDPOINTS.ME}`;
-
-  try {
-    const res = await fetch(url, {
-      headers: { Cookie: cookie },
-    });
-
-    if (!res.ok) return null;
-
-    return (await res.json()) as AuthSession;
-  } catch {
-    return null;
-  }
-}
