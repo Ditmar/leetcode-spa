@@ -10,9 +10,9 @@ import type {
   ProblemFilters,
   ProblemStatus,
 } from '../../services/problems/problemsService.types';
-import type { AppConfig } from '../../utils/config.types';
+//import type { AppConfig } from '../../utils/config.types';
 
-const { config, user } = Astro.locals as { config?: AppConfig | null; user?: AuthUser | null };
+const { user } = Astro.locals as { user?: AuthUser | null };
 
 function buildCanonicalQuery(activeFilters: ProblemFilters): string {
   const params = new URLSearchParams();
@@ -53,7 +53,7 @@ Astro.response.headers.set('Link', `<${canonicalUrl}>; rel="canonical"`);
 ---
 
 <BaseLayout title="Problems — LeetCode Clone">
-  <AppProvider config={config} user={user} client:load>
+<AppProvider config={null} user={user} client:load>
     {/* TODO: restore once PR #284 is merged into next */}
     <div>Lista de problemas disponible próximamente.</div>
   </AppProvider>
