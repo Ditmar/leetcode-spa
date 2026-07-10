@@ -68,6 +68,7 @@
   --chart-4: #d4a017;
   --chart-5: #c97a10;
 
+
   /* Radius */
   --radius: 0.625rem;
   --radius-sm: calc(var(--radius) - 4px);
@@ -108,6 +109,17 @@
   --problem-list-acceptance: #6a7282;
   --problem-list-bullet: #99a1af;
 
+
+    --nav-bg: #101828;
+  --nav-border: #1E2939;
+  --nav-accent-green: #00A63E;
+  --editor-panel-bg: #4A5565;
+  --editor-panel: #364153;
+  --editor-text: #D1D5DC;
+  
+  --chart-6: rgba(0, 0, 0, 0.04);
+  --nav-yellow: #F0B100;
+  --nav-red: #FB2C36;
 }
 
 .dark {
@@ -181,4 +193,5 @@
   --problem-list-title-text: #f9fafb;
   --problem-list-acceptance: #9ca3af;
   --problem-list-bullet: #6a7282;
+
 }
