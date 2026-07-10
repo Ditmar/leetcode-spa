@@ -107,6 +107,17 @@ describe('signIn', () => {
   });
 });
 
+describe('hydrateFromServer', () => {
+  it('returns null and clears the session when the server rejects with 401', async () => {
+    mockFetchFailure({ message: 'Unauthorized' }, 401);
+
+    const result = await authService.hydrateFromServer();
+
+    expect(result).toBeNull();
+    expect(authService.getSession()).toBeNull();
+  });
+});
+
 describe('signOut', () => {
   it('calls POST /auth/signout and clears in-memory session', async () => {
     mockFetchSuccess(makeSession());

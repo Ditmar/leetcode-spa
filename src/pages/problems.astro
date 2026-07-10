@@ -1,11 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { AppProvider } from '../context/AppConfigContext';
 import ProblemsPage from '../ui/components/Problems';
+import type { AuthUser } from '../services/auth/authService.types';
+import type { AppConfig } from '../utils/config.types';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { config = null, user = null } =
+  Astro.locals as { config?: AppConfig | null; user?: AuthUser | null };
 ---
 
-<BaseLayout
-  title="Problems | LeetCode Clone"
-  description="Browse coding problems by topic, difficulty, and category."
->
-  <ProblemsPage client:load />
+<BaseLayout title="LeetCode SPA" description="Interactive coding practice platform">
+  <main class="problems-page-shell">
+    <section class="problems-client-module">
+      <AppProvider config={config} user={user} client:load>
+        <ProblemsPage />
+      </AppProvider>
+    </section>
+  </main>
 </BaseLayout>
