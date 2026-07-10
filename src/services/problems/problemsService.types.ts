@@ -10,11 +10,20 @@ export interface Problem {
   status?: ProblemStatus;
 }
 
+export interface ProblemExample {
+  input: string;
+  output: string;
+  explanation?: string;
+}
+
 export interface ProblemDetail extends Problem {
   description: string;
-  examples: string[];
+  examples: Array<string | ProblemExample>;
   constraints: string[];
-  starterCode?: string;
+  starterCode?: string | Record<string, string>;
+  acceptance?: number;
+  prevId?: number;
+  nextId?: number;
 }
 
 export interface ProblemFilters {
@@ -22,12 +31,14 @@ export interface ProblemFilters {
   difficulty?: ProblemDifficulty;
   status?: ProblemStatus;
   tag?: string;
+
   /**
    * 1-based page number.
    * Must be >= 1.
    * @default 1
    */
   page?: number;
+
   /**
    * Number of items per page.
    * Accepted range: 1–100.
