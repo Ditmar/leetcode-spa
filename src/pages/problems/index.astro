@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AppProvider from '../../context/AppConfigContext';
+// import { ProblemsPage } from '../../component-catalog/ProblemsPage/ProblemsPage';
+// import { problemsService } from '../../services/problems/problemsService';
+// TODO: restore once PR #284 is merged into next
+import type { AuthUser } from '../../services/auth/authService.types';
+import type {
+  ProblemDifficulty,
+  ProblemFilters,
+  ProblemStatus,
+} from '../../services/problems/problemsService.types';
+//import type { AppConfig } from '../../utils/config.types';
+
+const { user } = Astro.locals as { user?: AuthUser | null };
+
+function buildCanonicalQuery(activeFilters: ProblemFilters): string {
+  const params = new URLSearchParams();
+  if (activeFilters.search) params.set('search', activeFilters.search);
+  if (activeFilters.difficulty) params.set('difficulty', activeFilters.difficulty);
+  if (activeFilters.status) params.set('status', activeFilters.status);
+  if (activeFilters.tag) params.set('tag', activeFilters.tag);
+  if (activeFilters.page && activeFilters.page > 1) params.set('page', String(activeFilters.page));
+  return params.toString();
+}
+
+const url = Astro.url;
+const filters: ProblemFilters = {
+  search: url.searchParams.get('search') ?? undefined,
+  difficulty: (url.searchParams.get('difficulty') as ProblemDifficulty) ?? undefined,
+  status: (url.searchParams.get('status') as ProblemStatus) ?? undefined,
+  tag: url.searchParams.get('tag') ?? undefined,
+  page: Number(url.searchParams.get('page') ?? '1'),
+};
+
+// const initialData = await problemsService.getProblems(filters, {
+//   headers: { cookie: Astro.request.headers.get('cookie') ?? '' },
+// });
+// TODO: restore once PR #284 is merged into next
+
+const canonicalQuery = buildCanonicalQuery(filters);
+const canonicalUrl = `${url.origin}/problems${canonicalQuery ? `?${canonicalQuery}` : ''}`;
+Astro.response.headers.set('Link', `<${canonicalUrl}>; rel="canonical"`);
+
+// const problems = initialData.data.map((p) => ({
+//   id: p.id,
+//   title: p.title,
+//   difficulty: p.difficulty as 'Easy' | 'Medium' | 'Hard',
+//   status: (p.status ?? 'unsolved') as 'solved' | 'attempted' | 'unsolved',
+//   tags: p.tags,
+// }));
+// TODO: restore once PR #284 is merged into next
+---
+
+<BaseLayout title="Problems — LeetCode Clone">
+<AppProvider config={null} user={user} client:load>
+    {/* TODO: restore once PR #284 is merged into next */}
+    <div>Lista de problemas disponible próximamente.</div>
+  </AppProvider>
+</BaseLayout>
