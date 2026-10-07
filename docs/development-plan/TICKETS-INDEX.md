@@ -1,14 +1,14 @@
 # Tickets index
 
-Total tickets: **105**
+Total tickets: **109**
 
 | Repo | P0 | P1 | P2 | P3 | Total |
 | --- | --- | --- | --- | --- | --- |
 | cross-repo (X) | 3 | 5 | 2 | 0 | 10 |
-| api-leetcode (API) | 6 | 20 | 12 | 4 | 42 |
+| api-leetcode (API) | 6 | 22 | 12 | 5 | 45 |
 | leetcode-spa (SPA) | 4 | 15 | 13 | 4 | 36 |
-| leetcode-cd (CD) | 2 | 7 | 6 | 2 | 17 |
-| **All** | 15 | 47 | 33 | 10 | 105 |
+| leetcode-cd (CD) | 2 | 8 | 6 | 2 | 18 |
+| **All** | 15 | 50 | 33 | 11 | 109 |
 
 Priority: **P0** = fix now (security, crash, blocker). **P1** = needed for the MVP. **P2** = should do. **P3** = nice to have.  
 Size: **S** = under 1 day. **M** = 1 to 3 days. **L** = 3 to 5 days. (For one student.)
@@ -100,12 +100,15 @@ Size: **S** = under 1 day. **M** = 1 to 3 days. **L** = 3 to 5 days. (For one st
 | ID | Title | Type | Priority | Size | Depends on |
 | --- | --- | --- | --- | --- | --- |
 | [API-029](https://github.com/Ditmar/api-leetcode/issues/83) | Build the problems module | Feature | P1 | L | X-001, X-003, API-027 |
-| [API-030](https://github.com/Ditmar/api-leetcode/issues/84) | Connect the code runner (safe execution) | Feature | P1 | L | X-004 |
-| [API-031](https://github.com/Ditmar/api-leetcode/issues/85) | Build the code submissions module | Feature | P1 | L | API-029, API-030 |
+| [API-030](https://github.com/Ditmar/api-leetcode/issues/84) | Connect Piston as the code executor | Feature | P1 | M | X-004 |
+| [API-031](https://github.com/Ditmar/api-leetcode/issues/85) | Build the code submissions module | Feature | P1 | L | API-029, API-030, API-044 |
+| [API-043](https://github.com/Ditmar/api-leetcode/issues/97) | Build the execution queue and the worker (RabbitMQ) | Feature | P1 | L | X-004, API-030, API-031, API-044 |
+| [API-044](https://github.com/Ditmar/api-leetcode/issues/98) | Build the test harness and the output comparison | Feature | P1 | L | X-004, API-029 |
+| [CD-018](https://github.com/Ditmar/leetcode-cd/issues/39) | Deploy Piston, RabbitMQ and the worker | Feature | P1 | L | X-004, API-043 |
 | [SPA-017](https://github.com/Ditmar/leetcode-spa/issues/392) | Build the problems list page | Feature | P1 | L | SPA-013, SPA-015, API-029 |
 | [SPA-018](https://github.com/Ditmar/leetcode-spa/issues/393) | Build the problem detail page | Feature | P1 | L | SPA-017, SPA-013 |
 | [SPA-019](https://github.com/Ditmar/leetcode-spa/issues/394) | Add the code editor | Feature | P1 | L | SPA-018 |
-| [SPA-020](https://github.com/Ditmar/leetcode-spa/issues/395) | Build the Run and Submit buttons and the results panel | Feature | P1 | L | SPA-019, SPA-021, API-031 |
+| [SPA-020](https://github.com/Ditmar/leetcode-spa/issues/395) | Build the Run and Submit buttons and the results panel | Feature | P1 | L | SPA-019, SPA-021, API-031, API-043 |
 | [SPA-033](https://github.com/Ditmar/leetcode-spa/issues/408) | Sanitize user content and add security headers | Security | P1 | M | SPA-018 |
 | [SPA-029](https://github.com/Ditmar/leetcode-spa/issues/404) | Improve the home page and connect it to real data | Feature | P2 | M | API-029, SPA-015 |
 | [SPA-030](https://github.com/Ditmar/leetcode-spa/issues/405) | Create shared loading, empty and error components | Feature | P2 | M | None |
@@ -126,6 +129,7 @@ Size: **S** = under 1 day. **M** = 1 to 3 days. **L** = 3 to 5 days. (For one st
 | [API-036](https://github.com/Ditmar/api-leetcode/issues/90) | Add lessons and progress to courses | Feature | P3 | L | API-013, X-001 |
 | [API-037](https://github.com/Ditmar/api-leetcode/issues/91) | Build the contests module | Feature | P3 | L | API-031 |
 | [API-038](https://github.com/Ditmar/api-leetcode/issues/92) | Build the discuss module | Feature | P3 | L | API-026, API-029 |
+| [API-045](https://github.com/Ditmar/api-leetcode/issues/99) | Build our own Docker executor (advanced, optional) | Feature | P3 | L | API-043 |
 | [CD-016](https://github.com/Ditmar/leetcode-cd/issues/37) | Decide and create a `dev` environment | Feature | P3 | M | CD-008, CD-006 |
 | [SPA-027](https://github.com/Ditmar/leetcode-spa/issues/402) | Build the contest pages | Feature | P3 | L | X-001, SPA-020, API-037 |
 | [SPA-028](https://github.com/Ditmar/leetcode-spa/issues/403) | Build the discuss page | Feature | P3 | L | SPA-033, API-038 |

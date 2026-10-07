@@ -7,7 +7,7 @@
 | Priority | P1 |
 | Size | L |
 | Phase | 3 - Core product |
-| Depends on | API-029, API-030 |
+| Depends on | API-029, API-030, API-044 |
 
 ## Problem
 
@@ -31,3 +31,13 @@ Careful: the Prisma model `Submission` already exists for company tests. Use ano
 - The SPA `submissionsService.run` and `.submit` work against the API.
 - User A cannot read user B's submission.
 - A user cannot send more than the limit of runs per minute.
+
+## Update after decision X-004 (Piston + RabbitMQ)
+
+The API does **not** run the code in the HTTP request.
+
+- Define the `JobQueue` interface here (`publish(job)`) and an in-memory fake for tests. The RabbitMQ adapter and the worker are in `API-043`.
+- `POST /submissions` and `POST /submissions/run`: validate, save the submission as `pending`, publish the job, and return `{ submissionId, status: 'pending' }` with `202`. The SPA already polls this case (`QueuedSubmissionResponse`).
+- Add the status `system_error` (the worker could not run the code after retries) to the model and the OpenAPI file. The SPA must show it as "try again later".
+- Limit pending jobs per user.
+- The job message has no code and no tests, only IDs. The worker reads the data from the database.

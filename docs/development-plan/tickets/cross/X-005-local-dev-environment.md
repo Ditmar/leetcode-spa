@@ -33,3 +33,7 @@ A new student cannot start the project easily.
 - On a clean machine: clone, copy `.env`, run one command, open the SPA and see the home page.
 - The API connects to the database and runs migrations and seed (see `API-027`).
 - All READMEs show the same ports.
+
+## Update after decision X-004 (Piston + RabbitMQ)
+
+Add **RabbitMQ** and **Piston** to `docker-compose.yml`, and the worker as a service. Piston needs the languages to be installed: add a script or an init step that installs JavaScript and Python. Write in the README that Piston may need extra Docker permissions on some systems (Docker Desktop on Windows or Mac works with WSL2 or the VM backend; check the Piston docs).

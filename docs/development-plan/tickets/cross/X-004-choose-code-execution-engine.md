@@ -39,3 +39,17 @@ The SPA already expects these languages: `javascript`, `python`, `java`, `cpp`.
 - The ADR names one engine and says why.
 - The proof of concept works for all 4 languages.
 - `API-030` can start with clear instructions.
+
+## Decision (2026-10-06)
+
+**Piston (self-hosted) runs the code. RabbitMQ carries the jobs to a worker.**
+
+- Piston is free (MIT license). The public Piston API needs a token since 2026-02-15, so we host our own. The only cost is the machine.
+- The code runs on a **dedicated VM with Docker**, not inside the API and not on Railway.
+- The API saves the submission as `pending` and publishes a job to RabbitMQ. A worker takes the job, builds the test programs, calls Piston, compares the results and saves them. The SPA polls `GET /submissions/:id`.
+- Judge0 was not chosen: it adds its own queue and database, and we already plan RabbitMQ.
+- A custom Docker executor is a later learning project (`API-045`).
+
+Tickets: `API-030` (Piston adapter), `API-044` (test harness), `API-031` (submissions), `API-043` (queue and worker), `CD-018` (deploy).
+
+What is still open in this ticket: the proof of concept (run `print("hi")` in Python and JavaScript through Piston), the VM provider and monthly cost, and how to install and update languages.

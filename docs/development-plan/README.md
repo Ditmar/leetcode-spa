@@ -9,17 +9,14 @@ This folder has the plan to finish the project. It was made after a code review 
 | `leetcode-cd` | `CD` | `f7798b9` |
 | All repos | `X` | - |
 
-## GitHub tracking
-
-The 105 tickets are already available as GitHub issues. Use the [issue links index](ISSUE-LINKS.md) to open each issue and the [project Backlog](https://github.com/users/Ditmar/projects/7/views/1) to track progress. Cross-repository (`X-`) issues are hosted in `leetcode-spa`.
-
 ## What is in this folder
 
 | File | What it is |
 | --- | --- |
 | [DEVELOPMENT-PLAN.md](DEVELOPMENT-PLAN.md) | The plan: phases, order of work, MVP, team tracks, risks. **Start here.** |
 | [REVIEW-SUMMARY.md](REVIEW-SUMMARY.md) | What we found in the review: what is good and what is wrong. Each problem links to a ticket. |
-| [TICKETS-INDEX.md](TICKETS-INDEX.md) | A table with all 105 tickets, by phase. |
+| [TICKETS-INDEX.md](TICKETS-INDEX.md) | A table with all 109 tickets, by phase. |
+| [CHANGES-AFTER-FIRST-VERSION.md](CHANGES-AFTER-FIRST-VERSION.md) | What changed after the first 104 tickets. Use it to update the GitHub issues. |
 | `tickets/cross/` | `X-` tickets: decisions and work for all repos |
 | `tickets/api/` | `API-` tickets for `api-leetcode` |
 | `tickets/spa/` | `SPA-` tickets for `leetcode-spa` |
@@ -60,7 +57,7 @@ A **Decision** ticket does not need code. The result is a short written document
 
 ## How to work on a ticket
 
-The full rules are in ticket [X-006](tickets/cross/X-006-team-workflow-and-definition-of-done.md). The short version:
+The full rules are in ticket [X-006](https://github.com/Ditmar/leetcode-spa/issues/371). The short version:
 
 1. Choose a ticket whose "Depends on" tickets are done. Take P0 first, then P1.
 2. Assign it to yourself. Tell the team.
@@ -97,7 +94,7 @@ The full rules are in ticket [X-006](tickets/cross/X-006-team-workflow-and-defin
 
 ## Keeping this folder up to date
 
-- **Status** (to do, in progress, done) is not saved in these files. Use the existing GitHub issue for each ticket, linked in [ISSUE-LINKS.md](ISSUE-LINKS.md), and the project board. Close the issue when the acceptance criteria are all true.
+- **Status** (to do, in progress, done) is not saved in these files. Use the existing GitHub issues linked in [ISSUE-LINKS.md](ISSUE-LINKS.md) and the project board. Close the issue when the acceptance criteria are all true.
 - If you find a new problem, write a new ticket with the next free number. Use the same format (the table at the top is required).
 - `TICKETS-INDEX.md` is made from the ticket files. After you change a priority, size, phase, or dependency, rebuild it:
 
@@ -106,3 +103,7 @@ The full rules are in ticket [X-006](tickets/cross/X-006-team-workflow-and-defin
   ```
 
   The script also checks the format and that every ticket ID mentioned in the text exists.
+
+## GitHub tracking
+
+All **109 tickets** have corresponding GitHub issues. See [the issue index](ISSUE-LINKS.md) and [the project Backlog](https://github.com/users/Ditmar/projects/7/views/1).

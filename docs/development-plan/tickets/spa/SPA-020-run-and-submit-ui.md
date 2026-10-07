@@ -7,7 +7,7 @@
 | Priority | P1 |
 | Size | L |
 | Phase | 3 - Core product |
-| Depends on | SPA-019, SPA-021, API-031 |
+| Depends on | SPA-019, SPA-021, API-031, API-043 |
 
 ## Problem
 
@@ -30,3 +30,7 @@
 - A user can write code, run it, see the output, and submit it.
 - Errors and timeouts show a clear message and the buttons work again.
 - Cancel stops the polling.
+
+## Update after decision X-004 (Piston + RabbitMQ)
+
+Jobs go through a queue, so show "In queue" (`pending`) and "Running" (`running`) as two different states, with the elapsed time. Handle the new status `system_error` with a message like "We could not run your code. Try again." and a retry button. `MAX_POLL_ATTEMPTS` (20 x 1.5 s) may be too short when the queue is busy: make it a setting and show a clear message when the time is over (the submission may still finish).

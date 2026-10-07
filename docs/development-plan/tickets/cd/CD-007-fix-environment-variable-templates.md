@@ -40,3 +40,7 @@ The template lists: `NODE_ENV`, `PORT`, `CORS_ORIGIN`, `JWT_SECRET`, `JWT_EXPIRE
 
 - A deploy to ppd fails with a clear message if `JWT_SECRET` is not set in Railway.
 - Templates and app configuration list the same variable names (verified by the script).
+
+## Update after decision X-004 (Piston + RabbitMQ)
+
+Add the variables of the code execution system for the API and the worker: `RABBITMQ_URL`, `PISTON_URL`, `PISTON_TOKEN`, execution limits, and worker concurrency. Create a template for the worker too (`CD-018`).

@@ -26,3 +26,7 @@
 
 - `GET /api/tests/:id/questions` has no `expectedOutput` and no hidden test cases.
 - The automatic test fails if someone adds these fields again.
+
+## Update after decision X-004 (Piston + RabbitMQ)
+
+Because the worker compares the output outside the sandbox (`API-044`), expected outputs and hidden tests never go to Piston and never go to the browser. Keep this rule.

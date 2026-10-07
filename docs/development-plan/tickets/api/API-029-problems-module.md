@@ -29,3 +29,11 @@ The product is a LeetCode clone, but the API has **no problems**. The SPA `probl
 - The SPA `problemsService` works against the real API with real data.
 - Anonymous users can read the list and details.
 - Response JSON never has hidden test cases.
+
+## Update after decision X-004 (Piston + RabbitMQ)
+
+The test harness (`API-044`) needs more data in the model:
+
+- On `Problem`: `functionName` (the function the student must write) and starter code for each language.
+- On `ProblemTestCase`: `input` as a JSON list of arguments and `expectedOutput` as JSON (not plain text).
+- Optional per problem: number tolerance and an "order does not matter" flag.
