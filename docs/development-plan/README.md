@@ -96,13 +96,7 @@ The full rules are in ticket [X-006](https://github.com/Ditmar/leetcode-spa/issu
 
 - **Status** (to do, in progress, done) is not saved in these files. Use the existing GitHub issues linked in [ISSUE-LINKS.md](ISSUE-LINKS.md) and the project board. Close the issue when the acceptance criteria are all true.
 - If you find a new problem, write a new ticket with the next free number. Use the same format (the table at the top is required).
-- `TICKETS-INDEX.md` is made from the ticket files. After you change a priority, size, phase, or dependency, rebuild it:
-
-  ```bash
-  node tools/build-index.mjs .
-  ```
-
-  The script also checks the format and that every ticket ID mentioned in the text exists.
+- Keep `TICKETS-INDEX.md` and `ISSUE-LINKS.md` in sync with the ticket files and GitHub issues after changing a priority, size, phase, dependency, or ticket.
 
 ## GitHub tracking
 

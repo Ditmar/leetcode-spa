@@ -239,5 +239,5 @@ Tips for the team:
 - Every 2 weeks, check the phase goals. Move tickets if the scope changes.
 - Write down real speed (tickets done per week) and update the estimates.
 - Every new problem becomes a ticket. Every ticket has acceptance criteria.
-- Rebuild the index after any change: `node tools/build-index.mjs .`
+- Update `TICKETS-INDEX.md` and `ISSUE-LINKS.md` after changing the tickets.
 
