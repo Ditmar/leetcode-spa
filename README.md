@@ -169,3 +169,7 @@ interface ApiResponse<T> {
 ```sh
 npx vitest run src/services/api/apiClient.test.ts
 ```
+
+## Development plan
+
+The shared plan for API, SPA and CD is available in [docs/development-plan](docs/development-plan/README.md). It includes the development phases, review findings, all 105 ticket specifications and [links to their GitHub issues](docs/development-plan/ISSUE-LINKS.md).
