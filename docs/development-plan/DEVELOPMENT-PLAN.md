@@ -20,7 +20,7 @@ And the team can:
 - Deploy to `ppd`, check it, promote to `prod`, and **roll back** if something is wrong.
 - Trust the system: no known P0 or P1 security problem is open.
 
-Everything else (courses, company tests, explore, contests, discuss, dark mode) is **phase 4**. Ticket [X-001](tickets/cross/X-001-define-mvp-scope.md) makes this official. If the teacher chooses another scope, change the priorities.
+Everything else (courses, company tests, explore, contests, discuss, dark mode) is **phase 4**. Ticket [X-001](https://github.com/Ditmar/leetcode-spa/issues/366) makes this official. If the teacher chooses another scope, change the priorities.
 
 ## 2. Where we are today
 
@@ -58,13 +58,13 @@ Goal: agree on what we build and how we work, before we write more code.
 
 | Ticket | Title |
 | --- | --- |
-| [X-001](tickets/cross/X-001-define-mvp-scope.md) | Decide the MVP scope |
-| [X-002](tickets/cross/X-002-decide-auth-strategy.md) | Decide auth strategy (tokens and cookies) |
-| [X-003](tickets/cross/X-003-define-api-contract.md) | Define one API contract |
-| [X-004](tickets/cross/X-004-choose-code-execution-engine.md) | Choose the code execution engine |
-| [X-005](tickets/cross/X-005-local-dev-environment.md) | One command to start everything locally |
-| [X-006](tickets/cross/X-006-team-workflow-and-definition-of-done.md) | Team workflow and Definition of Done |
-| [X-008](tickets/cross/X-008-decide-how-content-is-created.md) | Decide how content is created |
+| [X-001](https://github.com/Ditmar/leetcode-spa/issues/366) | Decide the MVP scope |
+| [X-002](https://github.com/Ditmar/leetcode-spa/issues/367) | Decide auth strategy (tokens and cookies) |
+| [X-003](https://github.com/Ditmar/leetcode-spa/issues/368) | Define one API contract |
+| [X-004](https://github.com/Ditmar/leetcode-spa/issues/369) | Choose the code execution engine |
+| [X-005](https://github.com/Ditmar/leetcode-spa/issues/370) | One command to start everything locally |
+| [X-006](https://github.com/Ditmar/leetcode-spa/issues/371) | Team workflow and Definition of Done |
+| [X-008](https://github.com/Ditmar/leetcode-spa/issues/373) | Decide how content is created |
 
 **Done when:** ADR-001 to ADR-005 are written and approved; branch protection is on; `docker compose up` starts the database, API and SPA.
 
@@ -76,29 +76,29 @@ Goal: fix what is wrong. Do it in three steps.
 
 | Ticket | Title | Size |
 | --- | --- | --- |
-| [API-001](tickets/api/API-001-replace-fake-auth-on-test-routes.md) | Replace fake `x-user-id` auth with JWT | S |
-| [API-002](tickets/api/API-002-remove-default-secrets.md) | Remove default secrets, fail fast in production | S |
-| [API-003](tickets/api/API-003-global-error-handler.md) | Global error handler and async protection | M |
-| [API-004](tickets/api/API-004-add-missing-course-migration.md) | Add the missing courses migration | S |
-| [API-006](tickets/api/API-006-lock-down-user-routes.md) | Lock down `/api/user` routes | S |
-| [CD-001](tickets/cd/CD-001-rollback-picks-the-same-image.md) | Fix rollback (it restores the same image) | M |
-| [CD-002](tickets/cd/CD-002-script-injection-in-workflows.md) | Stop shell injection in workflows | M |
+| [API-001](https://github.com/Ditmar/api-leetcode/issues/55) | Replace fake `x-user-id` auth with JWT | S |
+| [API-002](https://github.com/Ditmar/api-leetcode/issues/56) | Remove default secrets, fail fast in production | S |
+| [API-003](https://github.com/Ditmar/api-leetcode/issues/57) | Global error handler and async protection | M |
+| [API-004](https://github.com/Ditmar/api-leetcode/issues/58) | Add the missing courses migration | S |
+| [API-006](https://github.com/Ditmar/api-leetcode/issues/60) | Lock down `/api/user` routes | S |
+| [CD-001](https://github.com/Ditmar/leetcode-cd/issues/22) | Fix rollback (it restores the same image) | M |
+| [CD-002](https://github.com/Ditmar/leetcode-cd/issues/23) | Stop shell injection in workflows | M |
 
 **1B. Make the foundations solid (P1).**
 
 | Repo | Tickets |
 | --- | --- |
-| API security | [API-005](tickets/api/API-005-make-migration-history-safe.md) [API-007](tickets/api/API-007-domain-errors-to-http-status.md) [API-008](tickets/api/API-008-request-validation-with-zod.md) [API-009](tickets/api/API-009-refresh-token-hardening.md) [API-010](tickets/api/API-010-security-middleware.md) [API-011](tickets/api/API-011-config-cleanup.md) [API-016](tickets/api/API-016-hide-solutions-from-clients.md) |
-| API tests module | [API-014](tickets/api/API-014-fix-test-submit-flow.md) [API-015](tickets/api/API-015-fix-multiple-choice-grading.md) |
-| API courses module | [API-013](tickets/api/API-013-course-enroll-and-list-fixes.md) |
-| API quality | [API-020](tickets/api/API-020-remove-duplicates-and-dead-code.md) [API-021](tickets/api/API-021-single-composition-root.md) [API-022](tickets/api/API-022-test-setup-and-auth-tests.md) |
-| API deploy | [API-018](tickets/api/API-018-fix-dockerfile.md) [API-019](tickets/api/API-019-fix-ci-pipeline.md) |
-| SPA | [SPA-006](tickets/spa/SPA-006-apiclient-fixes.md) [SPA-008](tickets/spa/SPA-008-fix-typescript-errors.md) [SPA-009](tickets/spa/SPA-009-dockerfile-and-runtime-config.md) [SPA-021](tickets/spa/SPA-021-fix-submissions-service-errors.md) |
-| CD | [CD-004](tickets/cd/CD-004-wait-for-deployment-and-check-health.md) [CD-005](tickets/cd/CD-005-image-validation-passes-by-mistake.md) [CD-006](tickets/cd/CD-006-update-readme-and-slides.md) [CD-007](tickets/cd/CD-007-fix-environment-variable-templates.md) [CD-009](tickets/cd/CD-009-pr-validation-workflow.md) [CD-012](tickets/cd/CD-012-database-migration-strategy.md) |
+| API security | [API-005](https://github.com/Ditmar/api-leetcode/issues/59) [API-007](https://github.com/Ditmar/api-leetcode/issues/61) [API-008](https://github.com/Ditmar/api-leetcode/issues/62) [API-009](https://github.com/Ditmar/api-leetcode/issues/63) [API-010](https://github.com/Ditmar/api-leetcode/issues/64) [API-011](https://github.com/Ditmar/api-leetcode/issues/65) [API-016](https://github.com/Ditmar/api-leetcode/issues/70) |
+| API tests module | [API-014](https://github.com/Ditmar/api-leetcode/issues/68) [API-015](https://github.com/Ditmar/api-leetcode/issues/69) |
+| API courses module | [API-013](https://github.com/Ditmar/api-leetcode/issues/67) |
+| API quality | [API-020](https://github.com/Ditmar/api-leetcode/issues/74) [API-021](https://github.com/Ditmar/api-leetcode/issues/75) [API-022](https://github.com/Ditmar/api-leetcode/issues/76) |
+| API deploy | [API-018](https://github.com/Ditmar/api-leetcode/issues/72) [API-019](https://github.com/Ditmar/api-leetcode/issues/73) |
+| SPA | [SPA-006](https://github.com/Ditmar/leetcode-spa/issues/381) [SPA-008](https://github.com/Ditmar/leetcode-spa/issues/383) [SPA-009](https://github.com/Ditmar/leetcode-spa/issues/384) [SPA-021](https://github.com/Ditmar/leetcode-spa/issues/396) |
+| CD | [CD-004](https://github.com/Ditmar/leetcode-cd/issues/25) [CD-005](https://github.com/Ditmar/leetcode-cd/issues/26) [CD-006](https://github.com/Ditmar/leetcode-cd/issues/27) [CD-007](https://github.com/Ditmar/leetcode-cd/issues/28) [CD-009](https://github.com/Ditmar/leetcode-cd/issues/30) [CD-012](https://github.com/Ditmar/leetcode-cd/issues/33) |
 
 **1C. Clean up (P2).**
 
-[API-012](tickets/api/API-012-logger-fixes.md) [API-017](tickets/api/API-017-tests-list-and-detail-inconsistencies.md) [API-025](tickets/api/API-025-signup-and-password-hardening.md) [SPA-010](tickets/spa/SPA-010-ci-improvements.md) [SPA-011](tickets/spa/SPA-011-readme-and-docs.md) [SPA-012](tickets/spa/SPA-012-dependencies-hygiene.md) [SPA-014](tickets/spa/SPA-014-remove-unused-code-and-fix-pages-folder.md) [CD-003](tickets/cd/CD-003-latest-tag-guard-can-be-bypassed.md) [CD-011](tickets/cd/CD-011-rollback-and-metadata-git-writes.md) [CD-013](tickets/cd/CD-013-fix-metadata-and-version-alignment.md) [CD-017](tickets/cd/CD-017-fix-change-detection-in-deploy-workflow.md)
+[API-012](https://github.com/Ditmar/api-leetcode/issues/66) [API-017](https://github.com/Ditmar/api-leetcode/issues/71) [API-025](https://github.com/Ditmar/api-leetcode/issues/79) [SPA-010](https://github.com/Ditmar/leetcode-spa/issues/385) [SPA-011](https://github.com/Ditmar/leetcode-spa/issues/386) [SPA-012](https://github.com/Ditmar/leetcode-spa/issues/387) [SPA-014](https://github.com/Ditmar/leetcode-spa/issues/389) [CD-003](https://github.com/Ditmar/leetcode-cd/issues/24) [CD-011](https://github.com/Ditmar/leetcode-cd/issues/32) [CD-013](https://github.com/Ditmar/leetcode-cd/issues/34) [CD-017](https://github.com/Ditmar/leetcode-cd/issues/38)
 
 **Done when:** no P0 ticket is open; CI runs lint, typecheck and tests in API and SPA; `docker build` works for both apps; rollback was tested in ppd.
 
@@ -108,10 +108,10 @@ Goal: a user can sign up, sign in and sign out in the browser, against a real AP
 
 | Repo | Tickets |
 | --- | --- |
-| API | [API-026](tickets/api/API-026-add-user-roles.md) roles, [API-027](tickets/api/API-027-seed-data.md) seed, [API-028](tickets/api/API-028-auth-contract-for-spa.md) auth contract, [API-039](tickets/api/API-039-openapi-and-readme.md) OpenAPI and README, [API-040](tickets/api/API-040-health-checks-and-graceful-shutdown.md) health checks, [API-042](tickets/api/API-042-response-envelope-and-pagination.md) response format |
-| SPA auth | [SPA-036](tickets/spa/SPA-036-astro-auth-routes-and-api-proxy.md) Astro auth routes and API proxy (cookies), [SPA-001](tickets/spa/SPA-001-auth-service-calls-wrong-urls.md) [SPA-002](tickets/spa/SPA-002-auth-payload-and-session-mismatch.md) [SPA-003](tickets/spa/SPA-003-single-token-store-and-refresh.md) [SPA-004](tickets/spa/SPA-004-share-auth-state-between-islands.md) [SPA-005](tickets/spa/SPA-005-authmodal-errors-and-accessibility.md) [SPA-007](tickets/spa/SPA-007-astro-middleware-and-route-guards.md) |
-| SPA base | [SPA-013](tickets/spa/SPA-013-shared-types-and-mock-api.md) shared types and mock API, [SPA-015](tickets/spa/SPA-015-app-shell-navigation-and-error-pages.md) app shell, [SPA-016](tickets/spa/SPA-016-login-and-signup-pages.md) login and signup pages |
-| CD | [CD-008](tickets/cd/CD-008-auto-update-ppd-from-app-repos.md) automatic ppd update |
+| API | [API-026](https://github.com/Ditmar/api-leetcode/issues/80) roles, [API-027](https://github.com/Ditmar/api-leetcode/issues/81) seed, [API-028](https://github.com/Ditmar/api-leetcode/issues/82) auth contract, [API-039](https://github.com/Ditmar/api-leetcode/issues/93) OpenAPI and README, [API-040](https://github.com/Ditmar/api-leetcode/issues/94) health checks, [API-042](https://github.com/Ditmar/api-leetcode/issues/96) response format |
+| SPA auth | [SPA-036](https://github.com/Ditmar/leetcode-spa/issues/411) Astro auth routes and API proxy (cookies), [SPA-001](https://github.com/Ditmar/leetcode-spa/issues/376) [SPA-002](https://github.com/Ditmar/leetcode-spa/issues/377) [SPA-003](https://github.com/Ditmar/leetcode-spa/issues/378) [SPA-004](https://github.com/Ditmar/leetcode-spa/issues/379) [SPA-005](https://github.com/Ditmar/leetcode-spa/issues/380) [SPA-007](https://github.com/Ditmar/leetcode-spa/issues/382) |
+| SPA base | [SPA-013](https://github.com/Ditmar/leetcode-spa/issues/388) shared types and mock API, [SPA-015](https://github.com/Ditmar/leetcode-spa/issues/390) app shell, [SPA-016](https://github.com/Ditmar/leetcode-spa/issues/391) login and signup pages |
+| CD | [CD-008](https://github.com/Ditmar/leetcode-cd/issues/29) automatic ppd update |
 
 **Done when:** full login flow works on ppd; a protected page redirects to login; the SPA can run with the mock API; OpenAPI file exists.
 
@@ -121,42 +121,42 @@ Goal: the main loop works. Find a problem, write code, run it, submit it, see th
 
 | Ticket | Title | Size |
 | --- | --- | --- |
-| [API-029](tickets/api/API-029-problems-module.md) | Problems module | L |
-| [API-030](tickets/api/API-030-code-runner-integration.md) | Code runner integration | L |
-| [API-031](tickets/api/API-031-submissions-module.md) | Code submissions module | L |
-| [SPA-017](tickets/spa/SPA-017-problems-list-page.md) | Problems list page | L |
-| [SPA-018](tickets/spa/SPA-018-problem-detail-page.md) | Problem detail page | L |
-| [SPA-019](tickets/spa/SPA-019-code-editor.md) | Code editor | L |
-| [SPA-020](tickets/spa/SPA-020-run-and-submit-ui.md) | Run and submit UI | L |
-| [SPA-029](tickets/spa/SPA-029-home-page-real-data.md) | Home page with real data | M |
-| [SPA-030](tickets/spa/SPA-030-loading-empty-error-states.md) | Loading, empty and error components | M |
-| [SPA-033](tickets/spa/SPA-033-security-sanitize-csp-cookies.md) | Sanitize content and security headers | M |
+| [API-029](https://github.com/Ditmar/api-leetcode/issues/83) | Problems module | L |
+| [API-030](https://github.com/Ditmar/api-leetcode/issues/84) | Code runner integration | L |
+| [API-031](https://github.com/Ditmar/api-leetcode/issues/85) | Code submissions module | L |
+| [SPA-017](https://github.com/Ditmar/leetcode-spa/issues/392) | Problems list page | L |
+| [SPA-018](https://github.com/Ditmar/leetcode-spa/issues/393) | Problem detail page | L |
+| [SPA-019](https://github.com/Ditmar/leetcode-spa/issues/394) | Code editor | L |
+| [SPA-020](https://github.com/Ditmar/leetcode-spa/issues/395) | Run and submit UI | L |
+| [SPA-029](https://github.com/Ditmar/leetcode-spa/issues/404) | Home page with real data | M |
+| [SPA-030](https://github.com/Ditmar/leetcode-spa/issues/405) | Loading, empty and error components | M |
+| [SPA-033](https://github.com/Ditmar/leetcode-spa/issues/408) | Sanitize content and security headers | M |
 
 **Done when:** a new user can solve a seeded problem on ppd. Abuse tests on the code runner (infinite loop, huge output, network access) are done and written down.
 
 ### Phase 4: More features (weeks 9 to 14)
 
-Goal: add the features that make the product richer. Order depends on [X-001](tickets/cross/X-001-define-mvp-scope.md).
+Goal: add the features that make the product richer. Order depends on [X-001](https://github.com/Ditmar/leetcode-spa/issues/366).
 
 | Group | Tickets |
 | --- | --- |
-| Profile and history | [API-032](tickets/api/API-032-user-profile-and-stats.md) [SPA-022](tickets/spa/SPA-022-submissions-history-page.md) [SPA-023](tickets/spa/SPA-023-profile-and-settings.md) |
-| Courses and tests | [API-033](tickets/api/API-033-tests-module-extra-endpoints.md) [API-036](tickets/api/API-036-course-lessons-and-progress.md) [SPA-025](tickets/spa/SPA-025-courses-pages.md) [SPA-026](tickets/spa/SPA-026-company-tests-pages.md) |
-| Explore | [API-035](tickets/api/API-035-explore-topics-module.md) [SPA-024](tickets/spa/SPA-024-explore-page.md) |
-| Admin | [API-034](tickets/api/API-034-admin-crud.md) |
-| Community | [API-037](tickets/api/API-037-contests-module.md) [API-038](tickets/api/API-038-discuss-module.md) [SPA-027](tickets/spa/SPA-027-contest-page.md) [SPA-028](tickets/spa/SPA-028-discuss-page.md) |
-| Polish | [SPA-034](tickets/spa/SPA-034-theme-and-i18n.md) [CD-016](tickets/cd/CD-016-add-dev-environment.md) |
+| Profile and history | [API-032](https://github.com/Ditmar/api-leetcode/issues/86) [SPA-022](https://github.com/Ditmar/leetcode-spa/issues/397) [SPA-023](https://github.com/Ditmar/leetcode-spa/issues/398) |
+| Courses and tests | [API-033](https://github.com/Ditmar/api-leetcode/issues/87) [API-036](https://github.com/Ditmar/api-leetcode/issues/90) [SPA-025](https://github.com/Ditmar/leetcode-spa/issues/400) [SPA-026](https://github.com/Ditmar/leetcode-spa/issues/401) |
+| Explore | [API-035](https://github.com/Ditmar/api-leetcode/issues/89) [SPA-024](https://github.com/Ditmar/leetcode-spa/issues/399) |
+| Admin | [API-034](https://github.com/Ditmar/api-leetcode/issues/88) |
+| Community | [API-037](https://github.com/Ditmar/api-leetcode/issues/91) [API-038](https://github.com/Ditmar/api-leetcode/issues/92) [SPA-027](https://github.com/Ditmar/leetcode-spa/issues/402) [SPA-028](https://github.com/Ditmar/leetcode-spa/issues/403) |
+| Polish | [SPA-034](https://github.com/Ditmar/leetcode-spa/issues/409) [CD-016](https://github.com/Ditmar/leetcode-cd/issues/37) |
 
 ### Phase 5: Quality and launch (weeks 12 to 16)
 
 | Group | Tickets |
 | --- | --- |
-| Tests | [API-023](tickets/api/API-023-unit-tests-for-use-cases.md) [API-024](tickets/api/API-024-integration-tests-for-routes.md) [SPA-032](tickets/spa/SPA-032-end-to-end-tests.md) |
-| Quality | [SPA-031](tickets/spa/SPA-031-accessibility-audit.md) [SPA-035](tickets/spa/SPA-035-performance-review.md) [API-041](tickets/api/API-041-observability.md) |
-| Operations | [CD-010](tickets/cd/CD-010-deployment-notifications.md) [CD-014](tickets/cd/CD-014-post-deploy-smoke-tests.md) [CD-015](tickets/cd/CD-015-runbook.md) |
-| Launch | [X-007](tickets/cross/X-007-architecture-documentation.md) [X-009](tickets/cross/X-009-pre-launch-security-review.md) [X-010](tickets/cross/X-010-release-plan-v1.md) |
+| Tests | [API-023](https://github.com/Ditmar/api-leetcode/issues/77) [API-024](https://github.com/Ditmar/api-leetcode/issues/78) [SPA-032](https://github.com/Ditmar/leetcode-spa/issues/407) |
+| Quality | [SPA-031](https://github.com/Ditmar/leetcode-spa/issues/406) [SPA-035](https://github.com/Ditmar/leetcode-spa/issues/410) [API-041](https://github.com/Ditmar/api-leetcode/issues/95) |
+| Operations | [CD-010](https://github.com/Ditmar/leetcode-cd/issues/31) [CD-014](https://github.com/Ditmar/leetcode-cd/issues/35) [CD-015](https://github.com/Ditmar/leetcode-cd/issues/36) |
+| Launch | [X-007](https://github.com/Ditmar/leetcode-spa/issues/372) [X-009](https://github.com/Ditmar/leetcode-spa/issues/374) [X-010](https://github.com/Ditmar/leetcode-spa/issues/375) |
 
-**Done when:** the release checklist in [X-010](tickets/cross/X-010-release-plan-v1.md) is complete and `v1.0.0` is tagged.
+**Done when:** the release checklist in [X-010](https://github.com/Ditmar/leetcode-spa/issues/375) is complete and `v1.0.0` is tagged.
 
 ## 4. Order of work (critical path)
 
@@ -176,41 +176,41 @@ X-008 ─► API-027 seed ──► API-029 problems ────┼────
 Two rules:
 
 1. **Do not start a ticket before the tickets in "Depends on" are done** (or agree on a fake/mock).
-2. **Contract first.** Agree on the API shape ([X-003](tickets/cross/X-003-define-api-contract.md), [API-039](tickets/api/API-039-openapi-and-readme.md)), then the API team and the SPA team can work at the same time. The SPA uses the mock API ([SPA-013](tickets/spa/SPA-013-shared-types-and-mock-api.md)) until the real endpoint exists.
+2. **Contract first.** Agree on the API shape ([X-003](https://github.com/Ditmar/leetcode-spa/issues/368), [API-039](https://github.com/Ditmar/api-leetcode/issues/93)), then the API team and the SPA team can work at the same time. The SPA uses the mock API ([SPA-013](https://github.com/Ditmar/leetcode-spa/issues/388)) until the real endpoint exists.
 
 ## 5. Team tracks (suggestion for 5 or 6 students)
 
 | Track | Focus | First tickets |
 | --- | --- | --- |
-| **A. API security and stability** | Fix the risks in the API | [API-001](tickets/api/API-001-replace-fake-auth-on-test-routes.md) [API-002](tickets/api/API-002-remove-default-secrets.md) [API-003](tickets/api/API-003-global-error-handler.md) [API-004](tickets/api/API-004-add-missing-course-migration.md) [API-006](tickets/api/API-006-lock-down-user-routes.md) then [API-007](tickets/api/API-007-domain-errors-to-http-status.md) [API-008](tickets/api/API-008-request-validation-with-zod.md) [API-009](tickets/api/API-009-refresh-token-hardening.md) [API-010](tickets/api/API-010-security-middleware.md) |
-| **B. API product** | New modules | [X-004](tickets/cross/X-004-choose-code-execution-engine.md) (proof of concept) then [API-026](tickets/api/API-026-add-user-roles.md) [API-027](tickets/api/API-027-seed-data.md) [API-029](tickets/api/API-029-problems-module.md) [API-030](tickets/api/API-030-code-runner-integration.md) [API-031](tickets/api/API-031-submissions-module.md) |
-| **C. SPA auth and shell** | Make login work | [SPA-006](tickets/spa/SPA-006-apiclient-fixes.md) [SPA-008](tickets/spa/SPA-008-fix-typescript-errors.md) then [SPA-036](tickets/spa/SPA-036-astro-auth-routes-and-api-proxy.md) [SPA-001](tickets/spa/SPA-001-auth-service-calls-wrong-urls.md) [SPA-002](tickets/spa/SPA-002-auth-payload-and-session-mismatch.md) [SPA-003](tickets/spa/SPA-003-single-token-store-and-refresh.md) [SPA-004](tickets/spa/SPA-004-share-auth-state-between-islands.md) [SPA-007](tickets/spa/SPA-007-astro-middleware-and-route-guards.md) [SPA-015](tickets/spa/SPA-015-app-shell-navigation-and-error-pages.md) [SPA-016](tickets/spa/SPA-016-login-and-signup-pages.md) |
-| **D. SPA product pages** | Problems and editor | [SPA-013](tickets/spa/SPA-013-shared-types-and-mock-api.md) [SPA-021](tickets/spa/SPA-021-fix-submissions-service-errors.md) then [SPA-017](tickets/spa/SPA-017-problems-list-page.md) [SPA-018](tickets/spa/SPA-018-problem-detail-page.md) [SPA-019](tickets/spa/SPA-019-code-editor.md) [SPA-020](tickets/spa/SPA-020-run-and-submit-ui.md) |
-| **E. DevOps and quality** | CI, Docker, CD, local setup | [CD-001](tickets/cd/CD-001-rollback-picks-the-same-image.md) [CD-002](tickets/cd/CD-002-script-injection-in-workflows.md) [X-005](tickets/cross/X-005-local-dev-environment.md) [X-006](tickets/cross/X-006-team-workflow-and-definition-of-done.md) [API-018](tickets/api/API-018-fix-dockerfile.md) [API-019](tickets/api/API-019-fix-ci-pipeline.md) [API-022](tickets/api/API-022-test-setup-and-auth-tests.md) [SPA-009](tickets/spa/SPA-009-dockerfile-and-runtime-config.md) [SPA-010](tickets/spa/SPA-010-ci-improvements.md) [CD-004](tickets/cd/CD-004-wait-for-deployment-and-check-health.md) [CD-005](tickets/cd/CD-005-image-validation-passes-by-mistake.md) |
+| **A. API security and stability** | Fix the risks in the API | [API-001](https://github.com/Ditmar/api-leetcode/issues/55) [API-002](https://github.com/Ditmar/api-leetcode/issues/56) [API-003](https://github.com/Ditmar/api-leetcode/issues/57) [API-004](https://github.com/Ditmar/api-leetcode/issues/58) [API-006](https://github.com/Ditmar/api-leetcode/issues/60) then [API-007](https://github.com/Ditmar/api-leetcode/issues/61) [API-008](https://github.com/Ditmar/api-leetcode/issues/62) [API-009](https://github.com/Ditmar/api-leetcode/issues/63) [API-010](https://github.com/Ditmar/api-leetcode/issues/64) |
+| **B. API product** | New modules | [X-004](https://github.com/Ditmar/leetcode-spa/issues/369) (proof of concept) then [API-026](https://github.com/Ditmar/api-leetcode/issues/80) [API-027](https://github.com/Ditmar/api-leetcode/issues/81) [API-029](https://github.com/Ditmar/api-leetcode/issues/83) [API-030](https://github.com/Ditmar/api-leetcode/issues/84) [API-031](https://github.com/Ditmar/api-leetcode/issues/85) |
+| **C. SPA auth and shell** | Make login work | [SPA-006](https://github.com/Ditmar/leetcode-spa/issues/381) [SPA-008](https://github.com/Ditmar/leetcode-spa/issues/383) then [SPA-036](https://github.com/Ditmar/leetcode-spa/issues/411) [SPA-001](https://github.com/Ditmar/leetcode-spa/issues/376) [SPA-002](https://github.com/Ditmar/leetcode-spa/issues/377) [SPA-003](https://github.com/Ditmar/leetcode-spa/issues/378) [SPA-004](https://github.com/Ditmar/leetcode-spa/issues/379) [SPA-007](https://github.com/Ditmar/leetcode-spa/issues/382) [SPA-015](https://github.com/Ditmar/leetcode-spa/issues/390) [SPA-016](https://github.com/Ditmar/leetcode-spa/issues/391) |
+| **D. SPA product pages** | Problems and editor | [SPA-013](https://github.com/Ditmar/leetcode-spa/issues/388) [SPA-021](https://github.com/Ditmar/leetcode-spa/issues/396) then [SPA-017](https://github.com/Ditmar/leetcode-spa/issues/392) [SPA-018](https://github.com/Ditmar/leetcode-spa/issues/393) [SPA-019](https://github.com/Ditmar/leetcode-spa/issues/394) [SPA-020](https://github.com/Ditmar/leetcode-spa/issues/395) |
+| **E. DevOps and quality** | CI, Docker, CD, local setup | [CD-001](https://github.com/Ditmar/leetcode-cd/issues/22) [CD-002](https://github.com/Ditmar/leetcode-cd/issues/23) [X-005](https://github.com/Ditmar/leetcode-spa/issues/370) [X-006](https://github.com/Ditmar/leetcode-spa/issues/371) [API-018](https://github.com/Ditmar/api-leetcode/issues/72) [API-019](https://github.com/Ditmar/api-leetcode/issues/73) [API-022](https://github.com/Ditmar/api-leetcode/issues/76) [SPA-009](https://github.com/Ditmar/leetcode-spa/issues/384) [SPA-010](https://github.com/Ditmar/leetcode-spa/issues/385) [CD-004](https://github.com/Ditmar/leetcode-cd/issues/25) [CD-005](https://github.com/Ditmar/leetcode-cd/issues/26) |
 
 Tips for the team:
 
 - Do the decision tickets **together** in one meeting. They are short and unblock everyone.
-- Use pair programming for [X-002](tickets/cross/X-002-decide-auth-strategy.md) (auth), because it touches both repos.
+- Use pair programming for [X-002](https://github.com/Ditmar/leetcode-spa/issues/367) (auth), because it touches both repos.
 - Rotate people between tracks every phase, so more than one person knows each part.
 - Review each other's PRs. Do not wait for the teacher.
 
 ### Good first tickets (small and clear)
 
-[API-001](tickets/api/API-001-replace-fake-auth-on-test-routes.md) [API-002](tickets/api/API-002-remove-default-secrets.md) [API-004](tickets/api/API-004-add-missing-course-migration.md) [API-006](tickets/api/API-006-lock-down-user-routes.md) [API-012](tickets/api/API-012-logger-fixes.md) [API-040](tickets/api/API-040-health-checks-and-graceful-shutdown.md) [SPA-011](tickets/spa/SPA-011-readme-and-docs.md) [SPA-012](tickets/spa/SPA-012-dependencies-hygiene.md) [CD-003](tickets/cd/CD-003-latest-tag-guard-can-be-bypassed.md) [CD-005](tickets/cd/CD-005-image-validation-passes-by-mistake.md) [CD-015](tickets/cd/CD-015-runbook.md) [X-006](tickets/cross/X-006-team-workflow-and-definition-of-done.md)
+[API-001](https://github.com/Ditmar/api-leetcode/issues/55) [API-002](https://github.com/Ditmar/api-leetcode/issues/56) [API-004](https://github.com/Ditmar/api-leetcode/issues/58) [API-006](https://github.com/Ditmar/api-leetcode/issues/60) [API-012](https://github.com/Ditmar/api-leetcode/issues/66) [API-040](https://github.com/Ditmar/api-leetcode/issues/94) [SPA-011](https://github.com/Ditmar/leetcode-spa/issues/386) [SPA-012](https://github.com/Ditmar/leetcode-spa/issues/387) [CD-003](https://github.com/Ditmar/leetcode-cd/issues/24) [CD-005](https://github.com/Ditmar/leetcode-cd/issues/26) [CD-015](https://github.com/Ditmar/leetcode-cd/issues/36) [X-006](https://github.com/Ditmar/leetcode-spa/issues/371)
 
 ## 6. Risks
 
 | Risk | What can happen | What we do |
 | --- | --- | --- |
-| **Code runner is hard or costly** | The main feature is late or insecure | Do the proof of concept in [X-004](tickets/cross/X-004-choose-code-execution-engine.md) in week 1. Never run code inside the API. Have a fallback (hosted service). |
-| **Scope grows** | Contests, discuss, explore delay the MVP | Freeze scope with [X-001](tickets/cross/X-001-define-mvp-scope.md). New ideas become tickets in phase 4. |
-| **Teams wait for each other** | Lost time | Contract first ([X-003](tickets/cross/X-003-define-api-contract.md), [API-039](tickets/api/API-039-openapi-and-readme.md)), mock API ([SPA-013](tickets/spa/SPA-013-shared-types-and-mock-api.md)). |
-| **Auth redesign breaks both repos** | Login unstable for weeks | Decide in [X-002](tickets/cross/X-002-decide-auth-strategy.md). One pair does the change in both repos, in one sprint. |
-| **Data loss from migrations** | Production data deleted | [API-005](tickets/api/API-005-make-migration-history-safe.md), [CD-012](tickets/cd/CD-012-database-migration-strategy.md). Back up before each prod deploy. Test on ppd first. |
-| **Hosting limits** | The chosen code runner cannot run on Railway | Check in [X-004](tickets/cross/X-004-choose-code-execution-engine.md) before building. |
-| **Secrets in git history** | Old placeholder or real secrets can be read | [API-002](tickets/api/API-002-remove-default-secrets.md), [X-009](tickets/cross/X-009-pre-launch-security-review.md). Rotate real secrets. |
-| **Knowledge in one head** | A student leaves and nobody knows the part | Pair programming, rotation, docs ([X-007](tickets/cross/X-007-architecture-documentation.md), [CD-015](tickets/cd/CD-015-runbook.md)). |
+| **Code runner is hard or costly** | The main feature is late or insecure | Do the proof of concept in [X-004](https://github.com/Ditmar/leetcode-spa/issues/369) in week 1. Never run code inside the API. Have a fallback (hosted service). |
+| **Scope grows** | Contests, discuss, explore delay the MVP | Freeze scope with [X-001](https://github.com/Ditmar/leetcode-spa/issues/366). New ideas become tickets in phase 4. |
+| **Teams wait for each other** | Lost time | Contract first ([X-003](https://github.com/Ditmar/leetcode-spa/issues/368), [API-039](https://github.com/Ditmar/api-leetcode/issues/93)), mock API ([SPA-013](https://github.com/Ditmar/leetcode-spa/issues/388)). |
+| **Auth redesign breaks both repos** | Login unstable for weeks | Decide in [X-002](https://github.com/Ditmar/leetcode-spa/issues/367). One pair does the change in both repos, in one sprint. |
+| **Data loss from migrations** | Production data deleted | [API-005](https://github.com/Ditmar/api-leetcode/issues/59), [CD-012](https://github.com/Ditmar/leetcode-cd/issues/33). Back up before each prod deploy. Test on ppd first. |
+| **Hosting limits** | The chosen code runner cannot run on Railway | Check in [X-004](https://github.com/Ditmar/leetcode-spa/issues/369) before building. |
+| **Secrets in git history** | Old placeholder or real secrets can be read | [API-002](https://github.com/Ditmar/api-leetcode/issues/56), [X-009](https://github.com/Ditmar/leetcode-spa/issues/374). Rotate real secrets. |
+| **Knowledge in one head** | A student leaves and nobody knows the part | Pair programming, rotation, docs ([X-007](https://github.com/Ditmar/leetcode-spa/issues/372), [CD-015](https://github.com/Ditmar/leetcode-cd/issues/36)). |
 
 ## 7. Not in the plan (ideas for later)
 
