@@ -8,7 +8,17 @@ const prettierPlugin = require('eslint-plugin-prettier');
 const prettier = require('eslint-config-prettier');
 
 module.exports = [
-  { ignores: ['dist/', '.astro/', 'node_modules/', 'eslint.config.cjs', 'astro.config.mjs'] },
+  {
+    ignores: [
+      'dist/',
+      '.astro/',
+      'node_modules/',
+      'eslint.config.cjs',
+      'astro.config.mjs',
+      'docs/development-plan/tools/build-index.mjs',
+      'docs/development-plan/tools/link-ticket-ids.mjs',
+    ],
+  },
   js.configs.recommended,
 
   // Reglas "Airbnb-like" para JS (sin formato; Prettier se encarga del estilo)
