@@ -44,16 +44,31 @@ function handleSubmissionError(error: unknown): never {
     (typeof error === 'object' &&
       error !== null &&
       'name' in error &&
-      (error as { name: unknown }).name === 'AbortError')
+      (error as { name: unknown }).name === 'AbortError') ||
+    (typeof error === 'object' &&
+      error !== null &&
+      'status' in error &&
+      (error as { status: unknown }).status === 0) ||
+    (typeof error === 'object' &&
+      error !== null &&
+      'code' in error &&
+      (error as { code: unknown }).code === 'ABORTED')
   ) {
-    throw new SubmissionServiceError(0, 'ABORTED', 'Request was aborted');
+    const message =
+      typeof error === 'object' &&
+      error !== null &&
+      'message' in error &&
+      typeof (error as { message: unknown }).message === 'string'
+        ? (error as { message: string }).message
+        : 'Request was aborted';
+
+    throw new SubmissionServiceError(0, 'ABORTED', message);
   }
 
   if (isApiErrorLike(error)) {
-    const isAborted = error.status === 0 || error.code === 'ABORTED';
     throw new SubmissionServiceError(
       error.status,
-      error.code || (isAborted ? 'ABORTED' : 'SUBMISSION_ERROR'),
+      error.code || 'SUBMISSION_ERROR',
       error.message || 'Submission service error'
     );
   }

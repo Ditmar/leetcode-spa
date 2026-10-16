@@ -51,6 +51,33 @@ describe('submissionsService', () => {
     );
   });
 
+  it('should submit successfully without polling', async () => {
+    vi.mocked(apiClient.post).mockResolvedValue({
+      data: {
+        id: 'sub_1',
+        status: ExecutionStatus.ACCEPTED,
+        runtime: 10,
+        memory: 1000,
+        testResults: [],
+        language: 'javascript',
+        code: 'test',
+        problemId: 1,
+        submittedAt: new Date().toISOString(),
+        totalTests: 10,
+        passedTests: 10,
+      },
+    });
+
+    const result = await submissionsService.submit({
+      problemId: 1,
+      language: 'javascript',
+      code: 'console.log("hello")',
+    });
+
+    expect(result.status).toBe(ExecutionStatus.ACCEPTED);
+    expect(apiClient.get).not.toHaveBeenCalled();
+  });
+
   it('should resolve queued submission polling', async () => {
     vi.mocked(apiClient.post).mockResolvedValue({
       data: {
@@ -176,6 +203,34 @@ describe('submissionsService', () => {
     });
   });
 
+  it('should map aborted in-flight request to SubmissionServiceError with status 0 and code ABORTED', async () => {
+    vi.mocked(apiClient.post).mockResolvedValue({
+      data: {
+        submissionId: 'sub_abort_flight',
+        status: ExecutionStatus.PENDING,
+      },
+    });
+
+    // apiClient returns this exact object when a request is aborted
+    vi.mocked(apiClient.get).mockRejectedValue({
+      status: 0,
+      code: 'UNKNOWN_ERROR',
+      message: 'Request was aborted',
+    });
+
+    await expect(
+      submissionsService.submit({
+        problemId: 1,
+        language: 'javascript',
+        code: 'return 1;',
+      })
+    ).rejects.toMatchObject({
+      status: 0,
+      code: 'ABORTED',
+      message: 'Request was aborted',
+    });
+  });
+
   it('should preserve code formatting and leading spaces without trimming', async () => {
     vi.mocked(apiClient.post).mockResolvedValue({
       data: {
@@ -253,20 +308,46 @@ describe('submissionsService', () => {
     });
   });
 
-  it('should stop polling immediately when AbortSignal is triggered', async () => {
+  it('should stop polling immediately when signal is already aborted before polling', async () => {
+    const controller = new AbortController();
+    controller.abort();
+
+    vi.mocked(apiClient.post).mockResolvedValue({
+      data: {
+        submissionId: 'sub_pre_aborted',
+        status: ExecutionStatus.PENDING,
+      },
+    });
+
+    await expect(
+      submissionsService.submit(
+        {
+          problemId: 1,
+          language: 'javascript',
+          code: 'console.log("running");',
+        },
+        { signal: controller.signal }
+      )
+    ).rejects.toMatchObject({
+      code: 'ABORTED',
+      status: 0,
+    });
+  });
+
+  it('should stop polling immediately when aborted while sleep is waiting', async () => {
     vi.useFakeTimers();
     const controller = new AbortController();
 
     vi.mocked(apiClient.post).mockResolvedValue({
       data: {
-        submissionId: 'sub_abort',
+        submissionId: 'sub_abort_sleep',
         status: ExecutionStatus.PENDING,
       },
     });
 
     vi.mocked(apiClient.get).mockResolvedValue({
       data: {
-        id: 'sub_abort',
+        id: 'sub_abort_sleep',
         status: ExecutionStatus.PENDING,
         runtime: 0,
         memory: 0,
@@ -289,7 +370,11 @@ describe('submissionsService', () => {
       { signal: controller.signal }
     );
 
-    // Abort after first poll attempt
+    // Let the first poll resolve, entering sleep
+    await vi.advanceTimersByTimeAsync(0);
+    expect(apiClient.get).toHaveBeenCalledTimes(1);
+
+    // Abort while sleep is waiting
     controller.abort();
 
     await expect(promise).rejects.toMatchObject({
@@ -323,6 +408,19 @@ describe('submissionsService', () => {
     expect(apiClient.post).toHaveBeenCalledWith('/submissions/run', expect.anything(), {
       signal: controller.signal,
     });
+
+    await submissionsService.submit(
+      {
+        problemId: 1,
+        language: 'javascript',
+        code: 'console.log(2)',
+      },
+      { signal: controller.signal }
+    );
+
+    expect(apiClient.post).toHaveBeenCalledWith('/submissions', expect.anything(), {
+      signal: controller.signal,
+    });
   });
 
   it('should build filters correctly for getHistory', async () => {
@@ -348,6 +446,28 @@ describe('submissionsService', () => {
       '/submissions?page=1&limit=10&problemId=5&language=javascript&status=accepted',
       { signal: undefined }
     );
+  });
+
+  it('should get submission history with filters', async () => {
+    vi.mocked(apiClient.get).mockResolvedValue({
+      data: {
+        items: [],
+        page: 1,
+        limit: 10,
+        total: 0,
+        totalPages: 0,
+      },
+    });
+
+    const result = await submissionsService.getHistory({
+      page: 1,
+      language: 'javascript',
+    });
+
+    expect(result.page).toBe(1);
+    expect(apiClient.get).toHaveBeenCalledWith('/submissions?page=1&language=javascript', {
+      signal: undefined,
+    });
   });
 
   it('should get submission by ID', async () => {
