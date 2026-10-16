@@ -67,9 +67,5 @@ export interface QueuedSubmissionResponse {
   status: ExecutionStatus.PENDING | ExecutionStatus.RUNNING;
 }
 
-export interface SubmissionRequestOptions {
-  signal?: AbortSignal;
-}
-
 export type RunResponse = ApiResponse<ExecutionResult> | ApiResponse<QueuedSubmissionResponse>;
 export type SubmitResponse = ApiResponse<Submission> | ApiResponse<QueuedSubmissionResponse>;

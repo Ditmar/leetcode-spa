@@ -204,6 +204,8 @@ describe('submissionsService', () => {
   });
 
   it('should map aborted in-flight request to SubmissionServiceError with status 0 and code ABORTED', async () => {
+    const controller = new AbortController();
+
     vi.mocked(apiClient.post).mockResolvedValue({
       data: {
         submissionId: 'sub_abort_flight',
@@ -211,7 +213,7 @@ describe('submissionsService', () => {
       },
     });
 
-    // apiClient returns this exact object when a request is aborted
+    // apiClient returns this exact object when a request in flight is aborted
     vi.mocked(apiClient.get).mockRejectedValue({
       status: 0,
       code: 'UNKNOWN_ERROR',
@@ -219,15 +221,22 @@ describe('submissionsService', () => {
     });
 
     await expect(
-      submissionsService.submit({
-        problemId: 1,
-        language: 'javascript',
-        code: 'return 1;',
-      })
+      submissionsService.submit(
+        {
+          problemId: 1,
+          language: 'javascript',
+          code: 'return 1;',
+        },
+        controller.signal
+      )
     ).rejects.toMatchObject({
       status: 0,
       code: 'ABORTED',
       message: 'Request was aborted',
+    });
+
+    expect(apiClient.get).toHaveBeenCalledWith('/submissions/sub_abort_flight', {
+      signal: controller.signal,
     });
   });
 
@@ -326,7 +335,7 @@ describe('submissionsService', () => {
           language: 'javascript',
           code: 'console.log("running");',
         },
-        { signal: controller.signal }
+        controller.signal
       )
     ).rejects.toMatchObject({
       code: 'ABORTED',
@@ -367,12 +376,15 @@ describe('submissionsService', () => {
         language: 'javascript',
         code: 'console.log("running");',
       },
-      { signal: controller.signal }
+      controller.signal
     );
 
     // Let the first poll resolve, entering sleep
     await vi.advanceTimersByTimeAsync(0);
     expect(apiClient.get).toHaveBeenCalledTimes(1);
+
+    // Advance part of the sleep interval
+    await vi.advanceTimersByTimeAsync(500);
 
     // Abort while sleep is waiting
     controller.abort();
@@ -382,10 +394,14 @@ describe('submissionsService', () => {
       status: 0,
     });
 
+    // Advance remaining time to ensure polling stopped completely
+    await vi.advanceTimersByTimeAsync(5000);
+    expect(apiClient.get).toHaveBeenCalledTimes(1);
+
     vi.useRealTimers();
   });
 
-  it('should pass AbortSignal to apiClient in run and submit options', async () => {
+  it('should pass AbortSignal to apiClient in run and submit', async () => {
     const controller = new AbortController();
 
     vi.mocked(apiClient.post).mockResolvedValue({
@@ -415,7 +431,7 @@ describe('submissionsService', () => {
         language: 'javascript',
         code: 'console.log(2)',
       },
-      { signal: controller.signal }
+      controller.signal
     );
 
     expect(apiClient.post).toHaveBeenCalledWith('/submissions', expect.anything(), {
