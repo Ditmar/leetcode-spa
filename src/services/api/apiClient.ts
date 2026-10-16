@@ -78,17 +78,18 @@ async function request<T>(
   const url = resolveUrl(path);
   const token = getAuthToken();
   const hasBody = body !== undefined && body !== null;
+  const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
 
   const headers: Record<string, string> = { ...config.headers };
   if (token) headers['Authorization'] = `Bearer ${token}`;
-  if (hasBody) headers['Content-Type'] = 'application/json';
+  if (hasBody && !isFormData) headers['Content-Type'] = 'application/json';
 
   const init: RequestInit = {
     method,
     headers,
     signal: config.signal,
     ...(isServer ? {} : { credentials: config.credentials ?? 'include' }),
-    ...(hasBody ? { body: JSON.stringify(body) } : {}),
+    ...(hasBody ? { body: isFormData ? body : JSON.stringify(body) } : {}),
   };
 
   let response: Response;

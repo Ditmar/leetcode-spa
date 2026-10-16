@@ -135,6 +135,23 @@ describe('apiClient.post', () => {
     expect(headers['Content-Type']).toBe('application/json');
     expect(init.body).toBe(JSON.stringify(body));
   });
+
+  it('sends FormData without setting Content-Type or stringifying the body', async () => {
+    const fetchMock = mockFetchOk({});
+    vi.stubGlobal('fetch', fetchMock);
+
+    const formData = new FormData();
+    formData.append('avatar', new Blob(['avatar'], { type: 'image/png' }), 'avatar.png');
+
+    await apiClient.post('/users/me/avatar', formData);
+
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    const headers = init.headers as Record<string, string>;
+
+    expect(init.method).toBe('POST');
+    expect(headers['Content-Type']).toBeUndefined();
+    expect(init.body).toBe(formData);
+  });
 });
 
 // ---------------------------------------------------------------------------
