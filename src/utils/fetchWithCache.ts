@@ -23,7 +23,10 @@ const inFlight = new Map<string, InFlightEntry>();
 /**
  * TTL configuration with explicit validation
  */
-const rawTtl = parseInt(import.meta.env.API_CACHE_TTL ?? '', 10);
+const rawTtl = parseInt(
+  (typeof process !== 'undefined' ? process.env.API_CACHE_TTL : undefined) ?? '',
+  10
+);
 const DEFAULT_TTL = Number.isNaN(rawTtl) || rawTtl < 0 ? 5000 : rawTtl;
 
 /**
