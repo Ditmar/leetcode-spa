@@ -31,26 +31,42 @@ type BaseTextFieldProps<T extends FieldValues> = RenderFieldProps<T> & {
   children?: ReactNode;
 } & Omit<ComponentProps<typeof StyledTextField>, 'name'>;
 
+const getInputType = (type: FormField['type']): 'password' | 'email' | undefined =>
+  type === 'password' || type === 'email' ? type : undefined;
+
 const BaseTextField = <T extends FieldValues>({
   field,
   ctrlField,
   disabled,
   errors,
   children,
-}: BaseTextFieldProps<T>) => (
-  <StyledTextField
-    id={field.name}
-    label={field.label}
-    fullWidth
-    value={ctrlField.value ?? ''}
-    onChange={handleTextChange(ctrlField.onChange)}
-    placeholder={field.placeholder}
-    disabled={disabled || field.disabled}
-    error={!!errors[field.name]}
-  >
-    {children}
-  </StyledTextField>
-);
+}: BaseTextFieldProps<T>) => {
+  const hasError = !!errors[field.name];
+
+  return (
+    <StyledTextField
+      id={field.name}
+      label={field.label}
+      type={getInputType(field.type)}
+      fullWidth
+      inputRef={ctrlField.ref}
+      value={ctrlField.value ?? ''}
+      onChange={handleTextChange(ctrlField.onChange)}
+      placeholder={field.placeholder}
+      disabled={disabled || field.disabled}
+      error={hasError}
+      slotProps={{
+        htmlInput: {
+          autoComplete: field.autoComplete,
+          'aria-required': field.required || undefined,
+          'aria-describedby': hasError ? `${field.name}-error` : undefined,
+        },
+      }}
+    >
+      {children}
+    </StyledTextField>
+  );
+};
 
 const SelectField = <T extends FieldValues>(props: RenderFieldProps<T>) => (
   <BaseTextField
