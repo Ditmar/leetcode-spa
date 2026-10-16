@@ -65,7 +65,9 @@ async function normalizeHttpError(response: Response): Promise<ApiError> {
     message:
       typeof body.message === 'string'
         ? body.message
-        : response.statusText || 'An unexpected error occurred',
+        : typeof body.error === 'string'
+          ? body.error
+          : response.statusText || 'An unexpected error occurred',
     details: body.details,
   };
 }
