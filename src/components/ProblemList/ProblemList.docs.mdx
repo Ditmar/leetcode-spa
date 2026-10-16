@@ -27,8 +27,8 @@ Built with **Material UI** and the project's centralised design-token system.
 ## Quick Start
 
 ```tsx
-import { ProblemList } from '@/pages/ProblemList';
-import type { Problem } from '@/pages/ProblemList/ProblemList.types';
+import { ProblemList } from '@/components/ProblemList';
+import type { Problem } from '@/components/ProblemList/ProblemList.types';
 
 const problems: Problem[] = [
   { id: 1, title: 'Two Sum', difficulty: 'Easy', acceptanceRate: 49.2, status: 'solved' },
@@ -149,7 +149,7 @@ CSS custom properties live in **`src/style-library/theme/colors.css`** → `--pr
 ## File Structure
 
 ```
-src/pages/ProblemList/
+src/components/ProblemList/
 ├── ProblemList.tsx           # Main component
 ├── ProblemList.types.ts      # TypeScript interfaces
 ├── ProblemList.constants.ts  # Mock data (tokens live in theme.ts)

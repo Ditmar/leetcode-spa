@@ -1,13 +1,3 @@
-import InterMedium from '../../assets/fonts/Inter-Medium.woff2';
-import InterRegular from '../../assets/fonts/Inter-Regular.woff2';
-import InterSemiBold from '../../assets/fonts/Inter-SemiBold.woff2';
-import MontserratLight from '../../assets/fonts/Montserrat-Light.woff2';
-import MontserratRegular from '../../assets/fonts/Montserrat-Regular.woff2';
-import MontserratSemiBold from '../../assets/fonts/Montserrat-SemiBold.woff2';
-import PoppinsSemiBold from '../../assets/fonts/Poppins-SemiBold.woff2';
-import Syne700 from '../../assets/fonts/Syne-700.woff2';
-import SyneRegular from '../../assets/fonts/Syne-Regular.woff2';
-import SyneSemiBold from '../../assets/fonts/Syne-SemiBold.woff2';
 import { createCustomTheme } from '../types/theme.helpers';
 
 import type { ThemeConfig } from '../types/theme.types';
@@ -707,74 +697,74 @@ theme.components = {
     styleOverrides: `
       @font-face {
         font-family: 'Syne';
-        src: url(${SyneRegular}) format('woff2');
+        src: url('/fonts/Syne-Regular.woff2') format('woff2');
         font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
       @font-face {
         font-family: 'Syne';
-        src: url(${SyneSemiBold}) format('woff2');
+        src: url('/fonts/Syne-SemiBold.woff2') format('woff2');
         font-weight: 600;
         font-style: normal;
         font-display: swap;
       }
       @font-face {
         font-family: 'Syne';
-        src: url(${Syne700}) format('woff2');
+        src: url('/fonts/Syne-700.woff2') format('woff2');
         font-weight: 700;
         font-style: normal;
         font-display: swap;
       }
       @font-face {
         font-family: 'Montserrat';
-        src: url(${MontserratSemiBold}) format('woff2');
+        src: url('/fonts/Montserrat-SemiBold.woff2') format('woff2');
         font-weight: 600;
         font-style: normal;
         font-display: swap;
       }
       @font-face {
         font-family: 'Montserrat';
-        src: url(${MontserratLight}) format('woff2');
+        src: url('/fonts/Montserrat-Light.woff2') format('woff2');
         font-weight: 300;
         font-style: normal;
         font-display: swap;
       }
       @font-face {
         font-family: 'Montserrat';
-        src: url(${MontserratRegular}) format('woff2');
+        src: url('/fonts/Montserrat-Regular.woff2') format('woff2');
         font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
        @font-face {
         font-family: 'Poppins';
-        src: url(${PoppinsSemiBold}) format('woff2');
+        src: url('/fonts/Poppins-SemiBold.woff2') format('woff2');
         font-weight: 600;
         font-style: normal;
         font-display: swap;
       }
-        @font-face {
-       font-family: 'Inter';
-       src: url(${InterRegular}) format('woff2');
-       font-weight: 400;
-       font-style: normal;
-       font-display: swap;
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/Inter-Regular.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
       }
-       @font-face {
-       font-family: 'Inter';
-       src: url(${InterMedium}) format('woff2');
-       font-weight: 500;
-       font-style: normal;
-       font-display: swap;
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/Inter-Medium.woff2') format('woff2');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
       }
-       @font-face {
-       font-family: 'Inter';
-       src: url(${InterSemiBold}) format('woff2');
-       font-weight: 600;
-       font-style: normal;
-       font-display: swap;
-      } 
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
     `,
   },
 };
