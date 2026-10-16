@@ -418,6 +418,20 @@ describe('authentication', () => {
     expect(headers['Authorization']).toBe('Bearer cookie-token');
   });
 
+  it('preserves cookie token values that contain equals signs', async () => {
+    document.cookie = 'auth_token=abc%3Ddef%3D%3D';
+
+    const fetchMock = mockFetchOk({});
+    vi.stubGlobal('fetch', fetchMock);
+
+    await apiClient.get('/problems');
+
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    const headers = init.headers as Record<string, string>;
+
+    expect(headers['Authorization']).toBe('Bearer abc=def==');
+  });
+
   it('prefers setAuthToken over localStorage and cookie', async () => {
     setAuthToken('module-token');
     localStorage.setItem('auth_token', 'storage-token');

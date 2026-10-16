@@ -25,7 +25,7 @@ function getCookieToken(): string | null {
       .split(';')
       .map((c) => c.trim())
       .find((c) => c.startsWith('auth_token='));
-    return match ? decodeURIComponent(match.split('=')[1]) : null;
+    return match ? decodeURIComponent(match.slice('auth_token='.length)) : null;
   } catch {
     return null;
   }
