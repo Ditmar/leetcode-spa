@@ -5,6 +5,7 @@ import type { ApiError, ApiResponse, RequestConfig } from './apiClient.types';
 const isServer = typeof window === 'undefined';
 
 const API_BASE_URL = isServer ? process.env.API_BASE_URL || 'http://localhost:3000' : '/api';
+const DEFAULT_TIMEOUT_MS = 15_000;
 
 function resolveUrl(path: string): string {
   const base = API_BASE_URL.endsWith('/') ? API_BASE_URL.slice(0, -1) : API_BASE_URL;
@@ -84,10 +85,23 @@ async function request<T>(
   if (token) headers['Authorization'] = `Bearer ${token}`;
   if (hasBody && !isFormData) headers['Content-Type'] = 'application/json';
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), config.timeoutMs ?? DEFAULT_TIMEOUT_MS);
+
+  const abortFromConfig = () => controller.abort();
+
+  if (config.signal) {
+    if (config.signal.aborted) {
+      controller.abort();
+    } else {
+      config.signal.addEventListener('abort', abortFromConfig, { once: true });
+    }
+  }
+
   const init: RequestInit = {
     method,
     headers,
-    signal: config.signal,
+    signal: controller.signal,
     ...(isServer ? {} : { credentials: config.credentials ?? 'include' }),
     ...(hasBody ? { body: isFormData ? body : JSON.stringify(body) } : {}),
   };
@@ -97,6 +111,9 @@ async function request<T>(
     response = await fetch(url, init);
   } catch (error) {
     throw normalizeError(error);
+  } finally {
+    clearTimeout(timeoutId);
+    config.signal?.removeEventListener('abort', abortFromConfig);
   }
 
   if (!response.ok) {

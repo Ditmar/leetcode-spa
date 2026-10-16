@@ -302,6 +302,41 @@ describe('network errors', () => {
       message: 'Request was aborted',
     });
   });
+
+  it('aborts the request when the timeout is reached', async () => {
+    vi.useFakeTimers();
+
+    try {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn((_url: string | URL | Request, init?: RequestInit) => {
+          return new Promise<Response>((_resolve, reject) => {
+            init?.signal?.addEventListener(
+              'abort',
+              () => {
+                reject(new DOMException('The operation was aborted.', 'AbortError'));
+              },
+              { once: true }
+            );
+          });
+        })
+      );
+
+      const requestExpectation = expect(
+        apiClient.get('/problems', { timeoutMs: 100 })
+      ).rejects.toMatchObject({
+        status: 0,
+        code: 'ABORTED',
+        message: 'Request was aborted',
+      });
+
+      await vi.advanceTimersByTimeAsync(100);
+
+      await requestExpectation;
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });
 
 // ---------------------------------------------------------------------------
