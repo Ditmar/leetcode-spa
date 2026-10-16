@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SignupPage from '../ui/components/auth/SignupPage';
+---
+
+<BaseLayout
+  title="Sign up | LeetCode SPA"
+  description="Create your account to practice coding problems and join contests."
+>
+  <SignupPage client:load />
+</BaseLayout>
