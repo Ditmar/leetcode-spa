@@ -401,17 +401,56 @@ describe('authentication', () => {
 // ---------------------------------------------------------------------------
 
 describe('isApiError', () => {
-  it('returns true for an instance of Error', () => {
-    expect(isApiError(new Error('oops'))).toBe(true);
+  it('returns true for a valid ApiError-shaped object', () => {
+    const err: ApiError = {
+      status: 404,
+      code: 'NOT_FOUND',
+      message: 'Not found',
+    };
+
+    expect(isApiError(err)).toBe(true);
   });
 
-  it('returns true for a TypeError (subclass of Error)', () => {
-    expect(isApiError(new TypeError('bad type'))).toBe(true);
+  it('returns true when ApiError includes optional details', () => {
+    const err: ApiError = {
+      status: 400,
+      code: 'BAD_REQUEST',
+      message: 'Invalid request',
+      details: { field: 'email' },
+    };
+
+    expect(isApiError(err)).toBe(true);
   });
 
-  it('returns false for a plain ApiError-shaped object (not an Error instance)', () => {
-    const err: ApiError = { status: 404, code: 'NOT_FOUND', message: 'Not found' };
-    expect(isApiError(err)).toBe(false);
+  it('returns false for a regular Error instance', () => {
+    expect(isApiError(new Error('oops'))).toBe(false);
+  });
+
+  it('returns false when status is missing', () => {
+    expect(
+      isApiError({
+        code: 'NOT_FOUND',
+        message: 'Not found',
+      })
+    ).toBe(false);
+  });
+
+  it('returns false when code is missing', () => {
+    expect(
+      isApiError({
+        status: 404,
+        message: 'Not found',
+      })
+    ).toBe(false);
+  });
+
+  it('returns false when message is missing', () => {
+    expect(
+      isApiError({
+        status: 404,
+        code: 'NOT_FOUND',
+      })
+    ).toBe(false);
   });
 
   it('returns false for null', () => {

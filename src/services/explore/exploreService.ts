@@ -1,4 +1,4 @@
-import { apiClient } from '../api/apiClient';
+import { apiClient, isApiError } from '../api/apiClient';
 
 import type {
   ExploreTopic,
@@ -13,17 +13,6 @@ const DEFAULT_EXPLORE_API_PATH = '/explore';
 const TOPIC_DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced'];
 const env = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env;
 const EXPLORE_API_PATH = normalizeExploreApiPath(env?.PUBLIC_EXPLORE_API_PATH);
-
-function isApiError(error: unknown): error is ApiError {
-  if (!error || typeof error !== 'object') return false;
-
-  const apiError = error as Partial<ApiError>;
-  return (
-    typeof apiError.status === 'number' &&
-    typeof apiError.code === 'string' &&
-    typeof apiError.message === 'string'
-  );
-}
 
 function createBadRequestError(message: string, details?: unknown): ApiError {
   return {
@@ -97,6 +86,7 @@ export async function getTopics(filters?: TopicFilters): Promise<ExploreTopic[]>
   const response = await apiClient.get<ExploreTopic[]>(
     `${buildExplorePath('/topics')}${buildTopicQuery(filters)}`
   );
+
   return response.data;
 }
 
@@ -110,6 +100,7 @@ export async function getTopicById(id: number, cookies?: string): Promise<TopicD
 
 export async function getFiltersMetadata(): Promise<FiltersMetadata> {
   const response = await apiClient.get<FiltersMetadata>(buildExplorePath('/metadata'));
+
   return sortFiltersMetadata(response.data);
 }
 
