@@ -435,7 +435,7 @@ describe('authentication', () => {
   });
 
   it('preserves cookie token values that contain equals signs', async () => {
-    document.cookie = 'auth_token=abc%3Ddef%3D%3D';
+    document.cookie = 'auth_token=abc=def==';
 
     const fetchMock = mockFetchOk({});
     vi.stubGlobal('fetch', fetchMock);
