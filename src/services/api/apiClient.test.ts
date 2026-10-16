@@ -283,8 +283,8 @@ describe('network errors', () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')));
 
     await expect(apiClient.get('/problems')).rejects.toMatchObject({
-      status: 500,
-      code: 'INTERNAL_SERVER_ERROR',
+      status: 0,
+      code: 'NETWORK_ERROR',
       message: 'Failed to fetch',
     });
   });
@@ -298,7 +298,7 @@ describe('network errors', () => {
 
     await expect(apiClient.get('/problems', { signal: controller.signal })).rejects.toMatchObject({
       status: 0,
-      code: 'UNKNOWN_ERROR',
+      code: 'ABORTED',
       message: 'Request was aborted',
     });
   });
