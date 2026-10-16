@@ -19,7 +19,6 @@ import type {
   Submission,
   SubmissionFilters,
   SubmissionListResponse,
-  SubmissionRequestOptions,
   SubmitPayload,
 } from './submissionsService.types';
 
@@ -220,17 +219,8 @@ function buildQueryParams(filters?: SubmissionFilters): string {
   return query ? `?${query}` : '';
 }
 
-function extractSignal(options?: SubmissionRequestOptions | AbortSignal): AbortSignal | undefined {
-  if (!options) return undefined;
-  if (options instanceof AbortSignal) return options;
-  return options.signal;
-}
-
 export const submissionsService = {
-  async run(
-    payload: RunPayload,
-    options?: SubmissionRequestOptions | AbortSignal
-  ): Promise<ExecutionResult> {
+  async run(payload: RunPayload, signal?: AbortSignal): Promise<ExecutionResult> {
     try {
       validateLanguage(payload.language);
 
@@ -239,8 +229,6 @@ export const submissionsService = {
         ...payload,
         code: sanitizedCode,
       };
-
-      const signal = extractSignal(options);
 
       const response = await apiClient.post<ExecutionResult | QueuedSubmissionResponse>(
         '/submissions/run',
@@ -261,10 +249,7 @@ export const submissionsService = {
     }
   },
 
-  async submit(
-    payload: SubmitPayload,
-    options?: SubmissionRequestOptions | AbortSignal
-  ): Promise<Submission> {
+  async submit(payload: SubmitPayload, signal?: AbortSignal): Promise<Submission> {
     try {
       validateLanguage(payload.language);
 
@@ -273,8 +258,6 @@ export const submissionsService = {
         ...payload,
         code: sanitizedCode,
       };
-
-      const signal = extractSignal(options);
 
       const response = await apiClient.post<Submission | QueuedSubmissionResponse>(
         '/submissions',
@@ -296,11 +279,10 @@ export const submissionsService = {
 
   async getHistory(
     filters?: SubmissionFilters,
-    options?: SubmissionRequestOptions | AbortSignal
+    signal?: AbortSignal
   ): Promise<SubmissionListResponse> {
     try {
       const query = buildQueryParams(filters);
-      const signal = extractSignal(options);
 
       const response = await apiClient.get<SubmissionListResponse>(`/submissions${query}`, {
         signal,
@@ -312,9 +294,8 @@ export const submissionsService = {
     }
   },
 
-  async getById(id: string, options?: SubmissionRequestOptions | AbortSignal): Promise<Submission> {
+  async getById(id: string, signal?: AbortSignal): Promise<Submission> {
     try {
-      const signal = extractSignal(options);
       const response = await apiClient.get<Submission>(`/submissions/${id}`, { signal });
 
       return response.data;
