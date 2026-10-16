@@ -231,6 +231,22 @@ describe('4xx error normalisation', () => {
       message: 'Access denied',
     });
   });
+
+  it('uses the legacy error field when message is missing', async () => {
+    vi.stubGlobal(
+      'fetch',
+      mockFetchError(404, 'Not Found', {
+        success: false,
+        error: 'Problem not found',
+      })
+    );
+
+    await expect(apiClient.get('/problems/999')).rejects.toMatchObject({
+      status: 404,
+      code: 'NOT_FOUND',
+      message: 'Problem not found',
+    });
+  });
 });
 
 // ---------------------------------------------------------------------------
