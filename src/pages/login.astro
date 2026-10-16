@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LoginPage from '../ui/components/auth/LoginPage';
+---
+
+<BaseLayout
+  title="Sign in | LeetCode SPA"
+  description="Sign in to keep practicing and track your progress."
+>
+  <LoginPage client:load />
+</BaseLayout>
