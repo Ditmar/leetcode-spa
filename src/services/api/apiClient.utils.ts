@@ -45,12 +45,19 @@ export const normalizeError = (error: unknown): ApiError => {
   if (isAbortError(error)) {
     return {
       message: 'Request was aborted',
-      code: statusToCode(0),
+      code: 'ABORTED',
       status: 0,
     };
   }
   if (isApiError(error)) {
     return error;
+  }
+  if (error instanceof TypeError) {
+    return {
+      message: error.message,
+      code: 'NETWORK_ERROR',
+      status: 0,
+    };
   }
 
   if (error instanceof Error) {
