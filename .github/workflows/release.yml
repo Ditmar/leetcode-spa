@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    if: >-
+      github.ref_name == 'master' && !startsWith(github.event.head_commit.message, 'chore: release')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TOKEN }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - name: Enable Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+      - run: yarn install --frozen-lockfile
+      - name: Configure author
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+      - run: yarn release --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
