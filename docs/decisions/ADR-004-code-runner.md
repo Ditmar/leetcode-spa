@@ -36,6 +36,22 @@ Judge0 también permite ejecutar código en múltiples lenguajes y ofrece funcio
 
 Sin embargo, su despliegue autohospedado incorpora componentes adicionales, como una cola de trabajos y una base de datos, que aumentarían la complejidad operativa al combinarse con la arquitectura prevista del proyecto.
 
+### Servicio externo de ejecución
+
+Se consideró utilizar un servicio alojado por terceros, como Judge0 Cloud.
+
+Esta alternativa evita administrar directamente el servidor de ejecución, pero introduce costos asociados al uso, posibles restricciones de solicitudes y dependencia de un proveedor externo.
+
+Además, el código enviado por los usuarios se procesaría fuera de la infraestructura propia del proyecto.
+
+Ejecutor Docker personalizado
+
+Se evaluó desarrollar un motor propio basado en contenedores Docker.
+
+Aunque permitiría controlar su implementación, exigiría desarrollar y mantener mecanismos de aislamiento, límites de recursos, gestión de procesos y protección de la infraestructura.
+
+Debido a su complejidad y riesgos de seguridad, no se seleccionó esta alternativa. Su posible desarrollo corresponde al ticket API-045.
+
 ### Justificación de la elección
 
 Se seleccionó Piston porque permite integrar un motor de ejecución mediante HTTP sin introducir otra infraestructura de colas y persistencia propia de Judge0.
@@ -79,6 +95,23 @@ En las pruebas exitosas, los programas imprimieron "hi" en la salida estándar (
 
 En los lenguajes compilados se revisó adicionalmente la información de compilación proporcionada por Piston.
 
+#### 4.3.1. Mediciones de ejecución
+
+Se realizaron pruebas locales utilizando Piston autohospedado mediante su API HTTP. Se midió el tiempo total de la solicitud desde PowerShell y se registraron las métricas devueltas por Piston.
+
+Métrica| Python 3.12.0| JavaScript 20.11.1
+Programa| "print("hi")"| "console.log("hi");"
+Salida estándar| "hi"| "hi"
+Código de salida| 0| 0
+Tiempo total HTTP| 375,31 ms| 502,09 ms
+Tiempo de ejecución (wall_time)| 233 ms| 451 ms
+Tiempo de CPU (cpu_time)| 80 ms| 114 ms
+Memoria utilizada| 13,10 MB| 35,98 MB
+
+Las pruebas fueron exitosas y confirman la comunicación HTTP con Piston para ambos lenguajes.
+
+Los resultados corresponden a una ejecución local por lenguaje. No representan promedios de rendimiento ni permiten establecer la capacidad del servidor bajo concurrencia.
+
 ### 4.4. Alcance de la validación
 
 La prueba de concepto confirma la ejecución básica de los cuatro lenguajes requeridos por el proyecto.
@@ -111,6 +144,18 @@ Procesos | Restringir la creación excesiva de procesos
 Sistema de archivos | Utilizar un espacio temporal aislado y restringir el acceso a archivos del servidor
 Acceso a red | Bloquear las conexiones de red salientes del código ejecutado
 Concurrencia | Limitar la cantidad de ejecuciones simultáneas
+
+### Configuración predeterminada verificada
+
+Se inspeccionó el archivo "/piston*api/src/config.js" del contenedor Piston y se comprobó que no existen variables de entorno "PISTON*" que sobrescriban sus valores predeterminados.
+
+Los límites predeterminados son 3 segundos para ejecución, 10 segundos para compilación, 1.024 unidades por búfer de salida y 64 procesos por trabajo. La red está deshabilitada por defecto.
+
+Los límites de memoria de ejecución y compilación están configurados en "-1", que significa sin límite. Para producción se propone inicialmente un límite de 256 MiB por ejecución, sujeto a pruebas de compatibilidad con los cuatro lenguajes.
+
+El límite de 64 KB para el código fuente deberá validarse antes de enviar las solicitudes a Piston.
+
+Estos valores se identificaron mediante inspección de configuración; no constituyen una validación experimental del aislamiento ni de los límites de recursos.
 
 Los valores concretos de tiempo, memoria, salida y concurrencia deberán definirse y verificarse mediante pruebas antes del despliegue.
 
