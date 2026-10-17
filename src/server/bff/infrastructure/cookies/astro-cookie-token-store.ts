@@ -1,4 +1,5 @@
-import { readJwtExpiry, secondsUntil } from './access-token-expiry';
+import { readJwtExpiry, secondsUntil } from '../../domain/access-token-expiry';
+
 import {
   ACCESS_COOKIE_PATH,
   AUTH_COOKIE_NAMES,

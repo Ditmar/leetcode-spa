@@ -2,6 +2,7 @@
  * Public surface of the BFF module for the rest of the app
  * (auth routes from SPA-036-A, middleware from SPA-007).
  */
+export { getSession } from './infrastructure/auth/get-session';
 export { OriginCsrfGuard } from './infrastructure/security/origin-csrf-guard';
 export { AstroCookieTokenStore } from './infrastructure/cookies/astro-cookie-token-store';
 export {
@@ -18,3 +19,5 @@ export { jsonError } from './application/proxy-responses';
 export type { BffConfig } from './infrastructure/config/bff-config';
 export type { SessionTokens } from './domain/session-tokens';
 export type { TokenStore } from './domain/ports/token-store';
+export type { AuthUser, SessionView } from './domain/auth-user';
+export type { GetSessionOptions } from './infrastructure/auth/get-session';
