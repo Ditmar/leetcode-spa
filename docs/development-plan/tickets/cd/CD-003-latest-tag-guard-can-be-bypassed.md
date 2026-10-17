@@ -1,13 +1,13 @@
 # CD-003: Make the "no latest in prod" rule strong
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Bug |
-| Priority | P2 |
-| Size | S |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Bug                      |
+| Priority   | P2                       |
+| Size       | S                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

@@ -1,12 +1,12 @@
 # SPA-027: Build the contest pages
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P3 |
-| Size | L |
-| Phase | 4 - More features |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Feature                 |
+| Priority   | P3                      |
+| Size       | L                       |
+| Phase      | 4 - More features       |
 | Depends on | X-001, SPA-020, API-037 |
 
 ## Problem

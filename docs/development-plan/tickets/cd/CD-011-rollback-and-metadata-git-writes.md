@@ -1,13 +1,13 @@
 # CD-011: Make git writes safe (rollback, metadata, concurrency)
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Risk |
-| Priority | P2 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Risk                     |
+| Priority   | P2                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

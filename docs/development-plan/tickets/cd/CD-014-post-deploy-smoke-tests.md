@@ -1,13 +1,13 @@
 # CD-014: Run smoke tests after each deploy and before promotion
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Feature |
-| Priority | P2 |
-| Size | M |
-| Phase | 5 - Quality and launch |
-| Depends on | CD-004, API-027 |
+| Field      | Value                  |
+| ---------- | ---------------------- |
+| Repo       | leetcode-cd            |
+| Type       | Feature                |
+| Priority   | P2                     |
+| Size       | M                      |
+| Phase      | 5 - Quality and launch |
+| Depends on | CD-004, API-027        |
 
 ## Problem
 

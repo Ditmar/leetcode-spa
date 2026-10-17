@@ -1,13 +1,13 @@
 # API-041: Add basic monitoring and error tracking
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Chore |
-| Priority | P3 |
-| Size | M |
-| Phase | 5 - Quality and launch |
-| Depends on | API-012 |
+| Field      | Value                  |
+| ---------- | ---------------------- |
+| Repo       | api-leetcode           |
+| Type       | Chore                  |
+| Priority   | P3                     |
+| Size       | M                      |
+| Phase      | 5 - Quality and launch |
+| Depends on | API-012                |
 
 ## Problem
 

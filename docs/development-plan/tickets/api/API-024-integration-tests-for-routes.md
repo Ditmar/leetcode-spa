@@ -1,13 +1,13 @@
 # API-024: Write integration tests for all routes
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Test |
-| Priority | P2 |
-| Size | L |
-| Phase | 5 - Quality and launch |
-| Depends on | API-022, API-027 |
+| Field      | Value                  |
+| ---------- | ---------------------- |
+| Repo       | api-leetcode           |
+| Type       | Test                   |
+| Priority   | P2                     |
+| Size       | L                      |
+| Phase      | 5 - Quality and launch |
+| Depends on | API-022, API-027       |
 
 ## Problem
 

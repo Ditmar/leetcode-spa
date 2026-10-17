@@ -1,13 +1,13 @@
 # CD-001: Fix the rollback: it restores the same image
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Bug |
-| Priority | P0 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Bug                      |
+| Priority   | P0                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

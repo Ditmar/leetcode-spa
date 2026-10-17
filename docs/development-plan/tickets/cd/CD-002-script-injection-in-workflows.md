@@ -1,13 +1,13 @@
 # CD-002: Stop shell injection in the workflows
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Security |
-| Priority | P0 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Security                 |
+| Priority   | P0                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

@@ -1,12 +1,12 @@
 # SPA-025: Build the courses pages
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P2 |
-| Size | M |
-| Phase | 4 - More features |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Feature                 |
+| Priority   | P2                      |
+| Size       | M                       |
+| Phase      | 4 - More features       |
 | Depends on | X-001, SPA-015, API-013 |
 
 ## Problem

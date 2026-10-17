@@ -1,13 +1,13 @@
 # API-034: Add admin endpoints to manage content
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P2 |
-| Size | L |
-| Phase | 4 - More features |
-| Depends on | API-026, API-008 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | api-leetcode      |
+| Type       | Feature           |
+| Priority   | P2                |
+| Size       | L                 |
+| Phase      | 4 - More features |
+| Depends on | API-026, API-008  |
 
 ## Problem
 

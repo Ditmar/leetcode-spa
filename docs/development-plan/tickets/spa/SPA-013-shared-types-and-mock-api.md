@@ -1,13 +1,13 @@
 # SPA-013: Use one set of API types and add a mock API for development
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Refactor |
-| Priority | P1 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | X-003 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Refactor                |
+| Priority   | P1                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | X-003                   |
 
 ## Problem
 

@@ -1,12 +1,12 @@
 # SPA-007: Add Astro middleware to load the user and protect pages
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P1 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Feature                 |
+| Priority   | P1                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
 | Depends on | X-002, SPA-003, SPA-036 |
 
 ## Problem

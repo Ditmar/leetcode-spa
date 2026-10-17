@@ -1,13 +1,13 @@
 # CD-016: Decide and create a `dev` environment
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Feature |
-| Priority | P3 |
-| Size | M |
-| Phase | 4 - More features |
-| Depends on | CD-008, CD-006 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | leetcode-cd       |
+| Type       | Feature           |
+| Priority   | P3                |
+| Size       | M                 |
+| Phase      | 4 - More features |
+| Depends on | CD-008, CD-006    |
 
 ## Problem
 

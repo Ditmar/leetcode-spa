@@ -1,13 +1,13 @@
 # API-028: Make the auth responses match the SPA contract
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P0 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | X-002, X-003 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | api-leetcode            |
+| Type       | Feature                 |
+| Priority   | P0                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | X-002, X-003            |
 
 ## Problem
 

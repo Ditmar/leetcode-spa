@@ -1,13 +1,13 @@
 # API-032: Build the user profile and statistics endpoints
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P2 |
-| Size | L |
-| Phase | 4 - More features |
-| Depends on | API-006, API-031 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | api-leetcode      |
+| Type       | Feature           |
+| Priority   | P2                |
+| Size       | L                 |
+| Phase      | 4 - More features |
+| Depends on | API-006, API-031  |
 
 ## Problem
 

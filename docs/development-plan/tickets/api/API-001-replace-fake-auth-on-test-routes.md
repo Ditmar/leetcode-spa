@@ -1,13 +1,13 @@
 # API-001: Replace the fake `x-user-id` login on test routes with JWT
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Security |
-| Priority | P0 |
-| Size | S |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Security                 |
+| Priority   | P0                       |
+| Size       | S                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # CD-004: Wait for the Railway deployment and check that the app is healthy
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Feature |
-| Priority | P1 |
-| Size | L |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Feature                  |
+| Priority   | P1                       |
+| Size       | L                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # API-007: Use error classes instead of text matching for HTTP status codes
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Refactor |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-003 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Refactor                 |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-003                  |
 
 ## Problem
 

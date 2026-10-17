@@ -1,13 +1,13 @@
 # SPA-023: Build the profile and settings pages
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P2 |
-| Size | L |
-| Phase | 4 - More features |
-| Depends on | SPA-015, API-032 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | leetcode-spa      |
+| Type       | Feature           |
+| Priority   | P2                |
+| Size       | L                 |
+| Phase      | 4 - More features |
+| Depends on | SPA-015, API-032  |
 
 ## Problem
 

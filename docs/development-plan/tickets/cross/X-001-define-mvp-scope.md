@@ -1,13 +1,13 @@
 # X-001: Decide the MVP scope
 
-| Field | Value |
-| --- | --- |
-| Repo | all |
-| Type | Decision |
-| Priority | P0 |
-| Size | S |
-| Phase | 0 - Decisions and setup |
-| Depends on | None |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | all                     |
+| Type       | Decision                |
+| Priority   | P0                      |
+| Size       | S                       |
+| Phase      | 0 - Decisions and setup |
+| Depends on | None                    |
 
 ## Problem
 

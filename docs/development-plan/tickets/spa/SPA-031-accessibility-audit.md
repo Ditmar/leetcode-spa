@@ -1,13 +1,13 @@
 # SPA-031: Run an accessibility audit and fix the problems
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Quality |
-| Priority | P2 |
-| Size | M |
-| Phase | 5 - Quality and launch |
-| Depends on | SPA-020 |
+| Field      | Value                  |
+| ---------- | ---------------------- |
+| Repo       | leetcode-spa           |
+| Type       | Quality                |
+| Priority   | P2                     |
+| Size       | M                      |
+| Phase      | 5 - Quality and launch |
+| Depends on | SPA-020                |
 
 ## Problem
 

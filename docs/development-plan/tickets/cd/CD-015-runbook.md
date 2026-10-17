@@ -1,13 +1,13 @@
 # CD-015: Write a runbook for deploys and incidents
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Docs |
-| Priority | P3 |
-| Size | S |
-| Phase | 5 - Quality and launch |
-| Depends on | CD-001, CD-012 |
+| Field      | Value                  |
+| ---------- | ---------------------- |
+| Repo       | leetcode-cd            |
+| Type       | Docs                   |
+| Priority   | P3                     |
+| Size       | S                      |
+| Phase      | 5 - Quality and launch |
+| Depends on | CD-001, CD-012         |
 
 ## Problem
 

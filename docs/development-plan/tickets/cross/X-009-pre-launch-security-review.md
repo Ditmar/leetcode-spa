@@ -1,12 +1,12 @@
 # X-009: Do a security review before the first public release
 
-| Field | Value |
-| --- | --- |
-| Repo | all |
-| Type | Security |
-| Priority | P1 |
-| Size | M |
-| Phase | 5 - Quality and launch |
+| Field      | Value                                               |
+| ---------- | --------------------------------------------------- |
+| Repo       | all                                                 |
+| Type       | Security                                            |
+| Priority   | P1                                                  |
+| Size       | M                                                   |
+| Phase      | 5 - Quality and launch                              |
 | Depends on | API-001, API-002, API-009, API-010, SPA-033, CD-002 |
 
 ## Problem

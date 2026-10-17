@@ -1,13 +1,13 @@
 # SPA-009: Run the SPA in production the right way and fix runtime config
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Chore |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-spa             |
+| Type       | Chore                    |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

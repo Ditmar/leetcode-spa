@@ -1,13 +1,13 @@
 # SPA-015: Build one app shell with navigation, user menu and error pages
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P1 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | SPA-004 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Feature                 |
+| Priority   | P1                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | SPA-004                 |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # API-045: Build our own Docker executor (advanced, optional)
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P3 |
-| Size | L |
-| Phase | 4 - More features |
-| Depends on | API-043 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | api-leetcode      |
+| Type       | Feature           |
+| Priority   | P3                |
+| Size       | L                 |
+| Phase      | 4 - More features |
+| Depends on | API-043           |
 
 ## Problem
 

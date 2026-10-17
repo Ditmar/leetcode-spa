@@ -1,12 +1,12 @@
 # API-029: Build the problems module
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P1 |
-| Size | L |
-| Phase | 3 - Core product |
+| Field      | Value                 |
+| ---------- | --------------------- |
+| Repo       | api-leetcode          |
+| Type       | Feature               |
+| Priority   | P1                    |
+| Size       | L                     |
+| Phase      | 3 - Core product      |
 | Depends on | X-001, X-003, API-027 |
 
 ## Problem

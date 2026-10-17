@@ -1,13 +1,13 @@
 # API-033: Add missing endpoints to the company tests module
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P2 |
-| Size | M |
-| Phase | 4 - More features |
-| Depends on | API-014, API-001 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | api-leetcode      |
+| Type       | Feature           |
+| Priority   | P2                |
+| Size       | M                 |
+| Phase      | 4 - More features |
+| Depends on | API-014, API-001  |
 
 ## Problem
 

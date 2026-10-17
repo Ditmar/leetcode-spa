@@ -1,13 +1,13 @@
 # API-042: Use one response format and one pagination format everywhere
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Refactor |
-| Priority | P2 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | X-003, API-007 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | api-leetcode            |
+| Type       | Refactor                |
+| Priority   | P2                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | X-003, API-007          |
 
 ## Problem
 

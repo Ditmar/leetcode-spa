@@ -1,13 +1,13 @@
 # SPA-005: Show real errors in the auth modal and make it accessible
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Bug |
-| Priority | P1 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | SPA-001 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Bug                     |
+| Priority   | P1                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | SPA-001                 |
 
 ## Problem
 

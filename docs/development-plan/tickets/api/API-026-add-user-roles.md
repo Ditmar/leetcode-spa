@@ -1,13 +1,13 @@
 # API-026: Add user roles (USER and ADMIN)
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P1 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | API-004 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | api-leetcode            |
+| Type       | Feature                 |
+| Priority   | P1                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | API-004                 |
 
 ## Problem
 

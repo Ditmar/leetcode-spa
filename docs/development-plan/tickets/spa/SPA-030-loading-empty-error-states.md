@@ -1,13 +1,13 @@
 # SPA-030: Create shared loading, empty and error components
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P2 |
-| Size | M |
-| Phase | 3 - Core product |
-| Depends on | None |
+| Field      | Value            |
+| ---------- | ---------------- |
+| Repo       | leetcode-spa     |
+| Type       | Feature          |
+| Priority   | P2               |
+| Size       | M                |
+| Phase      | 3 - Core product |
+| Depends on | None             |
 
 ## Problem
 

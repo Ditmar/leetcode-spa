@@ -1,13 +1,13 @@
 # X-010: Prepare the v1.0.0 release
 
-| Field | Value |
-| --- | --- |
-| Repo | all |
-| Type | Process |
-| Priority | P2 |
-| Size | M |
-| Phase | 5 - Quality and launch |
-| Depends on | X-009, CD-013, CD-014 |
+| Field      | Value                  |
+| ---------- | ---------------------- |
+| Repo       | all                    |
+| Type       | Process                |
+| Priority   | P2                     |
+| Size       | M                      |
+| Phase      | 5 - Quality and launch |
+| Depends on | X-009, CD-013, CD-014  |
 
 ## Problem
 
