@@ -1,0 +1,1 @@
+import{g as t}from"./getThemeProps-BzF07Pc0.js";import{S as p}from"./iframe-jui-tTow.js";function i({props:o,name:m,defaultTheme:s,themeId:r}){let e=p(s);return r&&(e=e[r]||e),t({theme:e,name:m,props:o})}export{i as u};
