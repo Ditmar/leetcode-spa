@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import AppLayout from '../layouts/AppLayout.astro';
 import HomeAuthGate from '../app/components/HomeAuthGate/HomeAuthGate';
 import { problemsService } from '../services/problems/problemsService';
 import type { AuthUser } from '../services/auth/authService.types';
@@ -53,7 +53,7 @@ const quickLinks = [
 ];
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription}>
+<AppLayout title={pageTitle} description={pageDescription}>
   <main class="home-page">
     <section class="hero" aria-labelledby="home-title">
       <div class="hero__content">
@@ -107,7 +107,7 @@ const quickLinks = [
   </main>
 
   <HomeAuthGate config={config} user={user} isOpen={authRequired} client:load />
-</BaseLayout>
+</AppLayout>
 
 <style>
   .home-page {
