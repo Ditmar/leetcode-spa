@@ -1,3 +1,6 @@
+/* global process, console, fetch, AbortSignal, setTimeout, require */
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 const amqp = require('amqplib');
 
 const RABBITMQ_URL = process.env.RABBITMQ_URL;
@@ -24,18 +27,13 @@ async function startWorker() {
     try {
       const job = JSON.parse(message.content.toString());
 
-      if (
-        !['javascript', 'python'].includes(job.language) ||
-        typeof job.code !== 'string'
-      ) {
+      if (!['javascript', 'python'].includes(job.language) || typeof job.code !== 'string') {
         throw new Error('Trabajo inválido');
       }
 
-      const version =
-        job.language === 'javascript' ? '20.11.1' : '3.12.0';
+      const version = job.language === 'javascript' ? '20.11.1' : '3.12.0';
 
-      const filename =
-        job.language === 'javascript' ? 'main.js' : 'main.py';
+      const filename = job.language === 'javascript' ? 'main.js' : 'main.py';
 
       const response = await fetch(`${PISTON_URL}/api/v2/execute`, {
         method: 'POST',
