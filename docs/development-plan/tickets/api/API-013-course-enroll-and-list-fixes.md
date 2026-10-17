@@ -1,13 +1,13 @@
 # API-013: Fix course enrollment and course list bugs
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Bug |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-004, API-008 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Bug                      |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-004, API-008         |
 
 ## Problem
 

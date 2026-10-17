@@ -1,13 +1,13 @@
 # SPA-033: Sanitize user content and add security headers
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Security |
-| Priority | P1 |
-| Size | M |
-| Phase | 3 - Core product |
-| Depends on | SPA-018 |
+| Field      | Value            |
+| ---------- | ---------------- |
+| Repo       | leetcode-spa     |
+| Type       | Security         |
+| Priority   | P1               |
+| Size       | M                |
+| Phase      | 3 - Core product |
+| Depends on | SPA-018          |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # SPA-004: Share the auth state between all pages and islands
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Bug |
-| Priority | P1 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | SPA-003 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Bug                     |
+| Priority   | P1                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | SPA-003                 |
 
 ## Problem
 

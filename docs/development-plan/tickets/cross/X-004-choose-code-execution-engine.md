@@ -1,13 +1,13 @@
 # X-004: Choose how to run user code safely
 
-| Field | Value |
-| --- | --- |
-| Repo | all |
-| Type | Decision |
-| Priority | P1 |
-| Size | M |
-| Phase | 0 - Decisions and setup |
-| Depends on | X-001 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | all                     |
+| Type       | Decision                |
+| Priority   | P1                      |
+| Size       | M                       |
+| Phase      | 0 - Decisions and setup |
+| Depends on | X-001                   |
 
 ## Problem
 
@@ -17,12 +17,12 @@ Running unknown code is dangerous. It can read files, use all memory, or attack 
 
 ## Options to compare
 
-| Option | Good | Bad |
-| --- | --- | --- |
-| Judge0 (self-hosted) | Many languages, queue, time/memory limits | Needs privileged containers; hard to host on some platforms |
-| Piston (self-hosted) | Simple HTTP API, many languages | Also needs strong isolation; you manage it |
-| Hosted service (Judge0 cloud, etc.) | No server to manage | Cost, limits, data leaves our system |
-| Custom Docker runner | Full control | Highest security risk and work |
+| Option                              | Good                                      | Bad                                                         |
+| ----------------------------------- | ----------------------------------------- | ----------------------------------------------------------- |
+| Judge0 (self-hosted)                | Many languages, queue, time/memory limits | Needs privileged containers; hard to host on some platforms |
+| Piston (self-hosted)                | Simple HTTP API, many languages           | Also needs strong isolation; you manage it                  |
+| Hosted service (Judge0 cloud, etc.) | No server to manage                       | Cost, limits, data leaves our system                        |
+| Custom Docker runner                | Full control                              | Highest security risk and work                              |
 
 The SPA already expects these languages: `javascript`, `python`, `java`, `cpp`.
 

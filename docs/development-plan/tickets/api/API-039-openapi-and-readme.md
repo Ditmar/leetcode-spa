@@ -1,13 +1,13 @@
 # API-039: Write the OpenAPI document and a real README
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Docs |
-| Priority | P2 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | X-003 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | api-leetcode            |
+| Type       | Docs                    |
+| Priority   | P2                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | X-003                   |
 
 ## Problem
 

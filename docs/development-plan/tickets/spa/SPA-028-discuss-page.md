@@ -1,13 +1,13 @@
 # SPA-028: Build the discuss page
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P3 |
-| Size | L |
-| Phase | 4 - More features |
-| Depends on | SPA-033, API-038 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | leetcode-spa      |
+| Type       | Feature           |
+| Priority   | P3                |
+| Size       | L                 |
+| Phase      | 4 - More features |
+| Depends on | SPA-033, API-038  |
 
 ## Problem
 

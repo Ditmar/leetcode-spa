@@ -1,13 +1,13 @@
 # API-035: Build the explore topics module
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P2 |
-| Size | M |
-| Phase | 4 - More features |
-| Depends on | X-001, API-029 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | api-leetcode      |
+| Type       | Feature           |
+| Priority   | P2                |
+| Size       | M                 |
+| Phase      | 4 - More features |
+| Depends on | X-001, API-029    |
 
 ## Problem
 

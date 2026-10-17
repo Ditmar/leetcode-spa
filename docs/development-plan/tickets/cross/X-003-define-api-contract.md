@@ -1,28 +1,28 @@
 # X-003: Define one API contract (paths, response format, pagination)
 
-| Field | Value |
-| --- | --- |
-| Repo | all |
-| Type | Decision |
-| Priority | P0 |
-| Size | M |
-| Phase | 0 - Decisions and setup |
-| Depends on | X-001 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | all                     |
+| Type       | Decision                |
+| Priority   | P0                      |
+| Size       | M                       |
+| Phase      | 0 - Decisions and setup |
+| Depends on | X-001                   |
 
 ## Problem
 
 The API and the SPA use different names and formats.
 
-| Topic | API today | SPA expects |
-| --- | --- | --- |
-| Base path | `/api/...` | `/api` in the browser, no prefix on the server (`API_BASE_URL`) |
-| Login | `/auth/login`, `/auth/logout` | `/auth/signin`, `/auth/signout` |
-| Users | `/api/user` (singular, mock) | `/users/me`, `/users/:id` |
-| Success body | auth: raw object. courses/tests: `{ success, data }` | `{ data, meta }` |
-| Pagination | `{ data, pagination: { total, page, limit, totalPages } }` and query `page`, `limit` | `meta` and query `page`, `pageSize` |
-| Error body | `{ error, message }` or `{ success: false, error }` | `{ code, message, details }` |
-| Difficulty | `EASY`, `MEDIUM`, `HARD` | `Easy` (problems), `easy` (contests) |
-| IDs | UUID strings | numbers for problems, contests, topics |
+| Topic        | API today                                                                            | SPA expects                                                     |
+| ------------ | ------------------------------------------------------------------------------------ | --------------------------------------------------------------- |
+| Base path    | `/api/...`                                                                           | `/api` in the browser, no prefix on the server (`API_BASE_URL`) |
+| Login        | `/auth/login`, `/auth/logout`                                                        | `/auth/signin`, `/auth/signout`                                 |
+| Users        | `/api/user` (singular, mock)                                                         | `/users/me`, `/users/:id`                                       |
+| Success body | auth: raw object. courses/tests: `{ success, data }`                                 | `{ data, meta }`                                                |
+| Pagination   | `{ data, pagination: { total, page, limit, totalPages } }` and query `page`, `limit` | `meta` and query `page`, `pageSize`                             |
+| Error body   | `{ error, message }` or `{ success: false, error }`                                  | `{ code, message, details }`                                    |
+| Difficulty   | `EASY`, `MEDIUM`, `HARD`                                                             | `Easy` (problems), `easy` (contests)                            |
+| IDs          | UUID strings                                                                         | numbers for problems, contests, topics                          |
 
 ## Tasks
 

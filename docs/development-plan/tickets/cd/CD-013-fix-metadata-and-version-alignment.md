@@ -1,13 +1,13 @@
 # CD-013: Fix the deploy metadata and the version numbers
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Bug |
-| Priority | P2 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | CD-005 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Bug                      |
+| Priority   | P2                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | CD-005                   |
 
 ## Problem
 

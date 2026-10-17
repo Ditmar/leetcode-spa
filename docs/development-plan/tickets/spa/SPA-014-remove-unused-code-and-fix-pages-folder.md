@@ -1,13 +1,13 @@
 # SPA-014: Remove unused code and fix the `pages` folder
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Refactor |
-| Priority | P2 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-spa             |
+| Type       | Refactor                 |
+| Priority   | P2                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

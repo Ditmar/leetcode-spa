@@ -1,13 +1,13 @@
 # CD-008: Update `ppd.json` automatically when an app publishes an image
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Feature |
-| Priority | P1 |
-| Size | L |
-| Phase | 2 - Connect SPA and API |
-| Depends on | API-019, CD-009 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-cd             |
+| Type       | Feature                 |
+| Priority   | P1                      |
+| Size       | L                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | API-019, CD-009         |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # API-010: Add helmet, CORS, rate limit and request limits
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Security |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | X-002 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Security                 |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | X-002                    |
 
 ## Problem
 

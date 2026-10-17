@@ -1,13 +1,13 @@
 # API-020: Remove duplicate and dead code
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Refactor |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-001, API-006 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Refactor                 |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-001, API-006         |
 
 ## Problem
 

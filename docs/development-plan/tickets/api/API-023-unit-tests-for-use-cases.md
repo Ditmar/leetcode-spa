@@ -1,12 +1,12 @@
 # API-023: Write unit tests for use cases and domain objects
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Test |
-| Priority | P2 |
-| Size | M |
-| Phase | 5 - Quality and launch |
+| Field      | Value                     |
+| ---------- | ------------------------- |
+| Repo       | api-leetcode              |
+| Type       | Test                      |
+| Priority   | P2                        |
+| Size       | M                         |
+| Phase      | 5 - Quality and launch    |
 | Depends on | API-022, API-014, API-015 |
 
 ## Problem

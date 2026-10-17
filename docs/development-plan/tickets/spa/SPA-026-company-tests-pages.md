@@ -1,12 +1,12 @@
 # SPA-026: Build the company tests pages (timed tests)
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P2 |
-| Size | L |
-| Phase | 4 - More features |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Feature                 |
+| Priority   | P2                      |
+| Size       | L                       |
+| Phase      | 4 - More features       |
 | Depends on | X-001, SPA-019, API-033 |
 
 ## Problem

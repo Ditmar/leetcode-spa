@@ -1,13 +1,13 @@
 # CD-007: Make the environment variable templates match the apps
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Bug |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-011, SPA-009 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Bug                      |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-011, SPA-009         |
 
 ## Problem
 

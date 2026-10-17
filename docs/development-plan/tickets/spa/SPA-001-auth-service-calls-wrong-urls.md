@@ -1,13 +1,13 @@
 # SPA-001: Fix the URLs used by `authService`
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Bug |
-| Priority | P0 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | X-002, X-003, SPA-036 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Bug                     |
+| Priority   | P0                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | X-002, X-003, SPA-036   |
 
 ## Problem
 

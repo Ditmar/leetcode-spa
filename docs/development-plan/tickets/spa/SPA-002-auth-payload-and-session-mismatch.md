@@ -1,26 +1,26 @@
 # SPA-002: Match the auth payloads with the API
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Bug |
-| Priority | P0 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | X-002, API-028 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Bug                     |
+| Priority   | P0                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | X-002, API-028          |
 
 ## Problem
 
 The SPA types and the API responses are different.
 
-| Item | SPA (`authService.types.ts`) | API |
-| --- | --- | --- |
-| Name field | `username` | `name` |
+| Item           | SPA (`authService.types.ts`)                   | API                                                                   |
+| -------------- | ---------------------------------------------- | --------------------------------------------------------------------- |
+| Name field     | `username`                                     | `name`                                                                |
 | Login response | `AuthSession { user, accessToken, expiresAt }` | `{ accessToken, refreshToken, user: { id, name, email, createdAt } }` |
-| `GET /auth/me` | session | user only |
-| Refresh | no body, bearer token | body `{ refreshToken }`, response `{ accessToken }` |
-| Role | `role: 'user' \| 'admin'` | not returned |
-| Expiry | `expiresAt` number | inside the JWT (`exp`) |
+| `GET /auth/me` | session                                        | user only                                                             |
+| Refresh        | no body, bearer token                          | body `{ refreshToken }`, response `{ accessToken }`                   |
+| Role           | `role: 'user' \| 'admin'`                      | not returned                                                          |
+| Expiry         | `expiresAt` number                             | inside the JWT (`exp`)                                                |
 
 ## Tasks
 

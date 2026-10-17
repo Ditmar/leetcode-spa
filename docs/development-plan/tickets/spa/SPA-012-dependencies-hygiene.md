@@ -1,13 +1,13 @@
 # SPA-012: Clean the dependencies
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Chore |
-| Priority | P2 |
-| Size | S |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-spa             |
+| Type       | Chore                    |
+| Priority   | P2                       |
+| Size       | S                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # API-022: Set up automated tests and write the first auth tests
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Test |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-021 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Test                     |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-021                  |
 
 ## Problem
 
