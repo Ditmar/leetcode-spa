@@ -1,5 +1,6 @@
 # ── Stage 1: Build ───────────────────────────────────────────────────────────
-FROM node:22-alpine AS builder
+ARG NODE_VERSION=22.22.2
+FROM node:${NODE_VERSION}-alpine AS builder
 
 WORKDIR /app
 
@@ -20,7 +21,7 @@ ENV VITE_DEFAULT_CACHE_TTL=$VITE_DEFAULT_CACHE_TTL
 RUN yarn build
 
 # ── Stage 2: Production runner ────────────────────────────────────────────────
-FROM node:22-alpine AS runner
+FROM node:${NODE_VERSION}-alpine AS runner
 
 WORKDIR /app
 

@@ -1,220 +1,43 @@
-name: Deploy docker hub
+name: CI
 
 on:
-  push:
-    branches-ignore:
-      - 'gh-pages'
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
-  actions: read
+  contents: read
 
-env:
-  BASE_URL_STORYBOOK: https://ditmar.github.io/leetcode-spa
+concurrency:
+  group: quality-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality-checks:
     name: Quality Checks
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
         with:
-          node-version: '>=20.3.0'
-          cache: 'yarn'
-
-      - name: Install specific Yarn version
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - name: Enable Yarn
         run: |
           corepack enable
           corepack prepare yarn@1.22.22 --activate
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Run lint
+      - run: yarn install --frozen-lockfile
+      - name: Check formatting
+        run: yarn format:check
+      - name: Lint
         run: yarn lint
-
-      - name: Run test
+      - name: Test
         run: yarn test:run
-
-  build-storybook:
-    name: Build and Deploy Storybook
-    runs-on: ubuntu-latest
-    needs: quality-checks
-    outputs:
-      SANITIZED_BRANCH_NAME: ${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '>=20.3.0'
-          cache: 'yarn'
-
-      - name: Install specific Yarn version
-        run: |
-          corepack enable
-          corepack prepare yarn@1.22.22 --activate
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Sanitize Branch name
-        id: sanitize_branch_name
-        run: |
-          if [[ "${{ github.ref_name }}" == "master" ]]; then
-            echo "SANITIZED_BRANCH_NAME=" >> "$GITHUB_OUTPUT"
-            echo "STORYBOOK_BASE=/leetcode-spa/" >> "$GITHUB_OUTPUT"
-          else
-            SANITIZED=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9-]/-/g')
-            echo "SANITIZED_BRANCH_NAME=${SANITIZED}" >> "$GITHUB_OUTPUT"
-            echo "STORYBOOK_BASE=/leetcode-spa/${SANITIZED}/" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Build Storybook
-        run: yarn build-storybook
-        env:
-          STORYBOOK_BASE_URL: ${{ steps.sanitize_branch_name.outputs.STORYBOOK_BASE }}
-
-      - name: Debug - Check build output
-        run: |
-          echo "Branch name: ${{ github.ref_name }}"
-          echo "Sanitized branch name: ${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}"
-          echo "Storybook base: ${{ steps.sanitize_branch_name.outputs.STORYBOOK_BASE }}"
-          echo "Contents of storybook-static:"
-          ls -la ./storybook-static/
-
-      - name: Deploy Storybook (master → root)
-        if: github.ref_name == 'master'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-          keep_files: true
-          enable_jekyll: false
-          allow_empty_commit: false
-          force_orphan: false
-
-      - name: Deploy Storybook (branch → subdirectory)
-        if: github.ref_name != 'master'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
-          destination_dir: ${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-          keep_files: true
-          enable_jekyll: false
-          allow_empty_commit: false
-          force_orphan: false
-
-      - name: Show Storybook URL
-        run: |
-          echo "Storybook is available at ${{ env.BASE_URL_STORYBOOK }}/${{ steps.sanitize_branch_name.outputs.SANITIZED_BRANCH_NAME }}"
-  release:
-    name: Release (master only)
-    runs-on: ubuntu-latest
-    needs: quality-checks
-    if: "github.ref_name == 'master' && !startsWith(github.event.head_commit.message, 'chore: release')"
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.RELEASE_TOKEN }}
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '>=20.3.0'
-          cache: 'yarn'
-
-      - name: Install specific Yarn version
-        run: |
-          corepack enable
-          corepack prepare yarn@1.22.22 --activate
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.RELEASE_TOKEN }}@github.com/${{ github.repository }}
-
-      - name: Release stable version
-        run: yarn release --ci
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-
-  build-and-push-docker-image:
-    name: Build and Push Docker Image
-    runs-on: ubuntu-latest
-    needs: [quality-checks, build-storybook, release]
-    if: always() && needs.quality-checks.result == 'success' && needs.build-storybook.result == 'success' && (needs.release.result == 'success' || needs.release.result == 'skipped')
-    outputs:
-      VERSION: ${{ steps.set_version.outputs.VERSION }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref_name }}
-          token: ${{ secrets.RELEASE_TOKEN }}
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '>=22.22.2 <=22.22.2'
-          cache: 'yarn'
-
-      - name: Install specific Yarn version
-        run: |
-          corepack enable
-          corepack prepare yarn@1.22.22 --activate
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build project
+      # Enable typecheck after SPA-008 supplies the script and fixes its errors.
+      - name: Build
         run: yarn build
-
-      - name: Compute Docker image version tag
-        id: set_version
-        run: |
-          BASE_VERSION=$(node -p "require('./package.json').version")
-          SHORT_SHA=$(git rev-parse --short HEAD)
-          if [[ "${{ github.ref_name }}" == "master" ]]; then
-            echo "VERSION=${BASE_VERSION}" >> $GITHUB_OUTPUT
-          else
-            echo "VERSION=${BASE_VERSION}-${SHORT_SHA}" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Setup environment variables
-        run: |
-          echo "DOCKER_HUB_REPO=leetcode-spa" >> $GITHUB_ENV
-          echo "DOCKERHUB_USERNAME=ditmar" >> $GITHUB_ENV
-
-      - name: Build Docker image
-        run: docker build --build-arg WEB_APP=${{ steps.set_version.outputs.VERSION }} -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKER_HUB_REPO }}:${{ steps.set_version.outputs.VERSION }} .
-
-      - name: Push Docker image to Docker Hub
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.DOCKER_HUB_REPO }}:${{ steps.set_version.outputs.VERSION }}
-
-      - name: Clean up
-        run: docker image prune -a -f
