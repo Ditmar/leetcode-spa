@@ -30,3 +30,15 @@ export class UpstreamUnavailableError extends Error {
     this.cause = cause;
   }
 }
+
+/** The API answered an auth call with an error (wrong password, user exists...). */
+export class AuthApiError extends Error {
+  constructor(
+    readonly status: number,
+    readonly code: string,
+    message: string
+  ) {
+    super(message);
+    this.name = 'AuthApiError';
+  }
+}
