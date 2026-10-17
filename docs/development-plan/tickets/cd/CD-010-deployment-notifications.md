@@ -1,13 +1,13 @@
 # CD-010: Send real notifications for deploys, failures and rollbacks
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Feature |
-| Priority | P2 |
-| Size | S |
-| Phase | 5 - Quality and launch |
-| Depends on | CD-004 |
+| Field      | Value                  |
+| ---------- | ---------------------- |
+| Repo       | leetcode-cd            |
+| Type       | Feature                |
+| Priority   | P2                     |
+| Size       | S                      |
+| Phase      | 5 - Quality and launch |
+| Depends on | CD-004                 |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # API-037: Build the contests module
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P3 |
-| Size | L |
-| Phase | 4 - More features |
-| Depends on | API-031 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | api-leetcode      |
+| Type       | Feature           |
+| Priority   | P3                |
+| Size       | L                 |
+| Phase      | 4 - More features |
+| Depends on | API-031           |
 
 ## Problem
 

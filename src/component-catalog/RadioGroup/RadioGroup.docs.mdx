@@ -1,5 +1,5 @@
-import { Meta, Primary, Controls } from "@storybook/blocks";
-import * as RadioGroupStories from "./RadioGroup.stories";
+import { Meta, Primary, Controls } from '@storybook/blocks';
+import * as RadioGroupStories from './RadioGroup.stories';
 
 <Meta of={RadioGroupStories} />
 
@@ -12,18 +12,14 @@ The `RadioGroup` component lets users select a single option from a list. Built 
 ## Usage
 
 ```tsx
-import { RadioGroup } from "./RadioGroup";
+import { RadioGroup } from './RadioGroup';
 
 const options = [
-  { label: "Option One", value: "1" },
-  { label: "Option Two", value: "2" },
+  { label: 'Option One', value: '1' },
+  { label: 'Option Two', value: '2' },
 ];
 
-<RadioGroup
-  label="Pick an option"
-  options={options}
-  direction="column"
-/>
+<RadioGroup label="Pick an option" options={options} direction="column" />;
 ```
 
 ---
@@ -31,18 +27,18 @@ const options = [
 ## Controlled usage
 
 ```tsx
-import { RadioGroup } from "./RadioGroup";
-import { useRadioGroup } from "./RadioGroup.hook";
+import { RadioGroup } from './RadioGroup';
+import { useRadioGroup } from './RadioGroup.hook';
 
 export const ControlledExample = () => {
-  const { value, onChange } = useRadioGroup({ defaultValue: "1" });
+  const { value, onChange } = useRadioGroup({ defaultValue: '1' });
 
   return (
     <RadioGroup
       label="Controlled group"
       options={[
-        { label: "Option One", value: "1" },
-        { label: "Option Two", value: "2" },
+        { label: 'Option One', value: '1' },
+        { label: 'Option Two', value: '2' },
       ]}
       value={value}
       onChange={onChange}
@@ -62,14 +58,15 @@ export const ControlledExample = () => {
 
 ## Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `options` | `Option[]` | — | Array of radio options to render |
-| `label` | `string` | — | Group label rendered as `FormLabel` |
-| `helperText` | `string` | — | Helper text below the group |
-| `error` | `boolean` | `false` | Puts the group in an error state |
-| `direction` | `"row" \| "column"` | `"column"` | Layout direction on desktop (always column on mobile) |
-| `disabled` | `boolean` | `false` | Disables the entire group |
+| Prop         | Type                | Default    | Description                                           |
+| ------------ | ------------------- | ---------- | ----------------------------------------------------- |
+| `options`    | `Option[]`          | —          | Array of radio options to render                      |
+| `label`      | `string`            | —          | Group label rendered as `FormLabel`                   |
+| `helperText` | `string`            | —          | Helper text below the group                           |
+| `error`      | `boolean`           | `false`    | Puts the group in an error state                      |
+| `direction`  | `"row" \| "column"` | `"column"` | Layout direction on desktop (always column on mobile) |
+| `disabled`   | `boolean`           | `false`    | Disables the entire group                             |
+
 The component also forwards all native MUI `RadioGroupProps`.
 
 ---

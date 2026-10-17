@@ -1,12 +1,12 @@
 # API-031: Build the code submissions module
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P1 |
-| Size | L |
-| Phase | 3 - Core product |
+| Field      | Value                     |
+| ---------- | ------------------------- |
+| Repo       | api-leetcode              |
+| Type       | Feature                   |
+| Priority   | P1                        |
+| Size       | L                         |
+| Phase      | 3 - Core product          |
 | Depends on | API-029, API-030, API-044 |
 
 ## Problem

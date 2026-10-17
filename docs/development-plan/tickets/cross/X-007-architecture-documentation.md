@@ -1,13 +1,13 @@
 # X-007: Write the architecture overview
 
-| Field | Value |
-| --- | --- |
-| Repo | all |
-| Type | Docs |
-| Priority | P2 |
-| Size | M |
-| Phase | 5 - Quality and launch |
-| Depends on | X-003 |
+| Field      | Value                  |
+| ---------- | ---------------------- |
+| Repo       | all                    |
+| Type       | Docs                   |
+| Priority   | P2                     |
+| Size       | M                      |
+| Phase      | 5 - Quality and launch |
+| Depends on | X-003                  |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # SPA-008: Fix the TypeScript errors and add a typecheck to CI
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Chore |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-spa             |
+| Type       | Chore                    |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

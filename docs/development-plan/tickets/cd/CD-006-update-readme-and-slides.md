@@ -1,29 +1,29 @@
 # CD-006: Make README and slides match the real system
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Docs |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Docs                     |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 
 `README.md` and `SLIDES.md` describe another system.
 
-| Docs say | Reality |
-| --- | --- |
-| Repo `railway-cd` | Repo `leetcode-cd` |
-| App `my-app` | Apps `api-leetcode` and `leetcode-spa` |
-| Branch `main` | Branch `master` (the workflows use `master`) |
-| Four environments: dev, qa, ppd, prod | Only `ppd` and `prod` exist |
-| `dev` auto-deploys when you merge | `deploy.yml` only reacts to `ppd.json` and `prod.json` |
-| Promotion `dev -> qa -> ppd -> prod` | `promote.yml` and `promote.sh` allow only `ppd -> prod` |
-| "Option A: edit `dev.json`" | `dev.json` does not exist |
-| "Option B": app CI updates the CD repo | Not implemented in any app repo (see `CD-008`) |
-| Rollback "creates a PR" in one place | The workflow deploys and pushes directly to `master` (see `CD-011`) |
+| Docs say                               | Reality                                                             |
+| -------------------------------------- | ------------------------------------------------------------------- |
+| Repo `railway-cd`                      | Repo `leetcode-cd`                                                  |
+| App `my-app`                           | Apps `api-leetcode` and `leetcode-spa`                              |
+| Branch `main`                          | Branch `master` (the workflows use `master`)                        |
+| Four environments: dev, qa, ppd, prod  | Only `ppd` and `prod` exist                                         |
+| `dev` auto-deploys when you merge      | `deploy.yml` only reacts to `ppd.json` and `prod.json`              |
+| Promotion `dev -> qa -> ppd -> prod`   | `promote.yml` and `promote.sh` allow only `ppd -> prod`             |
+| "Option A: edit `dev.json`"            | `dev.json` does not exist                                           |
+| "Option B": app CI updates the CD repo | Not implemented in any app repo (see `CD-008`)                      |
+| Rollback "creates a PR" in one place   | The workflow deploys and pushes directly to `master` (see `CD-011`) |
 
 Also: the README starts without a title or intro, it is in Spanish while the code and tickets are in English, and the `.github/workflows/deploy.yml` comments say `main`.
 

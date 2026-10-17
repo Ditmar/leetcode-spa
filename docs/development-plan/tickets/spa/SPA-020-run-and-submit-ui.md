@@ -1,12 +1,12 @@
 # SPA-020: Build the Run and Submit buttons and the results panel
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P1 |
-| Size | L |
-| Phase | 3 - Core product |
+| Field      | Value                              |
+| ---------- | ---------------------------------- |
+| Repo       | leetcode-spa                       |
+| Type       | Feature                            |
+| Priority   | P1                                 |
+| Size       | L                                  |
+| Phase      | 3 - Core product                   |
 | Depends on | SPA-019, SPA-021, API-031, API-043 |
 
 ## Problem

@@ -1,13 +1,13 @@
 # API-040: Add real health checks and graceful shutdown
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Chore |
-| Priority | P2 |
-| Size | S |
-| Phase | 2 - Connect SPA and API |
-| Depends on | API-021 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | api-leetcode            |
+| Type       | Chore                   |
+| Priority   | P2                      |
+| Size       | S                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | API-021                 |
 
 ## Problem
 

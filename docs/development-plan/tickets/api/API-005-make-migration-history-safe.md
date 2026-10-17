@@ -1,13 +1,13 @@
 # API-005: Make the migration history safe
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Risk |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-004 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Risk                     |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-004                  |
 
 ## Problem
 

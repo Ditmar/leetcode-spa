@@ -68,47 +68,51 @@ Items organized in groups separated by dividers.
 
 ### ContextMenuProps
 
-| Prop       | Type                  | Required | Description                                        |
-| ---------- | --------------------- | -------- | -------------------------------------------------- |
-| `children` | `ReactNode`           | ✅        | Element that listens for right-click / long-press  |
-| `groups`   | `ContextMenuGroup[]`  | ✅        | List of item groups — dividers inserted between    |
-| `onClose`  | `() => void`          | —        | Called whenever the menu closes                    |
+| Prop       | Type                 | Required | Description                                       |
+| ---------- | -------------------- | -------- | ------------------------------------------------- |
+| `children` | `ReactNode`          | ✅       | Element that listens for right-click / long-press |
+| `groups`   | `ContextMenuGroup[]` | ✅       | List of item groups — dividers inserted between   |
+| `onClose`  | `() => void`         | —        | Called whenever the menu closes                   |
 
 ### ContextMenuGroup
 
-| Prop    | Type                | Required | Description                        |
-| ------- | ------------------- | -------- | ---------------------------------- |
-| `id`    | `string`            | ✅        | Unique group identifier             |
-| `items` | `ContextMenuItem[]` | ✅        | Items belonging to this group       |
+| Prop    | Type                | Required | Description                   |
+| ------- | ------------------- | -------- | ----------------------------- |
+| `id`    | `string`            | ✅       | Unique group identifier       |
+| `items` | `ContextMenuItem[]` | ✅       | Items belonging to this group |
 
 ### ContextMenuItem
 
-| Prop       | Type          | Required | Description                            |
-| ---------- | ------------- | -------- | -------------------------------------- |
-| `id`       | `string`      | ✅        | Unique item identifier                  |
-| `label`    | `string`      | ✅        | Text displayed in the menu              |
-| `icon`     | `ReactNode`   | —        | Icon rendered before the label          |
-| `disabled` | `boolean`     | —        | Prevents interaction when `true`        |
-| `onClick`  | `() => void`  | —        | Called when the item is selected        |
+| Prop       | Type         | Required | Description                      |
+| ---------- | ------------ | -------- | -------------------------------- |
+| `id`       | `string`     | ✅       | Unique item identifier           |
+| `label`    | `string`     | ✅       | Text displayed in the menu       |
+| `icon`     | `ReactNode`  | —        | Icon rendered before the label   |
+| `disabled` | `boolean`    | —        | Prevents interaction when `true` |
+| `onClick`  | `() => void` | —        | Called when the item is selected |
 
 ---
 
 ## Behaviour
 
 ### Desktop
+
 Opens on the native `contextmenu` event (right-click or keyboard menu key).
 The browser's default context menu is suppressed via `event.preventDefault()`.
 
 ### Mobile / Touch
+
 A `pointerdown` event starts a 600ms timer. If the pointer is held without
 being released or cancelled, the menu opens at the pointer position. Releasing
 early cancels the timer.
 
 ### Viewport Clamping
+
 The position is clamped with `clampToViewport()` before rendering so the menu
 never overflows the right or bottom edges of the screen at any breakpoint.
 
 ### Closing
+
 The menu closes on item selection, click outside, or `Escape` key.
 
 ---
@@ -126,12 +130,12 @@ The menu closes on item selection, click outside, or `Escape` key.
 
 ## Responsive Behaviour
 
-| Viewport | Behaviour                                              |
-| -------- | ------------------------------------------------------ |
-| 320 px   | Menu clamped to viewport, touch targets ≥ 44px         |
-| 375 px   | Full functionality, comfortable spacing                |
-| 768 px   | Desktop trigger (right-click) available                |
-| 1024 px+ | Full desktop experience, viewport clamping active      |
+| Viewport | Behaviour                                         |
+| -------- | ------------------------------------------------- |
+| 320 px   | Menu clamped to viewport, touch targets ≥ 44px    |
+| 375 px   | Full functionality, comfortable spacing           |
+| 768 px   | Desktop trigger (right-click) available           |
+| 1024 px+ | Full desktop experience, viewport clamping active |
 
 All sizing uses `theme.spacing()` — no hardcoded `px` values.
 
@@ -140,23 +144,23 @@ All sizing uses `theme.spacing()` — no hardcoded `px` values.
 ## File Structure
 
 ContextMenu/
-├── ContextMenu.tsx           # Component logic & JSX
-├── ContextMenu.types.ts      # TypeScript interfaces
-├── ContextMenu.constants.ts  # Long-press duration, fallback dimensions
-├── ContextMenu.hook.ts       # Open state, position, long-press logic
-├── ContextMenu.styles.ts     # MUI styled() components — no external CSS
-├── ContextMenu.utils.ts      # Viewport clamping utility
-├── ContextMenu.test.tsx      # Vitest + Testing Library test suite
-├── ContextMenu.stories.tsx   # Storybook CSF stories
-└── ContextMenu.docs.mdx      # This file
+├── ContextMenu.tsx # Component logic & JSX
+├── ContextMenu.types.ts # TypeScript interfaces
+├── ContextMenu.constants.ts # Long-press duration, fallback dimensions
+├── ContextMenu.hook.ts # Open state, position, long-press logic
+├── ContextMenu.styles.ts # MUI styled() components — no external CSS
+├── ContextMenu.utils.ts # Viewport clamping utility
+├── ContextMenu.test.tsx # Vitest + Testing Library test suite
+├── ContextMenu.stories.tsx # Storybook CSF stories
+└── ContextMenu.docs.mdx # This file
 
 ---
 
 ## Stack
 
-| Package              | Role                          |
-| -------------------- | ----------------------------- |
-| `@mui/material` v7   | Menu, MenuItem, Divider, styled |
-| `@mui/icons-material`| Optional item icons           |
-| `@emotion/react`     | CSS-in-JS runtime             |
-| `react`              | Hooks — useState, useRef, useCallback, useEffect |
+| Package               | Role                                             |
+| --------------------- | ------------------------------------------------ |
+| `@mui/material` v7    | Menu, MenuItem, Divider, styled                  |
+| `@mui/icons-material` | Optional item icons                              |
+| `@emotion/react`      | CSS-in-JS runtime                                |
+| `react`               | Hooks — useState, useRef, useCallback, useEffect |

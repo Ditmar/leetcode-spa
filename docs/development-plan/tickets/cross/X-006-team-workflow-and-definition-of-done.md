@@ -1,13 +1,13 @@
 # X-006: Agree on the team workflow (branches, PRs, Definition of Done)
 
-| Field | Value |
-| --- | --- |
-| Repo | all |
-| Type | Process |
-| Priority | P1 |
-| Size | S |
-| Phase | 0 - Decisions and setup |
-| Depends on | None |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | all                     |
+| Type       | Process                 |
+| Priority   | P1                      |
+| Size       | S                       |
+| Phase      | 0 - Decisions and setup |
+| Depends on | None                    |
 
 ## Problem
 

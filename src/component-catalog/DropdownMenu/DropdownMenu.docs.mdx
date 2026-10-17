@@ -17,22 +17,26 @@ The main purpose of `DropdownMenu` is to provide a flexible action menu that can
 It supports:
 
 ### Item types
+
 - standard action items
 - checkbox items
 - radio items
 - disabled items
 
 ### Layout and structure
+
 - grouped items with separators
 - one-level nested submenus
 - icons
 - keyboard shortcut hints
 
 ### Behavior and responsiveness
+
 - responsive behavior
 - consistent interaction patterns
 
 ### Accessibility
+
 - ARIA accessibility support
 - keyboard navigation support
 
@@ -200,21 +204,27 @@ Main props:
 The component supports multiple item types.
 
 ### Action Item
+
 A normal clickable item.
 
 ### Separator Item
+
 A visual divider.
 
 ### Checkbox Item
+
 A toggleable item.
 
 ### Radio Item
+
 A selectable item within a group.
 
 ### Submenu Item
+
 An item that opens another menu.
 
 ### Disabled Item
+
 A non-interactive item.
 
 ## Accessibility
@@ -279,10 +289,6 @@ const items = [
 ];
 
 export default function Example() {
-  return (
-    <DropdownMenu
-      trigger={<Button variant="outlined">Dropdown Menu</Button>}
-      items={items}
-    />
-  );
+  return <DropdownMenu trigger={<Button variant="outlined">Dropdown Menu</Button>} items={items} />;
 }
+```
