@@ -1,16 +1,9 @@
+import { isApiError } from '../api/apiClient';
+
 import { AUTH_ENDPOINTS, AUTH_SIGN_OUT_EVENT, REFRESH_THRESHOLD_MS } from './authService.constants';
 
 import type { AuthSession, SignInPayload, SignUpPayload } from './authService.types';
 import type { ApiError } from '../api/apiClient.types';
-
-function isApiError(err: unknown): err is ApiError {
-  return (
-    typeof err === 'object' &&
-    err !== null &&
-    'status' in err &&
-    typeof (err as ApiError).status === 'number'
-  );
-}
 
 let _session: AuthSession | null = null;
 
@@ -93,22 +86,26 @@ const authService = {
         method: 'POST',
         ...(_session ? { headers: buildAuthHeaders(_session.accessToken) } : {}),
       });
+
       _session = session;
       return session;
     } catch (err) {
       if (isApiError(err) && err.status === 401) {
         _session = null;
         await authService.signOut();
+
         if (typeof window !== 'undefined') {
           window.location.href = '/';
         }
       }
+
       throw err;
     }
   },
 
   getSession(): AuthSession | null {
     if (!_session) return null;
+
     return _session.expiresAt <= Date.now() ? null : _session;
   },
 
@@ -118,12 +115,14 @@ const authService = {
 
   needsRefresh(): boolean {
     if (!_session) return false;
+
     return _session.expiresAt - Date.now() < REFRESH_THRESHOLD_MS;
   },
 
   async hydrateFromServer(): Promise<AuthSession | null> {
     try {
       const session = await request<AuthSession>(AUTH_ENDPOINTS.ME);
+
       _session = session;
       return session;
     } catch (err) {
@@ -131,6 +130,7 @@ const authService = {
         _session = null;
         return null;
       }
+
       // eslint-disable-next-line no-console
       console.error(
         '[authService] hydrateFromServer: unexpected error —',

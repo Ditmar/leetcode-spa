@@ -135,6 +135,23 @@ describe('apiClient.post', () => {
     expect(headers['Content-Type']).toBe('application/json');
     expect(init.body).toBe(JSON.stringify(body));
   });
+
+  it('sends FormData without setting Content-Type or stringifying the body', async () => {
+    const fetchMock = mockFetchOk({});
+    vi.stubGlobal('fetch', fetchMock);
+
+    const formData = new FormData();
+    formData.append('avatar', new Blob(['avatar'], { type: 'image/png' }), 'avatar.png');
+
+    await apiClient.post('/users/me/avatar', formData);
+
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    const headers = init.headers as Record<string, string>;
+
+    expect(init.method).toBe('POST');
+    expect(headers['Content-Type']).toBeUndefined();
+    expect(init.body).toBe(formData);
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -214,6 +231,22 @@ describe('4xx error normalisation', () => {
       message: 'Access denied',
     });
   });
+
+  it('uses the legacy error field when message is missing', async () => {
+    vi.stubGlobal(
+      'fetch',
+      mockFetchError(404, 'Not Found', {
+        success: false,
+        error: 'Problem not found',
+      })
+    );
+
+    await expect(apiClient.get('/problems/999')).rejects.toMatchObject({
+      status: 404,
+      code: 'NOT_FOUND',
+      message: 'Problem not found',
+    });
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -266,8 +299,8 @@ describe('network errors', () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')));
 
     await expect(apiClient.get('/problems')).rejects.toMatchObject({
-      status: 500,
-      code: 'INTERNAL_SERVER_ERROR',
+      status: 0,
+      code: 'NETWORK_ERROR',
       message: 'Failed to fetch',
     });
   });
@@ -281,9 +314,44 @@ describe('network errors', () => {
 
     await expect(apiClient.get('/problems', { signal: controller.signal })).rejects.toMatchObject({
       status: 0,
-      code: 'UNKNOWN_ERROR',
+      code: 'ABORTED',
       message: 'Request was aborted',
     });
+  });
+
+  it('aborts the request when the timeout is reached', async () => {
+    vi.useFakeTimers();
+
+    try {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn((_url: string | URL | Request, init?: RequestInit) => {
+          return new Promise<Response>((_resolve, reject) => {
+            init?.signal?.addEventListener(
+              'abort',
+              () => {
+                reject(new DOMException('The operation was aborted.', 'AbortError'));
+              },
+              { once: true }
+            );
+          });
+        })
+      );
+
+      const requestExpectation = expect(
+        apiClient.get('/problems', { timeoutMs: 100 })
+      ).rejects.toMatchObject({
+        status: 0,
+        code: 'ABORTED',
+        message: 'Request was aborted',
+      });
+
+      await vi.advanceTimersByTimeAsync(100);
+
+      await requestExpectation;
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
 
@@ -366,6 +434,20 @@ describe('authentication', () => {
     expect(headers['Authorization']).toBe('Bearer cookie-token');
   });
 
+  it('preserves cookie token values that contain equals signs', async () => {
+    document.cookie = 'auth_token=abc=def==';
+
+    const fetchMock = mockFetchOk({});
+    vi.stubGlobal('fetch', fetchMock);
+
+    await apiClient.get('/problems');
+
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    const headers = init.headers as Record<string, string>;
+
+    expect(headers['Authorization']).toBe('Bearer abc=def==');
+  });
+
   it('prefers setAuthToken over localStorage and cookie', async () => {
     setAuthToken('module-token');
     localStorage.setItem('auth_token', 'storage-token');
@@ -401,17 +483,56 @@ describe('authentication', () => {
 // ---------------------------------------------------------------------------
 
 describe('isApiError', () => {
-  it('returns true for an instance of Error', () => {
-    expect(isApiError(new Error('oops'))).toBe(true);
+  it('returns true for a valid ApiError-shaped object', () => {
+    const err: ApiError = {
+      status: 404,
+      code: 'NOT_FOUND',
+      message: 'Not found',
+    };
+
+    expect(isApiError(err)).toBe(true);
   });
 
-  it('returns true for a TypeError (subclass of Error)', () => {
-    expect(isApiError(new TypeError('bad type'))).toBe(true);
+  it('returns true when ApiError includes optional details', () => {
+    const err: ApiError = {
+      status: 400,
+      code: 'BAD_REQUEST',
+      message: 'Invalid request',
+      details: { field: 'email' },
+    };
+
+    expect(isApiError(err)).toBe(true);
   });
 
-  it('returns false for a plain ApiError-shaped object (not an Error instance)', () => {
-    const err: ApiError = { status: 404, code: 'NOT_FOUND', message: 'Not found' };
-    expect(isApiError(err)).toBe(false);
+  it('returns false for a regular Error instance', () => {
+    expect(isApiError(new Error('oops'))).toBe(false);
+  });
+
+  it('returns false when status is missing', () => {
+    expect(
+      isApiError({
+        code: 'NOT_FOUND',
+        message: 'Not found',
+      })
+    ).toBe(false);
+  });
+
+  it('returns false when code is missing', () => {
+    expect(
+      isApiError({
+        status: 404,
+        message: 'Not found',
+      })
+    ).toBe(false);
+  });
+
+  it('returns false when message is missing', () => {
+    expect(
+      isApiError({
+        status: 404,
+        code: 'NOT_FOUND',
+      })
+    ).toBe(false);
   });
 
   it('returns false for null', () => {
@@ -420,5 +541,67 @@ describe('isApiError', () => {
 
   it('returns false for a string', () => {
     expect(isApiError('error')).toBe(false);
+  });
+
+  it('returns true for a 404 error thrown by apiClient', async () => {
+    vi.stubGlobal(
+      'fetch',
+      mockFetchError(404, 'Not Found', {
+        code: 'NOT_FOUND',
+        message: 'Problem not found',
+      })
+    );
+
+    const error = await apiClient.get('/problems/999').catch((err) => err);
+
+    expect(isApiError(error)).toBe(true);
+  });
+
+  it('returns true for a network error thrown by apiClient', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')));
+
+    const error = await apiClient.get('/problems').catch((err) => err);
+
+    expect(isApiError(error)).toBe(true);
+  });
+
+  it('returns true for an aborted request error thrown by apiClient', async () => {
+    const controller = new AbortController();
+    const abortError = new DOMException('The user aborted a request.', 'AbortError');
+
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(abortError));
+    controller.abort();
+
+    const error = await apiClient
+      .get('/problems', { signal: controller.signal })
+      .catch((err) => err);
+
+    expect(isApiError(error)).toBe(true);
+  });
+
+  it('returns true for a parse error thrown by apiClient', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: async () => {
+          throw new SyntaxError('Unexpected token < in JSON');
+        },
+      })
+    );
+
+    const error = await apiClient.get('/problems').catch((err) => err);
+
+    expect(isApiError(error)).toBe(true);
+  });
+
+  it('returns true for a body serialization error thrown by apiClient', async () => {
+    const body: Record<string, unknown> = {};
+    body.self = body;
+
+    const error = await apiClient.post('/problems', body).catch((err) => err);
+
+    expect(isApiError(error)).toBe(true);
   });
 });
