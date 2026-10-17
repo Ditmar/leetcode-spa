@@ -20,7 +20,8 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest --watch",
     "release": "release-it",
-    "release:rc": "release-it --preRelease=rc"
+    "release:rc": "release-it --preRelease=rc",
+    "dev:all": "docker compose up --build"
   },
   "dependencies": {
     "@astrojs/node": "9.3.3",
