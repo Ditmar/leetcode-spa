@@ -1,7 +1,7 @@
 {
   "name": "magazine",
   "type": "module",
-  "version": "0.11.3",
+  "version": "0.11.4",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -20,7 +20,8 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest --watch",
     "release": "release-it",
-    "release:rc": "release-it --preRelease=rc"
+    "release:rc": "release-it --preRelease=rc",
+    "dev:all": "docker compose up --build"
   },
   "dependencies": {
     "@astrojs/node": "9.3.3",

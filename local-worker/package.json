@@ -1,0 +1,13 @@
+{
+  "name": "leetcode-local-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local RabbitMQ and Piston integration worker",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "amqplib": "0.10.5"
+  }
+}
