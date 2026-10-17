@@ -1,18 +1,9 @@
 import ClientOnlyMuiProvider from '../../style-library/ClientOnlyMuiProvider';
 
-import NavShell from './common/NavShell';
-
-export interface ProblemsPageProps {
-  /** Route highlighted as active in the navigation bar. */
-  currentPath?: string;
-}
-
-export default function ProblemsPage({ currentPath = '/problems' }: ProblemsPageProps) {
+export default function ProblemsPage() {
   return (
     <ClientOnlyMuiProvider>
-      <NavShell currentPath={currentPath}>
-        <h1>Problems PAGE </h1>
-      </NavShell>
+      <h1>Problems PAGE </h1>
     </ClientOnlyMuiProvider>
   );
 }
