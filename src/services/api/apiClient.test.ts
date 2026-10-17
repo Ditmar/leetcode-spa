@@ -542,4 +542,66 @@ describe('isApiError', () => {
   it('returns false for a string', () => {
     expect(isApiError('error')).toBe(false);
   });
+
+  it('returns true for a 404 error thrown by apiClient', async () => {
+    vi.stubGlobal(
+      'fetch',
+      mockFetchError(404, 'Not Found', {
+        code: 'NOT_FOUND',
+        message: 'Problem not found',
+      })
+    );
+
+    const error = await apiClient.get('/problems/999').catch((err) => err);
+
+    expect(isApiError(error)).toBe(true);
+  });
+
+  it('returns true for a network error thrown by apiClient', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')));
+
+    const error = await apiClient.get('/problems').catch((err) => err);
+
+    expect(isApiError(error)).toBe(true);
+  });
+
+  it('returns true for an aborted request error thrown by apiClient', async () => {
+    const controller = new AbortController();
+    const abortError = new DOMException('The user aborted a request.', 'AbortError');
+
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(abortError));
+    controller.abort();
+
+    const error = await apiClient
+      .get('/problems', { signal: controller.signal })
+      .catch((err) => err);
+
+    expect(isApiError(error)).toBe(true);
+  });
+
+  it('returns true for a parse error thrown by apiClient', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: async () => {
+          throw new SyntaxError('Unexpected token < in JSON');
+        },
+      })
+    );
+
+    const error = await apiClient.get('/problems').catch((err) => err);
+
+    expect(isApiError(error)).toBe(true);
+  });
+
+  it('returns true for a body serialization error thrown by apiClient', async () => {
+    const body: Record<string, unknown> = {};
+    body.self = body;
+
+    const error = await apiClient.post('/problems', body).catch((err) => err);
+
+    expect(isApiError(error)).toBe(true);
+  });
 });

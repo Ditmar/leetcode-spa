@@ -87,6 +87,26 @@ async function request<T>(
   if (token) headers['Authorization'] = `Bearer ${token}`;
   if (hasBody && !isFormData) headers['Content-Type'] = 'application/json';
 
+  let requestBody: BodyInit | undefined;
+
+  if (hasBody) {
+    if (isFormData) {
+      requestBody = body as FormData;
+    } else {
+      try {
+        requestBody = JSON.stringify(body);
+      } catch (error) {
+        const serializationError: ApiError = {
+          status: 500,
+          code: statusToCode(500),
+          message: error instanceof Error ? error.message : 'Failed to serialize request body',
+        };
+
+        throw serializationError;
+      }
+    }
+  }
+
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), config.timeoutMs ?? DEFAULT_TIMEOUT_MS);
 
@@ -105,7 +125,7 @@ async function request<T>(
     headers,
     signal: controller.signal,
     ...(isServer ? {} : { credentials: config.credentials ?? 'include' }),
-    ...(hasBody ? { body: isFormData ? body : JSON.stringify(body) } : {}),
+    ...(hasBody ? { body: requestBody } : {}),
   };
 
   let response: Response;
