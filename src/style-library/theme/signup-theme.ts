@@ -9,12 +9,14 @@ declare module '@mui/material/styles' {
     link: {
       purple: string;
       blue: string;
+      gray: string;
     };
   }
   interface PaletteOptions {
     link?: {
       purple?: string;
       blue?: string;
+      gray?: string;
     };
   }
 }
