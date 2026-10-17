@@ -20,7 +20,7 @@ function buildNavSections(): NavSection[] {
   return navigationStructure;
 }
 export interface NavShellProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /** Route highlighted as active in the navigation bar. Falls back to the browser location. */
   currentPath?: string;
 }
