@@ -1,4 +1,5 @@
 import { NavigationMenu } from '../../../component-catalog/NavigationMenu/NavigationMenu';
+import authService from '../../../services/auth/authService';
 import ClientOnlyMuiProvider from '../../../style-library/ClientOnlyMuiProvider';
 import { getConfig } from '../../../utils/config';
 
@@ -22,6 +23,17 @@ function buildNavSections(): NavSection[] {
   ];
   return navigationStructure;
 }
+
+async function handleSignOut() {
+  // The session lives in memory and is only loaded where an AuthProvider ran.
+  // Restore it first so the sign out request reaches the server and clears the cookies.
+  if (!authService.getSession()) {
+    await authService.hydrateFromServer();
+  }
+  await authService.signOut();
+  window.location.reload();
+}
+
 export interface NavShellProps {
   children?: React.ReactNode;
   /** Route highlighted as active in the navigation bar. Falls back to the browser location. */
@@ -41,7 +53,7 @@ export default function NavShell({ children, currentPath, user = null }: NavShel
         currentPath={resolvedPath}
         size="medium"
         variant="primary"
-        rightContent={<UserMenu user={user} />}
+        rightContent={<UserMenu user={user} onSignOut={handleSignOut} />}
       />
       {children}
     </ClientOnlyMuiProvider>
