@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import NavShell from '../ui/components/common/NavShell';
+import Footer from '../ui/components/common/Footer.astro';
 import type { AuthUser } from '../services/auth/authService.types';
 
 interface Props {
@@ -16,4 +17,5 @@ const { user = null } = Astro.locals as { user?: AuthUser | null };
 <BaseLayout title={title} description={description}>
   <NavShell currentPath={currentPath} user={user} client:load />
   <slot />
+  <Footer />
 </BaseLayout>
