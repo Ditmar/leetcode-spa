@@ -1,0 +1,43 @@
+name: Clean Storybook previews
+
+on:
+  delete:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cleanup:
+    if: github.event_name != 'delete' || github.event.ref_type == 'branch'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: storybook-pages
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - name: Remove previews without a branch
+        run: |
+          cp .github/scripts/cleanup-storybook.mjs "$RUNNER_TEMP/cleanup-storybook.mjs"
+          if ! git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            exit 0
+          fi
+          git checkout gh-pages
+          node "$RUNNER_TEMP/cleanup-storybook.mjs"
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m 'docs: remove stale Storybook previews'
+            git push origin HEAD:gh-pages
+          fi
