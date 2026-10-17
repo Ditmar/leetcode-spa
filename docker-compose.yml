@@ -1,0 +1,172 @@
+name: leetcode-local
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    ports:
+      - "127.0.0.1:5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    image: node:22-alpine
+    working_dir: /app
+    restart: unless-stopped
+
+    environment:
+      PORT: "3000"
+      ENV: development
+      NODE_ENV: development
+      LOG_LEVEL: info
+
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_REFRESH_TOKEN_SECRET: ${JWT_REFRESH_TOKEN_SECRET}
+      JWT_EXPIRES_IN: "604800"
+      JWT_REFRESH_TOKEN_EXPIRES_IN: "604800"
+      JWT_SALT_ROUNDS: "10"
+
+    ports:
+      - "127.0.0.1:3000:3000"
+
+    volumes:
+      - ../api-leetcode:/app
+      - api_node_modules:/app/node_modules
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    command: >
+      sh -c "npm ci &&
+             npx prisma generate &&
+             npx prisma migrate deploy &&
+             npm run dev"
+
+  spa:
+    image: node:22-alpine
+    working_dir: /app
+    restart: unless-stopped
+
+    dns:
+      - "1.1.1.1"
+      - "8.8.8.8"
+
+    environment:
+      PORT: "4321"
+      NODE_ENV: development
+      ENV: development
+      API_BASE_URL: http://api:3000
+
+    ports:
+      - "127.0.0.1:4321:4321"
+
+    volumes:
+      - ./:/app
+      - spa_node_modules:/app/node_modules
+
+    depends_on:
+      - api
+
+    command: >
+      sh -c "corepack enable &&
+             yarn install --frozen-lockfile --network-timeout 300000 --network-concurrency 2 &&
+             yarn dev --host 0.0.0.0 --port 4321"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: unless-stopped
+
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-leetcode}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-leetcode_local_only}
+
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+    healthcheck:
+      test:
+        - CMD
+        - rabbitmq-diagnostics
+        - -q
+        - ping
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  piston:
+    image: ghcr.io/engineer-man/piston:latest
+    restart: unless-stopped
+    privileged: true
+
+    dns:
+      - "1.1.1.1"
+      - "8.8.8.8"
+
+    ports:
+      - "127.0.0.1:2000:2000"
+
+    volumes:
+      - piston_data:/piston/packages
+
+  piston-init:
+    image: node:22-alpine
+    working_dir: /app
+    restart: "no"
+
+    environment:
+      PISTON_URL: http://piston:2000
+
+    volumes:
+      - ./local-piston:/app:ro
+
+    depends_on:
+      piston:
+        condition: service_started
+
+    command: ["node", "init-piston.js"]
+
+  worker:
+    build:
+      context: ./local-worker
+      dockerfile: Dockerfile
+
+    restart: unless-stopped
+
+    environment:
+      RABBITMQ_URL: amqp://${RABBITMQ_USER:-leetcode}:${RABBITMQ_PASSWORD:-leetcode_local_only}@rabbitmq:5672
+      PISTON_URL: http://piston:2000
+
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      piston-init:
+        condition: service_completed_successfully
+
+volumes:
+  postgres_data:
+  api_node_modules:
+  spa_node_modules:
+  rabbitmq_data:
+  piston_data:
