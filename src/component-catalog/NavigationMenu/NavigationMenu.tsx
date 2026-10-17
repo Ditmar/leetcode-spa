@@ -110,7 +110,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     <StyledListItemButton
       key={item.id}
       data-testid={`nav-item-${item.id}`}
-      component={item.href ? 'a' : undefined}
+      component={item.href ? 'a' : 'div'}
       href={item.href}
       onClick={createItemClickHandler(item)}
       aria-current={isItemActive(item) ? 'page' : undefined}
