@@ -33,36 +33,27 @@ export const Form = <T extends FieldValues>({
         acc[field.name] = field.type === 'checkbox' ? false : '';
         return acc;
       },
-      {} as Record<string, string | boolean>
+      {} as Record<string, any>
     );
   }, [fields, defaultValues]);
 
   const schema = useMemo(() => buildFormSchema(fields), [fields]);
 
-  const methods = useFormHook<T>(schema, initialDefaultValues);
+  const methods = useFormHook<T>(schema, initialDefaultValues as any);
 
   const { reset, control, handleSubmit, formState, watch, setValue, getValues, trigger } = methods;
 
   const errors = formState.errors;
 
   return (
-    <FormProvider
-      reset={reset}
-      control={control}
-      handleSubmit={handleSubmit}
-      formState={formState}
-      watch={watch}
-      setValue={setValue}
-      getValues={getValues}
-      trigger={trigger}
-    >
+    <FormProvider {...methods}>
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <GridContainer>
           {fields.map((field) => (
             <GridItem key={field.name} span={field.span || 12}>
               <StyledFormControl error={!!errors[field.name]}>
                 <Controller
-                  name={field.name}
+                  name={field.name as any}
                   control={control}
                   render={({ field: ctrlField }) =>
                     renderFieldByType({
