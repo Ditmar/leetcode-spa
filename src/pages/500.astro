@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ErrorMessage from '../ui/components/common/ErrorMessage.astro';
+---
+
+<BaseLayout title="Server error | LeetCode SPA" description="Something went wrong on our side.">
+  <ErrorMessage
+    code="500"
+    title="Something went wrong"
+    message="We hit an unexpected error on our side. Please try again in a moment."
+    actions={[
+      { label: 'Try again', href: Astro.url.pathname },
+      { label: 'Go to home', href: '/' },
+    ]}
+  />
+</BaseLayout>
