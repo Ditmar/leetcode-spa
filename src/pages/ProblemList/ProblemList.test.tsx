@@ -76,6 +76,52 @@ describe('ProblemList', () => {
     expect(screen.getByText('No problems found.')).toBeInTheDocument();
   });
 
+  it('renders loading skeletons when loading is true', () => {
+    render(<ProblemList {...defaultProps} loading />);
+
+    expect(screen.getByRole('status', { name: 'Loading list' })).toBeInTheDocument();
+
+    expect(screen.queryByTestId('problem-item-1')).not.toBeInTheDocument();
+  });
+
+  it('renders the error message when an error occurs', () => {
+    render(
+      <ProblemList
+        {...defaultProps}
+        error={{
+          message: 'Failed to load problems',
+          code: 'SERVER_ERROR',
+          status: 500,
+        }}
+        onRetry={vi.fn()}
+      />
+    );
+
+    expect(screen.getByText('Failed to load problems')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Retry' })).toBeInTheDocument();
+  });
+
+  it('calls onRetry when the retry button is clicked', async () => {
+    const user = userEvent.setup();
+    const onRetry = vi.fn();
+
+    render(
+      <ProblemList
+        {...defaultProps}
+        error={{
+          message: 'Failed to load problems',
+          code: 'SERVER_ERROR',
+          status: 500,
+        }}
+        onRetry={onRetry}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Retry' }));
+
+    expect(onRetry).toHaveBeenCalledTimes(1);
+  });
+
   it('items are keyboard-focusable', () => {
     render(<ProblemList {...defaultProps} />);
     const firstItem = screen.getByTestId('problem-item-1');
