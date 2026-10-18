@@ -1,0 +1,1 @@
+import{F as e,A as i,M as n}from"./iframe-C1CJPNaH.js";function o({children:t}){const[r,s]=e.useState(!1);return e.useEffect(()=>{s(!0)},[]),r?i.jsx(n,{children:t}):null}o.__docgenInfo={description:"",methods:[],displayName:"ClientOnlyMuiProvider",props:{children:{required:!0,tsType:{name:"ReactNode"},description:""}}};export{o as C};
