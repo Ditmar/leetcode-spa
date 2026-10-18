@@ -1,3 +1,4 @@
+import type { ApiError } from '../../services/api/apiClient.types';
 export interface Problem {
   id: number;
   title: string;
@@ -16,6 +17,9 @@ export interface Problem {
 
 export interface ProblemDetailProps {
   problem?: Problem | null;
+  loading?: boolean;
+  error?: ApiError | null;
+  onRetry?: () => void;
 }
 
 export type ProblemDifficulty = Problem['difficulty'];
