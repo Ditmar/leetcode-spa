@@ -3,7 +3,7 @@ import { Link, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
 
-import iconSvg from '../../assets/icon-breadcrumb.svg';
+import iconSvg from '../../assets/icon-breadcrumb.svg?url';
 
 import { DEFAULT_MAX_ITEMS } from './Breadcrumb.constants';
 import { useBreadcrumb } from './Breadcrumb.hook';

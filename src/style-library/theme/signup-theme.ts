@@ -9,12 +9,14 @@ declare module '@mui/material/styles' {
     link: {
       purple: string;
       blue: string;
+      gray: string;
     };
   }
   interface PaletteOptions {
     link?: {
       purple?: string;
       blue?: string;
+      gray?: string;
     };
   }
 }
@@ -35,6 +37,7 @@ const signupTheme = createTheme(baseTheme, {
     link: {
       purple: '#B441EB',
       blue: '#4285F4',
+      gray: '#BCBCBC',
     },
   },
   typography: {
