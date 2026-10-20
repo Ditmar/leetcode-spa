@@ -169,6 +169,7 @@ interface ApiResponse<T> {
 ```sh
 npx vitest run src/services/api/apiClient.test.ts
 ```
+
 ## Auth routes (BFF)
 
 The browser never sees the access token or the refresh token. Astro server routes call the real API, keep the tokens in `HttpOnly` cookies, and return only the user data to the browser.
