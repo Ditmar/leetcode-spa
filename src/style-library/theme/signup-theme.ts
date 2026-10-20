@@ -37,6 +37,7 @@ const signupTheme = createTheme(baseTheme, {
     link: {
       purple: '#B441EB',
       blue: '#4285F4',
+      gray: '#BCBCBC',
     },
   },
   typography: {
