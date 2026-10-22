@@ -45,6 +45,8 @@ export interface FormProps<T extends FieldValues = FieldValues> {
   showResetButton?: boolean;
   /** Custom Zod schema. When omitted, one is built from `fields`. */
   schema?: z.ZodType;
+  /** Errors returned by the server, keyed by field name. They are shown under the field. */
+  serverErrors?: Record<string, string>;
 }
 
 export type RenderFieldProps<T extends FieldValues = FieldValues> = {

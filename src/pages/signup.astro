@@ -1,11 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SignupPage from '../ui/components/auth/SignupPage';
+import { getSafeRedirect } from '../utils/safeRedirect';
+
+export const prerender = false;
+
+// Only internal paths are accepted. Anything else (e.g. https://evil.com) becomes "/".
+const redirectTo = getSafeRedirect(Astro.url.searchParams.get('redirect'));
 ---
 
 <BaseLayout
   title="Sign up | LeetCode SPA"
   description="Create your account to practice coding problems and join contests."
 >
-  <SignupPage client:load />
+  <SignupPage client:load redirectTo={redirectTo} />
 </BaseLayout>

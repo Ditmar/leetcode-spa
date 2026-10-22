@@ -14,6 +14,7 @@ interface ApiErrorLike {
 
 const GENERIC_MESSAGE = 'Something went wrong. Please try again.';
 const NETWORK_MESSAGE = 'We could not reach the server. Check your connection and try again.';
+const TOO_MANY_ATTEMPTS_MESSAGE = 'Too many attempts. Please wait a moment and try again.';
 
 // authService throws plain objects ({ message, code, status }), not Error instances.
 function isApiErrorLike(err: unknown): err is ApiErrorLike {
@@ -30,6 +31,10 @@ export function mapAuthError(err: unknown, mode: AuthMode): AuthErrorResult {
       fieldErrors: {},
       formError: err instanceof TypeError ? NETWORK_MESSAGE : GENERIC_MESSAGE,
     };
+  }
+
+  if (err.status === 429) {
+    return { fieldErrors: {}, formError: TOO_MANY_ATTEMPTS_MESSAGE };
   }
 
   const message =
