@@ -3,7 +3,10 @@
  * API_BASE_URL is private and must not reach the client bundle.
  */
 export interface BffConfig {
-  /** Real API, including its prefix. Example: `http://localhost:3000/api`. */
+  /**
+   * Where the BFF sends API calls: the API origin + the `/api` contract prefix.
+   * Example: API_BASE_URL=http://localhost:3000 → `http://localhost:3000/api`.
+   */
   apiBaseUrl: string;
   /** Time limit for one call to the API. */
   upstreamTimeoutMs: number;
@@ -16,6 +19,22 @@ export interface BffConfig {
 }
 
 type Env = Record<string, string | undefined>;
+
+/** Contract prefix of every API route (ADR-003, X-003). */
+export const API_PATH_PREFIX = '/api';
+
+/**
+ * ADR-003: `API_BASE_URL` is the API origin only (no `/api`). The `/api` prefix is
+ * added here. A value that already ends in `/api` is accepted too, so old `.env`
+ * files keep working.
+ */
+export function resolveApiBaseUrl(value: string): string {
+  const origin = value
+    .trim()
+    .replace(/\/+$/, '')
+    .replace(/\/api$/, '');
+  return `${origin}${API_PATH_PREFIX}`;
+}
 
 const DEFAULT_TIMEOUT_MS = 10_000;
 const DEFAULT_MAX_BODY_BYTES = 1024 * 1024; // 1 MiB
@@ -37,16 +56,14 @@ function parseOrigins(value: string | undefined): string[] {
 export function loadBffConfig(env: Env = process.env): BffConfig {
   const apiBaseUrl = env.API_BASE_URL?.trim();
   if (!apiBaseUrl) {
-    throw new Error(
-      '[bff] API_BASE_URL is not set. Example: API_BASE_URL=http://localhost:3000/api'
-    );
+    throw new Error('[bff] API_BASE_URL is not set. Example: API_BASE_URL=http://localhost:3000');
   }
 
   // Railway gives the public domain without protocol (same variable astro.config.mjs uses).
   const railwayOrigin = env.RAILWAY_PUBLIC_DOMAIN ? `https://${env.RAILWAY_PUBLIC_DOMAIN}` : '';
 
   return {
-    apiBaseUrl: apiBaseUrl.replace(/\/+$/, ''),
+    apiBaseUrl: resolveApiBaseUrl(apiBaseUrl),
     upstreamTimeoutMs: positiveInt(env.BFF_UPSTREAM_TIMEOUT_MS, DEFAULT_TIMEOUT_MS),
     maxBodyBytes: positiveInt(env.BFF_MAX_BODY_BYTES, DEFAULT_MAX_BODY_BYTES),
     allowedOrigins: [...parseOrigins(env.BFF_ALLOWED_ORIGINS), ...parseOrigins(railwayOrigin)],

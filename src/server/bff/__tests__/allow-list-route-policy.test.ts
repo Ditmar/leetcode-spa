@@ -25,6 +25,7 @@ describe('AllowListRoutePolicy', () => {
   it.each([
     ['GET', '/admin'],
     ['GET', '/user'],
+    ['GET', '/users/7/stats'],
     ['DELETE', '/user/1'],
     ['POST', '/auth/refresh'],
     ['POST', '/auth/login'],
