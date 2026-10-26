@@ -7,6 +7,9 @@
  *   Astro routes (SPA-036-A), and refresh is only called by the server.
  * - Admin CRUD on `/user` is NOT exposed to the browser.
  *
+ * Source of truth: the "SPA service to API mapping" table of ADR-003 (X-003).
+ * `/users/:id/stats` is NOT allowed: ADR-003 removes it from the contract.
+ *
  * When the API adds an endpoint the SPA needs, add one line here (and a test).
  */
 export interface AllowedRoute {
@@ -45,7 +48,6 @@ export const API_ALLOW_LIST: readonly AllowedRoute[] = [
   { methods: ['GET', 'PUT'], pattern: '/users/me/preferences' },
   { methods: ['POST'], pattern: '/users/me/avatar' },
   { methods: ['GET'], pattern: '/users/:id' },
-  { methods: ['GET'], pattern: '/users/:id/stats' },
 
   // Explore (SPA exploreService → API-035)
   { methods: ['GET'], pattern: '/explore/topics' },
