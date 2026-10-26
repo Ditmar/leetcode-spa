@@ -212,7 +212,7 @@ Server-side code (middleware, `.astro` pages) uses `getSession(cookies)` from `s
 
 | Variable                  | Required | Default   | Description                                                                                                                      |
 | :------------------------ | :------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------- |
-| `API_BASE_URL`            | yes      | –         | Real API including its prefix, e.g. `http://localhost:3000/api`                                                                  |
+| `API_BASE_URL`            | yes      | –         | API **origin** without `/api` (ADR-003), e.g. `http://localhost:3000`. The BFF adds `/api`. A value ending in `/api` also works  |
 | `BFF_UPSTREAM_TIMEOUT_MS` | no       | `10000`   | Timeout for each call to the API (→ `504`)                                                                                       |
 | `BFF_MAX_BODY_BYTES`      | no       | `1048576` | Max request body size (→ `413`)                                                                                                  |
 | `BFF_ALLOWED_ORIGINS`     | no       | –         | Extra origins (comma separated) allowed to send `POST/PUT/PATCH/DELETE`. `https://$RAILWAY_PUBLIC_DOMAIN` is added automatically |

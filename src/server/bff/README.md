@@ -92,14 +92,15 @@ session, and never throws (if the API is down it logs and returns `null`).
 1. **CSRF** – `POST/PUT/PATCH/DELETE` must have `Origin` = our site (or one in
    `BFF_ALLOWED_ORIGINS`); without `Origin`, `Sec-Fetch-Site` must be `same-origin`. Otherwise **403**.
 2. **Allow-list** – path + method must be in `infrastructure/routing/api-allow-list.ts`, otherwise **404**.
+   The list follows the "SPA service to API mapping" table of ADR-003.
    Encoded characters, `..` and `//` are always rejected. `/auth/*` is not proxied.
 3. **Body limit** – bigger than `BFF_MAX_BODY_BYTES` → **413**.
-4. **Forward** – `{API_BASE_URL}{path}{query}` with `Authorization: Bearer <lc_access_token>`.
+4. **Forward** – `{API_BASE_URL}/api{path}{query}` (ADR-003: `API_BASE_URL` is the origin, the BFF adds `/api`) with `Authorization: Bearer <lc_access_token>`.
    Only `Accept`, `Accept-Language`, `Content-Type`, `If-None-Match` and `X-Request-Id` are
    forwarded. **The browser `Cookie` header is never sent to the API.** `Set-Cookie` from the
    API is never sent to the browser.
 5. **Refresh once** – on **401** (or when the access cookie is missing but the refresh cookie
-   exists) the BFF calls `POST {API_BASE_URL}/auth/refresh`, saves the new cookie and repeats
+   exists) the BFF calls `POST {API_BASE_URL}/api/auth/refresh`, saves the new cookie and repeats
    the request **one time**. Parallel requests with the same refresh token share one refresh
    (`SingleFlightTokenRefresher`).
 6. **Refresh fails** (API answers 4xx) → both cookies are cleared → **401** `{ code: "UNAUTHORIZED" }`.
