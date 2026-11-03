@@ -1,0 +1,19 @@
+---
+import AppLayout from '../layouts/AppLayout.astro';
+import ErrorMessage from '../ui/components/common/ErrorMessage.astro';
+---
+
+<AppLayout
+  title="Page not found | LeetCode SPA"
+  description="The page you are looking for does not exist."
+>
+  <ErrorMessage
+    code="404"
+    title="Page not found"
+    message="The page you are looking for does not exist or was moved."
+    actions={[
+      { label: 'Go to home', href: '/' },
+      { label: 'Browse problems', href: '/problems' },
+    ]}
+  />
+</AppLayout>
