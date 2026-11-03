@@ -1,8 +1,7 @@
 import { Meta, Canvas, Controls, ArgTypes } from '@storybook/blocks';
 import * as NavigationMenuStories from './NavigationMenu.stories';
 
-<Meta of={NavigationMenuStories} />
-# NavigationMenu
+<Meta of={NavigationMenuStories} /># NavigationMenu
 
 A **fully-responsive**, **accessible** navigation component built on
 [MUI `AppBar`](https://mui.com/material-ui/react-app-bar/),
@@ -17,12 +16,13 @@ and **mobile-friendly** dropdown support.
 The `NavigationMenu` component renders a primary navigation structure that adapts
 to screen size:
 
-| Viewport  | Layout                                         |
-| --------- | ---------------------------------------------- |
-| Desktop   | Horizontal nav bar with optional flyout panels |
-| Mobile    | Hamburger icon → Drawer with accordion nav     |
+| Viewport | Layout                                         |
+| -------- | ---------------------------------------------- |
+| Desktop  | Horizontal nav bar with optional flyout panels |
+| Mobile   | Hamburger icon → Drawer with accordion nav     |
 
 **Key features:**
+
 - ✓ Horizontal nav bar on desktop (≥ 768px)
 - ✓ Hamburger drawer on mobile (< 768px)
 - ✓ Active item highlighted via `aria-current="page"`
@@ -30,7 +30,6 @@ to screen size:
 - ✓ Keyboard navigation (`Tab`, `Arrow keys`, `Escape`)
 - ✓ Touch targets ≥ 44×44px on mobile
 - ✓ Fully-responsive: 320px → 1440px tested
-
 
 ## Installation
 
@@ -112,7 +111,7 @@ The navigation menu uses SVG icons (`NavigationMenu.svg`, `NavigationMenu2.svg`)
 
 ```css
 /* Default: green accent */
---nav-stroke-color: #00C950;
+--nav-stroke-color: #00c950;
 
 /* To override globally, add to your CSS/SCSS */
 :root {
@@ -168,8 +167,6 @@ Edit `navSections` to see different menu items.
 
 <Canvas of={NavigationMenuStories.CustomLabels} />
 
-
-
 ## Controls
 
 <Controls />
@@ -180,64 +177,68 @@ Edit `navSections` to see different menu items.
 
 ### NavigationMenuProps
 
-| Prop                  | Type                                  | Default       | Description                                    |
-| --------------------- | ------------------------------------- | ------------- | ---------------------------------------------- |
-| `navSections`         | `NavSection[]`                        | **Required**  | Array of navigation sections with items        |
-| `currentPath`         | `string`                              | `''`          | Active route path for highlighting             |
-| `onItemClick`         | `(item: NavItem) => void`             | —             | Callback when user clicks a menu item          |
-| `ariaLabel`           | `string`                              | `'Main navigation'` | Accessible label for screen readers            |
-| `logo`                | `string \| ReactNode`                 | —             | Logo URL or React component                    |
-| `size`                | `'small' \| 'medium' \| 'large'`      | `'medium'`    | Navigation menu size variant                   |
-| `variant`             | `'primary' \| 'secondary'`            | `'primary'`   | Color scheme variant                           |
-| `useScrollHide`       | `boolean`                             | `false`       | Hide nav on scroll down (requires SSR-safe wrapper) |
-| `rightContent`        | `ReactNode`                           | —             | Custom content on nav bar right side           |
-| `onMobileMenuToggle`  | `(isOpen: boolean) => void`           | —             | Callback for mobile drawer state               |
-| `forceHamburger`      | `boolean`                             | `false`       | Always show hamburger button (skip responsive logic). For debugging/Storybook only. |
-| `drawerProps`         | `Partial<DrawerProps>`                | —             | Additional MUI Drawer props                    |
-| `toolbarProps`        | `Partial<ToolbarProps>`               | —             | Additional MUI Toolbar props                   |
+| Prop                 | Type                             | Default             | Description                                                                         |
+| -------------------- | -------------------------------- | ------------------- | ----------------------------------------------------------------------------------- |
+| `navSections`        | `NavSection[]`                   | **Required**        | Array of navigation sections with items                                             |
+| `currentPath`        | `string`                         | `''`                | Active route path for highlighting                                                  |
+| `onItemClick`        | `(item: NavItem) => void`        | —                   | Callback when user clicks a menu item                                               |
+| `ariaLabel`          | `string`                         | `'Main navigation'` | Accessible label for screen readers                                                 |
+| `logo`               | `string \| ReactNode`            | —                   | Logo URL or React component                                                         |
+| `size`               | `'small' \| 'medium' \| 'large'` | `'medium'`          | Navigation menu size variant                                                        |
+| `variant`            | `'primary' \| 'secondary'`       | `'primary'`         | Color scheme variant                                                                |
+| `useScrollHide`      | `boolean`                        | `false`             | Hide nav on scroll down (requires SSR-safe wrapper)                                 |
+| `rightContent`       | `ReactNode`                      | —                   | Custom content on nav bar right side                                                |
+| `onMobileMenuToggle` | `(isOpen: boolean) => void`      | —                   | Callback for mobile drawer state                                                    |
+| `forceHamburger`     | `boolean`                        | `false`             | Always show hamburger button (skip responsive logic). For debugging/Storybook only. |
+| `drawerProps`        | `Partial<DrawerProps>`           | —                   | Additional MUI Drawer props                                                         |
+| `toolbarProps`       | `Partial<ToolbarProps>`          | —                   | Additional MUI Toolbar props                                                        |
 
 ### NavSection
 
-| Prop          | Type        | Required | Description                    |
-| ------------- | ----------- | -------- | ------------------------------ |
-| `id`          | `string`    | Yes      | Unique section identifier      |
-| `title`       | `string`    | —        | Optional section heading       |
-| `items`       | `NavItem[]` | Yes      | Array of menu items            |
-| `subheader`   | `ReactNode` | —        | Custom subheader component     |
-| `showDivider` | `boolean`   | —        | Display divider after section  |
+| Prop          | Type        | Required | Description                   |
+| ------------- | ----------- | -------- | ----------------------------- |
+| `id`          | `string`    | Yes      | Unique section identifier     |
+| `title`       | `string`    | —        | Optional section heading      |
+| `items`       | `NavItem[]` | Yes      | Array of menu items           |
+| `subheader`   | `ReactNode` | —        | Custom subheader component    |
+| `showDivider` | `boolean`   | —        | Display divider after section |
 
 ### NavItem
 
-| Prop                | Type                    | Required | Description                          |
-| ------------------- | ----------------------- | -------- | ------------------------------------ |
-| `id`                | `string`                | Yes      | Unique item identifier               |
-| `label`             | `string`                | Yes      | Display text                         |
-| `href`              | `string`                | —        | Link destination                     |
-| `icon`              | `ReactNode`             | —        | Icon component                       |
-| `disabled`          | `boolean`               | —        | Disable interaction                  |
-| `badge`             | `ReactNode`             | —        | Badge or notification indicator      |
+| Prop       | Type        | Required | Description                     |
+| ---------- | ----------- | -------- | ------------------------------- |
+| `id`       | `string`    | Yes      | Unique item identifier          |
+| `label`    | `string`    | Yes      | Display text                    |
+| `href`     | `string`    | —        | Link destination                |
+| `icon`     | `ReactNode` | —        | Icon component                  |
+| `disabled` | `boolean`   | —        | Disable interaction             |
+| `badge`    | `ReactNode` | —        | Badge or notification indicator |
 
 ---
 
 ## Accessibility
 
 **Screen reader support:**
+
 - Navigation container marked with `role="navigation"` and `aria-label`
 - Active item annotated with `aria-current="page"`
 - Disabled items carry `aria-disabled="true"`
 - Hamburger button has descriptive `aria-label="Toggle menu"`
 
 **Keyboard navigation:**
+
 - `Tab` / `Shift+Tab` → Move focus between menu items
 - `Arrow keys` → Navigate within nav groups (future enhancement)
 - `Escape` → Close mobile drawer
 - `Enter` / `Space` → Activate menu item or toggle drawer
 
 **Touch targets:**
+
 - All interactive elements ≥ 44×44 px on mobile (WCAG 2.5.5 compliance)
 - Desktop buttons maintain minimum 32×32 px
 
 **Testing:**
+
 - Component passes `axe-core` accessibility audit
 - Supports JAWS, NVDA, and VoiceOver screen readers
 
@@ -245,13 +246,13 @@ Edit `navSections` to see different menu items.
 
 ## Responsive Behaviour
 
-| Breakpoint | Viewport | Layout                                         |
-| ---------- | -------- | ---------------------------------------------- |
-| xs         | 320 px   | Full-width mobile drawer, hamburger button     |
+| Breakpoint | Viewport | Layout                                        |
+| ---------- | -------- | --------------------------------------------- |
+| xs         | 320 px   | Full-width mobile drawer, hamburger button    |
 | sm         | 375 px   | Full-width mobile drawer, comfortable spacing |
-| md (768px) | 768 px   | Desktop horizontal nav bar                     |
-| lg         | 1024 px  | Horizontal nav bar, wider container            |
-| xl         | 1440 px+ | Horizontal nav bar, max-width constraint       |
+| md (768px) | 768 px   | Desktop horizontal nav bar                    |
+| lg         | 1024 px  | Horizontal nav bar, wider container           |
+| xl         | 1440 px+ | Horizontal nav bar, max-width constraint      |
 
 Spacing and size values use `rem` strings or unitless multiples of `theme.spacing()`. See **Design Tokens** section for details on each token type.
 
@@ -281,34 +282,42 @@ NavigationMenu/
 The `NavigationMenu` component imports multiple utilities and tokens from the theme system. Here's a detailed breakdown of all imports across the component files:
 
 #### **NavigationMenu.tsx**
+
 ```typescript
 import { navigationMenuTokens } from '../../style-library/theme/theme';
 import { useTheme } from '@mui/material';
 ```
+
 - Uses `navigationMenuTokens.layout.iconContainer` for icon rendering
 - Uses `theme` hook for theme breakpoints and spacing
 
 #### **NavigationMenu.styles.ts**
+
 ```typescript
 import { alpha } from '../../style-library';
 import { navigationMenuTokens } from '../../style-library/theme/theme';
 ```
+
 - `navigationMenuTokens` for all styled component definitions (AppBar, Toolbar, Buttons, Drawer, etc.)
 - `alpha` from style-library for color opacity utilities
 
 #### **NavigationMenu.hook.ts**
+
 ```typescript
 import { useTheme } from '../../style-library';
 import { navigationMenuTokens } from '../../style-library/theme/theme';
 ```
+
 - `navigationMenuTokens.scroll.hideThreshold` for scroll trigger behavior
 - `useTheme` hook for responsive breakpoints
 
 #### **NavigationMenu.utils.ts**
+
 ```typescript
 import { navigationMenuTokens } from '../../style-library/theme/theme';
 import type { Theme } from '@mui/material';
 ```
+
 - `navigationMenuTokens.sizes` for responsive AppBar heights
 - `navigationMenuTokens.spacing` for padding and margin calculations
 
@@ -323,6 +332,7 @@ import { navigationMenuTokens } from '../../style-library/theme/theme';
 ```
 
 **Used in 4 files:**
+
 - `NavigationMenu.tsx` → Component layout and rendering
 - `NavigationMenu.styles.ts` → Styled component definitions
 - `NavigationMenu.utils.ts` → Size and variant configurations
@@ -332,34 +342,34 @@ import { navigationMenuTokens } from '../../style-library/theme/theme';
 
 The `navigationMenuTokens` object contains all styling, spacing, and sizing configuration:
 
-| Category | Properties | Usage |
-|----------|-----------|-------|
-| **colors** | `background`, `border`, `text` | AppBar, drawer, and text colors |
-| **sizes** | `appBarHeight` (3 variants), `logoHeight`, `drawerWidth`, `megaPanel` | Responsive dimensions |
-| **minTouchTarget** | `5.5` | WCAG touch target minimum (→ 44px with theme.spacing) |
-| **spacing** | `itemPaddingY/X`, `toolbarGap`, `iconMargin`, `logoMargin`, etc | Layout spacing |
-| **signInButton** | `fontWeight`, `height`, `paddingX`, `fontSize`, `borderRadius` | Sign-in button styling |
-| **layout** | `appBar`, `toolbar`, `iconContainer`, `logoContainer`, `desktopNav`, `mobileNav`, `drawer`, `scrollbar` | Flexbox & position configs |
-| **listItem** | `position`, `fontSize`, `fontWeight`, `hover`, `active`, `disabled` | Menu item states |
-| **accordion** | `boxShadow`, `expanded`, `summaryButton`, `summaryFocused` | Mobile accordion styling |
-| **megaPanel** | `popperOffset`, `borderRadius` | Flyout panel positioning |
-| **opacity** | `accordion`, `border` | Transparency values |
-| **borders** | `width` | Border thickness |
-| **scroll** | `hideThreshold` | Scroll hide trigger (100px) |
+| Category           | Properties                                                                                              | Usage                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| **colors**         | `background`, `border`, `text`                                                                          | AppBar, drawer, and text colors                       |
+| **sizes**          | `appBarHeight` (3 variants), `logoHeight`, `drawerWidth`, `megaPanel`                                   | Responsive dimensions                                 |
+| **minTouchTarget** | `5.5`                                                                                                   | WCAG touch target minimum (→ 44px with theme.spacing) |
+| **spacing**        | `itemPaddingY/X`, `toolbarGap`, `iconMargin`, `logoMargin`, etc                                         | Layout spacing                                        |
+| **signInButton**   | `fontWeight`, `height`, `paddingX`, `fontSize`, `borderRadius`                                          | Sign-in button styling                                |
+| **layout**         | `appBar`, `toolbar`, `iconContainer`, `logoContainer`, `desktopNav`, `mobileNav`, `drawer`, `scrollbar` | Flexbox & position configs                            |
+| **listItem**       | `position`, `fontSize`, `fontWeight`, `hover`, `active`, `disabled`                                     | Menu item states                                      |
+| **accordion**      | `boxShadow`, `expanded`, `summaryButton`, `summaryFocused`                                              | Mobile accordion styling                              |
+| **megaPanel**      | `popperOffset`, `borderRadius`                                                                          | Flyout panel positioning                              |
+| **opacity**        | `accordion`, `border`                                                                                   | Transparency values                                   |
+| **borders**        | `width`                                                                                                 | Border thickness                                      |
+| **scroll**         | `hideThreshold`                                                                                         | Scroll hide trigger (100px)                           |
 
 ### Size Token Values
 
 All size values are expressed in **rem** (relative em units) for consistency with the project's design system. This allows for scalable, accessible sizing that respects user font-size preferences.
 
-| Token | Value | Equivalent |
-|-------|-------|------------|
-| **appBarHeight.small** | `'3rem'` | 48px |
-| **appBarHeight.medium** | `'3.5625rem'` | 57px |
-| **appBarHeight.large** | `'4rem'` | 64px |
-| **logoHeight** | `'1.5rem'` | 24px |
-| **drawerWidth** | `'16rem'` | 256px |
-| **megaPanel.minWidth** | `'17.5rem'` | 280px |
-| **megaPanel.maxWidth** | `'25rem'` | 400px |
+| Token                   | Value         | Equivalent |
+| ----------------------- | ------------- | ---------- |
+| **appBarHeight.small**  | `'3rem'`      | 48px       |
+| **appBarHeight.medium** | `'3.5625rem'` | 57px       |
+| **appBarHeight.large**  | `'4rem'`      | 64px       |
+| **logoHeight**          | `'1.5rem'`    | 24px       |
+| **drawerWidth**         | `'16rem'`     | 256px      |
+| **megaPanel.minWidth**  | `'17.5rem'`   | 280px      |
+| **megaPanel.maxWidth**  | `'25rem'`     | 400px      |
 
 **Conversion formula:** `px ÷ 16 = rem` (assuming base font-size of 16px)
 
@@ -367,13 +377,14 @@ All size values are expressed in **rem** (relative em units) for consistency wit
 
 The `navigationMenuTokens` object uses standardized unit representations to avoid ambiguity:
 
-| Unit Type | Usage | Examples |
-|-----------|-------|----------|
-| **String rem** | Direct CSS values (no conversion) | `fontSize: '0.875rem'`, `height: '1.75rem'`, `logoHeight: '1.5rem'` |
-| **Number multiplier** | Values passed to `theme.spacing()` | `paddingX: 2`, `letterSpacing: 0.05`, `borderRadius: 0.5` |
-| **Pure number** | Unitless CSS properties | `fontWeight: 600` |
+| Unit Type             | Usage                              | Examples                                                            |
+| --------------------- | ---------------------------------- | ------------------------------------------------------------------- |
+| **String rem**        | Direct CSS values (no conversion)  | `fontSize: '0.875rem'`, `height: '1.75rem'`, `logoHeight: '1.5rem'` |
+| **Number multiplier** | Values passed to `theme.spacing()` | `paddingX: 2`, `letterSpacing: 0.05`, `borderRadius: 0.5`           |
+| **Pure number**       | Unitless CSS properties            | `fontWeight: 600`                                                   |
 
 **Example from signInButton:**
+
 ```typescript
 signInButton: {
   fontWeight: 600,           // Pure number (unitless)
@@ -386,6 +397,7 @@ signInButton: {
 ```
 
 **Usage in NavigationMenu.tsx:**
+
 ```typescript
 const signInButtonSx = {
   ...navigationMenuTokens.signInButton,
@@ -396,6 +408,7 @@ const signInButtonSx = {
 ```
 
 Example usage in styles:
+
 ```typescript
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   height: navigationMenuTokens.sizes.appBarHeight.medium, // '3.5625rem'
@@ -414,6 +427,7 @@ const isScrollHidden = useScrollTrigger({
 ```
 
 ---
+
 ```typescript
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   ...navigationMenuTokens.layout.appBar,
@@ -424,6 +438,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 ```
 
 **In NavigationMenu.utils.ts:**
+
 ```typescript
 function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
   const sizeConfigs = {
@@ -447,6 +462,7 @@ function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
 ```
 
 **In NavigationMenu.hook.ts:**
+
 ```typescript
 const isScrollHidden = useScrollTrigger({
   disableHysteresis: true,
@@ -463,6 +479,7 @@ const isScrollHidden = useScrollTrigger({
 This section shows all imports from `theme.ts` across the NavigationMenu component:
 
 #### **1. NavigationMenu.tsx (Component Logic)**
+
 ```typescript
 // ✅ From theme.ts
 import { navigationMenuTokens } from '../../style-library/theme/theme';
@@ -476,12 +493,15 @@ const renderIcon = (icon: React.ReactNode, fontSize: string | number | undefined
     </Box>
   ) : null;
 ```
+
 **Tokens Used:**
+
 - `navigationMenuTokens.layout.iconContainer` → Icon container flexbox styling
 
 ---
 
 #### **2. NavigationMenu.styles.ts (Styled Components)**
+
 ```typescript
 // ✅ From theme.ts and style-library
 import { alpha } from '../../style-library';
@@ -506,7 +526,9 @@ const StyledAppBar = styled(AppBar)(({ theme }) =>
   )
 );
 ```
+
 **Tokens Used:**
+
 - `navigationMenuTokens.sizes.appBarHeight` → AppBar responsive heights
 - `navigationMenuTokens.colors` → Background, border, and text colors
 - `navigationMenuTokens.borders.width` → Border thickness
@@ -519,6 +541,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) =>
 ---
 
 #### **3. NavigationMenu.hook.ts (State Management Hook)**
+
 ```typescript
 // ✅ From theme.ts and style-library
 import { useTheme } from '../../style-library';
@@ -527,18 +550,21 @@ import { navigationMenuTokens } from '../../style-library/theme/theme';
 // Usage in hook:
 const isScrollHidden = useScrollTrigger({
   disableHysteresis: true,
-  threshold: navigationMenuTokens.scroll.hideThreshold,  // 100px
+  threshold: navigationMenuTokens.scroll.hideThreshold, // 100px
 });
 
 const isMobile = useMediaQuery(theme.breakpoints.down('md'), { noSsr: true });
 ```
+
 **Tokens Used:**
+
 - `navigationMenuTokens.scroll.hideThreshold` → Scroll hide trigger (100px)
 - `useTheme` hook → Access to breakpoints for responsive queries
 
 ---
 
 #### **4. NavigationMenu.utils.ts (Configuration Helpers)**
+
 ```typescript
 // ✅ From theme.ts
 import { navigationMenuTokens } from '../../style-library/theme/theme';
@@ -569,7 +595,9 @@ function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
   return sizeConfigs[size];
 }
 ```
+
 **Tokens Used:**
+
 - `navigationMenuTokens.sizes.appBarHeight` → For each size variant
 - `navigationMenuTokens.spacing.itemPaddingY` → Vertical padding by size
 - `navigationMenuTokens.spacing.itemPaddingX` → Horizontal padding by size
@@ -579,22 +607,22 @@ function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
 
 ### Token Usage Summary
 
-| Token Category | Used In | Purpose |
-|----------------|---------|---------|
-| `colors` | styles.ts | AppBar background, borders, text colors |
-| `sizes.appBarHeight` | styles.ts, utils.ts, tsx | Responsive AppBar heights (48/57/64px) |
-| `sizes.logoHeight` | styles.ts | Logo sizing |
-| `sizes.drawerWidth` | styles.ts | Mobile drawer width (256px) |
-| `minTouchTarget` | styles.ts | WCAG touch target minimum (→ 44px with theme.spacing) |
-| `spacing.*` | styles.ts, utils.ts, tsx | Padding, margins, gaps throughout |
-| `signInButton.*` | styles.ts | Sign-in button styling |
-| `layout.*` | styles.ts, tsx | Flexbox, positioning, layout props |
-| `listItem.*` | styles.ts | Menu item states (hover, active, disabled) |
-| `accordion.*` | styles.ts | Mobile accordion styling |
-| `megaPanel.*` | styles.ts | Flyout panel positioning |
-| `opacity.*` | styles.ts | Element transparency |
-| `borders.width` | styles.ts | Border thickness |
-| `scroll.hideThreshold` | hook.ts | Scroll hide trigger distance |
+| Token Category         | Used In                  | Purpose                                               |
+| ---------------------- | ------------------------ | ----------------------------------------------------- |
+| `colors`               | styles.ts                | AppBar background, borders, text colors               |
+| `sizes.appBarHeight`   | styles.ts, utils.ts, tsx | Responsive AppBar heights (48/57/64px)                |
+| `sizes.logoHeight`     | styles.ts                | Logo sizing                                           |
+| `sizes.drawerWidth`    | styles.ts                | Mobile drawer width (256px)                           |
+| `minTouchTarget`       | styles.ts                | WCAG touch target minimum (→ 44px with theme.spacing) |
+| `spacing.*`            | styles.ts, utils.ts, tsx | Padding, margins, gaps throughout                     |
+| `signInButton.*`       | styles.ts                | Sign-in button styling                                |
+| `layout.*`             | styles.ts, tsx           | Flexbox, positioning, layout props                    |
+| `listItem.*`           | styles.ts                | Menu item states (hover, active, disabled)            |
+| `accordion.*`          | styles.ts                | Mobile accordion styling                              |
+| `megaPanel.*`          | styles.ts                | Flyout panel positioning                              |
+| `opacity.*`            | styles.ts                | Element transparency                                  |
+| `borders.width`        | styles.ts                | Border thickness                                      |
+| `scroll.hideThreshold` | hook.ts                  | Scroll hide trigger distance                          |
 
 ---
 
@@ -629,6 +657,7 @@ export default theme;
 ```
 
 This structure allows:
+
 - ✅ Centralized token management
 - ✅ Type-safe styling across multiple components
 - ✅ Easy token reuse and maintenance
@@ -638,13 +667,13 @@ This structure allows:
 
 ## Stack
 
-| Package              | Version | Role                       |
-| -------------------- | ------- | -------------------------- |
-| `@mui/material`      | ^7      | AppBar, Toolbar, Drawer    |
-| `@mui/icons-material`| ^7      | Menu, Close icons          |
-| `@emotion/react`     | ^11     | CSS-in-JS via MUI styled() |
-| `react`              | ^18     | UI framework               |
-| `typescript`         | ^5      | Type safety                |
+| Package               | Version | Role                       |
+| --------------------- | ------- | -------------------------- |
+| `@mui/material`       | ^7      | AppBar, Toolbar, Drawer    |
+| `@mui/icons-material` | ^7      | Menu, Close icons          |
+| `@emotion/react`      | ^11     | CSS-in-JS via MUI styled() |
+| `react`               | ^18     | UI framework               |
+| `typescript`          | ^5      | Type safety                |
 
 ---
 
