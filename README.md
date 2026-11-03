@@ -170,6 +170,62 @@ interface ApiResponse<T> {
 npx vitest run src/services/api/apiClient.test.ts
 ```
 
+## Auth routes (BFF)
+
+The browser never sees the access token or the refresh token. Astro server routes call the real API, keep the tokens in `HttpOnly` cookies, and return only the user data to the browser.
+
+**Location:** `src/pages/api/auth/` (routes) and `src/services/auth/` (helpers)
+
+| File                                | Purpose                                                     |
+| :---------------------------------- | :---------------------------------------------------------- |
+| `src/pages/api/auth/login.ts`       | `POST /api/auth/login` — logs in, sets both cookies         |
+| `src/pages/api/auth/signup.ts`      | `POST /api/auth/signup` — creates the account (no cookies)  |
+| `src/pages/api/auth/logout.ts`      | `POST /api/auth/logout` — revokes the refresh token, clears both cookies |
+| `src/pages/api/auth/me.ts`          | `GET /api/auth/me` — returns the current user               |
+| `src/services/auth/cookies.ts`      | Set / clear / read the auth cookies                         |
+| `src/services/auth/session.ts`      | `getSession(cookies)` for middleware and server-side pages  |
+| `src/services/auth/authBff.ts`      | API paths, `callApi`, CSRF origin check, error mapping      |
+
+### Cookies
+
+| Cookie          | Lifetime            | Path        | Flags                                                        |
+| :-------------- | :------------------ | :---------- | :----------------------------------------------------------- |
+| `access_token`  | 15 minutes          | `/`         | `HttpOnly`, `SameSite=Lax`, `Secure` in production          |
+| `refresh_token` | 7 days              | `/api/auth` | `HttpOnly`, `SameSite=Lax`, `Secure` in production          |
+
+`Secure` is off outside production so cookies work on `http://localhost`. Names, lifetimes and paths are constants in `src/services/auth/cookies.ts`.
+
+### Environment variables
+
+```bash
+# .env — server-only, never exposed to the browser
+API_BASE_URL=http://localhost:4000/api/v1
+```
+
+### Responses
+
+`login` and `me` return `{ user, expiresAt }` (milliseconds since epoch). Tokens are never included in any response body. Errors use `{ code, message }`.
+
+### CSRF
+
+`POST` routes check `Sec-Fetch-Site` (or the `Origin` header when it is missing) and return `403` if the request does not come from our own site.
+
+### Reading the session on the server
+
+```ts
+import { getSession } from '@/services/auth/session';
+
+const session = getSession(Astro.cookies); // { accessToken, expiresAt, userId } | null
+```
+
+`getSession` only decodes the token to read `exp` and `sub`; it does not verify the signature. The API verifies every request, so use it only to decide whether to show a page or redirect.
+
+### Tests
+
+```sh
+yarn vitest run src/services/auth/cookies.test.ts src/services/auth/authRoutes.test.ts
+```
+
 ## Development plan
 
 The shared plan for API, SPA and CD is available in [docs/development-plan](docs/development-plan/README.md). It includes the development phases, review findings, all 109 ticket specifications and [links to their GitHub issues](docs/development-plan/ISSUE-LINKS.md).
