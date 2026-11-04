@@ -37,3 +37,16 @@ The test harness (`API-044`) needs more data in the model:
 - On `Problem`: `functionName` (the function the student must write) and starter code for each language.
 - On `ProblemTestCase`: `input` as a JSON list of arguments and `expectedOutput` as JSON (not plain text).
 - Optional per problem: number tolerance and an "order does not matter" flag.
+
+## Update after decision X-003
+
+Following [X-003](https://github.com/Ditmar/leetcode-spa/issues/368), the problems module must follow the unified API contract.
+
+- Use lowercase difficulty values in API requests and responses: `easy`, `medium`, `hard`.
+- Convert internal enum values to lowercase at the API response boundary.
+- Use `page` and `pageSize` for pagination, with pagination metadata in `meta`.
+- Use UUID strings as canonical problem identifiers.
+- Keep `id`, `slug` and `number` as distinct fields:
+  - `id`: UUID used by `GET /api/problems/:id`.
+  - `slug`: human-readable problem identifier.
+  - `number`: problem number displayed in the UI and used for sorting.
