@@ -43,6 +43,8 @@ The official public API prefix is:
 
 `/api/v1` is not introduced at this stage.
 
+Health-check endpoints (`/health`, and the planned `/health/live` and `/health/ready` from API-040) and the root route (`/`) are excluded from the `/api` prefix.
+
 `API_BASE_URL` represents the API origin only and does not contain the `/api` prefix.
 
 For example:
@@ -102,6 +104,8 @@ The official authentication operations are:
 - `POST /api/auth/logout`
 - `POST /api/auth/refresh`
 - `GET /api/auth/me`
+
+`POST /api/auth/refresh` is an API operation used internally by the Astro BFF. It is not exposed as a browser-facing authentication route. Astro handles token refresh internally when required, following the behavior defined in SPA-036.
 
 The current SPA route names `signin` and `signout` must be replaced by `login` and `logout`.
 
@@ -302,6 +306,8 @@ Shared error codes include:
 - `NOT_FOUND`
 - `VALIDATION_ERROR`
 - `INTERNAL_SERVER_ERROR`
+- `CONFLICT`
+- `TOO_MANY_REQUESTS`
 
 This shared list is not exhaustive.
 
@@ -477,16 +483,16 @@ SPA and API implementations must follow the OpenAPI contract instead of independ
 
 ### Migration strategy
 
-The transition to the X-003 contract uses **one compatibility release**.
+The transition to the X-003 contract maintains temporary backward compatibility until the API migration tracked by API-042 is completed and deployed. SPA-013 is responsible for removing legacy response mapping and the legacy error parsing introduced during SPA-006.
 
 The migration works as follows:
 
 1. New API endpoints use the X-003 contract immediately.
 2. Existing API endpoints are migrated progressively through [API-042](https://github.com/Ditmar/api-leetcode/issues/96).
-3. During one compatibility release, SPA parsing or mapping code may temporarily accept both legacy response shapes and X-003 response shapes for endpoints that are still being migrated.
+3. While existing API endpoints are being migrated through [API-042](https://github.com/Ditmar/api-leetcode/issues/96), SPA parsing or mapping code may temporarily accept both legacy and X-003 response shapes.
 4. An API endpoint that has already been migrated emits only the X-003 format.
 5. The API does not need to return two different response envelopes simultaneously.
-6. After all required API endpoints have migrated, legacy-format compatibility is removed from the SPA.
+6. Once the API-042 migration is completed and deployed, SPA-013 is responsible for removing legacy response mapping and error parsing from the SPA, including temporary compatibility introduced by SPA-006.
 
 This strategy avoids breaking existing SPA calls while API endpoints are migrated incrementally.
 
@@ -509,7 +515,7 @@ Shared API types, migration mappers and mocks are tracked by [SPA-013](https://g
 - UUID strings provide canonical identifiers for new API resources.
 - Separating problem `id`, `slug` and `number` prevents the UI display number from becoming an accidental resource identifier.
 - OpenAPI provides one executable source of truth shared by the SPA and API.
-- One compatibility release allows the contract to be adopted progressively without requiring one atomic deployment of every SPA and API change.
+- Temporary backward compatibility during the API-042 migration allows the contract to be adopted progressively without requiring one atomic deployment of every SPA and API change.
 
 ## Contract examples
 
@@ -594,6 +600,8 @@ The following table maps the calls currently represented by SPA services to the 
 
 This table is also the source for the proxy allow-list implemented by [SPA-036](https://github.com/Ditmar/leetcode-spa/issues/411).
 
+`POST /api/auth/refresh` is internal to the Astro BFF and must not be included in the browser-facing allow-list.
+
 The value `missing` means that no current API endpoint owns that functionality.
 
 When similar functionality exists but the route, input or response differs from the agreed contract, that difference is described in the last column.
@@ -611,7 +619,7 @@ When similar functionality exists but the route, input or response differs from 
 | Problems    | `GET`    | `/problems/stats`                              | `/api/problems/stats`           | Planned as part of the problems module in [API-029](https://github.com/Ditmar/api-leetcode/issues/83).                                                                                                                            |
 | Submissions | `POST`   | `/submissions/run`                             | `missing`                       | No matching API endpoint currently owns this SPA call.                                                                                                                                                                            |
 | Submissions | `POST`   | `/submissions`                                 | `missing`                       | No matching API endpoint currently owns this SPA call.                                                                                                                                                                            |
-| Submissions | `GET`    | `/submissions`                                 | `missing`                       | No matching API endpoint currently owns this SPA call.                                                                                                                                                                            |
+| Submissions | `GET`    | `/submissions`                                 | `missing`                       | No matching API endpoint currently owns this SPA call. The current SPA uses `/submissions?page=1&limit=10`; the future endpoint must use `page` and `pageSize` according to X-003.                                                                                                                                                                            |
 | Submissions | `GET`    | `/submissions/:id`                             | `missing`                       | No matching API endpoint currently owns this SPA call.                                                                                                                                                                            |
 | Contests    | `GET`    | `/contests`                                    | `missing`                       | No matching API endpoint currently owns this SPA call.                                                                                                                                                                            |
 | Contests    | `GET`    | `/contests/:id`                                | `missing`                       | No matching API endpoint currently owns this SPA call.                                                                                                                                                                            |
@@ -654,7 +662,7 @@ The API currently also contains `courses` and `tests` modules, but there are no 
 - **Use the problem `number` as the resource identifier:** rejected because the display/order number and the canonical resource identifier have different responsibilities.
 - **Treat `slug` as `/problems/:id`:** rejected because `:id` is the canonical UUID in this contract.
 - **Create `/users/:id/stats` now:** rejected because no current API ticket owns the functionality and it is not required by the agreed profile contract.
-- **Require one atomic SPA and API migration:** rejected because existing endpoints can be migrated safely through one compatibility release.
+- **Require one atomic SPA and API migration:** rejected because existing endpoints can be migrated progressively with temporary backward compatibility until the API-042 migration is completed and deployed.
 
 ## Consequences
 
@@ -668,11 +676,11 @@ As a result of this decision:
 - [API-039](https://github.com/Ditmar/api-leetcode/issues/93) maintains OpenAPI as the executable source of truth.
 - [API-042](https://github.com/Ditmar/api-leetcode/issues/96) migrates existing success, error and pagination formats to the X-003 contract.
 - [SPA-001](https://github.com/Ditmar/leetcode-spa/issues/376) aligns authentication route names with `login` and `logout`.
-- [SPA-006](https://github.com/Ditmar/leetcode-spa/issues/381) must parse the X-003 error format while preserving temporary legacy compatibility during the migration release.
+- [SPA-006](https://github.com/Ditmar/leetcode-spa/issues/381) must parse the X-003 error format while preserving temporary legacy compatibility until the API-042 migration is completed and deployed. SPA-013 is responsible for removing this compatibility.
 - [SPA-013](https://github.com/Ditmar/leetcode-spa/issues/388) must provide shared or generated API types, UI mappers and mocks that follow this contract.
 - [SPA-036](https://github.com/Ditmar/leetcode-spa/issues/411) implements the Astro BFF, token handling and proxy allow-list using the endpoint mapping defined in this ADR.
 - The unused `/users/:id/stats` SPA variant must be removed when the user service is aligned with this contract.
-- Existing legacy response handling must be removed after the compatibility release and completion of the required API migrations.
+- Once the API-042 migration is completed and deployed, SPA-013 must remove legacy response mapping and error parsing, including temporary compatibility introduced by SPA-006.
 - New endpoints must use the X-003 contract directly instead of introducing new legacy response formats.
 
 ## Related issues

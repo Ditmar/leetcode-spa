@@ -1,12 +1,12 @@
 # API-042: Use one response format and one pagination format everywhere
 
-| Field      | Value                                                                                                                   |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Repo       | api-leetcode                                                                                                            |
-| Type       | Refactor                                                                                                                |
-| Priority   | P2                                                                                                                      |
-| Size       | M                                                                                                                       |
-| Phase      | 2 - Connect SPA and API                                                                                                 |
+| Field | Value |
+| --- | --- |
+| Repo | api-leetcode |
+| Type | Refactor |
+| Priority | P2 |
+| Size | M |
+| Phase | 2 - Connect SPA and API |
 | Depends on | [X-003](https://github.com/Ditmar/leetcode-spa/issues/368), [API-007](https://github.com/Ditmar/api-leetcode/issues/61) |
 
 ## Problem
@@ -23,7 +23,7 @@ Today:
 - [ ] Follow the rules from [X-003](https://github.com/Ditmar/leetcode-spa/issues/368).
 - [ ] Create helpers: `sendData(res, data, meta?)` and the error middleware format.
 - [ ] Change all existing routes to the new format in small PRs (auth, courses, tests).
-- [ ] Update the SPA at the same time ([SPA-013](https://github.com/Ditmar/leetcode-spa/issues/388)), or keep both formats for one release.
+- [ ] Coordinate the SPA migration through [SPA-013](https://github.com/Ditmar/leetcode-spa/issues/388). Temporarily support legacy and X-003 response formats in the SPA until the API-042 migration is completed and deployed.
 - [ ] Update tests and OpenAPI.
 
 ## Acceptance criteria
@@ -45,7 +45,7 @@ The implementation in this ticket must follow these rules:
 - Paginated requests use `page` and `pageSize`.
 - Paginated responses use `meta` with `page`, `pageSize`, `total` and `totalPages`.
 - Existing API endpoints must be migrated progressively to the X-003 contract.
-- During one compatibility release, the SPA may temporarily accept both legacy and X-003 response shapes while existing endpoints are migrated.
+- While existing endpoints are migrated through API-042, the SPA may temporarily accept both legacy and X-003 response shapes. After the API-042 migration is completed and deployed, SPA-013 removes legacy response mapping and error parsing, including temporary compatibility introduced by SPA-006.
 - New or migrated API endpoints must emit the X-003 format directly.
 - After the migration is complete, legacy-format compatibility must be removed from the SPA.
 - OpenAPI is the source of truth for the executable contract, as tracked in [API-039](https://github.com/Ditmar/api-leetcode/issues/93).

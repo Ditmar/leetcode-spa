@@ -1,12 +1,12 @@
 # SPA-013: Use one set of API types and add a mock API for development
 
-| Field      | Value                                                      |
-| ---------- | ---------------------------------------------------------- |
-| Repo       | leetcode-spa                                               |
-| Type       | Refactor                                                   |
-| Priority   | P1                                                         |
-| Size       | M                                                          |
-| Phase      | 2 - Connect SPA and API                                    |
+| Field | Value |
+| --- | --- |
+| Repo | leetcode-spa |
+| Type | Refactor |
+| Priority | P1 |
+| Size | M |
+| Phase | 2 - Connect SPA and API |
 | Depends on | [X-003](https://github.com/Ditmar/leetcode-spa/issues/368) |
 
 ## Problem
@@ -48,8 +48,8 @@ The implementation in this ticket must follow these rules:
 - Problem types must distinguish `id`, `slug` and `number`: `id` is the UUID used by `/api/problems/:id`, `slug` is the human-readable identifier and `number` is the value shown in the UI and used for ordering.
 - Authentication types use `username`.
 - `expiresAt` is a Unix timestamp in milliseconds.
-- During the compatibility release defined by X-003, SPA mappers or API parsing may temporarily accept legacy response shapes where required. New shared types and mocks must use the X-003 format.
-- Legacy compatibility must be removed after the API migration tracked by [API-042](https://github.com/Ditmar/api-leetcode/issues/96) is complete.
+- While existing API endpoints are migrated through API-042, SPA mappers or API parsing may temporarily accept legacy response shapes where required. New shared types and mocks must use the X-003 format.
+- Once the API migration tracked by [API-042](https://github.com/Ditmar/api-leetcode/issues/96) is completed and deployed, SPA-013 must remove legacy response mapping and error parsing, including temporary compatibility introduced by [SPA-006](https://github.com/Ditmar/leetcode-spa/issues/381).
 - The unused `/users/:id/stats` variant must be removed when the user service is aligned with the X-003 contract. `/users/me/stats` remains supported.
 - Generated or shared API types must follow the OpenAPI source of truth maintained through [API-039](https://github.com/Ditmar/api-leetcode/issues/93).
 - MSW handlers and Storybook mocks must represent the same X-003 response shapes as the real API.

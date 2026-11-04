@@ -1,28 +1,28 @@
 # X-003: Define one API contract (paths, response format, pagination)
 
-| Field      | Value                                                      |
-| ---------- | ---------------------------------------------------------- |
-| Repo       | all                                                        |
-| Type       | Decision                                                   |
-| Priority   | P0                                                         |
-| Size       | M                                                          |
-| Phase      | 0 - Decisions and setup                                    |
+| Field | Value |
+| --- | --- |
+| Repo | all |
+| Type | Decision |
+| Priority | P0 |
+| Size | M |
+| Phase | 0 - Decisions and setup |
 | Depends on | [X-001](https://github.com/Ditmar/leetcode-spa/issues/366) |
 
 ## Problem
 
 The API and the SPA use different names and formats.
 
-| Topic        | API today                                                                            | SPA expects                                                     |
-| ------------ | ------------------------------------------------------------------------------------ | --------------------------------------------------------------- |
-| Base path    | `/api/...`                                                                           | `/api` in the browser, no prefix on the server (`API_BASE_URL`) |
-| Login        | `/auth/login`, `/auth/logout`                                                        | `/auth/signin`, `/auth/signout`                                 |
-| Users        | `/api/user` (singular, mock)                                                         | `/users/me`, `/users/:id`                                       |
-| Success body | auth: raw object. courses/tests: `{ success, data }`                                 | `{ data, meta }`                                                |
-| Pagination   | `{ data, pagination: { total, page, limit, totalPages } }` and query `page`, `limit` | `meta` and query `page`, `pageSize`                             |
-| Error body   | `{ error, message }` or `{ success: false, error }`                                  | `{ code, message, details }`                                    |
-| Difficulty   | `EASY`, `MEDIUM`, `HARD`                                                             | `Easy` (problems), `easy` (contests)                            |
-| IDs          | UUID strings                                                                         | numbers for problems, contests, topics                          |
+| Topic | API today | SPA expects |
+| --- | --- | --- |
+| Base path | `/api/...` | `/api` in the browser, no prefix on the server (`API_BASE_URL`) |
+| Login | `/auth/login`, `/auth/logout` | `/auth/signin`, `/auth/signout` |
+| Users | `/api/user` (singular, mock) | `/users/me`, `/users/:id` |
+| Success body | auth: raw object. courses/tests: `{ success, data }` | `{ data, meta }` |
+| Pagination | `{ data, pagination: { total, page, limit, totalPages } }` and query `page`, `limit` | `meta` and query `page`, `pageSize` |
+| Error body | `{ error, message }` or `{ success: false, error }` | `{ code, message, details }` |
+| Difficulty | `EASY`, `MEDIUM`, `HARD` | `Easy` (problems), `easy` (contests) |
+| IDs | UUID strings | numbers for problems, contests, topics |
 
 ## Tasks
 
@@ -59,7 +59,7 @@ The following decisions apply:
 - The browser calls `/api/...` on Astro. Astro forwards allowed requests to `API_BASE_URL` while preserving the `/api/...` path. `API_BASE_URL` itself does not include the `/api` prefix.
 - The endpoint mapping in ADR-003 is the source for the allow-list implemented by [SPA-036](https://github.com/Ditmar/leetcode-spa/issues/411).
 - `/users/me/stats` remains in the contract. `/users/:id/stats` is removed from the agreed contract because no API endpoint or implementation ticket owns it. The unused `/users/:id/stats` variant must be removed from the SPA when the user service is aligned with this contract.
-- Migration uses one compatibility release: the SPA may temporarily accept legacy and X-003 response shapes while existing API endpoints are migrated. Legacy compatibility is removed after the migration is complete.
+- Migration maintains temporary backward compatibility while existing API endpoints are migrated through [API-042](https://github.com/Ditmar/api-leetcode/issues/96). Once the API-042 migration is completed and deployed, [SPA-013](https://github.com/Ditmar/leetcode-spa/issues/388) removes legacy response mapping and error parsing, including temporary compatibility introduced by [SPA-006](https://github.com/Ditmar/leetcode-spa/issues/381).
 - The OpenAPI document maintained through [API-039](https://github.com/Ditmar/api-leetcode/issues/93) is the source of truth for the executable contract.
 
 The implementation impact is tracked in [API-003](https://github.com/Ditmar/api-leetcode/issues/57), [API-007](https://github.com/Ditmar/api-leetcode/issues/61), [API-028](https://github.com/Ditmar/api-leetcode/issues/82), [API-029](https://github.com/Ditmar/api-leetcode/issues/83), [API-042](https://github.com/Ditmar/api-leetcode/issues/96), [SPA-006](https://github.com/Ditmar/leetcode-spa/issues/381), [SPA-013](https://github.com/Ditmar/leetcode-spa/issues/388) and [SPA-036](https://github.com/Ditmar/leetcode-spa/issues/411).
