@@ -1,3 +1,147 @@
+# LeetCode SPA — Desarrollo local con Docker
+
+Esta guía explica cómo levantar el entorno local de LeetCode SPA mediante Docker Compose, incluyendo PostgreSQL, API Express, SPA Astro/React, RabbitMQ, Piston y un worker de prueba.
+
+## Requisitos previos
+
+- Git.
+- Docker Desktop con Docker Compose.
+- Node.js y npm para ejecutar el comando de inicio.
+- Puertos disponibles: 3000, 4321, 5432, 5672, 15672 y 2000.
+- Conexión a Internet para descargar las imágenes y dependencias.
+
+## Instalación en 5 pasos
+
+### 1. Clonar los repositorios
+
+Los repositorios deben estar en carpetas hermanas:
+
+```text
+ticket-x/
+├── leetcode-spa/
+└── api-leetcode/
+```
+
+En PowerShell:
+
+```powershell
+mkdir ticket-x
+cd ticket-x
+
+git clone https://github.com/Ditmar/leetcode-spa.git
+git clone https://github.com/Ditmar/api-leetcode.git
+
+cd leetcode-spa
+```
+
+La carpeta `api-leetcode` es necesaria porque Docker Compose monta el código de la API mediante `../api-leetcode`.
+
+### 2. Preparar las variables de entorno
+
+Desde la carpeta `leetcode-spa`:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+El archivo `.env.example` contiene valores de ejemplo para desarrollo local. No deben utilizarse sus secretos en producción.
+
+### 3. Iniciar Docker Desktop
+
+Abrir Docker Desktop y comprobar que el motor de Docker esté funcionando:
+
+```powershell
+docker compose version
+docker compose config --quiet
+```
+
+### 4. Levantar el entorno completo
+
+Ejecutar:
+
+```powershell
+npm run dev:all
+```
+
+Este comando utiliza Docker Compose para construir el worker y levantar los servicios.
+
+Durante el arranque:
+
+- PostgreSQL inicia la base de datos.
+- La API instala dependencias y ejecuta `prisma generate` y `prisma migrate deploy`.
+- La SPA inicia el servidor de desarrollo Astro.
+- RabbitMQ inicia el sistema de colas.
+- Piston inicia el servicio de ejecución de código.
+- `piston-init` verifica e instala JavaScript 20.11.1 y Python 3.12.0.
+- El worker espera a RabbitMQ y a la finalización exitosa de `piston-init`.
+
+En una instalación nueva, la descarga e instalación de dependencias y lenguajes puede requerir más tiempo.
+
+### 5. Verificar los servicios
+
+Abrir otra terminal y ejecutar:
+
+```powershell
+docker compose ps -a
+```
+
+Direcciones locales:
+
+| Servicio | Dirección |
+|---|---|
+| SPA | http://localhost:4321 |
+| API | http://localhost:3000/health |
+| RabbitMQ Management | http://localhost:15672 |
+| Piston | http://localhost:2000/api/v2/runtimes |
+| PostgreSQL | localhost:5432 |
+
+El servicio `piston-init` debe finalizar con estado `Exited (0)`. Este estado indica que su inicialización terminó correctamente.
+
+Comprobaciones adicionales:
+
+```powershell
+docker compose logs piston-init
+docker compose logs worker
+```
+
+## Comandos útiles
+
+Iniciar el entorno en segundo plano:
+
+```powershell
+docker compose up -d --build
+```
+
+Detener los contenedores sin eliminar los volúmenes:
+
+```powershell
+docker compose down
+```
+
+Consultar los registros:
+
+```powershell
+docker compose logs --tail 50
+```
+
+Verificar las migraciones de Prisma:
+
+```powershell
+docker compose exec api npx prisma migrate status
+```
+
+**Precaución:** `docker compose down -v` también elimina los volúmenes persistentes, incluidos los datos locales de PostgreSQL, RabbitMQ y los lenguajes instalados en Piston.
+
+## Limitaciones y dependencias actuales
+
+- La API depende del repositorio hermano `api-leetcode`.
+- Las seis migraciones existentes se aplican correctamente, pero el esquema actual de Prisma incluye `Course` y `Enrollment`, cuyas tablas todavía no aparecen en la base de datos generada por esas migraciones.
+- El repositorio API consultado no incluye actualmente un archivo ni comando de seed. La preparación de datos iniciales queda pendiente de la integración correspondiente de la API.
+- El worker incluido es una prueba local de integración RabbitMQ → Piston. No está conectado al proceso real de calificación de exámenes y no guarda resultados en PostgreSQL.
+- La inicialización de Piston se ha verificado con los lenguajes ya instalados; falta validar el proceso completo con un volumen nuevo y la instalación desde cero.
+
+---
+
 # Astro Starter Kit: Basics
 
 ```sh
