@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/vitest';
-
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 
 import { ProblemDetail } from './ProblemDetail';
 
@@ -38,6 +37,27 @@ const getCodeBlockByText = (text: string) =>
   });
 
 describe('ProblemDetail', () => {
+  it('renders the error state and retries when requested', () => {
+    const onRetry = vi.fn();
+
+    render(
+      <ProblemDetail
+        error={{
+          message: 'Failed to load problem details',
+          code: 'UNKNOWN_ERROR',
+          status: 500,
+        }}
+        onRetry={onRetry}
+      />
+    );
+
+    expect(screen.getByText('Failed to load problem details')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /retry/i }));
+
+    expect(onRetry).toHaveBeenCalledOnce();
+  });
+
   it('renders the problem title, difficulty and tags', () => {
     render(<ProblemDetail problem={baseProblem} />);
 

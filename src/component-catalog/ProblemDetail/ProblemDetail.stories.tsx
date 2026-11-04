@@ -122,3 +122,8 @@ export const HardProblem: Story = {
     problem: medianProblem,
   },
 };
+export const Loading: Story = {
+  args: {
+    loading: true,
+  },
+};

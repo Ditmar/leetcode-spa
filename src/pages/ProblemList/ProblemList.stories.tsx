@@ -131,3 +131,23 @@ export const EmptyList: Story = {
     },
   },
 };
+export const Loading: Story = {
+  args: {
+    problems: [],
+    selectedProblemId: -1,
+    loading: true,
+  },
+};
+
+export const Error: Story = {
+  args: {
+    problems: [],
+    selectedProblemId: -1,
+    error: {
+      message: 'Failed to load problems',
+      code: 'SERVER_ERROR',
+      status: 500,
+    },
+    onRetry: () => {},
+  },
+};

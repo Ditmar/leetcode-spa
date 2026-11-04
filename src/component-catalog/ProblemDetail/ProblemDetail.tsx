@@ -5,6 +5,8 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { DetailSkeleton, EmptyState, ErrorState } from '../AsyncStates';
+
 import { useProblemDetail } from './ProblemDetail.hook';
 import {
   chipRowSx,
@@ -15,7 +17,6 @@ import {
   constraintsPaperSx,
   descriptionSx,
   difficultyChipSx,
-  emptyStateSx,
   exampleCardSx,
   exampleTitleSx,
   panelSx,
@@ -28,15 +29,35 @@ import {
 
 import type { ProblemDetailProps } from './ProblemDetail.types';
 
-export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
+export const ProblemDetail = ({
+  problem,
+  loading = false,
+  error = null,
+  onRetry,
+}: ProblemDetailProps) => {
   const { getDifficultyChipColor } = useProblemDetail();
+  if (loading) {
+    return (
+      <Box component="section" aria-label="Problem detail loading" sx={panelSx}>
+        <DetailSkeleton />
+      </Box>
+    );
+  }
+  if (error) {
+    return (
+      <Box component="section" aria-label="Problem detail error" sx={panelSx}>
+        <ErrorState error={error} onRetry={onRetry ?? (() => window.location.reload())} />
+      </Box>
+    );
+  }
 
   if (!problem) {
     return (
       <Box component="section" aria-label="Problem detail empty state" sx={panelSx}>
-        <Paper elevation={0} sx={emptyStateSx}>
-          <Typography variant="body2">No problem data available.</Typography>
-        </Paper>
+        <EmptyState
+          title="No problem data available."
+          description="Select a problem to view its details."
+        />
       </Box>
     );
   }
@@ -116,9 +137,10 @@ export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
               </Paper>
             ))
           ) : (
-            <Paper elevation={0} sx={emptyStateSx}>
-              <Typography variant="body2">No examples available.</Typography>
-            </Paper>
+            <EmptyState
+              title="No examples available."
+              description="Examples for this problem are not available yet."
+            />
           )}
         </Stack>
 

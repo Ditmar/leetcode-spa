@@ -2,6 +2,7 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { Box, Drawer, Fab, List, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useState } from 'react';
 
+import { EmptyState, ErrorState, ListSkeleton } from '../../component-catalog/AsyncStates';
 import { problemListTokens as T } from '../../style-library/theme/theme';
 
 import { useProblemList } from './ProblemList.hook';
@@ -19,7 +20,14 @@ import { formatAcceptanceRate, getDifficultyTextColor } from './ProblemList.util
 
 import type { Problem, ProblemListProps } from './ProblemList.types';
 
-const ProblemList = ({ problems, selectedProblemId, onSelectProblem }: ProblemListProps) => {
+const ProblemList = ({
+  problems,
+  selectedProblemId,
+  onSelectProblem,
+  loading = false,
+  error = null,
+  onRetry,
+}: ProblemListProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -39,7 +47,7 @@ const ProblemList = ({ problems, selectedProblemId, onSelectProblem }: ProblemLi
           if (isMobile) setDrawerOpen(false);
         }}
         aria-current={selected ? 'true' : undefined}
-        aria-label={`Problem ${problem.id}: ${problem.title}, ${problem.difficulty}, ${formatAcceptanceRate(problem.acceptanceRate)} acceptance rate`}
+        aria-label={`Problem ${problem.id}: ${problem.title}, ${problem.difficulty}, ${problem.acceptanceRate !== undefined ? `${formatAcceptanceRate(problem.acceptanceRate)} acceptance rate` : 'acceptance rate unavailable'}`}
         data-testid={`problem-item-${problem.id}`}
       >
         {/* Status icon */}
@@ -122,7 +130,9 @@ const ProblemList = ({ problems, selectedProblemId, onSelectProblem }: ProblemLi
                 color: T.colors.acceptanceRate,
               }}
             >
-              {formatAcceptanceRate(problem.acceptanceRate)}
+              {problem.acceptanceRate !== undefined
+                ? formatAcceptanceRate(problem.acceptanceRate)
+                : 'N/A'}
             </Typography>
           </StyledMetaRow>
         </StyledTextColumn>
@@ -149,24 +159,20 @@ const ProblemList = ({ problems, selectedProblemId, onSelectProblem }: ProblemLi
 
       <StyledListWrapper>
         <List disablePadding aria-label="Problems list">
-          {problems.length === 0 ? (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: theme.spacing(20),
-              }}
-            >
-              <Typography
-                sx={{
-                  fontFamily: T.typography.fontFamily,
-                  fontSize: T.typography.problemNumber.fontSize,
-                  color: T.colors.problemNumber,
-                }}
-              >
-                No problems found.
-              </Typography>
+          {loading ? (
+            <Box sx={{ p: 2 }}>
+              <ListSkeleton count={5} />
+            </Box>
+          ) : error ? (
+            <Box sx={{ p: 2 }}>
+              <ErrorState error={error} onRetry={onRetry ?? (() => window.location.reload())} />
+            </Box>
+          ) : problems.length === 0 ? (
+            <Box sx={{ p: 2 }}>
+              <EmptyState
+                title="No problems found."
+                description="Try again later or check your filters."
+              />
             </Box>
           ) : (
             problems.map(renderProblemItem)
