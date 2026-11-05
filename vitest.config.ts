@@ -11,6 +11,7 @@ const dirname =
   typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
+  // TODO(SPA-012): remove this cast when there is one Vite version
   plugins: react() as ViteUserConfig['plugins'],
   test: {
     globals: true,
