@@ -99,7 +99,7 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     padding: theme.spacing(0.5, 1.5),
   },
-}));
+})) as typeof ListItemButton;
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
