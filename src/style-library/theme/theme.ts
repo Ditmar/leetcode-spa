@@ -36,6 +36,10 @@ declare module '@mui/material/styles' {
 
   interface Palette {
     backgroundQuestion: string;
+    backgroundIcon: string;
+    backgroundCard: string;
+    statsNumbers: string;
+    statsLabel: string;
 
     customAccent1: { main: string };
     customAccent2: { main: string };
@@ -50,6 +54,10 @@ declare module '@mui/material/styles' {
 
   interface PaletteOptions {
     backgroundQuestion?: string;
+    backgroundIcon?: string;
+    backgroundCard?: string;
+    statsNumbers?: string;
+    statsLabel?: string;
 
     customAccent1?: { main: string };
     customAccent2?: { main: string };
@@ -61,9 +69,18 @@ declare module '@mui/material/styles' {
     neutralBg?: { main: string };
     dark?: { main: string; contrastText?: string };
   }
+  interface ThemeOptions {
+    gradients?: {
+      background?: (palette: Palette) => string;
+      primary?: string;
+      primaryHover?: string;
+    };
+  }
   interface Theme {
     gradients?: {
-      background: (palette: Palette) => string;
+      background?: (palette: Palette) => string;
+      primary?: string;
+      primaryHover?: string;
     };
 
     consoleIO?: {
