@@ -1,150 +1,129 @@
-# Testing con Vitest y React Testing Library
+# Testing
 
-Este proyecto está configurado con **Vitest** y **React Testing Library** para realizar unit testing de componentes React.
+This project uses Vitest and React Testing Library for unit and component tests.
 
-## 🚀 Scripts de Testing
+## Commands
+
+Run from the repository root:
 
 ```bash
-# Ejecutar tests en modo watch (recomendado para desarrollo)
+# Run tests in watch mode
 yarn test
 
-# Ejecutar tests una sola vez
+# Run all tests once
 yarn test:run
 
-# Ejecutar tests con interfaz UI
+# Open the Vitest UI
 yarn test:ui
 
-# Ejecutar tests con coverage
+# Run tests with coverage
 yarn test:coverage
 
-# Ejecutar tests en modo watch
+# Run Vitest explicitly in watch mode
 yarn test:watch
 ```
 
-## 📁 Estructura de Testing
+To run one test file:
 
+```bash
+yarn vitest run src/services/api/apiClient.test.ts
 ```
+
+## Test locations
+
+Tests live next to the code they cover and use the `.test.*` or `.spec.*` filename pattern. Examples in this repository include:
+
+```text
 src/
-├── test/
-│   ├── setup.ts          # Configuración global de tests
-│   └── test-utils.tsx    # Utilidades para testing con MUI
-├── ui/components/
-│   ├── Counter.tsx
-│   └── Counter.test.tsx  # Tests del componente Counter
-└── style-library/stories/
-    ├── SimpleMuiExample.tsx
-    ├── SimpleMuiExample.test.tsx
-    └── SimpleMuiExample.userEvent.test.tsx
+├── component-catalog/
+│   └── Alert/
+│       ├── Alert.tsx
+│       └── Alert.test.tsx
+├── services/
+│   ├── api/
+│   │   ├── apiClient.ts
+│   │   └── apiClient.test.ts
+│   └── auth/
+│       ├── authService.ts
+│       └── authService.test.ts
+├── style-library/
+│   └── stories/
+│       ├── SimpleMuiExample.test.tsx
+│       └── SimpleMuiExample.userEvent.test.tsx
+└── test/
+    ├── setup.ts
+    └── test-utils.tsx
 ```
 
-## 🛠️ Configuración
+Vitest's main configuration includes test files under `src/` matching `*.test.*` or `*.spec.*` and excludes Storybook story files.
 
-### Vitest Config (`vitest.config.ts`)
+## Configuration
 
-- ✅ Entorno jsdom para simular el DOM
-- ✅ Plugin de React para JSX
-- ✅ Globals habilitadas (describe, it, expect)
-- ✅ Setup automático con jest-dom
+The main Vitest configuration is `vitest.config.ts`:
 
-### Setup de Testing (`src/test/setup.ts`)
+- Uses the jsdom environment.
+- Enables Vitest globals such as `describe`, `it`, and `expect`.
+- Loads `src/test/setup.ts` before tests.
+- Uses the React plugin for JSX.
 
-- ✅ jest-dom matchers
-- ✅ Mocks para ResizeObserver
-- ✅ Mocks para window.matchMedia
-- ✅ Mocks para getComputedStyle
+`src/test/setup.ts` loads the jest-dom matchers and provides mocks for `ResizeObserver`, `window.matchMedia`, and `window.getComputedStyle`.
 
-### Test Utils (`src/test/test-utils.tsx`)
-
-- ✅ Render personalizado con ThemeProvider
-- ✅ CssBaseline incluido
-- ✅ Re-exporta todo de @testing-library/react
-
-## 📝 Escribiendo Tests
-
-### Test Básico
-
-```tsx
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import MyComponent from './MyComponent';
-
-describe('MyComponent', () => {
-  it('renders correctly', () => {
-    render(<MyComponent />);
-    expect(screen.getByText('Hello World')).toBeInTheDocument();
-  });
-});
-```
-
-### Test con Material-UI
-
-```tsx
-import { render, screen } from '../../test/test-utils'; // Usar nuestros utils
-import { describe, it, expect } from 'vitest';
-import MyMuiComponent from './MyMuiComponent';
-
-describe('MyMuiComponent', () => {
-  it('renders with MUI theme', () => {
-    render(<MyMuiComponent />);
-    // El componente ya tiene ThemeProvider automáticamente
-  });
-});
-```
-
-### Test con User Events
+`src/test/test-utils.tsx` provides a custom `render` helper that wraps React components with a Material UI `ThemeProvider` and `CssBaseline`. Use it for components that require the project test theme:
 
 ```tsx
 import { render, screen } from '../../test/test-utils';
-import { describe, it, expect } from 'vitest';
-import userEvent from '@testing-library/user-event';
-import MyInteractiveComponent from './MyInteractiveComponent';
+import { describe, expect, it } from 'vitest';
+import MyComponent from './MyComponent';
 
-describe('MyInteractiveComponent', () => {
-  it('handles user interactions', async () => {
-    const user = userEvent.setup();
-    render(<MyInteractiveComponent />);
-
-    const button = screen.getByRole('button');
-    await user.click(button);
-
-    expect(screen.getByText('Clicked!')).toBeInTheDocument();
+describe('MyComponent', () => {
+  it('renders its content', () => {
+    render(<MyComponent />);
+    expect(screen.getByText('Hello')).toBeInTheDocument();
   });
 });
 ```
 
-## 🧪 Matchers Disponibles
+For components that do not need the Material UI wrapper, import `render` from `@testing-library/react`.
 
-Gracias a `@testing-library/jest-dom`:
+## User interactions
 
-- `toBeInTheDocument()`
-- `toHaveTextContent()`
-- `toHaveClass()`
-- `toBeVisible()`
-- `toBeDisabled()`
-- `toHaveFocus()`
-- Y muchos más...
+Use `@testing-library/user-event` for interactions that represent user behavior:
 
-## 📊 Coverage
+```tsx
+import { render, screen } from '../../test/test-utils';
+import userEvent from '@testing-library/user-event';
+import { expect, it } from 'vitest';
+import MyComponent from './MyComponent';
 
-Para generar un reporte de cobertura:
+it('responds to a user action', async () => {
+  const user = userEvent.setup();
+  render(<MyComponent />);
+
+  await user.click(screen.getByRole('button', { name: 'Save' }));
+
+  expect(screen.getByText('Saved')).toBeInTheDocument();
+});
+```
+
+Import `render` in the example above from `../../test/test-utils` or `@testing-library/react`, depending on whether the component needs the Material UI wrapper.
+
+## Storybook
+
+Start Storybook with `yarn storybook`. `vitest.config.ts` also exports a separate configuration for browser-based Storybook testing with Playwright. The default Vitest configuration excludes story files from the regular unit-test run.
+
+## Coverage
+
+Generate a coverage report with:
 
 ```bash
 yarn test:coverage
 ```
 
-Esto generará un reporte en `coverage/` con información detallada sobre qué líneas de código están cubiertas por tests.
+Vitest writes the report to `coverage/`.
 
-## 🎯 Mejores Prácticas
+## Guidelines
 
-1. **Usar `screen` queries**: Prefiere `screen.getByRole()` sobre `getByTestId()`
-2. **Tests de comportamiento**: Testa lo que hace el usuario, no la implementación
-3. **User Events**: Usa `@testing-library/user-event` para interacciones más realistas
-4. **Async/Await**: Siempre usa `await` con user events
-5. **Descriptivos**: Nombres de tests claros y descriptivos
-
-## 🔗 Recursos
-
-- [Vitest](https://vitest.dev/)
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
-- [Jest DOM Matchers](https://github.com/testing-library/jest-dom)
-- [User Event](https://testing-library.com/docs/user-event/intro)
+- Prefer queries based on accessible roles and labels, such as `getByRole`, over test IDs.
+- Test observable behavior rather than implementation details.
+- Use `userEvent` for realistic interactions and `await` its actions.
+- Give tests descriptive names that explain the behavior being checked.
