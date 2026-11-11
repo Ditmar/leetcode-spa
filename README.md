@@ -68,7 +68,24 @@ API_BASE_URL=http://localhost:4000/api/v1
 
 # .env — public, exposed to the browser
 PUBLIC_API_BASE_URL=http://localhost:4000/api/v1
+
+# .env — submissions polling & execution (optional overrides)
+VITE_POLLING_INTERVAL_MS=1000
+VITE_POLLING_BACKOFF_STEP_MS=500
+VITE_MAX_POLLING_INTERVAL_MS=5000
+VITE_MAX_POLL_ATTEMPTS=20
+VITE_MAX_CODE_SIZE_BYTES=65536
 ```
+
+#### Submissions Polling & Execution variables
+
+| Variable                       | Description                                         | Default         |
+| :----------------------------- | :-------------------------------------------------- | :-------------- |
+| `VITE_POLLING_INTERVAL_MS`     | Initial polling delay in ms                         | `1000`          |
+| `VITE_POLLING_BACKOFF_STEP_MS` | Step added to delay on each subsequent poll attempt | `500`           |
+| `VITE_MAX_POLLING_INTERVAL_MS` | Upper cap for polling delay in ms                   | `5000`          |
+| `VITE_MAX_POLL_ATTEMPTS`       | Maximum number of poll attempts before timeout      | `20`            |
+| `VITE_MAX_CODE_SIZE_BYTES`     | Maximum allowed code size in bytes                  | `65536` (64 KB) |
 
 ### Basic usage
 
