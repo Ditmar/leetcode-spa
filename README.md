@@ -60,6 +60,8 @@ The home page can run in development without an API URL configured. Features tha
 | `PUBLIC_EXPLORE_API_PATH` | Path prefix for Explore service endpoints. It must start with `/` and contain no spaces. | `/explore`. |
 | `API_CACHE_TTL` | TTL in milliseconds for the `fetchWithCache` utility. | `5000`. The utility may not be connected to active pages. |
 | `VITE_POLLING_INTERVAL_MS` | Interval between submission status polls, in milliseconds. | `1500`. |
+| `VITE_POLLING_BACKOFF_STEP_MS` | Increase applied to the polling interval after each attempt, in milliseconds. | `500`. |
+| `VITE_MAX_POLLING_INTERVAL_MS` | Maximum polling interval, in milliseconds. | `5000`. |
 | `VITE_MAX_POLL_ATTEMPTS` | Maximum number of submission status polls. | `20`. |
 | `VITE_MAX_CODE_SIZE_BYTES` | Maximum code size accepted by the submissions service, in bytes. | `65536` (64 KiB). |
 | `VITE_BASE_PATH` | Application base path prefix. | Empty string. |
