@@ -41,6 +41,11 @@ export function mapAuthError(err: unknown, mode: AuthMode): AuthErrorResult {
     typeof err.message === 'string' && err.message.trim() ? err.message : GENERIC_MESSAGE;
 
   if (mode === 'signup' && err.status === 409) {
+    // A 409 on sign up means "already exists", but the API does not say which field yet
+    // (today the BFF sends USER_ALREADY_EXISTS for every 409). Until it does, we guess the
+    // field from the message text. This is fragile: if the text changes or is translated,
+    // the error moves to the wrong field. When the API says which field is duplicated,
+    // switch to that and remove this check.
     const field = /user\s*name/i.test(message) ? 'username' : 'email';
     return { fieldErrors: { [field]: message }, formError: null };
   }
