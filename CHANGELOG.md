@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.12.0](https://github.com/Ditmar/leetcode-spa/compare/v0.11.4...v0.12.0) (2026-11-11)
+
+
+### Features
+
+* **SPA-021:** fix error mapping, code sanitization, and polling backoff     ([#448](https://github.com/Ditmar/leetcode-spa/issues/448)) ([77e64dd](https://github.com/Ditmar/leetcode-spa/commit/77e64dd1b8d29a39906f76097303678901a05659))
+
 ## [0.11.4](https://github.com/Ditmar/leetcode-spa/compare/v0.11.3...v0.11.4) (2026-10-07)
 
 ## [0.11.3](https://github.com/Ditmar/leetcode-spa/compare/v0.11.2...v0.11.3) (2026-07-09)
