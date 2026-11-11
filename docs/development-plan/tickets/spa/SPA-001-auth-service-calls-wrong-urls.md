@@ -37,3 +37,14 @@ Also: the error text `'Invalif response format'` has a typo.
 ## Update after decision X-002 (Astro keeps the tokens in cookies)
 
 The browser must call the **Astro routes** (`/api/auth/login`, `/api/auth/signup`, `/api/auth/logout`, `/api/auth/me`), not the real API. Those routes are built in `SPA-036`. Use the same names in `authService.constants.ts`.
+
+## Update after decision X-003
+
+Following [X-003](https://github.com/Ditmar/leetcode-spa/issues/368), authentication requests must follow the unified API contract.
+
+- The browser calls the Astro BFF routes: `/api/auth/login`, `/api/auth/signup`, `/api/auth/logout` and `/api/auth/me`.
+- Replace the old `signin` and `signout` endpoint names with `login` and `logout`.
+- `/api/auth/refresh` is an API operation handled internally by Astro, not a browser-facing route. Astro refreshes tokens when needed.
+- Authentication responses follow the `{ data, meta? }` success envelope.
+- The browser-facing session response must contain only sanitized session information and must never expose access or refresh tokens.
+- Authentication uses `username`, and `expiresAt` is a Unix timestamp in milliseconds.
