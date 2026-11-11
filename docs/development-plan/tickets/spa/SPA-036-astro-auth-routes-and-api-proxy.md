@@ -47,3 +47,17 @@ Today this does not exist:
 ## Hints
 
 Astro gives you `Astro.cookies` in pages and `cookies` in API routes (`APIContext`). Read the Astro docs for "endpoints" and "cookies".
+
+## Update after decision X-003
+
+Following [X-003](https://github.com/Ditmar/leetcode-spa/issues/368), the Astro BFF must follow the unified API contract.
+
+- The browser calls Astro routes under `/api/...`, not the external API directly.
+- `API_BASE_URL` contains only the API origin. Astro preserves the `/api/...` path when forwarding requests.
+- Browser-facing authentication routes are `/api/auth/login`, `/api/auth/signup`, `/api/auth/logout` and `/api/auth/me`.
+- `/api/auth/refresh` is an internal API operation handled by Astro, not a browser-facing route.
+- Successful responses with a body use `{ data, meta? }`.
+- Error responses use `{ code, message, details? }`.
+- Browser-facing session responses must contain only non-sensitive user information and `expiresAt` as a Unix timestamp in milliseconds.
+- Access tokens and refresh tokens must never be included in browser-facing JSON responses.
+- The proxy allow-list must follow the endpoint mapping defined in ADR-003.
