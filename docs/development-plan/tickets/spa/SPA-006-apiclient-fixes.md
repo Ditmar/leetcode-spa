@@ -38,3 +38,15 @@
 ## Update after decision X-002 (Astro keeps the tokens in cookies)
 
 The `/api` base URL in the browser is now correct, because Astro answers it (`SPA-036`). On the server (SSR), `apiClient` can call the real API with `API_BASE_URL`, and the token comes from the cookie.
+
+## Update after decision X-003
+
+Following [X-003](https://github.com/Ditmar/leetcode-spa/issues/368), `apiClient` must follow the unified API contract.
+
+- Read API error responses using `{ code, message, details? }`.
+- Preserve the HTTP status code and use `SCREAMING_SNAKE_CASE` error codes.
+- Keep `NETWORK_ERROR` and `ABORTED` for client-side network and cancellation failures.
+- Temporarily support legacy error responses while API endpoints migrate through API-042.
+- Remove legacy error parsing through SPA-013 after the API-042 migration is complete.
+- Browser requests use `/api/...` through the Astro BFF implemented in SPA-036.
+- Server-side requests use `API_BASE_URL` as the API origin, preserving the `/api/...` path.

@@ -42,3 +42,13 @@ The API returns:
 ## Update after decision X-002 (Astro keeps the tokens in cookies)
 
 The API keeps returning tokens in the JSON body. The Astro server (`SPA-036`) turns them into cookies. Return `expiresAt` so Astro can set the cookie lifetime.
+
+## Update after decision X-003
+
+Following [X-003](https://github.com/Ditmar/leetcode-spa/issues/368), the authentication contract uses:
+
+- `username` instead of `name`.
+- `expiresAt` as a Unix timestamp in milliseconds, not an ISO date.
+- Authentication responses from the API to Astro use the `{ data, meta? }` success envelope.
+- Astro stores authentication tokens in `HttpOnly` cookies and must not expose them to browser JavaScript.
+- The sanitized browser session response is handled by SPA-036.
