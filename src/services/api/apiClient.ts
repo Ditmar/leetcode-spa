@@ -142,6 +142,10 @@ async function request<T>(
     throw await normalizeHttpError(response);
   }
 
+  if (response.status === 204 || response.status === 205) {
+    return { data: undefined as T };
+  }
+
   try {
     return (await response.json()) as ApiResponse<T>;
   } catch {
