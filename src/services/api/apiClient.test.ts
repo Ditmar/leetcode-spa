@@ -53,6 +53,24 @@ describe('apiClient.get', () => {
     expect(result.data).toEqual(payload);
   });
 
+  it.each([204, 205])('handles HTTP %i without a response body', async (status) => {
+    const json = vi.fn();
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status,
+        json,
+      })
+    );
+
+    const result = await apiClient.get('/problems');
+
+    expect(result).toEqual({ data: undefined });
+    expect(json).not.toHaveBeenCalled();
+  });
+
   it('calls fetch with the correct full URL and GET method', async () => {
     const fetchMock = mockFetchOk({});
     vi.stubGlobal('fetch', fetchMock);
