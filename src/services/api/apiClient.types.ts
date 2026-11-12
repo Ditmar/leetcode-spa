@@ -17,4 +17,5 @@ export interface RequestConfig {
   headers?: Record<string, string>;
   signal?: AbortSignal;
   credentials?: RequestCredentials;
+  timeoutMs?: number;
 }

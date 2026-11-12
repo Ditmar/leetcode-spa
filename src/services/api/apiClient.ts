@@ -4,7 +4,10 @@ import type { ApiError, ApiResponse, RequestConfig } from './apiClient.types';
 
 const isServer = typeof window === 'undefined';
 
-const API_BASE_URL = isServer ? process.env.API_BASE_URL || 'http://localhost:3000' : '/api';
+const API_BASE_URL = isServer
+  ? `${(process.env.API_BASE_URL || 'http://localhost:3000').replace(/\/$/, '')}/api`
+  : '/api';
+const DEFAULT_TIMEOUT_MS = 15_000;
 
 function resolveUrl(path: string): string {
   const base = API_BASE_URL.endsWith('/') ? API_BASE_URL.slice(0, -1) : API_BASE_URL;
@@ -24,7 +27,7 @@ function getCookieToken(): string | null {
       .split(';')
       .map((c) => c.trim())
       .find((c) => c.startsWith('auth_token='));
-    return match ? decodeURIComponent(match.split('=')[1]) : null;
+    return match ? decodeURIComponent(match.slice('auth_token='.length)) : null;
   } catch {
     return null;
   }
@@ -64,7 +67,9 @@ async function normalizeHttpError(response: Response): Promise<ApiError> {
     message:
       typeof body.message === 'string'
         ? body.message
-        : response.statusText || 'An unexpected error occurred',
+        : typeof body.error === 'string'
+          ? body.error
+          : response.statusText || 'An unexpected error occurred',
     details: body.details,
   };
 }
@@ -78,17 +83,51 @@ async function request<T>(
   const url = resolveUrl(path);
   const token = getAuthToken();
   const hasBody = body !== undefined && body !== null;
+  const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
 
   const headers: Record<string, string> = { ...config.headers };
   if (token) headers['Authorization'] = `Bearer ${token}`;
-  if (hasBody) headers['Content-Type'] = 'application/json';
+  if (hasBody && !isFormData) headers['Content-Type'] = 'application/json';
+
+  let requestBody: BodyInit | undefined;
+
+  if (hasBody) {
+    if (isFormData) {
+      requestBody = body as FormData;
+    } else {
+      try {
+        requestBody = JSON.stringify(body);
+      } catch (error) {
+        const serializationError: ApiError = {
+          status: 500,
+          code: statusToCode(500),
+          message: error instanceof Error ? error.message : 'Failed to serialize request body',
+        };
+
+        throw serializationError;
+      }
+    }
+  }
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), config.timeoutMs ?? DEFAULT_TIMEOUT_MS);
+
+  const abortFromConfig = () => controller.abort();
+
+  if (config.signal) {
+    if (config.signal.aborted) {
+      controller.abort();
+    } else {
+      config.signal.addEventListener('abort', abortFromConfig, { once: true });
+    }
+  }
 
   const init: RequestInit = {
     method,
     headers,
-    signal: config.signal,
+    signal: controller.signal,
     ...(isServer ? {} : { credentials: config.credentials ?? 'include' }),
-    ...(hasBody ? { body: JSON.stringify(body) } : {}),
+    ...(hasBody ? { body: requestBody } : {}),
   };
 
   let response: Response;
@@ -96,10 +135,17 @@ async function request<T>(
     response = await fetch(url, init);
   } catch (error) {
     throw normalizeError(error);
+  } finally {
+    clearTimeout(timeoutId);
+    config.signal?.removeEventListener('abort', abortFromConfig);
   }
 
   if (!response.ok) {
     throw await normalizeHttpError(response);
+  }
+
+  if (response.status === 204 || response.status === 205) {
+    return { data: undefined as T };
   }
 
   try {
