@@ -8,7 +8,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import type { JSX } from 'react/jsx-runtime';
 
 const meta: Meta<typeof ProblemList> = {
-  title: 'pages/ProblemList',
+  title: 'components/ProblemList',
   component: ProblemList,
   parameters: {
     layout: 'fullscreen',
