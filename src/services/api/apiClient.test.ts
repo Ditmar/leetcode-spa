@@ -129,6 +129,32 @@ describe('apiClient.get', () => {
 // POST
 // ---------------------------------------------------------------------------
 
+describe('apiClient SSR', () => {
+  it('uses the API prefix on the server', async () => {
+    const fetchMock = mockFetchOk({});
+
+    vi.stubEnv('API_BASE_URL', 'http://localhost:4000/');
+    vi.stubGlobal('window', undefined);
+    vi.stubGlobal('fetch', fetchMock);
+    vi.resetModules();
+
+    try {
+      const { apiClient: ssrClient } = await import('./apiClient');
+
+      await ssrClient.get('/problems');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'http://localhost:4000/api/problems',
+        expect.any(Object)
+      );
+    } finally {
+      vi.unstubAllGlobals();
+      vi.unstubAllEnvs();
+      vi.resetModules();
+    }
+  });
+});
+
 describe('apiClient.post', () => {
   it('returns the parsed ApiResponse on success', async () => {
     const created = { id: 99, slug: 'new-problem' };

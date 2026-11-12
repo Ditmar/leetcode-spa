@@ -4,7 +4,9 @@ import type { ApiError, ApiResponse, RequestConfig } from './apiClient.types';
 
 const isServer = typeof window === 'undefined';
 
-const API_BASE_URL = isServer ? process.env.API_BASE_URL || 'http://localhost:3000' : '/api';
+const API_BASE_URL = isServer
+  ? `${(process.env.API_BASE_URL || 'http://localhost:3000').replace(/\/$/, '')}/api`
+  : '/api';
 const DEFAULT_TIMEOUT_MS = 15_000;
 
 function resolveUrl(path: string): string {
