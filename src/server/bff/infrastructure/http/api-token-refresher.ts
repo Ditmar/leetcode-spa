@@ -13,6 +13,9 @@ export interface ApiTokenRefresherOptions {
   fetchFn?: typeof fetch;
 }
 
+/** Refresh answers that say "try again later", not "the session is over". */
+const TEMPORARY_STATUSES = new Set([408, 429]);
+
 /** Shape of `POST {API_BASE_URL}/auth/refresh` (api-leetcode AuthRefreshToken + API-028 fields). */
 interface RefreshResponseBody {
   accessToken?: unknown;
@@ -55,7 +58,10 @@ export class ApiTokenRefresher implements TokenRefresher {
     }
 
     // 5xx = the API is broken, not the session: do not log the user out.
-    if (response.status >= 500) throw new UpstreamUnavailableError(response.status);
+    // 429 (rate limit) and 408 (timeout) are temporary too: keep the session.
+    if (response.status >= 500 || TEMPORARY_STATUSES.has(response.status)) {
+      throw new UpstreamUnavailableError(response.status);
+    }
     // 4xx = token unknown (404), expired or revoked (401), missing (400) → session is over.
     if (!response.ok) throw new RefreshFailedError(response.status);
 

@@ -6,7 +6,7 @@ import { OriginCsrfGuard } from '../infrastructure/security/origin-csrf-guard';
 const SITE = 'http://localhost:4321';
 
 function req(method: string, headers: Record<string, string> = {}) {
-  return new Request(`${SITE}/api/courses/1/enroll`, { method, headers });
+  return new Request(`${SITE}/api/submissions`, { method, headers });
 }
 
 describe('OriginCsrfGuard', () => {

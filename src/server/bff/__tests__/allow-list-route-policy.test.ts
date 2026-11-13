@@ -8,11 +8,10 @@ const policy = new AllowListRoutePolicy(API_ALLOW_LIST);
 
 describe('AllowListRoutePolicy', () => {
   it.each([
-    ['GET', '/courses'],
-    ['GET', '/courses/abc-123'],
-    ['POST', '/courses/abc-123/enroll'],
-    ['GET', '/courses/me/courses'],
-    ['POST', '/tests/7/submit'],
+    ['GET', '/problems'],
+    ['GET', '/problems/two-sum'],
+    ['POST', '/submissions'],
+    ['GET', '/submissions/abc-123'],
     ['GET', '/problems/42'],
     ['HEAD', '/problems'],
     ['PATCH', '/explore/topics/3/problems/9'],
@@ -29,15 +28,21 @@ describe('AllowListRoutePolicy', () => {
     ['DELETE', '/user/1'],
     ['POST', '/auth/refresh'],
     ['POST', '/auth/login'],
-    ['DELETE', '/courses/1'],
-    ['GET', '/courses/1/enroll'],
-    ['GET', '/courses/1/2'],
-    ['GET', '/courses/../user'],
-    ['GET', '/courses/..'],
-    ['GET', '/courses/%2e%2e'],
-    ['GET', '/courses/a%2Fb'],
-    ['GET', '//courses'],
-    ['OPTIONS', '/courses'],
+    // not in the ADR-003 mapping table
+    ['GET', '/courses'],
+    ['POST', '/courses/1/enroll'],
+    ['GET', '/tests'],
+    ['POST', '/tests/7/submit'],
+    // wrong method / shape / tricks
+    ['DELETE', '/problems/1'],
+    ['POST', '/problems/1'],
+    ['GET', '/problems/1/2'],
+    ['GET', '/problems/../user'],
+    ['GET', '/problems/..'],
+    ['GET', '/problems/%2e%2e'],
+    ['GET', '/problems/a%2Fb'],
+    ['GET', '//problems'],
+    ['OPTIONS', '/problems'],
   ])('blocks %s %s', (method, path) => {
     expect(policy.isAllowed(method, path)).toBe(false);
   });

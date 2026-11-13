@@ -222,7 +222,7 @@ Server-side code (middleware, `.astro` pages) uses `getSession(cookies)` from `s
 `Secure` is not set on `localhost` / `127.0.0.1`, so login works on `http://localhost:4321`.
 
 > The refresh cookie uses `path=/api` (not `/api/auth`): the browser only sends a cookie when
-> the request path starts with the cookie path, and the proxy (`/api/courses`, `/api/problems`...)
+> the request path starts with the cookie path, and the proxy (`/api/problems`, `/api/submissions`...)
 > must read it to refresh the session after a `401`.
 
 ### Environment variables (server only — never `PUBLIC_`)

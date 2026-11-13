@@ -26,7 +26,7 @@ export interface ProxyApiRequestDeps {
 
 export interface ProxyApiRequestInput {
   request: Request;
-  /** API path without the `/api` prefix of the Astro route. Example: `/courses/42`. */
+  /** API path without the `/api` prefix of the Astro route. Example: `/problems/42`. */
   path: string;
   /** Query string including `?`, or an empty string. */
   search: string;

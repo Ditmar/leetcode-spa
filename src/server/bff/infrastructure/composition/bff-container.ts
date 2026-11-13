@@ -46,7 +46,7 @@ export interface BffContainer {
 /**
  * Composition root: the only place that knows the concrete classes.
  * The proxy and the auth routes share ONE SingleFlightTokenRefresher, so a refresh
- * started by /api/auth/me and one started by /api/courses are not duplicated.
+ * started by /api/auth/me and one started by /api/problems are not duplicated.
  */
 export function createBffContainer(options: BffContainerOptions = {}): BffContainer {
   const config = options.config ?? loadBffConfig();

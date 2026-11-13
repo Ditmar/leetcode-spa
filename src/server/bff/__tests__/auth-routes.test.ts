@@ -259,6 +259,17 @@ describe('BFF auth routes /api/auth/*', () => {
       expect(apiCalls(fetchMock)[2].headers.get('authorization')).toBe('Bearer at-new');
     });
 
+    it('refresh rate-limited (429) → 502 and the session is kept', async () => {
+      fetchMock.mockResolvedValueOnce(json(401, {})).mockResolvedValueOnce(json(429, {}));
+      const cookies = new FakeAstroCookies({ [ACCESS]: 'at-old', [REFRESH]: 'rt' });
+
+      const { response } = await call(routes.me, '/api/auth/me', {}, cookies);
+
+      expect(response.status).toBe(502);
+      expect(cookies.get(REFRESH)?.value).toBe('rt');
+      expect(cookies.writes).toHaveLength(0);
+    });
+
     it('refresh fails → clears cookies and 401', async () => {
       fetchMock.mockResolvedValueOnce(json(401, {})).mockResolvedValueOnce(json(401, {}));
       const cookies = new FakeAstroCookies({ [ACCESS]: 'at-old', [REFRESH]: 'rt-dead' });
