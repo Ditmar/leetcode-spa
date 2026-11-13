@@ -98,7 +98,8 @@ export interface AuthRoutes {
 
 /**
  * Handlers for `src/pages/api/auth/*` (SPA-036-A).
- * Responses never contain tokens: only `{ user, expiresAt }`.
+ * Responses use the ADR-003 envelope and never contain tokens:
+ * `{ data: { user, expiresAt } }` or `{ code, message }`.
  */
 export function createAuthRoutes(options?: BffContainerOptions): AuthRoutes {
   const container = lazyContainer(options);
@@ -111,13 +112,13 @@ export function createAuthRoutes(options?: BffContainerOptions): AuthRoutes {
         password,
         bff.tokenStore(cookies, url.hostname)
       );
-      return json(200, session);
+      return json(200, { data: session });
     }),
 
     signup: route(container, async (bff, { request, cookies, url }) => {
       const input = await readBody(bff, request, signupSchema);
       const session = await bff.signup.execute(input, bff.tokenStore(cookies, url.hostname));
-      return json(201, session);
+      return json(201, { data: session });
     }),
 
     logout: route(container, async (bff, { cookies, url }) => {
@@ -127,7 +128,9 @@ export function createAuthRoutes(options?: BffContainerOptions): AuthRoutes {
 
     me: route(container, async (bff, { cookies, url }) => {
       const session = await bff.getSession.execute(bff.tokenStore(cookies, url.hostname));
-      return session ? json(200, session) : jsonError(401, 'UNAUTHORIZED', 'Not signed in');
+      return session
+        ? json(200, { data: session })
+        : jsonError(401, 'UNAUTHORIZED', 'Not signed in');
     }),
   };
 }

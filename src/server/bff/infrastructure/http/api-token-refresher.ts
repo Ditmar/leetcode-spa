@@ -4,6 +4,8 @@ import {
   UpstreamUnavailableError,
 } from '../../domain/errors';
 
+import { unwrapData } from './unwrap-data';
+
 import type { TokenRefresher } from '../../domain/ports/token-refresher';
 import type { SessionTokens } from '../../domain/session-tokens';
 
@@ -65,7 +67,8 @@ export class ApiTokenRefresher implements TokenRefresher {
     // 4xx = token unknown (404), expired or revoked (401), missing (400) → session is over.
     if (!response.ok) throw new RefreshFailedError(response.status);
 
-    const body = (await response.json().catch(() => ({}))) as RefreshResponseBody;
+    const raw = (await response.json().catch(() => ({}))) as Record<string, unknown>;
+    const body = unwrapData(raw) as RefreshResponseBody;
     if (typeof body.accessToken !== 'string' || body.accessToken.length === 0) {
       throw new RefreshFailedError(response.status);
     }

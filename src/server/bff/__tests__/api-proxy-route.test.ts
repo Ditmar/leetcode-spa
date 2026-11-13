@@ -178,6 +178,20 @@ describe('BFF proxy /api/[...path]', () => {
     });
   });
 
+  it('reads the refreshed token from the ADR-003 envelope { data: { accessToken } }', async () => {
+    fetchMock
+      .mockResolvedValueOnce(json(401, {}))
+      .mockResolvedValueOnce(json(200, { data: { accessToken: 'at-env' } }))
+      .mockResolvedValueOnce(json(200, { data: 'ok' }));
+    const cookies = new FakeAstroCookies({ [ACCESS]: 'at-old', [REFRESH]: 'rt-1' });
+
+    const { response } = await call(route, '/api/problems', {}, cookies);
+
+    expect(response.status).toBe(200);
+    expect(cookies.get(ACCESS)?.value).toBe('at-env');
+    expect(upstreamCalls(fetchMock)[2].headers.get('authorization')).toBe('Bearer at-env');
+  });
+
   it('repeats the request only once even if the API answers 401 again', async () => {
     fetchMock
       .mockResolvedValueOnce(json(401, {}))

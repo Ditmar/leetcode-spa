@@ -63,12 +63,13 @@ How SOLID shows up:
 
 | Route                   | Body                            | Success                                                          | Errors                                  |
 | ----------------------- | ------------------------------- | ---------------------------------------------------------------- | --------------------------------------- |
-| `POST /api/auth/login`  | `{ email, password }`           | `200 { user, expiresAt }` + both cookies                         | `400`, `401 INVALID_CREDENTIALS`, `403` |
-| `POST /api/auth/signup` | `{ username, email, password }` | `201 { user, expiresAt }` + both cookies (logs in)               | `400`, `409 USER_ALREADY_EXISTS`, `403` |
+| `POST /api/auth/login`  | `{ email, password }`           | `200 { data: { user, expiresAt } }` + both cookies               | `400`, `401 INVALID_CREDENTIALS`, `403` |
+| `POST /api/auth/signup` | `{ username, email, password }` | `201 { data: { user, expiresAt } }` + both cookies (logs in)     | `400`, `409 USER_ALREADY_EXISTS`, `403` |
 | `POST /api/auth/logout` | –                               | `204`, revokes the refresh token in the API, clears both cookies | `403`                                   |
-| `GET /api/auth/me`      | –                               | `200 { user, expiresAt }` (refreshes if needed)                  | `401`                                   |
+| `GET /api/auth/me`      | –                               | `200 { data: { user, expiresAt } }` (refreshes if needed)        | `401`                                   |
 
-- Responses **never** include `accessToken` or `refreshToken`.
+- Responses use the ADR-003 envelope (`{ data }` / `{ code, message }`) and **never** include `accessToken` or `refreshToken`.
+- The BFF reads API answers with or without the `data` envelope, so it keeps working while the API migrates (API-028 / API-042).
 - `user` has the SPA shape `{ id, username, email, avatarUrl?, role }`. The API today sends
   `name` and no `role`, so the BFF maps `name → username` and `role → "user"` (see `domain/auth-user.ts`).
 - Login, signup and logout use the same CSRF guard as the proxy.
@@ -103,8 +104,8 @@ session, and never throws (if the API is down it logs and returns `null`).
    exists) the BFF calls `POST {API_BASE_URL}/api/auth/refresh`, saves the new cookie and repeats
    the request **one time**. Parallel requests with the same refresh token share one refresh
    (`SingleFlightTokenRefresher`).
-6. **Refresh fails** (API answers 4xx) → both cookies are cleared → **401** `{ code: "UNAUTHORIZED" }`.
-   If the API is down (5xx / network) the cookies are kept and the proxy answers **502**.
+6. **Refresh fails** (API answers 400/401/403/404) → both cookies are cleared → **401** `{ code: "UNAUTHORIZED" }`.
+   If the API is down or busy (5xx, 408, 429, network) the cookies are kept and the proxy answers **502**.
 7. **Timeout** – `BFF_UPSTREAM_TIMEOUT_MS` → **504**. API unreachable → **502**.
 8. **X-Request-Id** – forwarded if the browser sends a valid one, otherwise generated; always
    returned in the response.

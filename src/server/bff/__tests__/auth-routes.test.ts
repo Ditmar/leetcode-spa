@@ -88,7 +88,7 @@ describe('BFF auth routes /api/auth/*', () => {
 
       expect(response.status).toBe(200);
       const body = await response.json();
-      expect(body).toEqual({ user: sessionUser, expiresAt: exp * 1000 });
+      expect(body).toEqual({ data: { user: sessionUser, expiresAt: exp * 1000 } });
       expect(JSON.stringify(body)).not.toContain(accessToken);
       expect(JSON.stringify(body)).not.toContain('rt-1');
 
@@ -104,6 +104,32 @@ describe('BFF auth routes /api/auth/*', () => {
       const [sent] = apiCalls(fetchMock);
       expect(sent.url).toBe(`${API}/auth/login`);
       expect(sent.body).toEqual({ email: 'erick@test.dev', password: 'secret' });
+    });
+
+    it('accepts the ADR-003 API envelope { data: {...} } from the API', async () => {
+      fetchMock.mockResolvedValueOnce(
+        json(200, {
+          data: {
+            accessToken: 'at-env',
+            refreshToken: 'rt-env',
+            expiresAt: 1792147200000,
+            user: { id: 'u1', username: 'erick', email: 'erick@test.dev', role: 'USER' },
+          },
+        })
+      );
+
+      const { response, cookies } = await call(
+        routes.login,
+        '/api/auth/login',
+        post({ email: 'erick@test.dev', password: 'secret' })
+      );
+
+      expect(response.status).toBe(200);
+      expect(await response.json()).toEqual({
+        data: { user: sessionUser, expiresAt: 1792147200000 },
+      });
+      expect(cookies.get(ACCESS)?.value).toBe('at-env');
+      expect(cookies.get(REFRESH)?.value).toBe('rt-env');
     });
 
     it('wrong password → 401 and no cookies', async () => {
@@ -165,7 +191,7 @@ describe('BFF auth routes /api/auth/*', () => {
       );
 
       expect(response.status).toBe(201);
-      expect((await response.json()).user).toEqual(sessionUser);
+      expect((await response.json()).data.user).toEqual(sessionUser);
       const [signup, login] = apiCalls(fetchMock);
       expect(signup.url).toBe(`${API}/auth/signup`);
       expect(signup.body).toMatchObject({ name: 'erick', email: 'erick@test.dev' });
@@ -235,7 +261,7 @@ describe('BFF auth routes /api/auth/*', () => {
       const { response } = await call(routes.me, '/api/auth/me', {}, cookies);
 
       expect(response.status).toBe(200);
-      expect((await response.json()).user).toEqual(sessionUser);
+      expect((await response.json()).data.user).toEqual(sessionUser);
       expect(apiCalls(fetchMock)[0].headers.get('authorization')).toBe('Bearer at');
     });
 
