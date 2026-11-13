@@ -18,7 +18,7 @@ export const ACCESS_COOKIE_PATH = '/';
 /**
  * The ticket suggests `path=/api/auth`, but the browser only sends a cookie when the
  * request path starts with the cookie path. The proxy lives at `/api/*`
- * (e.g. `/api/courses`), so with `/api/auth` it could never read the refresh token
+ * (e.g. `/api/problems`), so with `/api/auth` it could never read the refresh token
  * to refresh on 401. `/api` keeps the cookie away from pages and still lets
  * `/api/auth/*` and the proxy use it.
  */

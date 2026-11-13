@@ -1,6 +1,6 @@
 export interface UpstreamRequest {
   method: string;
-  /** Path relative to API_BASE_URL, including the query string. Example: `/courses?page=1`. */
+  /** Path relative to API_BASE_URL, including the query string. Example: `/problems?page=1`. */
   pathWithQuery: string;
   /** Headers from the browser. The client decides which ones are safe to forward. */
   incomingHeaders: Headers;

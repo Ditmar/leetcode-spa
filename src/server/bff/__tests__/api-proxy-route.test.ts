@@ -67,12 +67,12 @@ describe('BFF proxy /api/[...path]', () => {
     fetchMock.mockResolvedValueOnce(json(200, { data: [1, 2] }));
     const cookies = new FakeAstroCookies({ [ACCESS]: 'at-1', [REFRESH]: 'rt-1' });
 
-    const { response } = await call(route, '/api/courses?page=2', {}, cookies);
+    const { response } = await call(route, '/api/problems?page=2', {}, cookies);
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ data: [1, 2] });
     const [sent] = upstreamCalls(fetchMock);
-    expect(sent.url).toBe(`${API}/courses?page=2`);
+    expect(sent.url).toBe(`${API}/problems?page=2`);
     expect(sent.headers.get('authorization')).toBe('Bearer at-1');
   });
 
@@ -112,7 +112,7 @@ describe('BFF proxy /api/[...path]', () => {
   });
 
   it('returns 404 for a path that is not in the allow-list (API is not called)', async () => {
-    const { response } = await call(route, '/api/user');
+    const { response } = await call(route, '/api/courses');
     expect(response.status).toBe(404);
     expect(await response.json()).toMatchObject({ code: 'NOT_FOUND' });
     expect(fetchMock).not.toHaveBeenCalled();
@@ -128,7 +128,7 @@ describe('BFF proxy /api/[...path]', () => {
   });
 
   it('returns 403 for a POST from another origin (API is not called)', async () => {
-    const { response } = await call(route, '/api/courses/1/enroll', {
+    const { response } = await call(route, '/api/submissions', {
       method: 'POST',
       headers: { Origin: 'https://evil.example' },
     });
@@ -161,7 +161,7 @@ describe('BFF proxy /api/[...path]', () => {
       .mockResolvedValueOnce(json(200, { data: 'ok' }));
     const cookies = new FakeAstroCookies({ [ACCESS]: 'at-old', [REFRESH]: 'rt-1' });
 
-    const { response } = await call(route, '/api/courses/me/courses', {}, cookies);
+    const { response } = await call(route, '/api/users/me', {}, cookies);
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ data: 'ok' });
@@ -205,7 +205,7 @@ describe('BFF proxy /api/[...path]', () => {
       return auth === 'Bearer at-new' ? json(200, { url }) : json(401, {});
     });
 
-    const requests = ['/api/problems', '/api/courses', '/api/tests'].map((path) =>
+    const requests = ['/api/problems', '/api/submissions', '/api/explore/topics'].map((path) =>
       call(route, path, {}, new FakeAstroCookies({ [ACCESS]: 'at-old', [REFRESH]: 'rt-shared' }))
     );
     await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(4));
@@ -249,20 +249,37 @@ describe('BFF proxy /api/[...path]', () => {
 
   it('a 401 without a refresh cookie is returned as is (no refresh attempt)', async () => {
     fetchMock.mockResolvedValueOnce(json(401, { message: 'login required' }));
-    const { response } = await call(route, '/api/courses/me/courses');
+    const { response } = await call(route, '/api/users/me');
     expect(response.status).toBe(401);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
-  it('keeps the cookies when the refresh endpoint has a server error (502)', async () => {
-    fetchMock.mockResolvedValueOnce(json(401, {})).mockResolvedValueOnce(json(500, {}));
-    const cookies = new FakeAstroCookies({ [ACCESS]: 'at-old', [REFRESH]: 'rt-1' });
+  it.each([500, 503, 429, 408])(
+    'keeps the cookies when the refresh endpoint answers %i (temporary error → 502)',
+    async (status) => {
+      fetchMock.mockResolvedValueOnce(json(401, {})).mockResolvedValueOnce(json(status, {}));
+      const cookies = new FakeAstroCookies({ [ACCESS]: 'at-old', [REFRESH]: 'rt-1' });
 
-    const { response } = await call(route, '/api/problems', {}, cookies);
+      const { response } = await call(route, '/api/problems', {}, cookies);
 
-    expect(response.status).toBe(502);
-    expect(cookies.writes).toHaveLength(0);
-  });
+      expect(response.status).toBe(502);
+      expect(cookies.writes).toHaveLength(0);
+    }
+  );
+
+  it.each([400, 401, 403, 404])(
+    'clears the cookies when the refresh endpoint answers %i (session is over → 401)',
+    async (status) => {
+      fetchMock.mockResolvedValueOnce(json(401, {})).mockResolvedValueOnce(json(status, {}));
+      const cookies = new FakeAstroCookies({ [ACCESS]: 'at-old', [REFRESH]: 'rt-1' });
+
+      const { response } = await call(route, '/api/problems', {}, cookies);
+
+      expect(response.status).toBe(401);
+      expect(cookies.get(ACCESS)).toBeUndefined();
+      expect(cookies.get(REFRESH)).toBeUndefined();
+    }
+  );
 
   it('returns 413 when the body is bigger than the limit', async () => {
     const { response } = await call(route, '/api/submissions', {

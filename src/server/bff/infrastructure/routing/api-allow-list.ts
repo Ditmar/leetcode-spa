@@ -9,6 +9,8 @@
  *
  * Source of truth: the "SPA service to API mapping" table of ADR-003 (X-003).
  * `/users/:id/stats` is NOT allowed: ADR-003 removes it from the contract.
+ * `/courses/*` and `/tests/*` are NOT allowed: they are not in the ADR-003 mapping
+ * table (review of PR #444). Add them only after an explicit team decision.
  *
  * When the API adds an endpoint the SPA needs, add one line here (and a test).
  */
@@ -18,19 +20,6 @@ export interface AllowedRoute {
 }
 
 export const API_ALLOW_LIST: readonly AllowedRoute[] = [
-  // Courses (api-leetcode: src/course/infrastructure/routes/course-routes.ts)
-  { methods: ['GET'], pattern: '/courses' },
-  { methods: ['GET'], pattern: '/courses/me/courses' },
-  { methods: ['GET'], pattern: '/courses/:id' },
-  { methods: ['POST'], pattern: '/courses/:id/enroll' },
-
-  // Company tests (api-leetcode: src/tests/infraestructure/routes/test-routes.ts)
-  { methods: ['GET'], pattern: '/tests' },
-  { methods: ['GET'], pattern: '/tests/:id' },
-  { methods: ['POST'], pattern: '/tests/:id/start' },
-  { methods: ['GET'], pattern: '/tests/:id/questions' },
-  { methods: ['POST'], pattern: '/tests/:id/submit' },
-
   // Problems (SPA problemsService → API-029)
   { methods: ['GET'], pattern: '/problems' },
   { methods: ['GET'], pattern: '/problems/tags' },
