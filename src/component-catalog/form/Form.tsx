@@ -46,20 +46,11 @@ export const Form = <T extends FieldValues>({
   const schema = useMemo(() => buildFormSchema(fields), [fields]);
 
   const methods = useFormHook<T>(schema, initialDefaultValues);
-  const { reset, control, handleSubmit, formState, watch, setValue, getValues, trigger } = methods;
+  const { reset, control, handleSubmit, formState } = methods;
   const errors = formState.errors;
 
   return (
-    <FormProvider
-      reset={reset}
-      control={control}
-      handleSubmit={handleSubmit}
-      formState={formState}
-      watch={watch}
-      setValue={setValue}
-      getValues={getValues}
-      trigger={trigger}
-    >
+    <FormProvider {...methods}>
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <GridContainer>
           {fields.map((field) => {
