@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   FormProvider,
   Controller,
@@ -20,29 +20,7 @@ import {
 } from './Form.styles';
 import { buildFormSchema } from './Form.utils';
 
-import type { FormField, FormProps } from './Form.types';
-
-const clampSpan = (span?: number) => {
-  if (!span || Number.isNaN(span)) return 12;
-  return Math.min(12, Math.max(1, span));
-};
-
-const getEmptyValueByType = (type: FormField['type']) => (type === 'checkbox' ? false : '');
-
-const buildDefaultValues = <T extends FieldValues>(
-  fields: FormField[],
-  defaultValues?: DefaultValues<T>
-): DefaultValues<T> => {
-  const fromFields = fields.reduce<Record<string, string | boolean>>((acc, field) => {
-    acc[field.name] = getEmptyValueByType(field.type);
-    return acc;
-  }, {});
-
-  return {
-    ...fromFields,
-    ...defaultValues,
-  } as DefaultValues<T>;
-};
+import type { FormProps } from './Form.types';
 
 export const Form = <T extends FieldValues>({
   fields,
@@ -53,36 +31,44 @@ export const Form = <T extends FieldValues>({
   resetButtonText = 'Reset',
   showResetButton = true,
 }: FormProps<T>) => {
-  const resolvedDefaultValues = useMemo(
-    () => buildDefaultValues(fields, defaultValues),
-    [fields, defaultValues]
-  );
+  const initialDefaultValues = useMemo(() => {
+    if (defaultValues) return defaultValues;
+
+    return fields.reduce(
+      (acc, field) => {
+        acc[field.name] = field.type === 'checkbox' ? false : '';
+        return acc;
+      },
+      {} as Record<string, string | boolean>
+    ) as DefaultValues<T>;
+  }, [fields, defaultValues]);
 
   const schema = useMemo(() => buildFormSchema(fields), [fields]);
 
-  const methods = useFormHook<T>(schema, resolvedDefaultValues);
-  const { reset, control, handleSubmit, formState } = methods;
-  const { errors, isSubmitting } = formState;
-  const isBusy = disabled || isSubmitting;
-
-  const handleReset = useCallback(() => {
-    reset(resolvedDefaultValues);
-  }, [reset, resolvedDefaultValues]);
+  const methods = useFormHook<T>(schema, initialDefaultValues);
+  const { reset, control, handleSubmit, formState, watch, setValue, getValues, trigger } = methods;
+  const errors = formState.errors;
 
   return (
-    <FormProvider {...methods}>
-      <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
+    <FormProvider
+      reset={reset}
+      control={control}
+      handleSubmit={handleSubmit}
+      formState={formState}
+      watch={watch}
+      setValue={setValue}
+      getValues={getValues}
+      trigger={trigger}
+    >
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <GridContainer>
           {fields.map((field) => {
             const fieldName = field.name as Path<T>;
-            const errorMessage = errors[fieldName]?.message
-              ? String(errors[fieldName]?.message)
-              : undefined;
-            const hasError = Boolean(errorMessage);
+            const errorMessage = errors[fieldName]?.message;
 
             return (
-              <GridItem key={field.name} span={clampSpan(field.span)}>
-                <StyledFormControl error={hasError} disabled={isBusy}>
+              <GridItem key={field.name} span={field.span || 12}>
+                <StyledFormControl error={!!errors[fieldName]}>
                   <Controller
                     name={fieldName}
                     control={control}
@@ -90,16 +76,14 @@ export const Form = <T extends FieldValues>({
                       renderFieldByType({
                         field,
                         ctrlField,
-                        disabled: isBusy,
+                        disabled,
                         errors,
                       })
                     }
                   />
 
-                  {hasError && (
-                    <StyledFormHelperText id={`${field.name}-error`}>
-                      {errorMessage}
-                    </StyledFormHelperText>
+                  {errorMessage && (
+                    <StyledFormHelperText>{String(errorMessage)}</StyledFormHelperText>
                   )}
                 </StyledFormControl>
               </GridItem>
@@ -108,13 +92,13 @@ export const Form = <T extends FieldValues>({
         </GridContainer>
 
         <ButtonContainer>
-          <StyledButton type="submit" variant="contained" disabled={isBusy}>
-            {submitButtonText}
+          <StyledButton type="submit" variant="contained">
+            {submitButtonText || 'Submit'}
           </StyledButton>
 
           {showResetButton && (
-            <StyledButton type="button" variant="outlined" onClick={handleReset} disabled={isBusy}>
-              {resetButtonText}
+            <StyledButton type="button" variant="outlined" onClick={() => reset()}>
+              {resetButtonText || 'Reset'}
             </StyledButton>
           )}
         </ButtonContainer>
