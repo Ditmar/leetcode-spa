@@ -22,7 +22,7 @@ Today this does not exist:
 ## Tasks
 
 - [ ] Create server routes in `src/pages/api/auth/`: `login.ts`, `signup.ts`, `logout.ts`, `me.ts`. They call the real API (`API_BASE_URL`, server-only variable).
-- [ ] Create a cookie helper that sets and clears two cookies: access token (short life) and refresh token (longer life, `path=/api/auth`). Flags: `HttpOnly`, `SameSite=Lax`, `Secure` in production (not on `http://localhost`).
+- [ ] Create a cookie helper that sets and clears two cookies: access token (short life) and refresh token (longer life, `path=/api`, see the update below). Flags: `HttpOnly`, `SameSite=Lax`, `Secure` in production (not on `http://localhost`).
 - [ ] Create a proxy route `src/pages/api/[...path].ts` for all other API calls. It:
   - only allows paths from a list (allow-list), and returns `404` for the rest;
   - reads the access token from the cookie and sends `Authorization: Bearer ...` to the API;
@@ -61,3 +61,9 @@ Following [X-003](https://github.com/Ditmar/leetcode-spa/issues/368), the Astro 
 - Browser-facing session responses must contain only non-sensitive user information and `expiresAt` as a Unix timestamp in milliseconds.
 - Access tokens and refresh tokens must never be included in browser-facing JSON responses.
 - The proxy allow-list must follow the endpoint mapping defined in ADR-003.
+
+## Update after the review of PR #444
+
+- The refresh token cookie uses `path=/api`, not `path=/api/auth`. The browser only sends a cookie when the request path starts with the cookie path, and the proxy (`/api/problems`, `/api/submissions`...) must read the refresh token to refresh the session after a `401`. The cookie is still `HttpOnly` and is never sent to pages outside `/api`.
+- The proxy allow-list contains only the endpoints of the ADR-003 mapping table. `/courses/*` and `/tests/*` are not exposed until the team decides to add them to the ADR.
+- A `408` or `429` from `POST /api/auth/refresh` is a temporary error: the session is kept and the proxy answers `502`. Only `400`, `401`, `403` and `404` end the session.

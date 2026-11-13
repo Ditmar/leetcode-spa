@@ -202,13 +202,13 @@ and calls the real API. Details and architecture: [`src/server/bff/README.md`](s
 
 ### Auth routes
 
-| Route                   | What it does                                                                               |
-| :---------------------- | :----------------------------------------------------------------------------------------- |
-| `POST /api/auth/login`  | `{ email, password }` → sets both cookies, returns `{ user, expiresAt }` (no tokens)       |
-| `POST /api/auth/signup` | `{ username, email, password }` → creates the user, logs in, returns `{ user, expiresAt }` |
-| `POST /api/auth/logout` | revokes the refresh token in the API and clears both cookies (`204`)                       |
-| `GET /api/auth/me`      | current `{ user, expiresAt }` or `401`                                                     |
-| `/api/*` (proxy)        | any other allowed API call, with `Authorization: Bearer` added by the server               |
+| Route                   | What it does                                                                                         |
+| :---------------------- | :--------------------------------------------------------------------------------------------------- |
+| `POST /api/auth/login`  | `{ email, password }` → sets both cookies, returns `{ data: { user, expiresAt } }` (no tokens)       |
+| `POST /api/auth/signup` | `{ username, email, password }` → creates the user, logs in, returns `{ data: { user, expiresAt } }` |
+| `POST /api/auth/logout` | revokes the refresh token in the API and clears both cookies (`204`)                                 |
+| `GET /api/auth/me`      | current `{ data: { user, expiresAt } }` or `401`                                                     |
+| `/api/*` (proxy)        | any other allowed API call, with `Authorization: Bearer` added by the server                         |
 
 Server-side code (middleware, `.astro` pages) uses `getSession(cookies)` from `src/server/bff`.
 

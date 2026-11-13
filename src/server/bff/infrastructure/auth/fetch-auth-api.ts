@@ -1,5 +1,6 @@
 import { toAuthUser } from '../../domain/auth-user';
 import { AuthApiError, UpstreamTimeoutError, UpstreamUnavailableError } from '../../domain/errors';
+import { unwrapData } from '../http/unwrap-data';
 
 import type { AuthUser } from '../../domain/auth-user';
 import type { AuthApi, LoginResult, SignupInput } from '../../domain/ports/auth-api';
@@ -31,7 +32,8 @@ function parseExpiresAt(value: unknown): number | undefined {
  * (src/auth/infrastructure/routes/auth-routes.ts).
  *
  * API today            → what the BFF needs
- * POST /auth/login     → { accessToken, refreshToken, user }  (expiresAt optional, API-028)
+ * POST /auth/login     → { data: { accessToken, refreshToken, user, expiresAt } } (ADR-003)
+ *                        or the legacy body without `data`
  * POST /auth/signup    → body uses `name`; the SPA sends `username`
  * POST /auth/logout    → { refreshToken } in the body, revokes it
  * GET  /auth/me        → user object (or `{ user }` after API-028)
@@ -45,9 +47,10 @@ export class FetchAuthApi implements AuthApi {
 
   async login(email: string, password: string): Promise<LoginResult> {
     const response = await this.call('POST', '/auth/login', { email, password });
-    const body = await this.readJson(response);
-    if (!response.ok) throw this.toError(response.status, body);
+    const raw = await this.readJson(response);
+    if (!response.ok) throw this.toError(response.status, raw);
 
+    const body = unwrapData(raw);
     const user = toAuthUser(body.user);
     if (typeof body.accessToken !== 'string' || typeof body.refreshToken !== 'string' || !user) {
       throw new UpstreamUnavailableError('Invalid login response from the API');
@@ -86,7 +89,8 @@ export class FetchAuthApi implements AuthApi {
     if (response.status === 401 || response.status === 403) return null;
     const body = await this.readJson(response);
     if (!response.ok) throw this.toError(response.status, body);
-    return toAuthUser(body.user ?? body.data ?? body) ?? null;
+    const payload = unwrapData(body);
+    return toAuthUser(payload.user ?? payload) ?? null;
   }
 
   private async call(
