@@ -18,8 +18,8 @@ async function startWorker() {
 
   await channel.prefetch(1);
 
-  console.log('Worker conectado a RabbitMQ');
-  console.log(`Esperando trabajos en: ${QUEUE_NAME}`);
+  console.log('Worker connected to RabbitMQ');
+  console.log(`Waiting for jobs on: ${QUEUE_NAME}`);
 
   await channel.consume(QUEUE_NAME, async (message) => {
     if (!message) return;
@@ -28,7 +28,7 @@ async function startWorker() {
       const job = JSON.parse(message.content.toString());
 
       if (!['javascript', 'python'].includes(job.language) || typeof job.code !== 'string') {
-        throw new Error('Trabajo inválido');
+        throw new Error('Invalid job');
       }
 
       const version = job.language === 'javascript' ? '20.11.1' : '3.12.0';
@@ -54,12 +54,12 @@ async function startWorker() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error HTTP ${response.status} en Piston`);
+        throw new Error(`Piston HTTP error ${response.status}`);
       }
 
       const result = await response.json();
 
-      console.log('Resultado de ejecución:', {
+      console.log('Execution result:', {
         language: job.language,
         output: result.run?.stdout,
         error: result.run?.stderr,
@@ -68,7 +68,7 @@ async function startWorker() {
 
       channel.ack(message);
     } catch (error) {
-      console.error('Error procesando trabajo:', error.message);
+      console.error('Error processing job:', error.message);
       channel.nack(message, false, false);
     }
   });
@@ -80,7 +80,7 @@ async function connectWithRetry() {
       await startWorker();
       break;
     } catch (error) {
-      console.error('Error conectando a RabbitMQ:', error.message);
+      console.error('Error connecting to RabbitMQ:', error.message);
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }
   }

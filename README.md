@@ -1,20 +1,20 @@
-# LeetCode SPA — Desarrollo local con Docker
+# LeetCode SPA — Local development with Docker
 
-Esta guía explica cómo levantar el entorno local de LeetCode SPA mediante Docker Compose, incluyendo PostgreSQL, API Express, SPA Astro/React, RabbitMQ, Piston y un worker de prueba.
+This guide explains how to start the LeetCode SPA local environment with Docker Compose, including PostgreSQL, the Express API, the Astro/React SPA, RabbitMQ, Piston and a test worker.
 
-## Requisitos previos
+## Prerequisites
 
 - Git.
-- Docker Desktop con Docker Compose.
-- Node.js y npm para ejecutar el comando de inicio.
-- Puertos disponibles: 3000, 4321, 5432, 5672, 15672 y 2000.
-- Conexión a Internet para descargar las imágenes y dependencias.
+- Docker Desktop with Docker Compose.
+- Node.js and npm to run the start command.
+- Available ports: 3000, 4321, 5432, 5672, 15672 and 2000.
+- Internet connection to download the images and dependencies.
 
-## Instalación en 5 pasos
+## Setup in 5 steps
 
-### 1. Clonar los repositorios
+### 1. Clone the repositories
 
-Los repositorios deben estar en carpetas hermanas:
+The repositories must be in sibling folders:
 
 ```text
 ticket-x/
@@ -22,7 +22,7 @@ ticket-x/
 └── api-leetcode/
 ```
 
-En PowerShell:
+In PowerShell:
 
 ```powershell
 mkdir ticket-x
@@ -34,111 +34,115 @@ git clone https://github.com/Ditmar/api-leetcode.git
 cd leetcode-spa
 ```
 
-La carpeta `api-leetcode` es necesaria porque Docker Compose monta el código de la API mediante `../api-leetcode`.
+The `api-leetcode` folder is required because Docker Compose mounts the API code from `../api-leetcode`.
 
-### 2. Preparar las variables de entorno
+### 2. Prepare the environment variables
 
-Desde la carpeta `leetcode-spa`:
+From the `leetcode-spa` folder:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-El archivo `.env.example` contiene valores de ejemplo para desarrollo local. No deben utilizarse sus secretos en producción.
+The `.env.example` file contains sample values for local development. Do not use its secrets in production.
 
-### 3. Iniciar Docker Desktop
+### 3. Start Docker Desktop
 
-Abrir Docker Desktop y comprobar que el motor de Docker esté funcionando:
+Open Docker Desktop and check that the Docker engine is running:
 
 ```powershell
 docker compose version
 docker compose config --quiet
 ```
 
-### 4. Levantar el entorno completo
+### 4. Start the full environment
 
-Ejecutar:
+Run:
 
 ```powershell
 npm run dev:all
 ```
 
-Este comando utiliza Docker Compose para construir el worker y levantar los servicios.
+This command uses Docker Compose to build the worker and start the services.
 
-Durante el arranque:
+Piston uses `privileged: true` only for local development, because its isolation mechanism requires those permissions. Do not use this configuration in production. All ports published by Docker Compose are bound to `127.0.0.1`, so they are only reachable from the local machine.
 
-- PostgreSQL inicia la base de datos.
-- La API instala dependencias y ejecuta `prisma generate` y `prisma migrate deploy`.
-- La SPA inicia el servidor de desarrollo Astro.
-- RabbitMQ inicia el sistema de colas.
-- Piston inicia el servicio de ejecución de código.
-- `piston-init` verifica e instala JavaScript 20.11.1 y Python 3.12.0.
-- El worker espera a RabbitMQ y a la finalización exitosa de `piston-init`.
+The Piston image is pinned by digest to reproduce the same version, instead of relying on `latest`. The digest can be found in the [official Piston package](https://github.com/engineer-man/piston/pkgs/container/piston).
 
-En una instalación nueva, la descarga e instalación de dependencias y lenguajes puede requerir más tiempo.
+During startup:
 
-### 5. Verificar los servicios
+- PostgreSQL starts the database.
+- The API installs dependencies and runs `prisma generate` and `prisma migrate deploy`.
+- The SPA starts the Astro development server.
+- RabbitMQ starts the queue system.
+- Piston starts the code execution service.
+- `piston-init` checks and installs JavaScript 20.11.1 and Python 3.12.0.
+- The worker waits for RabbitMQ and for `piston-init` to finish successfully.
 
-Abrir otra terminal y ejecutar:
+On a fresh install, downloading and installing dependencies and languages can take longer.
+
+### 5. Verify the services
+
+Open another terminal and run:
 
 ```powershell
 docker compose ps -a
 ```
 
-Direcciones locales:
+Local addresses:
 
-| Servicio | Dirección |
-|---|---|
-| SPA | http://localhost:4321 |
-| API | http://localhost:3000/health |
-| RabbitMQ Management | http://localhost:15672 |
-| Piston | http://localhost:2000/api/v2/runtimes |
-| PostgreSQL | localhost:5432 |
+| Service             | Address                               |
+| ------------------- | ------------------------------------- |
+| SPA                 | http://localhost:4321                 |
+| API                 | http://localhost:3000/health          |
+| RabbitMQ Management | http://localhost:15672                |
+| Piston              | http://localhost:2000/api/v2/runtimes |
+| PostgreSQL          | localhost:5432                        |
 
-El servicio `piston-init` debe finalizar con estado `Exited (0)`. Este estado indica que su inicialización terminó correctamente.
+The `piston-init` service must finish with status `Exited (0)`. This status means that its initialization completed successfully.
 
-Comprobaciones adicionales:
+Additional checks:
 
 ```powershell
 docker compose logs piston-init
 docker compose logs worker
 ```
 
-## Comandos útiles
+## Useful commands
 
-Iniciar el entorno en segundo plano:
+Start the environment in the background:
 
 ```powershell
 docker compose up -d --build
 ```
 
-Detener los contenedores sin eliminar los volúmenes:
+Stop the containers without removing the volumes:
 
 ```powershell
 docker compose down
 ```
 
-Consultar los registros:
+View the logs:
 
 ```powershell
 docker compose logs --tail 50
 ```
 
-Verificar las migraciones de Prisma:
+Check the Prisma migrations:
 
 ```powershell
 docker compose exec api npx prisma migrate status
 ```
 
-**Precaución:** `docker compose down -v` también elimina los volúmenes persistentes, incluidos los datos locales de PostgreSQL, RabbitMQ y los lenguajes instalados en Piston.
+**Warning:** `docker compose down -v` also removes the persistent volumes, including the local PostgreSQL and RabbitMQ data and the languages installed in Piston.
 
-## Limitaciones y dependencias actuales
+## Current limitations and dependencies
 
-- La API depende del repositorio hermano `api-leetcode`.
-- Las seis migraciones existentes se aplican correctamente, pero el esquema actual de Prisma incluye `Course` y `Enrollment`, cuyas tablas todavía no aparecen en la base de datos generada por esas migraciones.
-- El repositorio API consultado no incluye actualmente un archivo ni comando de seed. La preparación de datos iniciales queda pendiente de la integración correspondiente de la API.
-- El worker incluido es una prueba local de integración RabbitMQ → Piston. No está conectado al proceso real de calificación de exámenes y no guarda resultados en PostgreSQL.
-- La inicialización de Piston se ha verificado con los lenguajes ya instalados; falta validar el proceso completo con un volumen nuevo y la instalación desde cero.
+- The API depends on the sibling `api-leetcode` repository.
+- The six existing migrations apply correctly, but the current Prisma schema includes `Course` and `Enrollment`, whose tables do not yet exist in the database created by those migrations.
+- The API repository checked does not currently include a seed file or command. Initial data setup is pending the corresponding API integration.
+- The included worker is a local RabbitMQ → Piston integration test. It is not connected to the real exam grading process and does not save results in PostgreSQL.
+- Piston initialization has been verified with the languages already installed; the full process with a new volume and a from-scratch install still needs to be validated.
 
 ---
 

@@ -33,15 +33,15 @@ async function waitForPiston() {
   for (let attempt = 1; attempt <= 60; attempt++) {
     try {
       await getInstalledRuntimes();
-      console.log('Piston disponible.');
+      console.log('Piston is available.');
       return;
     } catch {
-      console.log(`Esperando Piston (${attempt}/60)...`);
+      console.log(`Waiting for Piston (${attempt}/60)...`);
       await sleep(5000);
     }
   }
 
-  throw new Error('Piston no estuvo disponible.');
+  throw new Error('Piston did not become available.');
 }
 
 function isInstalled(installed, runtime) {
@@ -54,11 +54,11 @@ async function ensureRuntime(runtime) {
   const installed = await getInstalledRuntimes();
 
   if (isInstalled(installed, runtime)) {
-    console.log(`${runtime.runtimeLanguage} ${runtime.version} ya instalado.`);
+    console.log(`${runtime.runtimeLanguage} ${runtime.version} already installed.`);
     return;
   }
 
-  console.log(`Instalando ${runtime.runtimeLanguage} ${runtime.version}...`);
+  console.log(`Installing ${runtime.runtimeLanguage} ${runtime.version}...`);
 
   let installationFinished = false;
   let installationError = null;
@@ -75,15 +75,15 @@ async function ensureRuntime(runtime) {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`Error instalando ${runtime.runtimeLanguage}: HTTP ${response.status}`);
+        throw new Error(`Error installing ${runtime.runtimeLanguage}: HTTP ${response.status}`);
       }
 
       installationFinished = true;
     })
     .catch((error) => {
       installationError = error;
-      console.log(`La petición de instalación terminó con: ${error.message}`);
-      console.log('Verificando si Piston continúa instalando...');
+      console.log(`The installation request ended with: ${error.message}`);
+      console.log('Checking whether Piston is still installing...');
     });
 
   const deadline = Date.now() + 20 * 60 * 1000;
@@ -95,25 +95,25 @@ async function ensureRuntime(runtime) {
       const current = await getInstalledRuntimes();
 
       if (isInstalled(current, runtime)) {
-        console.log(`${runtime.runtimeLanguage} ${runtime.version} listo.`);
+        console.log(`${runtime.runtimeLanguage} ${runtime.version} is ready.`);
         return;
       }
     } catch (error) {
-      console.log(`Verificación temporalmente fallida: ${error.message}`);
+      console.log(`Check temporarily failed: ${error.message}`);
     }
 
-    console.log(`Esperando instalación de ${runtime.runtimeLanguage} ${runtime.version}...`);
+    console.log(`Waiting for installation of ${runtime.runtimeLanguage} ${runtime.version}...`);
 
     if (installationFinished) {
-      console.log('La petición terminó; verificando registro del runtime...');
+      console.log('The request completed; checking runtime registration...');
     }
   }
 
   await Promise.race([installation, sleep(1000)]);
 
   throw new Error(
-    `No se verificó ${runtime.runtimeLanguage} ${runtime.version} dentro de 20 minutos.` +
-      (installationError ? ` Último error: ${installationError.message}` : '')
+    `Could not verify ${runtime.runtimeLanguage} ${runtime.version} within 20 minutes.` +
+      (installationError ? ` Last error: ${installationError.message}` : '')
   );
 }
 
@@ -124,10 +124,10 @@ async function main() {
     await ensureRuntime(runtime);
   }
 
-  console.log('Inicialización de Piston completada.');
+  console.log('Piston initialization completed.');
 }
 
 main().catch((error) => {
-  console.error('Error inicializando Piston:', error.message);
+  console.error('Error initializing Piston:', error.message);
   process.exit(1);
 });
