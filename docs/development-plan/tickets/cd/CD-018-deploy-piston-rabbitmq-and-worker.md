@@ -1,13 +1,13 @@
 # CD-018: Deploy Piston, RabbitMQ and the worker
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Feature |
-| Priority | P1 |
-| Size | L |
-| Phase | 3 - Core product |
-| Depends on | X-004, API-043 |
+| Field      | Value            |
+| ---------- | ---------------- |
+| Repo       | leetcode-cd      |
+| Type       | Feature          |
+| Priority   | P1               |
+| Size       | L                |
+| Phase      | 3 - Core product |
+| Depends on | X-004, API-043   |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # SPA-019: Add the code editor
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P1 |
-| Size | L |
-| Phase | 3 - Core product |
-| Depends on | SPA-018 |
+| Field      | Value            |
+| ---------- | ---------------- |
+| Repo       | leetcode-spa     |
+| Type       | Feature          |
+| Priority   | P1               |
+| Size       | L                |
+| Phase      | 3 - Core product |
+| Depends on | SPA-018          |
 
 ## Problem
 

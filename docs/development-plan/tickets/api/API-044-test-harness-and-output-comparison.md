@@ -1,13 +1,13 @@
 # API-044: Build the test harness and the output comparison
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P1 |
-| Size | L |
-| Phase | 3 - Core product |
-| Depends on | X-004, API-029 |
+| Field      | Value            |
+| ---------- | ---------------- |
+| Repo       | api-leetcode     |
+| Type       | Feature          |
+| Priority   | P1               |
+| Size       | L                |
+| Phase      | 3 - Core product |
+| Depends on | X-004, API-029   |
 
 ## Problem
 

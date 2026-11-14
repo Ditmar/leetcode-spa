@@ -8,6 +8,7 @@ import * as PaginationStories from './Pagination.stories';
 A responsive, accessible pagination component built on top of Material UI's `Pagination`. This component strictly follows the design system rules and Component-Driven architecture guidelines.
 
 **Key Features:**
+
 - **Responsive Design:** Gracefully collapses into `44x44px` icon-only buttons on mobile breakpoints (`md`, `< 768px`) to prevent layout overflows and optimize touch targets for accessibility.
 - **Custom Iconography:** Implements custom SVG arrow components matching exact Figma specifications (`1.33333px` stroke width).
 - **Accessibility (a11y):** Utilizes `aria-hidden` attributes on SVG elements and hidden text nodes to prevent screen reader duplication, relying purely on MUI's robust native `aria-labels`.
@@ -15,6 +16,7 @@ A responsive, accessible pagination component built on top of Material UI's `Pag
 
 ## Usage
 
+{/* prettier-ignore */}
 ```tsx
 import Pagination from './Pagination';
 
@@ -24,3 +26,4 @@ export const Example = () => {
     />
   );
 };
+```

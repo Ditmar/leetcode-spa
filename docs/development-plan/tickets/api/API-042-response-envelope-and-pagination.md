@@ -1,12 +1,12 @@
 # API-042: Use one response format and one pagination format everywhere
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Refactor |
-| Priority | P2 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
+| Field      | Value                                                                                                                   |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Repo       | api-leetcode                                                                                                            |
+| Type       | Refactor                                                                                                                |
+| Priority   | P2                                                                                                                      |
+| Size       | M                                                                                                                       |
+| Phase      | 2 - Connect SPA and API                                                                                                 |
 | Depends on | [X-003](https://github.com/Ditmar/leetcode-spa/issues/368), [API-007](https://github.com/Ditmar/api-leetcode/issues/61) |
 
 ## Problem

@@ -134,13 +134,14 @@ Difficulty is represented using Material UI Chips.
 Difficulty levels:
 
 | Difficulty | MUI Color |
-|------------|------------|
-| Easy | success |
-| Medium | warning |
-| Hard | error |
+| ---------- | --------- |
+| Easy       | success   |
+| Medium     | warning   |
+| Hard       | error     |
 
 The color is determined through a utility function instead of hardcoded values.
 
+{/* prettier-ignore */}
 ```ts
 getDifficultyChipColor()
 ```
@@ -219,6 +220,7 @@ Features:
 
 The implementation uses:
 
+{/* prettier-ignore */}
 ```html
 <ul>
 <li>
@@ -251,12 +253,12 @@ ARIA attributes include:
 
 The component was designed and tested for multiple screen sizes.
 
-| Breakpoint | Device |
-|------------|---------|
-| 320px | Small Mobile |
-| 375px | Mobile |
-| 768px | Tablet |
-| 1024px+ | Desktop |
+| Breakpoint | Device       |
+| ---------- | ------------ |
+| 320px      | Small Mobile |
+| 375px      | Mobile       |
+| 768px      | Tablet       |
+| 1024px+    | Desktop      |
 
 Responsive features:
 

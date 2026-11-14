@@ -1,13 +1,13 @@
 # SPA-011: Rewrite the README and fix the docs
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Docs |
-| Priority | P2 |
-| Size | S |
-| Phase | 1 - Stabilize and secure |
-| Depends on | X-005 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-spa             |
+| Type       | Docs                     |
+| Priority   | P2                       |
+| Size       | S                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | X-005                    |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # SPA-032: Add end-to-end tests with Playwright
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Test |
-| Priority | P2 |
-| Size | L |
-| Phase | 5 - Quality and launch |
-| Depends on | SPA-020, X-005 |
+| Field      | Value                  |
+| ---------- | ---------------------- |
+| Repo       | leetcode-spa           |
+| Type       | Test                   |
+| Priority   | P2                     |
+| Size       | L                      |
+| Phase      | 5 - Quality and launch |
+| Depends on | SPA-020, X-005         |
 
 ## Problem
 

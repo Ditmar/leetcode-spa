@@ -1,13 +1,13 @@
 # SPA-036: Build the Astro auth routes and API proxy (BFF)
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P0 |
-| Size | L |
-| Phase | 2 - Connect SPA and API |
-| Depends on | X-002, X-003 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Feature                 |
+| Priority   | P0                      |
+| Size       | L                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | X-002, X-003            |
 
 ## Problem
 

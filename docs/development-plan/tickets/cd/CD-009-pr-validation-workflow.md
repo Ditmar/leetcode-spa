@@ -1,13 +1,13 @@
 # CD-009: Add automatic checks for pull requests
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Chore |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Chore                    |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # SPA-034: Use the theme preference and decide about i18n
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P3 |
-| Size | M |
-| Phase | 4 - More features |
-| Depends on | SPA-023 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | leetcode-spa      |
+| Type       | Feature           |
+| Priority   | P3                |
+| Size       | M                 |
+| Phase      | 4 - More features |
+| Depends on | SPA-023           |
 
 ## Problem
 

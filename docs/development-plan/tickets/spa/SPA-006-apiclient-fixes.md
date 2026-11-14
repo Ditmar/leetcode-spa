@@ -1,13 +1,13 @@
 # SPA-006: Fix problems in `apiClient`
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Bug |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | X-003 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-spa             |
+| Type       | Bug                      |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | X-003                    |
 
 ## Problem
 
