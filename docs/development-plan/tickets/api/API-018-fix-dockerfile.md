@@ -1,13 +1,13 @@
 # API-018: Fix the API Dockerfile
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Chore |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Chore                    |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # API-006: Lock down the `/api/user` routes
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Security |
-| Priority | P0 |
-| Size | S |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Security                 |
+| Priority   | P0                       |
+| Size       | S                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

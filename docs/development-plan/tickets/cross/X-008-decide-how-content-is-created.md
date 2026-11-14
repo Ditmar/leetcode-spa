@@ -1,13 +1,13 @@
 # X-008: Decide how courses, tests and problems are created
 
-| Field | Value |
-| --- | --- |
-| Repo | all |
-| Type | Decision |
-| Priority | P1 |
-| Size | S |
-| Phase | 0 - Decisions and setup |
-| Depends on | X-001 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | all                     |
+| Type       | Decision                |
+| Priority   | P1                      |
+| Size       | S                       |
+| Phase      | 0 - Decisions and setup |
+| Depends on | X-001                   |
 
 ## Problem
 

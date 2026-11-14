@@ -1,13 +1,13 @@
 # SPA-035: Check performance and loading behavior
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Quality |
-| Priority | P3 |
-| Size | M |
-| Phase | 5 - Quality and launch |
-| Depends on | SPA-020 |
+| Field      | Value                  |
+| ---------- | ---------------------- |
+| Repo       | leetcode-spa           |
+| Type       | Quality                |
+| Priority   | P3                     |
+| Size       | M                      |
+| Phase      | 5 - Quality and launch |
+| Depends on | SPA-020                |
 
 ## Problem
 

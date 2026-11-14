@@ -1,13 +1,13 @@
 # SPA-022: Build the submissions history
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P2 |
-| Size | M |
-| Phase | 4 - More features |
-| Depends on | SPA-020 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | leetcode-spa      |
+| Type       | Feature           |
+| Priority   | P2                |
+| Size       | M                 |
+| Phase      | 4 - More features |
+| Depends on | SPA-020           |
 
 ## Problem
 

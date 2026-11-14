@@ -1,13 +1,13 @@
 # SPA-010: Improve the CI workflow
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Chore |
-| Priority | P2 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | SPA-008 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-spa             |
+| Type       | Chore                    |
+| Priority   | P2                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | SPA-008                  |
 
 ## Problem
 

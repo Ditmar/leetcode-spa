@@ -1,13 +1,13 @@
 # API-012: Fix wrong logging calls and add request logs
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Bug |
-| Priority | P2 |
-| Size | S |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-011 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Bug                      |
+| Priority   | P2                       |
+| Size       | S                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-011                  |
 
 ## Problem
 
