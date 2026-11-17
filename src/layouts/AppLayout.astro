@@ -1,0 +1,21 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import NavShell from '../ui/components/common/NavShell';
+import Footer from '../ui/components/common/Footer.astro';
+import type { AuthUser } from '../services/auth/authService.types';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Interactive coding practice platform' } = Astro.props;
+const currentPath = Astro.url.pathname;
+const { user = null } = Astro.locals as { user?: AuthUser | null };
+---
+
+<BaseLayout title={title} description={description}>
+  <NavShell currentPath={currentPath} user={user} client:load />
+  <slot />
+  <Footer />
+</BaseLayout>
