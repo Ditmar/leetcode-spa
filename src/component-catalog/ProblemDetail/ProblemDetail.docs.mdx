@@ -134,15 +134,15 @@ Difficulty is represented using Material UI Chips.
 Difficulty levels:
 
 | Difficulty | MUI Color |
-|------------|------------|
-| Easy | success |
-| Medium | warning |
-| Hard | error |
+| ---------- | --------- |
+| Easy       | success   |
+| Medium     | warning   |
+| Hard       | error     |
 
 The color is determined through a utility function instead of hardcoded values.
 
 ```ts
-getDifficultyChipColor()
+getDifficultyChipColor();
 ```
 
 This improves maintainability and separation of concerns.
@@ -221,7 +221,8 @@ The implementation uses:
 
 ```html
 <ul>
-<li>
+  <li></li>
+</ul>
 ```
 
 for accessibility and semantic correctness.
@@ -251,12 +252,12 @@ ARIA attributes include:
 
 The component was designed and tested for multiple screen sizes.
 
-| Breakpoint | Device |
-|------------|---------|
-| 320px | Small Mobile |
-| 375px | Mobile |
-| 768px | Tablet |
-| 1024px+ | Desktop |
+| Breakpoint | Device       |
+| ---------- | ------------ |
+| 320px      | Small Mobile |
+| 375px      | Mobile       |
+| 768px      | Tablet       |
+| 1024px+    | Desktop      |
 
 Responsive features:
 

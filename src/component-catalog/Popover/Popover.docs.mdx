@@ -37,14 +37,14 @@ It is built on top of Material UI's `Popover` primitive and supports configurabl
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `trigger` | `ReactNode` | Required | Element used to open the popover |
-| `children` | `ReactNode` | Required | Content rendered inside the popover body |
-| `placement` | `PopoverPlacement` | `bottom` | Preferred popover placement |
-| `showArrow` | `boolean` | `false` | Shows an arrow pointing to the trigger |
-| `showCloseButton` | `boolean` | `false` | Reserved for close button support |
-| `onOpenChange` | `(open: boolean) => void` | `undefined` | Callback fired when the popover open state changes |
+| Prop              | Type                      | Default     | Description                                        |
+| ----------------- | ------------------------- | ----------- | -------------------------------------------------- |
+| `trigger`         | `ReactNode`               | Required    | Element used to open the popover                   |
+| `children`        | `ReactNode`               | Required    | Content rendered inside the popover body           |
+| `placement`       | `PopoverPlacement`        | `bottom`    | Preferred popover placement                        |
+| `showArrow`       | `boolean`                 | `false`     | Shows an arrow pointing to the trigger             |
+| `showCloseButton` | `boolean`                 | `false`     | Reserved for close button support                  |
+| `onOpenChange`    | `(open: boolean) => void` | `undefined` | Callback fired when the popover open state changes |
 
 ---
 
@@ -53,18 +53,18 @@ It is built on top of Material UI's `Popover` primitive and supports configurabl
 The `placement` prop supports the following values:
 
 ```ts
-'top'
-'top-start'
-'top-end'
-'bottom'
-'bottom-start'
-'bottom-end'
-'left'
-'left-start'
-'left-end'
-'right'
-'right-start'
-'right-end'
+'top';
+'top-start';
+'top-end';
+'bottom';
+'bottom-start';
+'bottom-end';
+'left';
+'left-start';
+'left-end';
+'right';
+'right-start';
+'right-end';
 ```
 
 ---
@@ -101,9 +101,7 @@ The `placement` prop supports the following values:
 <Popover trigger={<Button>Open Popover</Button>}>
   <Box>
     <Typography variant="subtitle1">Popover title</Typography>
-    <Typography variant="body2">
-      This is custom content inside the popover.
-    </Typography>
+    <Typography variant="body2">This is custom content inside the popover.</Typography>
   </Box>
 </Popover>
 ```

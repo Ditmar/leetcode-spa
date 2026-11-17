@@ -1,0 +1,142 @@
+name: Storybook and image
+
+on:
+  push:
+    branches-ignore: [gh-pages]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_name != 'master' }}
+
+jobs:
+  quality:
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
+  build-storybook:
+    needs: quality
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      directory: ${{ steps.branch.outputs.directory }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+      - name: Enable Yarn
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+      - run: yarn install --frozen-lockfile
+      - name: Compute preview directory
+        id: branch
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          if [[ "$BRANCH" == master ]]; then
+            DIRECTORY=''
+          else
+            DIRECTORY="previews/$(printf '%s' "$BRANCH" | sha256sum | cut -d ' ' -f 1)"
+          fi
+          echo "directory=$DIRECTORY" >> "$GITHUB_OUTPUT"
+          echo "STORYBOOK_BASE_URL=/leetcode-spa/${DIRECTORY:+$DIRECTORY/}" >> "$GITHUB_ENV"
+      - run: yarn build-storybook
+      - uses: actions/upload-artifact@v7
+        with:
+          name: storybook
+          path: storybook-static
+          retention-days: 3
+
+  publish-storybook:
+    needs: build-storybook
+    runs-on: ubuntu-latest
+    concurrency:
+      group: storybook-pages
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v8
+        with:
+          name: storybook
+          path: ${{ runner.temp }}/storybook
+      - name: Update published Storybook
+        env:
+          DIRECTORY: ${{ needs.build-storybook.outputs.directory }}
+          OUTPUT: ${{ runner.temp }}/storybook
+        run: |
+          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            git rm -rf .
+          fi
+          if [[ -z "$DIRECTORY" ]]; then
+            find . -mindepth 1 -maxdepth 1 ! -name .git ! -name previews -exec rm -rf -- {} +
+            cp -a "$OUTPUT/." .
+          else
+            rm -rf -- "$DIRECTORY"
+            mkdir -p "$DIRECTORY"
+            cp -a "$OUTPUT/." "$DIRECTORY/"
+          fi
+          touch .nojekyll
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m 'docs: publish Storybook'
+            git push origin HEAD:gh-pages
+          fi
+
+  release:
+    needs: quality
+    uses: ./.github/workflows/release.yml
+    permissions:
+      contents: write
+    secrets: inherit
+
+  docker:
+    needs: [quality, publish-storybook, release]
+    if: ${{ !cancelled() && needs.quality.result == 'success' && needs.publish-storybook.result == 'success' && (needs.release.result == 'success' || needs.release.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+          persist-credentials: false
+      - name: Compute image tag and Node version
+        id: image
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          VERSION=$(node -p "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).version")
+          if [[ "$BRANCH" != master ]]; then
+            VERSION="$VERSION-$(git rev-parse --short HEAD)"
+          fi
+          echo "tag=ditmar/leetcode-spa:$VERSION" >> "$GITHUB_OUTPUT"
+          echo "node=$(cat .nvmrc)" >> "$GITHUB_OUTPUT"
+      - uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push image
+        env:
+          IMAGE: ${{ steps.image.outputs.tag }}
+          NODE_VERSION: ${{ steps.image.outputs.node }}
+        run: |
+          docker build --build-arg NODE_VERSION="$NODE_VERSION" -t "$IMAGE" .
+          docker push "$IMAGE"
