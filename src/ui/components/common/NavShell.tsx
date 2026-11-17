@@ -24,14 +24,16 @@ function buildNavSections(): NavSection[] {
   return navigationStructure;
 }
 
-async function handleSignOut() {
-  // The session lives in memory and is only loaded where an AuthProvider ran.
-  // Restore it first so the sign out request reaches the server and clears the cookies.
+export async function handleSignOut(reloadPage: () => void = () => window.location.reload()) {
+  // TODO(SPA-003): Replace this in-memory session restoration with
+  // POST /api/auth/logout through the Astro BFF.
+  // The browser must not keep authentication tokens.
   if (!authService.getSession()) {
     await authService.hydrateFromServer();
   }
+
   await authService.signOut();
-  window.location.reload();
+  reloadPage();
 }
 
 export interface NavShellProps {
