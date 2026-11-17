@@ -25,7 +25,7 @@ interface NavSection {
   subheader?: ReactNode;
 }
 
-interface NavigationMenuProps extends Omit<MuiAppBarProps, 'children' | 'color'> {
+interface NavigationMenuProps extends Omit<MuiAppBarProps, 'children' | 'color' | 'variant'> {
   logo?: string | ReactNode;
   navSections: NavSection[];
   onItemClick?: (item: NavItem) => void;

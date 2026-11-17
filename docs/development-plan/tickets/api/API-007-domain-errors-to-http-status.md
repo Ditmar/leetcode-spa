@@ -35,3 +35,13 @@ Domain value objects (`AuthUserEmail`, `CourseTitle`, ...) also throw plain `Err
 - `grep -r "message.includes" src` finds nothing in controllers.
 - Each error class has a unit test for its status code.
 - Existing endpoints return the same status codes as before (or better).
+
+## Update after decision X-003
+
+Following [X-003](https://github.com/Ditmar/leetcode-spa/issues/368), error classes must follow the unified API contract.
+
+- Use `SCREAMING_SNAKE_CASE` for error codes.
+- Return errors using the `{ code, message, details? }` format through the API-003 middleware.
+- Map `ConflictError` to HTTP 409 with code `CONFLICT`.
+- Support the shared code `TOO_MANY_REQUESTS` for HTTP 429 responses, with rate limiting implemented by API-010.
+- Document module-specific error codes in OpenAPI.

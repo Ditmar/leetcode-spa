@@ -14,11 +14,11 @@ export function setEnvGetterForTesting(getter: (key: string) => string | undefin
 
 export function loadConfig(): unknown {
   const config = { ...defaultConfig } as Record<string, unknown>;
-  const mapping = envMapping as Record<string, string>;
+  const mapping: Record<string, unknown> = envMapping;
 
   Object.keys(mapping).forEach((key) => {
     const envVarName = mapping[key];
-    if (!envVarName) return;
+    if (typeof envVarName !== 'string' || !envVarName) return;
 
     const envValue = envGetter(envVarName);
 

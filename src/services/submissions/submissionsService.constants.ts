@@ -4,7 +4,17 @@ const getEnvNumber = (value: string | undefined, fallback: number): number => {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 };
 
-export const POLLING_INTERVAL_MS = getEnvNumber(import.meta.env.VITE_POLLING_INTERVAL_MS, 1500);
+export const POLLING_INTERVAL_MS = getEnvNumber(import.meta.env.VITE_POLLING_INTERVAL_MS, 1000);
+
+export const POLLING_BACKOFF_STEP_MS = getEnvNumber(
+  import.meta.env.VITE_POLLING_BACKOFF_STEP_MS,
+  500
+);
+
+export const MAX_POLLING_INTERVAL_MS = getEnvNumber(
+  import.meta.env.VITE_MAX_POLLING_INTERVAL_MS,
+  5000
+);
 
 export const MAX_POLL_ATTEMPTS = getEnvNumber(import.meta.env.VITE_MAX_POLL_ATTEMPTS, 20);
 

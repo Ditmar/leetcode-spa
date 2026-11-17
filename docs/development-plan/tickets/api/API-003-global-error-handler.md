@@ -7,7 +7,7 @@
 | Priority | P0 |
 | Size | M |
 | Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Depends on | X-003 |
 
 ## Problem
 
@@ -37,3 +37,12 @@ Also:
 ## Hints
 
 Work together with `API-007`, which creates the error classes.
+
+## Update after decision X-003
+
+Following [X-003](https://github.com/Ditmar/leetcode-spa/issues/368), the global error middleware must:
+
+- Return errors using the `{ code, message, details? }` format.
+- Use `SCREAMING_SNAKE_CASE` for error codes.
+- Use the appropriate HTTP status code for each error.
+- Work with the error classes defined in API-007.

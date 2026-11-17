@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    ".astro/types.d.ts",
+    "src/env.d.ts",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/test/**/*"
+  ],
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "types": ["node", "vitest/globals", "@testing-library/jest-dom"]
+  }
+}
