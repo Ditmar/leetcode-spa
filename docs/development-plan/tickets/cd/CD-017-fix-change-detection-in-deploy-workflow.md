@@ -1,13 +1,13 @@
 # CD-017: Fix how `deploy.yml` finds changed files
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Bug |
-| Priority | P2 |
-| Size | S |
-| Phase | 1 - Stabilize and secure |
-| Depends on | CD-002 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Bug                      |
+| Priority   | P2                       |
+| Size       | S                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | CD-002                   |
 
 ## Problem
 

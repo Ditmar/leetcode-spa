@@ -1,12 +1,12 @@
 # SPA-029: Improve the home page and connect it to real data
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P2 |
-| Size | M |
-| Phase | 3 - Core product |
+| Field      | Value            |
+| ---------- | ---------------- |
+| Repo       | leetcode-spa     |
+| Type       | Feature          |
+| Priority   | P2               |
+| Size       | M                |
+| Phase      | 3 - Core product |
 | Depends on | API-029, SPA-015 |
 
 ## Problem

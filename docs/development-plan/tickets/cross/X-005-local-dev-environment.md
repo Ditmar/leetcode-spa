@@ -1,13 +1,13 @@
 # X-005: Make one command start the whole system locally
 
-| Field | Value |
-| --- | --- |
-| Repo | all |
-| Type | Chore |
-| Priority | P1 |
-| Size | M |
-| Phase | 0 - Decisions and setup |
-| Depends on | None |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | all                     |
+| Type       | Chore                   |
+| Priority   | P1                      |
+| Size       | M                       |
+| Phase      | 0 - Decisions and setup |
+| Depends on | None                    |
 
 ## Problem
 

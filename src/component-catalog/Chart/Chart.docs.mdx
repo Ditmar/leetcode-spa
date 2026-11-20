@@ -9,8 +9,7 @@ A unified, responsive chart component built on top of `@mui/x-charts`.
 It supports **bar**, **line**, and **pie** chart types through a single `type` prop
 and adapts fluidly to any container width — from 320 px mobile screens to wide desktop layouts.
 
-
-
+{/* prettier-ignore */}
 ```tsx
 import { Chart } from './Chart';
 
@@ -30,13 +29,9 @@ import { Chart } from './Chart';
 
 <Canvas of={ChartStories.Bar} />
 
-
-
 ### Line
 
 <Canvas of={ChartStories.Line} />
-
-
 
 ### Pie
 
@@ -60,6 +55,7 @@ Series colours reference the CSS variables defined in `colors.css`
 (`--chart-1` … `--chart-5`) so the chart adapts to light and dark mode
 automatically — no hardcoded hex values anywhere in the component.
 
+{/* prettier-ignore */}
 | Token | Light | Dark |
 |---|---|---|
 | `--chart-1` | `#e8622a` | `#3b6fd4` |
@@ -84,6 +80,7 @@ correct semantic token for placeholder surfaces in the design system.
 
 ## Responsive behaviour
 
+{/* prettier-ignore */}
 | Breakpoint | Behaviour |
 |---|---|
 | 320 px | Axis labels scale to `11px`; chart fills full width |

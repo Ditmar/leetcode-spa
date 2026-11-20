@@ -1,12 +1,12 @@
 # SPA-017: Build the problems list page
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P1 |
-| Size | L |
-| Phase | 3 - Core product |
+| Field      | Value                     |
+| ---------- | ------------------------- |
+| Repo       | leetcode-spa              |
+| Type       | Feature                   |
+| Priority   | P1                        |
+| Size       | L                         |
+| Phase      | 3 - Core product          |
 | Depends on | SPA-013, SPA-015, API-029 |
 
 ## Problem

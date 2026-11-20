@@ -1,12 +1,12 @@
 # SPA-003: Keep the token in one place and refresh it automatically
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Bug |
-| Priority | P0 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | leetcode-spa            |
+| Type       | Bug                     |
+| Priority   | P0                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
 | Depends on | X-002, SPA-001, SPA-036 |
 
 ## Problem

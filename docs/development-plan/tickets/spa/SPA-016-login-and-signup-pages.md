@@ -1,12 +1,12 @@
 # SPA-016: Create dedicated login and signup pages
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Feature |
-| Priority | P1 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
+| Field      | Value                     |
+| ---------- | ------------------------- |
+| Repo       | leetcode-spa              |
+| Type       | Feature                   |
+| Priority   | P1                        |
+| Size       | M                         |
+| Phase      | 2 - Connect SPA and API   |
 | Depends on | SPA-001, SPA-005, SPA-015 |
 
 ## Problem
