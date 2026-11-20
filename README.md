@@ -1,3 +1,151 @@
+# LeetCode SPA — Local development with Docker
+
+This guide explains how to start the LeetCode SPA local environment with Docker Compose, including PostgreSQL, the Express API, the Astro/React SPA, RabbitMQ, Piston and a test worker.
+
+## Prerequisites
+
+- Git.
+- Docker Desktop with Docker Compose.
+- Node.js and npm to run the start command.
+- Available ports: 3000, 4321, 5432, 5672, 15672 and 2000.
+- Internet connection to download the images and dependencies.
+
+## Setup in 5 steps
+
+### 1. Clone the repositories
+
+The repositories must be in sibling folders:
+
+```text
+ticket-x/
+├── leetcode-spa/
+└── api-leetcode/
+```
+
+In PowerShell:
+
+```powershell
+mkdir ticket-x
+cd ticket-x
+
+git clone https://github.com/Ditmar/leetcode-spa.git
+git clone https://github.com/Ditmar/api-leetcode.git
+
+cd leetcode-spa
+```
+
+The `api-leetcode` folder is required because Docker Compose mounts the API code from `../api-leetcode`.
+
+### 2. Prepare the environment variables
+
+From the `leetcode-spa` folder:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+The `.env.example` file contains sample values for local development. Do not use its secrets in production.
+
+### 3. Start Docker Desktop
+
+Open Docker Desktop and check that the Docker engine is running:
+
+```powershell
+docker compose version
+docker compose config --quiet
+```
+
+### 4. Start the full environment
+
+Run:
+
+```powershell
+npm run dev:all
+```
+
+This command uses Docker Compose to build the worker and start the services.
+
+Piston uses `privileged: true` only for local development, because its isolation mechanism requires those permissions. Do not use this configuration in production. All ports published by Docker Compose are bound to `127.0.0.1`, so they are only reachable from the local machine.
+
+The Piston image is pinned by digest to reproduce the same version, instead of relying on `latest`. The digest can be found in the [official Piston package](https://github.com/engineer-man/piston/pkgs/container/piston).
+
+During startup:
+
+- PostgreSQL starts the database.
+- The API installs dependencies and runs `prisma generate` and `prisma migrate deploy`.
+- The SPA starts the Astro development server.
+- RabbitMQ starts the queue system.
+- Piston starts the code execution service.
+- `piston-init` checks and installs JavaScript 20.11.1 and Python 3.12.0.
+- The worker waits for RabbitMQ and for `piston-init` to finish successfully.
+
+On a fresh install, downloading and installing dependencies and languages can take longer.
+
+### 5. Verify the services
+
+Open another terminal and run:
+
+```powershell
+docker compose ps -a
+```
+
+Local addresses:
+
+| Service             | Address                               |
+| ------------------- | ------------------------------------- |
+| SPA                 | http://localhost:4321                 |
+| API                 | http://localhost:3000/health          |
+| RabbitMQ Management | http://localhost:15672                |
+| Piston              | http://localhost:2000/api/v2/runtimes |
+| PostgreSQL          | localhost:5432                        |
+
+The `piston-init` service must finish with status `Exited (0)`. This status means that its initialization completed successfully.
+
+Additional checks:
+
+```powershell
+docker compose logs piston-init
+docker compose logs worker
+```
+
+## Useful commands
+
+Start the environment in the background:
+
+```powershell
+docker compose up -d --build
+```
+
+Stop the containers without removing the volumes:
+
+```powershell
+docker compose down
+```
+
+View the logs:
+
+```powershell
+docker compose logs --tail 50
+```
+
+Check the Prisma migrations:
+
+```powershell
+docker compose exec api npx prisma migrate status
+```
+
+**Warning:** `docker compose down -v` also removes the persistent volumes, including the local PostgreSQL and RabbitMQ data and the languages installed in Piston.
+
+## Current limitations and dependencies
+
+- The API depends on the sibling `api-leetcode` repository.
+- The six existing migrations apply correctly, but the current Prisma schema includes `Course` and `Enrollment`, whose tables do not yet exist in the database created by those migrations.
+- The API repository checked does not currently include a seed file or command. Initial data setup is pending the corresponding API integration.
+- The included worker is a local RabbitMQ → Piston integration test. It is not connected to the real exam grading process and does not save results in PostgreSQL.
+- Piston initialization has been verified with the languages already installed; the full process with a new volume and a from-scratch install still needs to be validated.
+
+---
+
 # Astro Starter Kit: Basics
 
 ```sh
