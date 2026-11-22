@@ -66,11 +66,13 @@ The browser never keeps API tokens. The decision in [X-002](https://github.com/D
 
 ### How code goes to production
 
-1. A pull request is merged into `master` of an app repository (`leetcode-spa` or `api-leetcode`).
-2. The CI workflow of that repo runs lint and tests, creates a release (version number and changelog) and pushes a Docker image to **Docker Hub** with that version tag.
-3. Someone changes the image tag in `leetcode-cd/apps/<app>/ppd.json` (pre-production) through a pull request.
-4. When that change is merged, the `deploy.yml` workflow of `leetcode-cd` validates that the image exists and asks **Railway** to deploy it.
-5. After checking `ppd`, the same image is **promoted** to `prod.json` (`promote.yml`). `rollback.yml` goes back to an earlier image.
+1. Work on a branch named `feature/leetcode-{ticket}` and open a pull request **against `next`**, never against `master`. Every push runs the CI checks (lint, tests, Storybook build).
+2. After review and approval, the pull request is merged into **`next`**.
+3. For a release, a **release pull request** merges `next` into `master` (for example [#453](https://github.com/Ditmar/leetcode-spa/pull/453)).
+4. On `master`, the CI job "Release (master only)" (`.github/workflows/ci.yml`) creates the release (version number, changelog and tag). Then the CI pushes the Docker image to **Docker Hub** with that version, for example `ditmar/leetcode-spa:0.12.0`. Pushes to other branches only build preview images tagged `<version>-<commit>`.
+5. Someone changes the image tag in `leetcode-cd/apps/<app>/ppd.json` (pre-production) through a pull request.
+6. When that change is merged, the `deploy.yml` workflow of `leetcode-cd` validates that the image exists and asks **Railway** to deploy it.
+7. After checking `ppd`, the same image is **promoted** to `prod.json` (`promote.yml`). `rollback.yml` goes back to an earlier image.
 
 The same image is built once and promoted. It is never rebuilt for production.
 
@@ -127,7 +129,7 @@ src/
 ├── layouts/           ← page shells (BaseLayout.astro)
 ├── ui/components/     ← page-level React components (Problems.tsx, HomePage.tsx…)
 │   ├── common/        ← shared page parts (NavShell)
-│   └── problems/      ← pieces used only by one page
+│   └── problems/      ← pieces used only by one page (added by SPA-017, PR #458)
 ├── app/components/    ← app features used across pages (AuthModal, HomeAuthGate)
 ├── component-catalog/ ← reusable, generic UI components (Pagination, input, Badge…), each with tests and stories
 ├── style-library/     ← MUI theme, providers (ClientOnlyMuiProvider), SSR style helpers
