@@ -187,10 +187,6 @@ interface ApiResponse<T> {
 npx vitest run src/services/api/apiClient.test.ts
 ```
 
-## Architecture
-
-New to the project? Start with the [architecture overview](docs/architecture.md): how the SPA, the API and the CD repository fit together, the folder rules, and where to put new code.
-
 ## Development plan
 
 The shared plan for API, SPA and CD is available in [docs/development-plan](docs/development-plan/README.md). It includes the development phases, review findings, all 109 ticket specifications and [links to their GitHub issues](docs/development-plan/ISSUE-LINKS.md).
