@@ -69,6 +69,9 @@ API_BASE_URL=http://localhost:4000/api/v1
 # .env — public, exposed to the browser
 PUBLIC_API_BASE_URL=http://localhost:4000/api/v1
 
+# .env — use in-memory data for the problems page while /api/problems (API-029) does not exist
+PUBLIC_USE_MOCK_API=true
+
 # .env — submissions polling & execution (optional overrides)
 VITE_POLLING_INTERVAL_MS=1000
 VITE_POLLING_BACKOFF_STEP_MS=500
