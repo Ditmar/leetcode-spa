@@ -10,16 +10,19 @@ Create a separate branch for each issue or task.
 
 Use the following format:
 
-`type/TICKET-ID-short-description`
+- `leetcode-spa`: `feature/leetcode-{xxx}`
+- `api-leetcode`: `feature/api-leetcode-{xxx}`
+- `leetcode-cd`: The repository currently uses both issue-number-based branches (for example, `feature/leetcode-cd-23`) and ticket-ID-based branches (for example, `feature/CD-002-stop-shell-injection`). Bug-fix branches may also use the `fix/` prefix. The maintainer must confirm the standard format before it is enforced.
+
+Replace `{xxx}` with the corresponding GitHub issue number for `leetcode-spa` and `api-leetcode`. For `leetcode-cd`, the naming convention is pending maintainer confirmation.
 
 Examples:
 
-- `feature/API-012-user-authentication`
-- `fix/API-010-request-timeout`
-- `docs/X-006-team-workflow`
+- `feature/leetcode-368` for `leetcode-spa`.
+- `feature/api-leetcode-60` for `api-leetcode`.
+- `feature/leetcode-cd-23` for `leetcode-cd` (existing issue-number-based example; the standard is pending maintainer confirmation).
 
-Use descriptive names and avoid working directly on `master`.
-
+Use descriptive branch names and avoid working directly on `master`.
 ## 2. Commit Message Convention
 
 Follow Conventional Commits using the Angular convention.
@@ -53,19 +56,29 @@ Keep commits focused and avoid unnecessary changes to existing code.
 
 Every Pull Request must:
 
-1. Explicitly link the corresponding GitHub issue or ticket in the Pull Request description.
-2. Explain the changes implemented.
-3. Describe the tests performed.
-4. Include screenshots when applicable.
-5. Pass the required CI checks.
-6. Receive at least one approval before merging.
-7. Resolve review comments.
+1. Reference the corresponding GitHub issue or ticket in the Pull Request description. Use `Part of #<issue-number>` when the issue requires multiple Pull Requests or must remain open until all acceptance criteria are met.
+
+2. Link the Pull Request to the corresponding issue using the **Development** section in the GitHub sidebar. Referencing an issue in the description alone is not sufficient, especially when the PR targets `next`.
+
+3. Add the Pull Request to the **leetcode** project using the **Projects** section in the GitHub sidebar. Pull Requests that are not associated with the project will not be reviewed.
+4. Explain the changes implemented.
+5. Describe the tests performed.
+6. Include screenshots when applicable.
+7. Pass the required CI checks.
+8. Receive at least one approval before merging.
+9. Resolve review comments.
 
 Keep Pull Requests small and focused on a single issue whenever possible. Split large changes into smaller Pull Requests to simplify review and testing.
 
 Create Draft Pull Requests for work that is not yet ready for review.
 
-All Pull Requests must target the `next` integration branch. If a repository does not have a `next` branch, confirm the integration strategy with the repository maintainer before opening a Pull Request.
+Pull Requests must target the appropriate integration branch:
+
+- `leetcode-spa`: `next`.
+- `api-leetcode`: `next`.
+- `leetcode-cd`: `master`.
+
+In `leetcode-cd`, merging a Pull Request into `master` triggers a deployment through `deploy.yml`. Therefore, every merge must be reviewed and approved before proceeding.
 
 ## 4. Definition of Done (DoD)
 
@@ -73,7 +86,10 @@ A task is considered complete when:
 
 - All acceptance criteria have been met.
 - The implementation has been tested.
-- Applicable linting and automated tests pass.
+- Lint checks pass.
+- Typecheck passes when the repository provides a typecheck script.
+- Applicable automated tests pass.
+- No new warnings are introduced.
 - CI checks are successful.
 - Documentation is updated when necessary.
 - The Pull Request references its corresponding ticket.
