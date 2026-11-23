@@ -6,15 +6,16 @@
 
 ## Context
 
-Today nobody can create content in the system. "Content" means the data that users read and solve: courses, companies, company tests, questions, problems, tags and problem test cases.
+Today there is no safe way to create content in the system. "Content" means the data that users read and solve: courses, companies, company tests, questions, problems, tags and problem test cases.
 
-The current code was verified in `api-leetcode`:
+The current code was verified in the **`next` branch** of `api-leetcode` (commit `e2aba2c`, the branch where all new work is merged). `master` is older and does not have the problems and contests modules yet.
 
-- **Read only:** the API exposes `GET` routes for courses and tests. There is no route to create, edit or delete courses, companies, tests or questions.
+- **Courses, companies, tests and questions are read only:** the API exposes `GET` routes for courses and tests. There is no route to create, edit or delete courses, companies, tests or questions. `CourseRepository.create` exists, but no use case or route calls it.
+- **Problems and contests already have write routes:** the problems module (`Problem`, `TestCase`, `StarterCode`, with `tags` and `isActive` on `Problem`) is in `next`. These routes already exist:
+  - `POST /api/problems`, `PATCH /api/problems/:id` and `DELETE /api/problems/:id` (soft delete) in `src/problems/infrastructure/problems.router.ts`.
+  - `POST /api/contests` in `src/contests/infrastructure/contests.router.ts`.
+- **No roles:** the `User` model has no role field, so the API cannot tell an admin from a normal user ([API-026](https://github.com/Ditmar/api-leetcode/issues/80) adds roles). The write routes above only use `AuthMiddleware.validateToken`, so **any user who signs up can create, edit or delete problems and create contests**.
 - **No seed:** the `prisma/` folder has only `schema.prisma` and `migrations/`. There is no seed script, so a new database starts empty.
-- **No roles:** the `User` model has no role field, so the API cannot tell an admin from a normal user ([API-026](https://github.com/Ditmar/api-leetcode/issues/80) adds roles).
-- **Unused code:** `CourseRepository.create` exists, but no use case or route calls it.
-- **No problems module yet:** problems, tags and problem test cases arrive with [API-029](https://github.com/Ditmar/api-leetcode/issues/83).
 
 Because of this, the courses and tests features have no data, and the SPA pages that depend on them can only be shown with mock data (for example, the problems list page in SPA-017).
 
@@ -42,7 +43,17 @@ Content is created **in stages**. Each stage is only built when the previous one
    - Every route requires role `ADMIN` and validates input.
    - Responses follow the API contract in [ADR-003](ADR-003-api-contract.md).
    - Deletes are soft deletes. `Question` (and `Company`) first need an `isActive` column through a Prisma migration (see Consequences).
+   - The write routes that already exist for problems and contests (see Context) are **moved behind role `ADMIN`** as part of API-034, so there is only one protected way to change content.
 3. **Only if there is time: admin UI** in the SPA, built on top of the admin API. No ticket is created for it now.
+
+### Existing write routes without roles
+
+The routes `POST/PATCH/DELETE /api/problems` and `POST /api/contests` are open to any signed-up user today. This ADR proposes:
+
+- **Default:** they must require role `ADMIN` as soon as API-026 adds roles. This is done in API-034, or earlier if API-026 is merged first.
+- **Option to decide:** if that is too late, a small separate ticket can restrict them sooner (for example, disable them in production or allow them only to a fixed list of users) until roles exist.
+
+_Pending teacher decision: keep the default, or open the separate ticket to restrict these routes sooner._
 
 ### Content ownership
 
@@ -56,25 +67,26 @@ _Pending teacher confirmation: who writes the problems and test cases (one assig
 
 - **The seed unblocks the most work for the least effort.** API-029, API-024 (integration tests), CD-014 (smoke tests) and the SPA pages all need data. The seed gives them data without waiting for roles and admin routes.
 - **Content in files is reviewable.** Every change to the content goes through a pull request, with the same review and history as code.
-- **The admin API is not safe without roles.** Building it before API-026 would expose routes that anyone could call.
+- **Write routes are not safe without roles.** This is already happening in `next`: any signed-up user can change problems and contests. Adding more write routes before API-026 would make the problem bigger, so the admin API waits for roles and the existing routes are protected in the same step.
 - **An admin UI is the most expensive option and is not needed to demo the MVP.**
 
 ## Consequences
 
-- API-027 is the **first** way to create content. It must also load problems, tags and test cases once API-029 exists.
+- API-027 is the **first** way to create content. It must also load problems, tags, test cases and starter code, because the problems module already exists in `next`.
 - New content means: edit the seed files, open a pull request and run `npm run db:seed` in each environment. Nobody edits the database by hand.
 - Until API-034 is done, teachers and admins cannot change content without a developer.
-- The admin API must not remove content that users already used, so it uses soft delete (`isActive = false`). Today only `Course`, `Test` and `TestSession` have `isActive` in `prisma/schema.prisma`. `Question` and `Company` do not, and questions are deleted with `onDelete: Cascade` when their test is deleted.
+- The admin API must not remove content that users already used, so it uses soft delete (`isActive = false`). In `prisma/schema.prisma` (branch `next`), `Course`, `Test`, `TestSession`, `Contest` and `Problem` have `isActive`. `Question` and `Company` do not, and questions are deleted with `onDelete: Cascade` when their test is deleted.
+- Until roles exist, any signed-up user can create, edit or soft delete problems and create contests. API-026 and API-034 (or the separate ticket above) close this gap.
 - Because of that, API-034 needs a **migration** that adds `isActive` to `Question` (and to `Company`, if companies must be soft deleted too) before it adds any delete route. Until then, the admin API must not hard-delete a `Test` that has questions or submissions.
 
 ### Ticket priorities
 
 The current priorities already match this decision, so no change is needed:
 
-| Ticket                                                                  | Priority | Phase                   | Why                                                               |
-| ----------------------------------------------------------------------- | -------- | ----------------------- | ----------------------------------------------------------------- |
-| [API-027](https://github.com/Ditmar/api-leetcode/issues/81) seed script | **P1**   | 2 - Connect SPA and API | MVP way to create content. It blocks API-029, API-024 and CD-014. |
-| [API-034](https://github.com/Ditmar/api-leetcode/issues/88) admin API   | **P2**   | 4 - More features       | Built after roles (API-026) and the MVP.                          |
+| Ticket                                                                  | Priority | Phase                   | Why                                                                                       |
+| ----------------------------------------------------------------------- | -------- | ----------------------- | ----------------------------------------------------------------------------------------- |
+| [API-027](https://github.com/Ditmar/api-leetcode/issues/81) seed script | **P1**   | 2 - Connect SPA and API | MVP way to create content. It blocks API-029, API-024 and CD-014.                         |
+| [API-034](https://github.com/Ditmar/api-leetcode/issues/88) admin API   | **P2**   | 4 - More features       | Built after roles (API-026). Also protects the existing problem and contest write routes. |
 
 ## Related issues
 
