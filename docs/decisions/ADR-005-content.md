@@ -41,6 +41,7 @@ Content is created **in stages**. Each stage is only built when the previous one
    - CRUD routes under `/api/admin/...` for courses, companies, tests, questions, problems, problem test cases and tags.
    - Every route requires role `ADMIN` and validates input.
    - Responses follow the API contract in [ADR-003](ADR-003-api-contract.md).
+   - Deletes are soft deletes. `Question` (and `Company`) first need an `isActive` column through a Prisma migration (see Consequences).
 3. **Only if there is time: admin UI** in the SPA, built on top of the admin API. No ticket is created for it now.
 
 ### Content ownership
@@ -63,7 +64,8 @@ _Pending teacher confirmation: who writes the problems and test cases (one assig
 - API-027 is the **first** way to create content. It must also load problems, tags and test cases once API-029 exists.
 - New content means: edit the seed files, open a pull request and run `npm run db:seed` in each environment. Nobody edits the database by hand.
 - Until API-034 is done, teachers and admins cannot change content without a developer.
-- The admin API must not change content that users already used: it uses soft delete (`isActive = false`), which the `Course`, `Test` and `Question` models already support.
+- The admin API must not remove content that users already used, so it uses soft delete (`isActive = false`). Today only `Course`, `Test` and `TestSession` have `isActive` in `prisma/schema.prisma`. `Question` and `Company` do not, and questions are deleted with `onDelete: Cascade` when their test is deleted.
+- Because of that, API-034 needs a **migration** that adds `isActive` to `Question` (and to `Company`, if companies must be soft deleted too) before it adds any delete route. Until then, the admin API must not hard-delete a `Test` that has questions or submissions.
 
 ### Ticket priorities
 
