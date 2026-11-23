@@ -75,4 +75,15 @@ describe('AstroCookieTokenStore', () => {
     expect(cookies.lastWrite(ACCESS)).toMatchObject({ deleted: true, options: { path: '/' } });
     expect(cookies.lastWrite(REFRESH)).toMatchObject({ deleted: true, options: { path: '/api' } });
   });
+
+  it('clearAccessToken() deletes only the access cookie', () => {
+    const cookies = new FakeAstroCookies({ [ACCESS]: 'at', [REFRESH]: 'rt' });
+    new AstroCookieTokenStore(cookies, {
+      isProduction: false,
+      hostname: 'localhost',
+    }).clearAccessToken();
+    expect(cookies.lastWrite(ACCESS)).toMatchObject({ deleted: true, options: { path: '/' } });
+    expect(cookies.lastWrite(REFRESH)).toBeUndefined();
+    expect(cookies.get(REFRESH)?.value).toBe('rt');
+  });
 });

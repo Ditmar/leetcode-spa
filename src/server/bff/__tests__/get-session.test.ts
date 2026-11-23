@@ -3,6 +3,10 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { GetSession } from '../application/auth/get-session';
 import { RefreshFailedError } from '../domain/errors';
+import { AstroCookieTokenStore } from '../infrastructure/cookies/astro-cookie-token-store';
+import { AUTH_COOKIE_NAMES } from '../infrastructure/cookies/auth-cookie-options';
+
+import { FakeAstroCookies } from './support/fake-astro-cookies';
 
 import type { AuthUser } from '../domain/auth-user';
 import type { AuthApi } from '../domain/ports/auth-api';
@@ -14,7 +18,7 @@ const user: AuthUser = { id: '1', username: 'erick', email: 'e@test.dev', role: 
 
 /** In-memory TokenStore (Liskov: any TokenStore works). */
 function memoryStore(initial: { access?: string; refresh?: string } = {}) {
-  const state = { ...initial, cleared: false };
+  const state = { ...initial, cleared: false, accessCleared: false };
   const store: TokenStore = {
     readAccessToken: () => state.access,
     readRefreshToken: () => state.refresh,
@@ -26,6 +30,10 @@ function memoryStore(initial: { access?: string; refresh?: string } = {}) {
       state.access = undefined;
       state.refresh = undefined;
       state.cleared = true;
+    },
+    clearAccessToken: () => {
+      state.access = undefined;
+      state.accessCleared = true;
     },
   };
   return { store, state };
@@ -77,13 +85,45 @@ describe('GetSession (getSession for middleware / pages)', () => {
     expect(state.cleared).toBe(true);
   });
 
-  it('invalid access token and no refresh token → clears and returns null', async () => {
+  it('page request (only the access cookie) + rejected token → null, keeps the refresh cookie', async () => {
     const { store, state } = memoryStore({ access: 'old' });
     const session = await new GetSession(
       api(async () => null),
       refresher(vi.fn())
     ).execute(store);
     expect(session).toBeNull();
-    expect(state.cleared).toBe(true);
+    expect(state.accessCleared).toBe(true);
+    expect(state.cleared).toBe(false);
+  });
+
+  it('page request with no access cookie → null, no API call, nothing cleared', async () => {
+    const authApi = api(async () => user);
+    const { store, state } = memoryStore();
+    const session = await new GetSession(authApi, refresher(vi.fn())).execute(store);
+    expect(session).toBeNull();
+    expect(authApi.me).not.toHaveBeenCalled();
+    expect(state.cleared).toBe(false);
+    expect(state.accessCleared).toBe(false);
+  });
+
+  it('with real cookies: a page request never sends Set-Cookie that deletes lc_refresh_token', async () => {
+    // On /problems the browser sends only lc_access_token (the refresh cookie has path=/api).
+    const cookies = new FakeAstroCookies({ [AUTH_COOKIE_NAMES.ACCESS]: 'revoked' });
+    const store = new AstroCookieTokenStore(cookies, {
+      isProduction: false,
+      hostname: 'localhost',
+    });
+
+    const session = await new GetSession(
+      api(async () => null),
+      refresher(vi.fn())
+    ).execute(store);
+
+    expect(session).toBeNull();
+    expect(cookies.lastWrite(AUTH_COOKIE_NAMES.ACCESS)).toMatchObject({
+      deleted: true,
+      options: { path: '/' },
+    });
+    expect(cookies.lastWrite(AUTH_COOKIE_NAMES.REFRESH)).toBeUndefined();
   });
 });

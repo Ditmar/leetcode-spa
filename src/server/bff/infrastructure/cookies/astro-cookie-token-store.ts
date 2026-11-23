@@ -59,6 +59,10 @@ export class AstroCookieTokenStore implements TokenStore {
     }
   }
 
+  clearAccessToken(): void {
+    this.cookies.delete(AUTH_COOKIE_NAMES.ACCESS, deleteOptions(this.security, ACCESS_COOKIE_PATH));
+  }
+
   clear(): void {
     this.cookies.delete(AUTH_COOKIE_NAMES.ACCESS, deleteOptions(this.security, ACCESS_COOKIE_PATH));
     this.cookies.delete(

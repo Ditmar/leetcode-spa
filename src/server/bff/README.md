@@ -85,8 +85,12 @@ const session = await getSession(context.cookies, { hostname: context.url.hostna
 context.locals.user = session?.user ?? null;
 ```
 
-It refreshes an expired access token by itself, returns `null` when there is no valid
-session, and never throws (if the API is down it logs and returns `null`).
+Under `/api/*` it refreshes an expired access token by itself. **Pages cannot refresh**:
+the refresh cookie has `path=/api`, so a page request (middleware, `.astro` pages) only
+carries the access cookie. There, if the access cookie is missing or rejected, `getSession`
+returns `null` and clears **only** the access cookie (never the refresh cookie). The client
+island then calls `GET /api/auth/me`, which gets the refresh cookie and refreshes silently.
+It never throws (if the API is down it logs and returns `null`).
 
 ## Proxy `src/pages/api/[...path].ts` (SPA-036-B)
 

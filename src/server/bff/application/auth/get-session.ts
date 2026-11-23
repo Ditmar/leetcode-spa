@@ -12,7 +12,13 @@ import type { TokenStore } from '../../domain/ports/token-store';
  *
  * - No cookies → null.
  * - Access token expired / rejected → refresh once (shared with the proxy), save, ask again.
- * - Refresh rejected → clear cookies → null.
+ * - Refresh rejected → clear both cookies → null.
+ *
+ * Page requests (SPA-007 middleware, `.astro` pages) never receive the refresh cookie,
+ * because it has `path=/api`. There a rejected access token is NOT a reason to delete
+ * the refresh cookie: only the access cookie is cleared and `null` is returned. The
+ * client then recovers the session with `GET /api/auth/me`, which does get the refresh
+ * cookie and refreshes silently.
  */
 export class GetSession {
   constructor(
@@ -29,7 +35,8 @@ export class GetSession {
       const user = await this.authApi.me(accessToken);
       if (user) return { user, expiresAt: readJwtExpiry(accessToken) };
       if (!refreshToken) {
-        tokens.clear();
+        // The refresh token may still be valid but is not sent to this path: keep it.
+        tokens.clearAccessToken();
         return null;
       }
     }

@@ -21,6 +21,10 @@ export const ACCESS_COOKIE_PATH = '/';
  * (e.g. `/api/problems`), so with `/api/auth` it could never read the refresh token
  * to refresh on 401. `/api` keeps the cookie away from pages and still lets
  * `/api/auth/*` and the proxy use it.
+ *
+ * Consequence: pages (and the SPA-007 middleware) never see this cookie, so
+ * `getSession()` cannot refresh on a page request. The client recovers the session
+ * with `GET /api/auth/me`. See `infrastructure/auth/get-session.ts`.
  */
 export const REFRESH_COOKIE_PATH = '/api';
 

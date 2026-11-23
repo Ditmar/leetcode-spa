@@ -20,7 +20,16 @@ export interface GetSessionOptions {
  * const session = await getSession(Astro.cookies, { hostname: Astro.url.hostname });
  * ```
  *
- * Refreshes an expired access token by itself (and saves the new cookie).
+ * Important: pages cannot refresh. The refresh cookie has `path=/api`, so the browser
+ * does not send it to pages like `/problems`. On a page request `getSession` only
+ * checks the access cookie: if it is missing or rejected, it returns `null` (and clears
+ * only the access cookie, never the refresh cookie). The client island then calls
+ * `GET /api/auth/me`, which receives the refresh cookie and refreshes the session
+ * without the user noticing.
+ *
+ * Under `/api/*` (for example `/api/auth/me`) both cookies arrive and an expired access
+ * token is refreshed here (and the new cookie is saved).
+ *
  * Returns `null` when there is no valid session. Never throws: if the API is down
  * it logs the error and returns `null`, so pages still render.
  */
