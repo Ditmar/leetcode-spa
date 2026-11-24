@@ -67,6 +67,8 @@ This command uses Docker Compose to build the worker and start the services.
 
 Piston uses `privileged: true` only for local development, because its isolation mechanism requires those permissions. Do not use this configuration in production. All ports published by Docker Compose are bound to `127.0.0.1`, so they are only reachable from the local machine.
 
+Piston may need extra Docker permissions on some systems. Docker Desktop on Windows or macOS works with the WSL2 or the virtual machine backend. If the `piston` container does not start, check the [Piston documentation](https://github.com/engineer-man/piston).
+
 The Piston image is pinned by digest to reproduce the same version, instead of relying on `latest`. The digest can be found in the [official Piston package](https://github.com/engineer-man/piston/pkgs/container/piston).
 
 During startup:
@@ -79,7 +81,7 @@ During startup:
 - `piston-init` checks and installs JavaScript 20.11.1 and Python 3.12.0.
 - The worker waits for RabbitMQ and for `piston-init` to finish successfully.
 
-On a fresh install, downloading and installing dependencies and languages can take longer.
+On a fresh install, downloading the dependencies and installing the languages can take about 3 to 5 minutes.
 
 ### 5. Verify the services
 
@@ -135,6 +137,28 @@ docker compose exec api npx prisma migrate status
 ```
 
 **Warning:** `docker compose down -v` also removes the persistent volumes, including the local PostgreSQL and RabbitMQ data and the languages installed in Piston.
+
+## Running the tests
+
+| Command                 | What it does                   |
+| ----------------------- | ------------------------------ |
+| `npm run test:run`      | Run all Vitest tests once      |
+| `npm test`              | Run Vitest in watch mode       |
+| `npm run test:coverage` | Run the tests with coverage    |
+| `npm run lint`          | Run ESLint                     |
+| `npm run format:check`  | Check formatting with Prettier |
+
+See [TESTING.md](TESTING.md) for the test setup.
+
+## Common problems
+
+**A port is already in use.** Docker Compose publishes ports 3000, 4321, 5432, 5672, 15672 and 2000 on `127.0.0.1`. If another program or container already uses one of them, the service that needs that port does not start. Check which process uses the port with `netstat -ano | findstr :3000` (change the port as needed), stop it, and run `docker compose up -d --build` again.
+
+**The `api-leetcode` folder is missing.** Docker Compose mounts `../api-leetcode` into the `api` container and runs `npm ci`, `prisma generate`, `prisma migrate deploy` and `npm run dev` there. Without that folder, the `api` container has no code to install or run, and the SPA cannot reach the API. Clone `api-leetcode` next to `leetcode-spa` (see step 1) and start the environment again.
+
+**`.env` is missing.** The `db` and `api` services read `POSTGRES_*` and `JWT_*` from `.env`. Without it, those values are empty: PostgreSQL gets no user or password, and the API gets an incomplete `DATABASE_URL` and no JWT secrets. Run `Copy-Item .env.example .env` (step 2).
+
+**`piston-init` does not finish with `Exited (0)`.** The worker starts only after `piston-init` finishes successfully, so it does not start either. Check the logs with `docker compose logs piston-init piston`. `local-piston/init-piston.js` exits with code 1 when Piston does not answer after 60 attempts (about 5 minutes) or when a language is not ready within 20 minutes. Run it again with `docker compose up piston-init`, then `docker compose up -d worker`. Languages that are already installed are skipped. `docker compose down -v` removes the installed languages, so the next start installs them again.
 
 ## Current limitations and dependencies
 
@@ -211,19 +235,19 @@ Base HTTP client used by all service modules. Works isomorphically in Astro SSR,
 ### Environment variables
 
 ```bash
-# .env — server-only (Astro SSR / API routes)
-API_BASE_URL=http://localhost:4000/api/v1
+# Server-only (Astro SSR / API routes). API origin only, without /api (ADR-003).
+# Docker Compose sets API_BASE_URL=http://api:3000 for the spa service.
+API_BASE_URL=http://localhost:3000
 
-# .env — public, exposed to the browser
-PUBLIC_API_BASE_URL=http://localhost:4000/api/v1
-
-# .env — submissions polling & execution (optional overrides)
+# Submissions polling and execution (optional overrides)
 VITE_POLLING_INTERVAL_MS=1000
 VITE_POLLING_BACKOFF_STEP_MS=500
 VITE_MAX_POLLING_INTERVAL_MS=5000
 VITE_MAX_POLL_ATTEMPTS=20
 VITE_MAX_CODE_SIZE_BYTES=65536
 ```
+
+ADR-003 (proposed) defines `API_BASE_URL` as the API origin only, without the `/api` prefix. The browser calls `/api/...` on Astro, and the BFF described in [Auth cookies and API proxy (BFF)](#auth-cookies-and-api-proxy-bff--spa-036) forwards those requests to the API.
 
 #### Submissions Polling & Execution variables
 
@@ -329,7 +353,7 @@ interface ApiResponse<T> {
 }
 ```
 
-### Running the tests
+### Running the apiClient tests
 
 ```sh
 npx vitest run src/services/api/apiClient.test.ts
