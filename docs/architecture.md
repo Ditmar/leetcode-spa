@@ -50,7 +50,7 @@ flowchart LR
     HUB -- "image pulled by Railway" --> Railway
 ```
 
-Dotted lines are **planned**. Today the API does not run user code (see [X-004](https://github.com/Ditmar/leetcode-spa/issues/369)).
+Dotted lines are **planned**. Today the API does not run user code (see [X-004](https://github.com/Ditmar/leetcode-spa/issues/369)). In `api-leetcode` `next`, the `submissions` endpoint already exists, but it uses a stub worker (`default-execution-worker.ts`) that always answers `accepted`. The Docker runner in `src/worker/` is not connected yet.
 
 ### How a request moves
 
@@ -91,12 +91,16 @@ src/
 │       ├── middleware/
 │       └── routes/       ← Express routers
 ├── course/  tests/  user/   ← other modules with the same layers
+├── problems/  contests/  submissions/  ← newer modules (in `next`), same layers with other folder names
+├── worker/                  ← code runner (not connected yet)
 ├── share/infrastructure/    ← shared code: Prisma client, auth middleware, services.ts
 ├── config/                  ← typed configuration (node-config + schema)
 ├── logger/                  ← Pino logger
 └── index.ts                 ← creates the Express app and mounts the routers
 prisma/schema.prisma         ← database models and migrations
 ```
+
+Older modules (`auth`, `course`, `tests`, `user`) use `application/<action>/`, `infrastructure/controller/`, `infrastructure/repository/` and `infrastructure/routes/`. Newer modules (`problems`, `contests`, `submissions`) use `application/use-cases/`, `infrastructure/controllers/`, `infrastructure/persistence/` and one `<module>.router.ts`. The layers and the import rules are the same. Until the team picks one style, follow the style of the module you are changing; for a new module, follow `course`.
 
 Example from the `course` module:
 
@@ -125,10 +129,10 @@ Today the use cases and repositories are created in `src/share/infrastructure/se
 
 ```text
 src/
-├── pages/             ← Astro routes: one file = one URL (problems.astro → /problems)
-├── layouts/           ← page shells (BaseLayout.astro)
+├── pages/             ← Astro routes: one file = one URL (problems.astro → /problems); 404.astro and 500.astro are the error pages
+├── layouts/           ← page shells: AppLayout.astro (navigation bar, user menu, footer) on top of BaseLayout.astro
 ├── ui/components/     ← page-level React components (Problems.tsx, HomePage.tsx…)
-│   ├── common/        ← shared page parts (NavShell)
+│   ├── common/        ← shared page parts (NavShell, UserMenu, Footer, ErrorMessage)
 │   └── problems/      ← pieces used only by one page (added by SPA-017, PR #464)
 ├── app/components/    ← app features used across pages (AuthModal, HomeAuthGate)
 ├── component-catalog/ ← reusable, generic UI components (Pagination, input, Badge…), each with tests and stories
@@ -152,19 +156,19 @@ Note: `src/pages/ProblemList/` holds React files inside `pages/`. Astro prints a
 
 ## Where do I put new code?
 
-| I want to…                                    | Repository               | Where                                                                                                                                                                                            |
-| --------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Add a new API endpoint to an existing module  | `api-leetcode`           | Use case in `src/<module>/application/<action>/`, controller method in `infrastructure/controller/`, route in `infrastructure/routes/`. Wire the use case in `share/infrastructure/services.ts`. |
-| Add a new API module (for example `problems`) | `api-leetcode`           | New folder `src/<module>/` with `domain/`, `application/`, `infrastructure/`. Mount its router in `src/index.ts`.                                                                                |
-| Change the database                           | `api-leetcode`           | `prisma/schema.prisma`, then create a migration with Prisma.                                                                                                                                     |
-| Add example data                              | `api-leetcode`           | The seed script (`API-027`, see ADR-005 in [PR #459](https://github.com/Ditmar/leetcode-spa/pull/459)).                                                                                          |
-| Add a new SPA page                            | `leetcode-spa`           | `src/pages/<route>.astro` + page component in `src/ui/components/<Page>.tsx` inside `NavShell`. Add the link in `src/config/default.json` if it goes in the navigation.                          |
-| Call a new API endpoint from the SPA          | `leetcode-spa`           | `src/services/<area>/` (service + types + tests), using `apiClient`.                                                                                                                             |
-| Add a reusable UI component                   | `leetcode-spa`           | `src/component-catalog/<Component>/` with `.tsx`, `.types.ts`, `.test.tsx` and `.stories.tsx`.                                                                                                   |
-| Change colors or fonts                        | `leetcode-spa`           | `src/style-library/theme/`                                                                                                                                                                       |
-| Deploy a new version                          | `leetcode-cd`            | Change the image tag in `apps/<app>/ppd.json` by pull request, then promote to `prod.json`.                                                                                                      |
-| Add or change an environment variable         | app repo + `leetcode-cd` | Config schema in the app, and `apps/<app>/variables.example.env` in `leetcode-cd`.                                                                                                               |
-| Record an important technical decision        | `leetcode-spa`           | A new ADR in `docs/decisions/ADR-00N-<topic>.md`.                                                                                                                                                |
+| I want to…                                    | Repository               | Where                                                                                                                                                                                                                                |
+| --------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Add a new API endpoint to an existing module  | `api-leetcode`           | Use case in `src/<module>/application/<action>/`, controller method in `infrastructure/controller/`, route in `infrastructure/routes/`. Wire the use case in `share/infrastructure/services.ts`.                                     |
+| Add a new API module (for example `problems`) | `api-leetcode`           | New folder `src/<module>/` with `domain/`, `application/`, `infrastructure/`. Mount its router in `src/index.ts`.                                                                                                                    |
+| Change the database                           | `api-leetcode`           | `prisma/schema.prisma`, then create a migration with Prisma.                                                                                                                                                                         |
+| Add example data                              | `api-leetcode`           | The seed script (`API-027`, see ADR-005 in [PR #463](https://github.com/Ditmar/leetcode-spa/pull/463)).                                                                                                                              |
+| Add a new SPA page                            | `leetcode-spa`           | `src/pages/<route>.astro` that wraps the page in `AppLayout` (it adds the navigation bar and the footer) + page component in `src/ui/components/<Page>.tsx`. Add the link in `src/config/default.json` if it goes in the navigation. |
+| Call a new API endpoint from the SPA          | `leetcode-spa`           | `src/services/<area>/` (service + types + tests), using `apiClient`.                                                                                                                                                                 |
+| Add a reusable UI component                   | `leetcode-spa`           | `src/component-catalog/<Component>/` with `.tsx`, `.types.ts`, `.test.tsx` and `.stories.tsx`.                                                                                                                                       |
+| Change colors or fonts                        | `leetcode-spa`           | `src/style-library/theme/`                                                                                                                                                                                                           |
+| Deploy a new version                          | `leetcode-cd`            | Change the image tag in `apps/<app>/ppd.json` by pull request, then promote to `prod.json`.                                                                                                                                          |
+| Add or change an environment variable         | app repo + `leetcode-cd` | Config schema in the app, and `apps/<app>/variables.example.env` in `leetcode-cd`.                                                                                                                                                   |
+| Record an important technical decision        | `leetcode-spa`           | A new ADR in `docs/decisions/ADR-00N-<topic>.md`.                                                                                                                                                                                    |
 
 ## Glossary
 
@@ -185,5 +189,5 @@ Note: `src/pages/ProblemList/` holds React files inside `pages/`. Astro prints a
 
 - [Development plan](development-plan/DEVELOPMENT-PLAN.md) and [ticket index](development-plan/TICKETS-INDEX.md)
 - [ADR-003: Unified API contract](decisions/ADR-003-api-contract.md)
-- ADR-005: How content is created (proposed in [PR #459](https://github.com/Ditmar/leetcode-spa/pull/459), X-008)
+- ADR-005: How content is created (proposed in [PR #463](https://github.com/Ditmar/leetcode-spa/pull/463), X-008)
 - [`leetcode-cd` README](https://github.com/Ditmar/leetcode-cd#readme): deployment details
