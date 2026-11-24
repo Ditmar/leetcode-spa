@@ -1,12 +1,12 @@
 # API-043: Build the execution queue and the worker (RabbitMQ)
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P1 |
-| Size | L |
-| Phase | 3 - Core product |
+| Field      | Value                            |
+| ---------- | -------------------------------- |
+| Repo       | api-leetcode                     |
+| Type       | Feature                          |
+| Priority   | P1                               |
+| Size       | L                                |
+| Phase      | 3 - Core product                 |
 | Depends on | X-004, API-030, API-031, API-044 |
 
 ## Problem

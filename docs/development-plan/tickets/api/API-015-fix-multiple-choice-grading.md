@@ -1,13 +1,13 @@
 # API-015: Fix grading of multiple-choice questions
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Bug |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-014 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Bug                      |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-014                  |
 
 ## Problem
 

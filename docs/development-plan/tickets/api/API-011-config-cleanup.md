@@ -1,13 +1,13 @@
 # API-011: Fix the configuration and `.env.example`
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Bug |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-002 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Bug                      |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-002                  |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # API-016: Do not send expected outputs and hidden test cases to the client
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Security |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | None |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Security                 |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | None                     |
 
 ## Problem
 

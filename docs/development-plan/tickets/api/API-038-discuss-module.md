@@ -1,13 +1,13 @@
 # API-038: Build the discuss module
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P3 |
-| Size | L |
-| Phase | 4 - More features |
-| Depends on | API-026, API-029 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | api-leetcode      |
+| Type       | Feature           |
+| Priority   | P3                |
+| Size       | L                 |
+| Phase      | 4 - More features |
+| Depends on | API-026, API-029  |
 
 ## Problem
 

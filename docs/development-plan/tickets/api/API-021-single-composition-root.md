@@ -1,13 +1,13 @@
 # API-021: Create one place where all dependencies are connected
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Refactor |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-020 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Refactor                 |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-020                  |
 
 ## Problem
 

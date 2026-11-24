@@ -1,13 +1,13 @@
 # CD-012: Define how database migrations are deployed
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-cd |
-| Type | Process |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-018 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-cd              |
+| Type       | Process                  |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-018                  |
 
 ## Problem
 

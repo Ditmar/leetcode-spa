@@ -1,13 +1,13 @@
 # API-027: Add a seed script with example data
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P1 |
-| Size | M |
-| Phase | 2 - Connect SPA and API |
-| Depends on | API-004, API-026 |
+| Field      | Value                   |
+| ---------- | ----------------------- |
+| Repo       | api-leetcode            |
+| Type       | Feature                 |
+| Priority   | P1                      |
+| Size       | M                       |
+| Phase      | 2 - Connect SPA and API |
+| Depends on | API-004, API-026        |
 
 ## Problem
 

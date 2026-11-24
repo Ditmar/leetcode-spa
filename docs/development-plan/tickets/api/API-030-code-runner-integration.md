@@ -1,13 +1,13 @@
 # API-030: Connect Piston as the code executor
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P1 |
-| Size | M |
-| Phase | 3 - Core product |
-| Depends on | X-004 |
+| Field      | Value            |
+| ---------- | ---------------- |
+| Repo       | api-leetcode     |
+| Type       | Feature          |
+| Priority   | P1               |
+| Size       | M                |
+| Phase      | 3 - Core product |
+| Depends on | X-004            |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # API-019: Fix the CI pipeline
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Chore |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-022 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Chore                    |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-022                  |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # API-017: Fix inconsistent data in the tests list and detail
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Bug |
-| Priority | P2 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-008 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Bug                      |
+| Priority   | P2                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-008                  |
 
 ## Problem
 

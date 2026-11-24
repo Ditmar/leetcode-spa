@@ -1,13 +1,13 @@
 # API-036: Add lessons and progress to courses
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Feature |
-| Priority | P3 |
-| Size | L |
-| Phase | 4 - More features |
-| Depends on | API-013, X-001 |
+| Field      | Value             |
+| ---------- | ----------------- |
+| Repo       | api-leetcode      |
+| Type       | Feature           |
+| Priority   | P3                |
+| Size       | L                 |
+| Phase      | 4 - More features |
+| Depends on | API-013, X-001    |
 
 ## Problem
 

@@ -1,13 +1,13 @@
 # API-014: Fix the "submit test" flow (transaction, session, duplicates)
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Bug |
-| Priority | P1 |
-| Size | L |
-| Phase | 1 - Stabilize and secure |
-| Depends on | API-001, API-007 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Bug                      |
+| Priority   | P1                       |
+| Size       | L                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | API-001, API-007         |
 
 ## Problem
 

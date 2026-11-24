@@ -13,6 +13,7 @@ Built with **Material UI** and the project's centralised design-token system.
 
 ## Overview
 
+{/* prettier-ignore */}
 | Feature | Detail |
 | ------- | ------ |
 | Status icons | Solved → green `CheckCircleOutline`, Attempted → amber `RemoveCircleOutline`, Unsolved → grey `RadioButtonUnchecked` |
@@ -26,6 +27,7 @@ Built with **Material UI** and the project's centralised design-token system.
 
 ## Quick Start
 
+{/* prettier-ignore */}
 ```tsx
 import { ProblemList } from '@/pages/ProblemList';
 import type { Problem } from '@/pages/ProblemList/ProblemList.types';
@@ -93,6 +95,7 @@ Empty state when `problems` is an empty array.
 
 ### ProblemListProps
 
+{/* prettier-ignore */}
 | Prop | Type | Required | Description |
 | ---- | ---- | :------: | ----------- |
 | `problems` | `Problem[]` | ✓ | Array of problem objects to display |
@@ -101,6 +104,7 @@ Empty state when `problems` is an empty array.
 
 ### Problem
 
+{/* prettier-ignore */}
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | `id` | `number` | Unique identifier |
@@ -116,6 +120,7 @@ Empty state when `problems` is an empty array.
 Tokens live in **`src/style-library/theme/theme.ts`** → `problemListTokens`.
 CSS custom properties live in **`src/style-library/theme/colors.css`** → `--problem-list-*`.
 
+{/* prettier-ignore */}
 | Token path | Figma value | Purpose |
 | ---------- | ----------- | ------- |
 | `dimensions.containerWidth` | `331.96 px` | Sidebar width |

@@ -1,13 +1,13 @@
 # API-009: Make refresh tokens safer
 
-| Field | Value |
-| --- | --- |
-| Repo | api-leetcode |
-| Type | Security |
-| Priority | P1 |
-| Size | L |
-| Phase | 1 - Stabilize and secure |
-| Depends on | X-002 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | api-leetcode             |
+| Type       | Security                 |
+| Priority   | P1                       |
+| Size       | L                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | X-002                    |
 
 ## Problem
 

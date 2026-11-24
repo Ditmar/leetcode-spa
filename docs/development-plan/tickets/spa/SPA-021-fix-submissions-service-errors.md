@@ -1,13 +1,13 @@
 # SPA-021: Fix error handling and polling in `submissionsService`
 
-| Field | Value |
-| --- | --- |
-| Repo | leetcode-spa |
-| Type | Bug |
-| Priority | P1 |
-| Size | M |
-| Phase | 1 - Stabilize and secure |
-| Depends on | SPA-006 |
+| Field      | Value                    |
+| ---------- | ------------------------ |
+| Repo       | leetcode-spa             |
+| Type       | Bug                      |
+| Priority   | P1                       |
+| Size       | M                        |
+| Phase      | 1 - Stabilize and secure |
+| Depends on | SPA-006                  |
 
 ## Problem
 
