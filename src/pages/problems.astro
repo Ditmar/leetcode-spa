@@ -1,8 +1,177 @@
 ---
 import AppLayout from '../layouts/AppLayout.astro';
+import { getProblemsDataSource } from '../services/problems/problemsDataSource';
+import {
+  DIFFICULTY_OPTIONS,
+  buildProblemsSearch,
+  parseProblemsQuery,
+  toProblemFilters,
+} from '../ui/components/problems/problemsQuery';
 import ProblemsPage from '../ui/components/Problems';
+import type { ProblemListResponse } from '../services/problems/problemsService.types';
+
+export const prerender = false;
+
+// TODO(SPA-036): nothing sets `Astro.locals.user` yet, so this is always false and the
+// status filter and column are hidden for everybody. The server session comes with
+// SPA-036 (`getSession`); read the user from there.
+const isAuthenticated = Boolean(Astro.locals.user);
+const query = parseProblemsQuery(Astro.url.searchParams, { allowStatus: isAuthenticated });
+
+// Forward the user's cookie so the API can return the status of each problem.
+// TODO(SPA-036): with the BFF, the server reads the token cookie and sends
+// `Authorization` instead of forwarding the whole `Cookie` header.
+const cookie = Astro.request.headers.get('cookie');
+const requestConfig = cookie ? { headers: { cookie } } : undefined;
+const dataSource = getProblemsDataSource();
+
+// SSR: load the first view on the server, so it is fast and works without JavaScript.
+let initialData: ProblemListResponse | null = null;
+let initialError: string | null = null;
+try {
+  initialData = await dataSource.getProblems(toProblemFilters(query), requestConfig);
+} catch (error) {
+  initialError =
+    typeof error === 'object' && error !== null && 'message' in error
+      ? String((error as { message: unknown }).message)
+      : 'Could not load the problems.';
+}
+
+const tags = await dataSource.getTags(requestConfig).catch(() => [] as string[]);
+
+const problems = initialData?.data ?? [];
+const totalPages = initialData?.meta.totalPages ?? 0;
+const pageHref = (page: number) => `/problems${buildProblemsSearch({ ...query, page })}`;
 ---
 
-<AppLayout title="Problems | LeetCode SPA">
-  <ProblemsPage client:load />
+<AppLayout title="Problems | LeetCode SPA" description="Browse and filter coding problems">
+  <ProblemsPage
+    client:load
+    initialQuery={query}
+    initialData={initialData}
+    initialError={initialError}
+    tags={tags}
+    isAuthenticated={isAuthenticated}
+  />
+
+  <noscript>
+    <main class="problems-fallback">
+      <h1>Problems</h1>
+
+      <form method="get" action="/problems" class="problems-fallback__filters">
+        <label>
+          Search
+          <input type="search" name="search" value={query.search} />
+        </label>
+        <label>
+          Difficulty
+          <select name="difficulty">
+            <option value="">All</option>
+            {
+              DIFFICULTY_OPTIONS.map((difficulty) => (
+                <option value={difficulty} selected={query.difficulty === difficulty}>
+                  {difficulty}
+                </option>
+              ))
+            }
+          </select>
+        </label>
+        <label>
+          Tag
+          <select name="tag">
+            <option value="">All</option>
+            {
+              tags.map((tag) => (
+                <option value={tag} selected={query.tag === tag}>
+                  {tag}
+                </option>
+              ))
+            }
+          </select>
+        </label>
+        <button type="submit">Filter</button>
+      </form>
+
+      {initialError && <p role="alert">{initialError}</p>}
+      {!initialError && problems.length === 0 && <p>No problems found.</p>}
+      {
+        problems.length > 0 && (
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Difficulty</th>
+                <th>Tags</th>
+              </tr>
+            </thead>
+            <tbody>
+              {problems.map((problem) => (
+                <tr>
+                  <td>{problem.id}</td>
+                  <td>
+                    <a href={`/problems/${problem.id}`}>{problem.title}</a>
+                  </td>
+                  <td>{problem.difficulty}</td>
+                  <td>{problem.tags.join(', ')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
+      }
+
+      {
+        totalPages > 1 && (
+          <nav aria-label="Pagination" class="problems-fallback__pages">
+            {query.page > 1 && <a href={pageHref(query.page - 1)}>Previous</a>}
+            <span>
+              Page {query.page} of {totalPages}
+            </span>
+            {query.page < totalPages && <a href={pageHref(query.page + 1)}>Next</a>}
+          </nav>
+        )
+      }
+    </main>
+  </noscript>
 </AppLayout>
+
+<style>
+  .problems-fallback {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 32px 16px;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .problems-fallback__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+    margin: 16px 0;
+  }
+
+  .problems-fallback__filters label {
+    display: grid;
+    gap: 4px;
+  }
+
+  .problems-fallback table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .problems-fallback th,
+  .problems-fallback td {
+    padding: 8px;
+    border-bottom: 1px solid #d8e0ea;
+    text-align: left;
+  }
+
+  .problems-fallback__pages {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+  }
+</style>
