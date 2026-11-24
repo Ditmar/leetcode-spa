@@ -1,0 +1,8 @@
+services:
+  piston:
+    ports: !reset []
+
+  piston-init:
+    depends_on:
+      piston:
+        condition: service_started
