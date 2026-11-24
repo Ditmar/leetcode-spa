@@ -3,6 +3,7 @@ dist
 node_modules
 coverage
 storybook-static
+CHANGELOG.md
 
 # Preserve the existing development plan; format it in a separate change.
 docs/development-plan/
