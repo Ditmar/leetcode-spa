@@ -1,15 +1,13 @@
-import {
-  styled,
-  AppBar,
-  Toolbar,
-  List,
-  ListItemButton,
-  Drawer,
-  Box,
-  Accordion,
-  Paper,
-  Popper,
-} from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
+import { styled } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
 
 import { alpha } from '../../style-library';
 import { navigationMenuTokens } from '../../style-library/theme/theme';

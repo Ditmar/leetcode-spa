@@ -9,9 +9,14 @@ type CacheEntry = {
 type InFlightEntry = Promise<unknown>;
 
 /**
- * Internal in-memory storage
- * NOTE: Map has no size limit → use only for small SSR workloads.
- * For production consider Redis or a LRU cache.
+ * Cache Limits (SPA-035)
+ * Protects memory from unbounded growth and ensures only safe, public data is stored.
+ */
+export const MAX_CACHE_ENTRIES = 100;
+export const MAX_PAYLOAD_SIZE_BYTES = 256 * 1024; // 256 KB
+
+/**
+ * Internal in-memory storage with LRU/FIFO eviction
  */
 const internalCache = new Map<string, CacheEntry>();
 
@@ -30,28 +35,53 @@ const rawTtl = parseInt(
 const DEFAULT_TTL = Number.isNaN(rawTtl) || rawTtl < 0 ? 5000 : rawTtl;
 
 /**
- * Normalize fetch options to a stable, safe key (removes sensitive headers)
+ * Check if the request is public and safe to cache.
+ * Per-user data (requests with credentials/cookies/tokens or non-GET) MUST NEVER be cached.
  */
-function normalizeOptions(opts?: RequestInit): string {
-  if (!opts) return '';
+function isCacheable(opts?: RequestInit): boolean {
+  const method = (opts?.method ?? 'GET').toUpperCase();
+  if (method !== 'GET') {
+    return false;
+  }
 
-  const method = opts.method ?? 'GET';
+  if (!opts?.headers) return true;
 
-  // Convert headers to a plain object
   const headersObj =
     opts.headers instanceof Headers
       ? Object.fromEntries(opts.headers.entries())
       : ((opts.headers as Record<string, string> | undefined) ?? {});
 
-  // Remove sensitive tokens
+  const lowerKeys = Object.keys(headersObj).map((k) => k.toLowerCase());
+  if (lowerKeys.includes('authorization') || lowerKeys.includes('cookie')) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Normalize fetch options to a stable, safe key
+ */
+function normalizeOptions(opts?: RequestInit): string {
+  if (!opts) return '';
+
+  const method = (opts.method ?? 'GET').toUpperCase();
+
+  const headersObj =
+    opts.headers instanceof Headers
+      ? Object.fromEntries(opts.headers.entries())
+      : ((opts.headers as Record<string, string> | undefined) ?? {});
+
   const safeHeaders = { ...headersObj };
   delete safeHeaders.Authorization;
   delete safeHeaders.authorization;
+  delete safeHeaders.Cookie;
+  delete safeHeaders.cookie;
 
   return JSON.stringify({
     method,
     headers: safeHeaders,
-    body: opts.body, // only safe for strings; if other types, user must control
+    body: opts.body,
   });
 }
 
@@ -59,12 +89,12 @@ function normalizeOptions(opts?: RequestInit): string {
  * Deep-clone simple JSON data (protects cache from accidental mutation)
  */
 function clone<T>(value: T): T {
-  // Works only for JSON-safe values, which is acceptable for API responses.
   return JSON.parse(JSON.stringify(value));
 }
 
 /**
  * Generic wrapper for fetch + cache + TTL + concurrency dedupe
+ * Safe for public data with size limit and eviction (SPA-035).
  */
 export async function fetchWithCache<T>(
   url: string,
@@ -74,6 +104,21 @@ export async function fetchWithCache<T>(
   // Validate TTL
   if (!Number.isFinite(ttl) || ttl < 0) {
     throw new Error(`Invalid TTL value: ${ttl}`);
+  }
+
+  const canCache = isCacheable(options);
+
+  // If request is not cacheable (private data, non-GET), fetch directly without caching
+  if (!canCache) {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`Fetch error: ${response.status} ${response.statusText}`);
+    }
+    try {
+      return (await response.json()) as T;
+    } catch {
+      return (await response.text()) as unknown as T;
+    }
   }
 
   const key = `${url}-${normalizeOptions(options)}`;
@@ -94,7 +139,6 @@ export async function fetchWithCache<T>(
   const fetchPromise = (async () => {
     let response: Response;
 
-    // Network safety wrapper
     try {
       response = await fetch(url, options);
     } catch (err) {
@@ -107,30 +151,44 @@ export async function fetchWithCache<T>(
       throw new Error(`Fetch error: ${response.status} ${response.statusText}`);
     }
 
-    // Try parse JSON → fallback to text if needed
     let parsed: unknown;
+    let payloadSize = 0;
     try {
-      parsed = await response.json();
-    } catch {
-      parsed = await response.text();
+      const text = await response.text();
+      payloadSize = new TextEncoder().encode(text).length;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        parsed = text;
+      }
+    } catch (e) {
+      throw new Error(`Failed to parse response from ${url}: ${String(e)}`);
     }
 
-    // Write to cache
-    internalCache.set(key, {
-      data: parsed,
-      expiresAt: now + ttl,
-    });
+    // Only cache if payload is within allowed size
+    if (payloadSize <= MAX_PAYLOAD_SIZE_BYTES) {
+      // Evict oldest entry if limit reached
+      if (internalCache.size >= MAX_CACHE_ENTRIES) {
+        const oldestKey = internalCache.keys().next().value;
+        if (oldestKey) {
+          internalCache.delete(oldestKey);
+        }
+      }
+
+      internalCache.set(key, {
+        data: parsed,
+        expiresAt: now + ttl,
+      });
+    }
 
     return parsed as T;
   })();
 
-  // store in-flight
   inFlight.set(key, fetchPromise);
 
   try {
     return await fetchPromise;
   } finally {
-    // always cleanup
     inFlight.delete(key);
   }
 }
@@ -141,4 +199,11 @@ export async function fetchWithCache<T>(
 export function clearCache() {
   internalCache.clear();
   inFlight.clear();
+}
+
+/**
+ * Returns current cache entries count (useful for testing and monitoring)
+ */
+export function getCacheSize(): number {
+  return internalCache.size;
 }

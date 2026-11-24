@@ -1,14 +1,12 @@
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
-import {
-  IconButton,
-  Box,
-  Button,
-  useTheme,
-  AccordionSummary,
-  AccordionDetails,
-} from '@mui/material';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
 import { useRef, useCallback } from 'react';
 
 import { navigationMenuTokens } from '../../style-library/theme/theme';
