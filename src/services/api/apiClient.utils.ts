@@ -14,8 +14,18 @@ export const buildUrl = (
   return url.toString();
 };
 
-export const isApiError = (error: unknown): error is Error => {
-  return error instanceof Error;
+export const isApiError = (error: unknown): error is ApiError => {
+  if (typeof error !== 'object' || error === null) {
+    return false;
+  }
+
+  const apiError = error as Partial<ApiError>;
+
+  return (
+    typeof apiError.status === 'number' &&
+    typeof apiError.code === 'string' &&
+    typeof apiError.message === 'string'
+  );
 };
 
 export const isAbortError = (error: unknown): error is DOMException => {
@@ -35,11 +45,22 @@ export const normalizeError = (error: unknown): ApiError => {
   if (isAbortError(error)) {
     return {
       message: 'Request was aborted',
-      code: statusToCode(0),
+      code: 'ABORTED',
       status: 0,
     };
   }
   if (isApiError(error)) {
+    return error;
+  }
+  if (error instanceof TypeError) {
+    return {
+      message: error.message,
+      code: 'NETWORK_ERROR',
+      status: 0,
+    };
+  }
+
+  if (error instanceof Error) {
     return {
       message: error.message,
       code: statusToCode(500),

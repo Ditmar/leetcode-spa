@@ -46,6 +46,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     variant = 'primary',
     useScrollHide = DEFAULT_NAVIGATION_MENU_STATE_PROPS.useScrollHide,
     onMobileMenuToggle,
+    rightContent,
   } = props;
 
   const sizeConfig = getSizeConfig(size, theme);
@@ -288,9 +289,11 @@ const NavigationMenu = (props: NavigationMenuProps) => {
             </StyledDesktopNav>
           )}
 
-          <Button variant="contained" sx={signInButtonSx} onKeyDown={handleKeyDown}>
-            Sign In
-          </Button>
+          {rightContent ?? (
+            <Button variant="contained" sx={signInButtonSx} onKeyDown={handleKeyDown}>
+              Sign In
+            </Button>
+          )}
         </StyledNavContainer>
       </StyledToolbar>
 
