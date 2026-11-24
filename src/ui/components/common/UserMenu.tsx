@@ -16,8 +16,8 @@ export interface UserMenuProps {
 
 export default function UserMenu({
   user = null,
-  signInHref = '/?authRequired=true',
-  signUpHref = '/?authRequired=true',
+  signInHref = '/login',
+  signUpHref = '/signup',
   profileHref = '/profile',
   submissionsHref = '/submissions',
   onSignOut,
