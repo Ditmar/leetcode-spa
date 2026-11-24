@@ -23,6 +23,7 @@ Examples:
 - `feature/leetcode-cd-23` for `leetcode-cd` (existing issue-number-based example; the standard is pending maintainer confirmation).
 
 Use descriptive branch names and avoid working directly on `master`.
+
 ## 2. Commit Message Convention
 
 Follow Conventional Commits using the Angular convention.

@@ -13,14 +13,14 @@ Built with **Material UI** and the project's centralised design-token system.
 
 ## Overview
 
-| Feature | Detail |
-| ------- | ------ |
-| Status icons | Solved → green `CheckCircleOutline`, Attempted → amber `RemoveCircleOutline`, Unsolved → grey `RadioButtonUnchecked` |
-| Difficulty | Coloured plain text — Easy `#00C950`, Medium `#F0B100`, Hard `#FB2C36` |
-| Selection | Active item: `3.52 px` blue left border + `#EFF6FF` background |
-| Responsive | Desktop ≥ 768 px: fixed sidebar. Mobile < 768 px: Drawer toggled by a Fab |
-| Accessibility | `aria-current`, icon `aria-label`, keyboard navigation |
-| Font | **Inter** (500 / 600) — registered in `theme.ts` `@font-face` |
+| Feature       | Detail                                                                                                               |
+| ------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Status icons  | Solved → green `CheckCircleOutline`, Attempted → amber `RemoveCircleOutline`, Unsolved → grey `RadioButtonUnchecked` |
+| Difficulty    | Coloured plain text — Easy `#00C950`, Medium `#F0B100`, Hard `#FB2C36`                                               |
+| Selection     | Active item: `3.52 px` blue left border + `#EFF6FF` background                                                       |
+| Responsive    | Desktop ≥ 768 px: fixed sidebar. Mobile < 768 px: Drawer toggled by a Fab                                            |
+| Accessibility | `aria-current`, icon `aria-label`, keyboard navigation                                                               |
+| Font          | **Inter** (500 / 600) — registered in `theme.ts` `@font-face`                                                        |
 
 ---
 
@@ -32,17 +32,19 @@ import type { Problem } from '@/pages/ProblemList/ProblemList.types';
 
 const problems: Problem[] = [
   { id: 1, title: 'Two Sum', difficulty: 'Easy', acceptanceRate: 49.2, status: 'solved' },
-  { id: 2, title: 'Add Two Numbers', difficulty: 'Medium', acceptanceRate: 41.8, status: 'attempted' },
+  {
+    id: 2,
+    title: 'Add Two Numbers',
+    difficulty: 'Medium',
+    acceptanceRate: 41.8,
+    status: 'attempted',
+  },
 ];
 
 export function App() {
   const [selected, setSelected] = React.useState(1);
   return (
-    <ProblemList
-      problems={problems}
-      selectedProblemId={selected}
-      onSelectProblem={setSelected}
-    />
+    <ProblemList problems={problems} selectedProblemId={selected} onSelectProblem={setSelected} />
   );
 }
 ```
@@ -93,21 +95,21 @@ Empty state when `problems` is an empty array.
 
 ### ProblemListProps
 
-| Prop | Type | Required | Description |
-| ---- | ---- | :------: | ----------- |
-| `problems` | `Problem[]` | ✓ | Array of problem objects to display |
-| `selectedProblemId` | `number` | ✓ | ID of the currently highlighted problem |
-| `onSelectProblem` | `(id: number) => void` | ✓ | Callback fired when a row is clicked |
+| Prop                | Type                   | Required | Description                             |
+| ------------------- | ---------------------- | :------: | --------------------------------------- |
+| `problems`          | `Problem[]`            |    ✓     | Array of problem objects to display     |
+| `selectedProblemId` | `number`               |    ✓     | ID of the currently highlighted problem |
+| `onSelectProblem`   | `(id: number) => void` |    ✓     | Callback fired when a row is clicked    |
 
 ### Problem
 
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| `id` | `number` | Unique identifier |
-| `title` | `string` | Display name |
-| `difficulty` | `'Easy' \| 'Medium' \| 'Hard'` | Difficulty level |
-| `acceptanceRate` | `number` | Percentage value (e.g. `49.2`) |
-| `status` | `'solved' \| 'attempted' \| 'unsolved'` | User progress |
+| Field            | Type                                    | Description                    |
+| ---------------- | --------------------------------------- | ------------------------------ |
+| `id`             | `number`                                | Unique identifier              |
+| `title`          | `string`                                | Display name                   |
+| `difficulty`     | `'Easy' \| 'Medium' \| 'Hard'`          | Difficulty level               |
+| `acceptanceRate` | `number`                                | Percentage value (e.g. `49.2`) |
+| `status`         | `'solved' \| 'attempted' \| 'unsolved'` | User progress                  |
 
 ---
 
@@ -116,23 +118,23 @@ Empty state when `problems` is an empty array.
 Tokens live in **`src/style-library/theme/theme.ts`** → `problemListTokens`.
 CSS custom properties live in **`src/style-library/theme/colors.css`** → `--problem-list-*`.
 
-| Token path | Figma value | Purpose |
-| ---------- | ----------- | ------- |
-| `dimensions.containerWidth` | `331.96 px` | Sidebar width |
-| `dimensions.containerHeight` | `735.47 px` | Sidebar height |
-| `dimensions.borderRightWidth` | `1.17 px` | Right edge border |
-| `dimensions.headerHeight` | `45.14 px` | Header bar height |
-| `dimensions.itemHeight` | `62.15 px` | Each problem row height |
-| `dimensions.itemBorderBottomWidth` | `1.17 px` | Row separator |
-| `dimensions.selectedBorderLeftWidth` | `3.52 px` | Active left border |
-| `dimensions.drawerWidth` | `36` (× `theme.spacing`) | Mobile drawer width |
-| `colors.selectedBackground` | `#EFF6FF` | Active row background |
-| `colors.selectedBorderColor` | `#2B7FFF` | Active left border color |
-| `colors.easy / medium / hard` | `#00C950 / #F0B100 / #FB2C36` | Difficulty text colors |
-| `typography.header` | Inter 600 14 px / 20 px | "Problems" title |
-| `typography.problemNumber` | Inter 500 12 px / 16 px | Index prefix (e.g. `1.`) |
-| `typography.problemTitle` | Inter 500 12 px / 16 px | Problem name |
-| `typography.meta` | Inter 500 10 px / 15 px | Difficulty + acceptance row |
+| Token path                           | Figma value                   | Purpose                     |
+| ------------------------------------ | ----------------------------- | --------------------------- |
+| `dimensions.containerWidth`          | `331.96 px`                   | Sidebar width               |
+| `dimensions.containerHeight`         | `735.47 px`                   | Sidebar height              |
+| `dimensions.borderRightWidth`        | `1.17 px`                     | Right edge border           |
+| `dimensions.headerHeight`            | `45.14 px`                    | Header bar height           |
+| `dimensions.itemHeight`              | `62.15 px`                    | Each problem row height     |
+| `dimensions.itemBorderBottomWidth`   | `1.17 px`                     | Row separator               |
+| `dimensions.selectedBorderLeftWidth` | `3.52 px`                     | Active left border          |
+| `dimensions.drawerWidth`             | `36` (× `theme.spacing`)      | Mobile drawer width         |
+| `colors.selectedBackground`          | `#EFF6FF`                     | Active row background       |
+| `colors.selectedBorderColor`         | `#2B7FFF`                     | Active left border color    |
+| `colors.easy / medium / hard`        | `#00C950 / #F0B100 / #FB2C36` | Difficulty text colors      |
+| `typography.header`                  | Inter 600 14 px / 20 px       | "Problems" title            |
+| `typography.problemNumber`           | Inter 500 12 px / 16 px       | Index prefix (e.g. `1.`)    |
+| `typography.problemTitle`            | Inter 500 12 px / 16 px       | Problem name                |
+| `typography.meta`                    | Inter 500 10 px / 15 px       | Difficulty + acceptance row |
 
 ---
 
