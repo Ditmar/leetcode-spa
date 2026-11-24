@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   FormProvider,
   Controller,
@@ -30,6 +30,8 @@ export const Form = <T extends FieldValues>({
   submitButtonText = 'Submit',
   resetButtonText = 'Reset',
   showResetButton = true,
+  schema: customSchema,
+  serverErrors,
 }: FormProps<T>) => {
   const initialDefaultValues = useMemo(() => {
     if (defaultValues) return defaultValues;
@@ -42,16 +44,24 @@ export const Form = <T extends FieldValues>({
       {} as Record<string, string | boolean>
     ) as DefaultValues<T>;
   }, [fields, defaultValues]);
-
-  const schema = useMemo(() => buildFormSchema(fields), [fields]);
+  const schema = useMemo(() => customSchema ?? buildFormSchema(fields), [customSchema, fields]);
 
   const methods = useFormHook<T>(schema, initialDefaultValues);
-  const { reset, control, handleSubmit, formState } = methods;
+  const { reset, control, handleSubmit, formState, setError } = methods;
   const errors = formState.errors;
+
+  // Puts the server errors under their fields and moves focus to the first one.
+  useEffect(() => {
+    if (!serverErrors) return;
+
+    Object.entries(serverErrors).forEach(([name, message], index) => {
+      setError(name as Path<T>, { type: 'server', message }, { shouldFocus: index === 0 });
+    });
+  }, [serverErrors, setError]);
 
   return (
     <FormProvider {...methods}>
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
         <GridContainer>
           {fields.map((field) => {
             const fieldName = field.name as Path<T>;
@@ -74,7 +84,9 @@ export const Form = <T extends FieldValues>({
                   />
 
                   {errorMessage && (
-                    <StyledFormHelperText>{String(errorMessage)}</StyledFormHelperText>
+                    <StyledFormHelperText id={`${field.name}-error`}>
+                      {String(errorMessage)}
+                    </StyledFormHelperText>
                   )}
                 </StyledFormControl>
               </GridItem>
@@ -83,7 +95,7 @@ export const Form = <T extends FieldValues>({
         </GridContainer>
 
         <ButtonContainer>
-          <StyledButton type="submit" variant="contained">
+          <StyledButton type="submit" variant="contained" disabled={formState.isSubmitting}>
             {submitButtonText || 'Submit'}
           </StyledButton>
 
