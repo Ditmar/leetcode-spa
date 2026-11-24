@@ -11,7 +11,8 @@ import {
 } from '@mui/material';
 
 import { DIFFICULTY_COLOR_MAP } from '../../../pages/ProblemList/ProblemList.constants';
-import { useProblemList } from '../../../pages/ProblemList/ProblemList.hook';
+
+import { StatusIcon } from './StatusIcon';
 
 import type { Problem } from '../../../services/problems/problemsService.types';
 
@@ -22,8 +23,6 @@ export interface ProblemsTableProps {
 }
 
 export function ProblemsTable({ problems, showStatus = false }: ProblemsTableProps) {
-  const { getStatusIcon } = useProblemList(-1);
-
   return (
     <TableContainer>
       <Table size="small" aria-label="Problems">
@@ -40,7 +39,9 @@ export function ProblemsTable({ problems, showStatus = false }: ProblemsTablePro
           {problems.map((problem) => (
             <TableRow key={problem.id} hover data-testid={`problem-row-${problem.id}`}>
               {showStatus && (
-                <TableCell>{problem.status ? getStatusIcon(problem.status) : null}</TableCell>
+                <TableCell>
+                  {problem.status ? <StatusIcon status={problem.status} /> : null}
+                </TableCell>
               )}
               <TableCell>{problem.id}</TableCell>
               <TableCell>

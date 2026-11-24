@@ -12,10 +12,15 @@ import type { ProblemListResponse } from '../services/problems/problemsService.t
 
 export const prerender = false;
 
+// TODO(SPA-036): nothing sets `Astro.locals.user` yet, so this is always false and the
+// status filter and column are hidden for everybody. The server session comes with
+// SPA-036 (`getSession`); read the user from there.
 const isAuthenticated = Boolean(Astro.locals.user);
 const query = parseProblemsQuery(Astro.url.searchParams, { allowStatus: isAuthenticated });
 
 // Forward the user's cookie so the API can return the status of each problem.
+// TODO(SPA-036): with the BFF, the server reads the token cookie and sends
+// `Authorization` instead of forwarding the whole `Cookie` header.
 const cookie = Astro.request.headers.get('cookie');
 const requestConfig = cookie ? { headers: { cookie } } : undefined;
 const dataSource = getProblemsDataSource();
