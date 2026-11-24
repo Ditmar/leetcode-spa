@@ -1,0 +1,91 @@
+---
+interface Action {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  code: string;
+  title: string;
+  message: string;
+  actions?: Action[];
+}
+
+const { code, title, message, actions = [] } = Astro.props;
+---
+
+<main class="error-page">
+  <p class="error-page__code">{code}</p>
+  <h1>{title}</h1>
+  <p class="error-page__copy">{message}</p>
+  <div class="error-page__actions">
+    {
+      actions.map((action, index) => (
+        <a
+          class:list={['error-page__link', { 'error-page__link--primary': index === 0 }]}
+          href={action.href}
+        >
+          {action.label}
+        </a>
+      ))
+    }
+  </div>
+</main>
+
+<style>
+  .error-page {
+    display: grid;
+    min-height: 70vh;
+    place-content: center;
+    justify-items: center;
+    gap: 12px;
+    padding: 48px 16px;
+    color: #101828;
+    text-align: center;
+  }
+
+  .error-page__code {
+    color: #2563eb;
+    font-size: clamp(3.5rem, 18vw, 7rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .error-page h1 {
+    font-size: clamp(1.5rem, 6vw, 2.25rem);
+  }
+
+  .error-page__copy {
+    max-width: 480px;
+    color: #475467;
+    line-height: 1.6;
+  }
+
+  .error-page__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .error-page__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 0 20px;
+    background: #ffffff;
+    color: #111827;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .error-page__link--primary {
+    border-color: #111827;
+    background: #111827;
+    color: #ffffff;
+  }
+</style>
