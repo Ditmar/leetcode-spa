@@ -1,4 +1,5 @@
-import { useMediaQuery, useScrollTrigger } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { useState, useCallback, useMemo } from 'react';
 
 // Note: useTheme is a custom wrapper that re-exports MUI's useTheme plus helpers.

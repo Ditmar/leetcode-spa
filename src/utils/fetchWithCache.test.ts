@@ -1,6 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { fetchWithCache, clearCache } from './fetchWithCache';
+import {
+  fetchWithCache,
+  clearCache,
+  getCacheSize,
+  MAX_CACHE_ENTRIES,
+  MAX_PAYLOAD_SIZE_BYTES,
+} from './fetchWithCache';
 
 describe('fetchWithCache', () => {
   beforeEach(() => {
@@ -12,12 +18,11 @@ describe('fetchWithCache', () => {
   it('It should retrieve data and cache it.', async () => {
     const mockData = { message: 'hola mundo' };
 
-    // Correct approach: stub global fetch
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue({
         ok: true,
-        json: async () => mockData,
+        text: async () => JSON.stringify(mockData),
       })
     );
 
@@ -41,24 +46,21 @@ describe('fetchWithCache', () => {
       'fetch',
       vi.fn().mockResolvedValue({
         ok: true,
-        json: async () => mockData,
+        text: async () => JSON.stringify(mockData),
       })
     );
 
     const url = 'https://api.fake.test/value';
     const ttl = 1000;
 
-    // Set initial fake time
     vi.setSystemTime(0);
 
     await fetchWithCache(url, {}, ttl);
     expect(fetch).toHaveBeenCalledTimes(1);
 
-    // Advance timers AND system time
     vi.advanceTimersByTime(1500);
     vi.setSystemTime(1500);
 
-    // Now cached entry must be expired, so fetch again
     await fetchWithCache(url, {}, ttl);
     expect(fetch).toHaveBeenCalledTimes(2);
 
@@ -66,7 +68,6 @@ describe('fetchWithCache', () => {
   });
 
   it('It should throw an error if fetch fails.', async () => {
-    // No json() required here; fetchWithCache throws before calling it
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue({
@@ -79,5 +80,80 @@ describe('fetchWithCache', () => {
     await expect(fetchWithCache('https://api.fake.test/bad')).rejects.toThrow(
       'Fetch error: 500 Internal Server Error'
     );
+  });
+
+  it('Never caches requests with Authorization or Cookie headers (SPA-035 security)', async () => {
+    const mockData = { secret: 'user-private-data' };
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => mockData,
+      })
+    );
+
+    const url = 'https://api.fake.test/user-profile';
+    const optionsWithAuth = {
+      headers: { Authorization: 'Bearer token-123' },
+    };
+
+    const res1 = await fetchWithCache(url, optionsWithAuth);
+    const res2 = await fetchWithCache(url, optionsWithAuth);
+
+    expect(res1).toEqual(mockData);
+    expect(res2).toEqual(mockData);
+    expect(fetch).toHaveBeenCalledTimes(2); // Never cached!
+    expect(getCacheSize()).toBe(0);
+  });
+
+  it('Never caches non-GET requests (SPA-035)', async () => {
+    const mockData = { success: true };
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => mockData,
+      })
+    );
+
+    const url = 'https://api.fake.test/post-action';
+    await fetchWithCache(url, { method: 'POST', body: '{}' });
+    await fetchWithCache(url, { method: 'POST', body: '{}' });
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(getCacheSize()).toBe(0);
+  });
+
+  it('Evicts oldest entry when MAX_CACHE_ENTRIES limit is reached', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockImplementation((url: string) =>
+        Promise.resolve({
+          ok: true,
+          text: async () => JSON.stringify({ item: url }),
+        })
+      )
+    );
+
+    // Fill cache up to limit + 1
+    for (let i = 0; i <= MAX_CACHE_ENTRIES; i++) {
+      await fetchWithCache(`https://api.fake.test/item-${i}`);
+    }
+
+    expect(getCacheSize()).toBe(MAX_CACHE_ENTRIES);
+  });
+
+  it('Bypasses caching when payload exceeds MAX_PAYLOAD_SIZE_BYTES', async () => {
+    const bigString = 'x'.repeat(MAX_PAYLOAD_SIZE_BYTES + 10);
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        text: async () => bigString,
+      })
+    );
+
+    await fetchWithCache('https://api.fake.test/big-data');
+    expect(getCacheSize()).toBe(0);
   });
 });

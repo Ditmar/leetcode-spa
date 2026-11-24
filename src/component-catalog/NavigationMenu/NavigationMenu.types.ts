@@ -1,8 +1,6 @@
-import type {
-  AppBarProps as MuiAppBarProps,
-  ToolbarProps as MuiToolbarProps,
-  DrawerProps as MuiDrawerProps,
-} from '@mui/material';
+import type { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import type { DrawerProps as MuiDrawerProps } from '@mui/material/Drawer';
+import type { ToolbarProps as MuiToolbarProps } from '@mui/material/Toolbar';
 import type { ReactNode } from 'react';
 
 interface NavItem {

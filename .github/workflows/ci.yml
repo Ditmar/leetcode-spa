@@ -41,6 +41,12 @@ jobs:
       - name: Run test
         run: yarn test:run
 
+      - name: Build project
+        run: yarn build
+
+      - name: Check bundle size budget (SPA-035)
+        run: yarn check:bundle-size
+
   build-storybook:
     name: Build and Deploy Storybook
     runs-on: ubuntu-latest

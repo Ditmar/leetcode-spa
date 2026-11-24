@@ -15,7 +15,7 @@ const { user = null } = Astro.locals as { user?: AuthUser | null };
 ---
 
 <BaseLayout title={title} description={description}>
-  <NavShell currentPath={currentPath} user={user} client:load />
+  <NavShell currentPath={currentPath} user={user} client:idle />
   <slot />
   <Footer />
 </BaseLayout>

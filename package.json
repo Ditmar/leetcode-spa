@@ -19,6 +19,7 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest --watch",
+    "check:bundle-size": "node scripts/check-bundle-size.mjs",
     "release": "release-it",
     "release:rc": "release-it --preRelease=rc"
   },

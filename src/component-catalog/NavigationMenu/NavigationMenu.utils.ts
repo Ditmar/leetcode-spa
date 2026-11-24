@@ -1,7 +1,7 @@
 import { navigationMenuTokens } from '../../style-library/theme/theme';
 
 import type { NavigationMenuSize, NavigationMenuVariant } from './NavigationMenu.types';
-import type { Theme } from '@mui/material';
+import type { Theme } from '@mui/material/styles';
 
 function getSizeConfig(size: NavigationMenuSize = 'medium', theme: Theme) {
   const sizeConfigs = {
