@@ -1,0 +1,69 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import ErrorMessage from '../../ui/components/common/ErrorMessage.astro';
+import ProblemWorkspace from '../../ui/components/problems/ProblemWorkspace';
+import { problemsService } from '../../services/problems/problemsService';
+import type { ProblemDetail } from '../../services/problems/problemsService.types';
+
+export const prerender = false;
+
+const { id } = Astro.params;
+const problemId = Number(id);
+
+let problem: ProblemDetail | null = null;
+let isNotFound = false;
+
+if (!id || Number.isNaN(problemId) || problemId <= 0) {
+  isNotFound = true;
+} else {
+  try {
+    const cookie = Astro.request.headers.get('cookie') ?? '';
+    const config = cookie ? { headers: { cookie } } : undefined;
+    problem = await problemsService.getProblemById(problemId, config);
+    if (!problem || !problem.id) {
+      isNotFound = true;
+    }
+  } catch {
+    isNotFound = true;
+  }
+}
+
+if (isNotFound) {
+  Astro.response.status = 404;
+}
+
+const pageTitle = problem
+  ? `${problem.id}. ${problem.title} | LeetCode SPA`
+  : 'Problem not found | LeetCode SPA';
+---
+
+{
+  isNotFound ? (
+    <AppLayout
+      title={pageTitle}
+      description="The problem you are looking for does not exist."
+    >
+      <ErrorMessage
+        code="404"
+        title="Problem not found"
+        message={`Problem #${id ?? ''} could not be found or does not exist.`}
+        actions={[
+          { label: 'Browse problems', href: '/problems' },
+          { label: 'Go to home', href: '/' },
+        ]}
+      />
+    </AppLayout>
+  ) : (
+    <AppLayout
+      title={pageTitle}
+      description={problem?.description?.slice(0, 160)}
+    >
+      <ProblemWorkspace
+        client:load
+        problem={problem!}
+        prevProblemId={problemId > 1 ? problemId - 1 : undefined}
+        nextProblemId={problemId + 1}
+      />
+    </AppLayout>
+  )
+}
