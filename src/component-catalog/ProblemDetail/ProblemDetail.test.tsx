@@ -11,9 +11,9 @@ const baseProblem: Problem = {
   id: 1,
   title: 'Two Sum',
   difficulty: 'Easy',
-  tags: ['Array', 'Hash Table'],
+  tags: ['Array', 'Hash Table', 'Prefix Sum'],
   description:
-    'Given an array of integers nums and an integer target, return indices of the two numbers.',
+    'Given an array of integers `nums` and an integer `target`, return indices of the two numbers.\n\n- Time complexity: O(n)\n- Space complexity: O(n)',
   examples: [
     {
       input: 'nums = [2,7,11,15], target = 9',
@@ -25,7 +25,7 @@ const baseProblem: Problem = {
       output: '[1,2]',
     },
   ],
-  constraints: ['2 <= nums.length <= 10^4', 'Only one valid answer exists.'],
+  constraints: ['`2 <= nums.length <= 10^4`', 'Only one valid answer exists.'],
   acceptance: 49.2,
   status: 'unsolved',
 };
@@ -38,13 +38,15 @@ const getCodeBlockByText = (text: string) =>
   });
 
 describe('ProblemDetail', () => {
-  it('renders the problem title, difficulty and tags', () => {
+  it('renders the problem title, difficulty, all tags, and acceptance rate', () => {
     render(<ProblemDetail problem={baseProblem} />);
 
     expect(screen.getByRole('heading', { name: '1. Two Sum' })).toBeInTheDocument();
     expect(screen.getByText('Easy')).toBeInTheDocument();
     expect(screen.getByText('Array')).toBeInTheDocument();
     expect(screen.getByText('Hash Table')).toBeInTheDocument();
+    expect(screen.getByText('Prefix Sum')).toBeInTheDocument();
+    expect(screen.getByText('Acceptance: 49.2%')).toBeInTheDocument();
   });
 
   it('renders examples with and without explanation', () => {
@@ -60,12 +62,27 @@ describe('ProblemDetail', () => {
     expect(getCodeBlockByText('[1,2]')).toBeInTheDocument();
   });
 
-  it('renders the constraints list', () => {
+  it('renders string format examples cleanly', () => {
+    const problemWithStringExamples: Problem = {
+      ...baseProblem,
+      examples: ['Input: s = "hello"\nOutput: "olleh"\nExplanation: Reversed string.'],
+    };
+
+    render(<ProblemDetail problem={problemWithStringExamples} />);
+
+    expect(screen.getByRole('heading', { name: 'Example 1:' })).toBeInTheDocument();
+    expect(getCodeBlockByText('s = "hello"')).toBeInTheDocument();
+    expect(getCodeBlockByText('"olleh"')).toBeInTheDocument();
+    expect(getCodeBlockByText('Reversed string.')).toBeInTheDocument();
+  });
+
+  it('renders the constraints list and markdown description', () => {
     render(<ProblemDetail problem={baseProblem} />);
 
     expect(screen.getByRole('heading', { name: 'Constraints' })).toBeInTheDocument();
     expect(screen.getByText('2 <= nums.length <= 10^4')).toBeInTheDocument();
     expect(screen.getByText('Only one valid answer exists.')).toBeInTheDocument();
+    expect(screen.getByText('Time complexity: O(n)')).toBeInTheDocument();
   });
 
   it.each([

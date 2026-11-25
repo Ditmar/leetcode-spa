@@ -10,11 +10,20 @@ export interface Problem {
   status?: ProblemStatus;
 }
 
+export type ProblemExample =
+  | string
+  | {
+      input: string;
+      output: string;
+      explanation?: string;
+    };
+
 export interface ProblemDetail extends Problem {
   description: string;
-  examples: string[];
+  examples: ProblemExample[];
   constraints: string[];
   starterCode?: string;
+  acceptance?: number;
 }
 
 export interface ProblemFilters {

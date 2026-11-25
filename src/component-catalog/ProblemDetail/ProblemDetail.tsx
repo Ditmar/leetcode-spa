@@ -5,6 +5,8 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import SafeMarkdown from '../../ui/components/common/SafeMarkdown';
+
 import { useProblemDetail } from './ProblemDetail.hook';
 import {
   chipRowSx,
@@ -13,7 +15,6 @@ import {
   constraintItemSx,
   constraintsListSx,
   constraintsPaperSx,
-  descriptionSx,
   difficultyChipSx,
   emptyStateSx,
   exampleCardSx,
@@ -26,7 +27,36 @@ import {
   titleSx,
 } from './ProblemDetail.styles';
 
-import type { ProblemDetailProps } from './ProblemDetail.types';
+import type { ProblemDetailProps, ProblemExample } from './ProblemDetail.types';
+
+function normalizeExample(example: ProblemExample) {
+  if (typeof example === 'object' && example !== null) {
+    return {
+      input: example.input ?? '',
+      output: example.output ?? '',
+      explanation: example.explanation,
+    };
+  }
+
+  const str = String(example ?? '');
+  const inputMatch = str.match(/Input:\s*([^\n]+)/i);
+  const outputMatch = str.match(/Output:\s*([^\n]+)/i);
+  const expMatch = str.match(/Explanation:\s*([\s\S]+)/i);
+
+  if (inputMatch || outputMatch) {
+    return {
+      input: inputMatch ? inputMatch[1].trim() : '',
+      output: outputMatch ? outputMatch[1].trim() : '',
+      explanation: expMatch ? expMatch[1].trim() : undefined,
+    };
+  }
+
+  return {
+    input: str,
+    output: '',
+    explanation: undefined,
+  };
+}
 
 export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
   const { getDifficultyChipColor } = useProblemDetail();
@@ -41,8 +71,8 @@ export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
     );
   }
 
-  const hasExamples = problem.examples?.length > 0;
-  const hasConstraints = problem.constraints?.length > 0;
+  const hasExamples = problem.examples && problem.examples.length > 0;
+  const hasConstraints = problem.constraints && problem.constraints.length > 0;
 
   return (
     <Box component="section" aria-labelledby="problem-detail-title" sx={panelSx}>
@@ -63,7 +93,19 @@ export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
               />
             </Box>
 
-            {problem.tags?.slice(0, 2).map((tag) => (
+            {typeof problem.acceptance === 'number' && (
+              <Box component="li">
+                <Chip
+                  label={`Acceptance: ${problem.acceptance.toFixed(1)}%`}
+                  size="small"
+                  variant="outlined"
+                  sx={tagChipSx}
+                  aria-label={`Acceptance rate: ${problem.acceptance}%`}
+                />
+              </Box>
+            )}
+
+            {problem.tags?.map((tag) => (
               <Box key={tag} component="li">
                 <Chip label={tag} size="small" variant="outlined" sx={tagChipSx} />
               </Box>
@@ -71,9 +113,9 @@ export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
           </Stack>
         </Stack>
 
-        <Typography variant="body2" sx={descriptionSx}>
-          {problem.description}
-        </Typography>
+        <Box sx={{ color: 'var(--foreground)' }}>
+          <SafeMarkdown content={problem.description} />
+        </Box>
 
         <Stack spacing={1.5} sx={sectionSx}>
           <Stack sx={sectionHeaderSx}>
@@ -85,36 +127,47 @@ export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
           </Stack>
 
           {hasExamples ? (
-            problem.examples?.map((example, index) => (
-              <Paper key={`${example.input}-${index}`} elevation={0} sx={exampleCardSx}>
-                <Stack spacing={1}>
-                  <Typography variant="subtitle2" component="h3" sx={exampleTitleSx}>
-                    Example {index + 1}:
-                  </Typography>
+            problem.examples?.map((rawExample, index) => {
+              const example = normalizeExample(rawExample);
+              return (
+                <Paper key={`example-${index}`} elevation={0} sx={exampleCardSx}>
+                  <Stack spacing={1}>
+                    <Typography variant="subtitle2" component="h3" sx={exampleTitleSx}>
+                      Example {index + 1}:
+                    </Typography>
 
-                  <Paper component="pre" elevation={0} sx={codeLineSx}>
-                    <Box component="span" sx={codeLabelSx}>
-                      Input:
-                    </Box>{' '}
-                    {example.input}
-                    {'\n'}
-                    <Box component="span" sx={codeLabelSx}>
-                      Output:
-                    </Box>{' '}
-                    {example.output}
-                    {example.explanation ? (
-                      <>
-                        {'\n'}
-                        <Box component="span" sx={codeLabelSx}>
-                          Explanation:
-                        </Box>{' '}
-                        {example.explanation}
-                      </>
-                    ) : null}
-                  </Paper>
-                </Stack>
-              </Paper>
-            ))
+                    <Paper component="pre" elevation={0} sx={codeLineSx}>
+                      {example.input ? (
+                        <>
+                          <Box component="span" sx={codeLabelSx}>
+                            Input:
+                          </Box>{' '}
+                          {example.input}
+                          {'\n'}
+                        </>
+                      ) : null}
+                      {example.output ? (
+                        <>
+                          <Box component="span" sx={codeLabelSx}>
+                            Output:
+                          </Box>{' '}
+                          {example.output}
+                        </>
+                      ) : null}
+                      {example.explanation ? (
+                        <>
+                          {'\n'}
+                          <Box component="span" sx={codeLabelSx}>
+                            Explanation:
+                          </Box>{' '}
+                          {example.explanation}
+                        </>
+                      ) : null}
+                    </Paper>
+                  </Stack>
+                </Paper>
+              );
+            })
           ) : (
             <Paper elevation={0} sx={emptyStateSx}>
               <Typography variant="body2">No examples available.</Typography>
@@ -136,7 +189,7 @@ export const ProblemDetail = ({ problem }: ProblemDetailProps) => {
               <Box component="ul" sx={constraintsListSx}>
                 {problem.constraints?.map((constraint) => (
                   <Box key={constraint} component="li" sx={constraintItemSx}>
-                    {constraint}
+                    <SafeMarkdown content={constraint} />
                   </Box>
                 ))}
               </Box>
