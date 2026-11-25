@@ -3,6 +3,7 @@
  * (auth routes from SPA-036-A, middleware from SPA-007).
  */
 export { getSession } from './infrastructure/auth/get-session';
+export { getServerAuthConfig } from './infrastructure/auth/server-auth-config';
 export { OriginCsrfGuard } from './infrastructure/security/origin-csrf-guard';
 export { AstroCookieTokenStore } from './infrastructure/cookies/astro-cookie-token-store';
 export {

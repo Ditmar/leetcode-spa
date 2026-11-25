@@ -33,11 +33,6 @@ const createValidationError = (message: string): ApiError => ({
   message,
 });
 
-export const createCookieConfig = (cookies?: string): RequestConfig | undefined => {
-  if (!cookies) return undefined;
-  return { headers: { Cookie: cookies } };
-};
-
 const formatDateLocal = (date: Date): string => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -67,23 +62,21 @@ const normalizeHeatmap = (stats: UserStats): UserStats => {
 
 // Service functions
 export const userService = {
-  getProfile: async (userId?: string, cookies?: string): Promise<UserProfile> => {
+  // `config`: server-side only, e.g. `getServerAuthConfig(Astro.cookies)` (SPA-003).
+  getProfile: async (userId?: string, config?: RequestConfig): Promise<UserProfile> => {
     const path = userId ? `/users/${userId}` : '/users/me';
-    const response = await apiClient.get<UserProfile>(path, createCookieConfig(cookies));
+    const response = await apiClient.get<UserProfile>(path, config);
     return response.data;
   },
 
-  getStats: async (userId?: string, cookies?: string): Promise<UserStats> => {
+  getStats: async (userId?: string, config?: RequestConfig): Promise<UserStats> => {
     const path = userId ? `/users/${userId}/stats` : '/users/me/stats';
-    const response = await apiClient.get<UserStats>(path, createCookieConfig(cookies));
+    const response = await apiClient.get<UserStats>(path, config);
     return normalizeHeatmap(response.data);
   },
 
-  getPreferences: async (cookies: string): Promise<UserPreferences> => {
-    const response = await apiClient.get<Partial<UserPreferences>>(
-      '/users/me/preferences',
-      createCookieConfig(cookies)
-    );
+  getPreferences: async (config?: RequestConfig): Promise<UserPreferences> => {
+    const response = await apiClient.get<Partial<UserPreferences>>('/users/me/preferences', config);
 
     return {
       ...DEFAULT_PREFERENCES,

@@ -93,14 +93,14 @@ describe('problemsService', () => {
       );
     });
 
-    it('should forward request config for SSR cookie support', async () => {
+    it('should forward request config (server auth header)', async () => {
       const mockResponse: { data: ProblemListResponse } = {
         data: { data: [], meta: { page: 1, pageSize: 20, total: 0, totalPages: 0 } },
       };
 
       vi.mocked(apiClient.get).mockResolvedValue(mockResponse);
 
-      const config = { headers: { cookie: 'auth_token=test-token' } };
+      const config = { headers: { Authorization: 'Bearer test-token' } };
 
       await problemsService.getProblems({}, config);
 
@@ -169,20 +169,10 @@ describe('problemsService', () => {
   describe('getStats', () => {
     const mockStats: ProblemStats = { total: 100, solved: 25, attempted: 40 };
 
-    it('should forward a raw cookie string as a request header for SSR auth context', async () => {
+    it('should forward the server auth config (Authorization header)', async () => {
       vi.mocked(apiClient.get).mockResolvedValue({ data: mockStats });
 
-      await problemsService.getStats('auth_token=test-token');
-
-      expect(apiClient.get).toHaveBeenCalledWith('/problems/stats', {
-        headers: { cookie: 'auth_token=test-token' },
-      });
-    });
-
-    it('should forward a full RequestConfig object when provided', async () => {
-      vi.mocked(apiClient.get).mockResolvedValue({ data: mockStats });
-
-      const config = { headers: { cookie: 'auth_token=test-token' } };
+      const config = { headers: { Authorization: 'Bearer test-token' } };
 
       await problemsService.getStats(config);
 

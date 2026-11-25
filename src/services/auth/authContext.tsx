@@ -46,6 +46,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     };
     initAuth();
 
+    // Fired by authService.signOut, NavShell and apiClient (final 401 from the BFF).
     function handleSignOut() {
       setSession(null);
     }
@@ -76,7 +77,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const value = useMemo<AuthContextValue>(
     () => ({
       user: session?.user ?? null,
-      isAuthenticated: authService.isAuthenticated(),
+      // One source of truth: this state. The browser keeps no token, so "signed in"
+      // means "we have a user", and it turns false when AUTH_SIGN_OUT_EVENT fires
+      // (sign-out, or a final 401 from the BFF).
+      isAuthenticated: session !== null,
       isLoading,
       hydrationError,
       signIn,

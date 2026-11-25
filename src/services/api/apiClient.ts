@@ -1,3 +1,5 @@
+import { AUTH_SIGN_OUT_EVENT } from '../auth/authService.constants';
+
 import { normalizeError, statusToCode } from './apiClient.utils';
 
 import type { ApiError, ApiResponse, RequestConfig } from './apiClient.types';
@@ -15,39 +17,26 @@ function resolveUrl(path: string): string {
   return `${base}${p}`;
 }
 
-let _authToken: string | null = null;
+/**
+ * The browser never holds an access or refresh token (X-002, SPA-036): they live in
+ * HttpOnly cookies and the Astro BFF adds `Authorization` when it forwards `/api/*`.
+ * So this client does not read tokens from memory, `localStorage` or `document.cookie`.
+ *
+ * Server-side code that calls the API directly passes its own `Authorization` header
+ * in `config.headers` (see `getServerAuthConfig` in `src/server/bff`).
+ */
 
-export function setAuthToken(token: string | null): void {
-  _authToken = token;
-}
-
-function getCookieToken(): string | null {
+/**
+ * A `401` that reaches the browser is final: the BFF already tried to refresh the
+ * session once (SPA-036). Tell the app the user is signed out (SPA-003).
+ */
+function notifySessionEnded(): void {
+  if (isServer) return;
   try {
-    const match = document.cookie
-      .split(';')
-      .map((c) => c.trim())
-      .find((c) => c.startsWith('auth_token='));
-    return match ? decodeURIComponent(match.slice('auth_token='.length)) : null;
+    window.dispatchEvent(new CustomEvent(AUTH_SIGN_OUT_EVENT));
   } catch {
-    return null;
+    // Old browsers without CustomEvent: the next page load shows the signed-out state.
   }
-}
-
-function getAuthToken(): string | null {
-  if (_authToken) return _authToken;
-
-  if (!isServer) {
-    try {
-      const fromStorage = localStorage.getItem('auth_token');
-      if (fromStorage) return fromStorage;
-    } catch {
-      // eslint-disable-next-line no-console
-      console.warn('Failed to access localStorage for auth token retrieval');
-    }
-    return getCookieToken();
-  }
-
-  return null;
 }
 
 async function normalizeHttpError(response: Response): Promise<ApiError> {
@@ -81,12 +70,10 @@ async function request<T>(
   config: RequestConfig = {}
 ): Promise<ApiResponse<T>> {
   const url = resolveUrl(path);
-  const token = getAuthToken();
   const hasBody = body !== undefined && body !== null;
   const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
 
   const headers: Record<string, string> = { ...config.headers };
-  if (token) headers['Authorization'] = `Bearer ${token}`;
   if (hasBody && !isFormData) headers['Content-Type'] = 'application/json';
 
   let requestBody: BodyInit | undefined;
@@ -141,6 +128,7 @@ async function request<T>(
   }
 
   if (!response.ok) {
+    if (response.status === 401) notifySessionEnded();
     throw await normalizeHttpError(response);
   }
 

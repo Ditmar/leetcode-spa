@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { apiClient, isApiError, setAuthToken } from './apiClient';
+import { AUTH_SIGN_OUT_EVENT } from '../auth/authService.constants';
+
+import { apiClient, isApiError } from './apiClient';
 
 import type { ApiError, ApiResponse } from './apiClient.types';
 
@@ -29,9 +31,7 @@ function mockFetchError(status: number, statusText: string, body?: Record<string
 // ---------------------------------------------------------------------------
 
 beforeEach(() => {
-  setAuthToken(null);
   localStorage.clear();
-  // Clear auth_token cookie
   document.cookie = 'auth_token=; Max-Age=0';
 });
 
@@ -427,98 +427,100 @@ describe('JSON parse failure', () => {
 // Authentication
 // ---------------------------------------------------------------------------
 
-describe('authentication', () => {
-  it('sends no Authorization header when no token source is available', async () => {
+describe('authentication (SPA-003: the browser holds no tokens)', () => {
+  function sentHeaders(fetchMock: ReturnType<typeof vi.fn>) {
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    return init.headers as Record<string, string>;
+  }
+
+  it('sends no Authorization header from the browser', async () => {
     const fetchMock = mockFetchOk({});
     vi.stubGlobal('fetch', fetchMock);
 
     await apiClient.get('/problems');
 
-    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    const headers = init.headers as Record<string, string>;
-    expect(headers['Authorization']).toBeUndefined();
+    expect(sentHeaders(fetchMock)['Authorization']).toBeUndefined();
   });
 
-  it('injects Authorization: Bearer when token is set via setAuthToken', async () => {
-    setAuthToken('module-token');
-
-    const fetchMock = mockFetchOk({});
-    vi.stubGlobal('fetch', fetchMock);
-
-    await apiClient.get('/problems');
-
-    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    const headers = init.headers as Record<string, string>;
-    expect(headers['Authorization']).toBe('Bearer module-token');
-  });
-
-  it('reads the token from localStorage when setAuthToken has not been called', async () => {
-    localStorage.setItem('auth_token', 'storage-token');
-
-    const fetchMock = mockFetchOk({});
-    vi.stubGlobal('fetch', fetchMock);
-
-    await apiClient.get('/problems');
-
-    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    const headers = init.headers as Record<string, string>;
-    expect(headers['Authorization']).toBe('Bearer storage-token');
-  });
-
-  it('reads the token from a cookie when localStorage has no token', async () => {
-    document.cookie = 'auth_token=cookie-token';
-
-    const fetchMock = mockFetchOk({});
-    vi.stubGlobal('fetch', fetchMock);
-
-    await apiClient.get('/problems');
-
-    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    const headers = init.headers as Record<string, string>;
-    expect(headers['Authorization']).toBe('Bearer cookie-token');
-  });
-
-  it('preserves cookie token values that contain equals signs', async () => {
-    document.cookie = 'auth_token=abc=def==';
-
-    const fetchMock = mockFetchOk({});
-    vi.stubGlobal('fetch', fetchMock);
-
-    await apiClient.get('/problems');
-
-    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    const headers = init.headers as Record<string, string>;
-
-    expect(headers['Authorization']).toBe('Bearer abc=def==');
-  });
-
-  it('prefers setAuthToken over localStorage and cookie', async () => {
-    setAuthToken('module-token');
+  it('ignores a token in localStorage and in document.cookie', async () => {
     localStorage.setItem('auth_token', 'storage-token');
     document.cookie = 'auth_token=cookie-token';
-
     const fetchMock = mockFetchOk({});
     vi.stubGlobal('fetch', fetchMock);
 
     await apiClient.get('/problems');
 
-    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    const headers = init.headers as Record<string, string>;
-    expect(headers['Authorization']).toBe('Bearer module-token');
+    expect(sentHeaders(fetchMock)['Authorization']).toBeUndefined();
   });
 
-  it('prefers localStorage over cookie when both are present', async () => {
-    localStorage.setItem('auth_token', 'storage-token');
-    document.cookie = 'auth_token=cookie-token';
-
+  it('sends cookies to the same-origin BFF (credentials: include)', async () => {
     const fetchMock = mockFetchOk({});
     vi.stubGlobal('fetch', fetchMock);
 
     await apiClient.get('/problems');
 
-    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    const headers = init.headers as Record<string, string>;
-    expect(headers['Authorization']).toBe('Bearer storage-token');
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe(`${BASE}/problems`);
+    expect(init.credentials).toBe('include');
+  });
+
+  it('keeps an Authorization header that the caller passes explicitly (server code)', async () => {
+    const fetchMock = mockFetchOk({});
+    vi.stubGlobal('fetch', fetchMock);
+
+    await apiClient.get('/problems/stats', { headers: { Authorization: 'Bearer from-server' } });
+
+    expect(sentHeaders(fetchMock)['Authorization']).toBe('Bearer from-server');
+  });
+
+  it('fires the sign-out event on a final 401 from the BFF', async () => {
+    const listener = vi.fn();
+    window.addEventListener(AUTH_SIGN_OUT_EVENT, listener);
+    vi.stubGlobal(
+      'fetch',
+      mockFetchError(401, 'Unauthorized', { code: 'UNAUTHORIZED', message: 'Session expired' })
+    );
+
+    try {
+      await expect(apiClient.get('/users/me')).rejects.toMatchObject({ status: 401 });
+      expect(listener).toHaveBeenCalledTimes(1);
+    } finally {
+      window.removeEventListener(AUTH_SIGN_OUT_EVENT, listener);
+    }
+  });
+
+  it.each([403, 404, 500, 502])('does not fire the sign-out event on %i', async (status) => {
+    const listener = vi.fn();
+    window.addEventListener(AUTH_SIGN_OUT_EVENT, listener);
+    vi.stubGlobal('fetch', mockFetchError(status, 'Error'));
+
+    try {
+      await expect(apiClient.get('/problems')).rejects.toMatchObject({ status });
+      expect(listener).not.toHaveBeenCalled();
+    } finally {
+      window.removeEventListener(AUTH_SIGN_OUT_EVENT, listener);
+    }
+  });
+
+  it('parallel requests that all get 401 only end the session (no token logic in the browser)', async () => {
+    const listener = vi.fn();
+    window.addEventListener(AUTH_SIGN_OUT_EVENT, listener);
+    const fetchMock = mockFetchError(401, 'Unauthorized');
+    vi.stubGlobal('fetch', fetchMock);
+
+    try {
+      const results = await Promise.allSettled([
+        apiClient.get('/problems'),
+        apiClient.get('/submissions'),
+      ]);
+      expect(results.every((r) => r.status === 'rejected')).toBe(true);
+      // No refresh call from the browser: the BFF owns refresh.
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(fetchMock.mock.calls.map(([url]) => url)).not.toContain(`${BASE}/auth/refresh`);
+      expect(listener).toHaveBeenCalledTimes(2);
+    } finally {
+      window.removeEventListener(AUTH_SIGN_OUT_EVENT, listener);
+    }
   });
 });
 

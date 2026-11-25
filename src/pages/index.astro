@@ -1,6 +1,7 @@
 ---
 import AppLayout from '../layouts/AppLayout.astro';
 import HomeAuthGate from '../app/components/HomeAuthGate/HomeAuthGate';
+import { getServerAuthConfig } from '../server/bff';
 import { problemsService } from '../services/problems/problemsService';
 import type { AuthUser } from '../services/auth/authService.types';
 import type { AppConfig } from '../utils/config.types';
@@ -17,7 +18,7 @@ const { config = null, user = null } = Astro.locals as {
 };
 
 const stats = await problemsService
-  .getStats(Astro.request.headers.get('cookie') ?? '')
+  .getStats(getServerAuthConfig(Astro.cookies))
   .catch(() => null);
 const authRequired = Astro.url.searchParams.get('authRequired') === 'true';
 

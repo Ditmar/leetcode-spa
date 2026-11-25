@@ -111,17 +111,20 @@ describe('exploreService.getTopics', () => {
 });
 
 describe('exploreService.getTopicById', () => {
-  it('forwards cookies and returns per-problem completed status when authenticated', async () => {
+  it('forwards the server auth config and returns per-problem completed status', async () => {
     const fetchMock = mockFetchOk<TopicDetail>(topicDetail);
     vi.stubGlobal('fetch', fetchMock);
 
-    const result = await exploreService.getTopicById(1, 'session=abc');
+    const result = await exploreService.getTopicById(1, {
+      headers: { Authorization: 'Bearer abc' },
+    });
 
     expect(result.problems[0].completed).toBe(true);
 
     const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(url).toBe('/api/explore/topics/1');
-    expect((init.headers as Record<string, string>).Cookie).toBe('session=abc');
+    expect((init.headers as Record<string, string>).Authorization).toBe('Bearer abc');
+    expect((init.headers as Record<string, string>).Cookie).toBeUndefined();
   });
 
   it('returns progress 0 without auth', async () => {

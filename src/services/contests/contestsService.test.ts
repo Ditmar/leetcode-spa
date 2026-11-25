@@ -123,7 +123,7 @@ describe('contestsService', () => {
     });
   });
 
-  it('returns contests using filters and forwards cookie in SSR requests', async () => {
+  it('returns contests using filters and forwards the server auth config', async () => {
     const contests = [
       createContest({
         id: 2,
@@ -148,13 +148,13 @@ describe('contestsService', () => {
         pageSize: 5,
       },
       {
-        cookie: 'auth_token=test-token',
+        config: { headers: { Authorization: 'Bearer test-token' } },
       }
     );
 
     const [requestPath, requestConfig] = mockedGet.mock.calls[0] as [
       string,
-      { headers: { Cookie: string } } | undefined,
+      { headers: { Authorization: string } } | undefined,
     ];
     const { pathname, params } = parseRequestPath(requestPath);
 
@@ -164,12 +164,12 @@ describe('contestsService', () => {
     expect(params.get('pageSize')).toBe('5');
     expect(requestConfig).toEqual({
       headers: {
-        Cookie: 'auth_token=test-token',
+        Authorization: 'Bearer test-token',
       },
     });
   });
 
-  it('returns contest detail and forwards cookie in SSR requests', async () => {
+  it('returns contest detail and forwards the server auth config', async () => {
     mockedGet.mockResolvedValueOnce(
       createApiResponse<ContestDetail>(
         createContestDetail({
@@ -181,12 +181,12 @@ describe('contestsService', () => {
     );
 
     const result = await contestsService.getContestById(7, {
-      cookie: 'auth_token=test-token',
+      config: { headers: { Authorization: 'Bearer test-token' } },
     });
 
     expect(mockedGet).toHaveBeenCalledWith('/contests/7', {
       headers: {
-        Cookie: 'auth_token=test-token',
+        Authorization: 'Bearer test-token',
       },
     });
     expect(result.isRegistered).toBe(true);
