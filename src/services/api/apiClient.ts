@@ -81,7 +81,7 @@ async function request<T>(
   config: RequestConfig = {}
 ): Promise<ApiResponse<T>> {
   const url = resolveUrl(path);
-  const token = getAuthToken();
+  const token = config.attachToken === false ? null : getAuthToken();
   const hasBody = body !== undefined && body !== null;
   const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
 

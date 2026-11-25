@@ -1,4 +1,4 @@
-import { AUTH_SIGN_OUT_EVENT, REFRESH_THRESHOLD_MS } from './authService.constants';
+import { AUTH_SIGN_OUT_EVENT } from './authService.constants';
 
 import type { AuthSession, AuthUser, SignInPayload, SignUpPayload } from './authService.types';
 
@@ -29,7 +29,6 @@ const authService = {
     }
     _session = {
       user,
-      accessToken: `mock-token-${user.id}`,
       expiresAt: Date.now() + 3_600_000,
     };
     return _session;
@@ -43,7 +42,8 @@ const authService = {
       role: 'user',
     };
     MOCK_USERS.push(newUser);
-    return authService.signIn({ email: payload.email, password: payload.password });
+    _session = { user: newUser, expiresAt: Date.now() + 3_600_000 };
+    return _session;
   },
 
   async signOut(): Promise<void> {
@@ -53,30 +53,13 @@ const authService = {
     }
   },
 
-  async refreshToken(): Promise<AuthSession> {
-    if (!_session) {
-      throw { message: 'No session', code: 'NO_SESSION', status: 401 };
-    }
-    _session = {
-      ..._session,
-      accessToken: `mock-token-refreshed-${Date.now()}`,
-      expiresAt: Date.now() + 3_600_000,
-    };
-    return _session;
-  },
-
   getSession(): AuthSession | null {
     if (!_session) return null;
-    return _session.expiresAt <= Date.now() ? null : _session;
+    return _session.expiresAt !== undefined && _session.expiresAt <= Date.now() ? null : _session;
   },
 
   isAuthenticated(): boolean {
     return authService.getSession() !== null;
-  },
-
-  needsRefresh(): boolean {
-    if (!_session) return false;
-    return _session.expiresAt - Date.now() < REFRESH_THRESHOLD_MS;
   },
 
   async hydrateFromServer(): Promise<AuthSession | null> {

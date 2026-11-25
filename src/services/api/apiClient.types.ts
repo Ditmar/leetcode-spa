@@ -18,4 +18,5 @@ export interface RequestConfig {
   signal?: AbortSignal;
   credentials?: RequestCredentials;
   timeoutMs?: number;
+  attachToken?: boolean;
 }
