@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
+import MuiThemeProvider from '../../../style-library/provider/MuiThemeProvider';
+
 import UserMenu from './UserMenu';
 
 const signedInUser = {
@@ -12,16 +14,18 @@ const signedInUser = {
 };
 
 describe('UserMenu', () => {
-  it('shows Sign in and Sign up when there is no user', () => {
+  it('shows Sign in, Sign up, and theme toggle when there is no user', () => {
     render(<UserMenu user={null} />);
     expect(screen.getByRole('link', { name: 'Sign in' })).toBeTruthy();
     expect(screen.getByRole('link', { name: 'Sign up' })).toBeTruthy();
+    expect(screen.getByTestId('theme-toggle')).toBeTruthy();
     expect(screen.queryByTestId('user-menu-trigger')).toBeNull();
   });
 
-  it('shows the avatar instead of the sign in buttons when there is a user', () => {
+  it('shows the avatar and theme toggle instead of the sign in buttons when there is a user', () => {
     render(<UserMenu user={signedInUser} />);
     expect(screen.getByTestId('user-menu-trigger')).toBeTruthy();
+    expect(screen.getByTestId('theme-toggle')).toBeTruthy();
     expect(screen.queryByRole('link', { name: 'Sign in' })).toBeNull();
   });
 
@@ -41,5 +45,24 @@ describe('UserMenu', () => {
     await actor.click(screen.getByTestId('user-menu-trigger'));
     await actor.click(screen.getByRole('menuitem', { name: 'Sign out' }));
     expect(onSignOut).toHaveBeenCalledTimes(1);
+  });
+
+  it('opens theme menu and changes theme', async () => {
+    const actor = userEvent.setup();
+    render(
+      <MuiThemeProvider>
+        <UserMenu user={signedInUser} />
+      </MuiThemeProvider>
+    );
+
+    const themeToggle = screen.getByTestId('theme-toggle');
+    await actor.click(themeToggle);
+
+    expect(screen.getByTestId('theme-option-light')).toBeTruthy();
+    expect(screen.getByTestId('theme-option-dark')).toBeTruthy();
+    expect(screen.getByTestId('theme-option-system')).toBeTruthy();
+
+    await actor.click(screen.getByTestId('theme-option-dark'));
+    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
   });
 });
