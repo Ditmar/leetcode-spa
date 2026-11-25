@@ -1,8 +1,7 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
-import authService from './authService';
-import { AUTH_SIGN_OUT_EVENT } from './authService.constants';
-//import authService from './authService.mock';
+import authService from './authService.active';
+import { AUTH_SIGN_IN_EVENT, AUTH_SIGN_OUT_EVENT } from './authService.constants';
 
 import type { AuthSession, AuthUser, SignInPayload, SignUpPayload } from './authService.types';
 
@@ -61,11 +60,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signIn = useCallback(async (payload: SignInPayload) => {
     const newSession = await authService.signIn(payload);
     setSession(newSession);
+    window.dispatchEvent(new CustomEvent(AUTH_SIGN_IN_EVENT, { detail: newSession.user }));
   }, []);
 
   const signUp = useCallback(async (payload: SignUpPayload) => {
     const newSession = await authService.signUp(payload);
     setSession(newSession);
+    window.dispatchEvent(new CustomEvent(AUTH_SIGN_IN_EVENT, { detail: newSession.user }));
   }, []);
 
   const signOut = useCallback(async () => {

@@ -64,9 +64,10 @@ Base HTTP client used by all service modules. Works isomorphically in Astro SSR,
 
 ```bash
 # .env — server-only (Astro SSR / API routes)
-API_BASE_URL=http://localhost:4000/api/v1
-
+API_BASE_URL=http://localhost:3000
 # .env — public, exposed to the browser
+# Set to true to use simulated authentication for UI development.
+PUBLIC_USE_MOCK_AUTH=false
 PUBLIC_API_BASE_URL=http://localhost:4000/api/v1
 
 # .env — submissions polling & execution (optional overrides)
