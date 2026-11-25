@@ -1,3 +1,5 @@
+import type { RequestConfig } from '../api/apiClient.types';
+
 export const CONTEST_STATUSES = ['active', 'upcoming', 'past'] as const;
 
 export type ContestStatus = (typeof CONTEST_STATUSES)[number];
@@ -64,5 +66,10 @@ export interface LeaderboardResponse {
 }
 
 export interface ContestRequestOptions {
-  cookie?: string;
+  /**
+   * Server-side requests only: extra request options, for example the
+   * `Authorization` header from `getServerAuthConfig(Astro.cookies)`.
+   * The API does not read cookies, so a raw `Cookie` header is not forwarded (SPA-003).
+   */
+  config?: RequestConfig;
 }

@@ -69,12 +69,11 @@ async function getTags(config?: RequestConfig): Promise<string[]> {
   return [...new Set(response.data)].sort((a, b) => a.localeCompare(b));
 }
 
-async function getStats(cookiesOrConfig?: string | RequestConfig): Promise<ProblemStats> {
-  const config: RequestConfig | undefined =
-    typeof cookiesOrConfig === 'string'
-      ? { headers: { cookie: cookiesOrConfig } }
-      : cookiesOrConfig;
-
+/**
+ * `config`: server-side only, e.g. `getServerAuthConfig(Astro.cookies)`. The API reads
+ * `Authorization`, not cookies, so a raw cookie string is no longer accepted (SPA-003).
+ */
+async function getStats(config?: RequestConfig): Promise<ProblemStats> {
   try {
     const response = await apiClient.get<ProblemStats>('/problems/stats', config);
 

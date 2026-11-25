@@ -1,7 +1,3 @@
-export const TOKEN_KEY = 'auth_access_token' as const;
-
-export const REFRESH_KEY = 'auth_refresh_token' as const;
-
 export const REFRESH_THRESHOLD_MS = 60_000;
 
 export const AUTH_ENDPOINTS = {
@@ -12,4 +8,8 @@ export const AUTH_ENDPOINTS = {
   ME: '/auth/me',
 } as const;
 
+/**
+ * Fired on `window` when the session ends: sign-out, or a final `401` from the BFF
+ * (the server already tried to refresh once). `AuthProvider` listens to it.
+ */
 export const AUTH_SIGN_OUT_EVENT = 'auth:signout' as const;

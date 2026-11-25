@@ -1,65 +1,62 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import authService from '../../../services/auth/authService';
+import { AUTH_SIGN_OUT_EVENT } from '../../../services/auth/authService.constants';
 
-import { handleSignOut } from './NavShell';
+import { handleSignOut, LOGOUT_ENDPOINT } from './NavShell';
 
-vi.mock('../../../services/auth/authService', () => ({
-  default: {
-    getSession: vi.fn(),
-    hydrateFromServer: vi.fn(),
-    signOut: vi.fn(),
-  },
-}));
+describe('handleSignOut (SPA-003: sign out through the BFF)', () => {
+  afterEach(() => vi.restoreAllMocks());
 
-describe('handleSignOut', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-
-    vi.mocked(authService.getSession).mockReturnValue(null);
-    vi.mocked(authService.hydrateFromServer).mockResolvedValue(null);
-    vi.mocked(authService.signOut).mockResolvedValue(undefined);
-  });
-
-  it('restores the session before signing out when no session exists', async () => {
+  it('posts to /api/auth/logout with the same-origin cookies, then signs out and reloads', async () => {
     const order: string[] = [];
+    const fetchFn = vi.fn(async () => {
+      order.push('logout');
+      return new Response(null, { status: 204 });
+    });
+    const listener = vi.fn(() => order.push('event'));
+    window.addEventListener(AUTH_SIGN_OUT_EVENT, listener);
     const reloadPage = vi.fn(() => order.push('reload'));
 
-    vi.mocked(authService.hydrateFromServer).mockImplementation(async () => {
-      order.push('hydrateFromServer');
-      return null;
+    try {
+      await handleSignOut(reloadPage, fetchFn as unknown as typeof fetch);
+    } finally {
+      window.removeEventListener(AUTH_SIGN_OUT_EVENT, listener);
+    }
+
+    expect(fetchFn).toHaveBeenCalledWith(LOGOUT_ENDPOINT, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
     });
-
-    vi.mocked(authService.signOut).mockImplementation(async () => {
-      order.push('signOut');
-    });
-
-    await handleSignOut(reloadPage);
-
-    expect(order).toEqual(['hydrateFromServer', 'signOut', 'reload']);
-
-    expect(authService.hydrateFromServer).toHaveBeenCalledTimes(1);
-    expect(authService.signOut).toHaveBeenCalledTimes(1);
-    expect(reloadPage).toHaveBeenCalledTimes(1);
+    expect(order).toEqual(['logout', 'event', 'reload']);
   });
 
-  it('does not restore the session when one already exists', async () => {
-    const order: string[] = [];
-    const reloadPage = vi.fn(() => order.push('reload'));
+  it('sends no Authorization header and no token from the browser', async () => {
+    const fetchFn = vi.fn(async () => new Response(null, { status: 204 }));
 
-    vi.mocked(authService.getSession).mockReturnValue(
-      {} as NonNullable<ReturnType<typeof authService.getSession>>
-    );
+    await handleSignOut(vi.fn(), fetchFn as unknown as typeof fetch);
 
-    vi.mocked(authService.signOut).mockImplementation(async () => {
-      order.push('signOut');
+    const [, init] = fetchFn.mock.calls[0] as unknown as [string, RequestInit];
+    expect(init.headers).not.toHaveProperty('Authorization');
+    expect(init.body).toBeUndefined();
+  });
+
+  it('still signs out locally and reloads when the request fails', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const fetchFn = vi.fn(async () => {
+      throw new TypeError('network down');
     });
+    const listener = vi.fn();
+    window.addEventListener(AUTH_SIGN_OUT_EVENT, listener);
+    const reloadPage = vi.fn();
 
-    await handleSignOut(reloadPage);
+    try {
+      await handleSignOut(reloadPage, fetchFn as unknown as typeof fetch);
+    } finally {
+      window.removeEventListener(AUTH_SIGN_OUT_EVENT, listener);
+    }
 
-    expect(authService.hydrateFromServer).not.toHaveBeenCalled();
-    expect(authService.signOut).toHaveBeenCalledTimes(1);
-    expect(order).toEqual(['signOut', 'reload']);
+    expect(listener).toHaveBeenCalledTimes(1);
     expect(reloadPage).toHaveBeenCalledTimes(1);
   });
 });

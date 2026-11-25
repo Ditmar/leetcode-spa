@@ -7,7 +7,7 @@ import type {
   TopicFilters,
   TopicProgress,
 } from './exploreService.types';
-import type { ApiError } from '../api/apiClient';
+import type { ApiError, RequestConfig } from '../api/apiClient';
 
 const DEFAULT_EXPLORE_API_PATH = '/explore';
 const TOPIC_DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced'];
@@ -90,10 +90,9 @@ export async function getTopics(filters?: TopicFilters): Promise<ExploreTopic[]>
   return response.data;
 }
 
-export async function getTopicById(id: number, cookies?: string): Promise<TopicDetail> {
-  const response = await apiClient.get<TopicDetail>(buildExplorePath(`/topics/${id}`), {
-    headers: cookies ? { Cookie: cookies } : undefined,
-  });
+/** `config`: server-side only, e.g. `getServerAuthConfig(Astro.cookies)` (SPA-003). */
+export async function getTopicById(id: number, config?: RequestConfig): Promise<TopicDetail> {
+  const response = await apiClient.get<TopicDetail>(buildExplorePath(`/topics/${id}`), config);
 
   return response.data;
 }

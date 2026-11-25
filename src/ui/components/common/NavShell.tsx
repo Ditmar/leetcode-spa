@@ -1,5 +1,5 @@
 import { NavigationMenu } from '../../../component-catalog/NavigationMenu/NavigationMenu';
-import authService from '../../../services/auth/authService';
+import { AUTH_SIGN_OUT_EVENT } from '../../../services/auth/authService.constants';
 import ClientOnlyMuiProvider from '../../../style-library/ClientOnlyMuiProvider';
 import { getConfig } from '../../../utils/config';
 
@@ -24,15 +24,33 @@ function buildNavSections(): NavSection[] {
   return navigationStructure;
 }
 
-export async function handleSignOut(reloadPage: () => void = () => window.location.reload()) {
-  // TODO(SPA-003): Replace this in-memory session restoration with
-  // POST /api/auth/logout through the Astro BFF.
-  // The browser must not keep authentication tokens.
-  if (!authService.getSession()) {
-    await authService.hydrateFromServer();
+/** Astro BFF route that revokes the refresh token in the API and clears both cookies. */
+export const LOGOUT_ENDPOINT = '/api/auth/logout';
+
+/**
+ * Sign out through the Astro BFF (SPA-003). The browser holds no token, so there is
+ * no session to restore first: the HttpOnly cookies go with the same-origin request,
+ * and the BFF revokes the refresh token and clears both cookies.
+ *
+ * Even if the request fails, the UI moves to the signed-out state and reloads, so the
+ * server renders the page again with whatever cookies are left.
+ */
+export async function handleSignOut(
+  reloadPage: () => void = () => window.location.reload(),
+  fetchFn: typeof fetch = (...args) => fetch(...args)
+) {
+  try {
+    await fetchFn(LOGOUT_ENDPOINT, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('[NavShell] sign-out request failed, signing out locally:', error);
   }
 
-  await authService.signOut();
+  window.dispatchEvent(new CustomEvent(AUTH_SIGN_OUT_EVENT));
   reloadPage();
 }
 

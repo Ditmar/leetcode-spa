@@ -26,15 +26,7 @@ function buildQueryString(params: QueryParams): string {
 }
 
 function buildRequestConfig(options?: ContestRequestOptions): RequestConfig | undefined {
-  if (!options?.cookie) {
-    return undefined;
-  }
-
-  return {
-    headers: {
-      Cookie: options.cookie,
-    },
-  };
+  return options?.config;
 }
 
 function createApiError(

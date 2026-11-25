@@ -123,22 +123,25 @@ controller.abort(); // cancel in-flight request
 
 ### Authentication
 
-Token resolution order (browser only — server depends on `setAuthToken`):
+The browser **never holds a token** (X-002, SPA-036, SPA-003). The access and refresh
+tokens live in HttpOnly cookies, and the Astro BFF adds `Authorization: Bearer ...`
+when it forwards `/api/*` to the API. So `apiClient` in the browser:
 
-1. **`setAuthToken(token)`** — injected by `authService` (SVC-002)
-2. **`localStorage.auth_token`** — persisted session fallback
-3. **`auth_token` cookie** — SSR-set / legacy fallback
-4. No `Authorization` header sent if no token is found
+- sends no `Authorization` header and reads nothing from `localStorage` or `document.cookie`;
+- sends the same-origin cookies (`credentials: 'include'`) to the BFF;
+- on a final `401` (the BFF already tried to refresh once) fires the `auth:signout`
+  event (`AUTH_SIGN_OUT_EVENT`). `AuthProvider` listens to it and shows the signed-out state.
+
+Server code (`.astro` pages, middleware) that calls the API directly passes the access
+token explicitly. The API reads `Authorization`, not cookies:
 
 ```ts
-import { setAuthToken } from '@/services/api/apiClient';
+import { getServerAuthConfig } from '@/server/bff';
 
-// Called by authService after login
-setAuthToken('eyJhbGciOiJIUzI1NiJ9...');
-
-// Called on logout
-setAuthToken(null);
+const stats = await problemsService.getStats(getServerAuthConfig(Astro.cookies));
 ```
+
+Signing out goes through the BFF too: `POST /api/auth/logout` (see `NavShell.handleSignOut`).
 
 ### Error handling
 
