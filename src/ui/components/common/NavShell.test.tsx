@@ -2,7 +2,6 @@ import { act, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import authService from '../../../services/auth/authService.active';
-
 import {
   AUTH_SIGN_IN_EVENT,
   AUTH_SIGN_OUT_EVENT,
