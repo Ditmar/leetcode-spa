@@ -25,6 +25,27 @@ const {
     <meta name="emotion-insertion-point" content="" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
     <title>{title}</title>
+    <script is:inline>
+      (function () {
+        try {
+          const cookieMatch = document.cookie.match(/(?:^|;\s*)theme=([^;]*)/);
+          const cookieTheme = cookieMatch ? decodeURIComponent(cookieMatch[1]) : null;
+          const storedTheme = localStorage.getItem('theme');
+          const theme = cookieTheme || storedTheme || 'system';
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isDark = theme === 'dark' || (theme === 'system' && prefersDark);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        } catch {
+          // Ignore errors when cookies/localStorage are unavailable
+        }
+      })();
+    </script>
   </head>
   <body>
     <slot />
@@ -111,8 +132,8 @@ const {
     height: 100%;
     font-family: 'Poppins', 'Montserrat', 'Syne', 'Inter', 'Roboto', 'Helvetica', 'Arial',
       sans-serif;
-    background-color: #ffffff;
-    color: #0a0a0a;
+    background-color: var(--background, #ffffff);
+    color: var(--foreground, #0a0a0a);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

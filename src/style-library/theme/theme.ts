@@ -1025,6 +1025,9 @@ export const darkTheme = createCustomTheme({
   ...themeConfig,
   mode: 'dark',
 });
+darkTheme.components = theme.components;
+darkTheme.typography = theme.typography;
+darkTheme.consoleIO = theme.consoleIO;
 
 export const modernTheme = createCustomTheme({
   mode: 'light',

@@ -110,7 +110,8 @@
 
 }
 
-.dark {
+.dark,
+[data-theme='dark'] {
   /* Surfaces */
   --background: #0a0a0f;
   --foreground: #fafafa;
@@ -181,4 +182,58 @@
   --problem-list-title-text: #f9fafb;
   --problem-list-acceptance: #9ca3af;
   --problem-list-bullet: #6a7282;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not([data-theme='light']) {
+    --background: #0a0a0f;
+    --foreground: #fafafa;
+    --card: #0a0a0f;
+    --card-foreground: #fafafa;
+    --popover: #0a0a0f;
+    --popover-foreground: #fafafa;
+    --primary: #fafafa;
+    --primary-foreground: #1a1a1a;
+    --secondary: #2a2a2a;
+    --secondary-foreground: #fafafa;
+    --muted: #2a2a2a;
+    --muted-foreground: #a0a0a0;
+    --accent: #2a2a2a;
+    --accent-foreground: #fafafa;
+    --destructive: #7f1d1d;
+    --destructive-foreground: #f87171;
+    --border: #2a2a2a;
+    --input: #2a2a2a;
+    --ring: #4a4a4a;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5);
+    --chart-1: #3b6fd4;
+    --chart-2: #4db896;
+    --chart-3: #c97a10;
+    --chart-4: #a855f7;
+    --chart-5: #ef4444;
+    --sidebar: #1a1a1a;
+    --sidebar-foreground: #fafafa;
+    --sidebar-primary: #3b6fd4;
+    --sidebar-primary-foreground: #fafafa;
+    --sidebar-accent: #2a2a2a;
+    --sidebar-accent-foreground: #fafafa;
+    --sidebar-border: #2a2a2a;
+    --sidebar-ring: #4a4a4a;
+    --problem-list-bg: #1e2939;
+    --problem-list-border: #2d3a4a;
+    --problem-list-header-text: #f9fafb;
+    --problem-list-selected-bg: #1e3a5f;
+    --problem-list-selected-border: #2b7fff;
+    --problem-list-solved: #00c950;
+    --problem-list-attempted: #f0b100;
+    --problem-list-unsolved: #6a7282;
+    --problem-list-easy: #00c950;
+    --problem-list-medium: #f0b100;
+    --problem-list-hard: #fb2c36;
+    --problem-list-number-text: #9ca3af;
+    --problem-list-title-text: #f9fafb;
+    --problem-list-acceptance: #9ca3af;
+    --problem-list-bullet: #6a7282;
+  }
 }
